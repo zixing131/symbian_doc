@@ -1,0 +1,71 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1907CF0B-2F4B-50F6-B676-7B7059B7FF74.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Call Hold Tutorial" /><meta name="abstract" content="This tutorial describes how to place a call on hold with the telephony API for applications." /><meta name="description" content="This tutorial describes how to place a call on hold with the telephony API for applications." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-34E7AAF2-EC62-5BF6-B9E7-C7D346BCDF93" /><meta name="DC.Relation" scheme="URI" content="GUID-0F647342-E069-5444-9370-58520375543A" /><meta name="DC.Relation" scheme="URI" content="GUID-7C197DC1-43CA-5146-B81D-36B685A1D0C9" /><meta name="DC.Relation" scheme="URI" content="GUID-844C335C-E8FD-5DF8-8E05-7DB1DF4C3360" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1907CF0B-2F4B-50F6-B676-7B7059B7FF74" /><meta name="DC.Language" content="en" /><title>Call Hold Tutorial  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1907CF0B-2F4B-50F6-B676-7B7059B7FF74">Call Hold Tutorial </h1><div><p>This tutorial describes how to place a call on hold with the telephony API for applications. </p> <h3>Steps</h3><ol id="GUID-579AD00E-9CCB-5C1E-85D7-D223535A4C7A"><a name="GUID-579AD00E-9CCB-5C1E-85D7-D223535A4C7A"><!-- --></a> <li id="GUID-BA54B3E5-B284-55C8-9709-082ADB8E1C5D"><a name="GUID-BA54B3E5-B284-55C8-9709-082ADB8E1C5D"><!-- --></a><p></p>create a new instance of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony</code></a> </li> <li id="GUID-B48E2268-6BFE-57A4-A46A-3913B65234BE"><a name="GUID-B48E2268-6BFE-57A4-A46A-3913B65234BE"><!-- --></a><p></p>use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::GetCallDynamicCaps()</code></a> to check if the device supports hold function  </li> <li id="GUID-15ADB36E-8D94-57EF-BBAA-6A7958A854CD"><a name="GUID-15ADB36E-8D94-57EF-BBAA-6A7958A854CD"><!-- --></a><p></p>use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::Hold()</code></a> to place a call on hold  Pass it the ID of the call to hold. The ID is the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::TCallId</code></a> returned when you dialled or answered the call.  </li> <li id="GUID-82771AAC-9CBA-5029-98DA-9D95552E90F4"><a name="GUID-82771AAC-9CBA-5029-98DA-9D95552E90F4"><!-- --></a><p></p>pass the enumeration <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::EHoldCancel</code></a> to cancel the asynchronous request  </li> </ol> <div id="GUID-6068EFDB-D572-5D49-880E-FAF76EC44408"><h3 class="section-title">Call hold example</h3> <pre class="codeblock">#include &lt;e32base.h&gt;
+#include &lt;Etel3rdParty.h&gt;
+
+class CClientApp : public CActive
+    { 
+
+private:
+    CTelephony* iTelephony;
+    CTelephony::TCallId iCallId;
+
+public:
+    CClientApp(CTelephony* aTelephony, CTelephony::TCallId aCallId);
+    TInt SomeFunction();
+
+private:
+    /*
+       These are the pure virtual methods from CActive that  
+       MUST be implemented by all active objects
+       */
+    void RunL();
+    void DoCancel();
+   };
+
+CClientApp::CClientApp(CTelephony* aTelephony, CTelephony::TCallId aCallId)
+    : CActive(EPriorityStandard),
+      iTelephony(aTelephony),
+      iCallId(aCallId)
+    {
+    //default constructor
+    }
+
+TInt CClientApp::SomeFunction()
+    {
+    // Check that the phone supports holding calls.
+    CTelephony::TCallCapsV1 callCapsV1;
+    CTelephony::TCallCapsV1Pckg callCapsV1Pckg(callCapsV1);
+    iTelephony-&gt;GetCallDynamicCaps(iCallId, callCapsV1Pckg);
+
+    if( callCapsV1.iControlCaps &amp; CTelephony::KCapsHold )
+       {
+       // The call represented by 'iCallId' can be put on hold
+       iTelephony-&gt;Hold(iStatus, iCallId);
+       SetActive();
+       return KErrNone;
+       }
+    else
+       {
+       // The call cannot be put on hold; 
+       // return an error indicate this.
+       return KErrNotSupported;
+       }
+    }
+
+void CClientApp::RunL()
+    {
+    if(iStatus==KErrNone)
+       {} // The call has been held successfully;
+    }
+
+void CClientApp::DoCancel()
+    {
+    iTelephony-&gt;CancelAsync(CTelephony::EHoldCancel);
+    }
+</pre> </div> </div></div></div><div class="footer"><p class="metadata">Last updated January 5th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1907CF0B-2F4B-50F6-B676-7B7059B7FF74.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:01 GMT -->
+</html>

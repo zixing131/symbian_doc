@@ -1,0 +1,1037 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-738FADA9-E26F-53F1-A6D6-2E82019DDA1F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:17 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Turkish National Language Support" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DCA2F4D-ABE6-52A0-AC4E-5AAC1AB5909D" /><meta name="DC.Relation" scheme="URI" content="GUID-F3406651-0B57-50FD-81CA-A3D4000D5625" /><meta name="DC.Relation" scheme="URI" content="GUID-E7ACEC20-27C9-5124-A46E-2812A64E3E4B" /><meta name="DC.Relation" scheme="URI" content="GUID-93491DAE-4D2D-5F5F-97E7-91B265E9951E" /><meta name="DC.Relation" scheme="URI" content="GUID-F5F981E4-6910-5440-AE8E-2EFAB2D01EE9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-738FADA9-E26F-53F1-A6D6-2E82019DDA1F" /><meta name="DC.Language" content="en" /><title>Turkish
+National Language Support </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-738FADA9-E26F-53F1-A6D6-2E82019DDA1F">Turkish
+National Language Support</h1><div>
+<p>This section describes the plug-in converters for Turkish national language
+support and the alphabet each converter supports. </p>
+<div><h3 class="section-title">Introduction</h3> <p>To convert a Turkish SMS message using
+the National Language Encoding, Symbian provides three Turkish plug-in converters: </p> <ul>
+<li id="GUID-B7A5D218-48FE-5F7E-B14D-FB7AD51AD165"><a name="GUID-B7A5D218-48FE-5F7E-B14D-FB7AD51AD165"><!-- --></a><p>Default GSM7 Turkish
+Single Converter. The highlighted boxes in Figure 1 show that it supports
+the default GSM 7-bit alphabet, the Turkish single shift alphabet and the
+set of lossy conversions supported by the standard converter. This converter
+is identified by the <code class="codeph">KCharacterSetIdentifierTurkishSingleSms7Bit</code> UID,
+which is defined in the <code>charconv.h</code> header file. </p> <p>Figure
+1 </p> <div class="figure" id="GUID-43661005-68C0-5AF5-8378-8F11B7AE4622"><img src="GUID-90B593E2-F38B-5B38-9367-E2BF344A2834_d0e478095_href.png" /><p class="figure-title"><strong>Figure: </strong>                   Alphabet of the Default GSM7 Turkish Single Converter
+                </p></div> </li>
+<li id="GUID-6A55D9A6-6BA5-5345-9103-317EF2423D55"><a name="GUID-6A55D9A6-6BA5-5345-9103-317EF2423D55"><!-- --></a><p>Turkish Locking GSM7
+Extension Converter. The highlighted boxes in Figure 2 show that it supports
+the Turkish locking shift alphabet, default GSM extension alphabet and the
+set of lossy conversions supported by the standard converter. This converter
+is identified by the <code class="codeph">KCharacterSetIdentifierTurkishLockingSms7Bit</code> UID,
+which is defined in the <code>charconv.h</code> header file. </p> <p>Figure
+2 </p> <div class="figure" id="GUID-7D61A70A-6DEF-567B-B76D-2F4505FC4A1A"><img src="GUID-E9C620EF-4C77-56C3-8023-A6F13989246A_d0e478117_href.png" /><p class="figure-title"><strong>Figure: </strong>                   Alphabet of the Turkish Locking GSM7 Extension Converter
+                </p></div> </li>
+<li id="GUID-842C8CE4-F8AC-58E5-9A7F-AEED596E0E46"><a name="GUID-842C8CE4-F8AC-58E5-9A7F-AEED596E0E46"><!-- --></a><p>Turkish Locking Single
+Converter. The highlighted boxes in Figure 3 show that it supports the Turkish
+locking shift alphabet, Turkish single shift alphabet and the set of lossy
+conversions supported by the standard converter. This converter is identified
+by the <code class="codeph">KCharacterSetIdentifierTurkishLockingAndSingleSms7Bit</code> UID,
+which is defined in the <code>charconv.h</code> header file. </p> <p>Figure
+3 </p> <div class="figure" id="GUID-3EC6D160-1BD2-52A2-BC22-187A7D7B6347"><img src="GUID-03671C88-6911-5184-A9D4-A2D2FD69A2B9_d0e478139_href.png" /><p class="figure-title"><strong>Figure: </strong>                   Alphabet of the Turkish Locking Single Converter
+                </p></div> </li>
+</ul> <p> <strong>Note</strong>: For all of the converters, any undefined Unicode is
+converted to a question mark (?)–GSM code <code class="codeph">0x37</code>. Any code
+outside GSM <code class="codeph">0x00</code> ~<code class="codeph">0x7F</code> is converted to the
+Unicode replacement character <code class="codeph">0xFFFD</code>. </p> </div>
+<div id="GUID-A9C92272-F723-550E-932B-0917DF1B948E"><h3 class="section-title">Alphabet</h3> <p>To
+better understand the different character set of each converter, the Standard
+SMS Converter is set as the baseline. The following comparison tables help
+identify the different character set supported by each Turkish converter as
+a comparison to the standard SMS converter. </p> <p><a href="#GUID-CE4440BC-CF66-5661-BE27-B7ABDE3AC0B5">Table 1A Default GSM7 Turkish Single Converter vs. Standard SMS Converter
+– Unicode to GSM Code </a> </p> <p><a href="#GUID-60560522-22A3-50BD-9942-1E89029FECCA">Table
+1B Default GSM7 Turkish Single Converter vs. Standard SMS Converter – GSM
+Code to Unicode </a> </p> <p><a href="#GUID-A431DEA2-EE33-5F04-8E67-97209603026B">Table
+2A Turkish Locking GSM7 Extension Converter vs. Standard SMS Converter – Unicode
+to GSM Code</a> </p> <p><a href="#GUID-8D344FF2-0299-575C-97CC-227DBEA0AE50">Table
+2B Turkish Locking GSM7 Extension Converter vs. Standard SMS Converter – GSM
+Code to Unicode</a> </p> <p><a href="#GUID-47872144-7218-536D-8FB1-B958D78064C5">Table
+3A Turkish Locking Single Converter vs. Standard SMS Converter – Unicode to
+GSM Code</a> </p> <p><a href="#GUID-29B477B9-E63D-54B1-9C0B-3D7E1D5818A6">Table
+3B Turkish Locking Single Converter vs. Standard SMS Converter – GSM Code
+to Unicode</a> </p> <p id="GUID-CE4440BC-CF66-5661-BE27-B7ABDE3AC0B5"><a name="GUID-CE4440BC-CF66-5661-BE27-B7ABDE3AC0B5"><!-- --></a><strong>Default
+GSM7 Turkish Single Converter vs. Standard SMS Converter – Unicode to GSM
+Code</strong> </p> <p>Table 1A </p> <div class="tablenoborder"><a name="GUID-FC1F323F-252C-56EE-8366-937A40959879"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-FC1F323F-252C-56EE-8366-937A40959879" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Default GSM7 Turkish Single Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p> <strong>Standard SMS Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <strong>Original Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x09 </p> </td>
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011E </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B47 </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH CARON </p> </td>
+<td class="cellrowborder" valign="top"><p>0x01E6 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B47 </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0130 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B49 </p> </td>
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE </p> </td>
+<td class="cellrowborder" valign="top"><p> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015E </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B53 </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B63 </p> </td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011F </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B67 </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH CARON </p> </td>
+<td class="cellrowborder" valign="top"><p>0x01E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B67 </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0131 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B69 </p> </td>
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top"><p> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015F </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B73 </p> </td>
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+</tbody>
+</table></div> <p id="GUID-60560522-22A3-50BD-9942-1E89029FECCA"><a name="GUID-60560522-22A3-50BD-9942-1E89029FECCA"><!-- --></a><strong>Default GSM7
+Turkish Single Converter vs. Standard SMS Converter – GSM Code to Unicode</strong> </p> <p>Table
+1B </p> <div class="tablenoborder"><a name="GUID-15AE4CC3-8463-520B-A4AA-80B777B1D311"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-15AE4CC3-8463-520B-A4AA-80B777B1D311" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Default GSM7 Turkish Single Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Standard SMS Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <strong>Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x09 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00C7 </p> </td>
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x09 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>FORM FEED </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B0A </p> </td>
+<td class="cellrowborder" valign="top"><p>0x000C </p> </td>
+<td class="cellrowborder" valign="top"><p>FORM FEED </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>(PAGE BREAK) </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B0A </p> </td>
+<td class="cellrowborder" valign="top"><p>0x000C </p> </td>
+<td class="cellrowborder" valign="top"><p>(PAGE BREAK) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B47 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011E </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B47 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0047 </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B49 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0130 </p> </td>
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B49 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0049 </p> </td>
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B53 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015E </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B53 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0053 </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B67 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011F </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B67 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0067 </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B69 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0131 </p> </td>
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B69 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0069 </p> </td>
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER I </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B73 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015F </p> </td>
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B73 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0073 </p> </td>
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S </p> </td>
+</tr>
+</tbody>
+</table></div> <p id="GUID-A431DEA2-EE33-5F04-8E67-97209603026B"><a name="GUID-A431DEA2-EE33-5F04-8E67-97209603026B"><!-- --></a><strong>Turkish Locking
+GSM7 Extension Converter vs. Standard SMS Converter – Unicode to GSM Code</strong> </p> <p>Table
+2A </p> <div class="tablenoborder"><a name="GUID-B1A6813E-F911-5E79-ADEA-D1B8A70E227C"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B1A6813E-F911-5E79-ADEA-D1B8A70E227C" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Turkish Locking GSM7 Extension Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Standard SMS Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <strong>Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p> <strong>Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>€ EURO SIGN </p> </td>
+<td class="cellrowborder" valign="top"><p>0x20AC </p> </td>
+<td class="cellrowborder" valign="top"><p>0x04 </p> </td>
+<td class="cellrowborder" valign="top"><p>€ EURO SIGN </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>è LATIN SMALL LETTER E WITH GRAVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E8 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x04 </p> </td>
+<td class="cellrowborder" valign="top"><p>è LATIN SMALL LETTER E WITH GRAVE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0131 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x07 </p> </td>
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>ì LATIN SMALL LETTER I WITH GRAVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00EC </p> </td>
+<td class="cellrowborder" valign="top"><p>0x07 </p> </td>
+<td class="cellrowborder" valign="top"><p>ì LATIN SMALL LETTER I WITH GRAVE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011E </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0B </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x09 </p> </td>
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH CARON </p> </td>
+<td class="cellrowborder" valign="top"><p>0x01E6 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0B </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Ø LATIN CAPITAL LETTER O WITH STROKE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00D8 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0B </p> </td>
+<td class="cellrowborder" valign="top"><p>Ø LATIN CAPITAL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011F </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0C </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>ø LATIN SMALL LETTER O WITH STROKE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00F8 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0C </p> </td>
+<td class="cellrowborder" valign="top"><p>ø LATIN SMALL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH CARON </p> </td>
+<td class="cellrowborder" valign="top"><p>0x01E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0C </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>(FORM FEED) </p> </td>
+<td class="cellrowborder" valign="top"><p>0x000C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B0A </p> </td>
+<td class="cellrowborder" valign="top"><p>(PAGE BREAK) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015E </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1C </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>€ EURO SIGN </p> </td>
+<td class="cellrowborder" valign="top"><p>0x20AC </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B65 </p> </td>
+<td class="cellrowborder" valign="top"><p>€ EURO SIGN </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015F </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1D </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Æ LATIN CAPITAL LETTER AE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00C6 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1C </p> </td>
+<td class="cellrowborder" valign="top"><p>Æ LATIN CAPITAL LETTER AE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0130 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x40 </p> </td>
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>æ LATIN SMALL LETTER AE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E6 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1D </p> </td>
+<td class="cellrowborder" valign="top"><p>æ LATIN SMALL LETTER AE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x60 </p> </td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>¡ INVERTED EXCLAMATION MARK </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00A1 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x40 </p> </td>
+<td class="cellrowborder" valign="top"><p>¡ INVERTED EXCLAMATION MARK </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Í LATIN CAPITAL LETTER I WITH ACUTE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00CD </p> </td>
+<td class="cellrowborder" valign="top"><p>0x49 </p> </td>
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>¿ INVERTED QUESTION MARK </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00BF </p> </td>
+<td class="cellrowborder" valign="top"><p>0x60 </p> </td>
+<td class="cellrowborder" valign="top"><p>¿ INVERTED QUESTION MARK </p> </td>
+</tr>
+</tbody>
+</table></div> <p id="GUID-8D344FF2-0299-575C-97CC-227DBEA0AE50"><a name="GUID-8D344FF2-0299-575C-97CC-227DBEA0AE50"><!-- --></a><strong>Turkish Locking
+GSM7 Extension Converter vs. Standard SMS Converter – GSM Code to Unicode</strong> </p> <p>Table
+2B </p> <div class="tablenoborder"><a name="GUID-DDCAEF17-CB0A-53F3-A039-910A3C1F11C2"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-DDCAEF17-CB0A-53F3-A039-910A3C1F11C2" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Turkish Locking GSM7 Extension Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Standard SMS Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <strong>Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x09 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00C7 </p> </td>
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x09 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0B </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011E </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Ø LATIN CAPITAL LETTER O WITH STROKE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0B </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00D8 </p> </td>
+<td class="cellrowborder" valign="top"><p>Ø LATIN CAPITAL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011F </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>ø LATIN SMALL LETTER O WITH STROKE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00F8 </p> </td>
+<td class="cellrowborder" valign="top"><p>ø LATIN SMALL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B07 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0131 </p> </td>
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B07 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00EC </p> </td>
+<td class="cellrowborder" valign="top"><p>ì LATIN SMALL LETTER I WITH GRAVE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B0A </p> </td>
+<td class="cellrowborder" valign="top"><p>0x000C </p> </td>
+<td class="cellrowborder" valign="top"><p>(FORM FEED) </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>(PAGE BREAK) </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B0A </p> </td>
+<td class="cellrowborder" valign="top"><p>0x000C </p> </td>
+<td class="cellrowborder" valign="top"><p>(PAGE BREAK) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B0B </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011E </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B0B </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00D8 </p> </td>
+<td class="cellrowborder" valign="top"><p>Ø LATIN CAPITAL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B0C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011F </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH CARON </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B0C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00F8 </p> </td>
+<td class="cellrowborder" valign="top"><p>ø LATIN SMALL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B1C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015E </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B1C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00C6 </p> </td>
+<td class="cellrowborder" valign="top"><p>Æ LATIN CAPITAL LETTER AE (ash) * </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B1D </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015F </p> </td>
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B1D </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E6 </p> </td>
+<td class="cellrowborder" valign="top"><p>æ LATIN SMALL LETTER AE (ash) * </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B60 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B60 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00BF </p> </td>
+<td class="cellrowborder" valign="top"><p>¿ INVERTED QUESTION MARK </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015E </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Æ LATIN CAPITAL LETTER AE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00C6 </p> </td>
+<td class="cellrowborder" valign="top"><p>Æ LATIN CAPITAL LETTER AE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1D </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015F </p> </td>
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>æ LATIN SMALL LETTER AE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1D </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E6 </p> </td>
+<td class="cellrowborder" valign="top"><p>æ LATIN SMALL LETTER AE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x40 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0130 </p> </td>
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>¡ INVERTED EXCLAMATION MARK </p> </td>
+<td class="cellrowborder" valign="top"><p>0x40 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00A1 </p> </td>
+<td class="cellrowborder" valign="top"><p>¡ INVERTED EXCLAMATION MARK </p> </td>
+</tr>
+</tbody>
+</table></div> <p id="GUID-47872144-7218-536D-8FB1-B958D78064C5"><a name="GUID-47872144-7218-536D-8FB1-B958D78064C5"><!-- --></a><strong>Turkish Locking
+Single Converter vs. Standard SMS Converter – Unicode to GSM Code</strong> </p> <p>Table
+3A </p> <div class="tablenoborder"><a name="GUID-479C8C8C-FDFD-504C-950C-3C4C711F440D"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-479C8C8C-FDFD-504C-950C-3C4C711F440D" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Turkish Locking Single Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Standard SMS Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <strong>Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>€ EURO SIGN </p> </td>
+<td class="cellrowborder" valign="top"><p>0x20AC </p> </td>
+<td class="cellrowborder" valign="top"><p>0x04 </p> </td>
+<td class="cellrowborder" valign="top"><p>€ EURO SIGN </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>è LATIN SMALL LETTER E WITH GRAVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E8 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x04 </p> </td>
+<td class="cellrowborder" valign="top"><p>è LATIN SMALL LETTER E WITH GRAVE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0131 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x07 </p> </td>
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>ì LATIN SMALL LETTER I WITH GRAVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00EC </p> </td>
+<td class="cellrowborder" valign="top"><p>0x07 </p> </td>
+<td class="cellrowborder" valign="top"><p>ì LATIN SMALL LETTER I WITH GRAVE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011E </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0B </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x09 </p> </td>
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH CARON </p> </td>
+<td class="cellrowborder" valign="top"><p>0x01E6 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0B </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Ø LATIN CAPITAL LETTER O WITH STROKE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00D8 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0B </p> </td>
+<td class="cellrowborder" valign="top"><p>Ø LATIN CAPITAL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011F </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0C </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>ø LATIN SMALL LETTER O WITH STROKE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00F8 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0C </p> </td>
+<td class="cellrowborder" valign="top"><p>ø LATIN SMALL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH CARON </p> </td>
+<td class="cellrowborder" valign="top"><p>0x01E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0C </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>(FORM FEED) </p> </td>
+<td class="cellrowborder" valign="top"><p>0x000C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B0A </p> </td>
+<td class="cellrowborder" valign="top"><p>(PAGE BREAK) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015E </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1C </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>€ EURO SIGN </p> </td>
+<td class="cellrowborder" valign="top"><p>0x20AC </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1B65 </p> </td>
+<td class="cellrowborder" valign="top"><p>€ EURO SIGN </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015F </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1D </p> </td>
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Æ LATIN CAPITAL LETTER AE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00C6 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1C </p> </td>
+<td class="cellrowborder" valign="top"><p>Æ LATIN CAPITAL LETTER AE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0130 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x40 </p> </td>
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>æ LATIN SMALL LETTER AE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E6 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1D </p> </td>
+<td class="cellrowborder" valign="top"><p>æ LATIN SMALL LETTER AE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x60 </p> </td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>¡ INVERTED EXCLAMATION MARK </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00A1 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x40 </p> </td>
+<td class="cellrowborder" valign="top"><p>¡ INVERTED EXCLAMATION MARK </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>¿ INVERTED QUESTION MARK </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00BF </p> </td>
+<td class="cellrowborder" valign="top"><p>0x60 </p> </td>
+<td class="cellrowborder" valign="top"><p>¿ INVERTED QUESTION MARK </p> </td>
+</tr>
+</tbody>
+</table></div> <p id="GUID-29B477B9-E63D-54B1-9C0B-3D7E1D5818A6"><a name="GUID-29B477B9-E63D-54B1-9C0B-3D7E1D5818A6"><!-- --></a><strong>Turkish Locking
+Single Converter vs. Standard SMS Converter – GSM Code to Unicode</strong> </p> <p>Table
+3B </p> <div class="tablenoborder"><a name="GUID-E1B67820-ED01-590F-80EC-73D19323CDB7"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-E1B67820-ED01-590F-80EC-73D19323CDB7" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Turkish Locking Single Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Standard SMS Converter</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong></strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <strong>Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Character</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>GSM</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Unicode</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Converted Character</strong> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>€ EURO SIGN </p> </td>
+<td class="cellrowborder" valign="top"><p>0x04 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x20AC </p> </td>
+<td class="cellrowborder" valign="top"><p>€ EURO SIGN </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>è LATIN SMALL LETTER E WITH GRAVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x04 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E8 </p> </td>
+<td class="cellrowborder" valign="top"><p>è LATIN SMALL LETTER E WITH GRAVE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top"><p>0x07 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0131 </p> </td>
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>ì LATIN SMALL LETTER I WITH GRAVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x07 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00EC </p> </td>
+<td class="cellrowborder" valign="top"><p>ì LATIN SMALL LETTER I WITH GRAVE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x09 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00C7 </p> </td>
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Ç LATIN CAPITAL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x09 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0B </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011E </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Ø LATIN CAPITAL LETTER O WITH STROKE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0B </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00D8 </p> </td>
+<td class="cellrowborder" valign="top"><p>Ø LATIN CAPITAL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011F </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>ø LATIN SMALL LETTER O WITH STROKE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00F8 </p> </td>
+<td class="cellrowborder" valign="top"><p>ø LATIN SMALL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B04 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x20AC </p> </td>
+<td class="cellrowborder" valign="top"><p>€ EURO SIGN </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B04 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E8 </p> </td>
+<td class="cellrowborder" valign="top"><p>è LATIN SMALL LETTER E WITH GRAVE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B07 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0131 </p> </td>
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B07 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00EC </p> </td>
+<td class="cellrowborder" valign="top"><p>ì LATIN SMALL LETTER I WITH GRAVE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B0B </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011E </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B0B </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00D8 </p> </td>
+<td class="cellrowborder" valign="top"><p>Ø LATIN CAPITAL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B0C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011F </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH CARON </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B0C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00F8 </p> </td>
+<td class="cellrowborder" valign="top"><p>ø LATIN SMALL LETTER O WITH STROKE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B1C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015E </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B1C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00C6 </p> </td>
+<td class="cellrowborder" valign="top"><p>Æ LATIN CAPITAL LETTER AE (ash) * </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B1D </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015F </p> </td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B1D </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E6 </p> </td>
+<td class="cellrowborder" valign="top"><p>æ LATIN SMALL LETTER AE (ash) * </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B47 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011E </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B47 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0047 </p> </td>
+<td class="cellrowborder" valign="top"><p>G LATIN CAPITAL LETTER G </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B49 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0130 </p> </td>
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B49 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0049 </p> </td>
+<td class="cellrowborder" valign="top"><p>I LATIN CAPITAL LETTER I </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B53 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015E </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B53 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0053 </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B60 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B60 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00BF </p> </td>
+<td class="cellrowborder" valign="top"><p>¿ INVERTED QUESTION MARK </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B67 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x011F </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G WITH BREVE </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B67 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0067 </p> </td>
+<td class="cellrowborder" valign="top"><p>g LATIN SMALL LETTER G </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B69 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0131 </p> </td>
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER DOTLESS </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>0x1B69 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x0069 </p> </td>
+<td class="cellrowborder" valign="top"><p>i LATIN SMALL LETTER I </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015E </p> </td>
+<td class="cellrowborder" valign="top"><p>S LATIN CAPITAL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>Æ LATIN CAPITAL LETTER AE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1C </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00C6 </p> </td>
+<td class="cellrowborder" valign="top"><p>Æ LATIN CAPITAL LETTER AE </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1D </p> </td>
+<td class="cellrowborder" valign="top"><p>0x015F </p> </td>
+<td class="cellrowborder" valign="top"><p>s LATIN SMALL LETTER S WITH CEDILLA * </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>æ LATIN SMALL LETTER AE </p> </td>
+<td class="cellrowborder" valign="top"><p>0x1D </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E6 </p> </td>
+<td class="cellrowborder" valign="top"><p>æ LATIN SMALL LETTER AE </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top"><p>0x60 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00E7 </p> </td>
+<td class="cellrowborder" valign="top"><p>ç LATIN SMALL LETTER C WITH CEDILLA </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>¿ INVERTED QUESTION MARK </p> </td>
+<td class="cellrowborder" valign="top"><p>0x60 </p> </td>
+<td class="cellrowborder" valign="top"><p>0x00BF </p> </td>
+<td class="cellrowborder" valign="top"><p>¿ INVERTED QUESTION MARK </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div><h3 class="section-title">See also</h3> <p> <a href="GUID-0BC9A9A1-DB99-5095-8390-E1C1B04D0080.html">SMS
+Encodings and Converters Overview</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 27th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-738FADA9-E26F-53F1-A6D6-2E82019DDA1F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:21 GMT -->
+</html>

@@ -1,0 +1,43 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5872329F-2B52-5F52-83C1-205F2F933877.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:03:18 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="OR_LEAVE macro Tutorial" /><meta name="abstract" content="Macro is a rule or pattern that specifies how a certain input sequence should be mapped to an output sequence according to a defined procedure. This tutorial describes the OR_LEAVE macro and provides details on how the OR_LEAVE macro should be used." /><meta name="description" content="Macro is a rule or pattern that specifies how a certain input sequence should be mapped to an output sequence according to a defined procedure. This tutorial describes the OR_LEAVE macro and provides details on how the OR_LEAVE macro should be used." /><meta name="DC.Relation" scheme="URI" content="GUID-B007634D-4D55-528A-8B85-6120C633AC8B" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-28AD51DC-C101-5E6E-9EC3-C2B61400D8CD" /><meta name="DC.Relation" scheme="URI" content="GUID-D60B55FA-D8C1-559A-9D99-48845BE32A6C" /><meta name="DC.Relation" scheme="URI" content="GUID-D33EB877-CCCB-527B-8AFC-4A8385C55E78" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5872329F-2B52-5F52-83C1-205F2F933877" /><meta name="DC.Language" content="en" /><title>OR_LEAVE
+macro Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5872329F-2B52-5F52-83C1-205F2F933877">OR_LEAVE
+macro Tutorial</h1><div><p>Macro is a rule or pattern that specifies how a certain input sequence
+should be mapped to an output sequence according to a defined procedure. This
+tutorial describes the OR_LEAVE macro and provides details on how the OR_LEAVE
+macro should be used. </p>
+<div><h3 class="section-title">Required background</h3> <p>Before beginning you must know
+the following: </p> <ul>
+<li id="GUID-13B9C89C-BFF4-553F-B647-034322ADFAE2"><a name="GUID-13B9C89C-BFF4-553F-B647-034322ADFAE2"><!-- --></a><p> UserLeaveIfError() <strong> :</strong> Error
+handling code. This function is called when a client is passing a file for
+a server to handle. </p> </li>
+</ul> </div>
+<div><h3 class="section-title">IntroductionDefining a OR_LEAVE macro </h3> <p>The OR_LEAVE macro is a convenience
+macro that allows the developer to deemphasize auxiliary error checking code
+in most cases. It is a postfix macro which implements <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-96AFAC46-F3AD-392B-8A97-AFCBF2978CFB"><code class="apiname">User::LeaveIfError()</code></a> on
+an integer return type. This means that there is less focus on the error handling
+code and makes the code easier to read. </p> <p>The
+OR_LEAVE macro is defined as a postfix operator. An example code snippet is
+shown below: </p> <pre class="codeblock">
+#define OR_LEAVE || Eleave
+inline void operator||(Tint aStatus, Tleave /*aTag*/)
+    {
+    User::LeaveIfError(aStatus);
+    }
+</pre> <p>It is a postfix macro which implements <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-96AFAC46-F3AD-392B-8A97-AFCBF2978CFB"><code class="apiname">User::LeaveIfError()</code></a> function
+on an integer return type. This means that there is less focus on the error
+handling code and makes the code easier to read. </p> </div>
+<div><h3 class="section-title">Using OR_LEAVE macro</h3><p>The <code class="codeph">OR_LEAVE</code> 
+is used to replace a call to <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-96AFAC46-F3AD-392B-8A97-AFCBF2978CFB"><code class="apiname">User::LeaveIfError()</code></a> function.
+An example code snippet is shown below:  </p><pre class="codeblock">User::LeaveIfError(iTimer-&gt;CreateLocal());</pre><p>The
+call to <code class="codeph">iTimer-&gt;CreateLocal()</code> is included within the error
+handling code <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-96AFAC46-F3AD-392B-8A97-AFCBF2978CFB"><code class="apiname">User::LeaveIfError()</code></a> function and is difficult
+to read. The following fragment uses the <code class="codeph">OR_LEAVE</code> macro. </p><pre class="codeblock">iTimer-&gt;CreateLocal() OR_LEAVE;
+</pre></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-B007634D-4D55-528A-8B85-6120C633AC8B.html">EUser High
+Level Library  Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 4th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5872329F-2B52-5F52-83C1-205F2F933877.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:03:18 GMT -->
+</html>

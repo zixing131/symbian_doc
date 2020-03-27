@@ -1,0 +1,547 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3D73DD8F-8D23-5D47-A4F7-3673C993EF8F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:29 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using TDes8 Class" /><meta name="abstract" content="Use TDes8 for Interfaces which take binary data or narrow text regardless of the build variant." /><meta name="description" content="Use TDes8 for Interfaces which take binary data or narrow text regardless of the build variant." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Relation" scheme="URI" content="GUID-11EEFB3D-0414-5BEB-9D78-56A4B9154008" /><meta name="DC.Relation" scheme="URI" content="GUID-E8BEE049-6814-543B-8A88-889E434A5D92" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3D73DD8F-8D23-5D47-A4F7-3673C993EF8F" /><meta name="DC.Language" content="en" /><title>Using
+TDes8 Class </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3D73DD8F-8D23-5D47-A4F7-3673C993EF8F">Using
+TDes8 Class</h1><div><p>Use TDes8 for Interfaces which take binary data or narrow text
+regardless of the build variant.</p>
+<div id="GUID-8A5FCFAB-9D4A-540B-8958-0B5F43430F51"><h3 class="section-title">Using in a
+function interface</h3> <p>An interface which needs to access and modify
+binary data or explicit narrow text, regardless of the build variant, uses
+a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes8</code></a> as the argument type. All 8 bit
+concrete descriptors are derived from <code class="codeph">TDes8</code> which means that
+the interface can accept any 8 bit descriptor.</p> <p>The following code fragment
+shows the most common function prototype pattern.</p> <pre class="codeblock">void ClassX::foo(TDes8&amp; anArg);</pre> <p>The use of <code class="codeph">TDes8</code> means that data can be accessed and
+modified through the descriptor.</p> <p>In practice, nearly all code uses
+the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>, unless
+an explicit 8 bit or 16 bit build variant is required.</p> </div>
+<div id="GUID-3D6C304C-E139-5090-BB8C-D05C234C954B"><h3 class="section-title">Accessing individual
+data items</h3> <p>The code fragment illustrates the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">operator[]()</code></a>.</p> <p>The
+behaviour is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a>.</p> <pre class="codeblock">_LIT8(KAtoG,"abcdefg");
+TChar ch;
+...
+str.Length();           // returns 7
+ch = str[0];            // ch contains the character 'a'
+ch = str[3];            // ch contains the character 'd'
+...
+str[0] = 'z';           // changes str to "zbcdefg"
+str[3] = 'z';           // changes str to "abczefg"
+...
+ch = str[7];            // Panic !!
+str[7] = 'z';           // Panic !!_LIT8(KAtoG,"abcdefg");</pre> </div>
+<div id="GUID-7C724770-09D1-5216-8FF1-BD7D6158F9EF"><h3 class="section-title">Copying data</h3> <p>The
+code fragment shows the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">Copy()</code></a> function.</p> <p>The
+behaviour is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kabcdefg,"abcdefg");
+_LIT8(Kabc,"abc");
+_LIT8(Kabcdefghi,"abcdefghi");
+...
+TBuf8&lt;8&gt; str;
+...
+str.Copy(Kabcdefg);     // copies "abcdefg" to str
+str.Length();           // returns 7
+str.MaxLength();        // returns 8
+...
+str.Copy(Kabc);         // copies "abc" to str
+str.Length();           // returns 3
+str.MaxLength();        // returns 8
+...
+str.Copy(Kabcdefghi));  // Panics !!
+...
+</pre> </div>
+<div id="GUID-A1F3A661-54AD-5392-8633-0F8745EE1953"><h3 class="section-title">Copying data
+with repetition</h3> <p>The code fragment shows the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">Repeat()</code></a> function.</p> <p>The
+behaviour is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kab,"ab");
+_LIT8(Kabc,"abc");
+_LIT8(Kabcde,"abcde");
+...
+TBuf8&lt;8&gt; tgt(8);            // length of tgt is the same as the
+...                         // maximum which is 8
+...                         // following strings generated in tgt
+...
+tgt.Repeat(Kab);            // "abababab"
+tgt.Repeat(Kabc);           // "abcabcab"
+tgt.Repeat(Kabcde);         // "abcdeabc"
+...
+...                         // changing length to 7 has the
+...                         // following effect
+tgt.SetLength(7);
+tgt.Repeat(Kab);            // "abababa"
+tgt.Repeat(Kabc);           // "abcabca"
+tgt.Repeat(Kabcde);         // "abcdeab"</pre> </div>
+<div id="GUID-EED99668-9259-5802-A603-C17DF1F8DFA4"><h3 class="section-title">Copying data
+and justifying</h3> <p>The code fragments show the<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">Justify()</code></a> function.</p> <p>The
+behaviour is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kabc,"abc");
+TBuf8&lt;16&gt; tgt(Kabc);
+...
+tgt.Justify(_L("xyz"),8,ECenter,'@');</pre> <p>The descriptor <code class="codeph">tgt</code> has
+a maximum length of 16 and initially holds the string "<code class="codeph">abc</code>".
+After the call to <code class="codeph">Justify()</code>, the content of <code class="codeph">tgt</code> changes
+to <code class="codeph">"@@xyz@@@</code>".</p> <p>The content of the source descriptor
+is taken to form a field of length 8 which replaces the original content of
+the descriptor <code class="codeph">tgt</code>. The characters "<code class="codeph">xyz</code>"
+are centred within the new field and padded on both sides with the fill character <code class="codeph">'@'.</code></p> <p>Setting
+the alignment to <code class="codeph">ELeft</code> would change the content of <code class="codeph">tgt</code> to
+"<code class="codeph">xyz@@@@@</code>" while setting the alignment to <code class="codeph">ERight</code> would
+change the content of <code class="codeph">tgt</code> to "<code class="codeph">@@@@@xyz</code>"</p> <p>In
+all three cases, the length of the descriptor <code class="codeph">tgt</code> changes
+from 3 to 8.</p> <pre class="codeblock">_LIT8(Kabc,"abc");
+_LIT8(Kxyz,"xyz");
+TBuf8&lt;8&gt; tgt(Kabc);
+...
+tgt.Justify(Kxyz,9,ECenter,'@');</pre> <p>This call to <code class="codeph">Justify()</code> panics
+because the resulting length of data in <code class="codeph">tgt</code> exceeds the maximum
+length of <code class="codeph">tgt</code>.</p> <pre class="codeblock">_LIT8(Kabc,"abc");
+_LIT8(KRtoZ,"rstuvwxyz");
+TBuf8&lt;16&gt; tgt(Kabc);
+...
+tgt.Justify(KRtoZ,8,ECenter,'@');</pre> <p>In this call to <code class="codeph">Justify()</code>,
+the content of <code class="codeph">tgt</code> changes to "<code class="codeph">rstuvwxy</code>".
+Only eight of the nine characters in the source literal <code class="codeph">KRtoZ</code> are
+copied.</p> </div>
+<div id="GUID-B33F6D5B-05BB-5DCA-99B3-52C0A68D3128"><h3 class="section-title">Copying conversion
+from signed integer to decimal character</h3> <p>The following code fragment
+illustrates the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">Num()</code></a>.</p> <p>The
+behaviour is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">TBuf8&lt;16&gt; tgt;
+...
+TInt numpos(176);
+TInt numneg(-176);
+..                      // generates the following strings:
+tgt.Num(numpos);        // "176"
+tgt.Num(numneg);        // "-176"</pre> </div>
+<div id="GUID-2F66C889-8980-5AE3-BB9C-44C3939D7FD5"><h3 class="section-title">Copying conversion
+from unsigned integer to specified number system</h3> <p>The following
+code fragment illustrates the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">Num()</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">NumUC()</code></a>.</p> <p>The behaviour is the same for the
+build independent variant,<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>, replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">TBuf8&lt;16&gt; tgt;               // generates the following strings:
+...
+TUint number(170);
+...
+tgt.Num(number,EBinary);    // "10101010"
+tgt.Num(number,EOctal);     // "252"
+tgt.Num(number,EDecimal);   // "170"
+tgt.Num(number,EHex);       // "aa"   &lt;-NB hex value in lower case
+tgt.NumUC(number,EHex);     // "AA"   &lt;-NB hex value in UPPER case
+tgt.Num(number);            // "170"  &lt;--EDecimal taken as default</pre> </div>
+<div id="GUID-3CECD3B4-D14D-5983-9FD5-576D0950389B"><h3 class="section-title">Formatting
+text</h3> <p>The following code fragments illustrate the various possibilities
+of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">Format()</code></a>.</p> <p>The behaviour is the
+same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">TBuf8&lt;256&gt; tgt;
+...
+_LIT8(KFormat1,"[%b %c %d %o %u %x]");
+tgt.Format(KFormat1,65,65,65,65,65,65);//generates:
+...                                  //[1000001 A 65 101 65 41]
+...
+_LIT8(KFormat2,"[%04x]");           // pad char="0", field width=4
+tgt.Format(KFormat2,65);             //generates:
+...                                  //[0041]
+...
+_LIT8(KFormat3,"[%4x]");            // pad char=default, field width=4
+tgt.Format(KFormat3,65);             //generates:
+...                                  //[  41]
+...                                  // Note use of blanks as default pad chars.
+...
+_LIT8(KFormat4,"[%*x]");            // fixed field width, taken from the arguments list
+tgt.Format(KFormat4,4,65);           //generates:
+...                                  //[  41]
+...
+...
+_LIT8(KFormat5,"[%+$4d.00 %S]");    // pad char="$", field width=4, right aligned
+_LIT8(KOver,"over");                
+tgt.Format(KFormat5,65,&amp;KOver);      //generates:
+...                                  //[$$65.00 over]
+...
+_LIT8(KFormat6,"[%+4d.00 %S]");     // pad char=default, field width=4
+tgt.Format(KFormat6,65,&amp;KOver);      //generates:
+...                                  //[  65.00 over]
+...                                  //   note no pad char specified, defaults
+...                                  //   to blank
+...
+_LIT8(KFormat7,"[% 4d.00 %S]");     // pad char=" ", field width=4, alignment=default
+tgt.Format(KFormat7,65,&amp;KOver);      //generates:
+...                                  //[  65.00 over]
+...                                  //   note default right hand alignment and
+...                                  //   blank pad char
+...
+_LIT8(KFormat8,"[%+0*S]");          // right aligned, pad char="0", fixed field width
+_LIT8(KFred,"fred");                
+tgt.Format(KFormat8,10,&amp;KFred);      //generates:
+...                                  //[000000fred]
+...                                  // Note - 10 characters generated
+...
+_LIT8(KFormat9,"[%=*6x]");          // centre aligned, pad char taken from arguments list, field width=6
+tgt.Format(KFormat9,'*',65);         //generates:
+...                                  //[**41**]
+...
+_LIT8(KFormat10,"[%+**d]");         // right aligned, pad char and field width taken from arguments list
+tgt.Format(KFormat10,'.',10,(-65));  //generates:
+...                                  //[.......-65]
+...
+_LIT8(KFormat11,"[%-A4p]");         // left aligned, field width=4, pad char="A"
+tgt.Format(KFormat11,65);            //generates:
+...                                  //[AAAA]
+...                                  //   and makes no use of the argument list
+...
+_LIT8(KFormat12,"[%m]");            //generates:
+tgt.Format(KFormat12,4660);          //   the char '['
+...                                  //   followed by a byte with 0x12
+...                                  //   followed by a byte with 0x34
+...                                  //   followed by the char ']'
+_LIT8(KFormat13,"[%M]")
+tgt.Format(KFormat13,4660);          //generates:
+...                                  //   the char '['
+...                                  //   followed by a byte with 0x00
+...                                  //   followed by a byte with 0x00
+...                                  //   followed by a byte with 0x12
+...                                  //   followed by a byte with 0x34
+...                                  //   followed by the char ']'
+...
+_LIT8(KFormat14,"[%w]");            //generates:
+tgt.Format(KFormat14,4660);          //   the char '['
+...                                  //   followed by a byte with 0x34
+...                                  //   followed by a byte with 0x12
+...                                  //   followed by the char ']'
+..
+_LIT8(KFormat15,"[%w]");            //generates:
+tgt.Format(KFormat15,4660);          //   the char '['
+...                                  //   followed by a byte with 0x34
+...                                  //   followed by a byte with 0x12
+...                                  //   followed by a byte with 0x00
+...                                  //   followed by a byte with 0x00
+...                                  //   followed by the char ']'
+...
+_LIT8(KFormat16,"[%6.2e]");         
+tgt.Format(KFormat16,3.4555);        //generates:
+...                                  //[3.46E+00]
+_LIT8(KFormat17,"[%6.2f]");         
+tgt.Format(KFormat17,3.4555);        //generates:
+...                                  //[  3.46]
+_LIT8(KFormat18,"[%6.2g]");         
+tgt.Format(KFormat18,3.4555);        //generates:
+...                                  //[3.4555]
+...
+// Variable  argument positions
+_LIT8(KFormat19,"[%d %d]");          // implicit ordering
+tgt.Format(KFormat19,9,5);           // generates:
+...                                  // [9 5]
+...
+_LIT8(KFormat20,"[%$2$d %$1$d]");    // explicit ordering
+tgt.Format(KFormat20,9,5);           // generates:
+...                                  // [5 9]
+...
+_LIT8(KFormat21,"[%$1$d %$2$d]");    // explicit ordering (same as the implicit order)
+tgt.Format(KFormat21,9,5);           // generates:
+...                                  // [9 5]
+
+// Using argument blocks (a many-to-one mapping between arguments and conversion specifiers)
+_LIT8(KFormat22,"[%0*d %d %d]");     // implicit ordering
+tgt.Format(KFormat22,3,9,5,12);      // generates:
+...                                  // [009 5 12]
+...
+_LIT8(KFormat23,"[%$2$d %$1$0*d %d]"); // mixed explicit and implicit ordering
+tgt.Format(KFormat23,3,9,5,12);      // generates:
+...                                  // [5 009 12]
+...                                  
+_LIT8(KFormat24,"[%$3$d %$1$0*d %$2$d]"); // explicit ordering
+tgt.Format(KFormat24,3,9,5,12);      // generates:
+...                                  // [12 009 5]
+
+
+
+</pre> </div>
+<div id="GUID-DB6927AD-8B34-50CA-AECE-7A679E78854E"><h3 class="section-title">Inserting data</h3> <p>The
+code fragment shows the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">Insert()</code></a> function.</p> <p>The
+behaviour is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kabc,"abc")
+_LIT8(KUVWXYZ,"UVWXYZ")
+_LIT8(KVWXYZ,"VWXYZ")
+_LIT8(KWXYZ,"WXYZ")
+_LIT8(KXYZ,"XYZ)
+...
+TBuf8&lt;8&gt; tgt(3);
+...                              // generates the strings:
+tgt = Kabc;
+tgt.Insert(0,kXYZ);              // "XYZabc"
+...
+tgt = Kabc;
+tgt.Insert(1,KXYZ);              // "aXYZbc"
+...
+tgt = Kabc;
+tgt.Insert(tgt.Length(),KXYZ);   // "abcXYZ"
+...
+tgt = Kabc;
+tgt.Insert(tgt.Length()+1,KXYZ); // ----&gt; Panic !!
+...
+tgt = Kabc;
+tgt.Insert(1,KWXYZ);             // "aWXYZbc"
+...
+tgt = Kabc;
+tgt.Insert(1,KVWXYZ);            // "aVWXYZbc"
+...
+tgt = Kabc;
+tgt.Insert(1,KUVWXYZ);           // ----&gt; Panic !!</pre> </div>
+<div id="GUID-3E97AA91-4E41-5D30-8D21-61A54A1DEDF5"><h3 class="section-title">Replacing data</h3> <p>The
+following code fragment illustrates the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">Replace()</code></a>.</p> <p>The
+behaviour is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kabcd,"abcd");
+_LIT8(Ku,"u");
+_LIT8(Kuv,"uv");
+_LIT8(Kuvw,"uvw");
+_LIT8(Kuvwxyz,"uvwxyz");
+...
+TBuf8&lt;8&gt; tgt(4);
+...                         // generates the strings:
+tgt = Kabcd;
+tgt.Replace(0,1,Ku));       // "ubcd"
+...
+tgt = Kabcd;
+tgt.Replace(0,1,Kuv);       // "uvbcd"
+...
+tgt = Kabcd;
+tgt.Replace(0,1,Kuvw);      // "uvwbcd"
+...
+tgt = Kabcd;
+tgt.Replace(0,1,Kuvwxyz);   // ----&gt; Panics !!
+...
+tgt = Kabcd;
+tgt.Replace(1,2,Ku);        // "aud"
+...
+tgt = Kabcd;
+tgt.Replace(1,2,KNullDesC8);// "ad"
+...
+tgt = Kabcd;
+tgt.Replace(1,4,Kuvw);      // ----&gt; Panics !!
+...
+tgt = Kabcd;
+tgt.Replace(3,1,Kuvw);      // "abcuvw"
+...
+tgt = Kabcd;
+tgt.Replace(4,0,Kuvw);      // "abcduvw"</pre> </div>
+<div id="GUID-9CB5C056-52ED-5307-BA3A-65C3EA99B910"><h3 class="section-title">Swapping data</h3> <p>This
+code fragment shows the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">Swap()</code></a> function.</p> <p>The
+behaviour is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kabcde,"abcde");
+_LIT8(Kxyz,"xyz");
+_LIT8(K0to9,"0123456789");
+...
+TBuf8&lt;8&gt;  buf1(Kabcde);
+TBuf8&lt;8&gt;  buf2(Kxyz);
+TBuf8&lt;16&gt; buf3(K0to9);
+...
+buf1.Swap(buf2);    // contents of buf1 and buf2 swapped OK
+buf1.Swap(buf3);    // Panic !!</pre> </div>
+<div id="GUID-BD7F7862-5C75-52EF-9EF6-5DAC40E7541F"><h3 class="section-title">Deleting data</h3> <p>The
+following code fragment illustrates the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">Delete()</code></a>.</p> <p>The
+behaviour is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kabcd,"abcd");
+...
+TBuf8&lt;8&gt; tgt(4);
+...                          // generates the strings:
+tgt = Kabcd;
+tgt.Delete(0,1);             // "bcd"
+...
+tgt = Kabcd;
+tgt.Delete(0,2);             // "cd"
+...
+tgt = Kabcd;
+tgt.Delete(0,4);             // ""
+...
+tgt = Kabcd;
+tgt.Delete(1,2);             // "ad"
+...
+tgt = Kabcd;
+tgt.Delete(2,2);             // "ab"
+...
+tgt = Kabcd;
+tgt.Delete(2,3);             // "ab"
+...
+tgt = Kabcd;
+tgt.Delete(2,256);           // "ab"
+...
+tgt = Kabcd;
+tgt.Delete(5,1);             // ----&gt; Panics !!
+...
+tgt = Kabcd;
+tgt.Delete(-1,1);            // ----&gt; Panics !!</pre> </div>
+<div id="GUID-31B39F0B-09A0-5638-95DB-2B448D5572D4"><h3 class="section-title">Deleting leading
+spaces</h3> <p>The following code fragment illustrates the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TrimLeft()</code></a>.</p> <p>The behaviour is the same for
+the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>, replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(KData1,"  abcd  ");
+_LIT8(KData2," a b ");
+...
+TBuf8&lt;8&gt; str1(KData1);
+TBuf8&lt;8&gt; str2(KData2);
+...
+str1.Length();          // returns 8
+str1.TrimLeft();        // "abcd  "
+str1.Length();          // returns 6
+...
+str2.Length();          // returns 5
+str2.TrimLeft();        // "a b "
+str2.Length();          // returns 4</pre> </div>
+<div id="GUID-F7BAEAAE-C9DF-51CF-A0C9-5134D2DA67D5"><h3 class="section-title">Deleting trailing
+spaces</h3> <p>The following code fragment illustrates the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TrimRight()</code></a>.</p> <p>The behaviour is the same for
+the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>, replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(KData1,"  abcd  ");
+_LIT8(KData2," a b ");
+...
+TBuf8&lt;8&gt; str1(KData1);
+TBuf8&lt;8&gt; str2(KData2);
+...
+str1.Length();          // returns 8
+str1.TrimRight();       // "  abcd"
+str1.Length();          // returns 6
+...
+str2.Length();          // returns 5
+str2.TrimRight();       // " a b"
+str2.Length();          // returns 4</pre> </div>
+<div id="GUID-51B37E69-860A-55E0-BD25-C618128BB91C"><h3 class="section-title">Deleting leading
+and trailing spaces</h3> <p>The following code fragment illustrates the
+use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">Trim()</code></a>.</p> <p>The behaviour is the
+same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(KData1,"  abcd  ");
+_LIT8(KData2," a b ");
+...
+TBuf8&lt;8&gt; str1(KData1);
+TBuf8&lt;8&gt; str2(KData2);
+...
+str1.Length();          // returns 8
+str1.Trim();            // "abcd"
+str1.Length();          // returns 4
+...
+str2.Length();          // returns 5
+str2.Trim();            // "a b"
+str2.Length();          // returns 3</pre> </div>
+<div id="GUID-CD96A766-8420-5E4C-AFA5-42F1A282C510"><h3 class="section-title">Deleting leading,
+trailing and internal spaces</h3> <p>The following code fragment illustrates
+the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TrimAll()</code></a>.</p> <p>The behaviour
+is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(KData1,"  abcd  ");
+_LIT8(KData2," a b ");
+_LIT8(KData3,"a  b   c");
+...
+TBuf8&lt;8&gt; str1(KData1);
+TBuf8&lt;8&gt; str2(KData2);
+TBuf8&lt;8&gt; str2(KData3);
+...
+str1.Length();          // returns 8
+str1.TrimAll();         // "abcd"
+str1.Length();          // returns 4
+...
+str2.Length();          // returns 5
+str2.TrimAll();         // "a b"
+str2.Length();          // returns 3
+...
+str3.Length();          // returns 8
+str3.TrimAll();         // "a b c"
+str3.Length();          // returns 5</pre> </div>
+<div id="GUID-6565F27E-E838-55C8-AF8C-FEA23DBDD83B"><h3 class="section-title">Append and
+justify</h3> <p>The following code fragments illustrate the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">AppendJustify()</code></a>.</p> <p>The behaviour is the same
+for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kabc,"abc");
+_LIT8(Kxyz, "xyz");
+...
+TBuf8&lt;16&gt; tgt(Kabc);
+tgt.AppendJustify(Kxyz,8,ECenter,'@');</pre> <p>The descriptor <code class="codeph">tgt</code> has
+a maximum length of 16 and initially holds the string "<code class="codeph">abc</code>".
+After the call to <code class="codeph">AppendJustify()</code>, the content of <code class="codeph">tgt</code> changes
+to "<code class="codeph">abc@@xyz@@@</code>".</p> <p>The content of the source descriptor <code class="codeph">Kxyz</code> is
+taken to form a field of length 8 which is appended to the content of the
+descriptor <code class="codeph">tgt</code>. The characters "<code class="codeph">xyz</code>" are
+centred within the new field and padded on both sides with the fill character <code class="codeph">'@'.</code></p> <p>Setting
+the alignment to <code class="codeph">ELeft</code> would change the content of <code class="codeph">tgt</code> to
+"<code class="codeph">abcxyz@@@@@</code>" while setting the alignment to <code class="codeph">ERight</code> would
+change the content of <code class="codeph">tgt</code> to "<code class="codeph">abc@@@@@xyz</code>".</p> <p>In
+all three cases, the length of the descriptor <code class="codeph">tgt</code> changes
+from 3 to 11.</p> <pre class="codeblock">_LIT8(KAtoK,"abcdefghik");
+_LIT8(K0to6,"0123456");
+...
+TBuf8&lt;16&gt; tgt(KAtoK);
+tgt.AppendJustify(K0to6,7,ECenter,'@');</pre> <p>This call to <code class="codeph">AppendJustify()</code> panics
+because the resulting length of <code class="codeph">tgt</code> exceeds its maximum length.</p> </div>
+<div id="GUID-88473872-CF3A-5D4E-A6F5-24B2F3AE6FF1"><h3 class="section-title">Append and
+justify with explicit length</h3> <p>The following code fragments illustrate
+the use of the overloaded version of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">AppendJustify()</code></a> which
+specifies an explicit length.</p> <p>The behaviour is the same for the build
+independent variant,<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>, replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kabc,"abc");
+_LIT8(Kxyz0to9,"xyz0123456789");
+...
+TBuf8&lt;16&gt; tgt(Kabc);
+tgt.AppendJustify(Kxyz0to9,3,8,ECenter,'@');</pre> <p>The descriptor <code class="codeph">tgt</code> has
+a maximum length of 16 and initially holds the string "<code class="codeph">abc</code>".
+After the call to <code class="codeph">AppendJustify()</code>, the content of <code class="codeph">tgt</code> changes
+to "<code class="codeph">abc@@xyz@@@</code>".</p> <p>In this example, the first three
+characters of the eleven characters "xyz0123456789" are taken to form an eight
+character field which is appended to the existing content of the descriptor <code class="codeph">tgt</code>.
+The three characters "<code class="codeph">xyz</code>" are centred within the new field
+and padded on both sides with the fill character <code class="codeph">'@'.</code></p> <p>Setting
+the alignment to <code class="codeph">ELeft</code> would change the content of <code class="codeph">tgt</code> to
+"<code class="codeph">abcxyz@@@@@</code>" while setting the alignment to <code class="codeph">ERight</code> would
+change the content of <code class="codeph">tgt</code> to "<code class="codeph">abc@@@@@xyz</code>".</p> <p>In
+all three cases, the length of the descriptor <code class="codeph">tgt</code> changes
+from 3 to 11.</p> <pre class="codeblock">_LIT8(Kabc,"abc");
+_LIT8(K0to9,"0123456789");
+...
+TBuf8&lt;16&gt; tgt(Kabc);
+tgt.AppendJustify(K0to9,9,8,ECenter,'@');</pre> <p>In this example,
+the call to <code class="codeph">AppendJustify()</code> changes the content of <code class="codeph">tgt</code> to
+"<code class="codeph">abc01234567</code>". As the specified length is greater than the
+specified width, the length is truncated so that only eight characters are
+copied from the source descriptor.</p> <pre class="codeblock">_LIT8(KAtoK,"abcdefghik");
+_LIT8(K0to9,"0123456789");
+...
+TBuf8&lt;16&gt; tgt(KAtoK);
+tgt.AppendJustify(K0to9,3,7,ECenter,'@');</pre> <p>This call to <code class="codeph">AppendJustify()</code> panics
+because the resulting length of <code class="codeph">tgt</code> exceeds its maximum length.</p> </div>
+<div id="GUID-E25AD363-D025-549A-A768-E669054B276A"><h3 class="section-title">Append data
+operator</h3> <p>The following code fragment illustrates the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">operator+=()</code></a>.</p> <pre class="codeblock">_LIT8(Kabc,"abc");
+TBuf8&lt;16&gt; tgt(Kabc);
+...
+tgt+=(_L("0123456789"));         // generates "abc0123456789"
+tgt+=(_L("0123456789qwerty"));   // Panics !!</pre> </div>
+<div id="GUID-D8FE4EAA-40B1-5B60-8B3D-0DD4FF0EC01A"><h3 class="section-title">Append conversion
+from signed integer to decimal character</h3> <p>The following code fragment
+illustrates the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">AppendNum()</code></a>.</p> <p>The
+behaviour is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kabc,"abc");
+TInt numpos(176);
+TInt numneg(-176);
+...
+TBuf8&lt;16&gt; tgt(Kabc));        // generates the following strings:
+tgt.AppendNum(numpos);       // "abc176"
+tgt.AppendNum(numneg);       // "abc-176"</pre> </div>
+<div id="GUID-73D28A65-48E9-5E77-8BEF-CCAE312AC7D3"><h3 class="section-title">Append conversion
+from unsigned integer to specified number system</h3> <p>The following
+code fragment illustrates the use of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">AppendNum()</code></a> and<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">AppendNumUC()</code></a>.</p> <p>The behaviour is the same for
+the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>, replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kabc,"abc");
+TBuf8&lt;16&gt; tgt(Kabc);        // generates the following strings:
+...
+TUint num(170);
+...
+tgt.AppendNum(num,EBinary); // "abc10101010"
+tgt.AppendNum(num,EOctal);  // "abc252"
+tgt.AppendNum(num,EDecimal);// "abc170"
+tgt.AppendNum(num,EHex);    // "abcaa"   &lt;-hex value in lower case
+tgt.AppendNumUC(num,EHex);  // "abcAA"   &lt;-hex value in UPPER case
+tgt.AppendNum(num);         // "abc170"  &lt;-EDecimal taken as default</pre> </div>
+<div id="GUID-7CF714F2-9691-59E2-8178-25D7EC290117"><h3 class="section-title">Append fixed
+width conversion</h3> <p>The following code fragment illustrates the use
+of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">AppendNumFixedWidth()</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">AppendNumFixedWidthUC()</code></a>.</p> <p>The
+behaviour is the same for the build independent variant, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TDes</code></a>,
+replacing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">_LIT</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf8</code></a> with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html"><code class="apiname">TBuf</code></a>.</p> <pre class="codeblock">_LIT8(Kabc,"abc");
+TBuf8&lt;16&gt; tgt(Kabc);        // generates the following strings:
+...
+TUint num(170)
+...
+tgt.AppendNumFixedWidth(num,EBinary,8);    // "abc10101010"
+tgt.AppendNumFixedWidth(num,EOctal,8);     // "abc00000252"
+tgt.AppendNumFixedWidth(num,EDecimal,8);   // "abc00000170"
+tgt.AppendNumFixedWidth(num,EHex,8);       // "abc000000aa"
+tgt.AppendNumFixedWidthUC(num,EHex,8);     // "abc000000AA"</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 15th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3D73DD8F-8D23-5D47-A4F7-3673C993EF8F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:29 GMT -->
+</html>

@@ -1,0 +1,67 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D8D30C70-C6ED-4E4C-9815-BF7993262ABF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:37 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using GCompletion" /><meta name="abstract" content='GCompletion provides a method for automatic string completion using a group of target strings. This is typically used for file name completion as is common in many UNIX shells. A possible use of such APIs in a mobile device application is the contacts application. For example, if all the names that begin with a particular prefix, say "abc", are to be displayed, these APIs can be used to get and display all the names that begin with "abc".' /><meta name="description" content='GCompletion provides a method for automatic string completion using a group of target strings. This is typically used for file name completion as is common in many UNIX shells. A possible use of such APIs in a mobile device application is the contacts application. For example, if all the names that begin with a particular prefix, say "abc", are to be displayed, these APIs can be used to get and display all the names that begin with "abc".' /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-94D67092-5EB3-4D83-A164-CA628F2E2DB0" /><meta name="DC.Relation" scheme="URI" content="GUID-51FF9F99-8005-4480-9645-64476B953C57" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D8D30C70-C6ED-4E4C-9815-BF7993262ABF" /><meta name="DC.Language" content="en" /><title>Using GCompletion </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D8D30C70-C6ED-4E4C-9815-BF7993262ABF">Using <code class="codeph">GCompletion</code></h1><div><p><code class="codeph">GCompletion</code> provides a method for automatic string
+completion using a group of target strings. This is typically used for file
+name completion as is common in many UNIX shells. A possible use of such APIs
+in a mobile device application is the contacts application. For example, if
+all the names that begin with a particular prefix, say "abc", are to be displayed,
+these APIs can be used to get and display all the names that begin with "abc".</p>
+<p>A <code class="codeph">GCompletion</code> is created using <code class="codeph">g_completion_new()</code>.
+Target items are added using <code class="codeph">g_completion_add_items()</code>. This
+API takes a doubly-linked list item, <code class="codeph">GList</code>, as a parameter.
+Items are removed using <code class="codeph">g_completion_clear_items()</code> and <code class="codeph">g_completion_remove_items()</code>.
+A completion attempt is requested using <code class="codeph">g_completion_complete()</code> or <code class="codeph">g_completion_complete_utf8()</code>.
+A <code class="codeph">GCompletion</code> is freed using <code class="codeph">g_completion_free()</code>.</p>
+<p>Generally a <code class="codeph">GCompletion</code> item is a string. The default
+function used to compare a string is <code class="codeph">strncmp()</code>. If a function
+other than it is desired, then it can be set using the function <code class="codeph">g_completion_set_compare()</code>.
+If an arbitrary data structure is to be compared, a <code class="codeph">GCompletionFunc</code> is
+to be provided to <code class="codeph">g_completion_new()</code>.</p>
+<p>The following code demonstrates the usage of <code class="codeph">GCompletion</code> APIs.</p>
+<p>In the code a <code class="codeph">GCompletion</code> is created using <code class="codeph">g_completion_new()</code>.
+Target strings are added using <code class="codeph">g_completion_add_items()</code>.
+The comparison function is changed to <code class="codeph">g_ascii_strncasecmp()</code> to
+allow matches without the consideration of case. A completion attempt for
+the string “aB” and the same is printed using <code class="codeph">g_print()</code>.
+Finally the <code class="codeph">GCompletion</code> is freed using <code class="codeph">g_completion_free()</code>.</p>
+<pre class="codeblock">#include &lt;glib.h&gt;
+
+int main ()
+{
+	GCompletion *cmp;
+	GList *items;
+	gchar *prefix;
+
+	//create a new GCompletion
+	cmp = g_completion_new (NULL);
+
+	//create a new GList to create a set of target strings.
+	items = NULL;
+	items = g_list_append (items, "AbcDEF");
+	items = g_list_append (items, "bc");
+	items = g_list_append (items, "bd");
+			
+	//add the target strings			
+	g_completion_add_items (cmp, items);
+	
+	//change the comparison API to g_ascii_strncasecmp
+	g_completion_set_compare(cmp,g_ascii_strncasecmp);
+	
+	//find the first match
+	items = g_completion_complete (cmp, "aB", &amp;prefix);
+	
+	g_print("The match for aB is %s",prefix);
+	getchar();
+	
+	g_free (prefix);
+	
+	g_completion_free(cmp);
+	return 0;
+}
+</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 7th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D8D30C70-C6ED-4E4C-9815-BF7993262ABF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:37 GMT -->
+</html>

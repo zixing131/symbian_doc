@@ -1,0 +1,129 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D24D5F17-462E-5424-99A7-9B16E9FEDC93.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:42 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="reference" /><meta name="DC.Title" content="Rconnection: connection monitoring and management example" /><meta name="abstract" content="This example demonstrates the use of the RConnection API to do connection monitoring and management." /><meta name="description" content="This example demonstrates the use of the RConnection API to do connection monitoring and management." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-2139B04C-6ED6-599B-A018-D92451B8353E" /><meta name="DC.Relation" scheme="URI" content="GUID-61E0CD76-A2E3-5066-84A8-146EECA8ADCD" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D24D5F17-462E-5424-99A7-9B16E9FEDC93" /><meta name="DC.Language" content="en" /><title>Rconnection: connection monitoring and management example </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D24D5F17-462E-5424-99A7-9B16E9FEDC93">Rconnection: connection monitoring and management example</h1><div><p>This example demonstrates the use of the <code class="codeph">RConnection</code> API to do connection monitoring and management. </p>
+<div id="GUID-E0BC58A2-4011-4836-91F6-A7FD2EEAC983"><h3 class="section-title">Purpose</h3> <p>The example demonstrates the following features of the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> API: </p> <ul>
+<li id="GUID-01B8C3CB-4C74-51B5-A9B1-6CE1D5DD0360"><a name="GUID-01B8C3CB-4C74-51B5-A9B1-6CE1D5DD0360"><!-- --></a><p>Opening and
+closing a connection using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-4B38770B-0BA8-3302-B475-3DA9C27ACC5F"><code class="apiname">RConnection::Open(RSocketServ&amp;
+aSocketServer, TUint                 aConnectionType = KConnectionTypeDefault)</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-20D71C1C-27EE-3305-8326-4CC1DFFB0E2F"><code class="apiname">RConnection::Close()</code></a>. </p> </li>
+<li id="GUID-A5CDAFC8-771C-56A1-86BF-E4731EB7D325"><a name="GUID-A5CDAFC8-771C-56A1-86BF-E4731EB7D325"><!-- --></a><p>Starting a connection
+that uses the default CommDb connection preferences, and another connection
+that overrides them, using (respectively) <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-CB62E838-A380-309C-8B08-1F804EDB4387"><code class="apiname">RConnection::Start()</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-4D79AFCA-FD3F-3829-95EF-9186EC528B52"><code class="apiname">RConnection::Start(TConnPref&amp; aPref)</code></a>. </p> </li>
+<li id="GUID-DF26CF2F-E012-5752-88B8-2E2FBE4DC0BC"><a name="GUID-DF26CF2F-E012-5752-88B8-2E2FBE4DC0BC"><!-- --></a><p>Getting the
+number of connections, and retrieving information about one of them,
+using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-136BCD4A-A939-31C4-BAF5-41FD7CD8AC2B"><code class="apiname">RConnection::EnumerateConnections(TUint&amp;      
+          aCount)</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-2F5335E1-D665-3907-825E-EF2187C64A95"><code class="apiname">RConnection::GetConnectionInfo(TUint
+aIndex,                 TDes8&amp; aConnectionInfo)</code></a>. </p> </li>
+<li id="GUID-43861187-FF27-56BD-8B09-F5FC3456FB0D"><a name="GUID-43861187-FF27-56BD-8B09-F5FC3456FB0D"><!-- --></a><p>Attaching a
+connection to an existing interface, using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-41FD3AA1-92AA-370F-BBD4-0480E6A19E01"><code class="apiname">RConnection::Attach(const
+TDesC8&amp; aConnectionInfo,                 TConnAttachType aAttachType)</code></a>. </p> </li>
+<li id="GUID-3C89B0C2-3378-5D8B-A519-F5689ACA65EC"><a name="GUID-3C89B0C2-3378-5D8B-A519-F5689ACA65EC"><!-- --></a><p>Registering
+for notifications when: </p> <ul>
+<li id="GUID-61A4C660-FA35-51DC-A4F1-715CC630052D"><a name="GUID-61A4C660-FA35-51DC-A4F1-715CC630052D"><!-- --></a><p>a certain amount
+of data has been sent, using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-E2542503-C90A-3D25-8DE3-81B10839B5D8"><code class="apiname">RConnection::DataSentNotificationRequest(TUint
+aThreshold,                      TPckg&lt;TUint&gt;&amp; aUplinkVolume,
+TRequestStatus&amp; aStatus)</code></a>. </p> </li>
+<li id="GUID-40B69177-D7DB-5920-98DF-A681E5EB21E8"><a name="GUID-40B69177-D7DB-5920-98DF-A681E5EB21E8"><!-- --></a><p>a certain amout
+of data has been received, using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C087DFCB-CF67-3FDA-B62B-E3E3B89B12EE"><code class="apiname">RConnection::DataReceivedNotificationRequest(TUint
+aThreshold,                      TPckg&lt;TUint&gt;&amp; aDownlinkVolume,
+TRequestStatus&amp;                      aStatus)</code></a>. </p> </li>
+<li id="GUID-48F1D550-A56C-5F52-A870-C74C63BB8FFE"><a name="GUID-48F1D550-A56C-5F52-A870-C74C63BB8FFE"><!-- --></a><p>interfaces go
+up and down, using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-01898270-E46F-3120-B6A7-DA3B7B59ECD3"><code class="apiname">RConnection::AllInterfaceNotification(TDes8&amp;
+aNotification,                      TRequestStatus&amp; aStatus)</code></a>. </p> </li>
+<li id="GUID-15E99A35-D6C3-5F28-98C5-72B80B594EBB"><a name="GUID-15E99A35-D6C3-5F28-98C5-72B80B594EBB"><!-- --></a><p>the connection
+changes state, using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-6742EDA9-DC0A-3806-8941-D61334290263"><code class="apiname">RConnection::ProgressNotification(TNifProgressBuf&amp;
+aProgress,                      TRequestStatus&amp; aStatus, TUint
+aSelectedProgress =                      KConnProgressDefault)</code></a>. </p> </li>
+</ul> </li>
+<li id="GUID-57C9068C-1380-5397-A090-1D9FC1587FED"><a name="GUID-57C9068C-1380-5397-A090-1D9FC1587FED"><!-- --></a><p>Obtaining the
+amount of data transferred, using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-6C695DC3-978A-3F48-87AE-08E64F45831D"><code class="apiname">RConnection::DataTransferredRequest()</code></a>. </p> </li>
+<li id="GUID-FAA3F969-67AF-5716-92F9-B5BDBC038906"><a name="GUID-FAA3F969-67AF-5716-92F9-B5BDBC038906"><!-- --></a><p>Obtaining the
+connection's current state, using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-AAD64DE1-899F-36AA-88FA-5ED28CF51D8F"><code class="apiname">RConnection::Progress(TNifProgress&amp;
+aProgress)</code></a>. </p> </li>
+<li id="GUID-14CBAB9C-F93D-5A0D-A63E-B18D2209D38A"><a name="GUID-14CBAB9C-F93D-5A0D-A63E-B18D2209D38A"><!-- --></a><p>Stopping the
+connection, using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-52878713-A4E8-327E-901B-449EF3D39E0A"><code class="apiname">RConnection::Stop()</code></a>. </p> </li>
+<li id="GUID-0525FECB-37A0-5373-93DD-92BCB1317078"><a name="GUID-0525FECB-37A0-5373-93DD-92BCB1317078"><!-- --></a><p>Closing the
+session with the socket server using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EF29C1D7-B1E5-370F-AE37-66231A6BE449.html#GUID-B6D74895-B413-3759-966A-4A1D855267E1"><code class="apiname">RSocketServ::Close()</code></a>. </p> </li>
+</ul> </div>
+<div id="GUID-823CFB5C-C788-4B90-83A2-41DDA2626519"><h3 class="section-title">Download</h3><p>Click on the following link to download the example: <a href="GUID-6013A680-57F9-415B-8851-C4FA63356636/zips/guid-3d0ac087-79ee-467f-b6ed-d71eafa40d9c.zip" target="_blank">Rconnection.zip</a></p><p>Click: <a href="GUID-6013A680-57F9-415B-8851-C4FA63356636/guid-3d0ac087-79ee-467f-b6ed-d71eafa40d9c.html#GUID-6013A680-57F9-415B-8851-C4FA63356636/guid-3d0ac087-79ee-467f-b6ed-d71eafa40d9c.html">browse</a> to view the example code. </p> </div>
+<div id="GUID-C975476C-C2B7-4D9D-AF13-CB2AE995D5E3"><h3 class="section-title">Class
+Summary</h3><p>The example demonstrates the following classes: </p><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a></p><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html"><code class="apiname">RSocket</code></a></p><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EF29C1D7-B1E5-370F-AE37-66231A6BE449.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EF29C1D7-B1E5-370F-AE37-66231A6BE449.html"><code class="apiname">RSocketServ</code></a></p><p>TCommDbConnPref</p><p>TConnectionInfoBuf</p></div>
+<div id="GUID-1AC878AD-5D60-4DE9-A47F-43C76816D43F"><h3 class="section-title">Design
+and implementation</h3> <p>The project implements a single class
+called <code class="codeph">CRConnection</code>, that has three principal functions: </p> <p><strong>CRConnection::DemoApiWithoutDbOverrideL() </strong> </p> <p>This
+shows how to use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> to: </p> <ul>
+<li id="GUID-01D4595A-2723-53C8-9499-7215FFA219C3"><a name="GUID-01D4595A-2723-53C8-9499-7215FFA219C3"><!-- --></a><p>start a connection
+and associate it with an underlying interface, using default CommDb
+connection preferences, </p> </li>
+<li id="GUID-6377E5AB-71D3-50F1-B084-E8891BB73BB9"><a name="GUID-6377E5AB-71D3-50F1-B084-E8891BB73BB9"><!-- --></a><p>get notification
+when the underlying interface goes up or down, </p> </li>
+<li id="GUID-37FF8270-7FD1-5B27-9E9A-BC6D49E02B4D"><a name="GUID-37FF8270-7FD1-5B27-9E9A-BC6D49E02B4D"><!-- --></a><p>get notification
+about the state of a connection as it becomes fully established, </p> </li>
+<li id="GUID-E396A06F-5156-5924-9B68-649575A1CA62"><a name="GUID-E396A06F-5156-5924-9B68-649575A1CA62"><!-- --></a><p>transfer data
+over a socket, </p> </li>
+<li id="GUID-584D9C8C-A317-51D0-8AD2-397337F1A332"><a name="GUID-584D9C8C-A317-51D0-8AD2-397337F1A332"><!-- --></a><p>get the amount
+of data transferred, </p> </li>
+<li id="GUID-23588938-CEE7-5AD9-8C9D-9FA253AE11D2"><a name="GUID-23588938-CEE7-5AD9-8C9D-9FA253AE11D2"><!-- --></a><p>close the connection. </p> </li>
+</ul> <p>It also shows how to set up a socket to carry out data transfer. </p> <p><strong>CRConnection::DemoApiWithDbOverrideL() </strong> </p> <p>This is
+the same as <code class="codeph">DemoApiWithoutDbOverrideL()</code> except that
+it: </p> <ul>
+<li id="GUID-C61443A2-8576-59F3-A586-30DDF1D2AD56"><a name="GUID-C61443A2-8576-59F3-A586-30DDF1D2AD56"><!-- --></a><p>starts a connection
+using non-default CommDb connection preferences, </p> </li>
+<li id="GUID-9777305D-11BC-5BD4-AFE0-2ED3D010BE93"><a name="GUID-9777305D-11BC-5BD4-AFE0-2ED3D010BE93"><!-- --></a><p>requests notification
+when a threshold amount of data has been transferred (instead of getting
+the amount of data transferred). </p> </li>
+</ul> <p><strong>CRConnection::AttachToExistingInterfaceL() </strong> </p> <p>This shows how to use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> to: </p> <ul>
+<li id="GUID-CB835CF4-BD2A-55E5-BEF7-248A0750B466"><a name="GUID-CB835CF4-BD2A-55E5-BEF7-248A0750B466"><!-- --></a><p>open 2 connections
+and start one of them (the other is not yet associated with an underlying
+interface), </p> </li>
+<li id="GUID-DE013E1E-E3C3-513C-B0B6-5B16E6000C5C"><a name="GUID-DE013E1E-E3C3-513C-B0B6-5B16E6000C5C"><!-- --></a><p>get connection
+information for the 1st connection and use this to attach the 2nd
+connection to the existing interface, </p> </li>
+<li id="GUID-BCA6E282-7C55-5416-884F-F88172672D8B"><a name="GUID-BCA6E282-7C55-5416-884F-F88172672D8B"><!-- --></a><p>get the state
+of the attached connection, </p> </li>
+<li id="GUID-8A107877-F6BD-5580-ADB5-230F86B36CD4"><a name="GUID-8A107877-F6BD-5580-ADB5-230F86B36CD4"><!-- --></a><p>close the connections. </p> </li>
+</ul> </div>
+<div id="GUID-2292DC4F-A2DF-4EFA-8EBC-DE278D375037"><h3 class="section-title">Building
+and configuring</h3> <p>You can build the example from the IDE
+or the command line. </p> <p>If you use an IDE, import the <code>bld.inf</code> file into your IDE, and use the build command
+of the IDE. </p> <p>If you use the command line, open a command prompt,
+and set the current directory to the source code directory of the
+example. You can then build the example using the SBSv1 build tools
+with the following commands: </p> <p><kbd class="userinput">bldmake bldfiles</kbd> </p> <p><kbd class="userinput">abld build</kbd> </p> <p><strong>Emulator: </strong> </p> <p>Before running the example, the emulator must be set up
+to use ethernet, as follows: </p> <ul>
+<li><p>Install <strong>WinPCap
+4.0.2</strong>.</p></li>
+<li><p>Configure the emulator
+using <code class="codeph">configchange.pl</code>  for instance: </p><p><kbd class="userinput">configchange.pl --config ethernetWithCommDB --kernel EKA2 --target
+winscw --variant udeb</kbd> </p></li>
+<li id="GUID-FBAD862F-DFA3-5E7E-8F69-3C4B3CF9E56B"><a name="GUID-FBAD862F-DFA3-5E7E-8F69-3C4B3CF9E56B"><!-- --></a><p>Open <code>ethernetced.xml</code> in <code>epoc32\winscw\c\</code> and change the last 3 values in the <code class="codeph">LANBearer operation</code> section for "EKA2 Emulator Ethernet" in the <code class="codeph">LANBearerTable</code> to: </p> <pre class="codeblock">LastSocketActivityTimeout = 10
+LastSessionClosedTimeout = 10
+LastSocketClosedTimeout = 10</pre> <p>i.e. change the three
+values from -1 to 10. </p> </li>
+<li id="GUID-82ECDF33-3782-5399-B192-F8DA06B7CE6D"><a name="GUID-82ECDF33-3782-5399-B192-F8DA06B7CE6D"><!-- --></a><p>Save the file
+and then run <code class="codeph">ced c:\ethernetced.xml</code> from the eshell
+command prompt in the emulator. </p> </li>
+<li id="GUID-5C6DC453-E01B-5F54-9FE1-3AB384357E7D"><a name="GUID-5C6DC453-E01B-5F54-9FE1-3AB384357E7D"><!-- --></a><p>Download a UDP
+Echoserver. An Echoserver is easily available on the internet. </p> </li>
+<li id="GUID-F5A2E8B3-D8ED-5A3B-AD16-1EC7928B6EEB"><a name="GUID-F5A2E8B3-D8ED-5A3B-AD16-1EC7928B6EEB"><!-- --></a><p>Start the UDP
+Echoserver and edit the <code class="codeph">rconnection.cpp</code> file in the
+example code so that the values for <code class="codeph">KDestAddr</code> and <code class="codeph">KSockPort</code> match the values being used by the UDP Echoserver. </p> </li>
+<li id="GUID-CE2E778F-3AB3-5E93-B004-7152AA931072"><a name="GUID-CE2E778F-3AB3-5E93-B004-7152AA931072"><!-- --></a><p>Build the application
+using the commands described above and then run it. </p> </li>
+</ul> <p><strong>Hardware: </strong> </p> <ul>
+<li id="GUID-5A2860DF-FF03-585D-87CB-28611B80A0A8"><a name="GUID-5A2860DF-FF03-585D-87CB-28611B80A0A8"><!-- --></a><p>To run the example
+on an H4 board, connect the H4 to the PC/network by serial cable.
+Copy <code>ethernetced.xml</code> to a memory card and execute: </p> <p><kbd class="userinput">ced e:\ethernetced.xml</kbd> </p> <p>before
+running the example. </p> </li>
+</ul> </div>
+<div id="GUID-A5BDDE5F-DA10-4594-A446-C079079D8050"><h3 class="section-title">Running
+the example</h3> <p>For the emulator, the example builds an executable
+called <code>rconnection.exe</code> in the <code>epoc32\release\winscw\&lt;udeb
+or urel&gt;\</code> folder. </p> <p> <code>rconnection.exe</code> is a console-based application. The example takes input from the
+user and prints to the console information about the various stages
+of the example. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 31st, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D24D5F17-462E-5424-99A7-9B16E9FEDC93.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:42 GMT -->
+</html>

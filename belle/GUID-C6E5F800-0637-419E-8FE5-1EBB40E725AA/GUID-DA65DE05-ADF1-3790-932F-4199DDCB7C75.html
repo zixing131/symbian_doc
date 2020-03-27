@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DA65DE05-ADF1-3790-932F-4199DDCB7C75.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:18:41 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="sysutil.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-DA65DE05-ADF1-3790-932F-4199DDCB7C75" />
+<title>sysutil.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-DA65DE05-ADF1-3790-932F-4199DDCB7C75"><a name="GUID-DA65DE05-ADF1-3790-932F-4199DDCB7C75"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">sysutil.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-D61BA1BB-A720-3D1B-8B08-AB613A149890"><a name="GUID-D61BA1BB-A720-3D1B-8B08-AB613A149890"><!-- --></a>
+<h3 class="sectiontitle">KSysUtilVersionTextLength</h3>
+<div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td>KSysUtilVersionTextLength</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Constant conveying the size of the preallocated descriptor buffers used with the <a class="xref" href="GUID-D1A20EF0-B716-3C94-BFBF-A12637B3BDB8.html#GUID-D1A20EF0-B716-3C94-BFBF-A12637B3BDB8">SysUtil</a> version APIs.</p>
+<p class="p">
+</p><p class="p">See also: <a class="xref" href="GUID-D1A20EF0-B716-3C94-BFBF-A12637B3BDB8.html#GUID-4D7C4EB4-64C9-34FC-A129-67143ABFDF29">SysUtil::GetSWVersion</a> <a class="xref" href="GUID-D1A20EF0-B716-3C94-BFBF-A12637B3BDB8.html#GUID-5525F1F2-1667-3085-8D3E-35324EE1B8C7">SysUtil::GetLangSWVersion</a> <a class="xref" href="GUID-D1A20EF0-B716-3C94-BFBF-A12637B3BDB8.html#GUID-6E7E5E7C-C17D-3541-901D-A36A9AE096A2">SysUtil::GetLangVersion</a> </p>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-1E137EE3-ABA7-3670-9C8D-4B0D36D71942"><a name="GUID-1E137EE3-ABA7-3670-9C8D-4B0D36D71942"><!-- --></a>
+<a name="GUID-CE3EAA3D-B7C6-3AC3-B3E3-B8EC5F6A3363"><!-- --></a><h3 class="sectiontitle">NONSHARABLE_CLASS ( CDeviceTypeInformation )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>NONSHARABLE_CLASS</td><td>(</td><td>CDeviceTypeInformation</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">This class is used to hold the device type information attributes and provides member functions to return the attribute values. These values are strings of UTF-16 characters and no format must be assumed or implied as it varies from one device manufacturer to the next. Please note that this information does not identify a unique device but identifies the type of device.</p>
+<p class="p">An instance of this class cannot be created by user code. If device type information attributes are required then the user should use <a class="xref" href="GUID-D1A20EF0-B716-3C94-BFBF-A12637B3BDB8.html#GUID-D3834818-EE32-3B98-B5C6-96D2148E78E6">SysUtil::GetDeviceTypeInfoL</a> which will return a pointer to an instance of this class. This instance will contain a full set of device type information attributes that have been provisioned by the device creator. For details of how these are provisioned see 'XXX xxx' document in the OS Developer Library.</p>
+<p class="p">For standard device type information attributes (attributes which are common to all device creators) named functions have been provided. These functions also offer the advantage of a default value being provided when an attribute has not been provisioned by the device creator. If a default value has been retrieved KDefaultValue will be returned.</p>
+<p class="p">Callers who do not care about whether a default value is retrieved or not can use the API as follows:</p>
+<div class="p">
+<pre class="pre codeblock">	TPtrC16 modelNamePtrC;
+	User::LeaveIfError( deviceTypeInfo-&gt;GetModelName(modelNamePtrC) );</pre>
+</div>
+<p class="p">Where callers wish to avoid the default value it can be tested for as follows:</p>
+<div class="p">
+<pre class="pre codeblock">	TPtrC16 modelNamePtrC;
+	if (User::LeaveIfError( deviceTypeInfo-&gt;GetModelName(modelNamePtrC)) == CDeviceTypeInformation::KDefaultValue)
+		{
+		// We have a default attribute value, do something else
+		...
+		}
+	else
+		{
+		// We have a device creator supplied attribute value.
+		...
+		}</pre>
+</div>
+<p class="p">In addition to named functions, two additional generic functions are provided that can be used to retrieve any additional device type information attributes which may be provided by a device creator. These functions can also be used to retrieve the standard attributes; however, it is recommended that the named functions be used instead.</p>
+<p class="p">Any code which owns an instance of this class has the responsibility of destroying it. This may be achieved by calling delete on the pointer or using the <a class="xref" href="GUID-0DD554D7-B9B1-3FD3-898F-4D855144FCEA.html#GUID-0DD554D7-B9B1-3FD3-898F-4D855144FCEA">CleanupStack</a>.</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+</div>
+</div>
+</div></p></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DA65DE05-ADF1-3790-932F-4199DDCB7C75.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:18:41 GMT -->
+</html>

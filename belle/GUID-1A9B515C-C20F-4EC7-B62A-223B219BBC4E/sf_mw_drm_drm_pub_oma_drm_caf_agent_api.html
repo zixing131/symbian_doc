@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_drm_drm_pub_oma_drm_caf_agent_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:39 GMT -->
+<head><title>OMA DRM CAF Agent API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i621 i624"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>OMA DRM CAF Agent API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Determining_the_file_type"><span class="tocnumber">2.1</span> <span class="toctext">Determining the file type</span></a></li>
+<li class="toclevel-2"><a href="#Accessing_embedded_preview_parts"><span class="tocnumber">2.2</span> <span class="toctext">Accessing embedded preview parts</span></a></li>
+<li class="toclevel-2"><a href="#Inserting_domain_Rights_objects"><span class="tocnumber">2.3</span> <span class="toctext">Inserting domain Rights objects</span></a></li>
+<li class="toclevel-2"><a href="#Processing_DRM_messages"><span class="tocnumber">2.4</span> <span class="toctext">Processing DRM messages</span></a></li>
+<li class="toclevel-2"><a href="#Encryption_of_content"><span class="tocnumber">2.5</span> <span class="toctext">Encryption of content</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.6</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.7</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Extensions_to_the_API"><span class="tocnumber">2.8</span> <span class="toctext">Extensions to the API</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#References"><span class="tocnumber">4</span> <span class="toctext">References</span></a></li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>This API specifies the agent-specific attributes and commands for the OMA
+DRM CAF Agent. It is an extension to Symbian CAF API
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 3.0
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/drm/drm_pub/oma_drm_caf_agent_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/drm/drm_pub/oma_drm_caf_agent_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>OMA DRM CAF Agent API is a collection of enumerations and constants that
+can be used with CAF. It does not contain any classes or function declarations
+itself.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>OMA DRM CAF API is available from S60 3.0 and onwards.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>OMA DRM CAF Agent API covers agent-specific commands and attributes. These
+are handled by invoking the following CAF methods:
+</p>
+<ul><li> <span class="plainlinks"><code>CManager</code> </span>
+</li><li> <span class="plainlinks"><code>GetAttribute</code> </span>
+</li><li> <span class="plainlinks"><code>GetAttributeSet</code> </span>
+</li><li> <span class="plainlinks"><code>GetStringAttribute</code> </span>
+</li><li> <span class="plainlinks"><code>GetStringAttributeSet</code> </span>
+</li><li> <span class="plainlinks"><code>AgentSpecificCommand</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>CContent</code> </span>
+</li><li> <span class="plainlinks"><code>GetAttribute</code> </span>
+</li><li> <span class="plainlinks"><code>GetAttributeSet</code> </span>
+</li><li> <span class="plainlinks"><code>GetStringAttribute</code> </span>
+</li><li> <span class="plainlinks"><code>GetStringAttributeSet</code> </span>
+</li><li> <span class="plainlinks"><code>AgentSpecificCommand</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>CData</code> </span>
+</li><li> <span class="plainlinks"><code>GetAttribute</code> </span>
+</li><li> <span class="plainlinks"><code>GetAttributeSet</code> </span>
+</li><li> <span class="plainlinks"><code>GetStringAttribute</code> </span>
+</li><li> <span class="plainlinks"><code>GetStringAttributeSet</code> </span>
+</li><li> <span class="plainlinks"><code>AgentSpecificCommand</code> </span>
+</li></ul>
+<p>All the functions need to be called on an allocated object of the respective
+class.
+</p>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/Oma2Agent.h</code></span>
+</td></tr></table>
+</a><p>This API does not contain any classes. All the classes required to use
+OMA DRM CAF Agent are parts of CAF API.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>The following sections illustrate the most common use cases of OMA DRM
+CAF Agent API
+</p>
+<a name="Determining_the_file_type"><h3> <span class="mw-headline">2.1 Determining the file type </span></h3>
+</a><pre>// allocate a content object, specify that we only want to peek at it
+CContent* content = CContent::NewL(fileName, EPeek, EContentShareReadOnly);
+TInt value = 0;
+if (content-&gt;GetAttribute(EFileType, value) == KErrNone)
+	{
+	if (value == ENoDcf)
+		{
+		// the file is not an OMA DRM file
+		}
+	else if (value == EOma1Dcf)
+		{
+		// the file is an OMA DRM 1.0 file
+		}
+	else if (value == EOma2Dcf)
+		{
+		// the file is an OMA DRM 2.0 file
+		}
+	}
+else
+	{
+	// the file type could not be determined
+	}
+</pre>
+<a name="Accessing_embedded_preview_parts"><h3> <span class="mw-headline">2.2 Accessing embedded preview parts </span></h3>
+</a><pre>// allocate a data object, specify that we only want to peek at it, and
+// that we want the default part of the file
+CData* data = CData::NewL(TVirtualPathPtr(fileName, KDefaultContentObject),
+		EPeek, EContentShareReadOnly);
+TBuf&lt;256&gt; part;
+if (data-&gt;GetStringAttribute(EInstantPreviewUri, part) == KErrNone &amp;&amp;
+	part.Length() &gt; 0)
+	{
+	delete data;
+	// open the part, now with the actual intent
+	data = CData::NewL(TVirtualPathPtr(fileName, part), EView,
+		EContentShareReadOnly);
+	// do something with the data
+	&#8230;
+	}
+else
+	{
+	// no preview part available
+	}
+</pre>
+<a name="Inserting_domain_Rights_objects"><h3> <span class="mw-headline">2.3 Inserting domain Rights objects </span></h3>
+</a><pre>// allocate a content object, specify that we only want to peek at it,
+// but we need to be able to write
+CContent* content = CContent::NewL(fileName, EPeek, EContentShareReadWrite);
+if (content-&gt;AgentSpecificCommand(EEmbedDomainRo, KNullDesC, KNullDesC) ==
+	KErrNone)
+	{
+	// embedding succeeded
+	}
+</pre>
+<a name="Processing_DRM_messages"><h3> <span class="mw-headline">2.4 Processing DRM messages </span></h3>
+</a><pre>// Import is handling via the CSupplier class
+CSupplier* supplier = CSupplier::NewLC();
+CMetaDataArray* metaData = CMetaDataArray::NewLC();
+// Set the target for the encrypted file
+supplier-&gt;SetOutputDirectoryL(KEncryptedDir);
+// The agent is selected based on the MIME type of the data to be imported
+CImportFile* file = supplier-&gt;ImportFileL(KOma1DrmMessageContentType,
+        *metaData, KTempDcfName);
+file-&gt;WriteData(KDMSimple);
+file-&gt;WriteDataComplete();
+CSupplierOutputFile&amp; output = file-&gt;OutputFileL(0);
+</pre>
+<a name="Encryption_of_content"><h3> <span class="mw-headline">2.5 Encryption of content </span></h3>
+</a><pre>CSupplier* supplier = CSupplier::NewLC();
+CMetaDataArray* metaData = CMetaDataArray::NewLC();
+// Tell the agent which MIME type to use for the encrypted data
+metaData-&gt;AddL(KOmaImportMimeTypeField, _L8("image/gif"));
+supplier-&gt;SetOutputDirectoryL(KEncryptedDir);
+// The KOmaImportContentType is a OMA DRM agent specific MIME type which
+// indicates that plain content is to be encrypted
+CImportFile* file = supplier-&gt;ImportFileL(KOmaImportContentType,
+        *metaData, KTempDcfName);
+file-&gt;WriteData(KDMSimple);
+file-&gt;WriteDataComplete();
+CSupplierOutputFile&amp; output = file-&gt;OutputFileL(0);
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.6 Error handling </span></h3>
+</a><p>Error handling is defined in relevant CAF operations. In addition to that,
+the <span class="plainlinks"><code>KErrOverflow</code> </span> error indicates that the given output buffer
+is not large enough to hold the result of the requested operation.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.7 Memory and Performance Considerations </span></h3>
+</a><p>The methods returning string attribute values and the agent specific commands
+must be called with enough memory allocated in the output parameters. Otherwise,
+the function calls fail with the <span class="plainlinks"><code>KErrOverflow</code> </span> error code.
+</p>
+<a name="Extensions_to_the_API"><h3> <span class="mw-headline">2.8 Extensions to the API </span></h3>
+</a><p>CAF API can be extended using agent-specific commands and attributes, and
+OMA DRM CAF Agent API is such an extension. It is expected that any additional
+functionality of OMA DRM CAF Agent will be provided by adding new attribute
+and command enumeration values.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> CAF</td><td> Content Access Framework
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> DRM Agent
+</td><td> A collection of components that allow access to DRM-protected
+<p>data.
+</p>
+</td></tr>
+<tr>
+<td> OMA DRM CAF Agent
+</td><td> A DRM Agent, which implements the OMA DRM standard, a
+<p>part of S60.
+</p>
+</td></tr></table>
+</a><a name="References"><h2> <span class="mw-headline">4 References </span></h2>
+<table border="1" cellspacing="0">
+<tr>
+<td> RFC2630: Cryptographic Message Syntax
+</td><td> </td></tr></table></a><a class="external free" href="../../rfc/rfc2630.txt" rel="nofollow" title="http://www.ietf.org/rfc/rfc2630.txt">http://www.ietf.org/rfc/rfc2630.txt</a>
+
+<div class="copy"><?php include ("copy.php"); ??></div></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_drm_drm_pub_oma_drm_caf_agent_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:40 GMT -->
+</html>

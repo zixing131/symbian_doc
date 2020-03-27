@@ -1,0 +1,71 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D30B09D1-6537-58B4-B94E-13EAD5A28EE0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:46 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="How to Configure the Speed and Data Format: Tutorial" /><meta name="abstract" content="This tutorial shows the basic steps to perform any serial port configuration through the RComm API." /><meta name="description" content="This tutorial shows the basic steps to perform any serial port configuration through the RComm API." /><meta name="DC.Relation" scheme="URI" content="GUID-35D49549-1F4D-583F-A45D-9B557A207DD2" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-9B83CDD4-FC94-51A0-AC67-CD04BCAFEF08" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D30B09D1-6537-58B4-B94E-13EAD5A28EE0" /><meta name="DC.Language" content="en" /><title>How
+to Configure the Speed and Data Format: Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D30B09D1-6537-58B4-B94E-13EAD5A28EE0">How
+to Configure the Speed and Data Format: Tutorial</h1><div><p>This tutorial shows the basic steps to perform any serial port
+configuration through the RComm API. </p>
+<h3>Steps</h3><ol id="GUID-B8FEEEFA-3070-56DF-BC40-F69F5A7ED4AD"><a name="GUID-B8FEEEFA-3070-56DF-BC40-F69F5A7ED4AD"><!-- --></a>
+<li id="GUID-2DE6A576-3585-54DA-B2AF-1A37B59E3502"><a name="GUID-2DE6A576-3585-54DA-B2AF-1A37B59E3502"><!-- --></a><p>Load the CSY and
+open a port. </p>
+</li>
+<li id="GUID-CD24F05E-4C5D-50E2-A351-24AD4091A11F"><a name="GUID-CD24F05E-4C5D-50E2-A351-24AD4091A11F"><!-- --></a><p>Get the capabilities
+of the port by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-4A6ECC68-EBC7-3B6C-94AE-9272669F6FF2"><code class="apiname">RComm::Caps()</code></a></p>
+</li>
+<li id="GUID-879EC8B1-3F15-5CDE-B9F2-3C09AE04542B"><a name="GUID-879EC8B1-3F15-5CDE-B9F2-3C09AE04542B"><!-- --></a><p>The capabilities
+of the port are in the TCommCaps structure. For example, TCommCapsV01.iStopBits specifies
+the number of stop bits the port can manage. </p>
+Note: Port capabilities are never exclusive. A port that can manage
+a speed of 50 bps may also be able to manage faster speeds as well. Most fields
+in <code class="codeph">TCommsCaps</code> are bit fields which bitmasks must be used
+to determine all the capabilities. An example bitmask for the TCommCapsV01.iRate field
+is KCapsBps19200. 
+These same fields in the configuration class TCommConfig are
+enumerations. For example, TCommCapsV01.iRate is a TUint since
+it is a bitfield. TCommConfigV01.iRate is an enumeration
+of type TBps.
+</li>
+<li id="GUID-0ABC5449-73F5-5C68-A8C1-3129C2625AEF"><a name="GUID-0ABC5449-73F5-5C68-A8C1-3129C2625AEF"><!-- --></a><p></p>
+Create an object of type TCommConfigV01. 
+</li>
+<li id="GUID-721FC5DE-7144-51B3-8644-217DC2D0F9C1"><a name="GUID-721FC5DE-7144-51B3-8644-217DC2D0F9C1"><!-- --></a><p></p>
+Call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-4C38E1D8-EC81-36A3-BAA2-4D4FFECFD995"><code class="apiname">RComm::Config()</code></a> with the <code class="codeph">aConfig</code> parameter
+set to the <code class="codeph">TCommConfigV01</code> object to get the port configuration. 
+</li>
+<li id="GUID-50114001-5413-59B2-BBBA-79C96F85B28E"><a name="GUID-50114001-5413-59B2-BBBA-79C96F85B28E"><!-- --></a><p></p>
+Set the fields that must be changed in the <code class="codeph">TCommConfigV01</code> object.
+For example, set the iSIREnable flag to enable Infrared. 
+</li>
+<li id="GUID-FA114152-8AFA-5016-9C03-4BFDB67B4BF4"><a name="GUID-FA114152-8AFA-5016-9C03-4BFDB67B4BF4"><!-- --></a><p></p>
+Call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-4C38E1D8-EC81-36A3-BAA2-4D4FFECFD995"><code class="apiname">RComm::Config()</code></a> with the <code class="codeph">TCommConfigV01</code> object
+as the <code class="codeph">aConfig</code> parameter. 
+The port is now configured. 
+<p><strong>Tip:</strong> In cases where the application is written for a specific
+device, the application may skip the capability check since the capabilities
+are known at the time of manufacture.</p>
+</li>
+</ol>
+<div><h3 class="section-title">Example</h3> <p>The following code uses <code class="codeph">Caps()</code> to
+find out if its desired port configuration of 19200 bps and 8 data bits with
+no parity and one stop bit is possible: </p> <pre class="codeblock">TCommCaps ourCapabilities;
+commPort.Caps (ourCapabilities);
+
+if (((ourCapabilities ().iRate &amp; KCapsBps19200)  == 0)||
+    ((ourCapabilities ().iDataBits &amp; KCapsData8) == 0)||
+    ((ourCapabilities ().iStopBits &amp; KCapsStop1) == 0)||
+    ((ourCapabilities ().iParity &amp; KCapsParityNone) == 0))
+   User::Leave (KErrNotSupported) ;
+</pre> <p>The following code configures the speed settings for a port. </p> <pre class="codeblock">TCommConfig portSettings;
+commPort.Config (portSettings);
+portSettings ().iRate = EBps19200;
+portSettings ().iParity = EParityNone;
+portSettings ().iDataBits = EData8;
+portSettings ().iStopBits = EStop1;
+r = commPort.SetConfig (portSettings);
+User::LeaveIfError (r);</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-35D49549-1F4D-583F-A45D-9B557A207DD2.html">GlassTerm
+-                 glass teletype terminal</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 6th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D30B09D1-6537-58B4-B94E-13EAD5A28EE0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:46 GMT -->
+</html>

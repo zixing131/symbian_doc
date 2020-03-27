@@ -1,0 +1,49 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8DCBAA05-9741-48C8-A831-966D37FBC05A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="reference" /><meta name="DC.Title" content="Array Properties" /><meta name="abstract" content="A property that defines multiple discrete values inside one property ID is called an array property." /><meta name="description" content="A property that defines multiple discrete values inside one property ID is called an array property." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-E3ADCC42-ACFC-49FC-88FF-8196CE61014B" /><meta name="DC.Relation" scheme="URI" content="GUID-9102DB10-3B93-4E79-9125-25791CEEBEFB" /><meta name="DC.Relation" scheme="URI" content="GUID-B046D3DF-8BD2-48C2-A347-D6F74FE30F6D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-8DCBAA05-9741-48C8-A831-966D37FBC05A" /><meta name="DC.Language" content="en" /><title>Array
+Properties </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-8DCBAA05-9741-48C8-A831-966D37FBC05A">Array
+Properties</h1><div><p>A property that defines multiple discrete values inside one property
+ID is called an array property.</p>
+<div id="GUID-B38A0885-F52B-44F7-916D-F43530E74BC3"><h3 class="section-title"><!--no section title--></h3> <p>Array properties
+can be identified with array index, which can be queried using the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FA59DA5D-A9E4-3296-AB90-E445C7949FE9.html#GUID-2752A152-7821-30E8-AEC7-542F9F362575"><code class="apiname">TSensrvProperty::GetArrayIndex()</code></a> function.</p>
+</div>
+<div><h3 class="section-title">Example</h3><p>The following example shows how to retrieve the current data rate
+of the channel, for which the data rate is declared as an array property. </p><p>Read
+the <code class="codeph">KSensrvPropIdDataRate</code> property using the CSensrvChannel::GetPropertyL() function.</p><p>If
+the retrieved property is an array property the result of the CSensrvChannel::GetPropertyL() call
+is a property with array index <code class="codeph">ESensrvArrayPropertyInfo</code>,
+ otherwise the array information index is <code class="codeph">ESensrvSingleProperty</code>. </p><p>In
+case of an array property, the value of the current data rate is in the <code class="codeph">KSensrvPropIdDataRate</code> property,
+for which the array index is the same as the array property's value. </p><pre class="codeblock">TSensrvProperty property;
+    TInt err( KErrNone );
+    TInt datarate( 0 );
+
+    iSensorChannel-&gt;GetPropertyL( KSensrvPropIdDataRate,
+                                  KSensrvItemIndexNone,
+                                  property );
+
+    if( ESensrvArrayPropertyInfo == property.GetArrayIndex() )
+        {
+        //Current data rate in use is in the KSensrvPropIdDataRate property
+        //for which the array index is declared in the array property's value.
+        TInt arrayIndex( 0 );
+        property.GetValue( arrayIndex );
+
+        iSensorChannel-&gt;GetPropertyL( KSensrvPropIdDataRate,
+                                      KSensrvItemIndexNone,
+                                      arrayIndex,
+                                      property );
+                                      
+        property.GetValue( datarate );
+        }
+    else
+        {
+        //KSensrvPropIdDataRate is a single property and current data rate can be read diretly from it.
+        property.GetValue( datarate );
+        }</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 22nd, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8DCBAA05-9741-48C8-A831-966D37FBC05A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:40 GMT -->
+</html>

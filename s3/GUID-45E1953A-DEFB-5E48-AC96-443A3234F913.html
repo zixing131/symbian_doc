@@ -1,0 +1,119 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-45E1953A-DEFB-5E48-AC96-443A3234F913.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:06 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Retrieving an IP Network Parameters Tutorial" /><meta name="abstract" content="How to retrieve IP network parameters from a DHCP server configured network connection." /><meta name="description" content="How to retrieve IP network parameters from a DHCP server configured network connection." /><meta name="DC.Relation" scheme="URI" content="GUID-69B46D92-8D07-5B42-B603-3F725977AA4A" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-B144EAB9-53AB-579B-9E12-B16518E4FC01" /><meta name="DC.Relation" scheme="URI" content="GUID-DBD4964D-7728-5E57-8BBA-824F98D0CCF8" /><meta name="DC.Relation" scheme="URI" content="GUID-7510C121-A23F-50E0-8130-16AF552BC497" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-45E1953A-DEFB-5E48-AC96-443A3234F913" /><meta name="DC.Language" content="en" /><title>Retrieving
+an IP Network Parameters Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-45E1953A-DEFB-5E48-AC96-443A3234F913">Retrieving
+an IP Network Parameters Tutorial</h1><div><p>How to retrieve IP network parameters from a DHCP server configured
+network connection. </p>
+<div id="GUID-C919A1D1-FE46-4D60-B20B-75D919404AB6"><h3 class="section-title">Context</h3><p> The high level steps to retrieve an IP network parameters are
+as  follows: </p></div>
+<h3>Steps</h3><ol id="GUID-A25ECF43-E64D-5DB2-B783-924BFA48F4A0"><a name="GUID-A25ECF43-E64D-5DB2-B783-924BFA48F4A0"><!-- --></a>
+<li id="GUID-5851EFBA-6976-55A6-A736-2480750951B6"><a name="GUID-5851EFBA-6976-55A6-A736-2480750951B6"><!-- --></a><p>Open a socket using <code class="codeph">RSocketServer</code> object. </p>
+</li>
+<li id="GUID-0E0A1640-7A99-587F-B70A-2057C6E3C201"><a name="GUID-0E0A1640-7A99-587F-B70A-2057C6E3C201"><!-- --></a><p>Create a connection
+using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> function. </p>
+</li>
+<li id="GUID-A248BB53-9180-5777-93C4-2B964C15FFC3"><a name="GUID-A248BB53-9180-5777-93C4-2B964C15FFC3"><!-- --></a><p>Start the connection
+using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> with necessary preferences. </p>
+For example, enable DHCP server. The active connection is configured
+by the DHCP server. 
+</li>
+<li id="GUID-796FB8CD-D4CD-54CE-93E0-90E8AD2F1B10"><a name="GUID-796FB8CD-D4CD-54CE-93E0-90E8AD2F1B10"><!-- --></a><p>To retrieve the
+active network connection parameters, Call the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-9F820CF9-1D4F-3452-983B-E0C694D6783A"><code class="apiname">RConnection::Ioctl()</code></a> function
+by passing the relevant arguments. </p>
+</li>
+<li id="GUID-926BD804-72F9-55F3-8569-4385FAB28989"><a name="GUID-926BD804-72F9-55F3-8569-4385FAB28989"><!-- --></a><p>The <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-9F820CF9-1D4F-3452-983B-E0C694D6783A"><code class="apiname">RConnection::Ioctl()</code></a> function
+returns the necessary parameters. </p>
+<div class="p"><div class="note"><p><strong class="note_title">Note: </strong> Multiple option codes can be queried to a DHCP server using
+the &lt;api-item&gt;TDhcpRawOptionMultipleDataPckg&lt;/api-item&gt; object.</p></div></div><p> The
+advantages of retrieving multiple parameters are: </p><ul>
+<li><p>It reduces IPC calls between application and the DHCP daemon. </p></li>
+<li><p>It reduces the messages exchanged between the DHCP daemon and the DHCP
+server. </p></li>
+</ul>
+</li>
+</ol>
+<div><h3 class="section-title"> Retrieve IP Network Parameters example</h3> <p>The following
+is an example code for how to retrieve IP network parameters: </p> <pre class="codeblock">
+
+//create a socket connection  
+
+RSocketServ esock; 
+TInt err = eSock.Connect();
+...
+
+//handle the error
+...
+RConnection aConnection;   //create a RConnection 
+err = aConnection.Open(esock);
+...
+
+//start the connection with necessary preferences
+...
+err = aConnection.Start(iConnPrefs);
+
+
+//Retrieve the TFTP server address
+
+TRequestStatus status1;
+TTftpServerAddrBuf tftpserveraddr; // Buffer to store TFTP server address
+tftpserveraddr().index = 0;
+aConnection.Ioctl(KCOLConfiguration, KConnGetTftpServerAddr, status1, &amp;tftpserveraddress);
+User::WaitForRequest(status1);
+...
+
+//Retrieve the host name of the TFTP server
+
+TRequestStatus status2;
+TBuf&lt;256&gt; tftpname; //buffer to store TFTP server name
+aConnection.Ioctl(KCOLConfiguration, KConnGetTftpServerName, status2, &amp;tftpname);
+User::WaitForRequest(status2);
+...
+
+//Retrieve SiAddr field from a DHCP header
+
+TRequestStatus status3;
+TConnectionAddrBuf addr;
+addr().iAddressFamily = IpAddressFamily();
+aConnection.Ioctl(KCOLConfiguration, KConnGetDhcpHdrSiaddr, status3, &amp;addr);
+...
+//Retrieve SName field from a DHCP header
+
+TRequestStatus status4;
+TBuf&lt;64&gt; snamebuf;
+aConnection.Ioctl(KCOLConfiguration, KConnGetDhcpHdrSname, status4, &amp;snamebuf);
+...
+//Retrieve the active IP address
+
+TRequestStatus status5;
+TConnectionAddress actaddr;
+actaddr().iAddressFamily = IpAddressFamily();
+aConnection.Ioctl(KCOLConfiguration, KConnGetCurrentAddr, status5, &amp;actaddr); 
+...
+
+//Retrieve multiple parameters
+
+Multiple opcodes can be queried to a DHCP server using the 
+TDhcpRawOptionMultipleDataPckg object. 
+
+TBuf8&lt;300&gt; rawbuf;
+rawbuf.FillZ(300);   //buffer must be large enough for all returned options values
+TDhcpRawOptionMultipleDataPckg pckg1(rawbuf);
+pckg1.AddRawOptionCodeL(KTFtpServerAddress);    //option 150 
+pckg1.AddRawOptionCodeL(KGeoConfCivicOption);   //option 99
+pckg1.AddRawOptionCodeL(KTFtpServerName);  // option 66
+TRequestStatus status6;    
+
+// Get raw option data for ip4
+
+aConnection.Ioctl(KCOLConfiguration, KConnDhcpGetMultipleParams, status6, &amp;rawbuf);
+User::WaitForRequest(status);
+...
+
+ 
+</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-69B46D92-8D07-5B42-B603-3F725977AA4A.html">DHCP</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 6th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-45E1953A-DEFB-5E48-AC96-443A3234F913.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:06 GMT -->
+</html>

@@ -1,0 +1,206 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F2D86E40-279A-5B48-B91F-922803FEF5DE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="SMS MTM Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-69438F28-E2E9-5BFA-B644-08FB59D50A39" /><meta name="DC.Relation" scheme="URI" content="GUID-8B843382-D27A-5E36-8F60-304903F3AA41" /><meta name="DC.Relation" scheme="URI" content="GUID-E56E21A9-B545-5217-A877-E64D30275157" /><meta name="DC.Relation" scheme="URI" content="GUID-33B590F4-CAE8-58B2-92A9-53123BD42579" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1A43A45B-80AE-56A0-A94C-64BA75519C67" /><meta name="DC.Relation" scheme="URI" content="GUID-DA6BB8BB-DD92-57A7-AD1B-F9CFF8CD433F" /><meta name="DC.Relation" scheme="URI" content="GUID-33C7EEEB-88B8-5587-916D-2C5D122F6010" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F2D86E40-279A-5B48-B91F-922803FEF5DE" /><meta name="DC.Language" content="en" /><title>SMS MTM Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-F2D86E40-279A-5B48-B91F-922803FEF5DE">SMS MTM Overview</h1><div>
+<p>SMS MTM provides APIs for sending SMS text messages. This section
+provides an overview of the SMS MTM component. </p>
+<div id="GUID-6C25C670-C4BF-4BFA-8D3C-D46618AEB5C4"><h3 class="section-title">Description</h3> <p>The Messaging Application module provides a SMS MTM for handling
+SMS messages in the Message Store. For further SMS support available
+on the Symbian platform, see <a href="GUID-34E7AAF2-EC62-5BF6-B9E7-C7D346BCDF93.html">Cellular Baseband
+Services Guide</a> documentation. </p> <p><strong>Supported functionality</strong> </p> <p>SMS MTM provides functionality to create, store and retrieve
+an SMS message entry in the Message Store, send an SMS, reply to a
+received SMS and forward existing SMS. A reply to a received SMS may
+include the original message text, including any EMS components. </p> <p>SMS that are received by SMS MTM are stored in the Message Store.
+The type and class of the received SMS affects the storage of a message.
+All received class 2 SMS are stored in a non-Symbian platform store. </p> <p><strong>Storing SMS</strong> </p> <p>SMS messages that are received by
+SMS MTM are stored in both the Message Store and a non-Symbian platform
+store. Messages can be moved, copied to, from the non-Symbian platform
+store and the Message Store. The non-Symbian platform store can be
+enumerated so that its contents can be reflected in the folder in
+the Message Store, except any of the standard folders (for example,
+the global inbox). </p> <p>The type and class of the received SMS
+affects message storage. All received class 2 SMS message are stored
+in the class 2 folder in a non-Symbian platform store. The class 2
+folder is a configurable location in the Message Store and may be
+set to be the global inbox. All received non-class 2 SMS messages
+are stored in the global inbox folder of the Message Store. </p> <p><strong>Sending SMS</strong> </p> <p>SMS MTM can send the message immediately
+or schedule it for a specific time. Before SMS MTM sends an SMS, it
+checks the global outbox in the Message Store for any SMS that are
+waiting to be sent (these can also be scheduled for sending). If an
+SMS failed to be sent, then the MTM may re-schedule that SMS to be
+sent at a later time. A re-schedule is configurable against the failure
+error code. The schedule send functionality handles this configuration.
+A SMS that is successfully sent is moved to the sent folder in the
+Message Store by SMS MTM. </p> <p>This MTM supports multiple recipients
+for an SMS message. An outgoing SMS message may have multiple recipients.
+When this message is being sent, one message is sent for each recipient. </p> <p><strong>BIO messages</strong> </p> <p>SMS MTM is aware of BIO messages
+and uses the BIO Framework to tag SMS with the appropriate BIO type.
+This includes support for WAP messages. </p> <p><strong>Unsupported functionality</strong> </p> <p>SMS MTM does not support sending and receiving OTA (Over
+The Air) SMS messages. </p> </div>
+<div id="GUID-9776B05D-D289-46C0-83C0-BD30E82A65EC"><h3 class="section-title">Architecture</h3> <p>The Messaging Middleware architecture defines a framework in
+which modules (MTMs) can be implemented that provide support for particular
+messaging protocols. A client MTM provides the API for application
+engines to use the protocol. SMS MTM API provides the client MTM API,
+server MTM API, and supporting classes for SMS. </p> <p>SMS MTM integrates
+SMS into the Messaging architecture, so that SMS can be used by a
+messaging client program in a similar way to other message types such
+as email. SMS MTM uses the SMS interface provided by the Telephony
+sub-system. This provides support for 7, 8, and 16-bit text messages,
+and message concatenation. </p> <p>The following figure shows the
+SMS architecture:</p> <div class="figure" id="GUID-F904EC3A-7292-5A57-BC4E-1C736D24223C"><img src="GUID-97545AEB-0518-5937-AEB6-C97443B449D3_d0e360630_href.jpg" /><p class="figure-title"><strong>Figure: </strong>              SMS MTM architecture            </p></div> <p><strong>SMS Client MTM</strong> </p> <p>The SMS Client MTM implements
+the standard set of <a href="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC.html#GUID-BCFBE2C5-2C90-5E43-9B21-0D80A469CEAB">Client MTM APIs</a> described in <a href="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC.html">Client MTM</a>. In addition, it provides the following functionality: </p> <ul>
+<li id="GUID-8044B9F8-BF51-577B-B99A-7E7598172DD7"><a name="GUID-8044B9F8-BF51-577B-B99A-7E7598172DD7"><!-- --></a><p>Access to the CSmsHeader object that is used to represent the SMS message. </p> </li>
+<li id="GUID-DEDCDE66-84B8-596C-AA2B-0D3E89AF2656"><a name="GUID-DEDCDE66-84B8-596C-AA2B-0D3E89AF2656"><!-- --></a><p>Access to the
+SMS settings stored in the associated SMS service centre. </p> </li>
+<li id="GUID-5FEEE0B8-E58F-5E7A-9A6E-5AD4FB206192"><a name="GUID-5FEEE0B8-E58F-5E7A-9A6E-5AD4FB206192"><!-- --></a><p>Provides the
+APIs required by SendAs to allow SendAs to create SMS, including setting
+the BIO type message to allow clients of SendAs to send BIO messages,
+such as vCards and vCals. The data of the BIO message is stored in
+the body text of the SMS. </p> </li>
+<li id="GUID-DF695D34-951B-5B21-8D95-5ACF2699A57B"><a name="GUID-DF695D34-951B-5B21-8D95-5ACF2699A57B"><!-- --></a><p>Simple check
+for valid SMS addresses; an SMS address is considered valid if it
+contains at least one digit. </p> </li>
+<li id="GUID-CBDDD0E5-8BDE-579E-B52F-7DFC40926B07"><a name="GUID-CBDDD0E5-8BDE-579E-B52F-7DFC40926B07"><!-- --></a><p>Reading and
+writing SIM parameters. </p> </li>
+</ul><div class="note"><p><strong class="note_title">Note: </strong> MS receiving is normally done automatically by the Cellular
+Baseband and messaging components, with received SMS messages placed
+in the Inbox. Generic message receiving operations are not supported
+by the MTM. Also, UI functionality, such as SMS message viewing and
+editing, is not provided by the Symbian platform.</p></div> <p>The SMS
+Client MTM class is CSmsClientMtm. </p> <p id="GUID-752B2A3B-CC1D-50CB-B3BF-113BED635538"><a name="GUID-752B2A3B-CC1D-50CB-B3BF-113BED635538"><!-- --></a><strong>SMS Server MTM</strong> </p> <p>SMS Server MTM implements the <a href="GUID-963C0F50-A44A-518E-8DB0-42BEBEFD10A2.html">Server-side MTM</a> interface, and primarily provides functionality to handle requests
+from the client MTM to send SMS messages. Incoming SMS messages are
+handled by a group of components called SMS watchers. </p> <p>These
+components provide a layer over the SMS support provided in the Narrow
+Band Protocols Stack subsystem. This has SMS stacks for GSM which
+offer an encapsulation of an SMS message, together with the ability
+to send and receive messages. At the lowest level, below the SMS stacks,
+is the ETel multimode API, which provides low-level access to the
+phone drivers. </p> <p>The SMS Server MTM provides access to messages
+under remote services. It is loaded in the Message Server’s process
+space and handles the following tasks: </p> <ul>
+<li id="GUID-F4EE3024-0E25-5628-BABA-FA3D040844B3"><a name="GUID-F4EE3024-0E25-5628-BABA-FA3D040844B3"><!-- --></a><p>Connecting to
+remote servers to handle updating the cache of SMS messages. </p> </li>
+<li id="GUID-9E768517-6189-59DD-93D4-66EA4DC491CD"><a name="GUID-9E768517-6189-59DD-93D4-66EA4DC491CD"><!-- --></a><p>Sending messages
+that are copied to remote services when messages are copied to a remote
+service. </p> <p>The SMS Server MTM handles sending of SMS and WAP
+messages through the SMS stack and the WAP stack respectively. To
+support this, it implements the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D088273D-FAFE-30F6-8D0A-3A62D3DE62FD.html#GUID-46569C6B-0F24-392E-A649-091D91BAE910"><code class="apiname">CBaseServerMtm::CopyFromLocal()</code></a> function inherited from the <a href="GUID-963C0F50-A44A-518E-8DB0-42BEBEFD10A2.html#GUID-54184D61-6325-525D-947F-D86EF8072BFC">Server MTM base class</a>. It implements this for sending SMS
+and moving the successfully sent messages to the <strong>Sent</strong> folder.
+When sending the SMS, the Server MTM checks the BIO type of the message
+and uses the BIO database to check the transport type for the BIO
+message. The MTM supports <code class="codeph">ENbs</code> that is sent through
+the SMS stack and <code class="codeph">EWap</code>, <code class="codeph">EWapSecure</code> that are sent through the WAP stack. The MTM does not support <code class="codeph">EWsp</code> or <code class="codeph">EWspSecure</code> although the watchers
+do support receiving them. </p> </li>
+<li id="GUID-8086B93E-6AC2-5BFD-97E4-C95538B4C821"><a name="GUID-8086B93E-6AC2-5BFD-97E4-C95538B4C821"><!-- --></a><p>Scheduling messages </p> <p>The SMS Server MTM implements scheduled sending API by sub-classing
+from the Schedule send Server MTM. It accepts requests from client
+applications either through the SMS Client MTM's <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-05327221-98A9-35FA-BD28-D6323BE449D1"><code class="apiname">CBaseMtm::InvokeAsyncFunctionL()</code></a> API or through the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DA04D96-F0AD-3FDC-9E36-1C27D889AF4B.html#GUID-43563010-9B4F-31EB-BE83-E7C4C1979677"><code class="apiname">CMsvSession::TransferCommand()</code></a> API to schedule messages to be sent or to delete existing schedules.
+When it receives a request to schedule a message, it packages the
+command and uses the Scheduled Send functionality to request that
+the task scheduler ask it to send the messages at a future point in
+time. </p> </li>
+<li id="GUID-BE3E335F-900E-5C7A-A5AE-CDCD1DEEF5FE"><a name="GUID-BE3E335F-900E-5C7A-A5AE-CDCD1DEEF5FE"><!-- --></a><p>Managing phone
+store </p> <p>The phone store is a storage for SMS outside the Message
+Store. For example, for GSM phones it is the <strong>SIM</strong>. The SMS Server
+MTM accepts requests from client applications to copy or move messages
+to and from the SIM and delete messages from the SIM. For example,
+when copying to the SIM, it packages SMS and passes it to the SMS
+stack with a request to write it to the SIM. If the class2 folder
+is set in the SMS settings class, the Server MTM copies the SMS to
+the SIM and then updates the SMS in the message store. The Server
+MTM also provides the details of the space used to store on the SIM
+and the reason for storing on the SIM. </p> </li>
+<li id="GUID-096F78F8-44B0-5F35-84C7-ED6E312C2E60"><a name="GUID-096F78F8-44B0-5F35-84C7-ED6E312C2E60"><!-- --></a><p>Providing SIM
+parameters </p> <p>The Server MTM provides functions to read and write
+SIM parameters. </p> </li>
+</ul> <p>The SMS Server MTM class is CSmsServerMtm. </p> <p><strong>SMS Utilities</strong> </p> <p>SMS Utilities provide the
+following: </p> <ul>
+<li id="GUID-09858DED-EBC8-5C22-AB67-E1F20ECE617A"><a name="GUID-09858DED-EBC8-5C22-AB67-E1F20ECE617A"><!-- --></a><p>Classes to represent
+and store SMS (CSmsHeader), and SMS settings (CSmsSettings, CSmsMessageSettings) and
+a SMS number (CSmsNumber). </p> </li>
+<li id="GUID-8B55A758-1104-5C58-A428-4DD7F2562DB9"><a name="GUID-8B55A758-1104-5C58-A428-4DD7F2562DB9"><!-- --></a><p>Functions to
+generate descriptions and details fields to store with SMS. The details
+includes decoding special messages (such as, message indication and
+status report messages), reading resource file for descriptions strings
+of special messages, and using the contacts database to replace phone
+numbers with names. </p> </li>
+<li id="GUID-5F410D35-D654-5CBC-8E52-6E6400D929B1"><a name="GUID-5F410D35-D654-5CBC-8E52-6E6400D929B1"><!-- --></a><p>Function to
+validate a GSM number. </p> </li>
+<li id="GUID-2C531B06-90D4-5F75-BD85-60330DCBE81C"><a name="GUID-2C531B06-90D4-5F75-BD85-60330DCBE81C"><!-- --></a><p>Mode to find
+the TMsvId of the SMS service entry. </p> </li>
+</ul> <p><strong>SMS Watchers</strong> </p> <p>SMS Watchers are made up of two
+watchers, the <code>nbswatcher.dll</code> and the <code>wapwatcher.dll</code>, and some common base classes in <code>biowatcher.dll</code>. The watchers listen for incoming messages
+from the SMS Stack, part of Cellular Baseband Services, and the WAP
+stack, part of High-level Internet Protocols. </p> <p><strong>SMS Stack</strong> </p> <p>SMS Stack is one of a number of protocol stacks that is
+supported by the ESock Server client-server framework. The SMS Stack’s
+principal clients are the messaging applications, WAP Stack and third
+party applications. The Messaging Application and the third party
+applications access the stack as clients of the ESock Server, while
+the WAP Stack accesses directly the SMS Stack. For more information
+on SMS Stack, see <a href="GUID-E0DA7DE7-FD5A-5C1D-A53C-870966F00445.html">SMS Stack for GSM Networks</a>. </p> <p><strong>SMS service settings</strong> </p> <p>Settings for SMS connections, such as service centre addresses,
+are stored in the Message Store (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html"><code class="apiname">CMsvStore</code></a>) for
+the SMS service entry. Encapsulation of service settings is provided
+by CSmsSettings. </p> <p><strong>Progress information</strong> </p> <p>The progress information can be obtained for messaging operations.
+For SMS operations, progress information includes such things as type
+of operation, and number of messages processed. Progress information
+is provided by TSmsProgress. </p> </div>
+<div id="GUID-80A5C81E-42C9-4432-A97D-872525E5D468"><h3 class="section-title">APIs</h3> <div class="figure" id="GUID-EABD829F-612D-53DF-BFDF-1F4E27FD4FD8"><img src="GUID-938C0EB5-D0B3-502E-87A9-7C626642AE4B_d0e360902_href.jpg" /></div> <p>The following are the important classes for SMS Client MTM: </p> <div class="tablenoborder"><a name="GUID-8C815D5D-0494-5507-8A7D-275641BFF71D"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-8C815D5D-0494-5507-8A7D-275641BFF71D" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Class</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Purpose</strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> CSmsClientMtm </p> </td>
+<td class="cellrowborder" valign="top"><p>Implements the messaging architecture client MTM interface
+for SMS. It allows messages to be created, replied to, and forwarded,
+and MTM-specific commands to be given. </p> <p>It provides an accessor
+function <code class="codeph">SmsHeader()</code> to get the <code class="codeph">CSmsHeader</code> for a message. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> CSmsHeader </p> </td>
+<td class="cellrowborder" valign="top"><p>Encapsulates an SMS message in a message store. </p> <p>It provides information about message recipients as an array of CSmsNumber objects, and access to the family of classes
+derived from TMsvMessageBio, which allow fields
+of a message to be set and accessed. </p> <p>For compatibility with
+the API of the v8 (GSM only) SMS MTM, it also provides access to the
+GSM SMS stack's message class CSmsMessage. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> TMsvMessageGsm </p> </td>
+<td class="cellrowborder" valign="top"><p>Provides access to GSM-specific fields. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> TMsvSmsEntry </p> </td>
+<td class="cellrowborder" valign="top"><p>Provides a specialisation of the message server index class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html"><code class="apiname">TMsvEntry</code></a> for SMS message entries. </p> <p>Putting selected
+SMS-specific fields in the index entry allows message clients to quickly
+get important message properties without having to create a message
+object. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> CSmsNumber </p> </td>
+<td class="cellrowborder" valign="top"><p>Encapsulates recipient information for an SMS message. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> CSmsSettings </p> </td>
+<td class="cellrowborder" valign="top"><p>Defines settings for the SMS service. </p> <p>It contains
+some GSM-specific functions to maintain compability with the GSM SMS
+MTM. </p> <p>It also provides access to CSmsMessageSettingsProxy for outgoing message defaults. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> CSmsAccount </p> </td>
+<td class="cellrowborder" valign="top"><p>Stores SMS service and Schedule Send settings to Central
+Repository. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> CSmsServiceCenter </p> </td>
+<td class="cellrowborder" valign="top"><p>Used to store Service Centre numbers and their associated
+name. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-69438F28-E2E9-5BFA-B644-08FB59D50A39.html">SMS
+MTM Concepts</a></li><li><a href="GUID-8B843382-D27A-5E36-8F60-304903F3AA41.html">Message
+Type Module</a></li><li><a href="GUID-33B590F4-CAE8-58B2-92A9-53123BD42579.html">SMS Tutorial</a></li></ul><h3></h3></div></div><div class="footer"><p class="metadata">Last updated January 31st, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F2D86E40-279A-5B48-B91F-922803FEF5DE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:36 GMT -->
+</html>

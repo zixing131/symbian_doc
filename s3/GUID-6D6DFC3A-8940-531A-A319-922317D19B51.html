@@ -1,0 +1,46 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6D6DFC3A-8940-531A-A319-922317D19B51.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:21 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to define the interface to a polymorphic interface DLL" /><meta name="abstract" content="Explains how to use a polymorphic interface DLL." /><meta name="description" content="Explains how to use a polymorphic interface DLL." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-4A56B285-790E-5171-88F3-8C40B2AA9699" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-6D6DFC3A-8940-531A-A319-922317D19B51" /><meta name="DC.Language" content="en" /><title>How to
+define the interface to a polymorphic interface DLL </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-6D6DFC3A-8940-531A-A319-922317D19B51">How to
+define the interface to a polymorphic interface DLL</h1><div><p>Explains how to use a polymorphic interface DLL.</p>
+<p>The interface is defined by an abstract API which can be implemented by
+a DLL. The following code fragment defines the API in terms of a pure virtual
+abstract C++ class; this is an example class called <code class="codeph">CMessenger</code>.</p>
+<pre class="codeblock">class CMessenger : public CBase
+    {
+public:
+    virtual void ConstructL(CConsoleBase* aConsole, const TDesC&amp; aName)=0;
+    virtual void ShowMessage()=0;
+private:
+    CConsoleBase* iConsole;
+    HBufC*        iName;
+    };</pre>
+<pre class="codeblock">
+// The UID for Messenger DLLs.
+// The client imposes this on DLLs which satisfy the protocol.
+
+const TInt KMessengerUidValue=0x10004262;
+const TUid KMessengerUid={KMessengerUidValue};</pre>
+<p>The purpose of the example is to be able to issue a simple greeting message.
+Any number of DLLs can be created, each containing a different implementation
+of the class.</p>
+<div id="GUID-6C3A1A07-6140-4A41-9E83-8348CDC81222"><h3 class="section-title">Notes:</h3> <p>Because the API can be implemented differently
+in different DLLs, note the following when declaring the class:</p> <ul>
+<li id="GUID-2D946F12-48A1-57B0-ADE0-7BF143DE6A8A"><a name="GUID-2D946F12-48A1-57B0-ADE0-7BF143DE6A8A"><!-- --></a><p>The constructor is not
+declared; the default C++ constructor is used, and is not exported from the
+DLL. Instead, a function is exported from the DLL which constructs an object
+of the concrete type using <code class="codeph">new (ELeave)</code> semantics.</p> </li>
+<li id="GUID-302202A4-DB5A-5A75-B036-9E664A915809"><a name="GUID-302202A4-DB5A-5A75-B036-9E664A915809"><!-- --></a><p>All functions are pure
+virtual; a DLL <em>must</em> provide an implementation for all such functions.</p> </li>
+<li id="GUID-61D75525-ACA5-5419-AB64-323A5BB0EAFD"><a name="GUID-61D75525-ACA5-5419-AB64-323A5BB0EAFD"><!-- --></a><p>All functions are <code class="codeph">public</code> since
+the published API is all there to be used, there is no need for <code class="codeph">private</code> specifications.</p> </li>
+<li id="GUID-A8CF8455-8860-5C64-BA75-FD3880DD8619"><a name="GUID-A8CF8455-8860-5C64-BA75-FD3880DD8619"><!-- --></a><p>It is possible to use
+polymorphic interface DLLs in a more advanced way that allows some of these
+rules to be changed.</p> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 18th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6D6DFC3A-8940-531A-A319-922317D19B51.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:21 GMT -->
+</html>

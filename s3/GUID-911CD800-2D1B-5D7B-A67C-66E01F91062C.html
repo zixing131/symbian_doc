@@ -1,0 +1,35 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-911CD800-2D1B-5D7B-A67C-66E01F91062C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:42 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Heaps" /><meta name="abstract" content="The main thread of a process has a memory chunk that contains the thread's heap. A program's request for memory is allocated from this heap." /><meta name="description" content="The main thread of a process has a memory chunk that contains the thread's heap. A program's request for memory is allocated from this heap." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-BFEBCD57-3C83-56D7-B7A3-B8A361725645" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-911CD800-2D1B-5D7B-A67C-66E01F91062C" /><meta name="DC.Language" content="en" /><title>Heaps </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-911CD800-2D1B-5D7B-A67C-66E01F91062C">Heaps</h1><div><p>The main thread of a process has a memory chunk that contains the
+thread's heap. A program's request for memory is allocated from this heap.</p>
+<p>Each thread has a chunk which contains that thread's program stack. For
+the main thread of a process, this chunk also contains the thread's heap.
+A program's request for memory is allocated from this heap. For example, a
+code fragment such as: </p>
+<pre class="codeblock">CArrayFixFlat&lt;...&gt;* fixflat;
+...
+fixflat = new (ELeave) CArrayFixFlat&lt;...&gt;(3);</pre>
+<p>causes a portion of memory to be allocated from the heap and its address
+returned to the caller. Memory from the heap must be explicitly requested
+and, importantly, explicitly freed by the program. </p>
+<p>If a process creates additional threads, then a new chunk is created for
+each new thread. Each chunk contains the thread's stack; if a new thread is
+not sharing an existing heap, then the chunk also contains a new heap. </p>
+<p>When a new thread is created, either: </p>
+<ul>
+<li id="GUID-C915A4D8-70D9-55B4-A16F-9729B1F8D94B"><a name="GUID-C915A4D8-70D9-55B4-A16F-9729B1F8D94B"><!-- --></a><p>a new heap is created
+for it </p> </li>
+<li id="GUID-E72B8DF5-CB52-5333-9D3E-EFDBAFE6CB59"><a name="GUID-E72B8DF5-CB52-5333-9D3E-EFDBAFE6CB59"><!-- --></a><p>it uses the creating
+thread's heap </p> </li>
+<li id="GUID-20C6F186-6EF6-511E-9291-3273CA930B5D"><a name="GUID-20C6F186-6EF6-511E-9291-3273CA930B5D"><!-- --></a><p>it uses an explicitly
+referenced heap. </p> </li>
+</ul>
+<p>A thread gets the handle to its heap by calling <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-42AC433D-1C9C-3AC6-8640-EB1A7BA876B5"><code class="apiname">User::Heap()</code></a>. </p>
+<p>See <a href="GUID-D557CC2C-C045-5818-B2F7-9BD8BC39257D.html">Address Space
+and Process</a> for more background on chunks and heaps.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-911CD800-2D1B-5D7B-A67C-66E01F91062C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:42 GMT -->
+</html>

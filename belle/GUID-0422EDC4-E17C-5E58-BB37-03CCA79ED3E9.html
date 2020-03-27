@@ -1,0 +1,147 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0422EDC4-E17C-5E58-BB37-03CCA79ED3E9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:01:04 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to Wait for a Given Time Period" /><meta name="abstract" content="Explains how to use timers to suspend a thread for a given time period." /><meta name="description" content="Explains how to use timers to suspend a thread for a given time period." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-1C7A0C22-90C6-5F54-8B43-342EE460C055" /><meta name="DC.Relation" scheme="URI" content="GUID-1FBC290C-74C3-5618-A2B7-52181CDFE0F0" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0422EDC4-E17C-5E58-BB37-03CCA79ED3E9" /><meta name="DC.Language" content="en" /><title>How to Wait for a Given Time Period </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0422EDC4-E17C-5E58-BB37-03CCA79ED3E9">How to Wait for a Given Time Period</h1><div><p>Explains how to use timers to suspend a thread for a given
+time period.</p>
+<ol>
+<li id="GUID-EFEBB622-21EC-409F-9F29-D0D05A5419B0"><a name="GUID-EFEBB622-21EC-409F-9F29-D0D05A5419B0"><!-- --></a><p>Create a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html"><code class="apiname">CTimer</code></a> object.</p></li>
+<li id="GUID-6FA80CB5-B88D-4F9A-95E3-AFD385F9B6F1"><a name="GUID-6FA80CB5-B88D-4F9A-95E3-AFD385F9B6F1"><!-- --></a><p>Add the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html"><code class="apiname">CTimer</code></a> object to the current active
+scheduler using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html#GUID-E98BE8E3-A6E1-3810-A774-A61BC44A80A6"><code class="apiname">CActiveScheduler::Add()</code></a>.</p><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html"><code class="apiname">CTimer</code></a> does not add itself to the active scheduler.</p></li>
+<li id="GUID-252BD68A-05F6-57D0-98E1-4BE2B0B7D2D6"><a name="GUID-252BD68A-05F6-57D0-98E1-4BE2B0B7D2D6"><!-- --></a><p>Start the timer
+to complete after a set period by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html#GUID-F389C301-D56B-3981-9C26-180E02BFF171"><code class="apiname">CTimer::After()</code></a>, passing the required period in microseconds.</p> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html#GUID-F389C301-D56B-3981-9C26-180E02BFF171"><code class="apiname">CTimer::After()</code></a> method inreturn calls <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-89083923-C044-3C7A-9FF8-6E5338533271"><code class="apiname">CActive::SetActive()</code></a> to indicate that the active object has issued a request. </p></li>
+</ol>
+<div id="GUID-26E3A556-63A2-4E8E-8F80-F19960FE7698"><h3 class="section-title">Example</h3><p>The following code snippet uses <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html"><code class="apiname">CTimer</code></a>, which is an active object, to generate events.</p><pre class="codeblock">class CDelayUpdate : public CTimer { public:
+
+   /**
+   * static factory "constructor" function
+   */
+   static CDelayUpdate* NewL();
+    
+   /**
+   * Destructor
+   */
+   ~CDelayUpdate();
+
+
+public:
+
+/**
+ * Called to start the delayed update
+ */
+void startUpdate();
+
+/**
+ * Called to stop further updates
+ */
+void stopUpdate();
+
+
+public: //From CActive
+
+   /**
+   * Implements cancellation of an outstanding request.
+   */
+   virtual void DoCancel();
+
+   /**
+   Handles an active object's request completion event.
+   */
+   void RunL();
+
+
+private:
+
+   /**
+   * Default constructor
+   */
+   CDelayUpdate();
+    
+   /**
+   * Second phase constructor
+   */
+void ConstructL();
+	
+    
+
+private: // Data
+
+TInt iCounter;  // count a few loops
+
+};
+
+// CDelayUpdate* CDelayUpdate::NewL() {
+
+   CDelayUpdate* self = new (ELeave) CDelayUpdate();
+   CleanupStack::PushL(self);
+   self-&gt;ConstructL();
+   CleanupStack::Pop(self);
+   return self;   
+
+}
+
+CDelayUpdate::CDelayUpdate()
+
+:  CTimer(CActive::EPriorityStandard)
+
+{
+
+iCounter = 0;
+   CActiveScheduler::Add(this);
+
+}
+
+void CDelayUpdate::ConstructL() {
+
+   CTimer::ConstructL();
+
+}
+
+CDelayUpdate::~CDelayUpdate() {
+
+   Cancel();
+   //delete any objects owned by this class
+
+}
+
+void CDelayUpdate::startUpdate() {
+
+   if (IsActive()) {
+   	// probably a programming error so could panic instead
+       return;
+   }
+   //perform anything before timer starts
+
+   After ( TTimeIntervalMicroSeconds32 (4000000) ); // 4 seconds
+    
+
+}
+
+void CDelayUpdate::stopUpdate() {
+
+   if (IsActive()) {
+    Cancel();
+}
+   else {
+       //probably a programming error so could panic
+   }
+
+}
+
+void CDelayUpdate::RunL() {
+
+   //RDebug::Print(_L("CDelayUpdate:runL"));
+    
+if (iCounter &lt; 5) {
+
+       //do something
+        
+       After ( 1000000 ); // 1 second
+       iCounter++;
+   }
+
+}</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 3rd, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0422EDC4-E17C-5E58-BB37-03CCA79ED3E9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:01:04 GMT -->
+</html>

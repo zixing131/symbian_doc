@@ -1,0 +1,73 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-937C3D70-2DCC-5084-AC87-3B1E5865A827.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:23 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Active Backup Client Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-DFF9DFC5-1BE0-5CA2-A2B9-27FA2DECFF59" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-94215E49-605B-51BA-B215-10BDA1A0C013" /><meta name="DC.Relation" scheme="URI" content="GUID-743D2832-E73A-5184-A85D-306B2A6FFACC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-937C3D70-2DCC-5084-AC87-3B1E5865A827" /><meta name="DC.Language" content="en" /><title>Active Backup Client Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-937C3D70-2DCC-5084-AC87-3B1E5865A827">Active Backup Client Overview</h1><div>
+<p>The Active Backup Client enables Symbian Developers to write backup
+and restore software with complete control of which data is backed
+up and restored. </p>
+<p>The backup client application is often referred to as the data
+owner as it owns the data. The data owner is automatically invoked
+to prepare and supply the data to the Backup Engine at backup time.
+Similarly, the data is automatically supplied back to the data owner
+on restore. </p>
+<div id="GUID-612CEFD3-C2F9-49DA-9336-1D6B584E867A"><h3 class="section-title">Key
+concepts and terms</h3> <p> <strong>Data owner </strong> </p> <p>A Symbian
+process that owns the data to be backed up or restored is a data owner.
+It can be an application or a server. </p> <p> <strong>Initiator/Responder</strong> </p> <p>There are two roles in MTP exchanges, an initiator and
+a responder. An initiator is the device which initiates requests and
+operations to the connected responder. A responder is the device which
+passively responds the requests and operations. Symbian MTP is implemented
+as a responder role only. A host PC or a portable device on a Symbian
+device is usually an initiator. </p> </div>
+<div id="GUID-C69B99C3-6523-4383-A4BA-C44E1A219F0A"><h3 class="section-title">Architecture</h3> <p>The following flowchart shows how the Active Backup Client (data
+owner application) works with other components for data backup and
+restore. The components provided by Symbian are in green. The components
+that a device vendor must implement are in blue. </p> <div class="figure" id="GUID-A32E2101-8CF4-5DCB-B200-B4219A21733A"><img src="GUID-54401E25-31F5-58E8-AE8A-276DE5E9C072_d0e205049_href.jpg" /><p class="figure-title"><strong>Figure: </strong>              Active Backup Client            </p></div> <ul>
+<li id="GUID-EA86CFF4-6504-5C52-9B48-961EE80D8C4F"><a name="GUID-EA86CFF4-6504-5C52-9B48-961EE80D8C4F"><!-- --></a><p>The <strong>Backup
+Server</strong> communicates directly with the backup and restore initiator,
+for example a host PC. </p> <p>The Backup Server receives a request
+from a host PC for a backup or restore operation. It then calls the
+Backup Engine using the Backup Engine Client API (<a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-169BB4E2-5B0E-3719-A7B8-A3C0AAA602E2.html#GUID-FB671D02-0F15-396F-9FB7-EE3E9372093C"><code class="apiname">conn::CSBEClient</code></a>) for lists of data sets. It also transfers data during a backup
+or a restore. </p> <p> <strong>Note</strong>: The Symbian platform includes
+a backup server which a device vendor may replace. </p> </li>
+<li id="GUID-D533320B-B8E6-5660-A423-BDD4B36227FC"><a name="GUID-D533320B-B8E6-5660-A423-BDD4B36227FC"><!-- --></a><p>The<strong> Backup
+Engine</strong> component contains the logic related to the data backup
+and restore. It signals the start or completion of a backup or restore
+to all data owners. </p> <p> <strong>Note</strong>: This component runs in a
+separate process which allows the Backup Server to operate synchronously
+and asynchronously. </p> </li>
+<li id="GUID-121E55AE-5E5A-5533-AB57-3521DDCB6894"><a name="GUID-121E55AE-5E5A-5533-AB57-3521DDCB6894"><!-- --></a><p>An active <strong>Data Owner Application</strong> responds to signals from the Backup Engine.
+It releases resources in case of file lock or data confliction. It
+must define a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-169BB4E2-5B0E-3719-A7B8-A3C0AAA602E2.html#GUID-17E48B80-2421-3256-B8B4-A0FED424D54A"><code class="apiname">conn::CActiveBackupClient</code></a> instance
+to connect to the Backup Engine and must provide a pointer to an <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-169BB4E2-5B0E-3719-A7B8-A3C0AAA602E2.html#GUID-DB245BC3-2ADA-311D-8024-B40335D22822"><code class="apiname">conn::MActiveBackupDataClient</code></a> implementation. The <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-169BB4E2-5B0E-3719-A7B8-A3C0AAA602E2.html#GUID-DB245BC3-2ADA-311D-8024-B40335D22822"><code class="apiname">conn::MActiveBackupDataClient</code></a> implementation prepares and
+transfers data to the Backup Engine for a backup and restore. </p> </li>
+</ul> </div>
+<div id="GUID-87594BDB-A8DF-490C-8DC0-D45718F92E1F"><h3 class="section-title">APIs</h3> <p>The Active Backup Client includes the following APIs: </p> <div class="tablenoborder"><a name="GUID-78B19C43-C9D9-56F0-823F-7CF3F26238B8"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-78B19C43-C9D9-56F0-823F-7CF3F26238B8" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e205128">API</th>
+<th class="cellrowborder" valign="top" id="d0e205131">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e205128 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-169BB4E2-5B0E-3719-A7B8-A3C0AAA602E2.html#GUID-17E48B80-2421-3256-B8B4-A0FED424D54A"><code class="apiname">conn::CActiveBackupClient</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205131 "><p>Establishes a connection to the Backup Engine for the data
+owing process. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e205128 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-169BB4E2-5B0E-3719-A7B8-A3C0AAA602E2.html#GUID-DB245BC3-2ADA-311D-8024-B40335D22822"><code class="apiname">conn::MActiveBackupDataClient</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205131 "><p>The data owner application must implement this interface
+to provide the data to the Backup Engine. It is passed to the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-169BB4E2-5B0E-3719-A7B8-A3C0AAA602E2.html#GUID-17E48B80-2421-3256-B8B4-A0FED424D54A"><code class="apiname">conn::CActiveBackupClient</code></a> constructor. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-3C521C76-C6AD-4A3B-9781-8D6D920C02D6"><h3 class="section-title">Typical
+uses</h3> <p>The Active Backup Client can be used to prepare and
+transfer data for the Backup Engine to do a backup and restore. </p> </div>
+</div><h3>Related tasks</h3><ul><li><a href="GUID-DFF9DFC5-1BE0-5CA2-A2B9-27FA2DECFF59.html">Writing
+an Active Backup Client Tutorial</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 18th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-937C3D70-2DCC-5084-AC87-3B1E5865A827.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:24 GMT -->
+</html>

@@ -1,0 +1,25 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-535954FD-2501-5C80-AD86-AC73A86B18B5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:12 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Internalising a Swizzle" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-3FAB9077-3EC3-5539-B391-D11456362513" /><meta name="DC.Relation" scheme="URI" content="GUID-D7211372-9411-5A18-88F0-615F4983A2E0" /><meta name="DC.Relation" scheme="URI" content="GUID-53112730-5871-5920-8861-D2F6BF1595BC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-535954FD-2501-5C80-AD86-AC73A86B18B5" /><meta name="DC.Language" content="en" /><title>Internalising a Swizzle </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-535954FD-2501-5C80-AD86-AC73A86B18B5">Internalising a Swizzle</h1><div><p>Internalising a Swizzle from a stream has assignment semantics.</p> <p>The process of internalisation assumes that the current position within the stream contains the external representation of a stream ID. The stream which corresponds to this ID contains the external representation of some object.</p> <p>The result is a Swizzle which represents the object by stream ID.</p> <p>The following code fragments illustrate the process. </p> <p><code class="codeph">iB</code> is a <code class="codeph">CClassB</code> type component of a class <code class="codeph">CClassABC</code>, and is represented by a Swizzle. The data member is defined as:</p> <pre class="codeblock">class CCClassABC : public CBase
+    {
+    ...
+    TSwizzle&lt;CClassB&gt; iB;
+    ...
+    }
+</pre> <p>The example assumes that the stream ID of the swizzled object has been externalised as in <a href="GUID-074F3499-54FE-58BC-A0F4-D8EA632AF76B.html">Externalizing a Swizzle</a>.</p> <p>CClassB's RestoreL() and InternalizeL() functions are implemented as:</p> <pre class="codeblock">void CClassABC::RestoreL()
+          {
+          RStoreReadStream stream;
+          stream.OpenLC(iStore,iId);
+          InternalizeL(stream);
+          CleanupStack::PopAndDestroy();
+          }</pre> <pre class="codeblock">void CClassABC::InternalizeL(RReadStream&amp; aStream)
+          {
+          ...
+          aStream &gt;&gt; iB; // internalises Swizzle from stream
+          ...
+          }</pre> <p>Here, <code class="codeph">iId</code> is the stream ID containing <code class="codeph">CClassABC</code> data.</p> <div class="figure" id="GUID-96F9A1CC-91BE-52A2-B9AE-F5BDC5308210"><img src="GUID-A89A50B6-2A3B-54E1-8157-6CC86AFE4A57_d0e461982_href.png" /></div> </div></div></div><div class="footer"><p class="metadata">Last updated October 10th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-535954FD-2501-5C80-AD86-AC73A86B18B5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:13 GMT -->
+</html>

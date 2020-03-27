@@ -1,0 +1,58 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-651C2913-2AB9-5873-B296-5C4233967F21.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:51:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="CONE resource loader overview" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-E079315A-E5B6-4D33-B7E3-88697A3F11A4" /><meta name="DC.Relation" scheme="URI" content="GUID-6C16417B-5B37-5310-B59A-750D971AA6D4" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-651C2913-2AB9-5873-B296-5C4233967F21" /><meta name="DC.Language" content="en" /><title>CONE
+resource loader overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-651C2913-2AB9-5873-B296-5C4233967F21">CONE
+resource loader overview</h1><div>
+<div id="GUID-57F77D80-D411-48CE-9C2F-2E274027D791"><h3 class="section-title">Purpose</h3> <p>The CONE Resource Loader utility is part
+of the Symbian CONE component, and it offers methods for opening and closing
+resource files. The actual reading of resources from an opened resource file
+is done using various CCoeEnv provided
+resource-reading methods. </p> </div>
+<div id="GUID-691C3034-6DBE-4C5A-8F6A-E18C805EA4EE"><h3 class="section-title">Architectural Relationships</h3> <p>This utility is implemented
+as a single class, RCoeResourceLoader.
+Access to the CCoeEnv instance
+is required in order to use this utility. </p> <p>CONE Resource Loader can
+be accessed through the RCoeResourceLoader class
+that is defined in the header <code class="codeph">CoeUtils.h</code>. The actual component
+is linked to the <code class="codeph">cone.dll</code> library. </p> </div>
+<div id="GUID-5B6C86F8-C914-4329-891A-20088D589EC3"><h3 class="section-title">Description</h3> <p><strong>Usage</strong> </p> <p>CONE Resource
+Loader functionality can be accessed via public methods on an RCoeResourceLoader instance. </p> <p>To use, an instance of RCoeResourceLoader is
+first created. Then calling either one of the open methods of RCoeResourceLoader opens
+the resource file. After the resource file is no longer needed, it must be
+closed. </p> <p>A single instance of RCoeResourceLoader can
+only have a maximum of one resource file open at any time. If multiple simultaneously
+open files are required, instantiate a separate RCoeResourceLoader for
+each required file. </p> <p><strong>Example</strong> </p> <p>The following example shows
+how to use the RCoeResourceLoader class: </p> <pre class="codeblock">#include &lt;CoeUtils.h&gt;
+
+// … Other code …
+
+// Get CCoeEnv instance
+CEikonEnv* eikEnv = CEikonEnv::Static();
+
+// Initialize loader
+RCoeResourceLoader rLoader(eikEnv);
+
+// Open resource file
+_LIT( KSampleResourceFileName, "Z:\\System\\Apps\\sample\\sample.rsc" );
+TFileName fileName(KSampleResourceFileName);
+rLoader.OpenL(fileName);
+
+// Push resource loader to cleanup stack, so that it will always be properly 
+// closed when popped.
+CleanupClosePushL(rLoader);
+
+// Read a resource   
+iSomeArray = eikEnv-&gt;ReadDesC16ArrayResourceL(R_SOME_RESOURCE);
+
+// Pop and destroy rLoader from stack. 
+// This also calls close on rLoader since CleanupClosePushL was used.
+CleanupStack::PopAndDestroy(); // rLoader
+</pre> <p>For more information on individual methods, please see the
+reference API for RCoeResourceLoader. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 12th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-651C2913-2AB9-5873-B296-5C4233967F21.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:51:00 GMT -->
+</html>

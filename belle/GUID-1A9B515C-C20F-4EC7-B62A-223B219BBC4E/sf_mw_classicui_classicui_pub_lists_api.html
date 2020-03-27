@@ -1,0 +1,1602 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_lists_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:10:52 GMT -->
+<head><title>Lists API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i495"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Lists API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+<li class="toclevel-2"><a href="#Listbox_architecture"><span class="tocnumber">1.5</span> <span class="toctext">Listbox architecture</span></a></li>
+<li class="toclevel-2"><a href="#Listbox_types"><span class="tocnumber">1.6</span> <span class="toctext">Listbox types</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Menu_listbox"><span class="tocnumber">1.6.1</span> <span class="toctext">Menu listbox</span></a></li>
+<li class="toclevel-3"><a href="#Selection_listbox"><span class="tocnumber">1.6.2</span> <span class="toctext">Selection listbox</span></a></li>
+<li class="toclevel-3"><a href="#Multiselection_listbox"><span class="tocnumber">1.6.3</span> <span class="toctext">Multiselection listbox</span></a></li>
+<li class="toclevel-3"><a href="#Markable_listbox"><span class="tocnumber">1.6.4</span> <span class="toctext">Markable listbox</span></a></li>
+<li class="toclevel-3"><a href="#Setting_listbox"><span class="tocnumber">1.6.5</span> <span class="toctext">Setting listbox</span></a></li>
+<li class="toclevel-3"><a href="#Listbox_types_in_listbox_resource_definition"><span class="tocnumber">1.6.6</span> <span class="toctext">Listbox types in listbox resource definition</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Listbox_format"><span class="tocnumber">1.7</span> <span class="toctext">Listbox format</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Listbox_item_column_structure"><span class="tocnumber">1.7.1</span> <span class="toctext">Listbox item column structure</span></a></li>
+<li class="toclevel-3"><a href="#Listbox_item_layouts"><span class="tocnumber">1.7.2</span> <span class="toctext">Listbox item layouts</span></a>
+<ul>
+<li class="toclevel-4"><a href="#Single-line_item"><span class="tocnumber">1.7.2.1</span> <span class="toctext">Single-line item</span></a></li>
+<li class="toclevel-4"><a href="#Single-line_item_with_number"><span class="tocnumber">1.7.2.2</span> <span class="toctext">Single-line item with number</span></a></li>
+<li class="toclevel-4"><a href="#Single-line_item_with_heading"><span class="tocnumber">1.7.2.3</span> <span class="toctext">Single-line item with heading</span></a></li>
+<li class="toclevel-4"><a href="#Single-line_item_with_small_graphic"><span class="tocnumber">1.7.2.4</span> <span class="toctext">Single-line item with small graphic</span></a></li>
+<li class="toclevel-4"><a href="#Single-line_item_with_small_graphic_and_heading"><span class="tocnumber">1.7.2.5</span> <span class="toctext">Single-line item with small graphic and heading</span></a></li>
+<li class="toclevel-4"><a href="#Single-line_item_with_large_graphic"><span class="tocnumber">1.7.2.6</span> <span class="toctext">Single-line item with large graphic</span></a></li>
+<li class="toclevel-4"><a href="#Two-line_item"><span class="tocnumber">1.7.2.7</span> <span class="toctext">Two-line item</span></a></li>
+<li class="toclevel-4"><a href="#Double_item"><span class="tocnumber">1.7.2.8</span> <span class="toctext">Double item</span></a></li>
+<li class="toclevel-4"><a href="#Double_item_with_number"><span class="tocnumber">1.7.2.9</span> <span class="toctext">Double item with number</span></a></li>
+<li class="toclevel-4"><a href="#Double_item_with_small_graphic"><span class="tocnumber">1.7.2.10</span> <span class="toctext">Double item with small graphic</span></a></li>
+<li class="toclevel-4"><a href="#Double_item_with_large_graphic"><span class="tocnumber">1.7.2.11</span> <span class="toctext">Double item with large graphic</span></a></li>
+<li class="toclevel-4"><a href="#Double_item_style_2"><span class="tocnumber">1.7.2.12</span> <span class="toctext">Double item style 2</span></a></li>
+<li class="toclevel-4"><a href="#Setting_item"><span class="tocnumber">1.7.2.13</span> <span class="toctext">Setting item</span></a></li>
+<li class="toclevel-4"><a href="#Setting_item_with_number"><span class="tocnumber">1.7.2.14</span> <span class="toctext">Setting item with number</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#General_structure_of_lists"><span class="tocnumber">1.8</span> <span class="toctext">General structure of lists</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Defining_a_listbox_in_resource_file"><span class="tocnumber">2.1</span> <span class="toctext">Defining a listbox in resource file</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_selection_listbox_from_resource"><span class="tocnumber">2.2</span> <span class="toctext">Creating a selection listbox from resource</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_selection_listbox_runtime"><span class="tocnumber">2.3</span> <span class="toctext">Creating a selection listbox runtime</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_selection_listbox_with_a_large_graphic_a_primary_and_a_secondary_text"><span class="tocnumber">2.4</span> <span class="toctext">Creating a selection listbox with a large graphic a primary and a secondary text</span></a></li>
+<li class="toclevel-2"><a href="#Getting_the_selected_item_of_a_selection_listbox"><span class="tocnumber">2.5</span> <span class="toctext">Getting the selected item of a selection listbox</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_multiselection_listbox"><span class="tocnumber">2.6</span> <span class="toctext">Creating a multiselection listbox</span></a></li>
+<li class="toclevel-2"><a href="#Select_and_deselect_an_item_in_a_multiselection_listbox"><span class="tocnumber">2.7</span> <span class="toctext">Select and deselect an item in a multiselection listbox</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_markable_listbox"><span class="tocnumber">2.8</span> <span class="toctext">Creating a markable listbox</span></a></li>
+<li class="toclevel-2"><a href="#Mark_and_unmark_an_item_in_a_markable_listbox"><span class="tocnumber">2.9</span> <span class="toctext">Mark and unmark an item in a markable listbox</span></a></li>
+<li class="toclevel-2"><a href="#Getting_the_selected_items_of_a_markable_or_multiselection_list"><span class="tocnumber">2.10</span> <span class="toctext">Getting the selected items of a markable or multiselection list</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_settings_style_listbox"><span class="tocnumber">2.11</span> <span class="toctext">Creating a settings style listbox</span></a></li>
+<li class="toclevel-2"><a href="#Adding_an_item_to_listbox"><span class="tocnumber">2.12</span> <span class="toctext">Adding an item to listbox</span></a></li>
+<li class="toclevel-2"><a href="#Removing_an_item_from_listbox"><span class="tocnumber">2.13</span> <span class="toctext">Removing an item from listbox</span></a></li>
+<li class="toclevel-2"><a href="#Getting_the_number_of_items_in_listbox"><span class="tocnumber">2.14</span> <span class="toctext">Getting the number of items in listbox</span></a></li>
+<li class="toclevel-2"><a href="#Offering_key_events_to_listbox"><span class="tocnumber">2.15</span> <span class="toctext">Offering key events to listbox</span></a></li>
+<li class="toclevel-2"><a href="#Handling_listbox_events"><span class="tocnumber">2.16</span> <span class="toctext">Handling listbox events</span></a></li>
+<li class="toclevel-2"><a href="#Creating_animated_highlight"><span class="tocnumber">2.17</span> <span class="toctext">Creating animated highlight</span></a></li>
+<li class="toclevel-2"><a href="#Common_problems_in_the_listbox_usage"><span class="tocnumber">2.18</span> <span class="toctext">Common problems in the listbox usage</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.19</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.20</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Lists are a common way to represent a view to data structures consisting
+of text and graphics in the S60 platform, and are used extensively in most
+S60 applications.
+</p><p>Lists are presented according to their type of functionality. Available
+lists include simple selection and menu lists, markable and multiselection
+lists, and setting lists. Selection and menu lists allow selection of a single
+item, whereas markable and multiselection lists can be used to select multiple
+items simultaneously. The setting listbox contains a list of items whose values
+can be adjusted.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Example_MultiSelectionListBox.png" title="This example shows a multiselection listbox."><img alt="This example shows a multiselection listbox." border="0" height="248" src="images/SPB_10_1_Example_MultiSelectionListBox.png" width="210" /></a></div>
+<div style="text-align:center"><i>This example shows a multiselection listbox.</i></div>
+<p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>avkon.lib, eikcoctl.lib, eikctl.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/lists_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/lists_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Listbox architecture follows the Model-View-Controller (MVC) design pattern;
+a listbox-specific representation of the MVC design pattern is introduced.
+</p><p>The listbox layouts presented here provide a graphical representation of
+the various listbox outlooks. Listbox items consist of columns into which
+each item is placed. These column structures define the item format of the
+listbox items, and therefore the presentation of the listbox. Listbox columns
+may consist of text strings and graphics (small and large icons).
+</p><p>Listbox resource files define the resource data used to create lists. The
+resource data consists of listbox layout and listbox item arrays.
+</p><p>Lists can also be created at run time without resource files.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Lists API is an SDK API and part of S60 release 3.x.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of Lists API are:
+</p>
+<ul><li> Defining a listbox in resource file
+</li><li> Creating a selection listbox from resource
+</li><li> Creating a selection listbox runtime
+</li><li> Creating a selection listbox with a large graphic a primary and a secondary
+</li></ul>
+<p>text
+</p>
+<ul><li> Getting the selected item of a selection listbox
+</li><li> Creating a multiselection listbox
+</li><li> Select and deselect an item in a multiselection listbox
+</li><li> Creating a markable listbox
+</li><li> Mark and unmark an item in a markable listbox
+</li><li> Getting the selected items of a markable or multiselection list
+</li><li> Creating a settings style listbox
+</li><li> Adding an item to listbox
+</li><li> Removing an item from listbox
+</li><li> Getting the number of items in listbox
+</li><li> Offering key events to listbox
+</li><li> Handling listbox events
+</li><li> Creating animated highlight
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>AknListBoxLayouts <td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>AknListBoxLinesTemplate</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>AknListBoxUtils</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>AknPopupListEmpty</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknCaleMonthStyleGrid</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknColumnListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknColumnListBoxView</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDouble2GraphicLargeGraphicStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDouble2GraphicStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDouble2LargeStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDouble2PopupMenuStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDoubleGraphicPopupMenuStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDoubleGraphicStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDoubleLargeGraphicPopupMenuStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDoubleLargeStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDoubleNumberStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDoublePopupMenuStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDoubleStyle2ListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDoubleStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDoubleTimeStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknFormDoubleGraphicStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknFormDoubleStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknFormGraphicStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknFormGraphicWideStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknListBoxLayoutDecorator</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknListBoxLayoutDecorator.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknListBoxSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknListBoxSettingPage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknMarkableListDialog</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknselectionlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknPinbStyleGrid</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknQdialStyleGrid</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSelectionListDialog</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknselectionlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSetStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSetStyleListBoxView</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSettingNumberStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSettingStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingle2GraphicPopupMenuStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleGraphicBtPopupMenuStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleGraphicHeadingPopupMenuStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleGraphicHeadingStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleGraphicPopupMenuStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleGraphicStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleHeadingPopupMenuStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleHeadingStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleLargeStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleNumberHeadingStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleNumberStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSinglePopupMenuStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSinglePopupSubmenuStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleStyleListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CColumnListBoxData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikclbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CColumnListBoxData::TColors</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikclbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CColumnListBoxItemDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikclb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CColumnListBoxView</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikclb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CDoubleLargeStyleItemDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikColumnListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikclb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikColumnListBoxEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikclb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikFormattedCellListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfrlb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbx.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikListBoxTextEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbed.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikSettingsListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikslb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikSnakingListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbx.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikSnakingTextListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiktxlbx.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikTextListBox</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiktxlbx.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CFormGraphicListBoxData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfrlbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CFormattedCellGridData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfrlbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CFormattedCellListBoxData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfrlbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CFormattedCellListBoxData::TColors</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfrlbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CFormattedCellListBoxItemDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfrlb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CFormattedCellListBoxView</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfrlb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CListBoxData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CListBoxData::CFontsWithStyle</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CListBoxView</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbv.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CListBoxViewExtension</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbv.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CListItemDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbi.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPopupFormattedListBoxData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfrlbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSettingItemEditingListBoxData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfrlbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSettingsListBoxItemDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikslb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSettingsListBoxView</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikslb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSingleHeadingStyleItemDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSingleHeadingStyleView</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSnakingListBoxView</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbv.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CTextListBoxModel</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiktxlbm.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CTextListItemDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbi.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CWordWrappedFormattedCellItemDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlists.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknMarkingModeObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknmarkingmodeobserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MColumnListBoxAnimBackgroundDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikclbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MEikListBoxEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbed.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MEikListBoxObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbo.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MListBoxAnimBackgroundDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfrlbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MListBoxEditorObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbed.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MListBoxItemChangeObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbx.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MListBoxModel</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbm.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MListBoxSelectionObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbx.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MListVisibilityObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbv.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MTextListBoxModel</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbm.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TListFontBoundValues</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TListItemProperties</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbi.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbx.pan</code></span>
+</td></tr>
+<p>This diagram shows the general structure of Lists API.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ListsAPI_ClassDiagram.png" title="Ggeneral class diagram of Lists API"><img alt="Ggeneral class diagram of Lists API" border="0" height="471" src="images/SPB_10_1_ListsAPI_ClassDiagram.png" width="595" /></a></div>
+<div style="text-align:center"><i>Ggeneral class diagram of Lists API</i></div>
+<a name="Listbox_architecture"><h3> <span class="mw-headline">1.5 Listbox architecture </span></h3>
+</a><p>The listbox control, is an implementation of the MVC design pattern. <span class="plainlinks"><code>CEikListBox</code> </span> is
+the base class for all lists in the S60 platform. It also acts as the controller. <span class="plainlinks"><code>CListBoxView</code> </span> represents
+the view and <span class="plainlinks"><code>MListBoxModel</code> </span> the data.
+</p><p>The model, class <span class="plainlinks"><code>MListBoxModel</code> </span>, is an abstract class that
+specifies the interface to access the data. The model does not contain any
+information about the appearance of the listbox.
+</p><p>The view, class <span class="plainlinks"><code>CListBoxView</code> </span>, handles the appearance of
+the listbox and displays the items on the listbox that are currently visible.
+</p><p>The controller, class <span class="plainlinks"><code>CEikListBox</code> </span>, acts as the controller
+between the model and the view, connecting them and communicating between
+them.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ListBox_MVC.png" title="MVC representation of a listbox."><img alt="MVC representation of a listbox." border="0" height="88" src="images/SPB_10_1_ListBox_MVC.png" width="663" /></a></div>
+<div style="text-align:center"><i>MVC representation of a listbox.</i></div>
+<a name="Listbox_types"><h3> <span class="mw-headline">1.6 Listbox types </span></h3>
+</a><p>Lists are divided into the following types based on their functionality.
+</p>
+<a name="Menu_listbox"><h4> <span class="mw-headline">1.6.1 Menu listbox </span></h4>
+</a><p>Menu lists, also known as pop-up lists, provide a simple vertical list
+view and are used to select one item from a list. The Options command is not
+available while browsing the menu listbox. Only Select and Cancel actions
+can be performed on the menu listbox.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Menu_ListBox.png" title="Menu listbox"><img alt="Menu listbox" border="0" height="219" src="images/SPB_10_1_Menu_ListBox.png" width="184" /></a></div>
+<div style="text-align:center"><i>Menu listbox</i></div>
+<a name="Selection_listbox"><h4> <span class="mw-headline">1.6.2 Selection listbox </span></h4>
+</a><p>A selection listbox is a generic way of displaying and accessing data in
+an application. While browsing the selection listbox, the Options menu can
+also be accessed for additional functions.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Selection_ListBox.png" title="Selection listbox"><img alt="Selection listbox" border="0" height="205" src="images/SPB_10_1_Selection_ListBox.png" width="174" /></a></div>
+<div style="text-align:center"><i>Selection listbox</i></div>
+<a name="Multiselection_listbox"><h4> <span class="mw-headline">1.6.3 Multiselection listbox </span></h4>
+</a><p>Multiselection lists allow the user to select multiple items and perform
+an action on those items simultaneously. Selection is done with the selection
+key and acceptance with the OK softkey. The Options menu is not available
+while browsing and selecting items on the multiselection listbox, the user
+can only check and uncheck items, and accept the selections (OK) or cancel
+(Back).
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_MultiSelectionListBox.png" title="Multiselection listbox"><img alt="Multiselection listbox" border="0" height="211" src="images/SPB_10_1_MultiSelectionListBox.png" width="179" /></a></div>
+<div style="text-align:center"><i>Multiselection listbox</i></div>
+<a name="Markable_listbox"><h4> <span class="mw-headline">1.6.4 Markable listbox </span></h4>
+</a><p>A markable listbox is essentially a selection listbox with an added feature
+that allows list items to be marked. Any number of items can be marked on
+the list. A command applies to all of the marked items. The Options menu is
+available for additional functions while browsing and selecting items on the
+markable listbox.
+</p><p>The marking feature is usually applied to operations that handle a set
+of data simultaneously, such as deleting or moving items. By marking the items,
+the user can easily handle sets of data requiring identical actions, instead
+of performing the action individually on each item.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Markable_ListBox.png" title="Markable listbox"><img alt="Markable listbox" border="0" height="215" src="images/SPB_10_1_Markable_ListBox.png" width="183" /></a></div>
+<div style="text-align:center"><i>Markable listbox</i></div>
+<a name="Setting_listbox"><h4> <span class="mw-headline">1.6.5 Setting listbox </span></h4>
+</a><p>The setting listbox is a selection listbox containing items whose value
+can be adjusted. A setting listbox item is displayed as an attribute title
+text with an attribute value below it, which can be altered. The Options menu
+is available for additional functions while browsing the setting listbox.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Setting_ListBox.png" title="Setting listbox"><img alt="Setting listbox" border="0" height="214" src="images/SPB_10_1_Setting_ListBox.png" width="182" /></a></div>
+<div style="text-align:center"><i>Setting listbox</i></div>
+<a name="Listbox_types_in_listbox_resource_definition"><h4> <span class="mw-headline">1.6.6 Listbox types in listbox resource definition </span></h4>
+</a><p>The listbox types are defined by the flags parameter in the <span class="plainlinks"><code>LISTBOX</code> </span> structure.
+This section presents the values for the <span class="plainlinks"><code><font color="darkred">flags</font></code> </span> parameter.
+These identifiers are defined in the<i> avkon.hrh</i> file.
+</p>
+<ul><li> <span class="plainlinks"><code>EAknListBoxMenuList</code> </span> A menu listbox that provides a
+</li></ul>
+<p>simple vertical list view used to select a single item on the list.
+</p>
+<ul><li> <span class="plainlinks"><code>EAknListBoxSelectionList</code> </span> A selection listbox that allows
+</li></ul>
+<p>selection of a single item. The Options menu is available for the additional
+functions to be performed for the selected item.
+</p>
+<ul><li> <span class="plainlinks"><code>EAknListBoxMultiselectionList</code> </span> A multiselection listbox
+</li></ul>
+<p>that allows selection of multiple list items and performs an action to them
+collectively.
+</p>
+<ul><li> <span class="plainlinks"><code>EAknListBoxMarkableList</code> </span> A markable listbox that allows
+</li></ul>
+<p>multiple list items to be marked for action. Unlike the multiselection list,
+the Options menu is available for the additional functions.
+</p><p>The flags that can be combined with any of the previous choices:
+</p>
+<ul><li> <span class="plainlinks"><code>EAknListBoxViewerFlags</code> </span> A flag that may be used to create
+</li></ul>
+<p>a specific listbox as a viewer. A viewer listbox allows the listbox contents
+to be viewed, without a selection possibility. The highlight indicator is
+not present at the viewer listbox and the listbox is viewed and scrolled in
+page-at-once manner. See the example below for the usage of this flag.
+</p>
+<a name="Listbox_format"><h3> <span class="mw-headline">1.7 Listbox format </span></h3>
+</a><p>The listbox format and layout is defined by using string formatting for
+the listbox columns. The following section describes the column structures
+and the listbox layout types that can be used.
+</p>
+<a name="Listbox_item_column_structure"><h4> <span class="mw-headline">1.7.1 Listbox item column structure </span></h4>
+</a><p>Each listbox item is divided into three columns: A, B, and C. The columns
+can be combined so it is not necessary to have the columns separated. The
+following column combinations are possible for listbox items: AB, BC, and
+ABC.
+</p><p>The listbox columns are defined as follows:
+</p>
+<ul><li> Column A: Small graphic (icon), item number
+</li><li> Column B: Heading (title or attribute of the item)
+</li><li> Column AB: Heading (title or attribute of the item), large icon or thumbnail
+</li><li> Column C/BC/ABC: Text of the item
+</li></ul>
+<p>An additional icon can be displayed to the right of column C, also referred
+to as column D.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ListboxItemColumnStructure.png" title="Listbox item column structure"><img alt="Listbox item column structure" border="0" height="69" src="images/SPB_10_1_ListboxItemColumnStructure.png" width="234" /></a></div>
+<div style="text-align:center"><i>Listbox item column structure</i></div>
+<a name="Listbox_item_layouts"><h4> <span class="mw-headline">1.7.2 Listbox item layouts </span></h4>
+</a><p>The listbox item can be represented in the following layouts. The examples
+shown provide a graphical representation of the listbox layouts.
+</p><p>The listbox item formatting string consists of listbox item columns that
+are separated by the tab character (\t). Therefore tab character is not allowed
+in listbox string anywhere else. It has to be removed before passing to listbox.
+</p><p>The listbox item layouts that contain graphics (icons) specify the icon
+to be used when displaying the listbox item. For layouts containing graphics
+(icons), the listbox item formatting string contains a number defining the
+index of the icon to be displayed for the specific listbox item.
+</p><p>The following section shows the possible listbox item layouts, their graphical
+representation, and the formatting string.
+</p>
+<a name="Single-line_item"><h5> <span class="mw-headline">1.7.2.1 Single-line item </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_SingleLineItem.png" title="Single-line item"><img alt="Single-line item" border="0" height="37" src="images/SPB_10_1_SingleLineItem.png" width="234" /></a></div>
+<div style="text-align:center"><i>Single-line item</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknSingleStyleListBox</code> </span>
+</p><p>Column usage: Main text (columns ABC)
+</p><p>String format: "\tMeeting\t\t"
+</p>
+<a name="Single-line_item_with_number"><h5> <span class="mw-headline">1.7.2.2 Single-line item with number </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_SingleLineItem_WithNumber.png" title="Single-line item with number"><img alt="Single-line item with number" border="0" height="69" src="images/SPB_10_1_SingleLineItem_WithNumber.png" width="234" /></a></div>
+<div style="text-align:center"><i>Single-line item with number</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknSingleNumberStyleListBox</code> </span>
+</p><p>Column usage: Number (column A), main text (columns BC)
+</p><p>String format: "8\tMeeting\t\t"
+</p>
+<a name="Single-line_item_with_heading"><h5> <span class="mw-headline">1.7.2.3 Single-line item with heading </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_SingleLineItem_WithHeading.png" title="Single-line item with heading"><img alt="Single-line item with heading" border="0" height="36" src="images/SPB_10_1_SingleLineItem_WithHeading.png" width="234" /></a>
+<div style="text-align:center"><i>Single-line item with heading</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknSingleHeadingStyleListBox</code> </span>
+</p><p>Column usage: Heading text (column A), main text (columns BC)
+</p><p>String format: "job\tAstronaut\t\t"
+</p>
+<a name="Single-line_item_with_small_graphic"><h5> <span class="mw-headline">1.7.2.4 Single-line item with small graphic </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_SingleLineItem_WithSmallGraphic.png" title="Single-line item with small graphic"><img alt="Single-line item with small graphic" border="0" height="36" src="images/SPB_10_1_SingleLineItem_WithSmallGraphic.png" width="234" /></a>
+<div style="text-align:center"><i>Single-line item with small graphic</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknSingleGraphicStyleListBox</code> </span>
+</p><p>Column usage: Small graphic (column A), main text (columns BC)
+</p><p>String format: "0\tDownload themes\t\t"
+</p><p>Please note that the first column in the item string defines the index
+of the icon to be displayed for the specific listbox item. See [Lists_API_Specification.topic3.4 Creating a selection listbox with a large graphic a primary and a secondary text] for
+example code on how to use the icons in the listbox.
+</p>
+<a name="Single-line_item_with_small_graphic_and_heading"><h5> <span class="mw-headline">1.7.2.5 Single-line item with small graphic and heading </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_SingleLineItem_WithSmallGraphicAndHeading.png" title="Single-line item with small graphic and heading"><img alt="Single-line item with small graphic and heading" border="0" height="37" src="images/SPB_10_1_SingleLineItem_WithSmallGraphicAndHeading.png" width="234" /></a>
+<div style="text-align:center"><i>Single-line item with small graphic and heading</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknSingleGraphicHeadingStyleListBox</code> </span>
+</p><p>Column usage: Small graphic (column A), heading text (column B), main text
+(column C)
+</p><p>String format: "1\t21/10\tMeeting\t"
+</p><p>Please note that the first column in the item string defines the index
+of the icon to be displayed for the specific listbox item. See [Lists_API_Specification.topic3.4 Creating a selection listbox with a large graphic a primary and a secondary text] for
+example code on how to use the icons in the listbox.
+</p>
+<a name="Single-line_item_with_large_graphic"><h5> <span class="mw-headline">1.7.2.6 Single-line item with large graphic </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_SingleLineItem_WithLargeGraphic.png" title="Single-line item with large graphic"><img alt="Single-line item with large graphic" border="0" height="52" src="images/SPB_10_1_SingleLineItem_WithLargeGraphic.png" width="234" /></a>
+<div style="text-align:center"><i>Single-line item with large graphic</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknSingleLargeStyleListBox</code> </span>
+</p><p>Column usage: Large graphic (column A), main text (columns BC)
+</p><p>String format: "1\tValid keys\t\t"
+</p><p>Please note that the first column in the item string defines the index
+of the icon to be displayed for the specific listbox item. See [Lists_API_Specification.topic3.4 Creating a selection listbox with a large graphic a primary and a secondary text] for
+example code on how to use the icons in the listbox.
+</p>
+<a name="Two-line_item"><h5> <span class="mw-headline">1.7.2.7 Two-line item </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_TwoLineItem.png" title="Two-line item"><img alt="Two-line item" border="0" height="62" src="images/SPB_10_1_TwoLineItem.png" width="234" /></a>
+<div style="text-align:center"><i>Two-line item</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknDoubleStyle2ListBox</code> </span>
+</p><p>Column usage: Main text (columns ABC)
+</p><p>String format: "\tCertificate management\t\t"
+</p>
+<a name="Double_item"><h5> <span class="mw-headline">1.7.2.8 Double item </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_DoubleItem.png" title="Double item"><img alt="Double item" border="0" height="63" src="images/SPB_10_1_DoubleItem.png" width="234" /></a>
+<div style="text-align:center"><i>Double item</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknDoubleStyleListBox</code> </span>
+</p><p>Column usage: Primary text (columns AB), secondary text (column C)
+</p><p>String format: "\tActivate\tvia Bluetooth\t"
+</p>
+<a name="Double_item_with_number"><h5> <span class="mw-headline">1.7.2.9 Double item with number </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_DoubleItem_WithNumber.png" title="Double item with number"><img alt="Double item with number" border="0" height="62" src="images/SPB_10_1_DoubleItem_WithNumber.png" width="234" /></a>
+<div style="text-align:center"><i>Double item with number</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknDoubleNumberStyleListBox</code> </span>
+</p><p>Column usage: Number (column A), primary text (column B), secondary text
+(column C)
+</p><p>String format: "1\tActivate\tvia Bluetooth\t"
+</p><p>Please note that the first column in the item string defines the index
+of the icon to be displayed for the specific listbox item. See [Lists_API_Specification.topic3.4 Creating a selection listbox with a large graphic a primary and a secondary text] for
+example code on how to use the icons in the listbox.
+</p>
+<a name="Double_item_with_small_graphic"><h5> <span class="mw-headline">1.7.2.10 Double item with small graphic </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_DoubleItem_WithSmallGraphic.png" title="Double item with small graphic"><img alt="Double item with small graphic" border="0" height="63" src="images/SPB_10_1_DoubleItem_WithSmallGraphic.png" width="234" /></a>
+<div style="text-align:center"><i>Double item with small graphic</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknDoubleGraphicStyleListBox</code> </span>
+</p><p>Column usage: Small graphic (column A), primary text (column B), secondary
+text (column C)
+</p><p>String format: "1\tTemplates\t10 Templates\t"
+</p><p>Please note that the first column in the item string defines the index
+of the icon to be displayed for the specific listbox item. See [Lists_API_Specification.topic3.4 Creating a selection listbox with a large graphic a primary and a secondary text] for
+example code on how to use the icons in the listbox.
+</p>
+<a name="Double_item_with_large_graphic"><h5> <span class="mw-headline">1.7.2.11 Double item with large graphic </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_DoubleItem_WithLargeGraphic.png" title="Double item with large graphic"><img alt="Double item with large graphic" border="0" height="63" src="images/SPB_10_1_DoubleItem_WithLargeGraphic.png" width="234" /></a>
+<div style="text-align:center"><i>Double item with large graphic</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknDoubleLargeStyleListBox</code> </span>
+</p><p>Column usage: Large graphic (column A), primary text (column B), secondary
+text (column C)
+</p><p>String format: "1\Activate\tvia Bluetooth\t"
+</p><p>Please note that the first column in the item string defines the index
+of the icon to be displayed for the specific listbox item. See [Lists_API_Specification.topic3.4 Creating a selection listbox with a large graphic a primary and a secondary text] for
+example code on how to use the icons in the listbox.
+</p>
+<a name="Double_item_style_2"><h5> <span class="mw-headline">1.7.2.12 Double item style 2 </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_DoubleItem_Style2.png" title="Double item style 2"><img alt="Double item style 2" border="0" height="63" src="images/SPB_10_1_DoubleItem_Style2.png" width="234" /></a>
+<div style="text-align:center"><i>Double item style 2</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknFormDoubleGraphicStyleListBox</code> </span>
+</p><p>Column usage: Graphic (column A), heading text (column B), main text (column
+C)
+</p><p>String format: "0\tMobile number\t+358 50 1234 7890\t"
+</p><p>Please note that the first column in the item string defines the index
+of the icon to be displayed for the specific listbox item. See [Lists_API_Specification.topic3.4 Creating a selection listbox with a large graphic a primary and a secondary text] for
+example code on how to use the icons in the listbox.
+</p>
+<a name="Setting_item"><h5> <span class="mw-headline">1.7.2.13 Setting item </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_SettingItem.png" title="Setting item"><img alt="Setting item" border="0" height="62" src="images/SPB_10_1_SettingItem.png" width="234" /></a>
+<div style="text-align:center"><i>Setting item</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknSettingStyleListBox</code> </span>
+</p><p>Column usage: Attribute text (columns BC), value text (column D)
+</p><p>String format: "\tInput text language\t\tAutomatic"
+</p>
+<a name="Setting_item_with_number"><h5> <span class="mw-headline">1.7.2.14 Setting item with number </span></h5>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_SettingItem_WithNumber.png" title="Setting item with number"><img alt="Setting item with number" border="0" height="62" src="images/SPB_10_1_SettingItem_WithNumber.png" width="234" /></a>
+<div style="text-align:center"><i>Setting item with number</i></div>
+<p>Class name: <span class="plainlinks"><code>CAknSettingNumberStyleListBox</code> </span>
+</p><p>Column usage: Number (column A), attribute text (columns BC), value text
+(column D)
+</p><p>String format: "1\tInput text language\t\tAutomatic"
+</p><p>Please note that the first column in the item string defines the index
+of the icon to be displayed for the specific listbox item. See [Lists_API_Specification.topic3.4 Creating a selection listbox with a large graphic a primary and a secondary text] for
+example code on how to use the icons in the listbox.
+</p>
+<a name="General_structure_of_lists"><h3> <span class="mw-headline">1.8 General structure of lists </span></h3>
+<p>The functionality in lists has been divided into four parts: Model, Item
+Drawer and View, and then Listbox that connects them together. The list items
+are stored in an array inside of Model. Item Drawer asks for the items to
+draw individual items. View asks Item Drawer to draw items, and manages drawing
+of many items and browsing between the items. Finally, Listbox chooses concrete
+instances of Model, Item Drawer and View, and handles creation of them and
+the communication with clients. (However, often applications need to use interfaces
+in classes derived from Model or <span class="plainlinks"><code><font color="darkred">ItemDrawer()</font></code> </span>, for example
+to set the icon array).
+</p>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_Listbox_Functionality.png" title="Diagram of listbox functionality"><img alt="Diagram of listbox functionality" border="0" height="238" src="images/SPB_10_1_Listbox_Functionality.png" width="410" /></a>
+<div style="text-align:center"><i>Diagram of listbox functionality</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Defining_a_listbox_in_resource_file"><h3> <span class="mw-headline">2.1 Defining a listbox in resource file </span></h3>
+<p>Listbox resources are described with the LISTBOX structure, as defined
+in the<i> eikon.rh</i> file.
+</p>
+<pre>STRUCT LISTBOX
+    {
+    BYTE version;    // version number
+    WORD flags;      // listbox flags
+    WORD height;     // in items
+    WORD width;      // in chars
+    LLINK array_id;  // points to items in ARRAY structure
+    }
+STRUCT ARRAY
+    {
+    STRUCT items();	  // list items
+    }
+</pre>
+<p>The listbox resource definition describes the application's listbox properties.
+The resource contains also information about the type of the listbox.
+</p><p>The listbox items are defined as an array. The array <span class="plainlinks"><code><font color="darkred">r_listbox_items</font></code> </span> below
+defines the listbox item strings for the listbox resource <span class="plainlinks"><code><font color="darkred">r_listbox</font></code> </span> above.
+</p><p>The listbox resource is defined in the application resource file (RSS file).
+The following code describes a selection listbox resource called <span class="plainlinks"><code><font color="darkred">r_listbox</font></code> </span>.
+</p>
+<pre>RESOURCE LISTBOX r_listbox
+    {
+    flags = EAknListBoxSelectionList;
+    array_id = r_listbox_items;
+    }
+</pre>
+<pre>RESOURCE ARRAY r_listbox_items
+    {
+    items =
+        {
+        LBUF { txt = "\tItem1\t\t"; },
+        LBUF { txt = "\tItem2\t\t"; },
+        LBUF { txt = "\titem3\t\t"; }
+        };
+    }
+</pre>
+<p>The listbox can also be created in a view-only mode, as a viewer listbox,
+without the highlight indicator. In order to create a viewer listbox, a flag
+called <span class="plainlinks"><code></code></span></p></a>EAknListBoxViewerFlags  must be used in conjunction
+with the listbox type when defining the flags parameter for the listbox resource.
+The example listbox resource <span class="plainlinks"><code><font color="darkred">r_listbox_viewer</font></code> </span> below demonstrates
+how to create a selection list in a viewer mode.
+
+<pre>RESOURCE LISTBOX r_listbox_viewer
+    {
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    array_id = r_listbox_items;
+    }
+</pre>
+<p>Once the resources have been defined and a resource file created, the listbox
+resource can be loaded and used in the application.
+</p>
+<a name="Creating_a_selection_listbox_from_resource"><h3> <span class="mw-headline">2.2 Creating a selection listbox from resource </span></h3>
+<p>This Section describes how to create lists from resource files and at run
+time. If lists are created from a resource, a resource file defining the listbox
+resource must exist and contain a valid listbox resource definition of the
+listbox structure and listbox items. If the listbox is created at run time,
+the listbox item array is constructed and initialized in the code.
+</p><p>When creating a listbox, choose a listbox layout that best suits your needs.
+The chosen layout specifies the class to be used when creating a listbox and
+the listbox item string format to be used when creating the listbox items.
+</p><p>Lists can be easily created and used from a resource file defining them.
+The resource file should define the listbox resource and the listbox resource
+items array. Create a listbox from a resource by following these steps:
+</p>
+<ul><li> Create a new listbox instance. Depending on which type of listbox you
+</li></ul>
+<p>wish to create, you must select and instantiate an appropriate class.
+</p>
+<ul><li> Set the listbox's container window. Since the listbox is a non window-owning
+</li></ul>
+<p>control, its parent control is passed as a parameter, providing a window for
+the listbox to draw to.
+</p>
+<ul><li> Initialize a resource reader that is used to load the resource file describing
+</li></ul>
+<p>the listbox resource. The listbox resource ID (name) is passed to the resource
+reader as a parameter.
+</p>
+<ul><li> Load the listbox resource using the resource reader.
+</li></ul>
+<p>First, an instance of the listbox is created and its container control
+is set. Next, the resource reader is created to prepare the loading of the
+resource file. Here, the resource reader and listbox resource identifier are
+passed as parameters. The listbox resource is referred to, using the name
+given to identify it when defining the resource in the resource file.
+</p><p>Finally, the listbox resource file is loaded by calling the <span class="plainlinks"><code><font color="darkred">ConstructFromResourceL()</font></code> </span> method
+with the resource reader as a parameter. If the resource loading is successful,
+the listbox is ready for use.
+</p><p>The following example code creates a selection listbox with a single-line
+item layout loaded from a resource file. This code expects the resource file
+to define the resource <span class="plainlinks"><code></code></span></p></a>R_LISTBOX .
+<p>In this example a listbox is created, and activated. Note that in the example
+listbox is component of a compound control and it is needed to implement method <span class="plainlinks"><code><font color="darkred">ComponentControl()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">CountComponentControls()</font></code> </span>.
+</p>
+<pre>class CMyContainer : public CCoeControl
+     {
+     CEikTextListBox* iListBox;
+     }
+</pre>
+<pre>void CMyContainer::ConstructL()
+     {
+     // Create listbox
+     iListBox = new ( ELeave ) CAknSingleStyleListBox(); // markable
+     iListBox-&gt;SetContainerWindowL( *this );
+</pre>
+<pre>     // Initialize resource reader, passing resource id as parameter
+     TResourceReader rr;
+     iEikonEnv-&gt;CreateResourceReaderLC( rr, R_LISTBOX );
+     // Load and construct listbox
+     iListBox-&gt;ConstructFromResourceL( rr );
+     CleanupStack::PopAndDestroy();  // rr
+     // Activate listbox
+     iListBox-&gt;SetRect( Rect() );
+     iListBox-&gt;ActivateL();
+     }
+</pre>
+<a name="Creating_a_selection_listbox_runtime"><h3> <span class="mw-headline">2.3 Creating a selection listbox runtime </span></h3>
+<p>Creating lists without resource file definitions is fairly simple. In this
+approach, the listbox format and contents are set manually at run time as
+the resources are not used. To create a listbox at run time, follow these
+steps:
+</p>
+<ul><li> Create a new listbox instance. Depending on which type of listbox you
+</li></ul>
+<p>wish to create, you must select and instantiate an appropriate class. This
+example uses the <span class="plainlinks"><code></code></span></p></a>CAknSingleNumberStyleListBox  class.
+
+<ul><li> Use flag <span class="plainlinks"><code>EAknListBoxSelectionList</code> </span> to create a selection
+</li></ul>
+<p>list.
+</p>
+<ul><li> Set the listbox's container window. Since the listbox is a non window-owning
+</li></ul>
+<p>control, its parent control is passed as a parameter, providing a window for
+the listbox to draw to.
+</p>
+<ul><li> Create a scrollbar frame to the listbox and set active.
+</li><li> Construct the list item array. The listbox item string format must obey
+</li></ul>
+<p>the string format specified for the listbox type used. Append the formatted
+item strings to the listbox item array.
+</p>
+<ul><li> Set the listbox item array to list and set the item array ownership to
+</li></ul>
+<p>list.
+</p><p>The following example code shows how to create a numbered selection listbox
+with three items at run time, without using a resource file. Note that the
+example listbox is a component of a compound control and it is needed to implement
+method <span class="plainlinks"><code><font color="darkred">ComponentControl()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">CountComponentControls()</font></code> </span>.
+</p>
+<pre>class CMyContainer : public CCoeControl
+     {
+     CEikTextListBox* iListBox;
+     CDesCArrayFlat* iListBoxItems;
+     }
+</pre>
+<pre>void CMyContainer::ConstructL()
+     {
+     &#8230;
+     CreateWindowL(); // This is a window owning control
+     // Create a single numbered style listbox
+     iListBox = new (ELeave) CAknSingleNumberStyleListBox(); // markable
+     // Construct listbox
+     iListBox-&gt;ConstructL( this, EAknListBoxSelectionList | EAknListBoxLoopScrolling );
+     iListBox-&gt;SetContainerWindowL( *this );
+     // Set scrollbars
+     iListBox-&gt;CreateScrollBarFrameL( ETrue );
+     iListBox-&gt;ScrollBarFrame()-&gt;SetScrollBarVisibilityL( CEikScrollBarFrame::EOn, CEikScrollBarFrame::EAuto );
+</pre>
+<pre>     // Create listbox item array
+     iListBoxItems = new (ELeave) CDesCArrayFlat(4);
+     // Create listbox items
+     iListBoxItems-&gt;AppendL( _L(&quot;1\tItem&quot;) );
+     iListBoxItems-&gt;AppendL( _L(&quot;2\tItem&quot;) );
+     iListBoxItems-&gt;AppendL( _L(&quot;3\tItem&quot;) );
+     // Add items to listbox
+     iListBox-&gt;Model()-&gt;SetItemTextArray( iListBoxItems );
+     // Listbox deletes the item array
+     iListBox-&gt;Model()-&gt;SetOwnershipType( ELbmOwnsItemArray );
+     iListBox-&gt;HandleItemAdditionL( );
+     // Activate Listbox
+     iListBox-&gt;SetRect( Rect() );
+     iListBox-&gt;ActivateL();
+     &#8230;
+     }
+</pre>
+<p>Note, that listbox must be informed about size changed events, to display
+properly.
+</p>
+<pre>void CSumoTestContainer::SizeChanged()
+    {
+    &#8230;
+    iListBox-&gt;SetRect( Rect() );
+    &#8230;
+    }
+</pre>
+<a name="Creating_a_selection_listbox_with_a_large_graphic_a_primary_and_a_secondary_text"><h3> <span class="mw-headline">2.4 Creating a selection listbox with a large graphic a primary and a secondary text </span></h3>
+<p>The previous code example demonstrated how to create a listbox at run time,
+without a resource file. The next code example demonstrates how to use a large
+graphic a primary and secondary text in the listbox. To create a listbox from
+code, follow these steps:
+</p>
+<ul><li> Create a new listbox instance. You must choose an appropriate class to
+</li></ul>
+<p>instantiate depending on which type of listbox you wish to create. This example
+uses the <span class="plainlinks"><code></code></span></p></a>CAknDoubleLargeStyleListBox  class.
+
+<ul><li> Use flag <span class="plainlinks"><code>EAknListBoxSelectionList</code> </span> to create a selection
+</li></ul>
+<p>list.
+</p>
+<ul><li> Set the listbox's container window. Since the listbox is a non window-owning
+</li></ul>
+<p>control, its parent control is passed as a parameter, providing a window for
+the listbox to draw to.
+</p>
+<ul><li> Create a scrollbar frame to the listbox and set active.
+</li><li> Construct a listbox item array. The listbox item string format must obey
+</li></ul>
+<p>the string format specified for the listbox type used. Append the formatted
+item strings to the listbox item array.
+</p>
+<ul><li> Set the listbox item array to the listbox and set the item array ownership
+</li></ul>
+<p>to the listbox.
+</p>
+<ul><li> Construct the listbox icon array. The listbox items are loaded from a
+</li></ul>
+<p>AVKON's bitmap file and appended to the icon array. Set the icon array to
+the listbox.
+</p><p>Note that the order of the icons in the icon array defines their indexes.
+In this example, the first icon added to the icon list is ndexed as zero ( <span class="plainlinks"><code><font color="darkred">0</font></code> </span>),
+and the next item, as one ( <span class="plainlinks"><code><font color="darkred">1</font></code> </span>). The first column in the listbox
+item string defines the index of the icon to be displayed for the specific
+listbox item.
+</p><p>The following example code shows how to create a listbox with a large graphic,
+a primary and a secondary text at run time. Note that the example listbox
+is component of a compound control and it is needed to implement method <span class="plainlinks"><code><font color="darkred">ComponentControl()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">CountComponentControls()</font></code> </span>.
+</p>
+<pre>class CMyContainer : public CCoeControl
+     {
+     CEikFormattedCellListBox* iListBox;
+     CDesCArrayFlat* iListBoxItems;
+     }
+</pre>
+<pre>void CMyContainer::ConstructL()
+     {
+     &#8230;
+     CreateWindowL(); // This is a window owning control
+     // Create listbox
+     iListBox = new (ELeave) CAknDoubleLargeStyleListBox();
+     // Construct listbox
+     iListBox-&gt;ConstructL( this, EAknListBoxSelectionList | EAknListBoxLoopScrolling );
+     iListBox-&gt;SetContainerWindowL( *this );
+     // Set scrollbars
+     iListBox-&gt;CreateScrollBarFrameL( ETrue );
+     iListBox-&gt;ScrollBarFrame()-&gt;SetScrollBarVisibilityL( CEikScrollBarFrame::EOn, CEikScrollBarFrame::EAuto );
+</pre>
+<pre>     // Create listbox item array
+     iListBoxItems = new (ELeave) CDesCArrayFlat(4);
+     // Create listbox items
+     iListBoxItems-&gt;AppendL( _L(&quot;0\tHeading1\tItem1\t&quot;) );
+     iListBoxItems-&gt;AppendL( _L(&quot;1\tHeading2\tItem2\t&quot;) );
+     iListBoxItems-&gt;AppendL( _L(&quot;2\tHeading3\tItem3\t&quot;) );
+     // Add items to listbox
+     iListBox-&gt;Model()-&gt;SetItemTextArray( iListBoxItems );
+     // Listbox deletes the item array
+     iListBox-&gt;Model()-&gt;SetOwnershipType( ELbmOwnsItemArray );
+     iListBox-&gt;HandleItemAdditionL( );
+     // Add icons to listbox
+     AddListboxIconsL();
+     // Activate Listbox
+     iListBox-&gt;SetRect( Rect() );
+     iListBox-&gt;ActivateL();
+     &#8230;
+     }
+</pre>
+<pre>// This method adds the icons to iListbox
+void CMyContainer::AddListboxIconsL()
+    {
+    CArrayPtr&lt;CGulIcon&gt;* iconArray = new( ELeave ) CAknIconArray( 1 );
+    CleanupStack::PushL( iconArray );
+</pre>
+<pre>    CFbsBitmap* addressIcon = NULL;
+    CFbsBitmap* addressIconMask = NULL;
+    CFbsBitmap* emailIcon = NULL;
+    CFbsBitmap* emailIconMask = NULL;
+    CFbsBitmap* faxIcon = NULL;
+    CFbsBitmap* faxIconMask = NULL;
+</pre>
+<pre>    AknIconUtils::CreateIconLC( addressIcon,
+                               addressIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_address,
+                               EMbmAvkonQgn_prop_nrtyp_address_mask );
+</pre>
+<pre>    CGulIcon* addressListIcon = CGulIcon::NewL( addressIcon, addressIconMask );
+    CleanupStack::Pop( 2 ); // addressIcon, addressIconMask
+    CleanupStack::PushL( addressListIcon );
+    iconArray-&gt;AppendL( addressListIcon );
+</pre>
+<pre>    AknIconUtils::CreateIconLC( emailIcon,
+                               emailIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_email,
+                               EMbmAvkonQgn_prop_nrtyp_email_mask );
+</pre>
+<pre>    CGulIcon* emailListIcon = CGulIcon::NewL( emailIcon, emailIconMask );
+    CleanupStack::Pop( 2 ); // emailIcon, emailIconMask
+    CleanupStack::PushL( emailListIcon );
+    iconArray-&gt;AppendL( emailListIcon );
+</pre>
+<pre>    AknIconUtils::CreateIconLC( faxIcon,
+                               faxIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_fax,
+                               EMbmAvkonQgn_prop_nrtyp_fax_mask );
+</pre>
+<pre>    CGulIcon* faxListIcon = CGulIcon::NewL( faxIcon, faxIconMask );
+    CleanupStack::Pop( 2 ); // faxIcon, faxIconMask
+    CleanupStack::PushL( faxListIcon );
+    iconArray-&gt;AppendL( faxListIcon );
+</pre>
+<pre>    iListBox-&gt;ItemDrawer()-&gt;ColumnData()-&gt;SetIconArray( iconArray );
+    // faxListIcon, emailListIcon, addressListIcon, iconArray
+    CleanupStack::Pop( 4 );
+    iListBox-&gt;HandleItemAdditionL();
+    }
+</pre>
+<a name="Getting_the_selected_item_of_a_selection_listbox"><h3> <span class="mw-headline">2.5 Getting the selected item of a selection listbox </span></h3>
+<p>The menu and selection lists allow selection of one item on the list. The
+listbox instance contains the index of its currently selected item. The index
+of the currently selected item on the menu and selection lists can be retrieved
+by the following code:
+</p>
+<pre>TInt currentIndex = iListBox-&gt;CurrentItemIndex();
+</pre>
+</a><a name="Creating_a_multiselection_listbox"><h3> <span class="mw-headline">2.6 Creating a multiselection listbox </span></h3>
+<p>In a multiselection list, different list items can be selected at the same
+time, to perform some operation on them. A listbox consists of a checkbox
+icon, and a text. Because of the type of the listbox items, the <span class="plainlinks"><code></code></span></p></a>CAknSingleGraphicStyleListBox  class
+is used, so a checkbox can be used on the left side on the list item. To
+create a listbox from code, follow these steps:
+
+<ul><li> Create a new listbox instance. You must choose an appropriate class to
+</li></ul>
+<p>instantiate depending on which type of listbox you wish to create This example
+uses the <span class="plainlinks"><code>CAknSingleGraphicStyleListBox</code> </span> class.
+</p>
+<ul><li> Use flag <span class="plainlinks"><code>EAknListBoxMultiselectionList</code> </span> to create a multiselection
+</li></ul>
+<p>list.
+</p>
+<ul><li> Set the listbox's container window. Since the listbox is a non window-owning
+</li></ul>
+<p>control, its parent control is passed as a parameter, providing a window for
+the listbox to draw to.
+</p>
+<ul><li> Create a scrollbar frame to the listbox and set active.
+</li><li> Construct a listbox item array. The listbox item string format must obey
+</li></ul>
+<p>the string format specified for the listbox type used. Append the formatted
+item strings to the listbox item array.
+</p>
+<ul><li> Set the listbox item array to the listbox and set the item array ownership
+</li></ul>
+<p>to the listbox.
+</p>
+<ul><li> Construct the list icon array, that contains the checkbox icons The checkbox
+</li></ul>
+<p>icons are loaded from a AVKON's bitmap file and appended to the icon array.
+Set the icon array to the listbox. In the example the checkbox icons are gotten
+from the current active skin, so if the skin changes, the checkbox icons change
+as well, according to the new skin.
+</p><p>Note that the order of the icons in the icon array defines their indexes.
+In this example, the first icon is indexed as zero (0), and the next is indexed
+as one (1). The first column in the listbox item string defines the index
+of the icon to be displayed for the specific listbox item.
+</p><p>The example listbox is a component of a compound control and it is needed
+to implement the method <span class="plainlinks"><code><font color="darkred">ComponentControl()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">CountComponentControls()</font></code> </span>.
+</p>
+<pre>class CMyContainer : public CCoeControl
+     {
+     CAknColumnListBox* iListBox;
+     CDesCArrayFlat* iListBoxItems;
+     }
+</pre>
+<pre>void CMyContainer::ConstructL()
+     {
+     &#8230;
+     CreateWindowL(); // This is a window owning control
+     // Create listbox
+     iListBox = new (ELeave) CAknSingleGraphicStyleListBox(); // markable
+     // Construct listbox
+     iListBox-&gt;ConstructL( this, EAknListBoxMultiselectionList| EAknListBoxLoopScrolling );
+     iListBox-&gt;SetContainerWindowL( *this );
+     // Set scrollbars
+     iListBox-&gt;CreateScrollBarFrameL( ETrue );
+     iListBox-&gt;ScrollBarFrame()-&gt;SetScrollBarVisibilityL( CEikScrollBarFrame::EOn, CEikScrollBarFrame::EAuto );
+</pre>
+<pre>     // Create listbox item array
+     iListBoxItems = new (ELeave) CDesCArrayFlat(4);
+     // Create listbox items
+    iListBoxItems-&gt;AppendL( _L(&quot;1\tItem1&quot;) );
+    iListBoxItems-&gt;AppendL( _L(&quot;1\tItem2&quot;) );
+    iListBoxItems-&gt;AppendL( _L(&quot;1\tItem3&quot;) );
+     // Add items to listbox
+     iListBox-&gt;Model()-&gt;SetItemTextArray( iListBoxItems );
+     // Listbox deletes the item array
+     iListBox-&gt;Model()-&gt;SetOwnershipType( ELbmOwnsItemArray );
+     iListBox-&gt;HandleItemAdditionL( );
+     // Add icons to listbox
+     AddCheckboxIconsL();
+     // Activate Listbox
+     iListBox-&gt;SetRect( Rect() );
+     iListBox-&gt;ActivateL();
+     &#8230;
+     }
+</pre>
+<pre>void CMyContainer::AddCheckboxIconsL()
+    {
+    CAknIconArray* iconArray = new( ELeave ) CAknIconArray( 1 );
+    CleanupStack::PushL( iconArray );
+    CFbsBitmap* checkboxOnBitmap = NULL;
+    CFbsBitmap* checkboxOnBitmapMask = NULL;
+    CFbsBitmap* checkboxOffBitmap = NULL;
+    CFbsBitmap* checkboxOffBitmapMask = NULL;
+</pre>
+<pre>    //CListItemDrawer is using this logical color as default for its marked icons
+    TRgb defaultColor;
+    defaultColor = CEikonEnv::Static()-&gt;Color( EColorControlText );
+</pre>
+<pre>    AknsUtils::CreateColorIconLC( AknsUtils::SkinInstance(),
+    			KAknsIIDQgnPropCheckboxOff,
+    			KAknsIIDQsnIconColors,
+    			EAknsCIQsnIconColorsCG13,
+    			checkboxOnBitmap,
+    			checkboxOnBitmapMask,
+    			KAvkonBitmapFile,
+    			EMbmAvkonQgn_indi_checkbox_on,
+    			EMbmAvkonQgn_indi_checkbox_on_mask,
+    			defaultColor
+    			);
+</pre>
+<pre>    CGulIcon* checkboxOnIcon = CGulIcon::NewL( checkboxOnBitmap, checkboxOnBitmapMask );
+    CleanupStack::Pop( 2 ); // checkboxOnBitmap, checkboxOnBitmapMask
+    CleanupStack::PushL( checkboxOnIcon );
+    iconArray-&gt;AppendL( checkboxOnIcon );
+</pre>
+<pre>    AknsUtils::CreateColorIconLC( AknsUtils::SkinInstance(),
+    			KAknsIIDQgnPropCheckboxOff,
+    			KAknsIIDQsnIconColors,
+    			EAknsCIQsnIconColorsCG13,
+    			checkboxOffBitmap,
+    			checkboxOffBitmapMask,
+    			KAvkonBitmapFile,
+    			EMbmAvkonQgn_indi_checkbox_off,
+    			EMbmAvkonQgn_indi_checkbox_off_mask,
+    			defaultColor
+    			);
+</pre>
+<pre>    CGulIcon* checkboxOffIcon = CGulIcon::NewL( checkboxOffBitmap, checkboxOffBitmapMask );
+    CleanupStack::Pop( 2 ); // checkboxOffBitmap, checkboxOffBitmapMask
+    CleanupStack::PushL( checkboxOffIcon );
+    iconArray-&gt;AppendL( checkboxOffIcon );
+</pre>
+<pre>    iListBox-&gt;ItemDrawer()-&gt;ColumnData()-&gt;SetIconArray( iconArray );
+</pre>
+<pre>    // checkboxOffIcon, checkboxOnIcon, iconArray
+    CleanupStack::Pop( 3 );
+    }
+</pre>
+<a name="Select_and_deselect_an_item_in_a_multiselection_listbox"><h3> <span class="mw-headline">2.7 Select and deselect an item in a multiselection listbox </span></h3>
+<p>This example shows how to change the checkbox states of a multiselection
+list item.
+</p>
+<pre>// Checks the second item in the list
+iListBox-&gt;View()-&gt;SelectItemL( 1 );
+// Unchecks the first item in the list
+iListBox-&gt;View()-&gt;DeselectItem( 0 );
+</pre>
+</a><a name="Creating_a_markable_listbox"><h3> <span class="mw-headline">2.8 Creating a markable listbox </span></h3>
+<p>A markable listbox is essentially a selection listbox with an added feature
+that allows list items to be marked. Any number of items can be marked on
+the list. A command can be applied to all of the marked items. A listbox consists
+of a mark icon, if the item is marked and a text. Because of the type of the
+listbox items, the <span class="plainlinks"><code></code></span></p></a>CAknSingleGraphicStyleListBox  class  is
+used, so a mark icon can be used on the right side on the list item. To create
+a listbox from code, follow these steps:
+
+<ul><li> Create a new listbox instance. You must choose an appropriate class to
+</li></ul>
+<p>instantiate depending on which type of listbox you wish to create This example
+uses the <span class="plainlinks"><code>CAknSingleGraphicStyleListBox</code> </span> class.
+</p>
+<ul><li> Use flag <span class="plainlinks"><code>EAknListBoxMarkableList</code> </span> to create a markable
+</li></ul>
+<p>list.
+</p>
+<ul><li> Set the listbox's container window. Since the listbox is a non window-owning
+</li></ul>
+<p>control, its parent control is passed as a parameter, providing a window for
+the listbox to draw to.
+</p>
+<ul><li> Create a scrollbar frame to the listbox and set active.
+</li><li> Construct a listbox item array. The listbox item string format must obey
+</li></ul>
+<p>the string format specified for the listbox type used. Append the formatted
+item strings to the listbox item array.
+</p>
+<ul><li> Set the listbox item array to the listbox and set the item array ownership
+</li></ul>
+<p>to the listbox.
+</p>
+<ul><li> Construct the list icon array, that contains the mark icons The mark icons
+</li></ul>
+<p>are loaded from a AVKON's bitmap file and appended to the icon array. Set
+the icon array to the listbox. In the example the mark icons are gotten from
+the current active skin, so if the skin changes, the mark icons change as
+well, according to the new skin.
+</p><p>Note that the order of the icons in the icon array defines their indexes.
+In this example, the first icon is indexed as zero ( <span class="plainlinks"><code><font color="darkred">0</font></code> </span>), and
+the next is indexed as one ( <span class="plainlinks"><code><font color="darkred">1</font></code> </span>). The first column in the listbox
+item string defines the index of the icon to be displayed for the specific
+listbox item.
+</p><p>The example listbox is a component of a compound control and it is needed
+to implement the method <span class="plainlinks"><code><font color="darkred">ComponentControl()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">CountComponentControls()</font></code> </span>.
+</p>
+<pre>class CMyContainer : public CCoeControl
+     {
+     CAknColumnListBox* iListBox;
+     CDesCArrayFlat* iListBoxItems;
+     }
+</pre>
+<pre>void CMyContainer::ConstructL()
+     {
+     &#8230;
+     CreateWindowL(); // This is a window owning control
+     // Create a single numbered style listbox
+     iListBox = new (ELeave) CAknSingleGraphicStyleListBox(); // markable
+     // Construct listbox
+     iListBox-&gt;ConstructL( this, EAknListBoxMarkableList | EAknListBoxLoopScrolling );
+     iListBox-&gt;SetContainerWindowL( *this );
+     // Set scrollbars
+     iListBox-&gt;CreateScrollBarFrameL( ETrue );
+     iListBox-&gt;ScrollBarFrame()-&gt;SetScrollBarVisibilityL( CEikScrollBarFrame::EOn, CEikScrollBarFrame::EAuto );
+</pre>
+<pre>     // Create listbox item array
+     iListBoxItems = new (ELeave) CDesCArrayFlat(4);
+     // Create listbox items
+     iListBoxItems-&gt;AppendL( _L(&quot;\tItem1\t\t&quot;) );
+     iListBoxItems-&gt;AppendL( _L(&quot;\tItem2\t\t&quot;) );
+     iListBoxItems-&gt;AppendL( _L(&quot;\tItem3\t\t&quot;) );
+     // Add items to listbox
+     iListBox-&gt;Model()-&gt;SetItemTextArray( iListBoxItems );
+     // Listbox deletes the item array
+     iListBox-&gt;Model()-&gt;SetOwnershipType( ELbmOwnsItemArray );
+     iListBox-&gt;HandleItemAdditionL( );
+     // Add icons to listbox
+     AddMarkIconsL();
+     // Activate Listbox
+     iListBox-&gt;SetRect( Rect() );
+     iListBox-&gt;ActivateL();
+     &#8230;
+     }
+</pre>
+<pre>void CMyContainer::AddMarkIconsL()
+    {
+    CAknIconArray* iconArray = new(ELeave) CAknIconArray(1);
+    CleanupStack::PushL(iconArray);
+    CFbsBitmap* markBitmap = NULL;
+    CFbsBitmap* markBitmapMask = NULL;
+</pre>
+<pre>    //CListItemDrawer is using this logical color as default for its marked icons
+    TRgb defaultColor;
+    defaultColor = CEikonEnv::Static()-&gt;Color(EColorControlText);
+</pre>
+<pre>    AknsUtils::CreateColorIconLC(AknsUtils::SkinInstance(),
+    			KAknsIIDQgnIndiMarkedAdd,
+    			KAknsIIDQsnIconColors,
+    			EAknsCIQsnIconColorsCG13,
+    			markBitmap,
+    			markBitmapMask,
+    			KAvkonBitmapFile,
+    			EMbmAvkonQgn_indi_marked_add,
+    			EMbmAvkonQgn_indi_marked_add_mask,
+    			defaultColor
+    			);
+</pre>
+<pre>    CGulIcon* markIcon = CGulIcon::NewL( markBitmap,markBitmapMask );
+    CleanupStack::Pop( 2 ); // markBitmap, markBitmapMask
+    CleanupStack::PushL( markIcon );
+    iconArray-&gt;AppendL( markIcon );
+</pre>
+<pre>    iListBox-&gt;ItemDrawer()-&gt;ColumnData()-&gt;SetIconArray( iconArray );
+</pre>
+<pre>    // markIcon, iconArray
+    CleanupStack::Pop( 2 );
+    }
+</pre>
+<a name="Mark_and_unmark_an_item_in_a_markable_listbox"><h3> <span class="mw-headline">2.9 Mark and unmark an item in a markable listbox </span></h3>
+<p>This example shows how to change the mark states of a markable list item.
+</p>
+<pre>// Marks the second item in the list
+iListBox-&gt;View()-&gt;SelectItemL( 1 );
+// Unmarks the first item in the list
+iListBox-&gt;View()-&gt;DeselectItem( 0 );
+</pre>
+</a><a name="Getting_the_selected_items_of_a_markable_or_multiselection_list"><h3> <span class="mw-headline">2.10 Getting the selected items of a markable or multiselection list </span></h3>
+<p>Markable and multiselection lists allow multiple items to be selected,
+as well as one item or none at all. An array of the indexes of the selected
+items can be requested from these lists. The indexes are returned by the listbox
+as an array of type <span class="plainlinks"><code></code></span></p></a>CSelectionIndexArray , which is essentially
+just a typedef of <span class="plainlinks"><code>CArrayFix</code> </span>. The following code example demonstrates
+how to retrieve the array of selected items from markable and multiselection
+lists:
+
+<pre>// Get the selected item indexes an array
+const CArrayFix&lt;TInt&gt; *selectedIndexes = iListBox -&gt;SelectionIndexes();
+</pre>
+<pre>// Make sure the array is not null (no items)
+if ( selectedIndexes != NULL )
+    {
+    // Loop through the selected item indexes
+    for ( TInt index=0; index &lt; selectedIndexes-&gt;Count(); index++ )
+        {
+        // Get the index of the selected item
+        TInt selectedItemIndex = (*aIndexArray)(index);
+        // now do something with the index&#8230;
+        }
+    }
+</pre>
+<a name="Creating_a_settings_style_listbox"><h3> <span class="mw-headline">2.11 Creating a settings style listbox </span></h3>
+<p>A setting style listbox is essentially a selection listbox with an added
+feature that allows to change the items according to a setting. A listbox
+consists of a name and a value. Because of the type of the listbox items,
+the <span class="plainlinks"><code></code></span></p></a>CAknSettingStyleListBox  class  is used. It is also possible
+to create a settings lists using class <span class="plainlinks"><code>CAknSettingItemList</code> </span>.
+For details please see Setting Lists API documentation.
+<p>To create a listbox from code, follow these steps:
+</p>
+<ul><li> Create a new listbox instance. You must choose an appropriate class to
+</li></ul>
+<p>instantiate depending on which type of listbox you wish to create This example
+uses the <span class="plainlinks"><code>CAknSettingStyleListBox</code> </span> class.
+</p>
+<ul><li> Use flag <span class="plainlinks"><code>EAknListBoxSelectionList</code> </span> to create a markable
+</li></ul>
+<p>list.
+</p>
+<ul><li> Set the listbox's container window. Since the listbox is a non window-owning
+</li></ul>
+<p>control, its parent control is passed as a parameter, providing a window for
+the listbox to draw to.
+</p>
+<ul><li> Create a scrollbar frame to the listbox and set active.
+</li><li> Construct a listbox item array. The listbox item string format must obey
+</li></ul>
+<p>the string format specified for the listbox type used. Append the formatted
+item strings to the listbox item array.
+</p>
+<ul><li> Set the listbox item array to the listbox and set the item array ownership
+</li></ul>
+<p>to the listbox.
+</p><p>The example listbox is a component of a compound control and it is needed
+to implement the method <span class="plainlinks"><code><font color="darkred">ComponentControl()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">CountComponentControls()</font></code> </span>.
+</p>
+<pre>class CMyContainer : public CCoeControl
+     {
+     CAknSettingStyleListBox * iListBox;
+     CDesCArrayFlat* iListBoxItems;
+     }
+</pre>
+<pre>void CMyContainer::ConstructL()
+     {
+     &#8230;
+     CreateWindowL(); // This is a window owning control
+     // Create listbox
+     iListBox = new (ELeave) CAknSettingStyleListBox(); // markable
+     // Construct listbox
+     iListBox-&gt;ConstructL( this, EAknListBoxSelectionList | EAknListBoxLoopScrolling );
+     iListBox-&gt;SetContainerWindowL( *this );
+     // Set scrollbars
+     iListBox-&gt;CreateScrollBarFrameL( ETrue );
+     iListBox-&gt;ScrollBarFrame()-&gt;SetScrollBarVisibilityL( CEikScrollBarFrame::EOn, CEikScrollBarFrame::EAuto );
+</pre>
+<pre>     // Create listbox item array
+     iListBoxItems = new (ELeave) CDesCArrayFlat(4);
+     // Create listbox items
+    iListBoxItems-&gt;AppendL( _L(&quot;\tUpdates\t\tOff&quot;) );
+    iListBoxItems-&gt;AppendL( _L(&quot;\tLanguage\t\tEnglish&quot;) );
+    iListBoxItems-&gt;AppendL( _L(&quot;\tSounds\t\tOn&quot;) );
+     // Add items to listbox
+     iListBox-&gt;Model()-&gt;SetItemTextArray( iListBoxItems );
+     // Listbox deletes the item array
+     iListBox-&gt;Model()-&gt;SetOwnershipType( ELbmOwnsItemArray );
+     iListBox-&gt;HandleItemAdditionL( );
+     // Activate Listbox
+     iListBox-&gt;SetRect( Rect() );
+     iListBox-&gt;ActivateL();
+     &#8230;
+     }
+</pre>
+<a name="Adding_an_item_to_listbox"><h3> <span class="mw-headline">2.12 Adding an item to listbox </span></h3>
+<p>New items are added to the listbox by appending a new entry to the listbox
+item array. First, the listbox item array is retrieved from the listbox. A
+new listbox item is then appended to the existing listbox item array and the
+listbox is requested to handle the addition of a new item. The <span class="plainlinks"><code><font color="darkred">HandleItemAdditionL()</font></code> </span> method
+handles the listbox redrawing and repositions the selection in a sensible
+state.
+</p><p>The following example code adds a new entry to a selection listbox:
+</p>
+<pre>// Get listbox item array
+MDesC16Array* textArray = iListBox-&gt;Model()-&gt;ItemTextArray();
+// Add new item to item array
+static_cast&lt;CDesC16Array*&gt;( textArray )-&gt;AppendL( _L( "\tNewItem\t\t" ) );
+// Update listbox
+iListBox-&gt;HandleItemAdditionL();
+</pre>
+</a><a name="Removing_an_item_from_listbox"><h3> <span class="mw-headline">2.13 Removing an item from listbox </span></h3>
+<p>To remove items from the listbox, you must first get the listbox item array
+from the listbox. Items are deleted from the item list array by specifying
+the index of the item to be deleted and the number of items to be deleted.
+The listbox is requested to handle the item deletion and redraw itself to
+show the changes.
+</p><p>The following example code removes the second item from a listbox:
+</p>
+<pre>// Get listbox item array
+MDesCArray* textArray = iListBox-&gt;Model()-&gt;ItemTextArray();
+// Delete second item from item array
+static_cast&lt;CDesCArray*&gt;( textArray )-&gt;Delete( 1 );
+// Handle deletion
+iListBox-&gt;HandleItemRemovalL();
+iListBox-&gt;DrawNow();
+</pre>
+<p>Multiple contiguous items can also be deleted by specifying the count of
+the contiguous items to be deleted as the second parameter of the <span class="plainlinks"><code><font color="darkred">Delete()</font></code> </span> method.
+In the example above, only the selected item is deleted by specifying the
+count as one ( <span class="plainlinks"><code><font color="darkred">1</font></code> </span>).
+</p>
+</a><a name="Getting_the_number_of_items_in_listbox"><h3> <span class="mw-headline">2.14 Getting the number of items in listbox </span></h3>
+<p>This example shows how to get the number of listbox items.
+</p>
+<pre>TInt listboxItems = iListBox-&gt;Model()-&gt;NumberOfItems();
+</pre>
+</a><a name="Offering_key_events_to_listbox"><h3> <span class="mw-headline">2.15 Offering key events to listbox </span></h3>
+<p>If the listbox is a component of a compound control, it is needed to inform
+the listbox about key events. It is simply forwarding the event to the listbox
+from the components <span class="plainlinks"><code><font color="darkred">OfferKeyEventL()</font></code> </span> method.
+</p>
+<pre>TKeyResponse CMyContainer::OfferKeyEventL(const TKeyEvent&amp; aKeyEvent, TEventCode aType)
+    {
+    return iListBox-&gt;OfferKeyEventL( aKeyEvent, aType );
+    }
+</pre>
+</a><a name="Handling_listbox_events"><h3> <span class="mw-headline">2.16 Handling listbox events </span></h3>
+<p>To observe events if a listbox item is selected, a listbox observer is
+needed. The observer class must be inherited from class <span class="plainlinks"><code></code></span></p></a>MEikListBoxObserver  and
+must implement the method <span class="plainlinks"><code><font color="darkred">HandleListBoxEventL()</font></code> </span>.
+<p>Listbox can set an observer to which it can send other events, usually
+from a component to its container control. The control observer interface
+is <span class="plainlinks"><code>MCoeControlObserver</code> </span>. For example the <span class="plainlinks"><code>EEventStateChanged</code> </span> event
+can be used by a control to report that some piece of internal data has changed,
+and hence that any observer should be notified accordingly.
+</p><p>If a custom listbox is created or it is needed to handle situations where
+the theme is changed and listbox needs to display different icons, <span class="plainlinks"><code><font color="darkred">HandleResourceChange()</font></code> </span> must
+be implemented.
+</p><p>In this example, the class <span class="plainlinks"><code>CMyContainer</code> </span> observes if a
+listbox item is selected, by pressing the Enter key.
+</p>
+<pre>class CMyContainer : public CCoeControl, MEikListBoxObserver
+    {
+    &#8230;
+    /**
+    * From MEikListBoxObserver
+    */
+    void HandleListBoxEventL( CEikListBox* aListBox, TListBoxEvent aEventType );
+    CAknColumnListBox* iListBox;
+    &#8230;
+    };
+</pre>
+<pre>void CMyContainer::HandleListBoxEventL( CEikListBox* /*aListBox*/, TListBoxEvent aEventType )
+	{
+	if ( aEventType == EEventEnterKeyPressed )
+	     {
+	     switch ( iListBox-&gt;CurrentItemIndex() )
+	          {
+                    case 1:
+                         // Handle keypress event here&#8230;
+                    break;
+</pre>
+<pre>                    default:
+                         // Do default handling here&#8230;
+                    break;
+                    }
+               }
+	}
+</pre>
+<a name="Creating_animated_highlight"><h3> <span class="mw-headline">2.17 Creating animated highlight </span></h3>
+<p>If the current skin supports animated highlight, it is only visible on
+the list if the focus is set to list. This example shows how to set the focus
+on the list. <span class="plainlinks"><code><font color="darkred">iListBox</font></code> </span> can be a pointer to any type of AVKON
+list. For example: <span class="plainlinks"><code></code></span></p></a>CAknSingleGraphicStyleListBox .
+
+<pre>void MyContainer::FocusChanged( TDrawNow aDrawNow )
+    {
+    CCoeControl::FocusChanged( aDrawNow );
+        if( iListBox )
+        {
+        iListBox-&gt;SetFocus( IsFocused(), aDrawNow );
+        }
+    }
+</pre>
+<a name="Common_problems_in_the_listbox_usage"><h3> <span class="mw-headline">2.18 Common problems in the listbox usage </span></h3>
+<p>This section describes what are the common problems when using a listbox.
+</p>
+<ul><li> Listbox crashes if no icon array has been set.
+</li><li> Listbox crashes if list items have non-numeric indexes or indexes outside
+</li></ul>
+<p>of the icon array.
+</p>
+<ul><li> Layout is not correct, listbox flags has not been set in <span class="plainlinks"><code><font color="darkred">ConstructL()</font></code> </span> or
+</li></ul>
+<p>in resource file.
+</p>
+<ul><li> Listbox size and position are not correct, the height in the <span class="plainlinks"><code></code></span></li></ul></a>LISTBOX  resource
+
+<p>inside of the dialogs needs to be correct.
+</p>
+<ul><li> Listbox item layout not correct, payload strings may contain extra tab
+</li></ul>
+<p>characters.
+</p>
+<a name="Error_handling"><h3> <span class="mw-headline">2.19 Error handling </span></h3>
+<p>Listbox uses standard Symbian OS error reporting mechanism. Possible panic
+circumstances and panic codes are indicated in class or method descriptions.
+</p><p>Leaves and system wide error codes as function return values are used if
+the error is recoverable. A client application can handle these errors similarly
+as a normal Symbian platform application.
+</p><p>Exception handling is not needed, except when setting up a layout in the <span class="plainlinks"><code><font color="darkred">SizeChanged()</font></code> </span> method,
+which needs to allocate memory.
+</p>
+</a><a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.20 Memory and Performance Considerations </span></h3>
+<p>The amount of reserved memory for listbox depend on the application, but
+despite the application the amount of reserved memory is relatively small.
+</p>
+</a><a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Lists API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> AVKON</td><td> S60 extensions and modifications to Uikon and other parts of the Symbian
+<p>OS application framework.
+</p>
+</td></tr>
+<tr>
+<td> MVC</td><td> Model-View-Controller (design pattern)
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></a></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_lists_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:21 GMT -->
+</html>

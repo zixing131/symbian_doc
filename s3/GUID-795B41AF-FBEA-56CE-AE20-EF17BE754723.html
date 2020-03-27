@@ -1,0 +1,279 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-795B41AF-FBEA-56CE-AE20-EF17BE754723.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:24 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="HTTP Utilities Library Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-F46CDF2C-DA64-5F30-B4C8-CC4B02CE67B9" /><meta name="DC.Relation" scheme="URI" content="GUID-96837414-3041-5E1E-A2E9-C18EECCF86D9" /><meta name="DC.Relation" scheme="URI" content="GUID-AFAD0F36-330B-50BD-B810-85BE7FA21179" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-94215E49-605B-51BA-B215-10BDA1A0C013" /><meta name="DC.Relation" scheme="URI" content="GUID-A602E35E-69BE-5F8C-A7E6-4B98E67BF382" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-795B41AF-FBEA-56CE-AE20-EF17BE754723" /><meta name="DC.Language" content="en" /><title>HTTP
+Utilities Library Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-795B41AF-FBEA-56CE-AE20-EF17BE754723">HTTP
+Utilities Library Overview</h1><div>
+<div><h3 class="section-title">Purpose</h3> <p>The InetProtUtils API
+provides functionality to handle URIs, such as extracting URI components,
+constructing and modifying a URI, text utilities, and URI component utilities
+required to work with URIs. </p> </div>
+<div><h3 class="section-title">Required background</h3> <p>The clients that make use of
+this API must be familiar with the following standards: </p> <ul>
+<li id="GUID-4F6AFFCE-D446-5E19-91F5-8F29A059D7C9"><a name="GUID-4F6AFFCE-D446-5E19-91F5-8F29A059D7C9"><!-- --></a><p> <a href="../rfc/rfc2396.txt" target="_blank">RFC 2396</a>, for Uniform Resource Identifiers (URI) </p> </li>
+<li id="GUID-D32F8A79-8D61-5B0F-A38C-9C77C50D1E1D"><a name="GUID-D32F8A79-8D61-5B0F-A38C-9C77C50D1E1D"><!-- --></a><p> <a href="http://tools.ietf.org/html/rfc1132" target="_blank">RFC 1123</a> for internet date and time specifications </p> </li>
+<li id="GUID-8B0C887C-0856-5903-BF3C-558BCFC8BC1F"><a name="GUID-8B0C887C-0856-5903-BF3C-558BCFC8BC1F"><!-- --></a><p> <a href="../tech/affiliates/wap/wap-230-wsp-20010705-a.pdf" target="_blank">WAP WSP</a> for HTTP functionality. </p> </li>
+</ul> </div>
+<div><h3 class="section-title">Key concepts</h3> <p>The component has the following key
+concepts: </p> <dl>
+<dt class="dlterm">URI</dt>
+<dd><p>Universal Resource Identifier (URI) is a formatted string that identifies
+the location and name of a resource, for instance a web page address. </p> </dd>
+<dt class="dlterm">URI components</dt>
+<dd><p>Let us consider the following URI: </p> <p> <code class="codeph">http://user:info@waterlang.org:80/top_path/foo.htm?checkme#ref</code> </p> <p>The
+URI can be split into components as follows: </p> <div class="tablenoborder"><a name="GUID-4765D4B9-A3E4-5ADF-B1A7-830BB7E10EBD"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-4765D4B9-A3E4-5ADF-B1A7-830BB7E10EBD" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e205685">URI Component</th>
+<th class="cellrowborder" valign="top" id="d0e205688">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e205685 "><p>Scheme (protocol) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205688 "><p> <code class="codeph">http</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e205685 "><p>Authority </p> <ul>
+<li id="GUID-7FF5EC7F-1B7C-5E91-9479-E305E4459EA0"><a name="GUID-7FF5EC7F-1B7C-5E91-9479-E305E4459EA0"><!-- --></a><p>User Information </p> </li>
+<li id="GUID-BC76E4D9-7393-5464-9E3C-7B0756FFD4D1"><a name="GUID-BC76E4D9-7393-5464-9E3C-7B0756FFD4D1"><!-- --></a><p>Host </p> </li>
+<li id="GUID-B586337A-1116-58C4-BC7F-940945AD38B8"><a name="GUID-B586337A-1116-58C4-BC7F-940945AD38B8"><!-- --></a><p>Port </p> </li>
+</ul> </td>
+<td class="cellrowborder" valign="top" headers="d0e205688 "><p> </p> <ul>
+<li id="GUID-81135C6E-C55E-5699-98D6-49BA2D9871BE"><a name="GUID-81135C6E-C55E-5699-98D6-49BA2D9871BE"><!-- --></a><p> <code class="codeph">user:info</code> </p> </li>
+<li id="GUID-4A07BDB8-F32B-5572-8B46-4E0C78EDC65C"><a name="GUID-4A07BDB8-F32B-5572-8B46-4E0C78EDC65C"><!-- --></a><p> <code class="codeph">waterlang.org</code> </p> </li>
+<li id="GUID-18C83120-4046-52B7-926C-DC9644E86C49"><a name="GUID-18C83120-4046-52B7-926C-DC9644E86C49"><!-- --></a><p> <code class="codeph">80</code> </p> </li>
+</ul> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e205685 "><p>Path </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205688 "><p> <code class="codeph">top_path/foo.htm</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e205685 "><p>Query </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205688 "><p> <code class="codeph">checkme</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e205685 "><p>Segment </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205688 "><p> <code class="codeph"> ref</code> </p> </td>
+</tr>
+</tbody>
+</table></div> </dd>
+<dt class="dlterm">Authority component</dt>
+<dd><p>In an URI, the user information, host and port information put together
+is called authority. Format for authority appears as the following: </p> <p> <code class="codeph">[user-info@]host[:port]</code> </p> <p>where, <code class="codeph">user-info</code> may consist of a user name and, optionally, scheme-specific information
+about how to gain authorization to access the server, for example, password. <code class="codeph">port</code> specifies
+the port number. </p> </dd>
+</dl> </div>
+<div><h3 class="section-title">Architectural relationships</h3> <p>The InetProtUtils API
+(<code>inetprotutils.dll</code>) is used by the following components: </p> <ul>
+<li id="GUID-8FA3CA2A-0A42-5F64-9AC0-56B2E340B63A"><a name="GUID-8FA3CA2A-0A42-5F64-9AC0-56B2E340B63A"><!-- --></a><p>App services </p> <ul>
+<li id="GUID-922DF8F6-1801-5A99-AD8D-15A92DF31242"><a name="GUID-922DF8F6-1801-5A99-AD8D-15A92DF31242"><!-- --></a><p>DM / DS </p> </li>
+<li id="GUID-096E985C-6170-5908-955E-4406CC3C690D"><a name="GUID-096E985C-6170-5908-955E-4406CC3C690D"><!-- --></a><p>Content Handling Framework </p> </li>
+</ul> </li>
+<li id="GUID-DCA9F8B1-1066-57F6-9BC5-ECF8D81B0EA2"><a name="GUID-DCA9F8B1-1066-57F6-9BC5-ECF8D81B0EA2"><!-- --></a><p>Symbian platform services: </p> <ul>
+<li id="GUID-88AEE90D-1A2D-5468-95C8-AFE8ECB5FF14"><a name="GUID-88AEE90D-1A2D-5468-95C8-AFE8ECB5FF14"><!-- --></a><p>Certificate lib </p> </li>
+<li id="GUID-4265166D-092D-5005-8E7D-127EB9C25DF1"><a name="GUID-4265166D-092D-5005-8E7D-127EB9C25DF1"><!-- --></a><p>Multimedia </p> </li>
+</ul> </li>
+</ul> </div>
+<div><h3 class="section-title">API summary</h3> <p>The following classes are used for
+creating, parsing and modifying the URI: </p> <div class="tablenoborder"><a name="GUID-6161C49F-F18A-51BD-A6F8-51E045A1DD6E"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-6161C49F-F18A-51BD-A6F8-51E045A1DD6E" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e205921">Class Name</th>
+<th class="cellrowborder" valign="top" id="d0e205924">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e205921 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E6F8C94C-C74C-329B-BB11-E06F0E83A4BB.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E6F8C94C-C74C-329B-BB11-E06F0E83A4BB.html"><code class="apiname">CUri8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205924 "><p>Creates URI from parts and modifies the URI. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e205921 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3B5EC759-81D3-3A5E-B437-7AA3BD3124BA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3B5EC759-81D3-3A5E-B437-7AA3BD3124BA.html"><code class="apiname">CAuthority8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205924 "><p>Modifies the authority and creates authority from parts. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e205921 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html"><code class="apiname">TUriC8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205924 "><p>Retrieves information about the URI such as extract, compare, validate
+etc. (the non-modifying functionality). </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e205921 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F7CCFDE5-4829-314C-A209-2F6714C02AA6.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F7CCFDE5-4829-314C-A209-2F6714C02AA6.html"><code class="apiname">TAuthorityC8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205924 "><p>Retrieves information about the authority URI such as extract, compare,
+validate etc. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e205921 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EB2EEEF1-705B-334D-A4B0-3D0C4CBE2DA1.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EB2EEEF1-705B-334D-A4B0-3D0C4CBE2DA1.html"><code class="apiname">TUriParser8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205924 "><p>Parses a text URI. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e205921 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-985C12CB-9230-3A35-9F5F-E455D4C23EBB.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-985C12CB-9230-3A35-9F5F-E455D4C23EBB.html"><code class="apiname">TAuthorityParser8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e205924 "><p>Parses a text authority. </p> </td>
+</tr>
+</tbody>
+</table></div> <p>The following classes are used for parsing delimited data in the
+URI: </p> <div class="tablenoborder"><a name="GUID-D58565BF-4859-53FA-8278-CF3ED3D9B487"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-D58565BF-4859-53FA-8278-CF3ED3D9B487" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e206049">Class Name</th>
+<th class="cellrowborder" valign="top" id="d0e206052">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e206049 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-51DFAA06-EC5E-32E6-9819-39938C46B2C0.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-51DFAA06-EC5E-32E6-9819-39938C46B2C0.html"><code class="apiname">CDelimitedPath8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206052 "><p>Creates a delimited path, where components of the path are delimited
+by '/' . </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e206049 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9A640379-04BC-3A8E-9452-54833B2419AE.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9A640379-04BC-3A8E-9452-54833B2419AE.html"><code class="apiname">CDelimitedQuery8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206052 "><p>Creates a delimited query, where components of the query are delimited
+by '&amp;'. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e206049 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CF89AECB-5085-32CA-85B4-3573CDB1D595.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CF89AECB-5085-32CA-85B4-3573CDB1D595.html"><code class="apiname">CDelimitedPathSegment8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206052 "><p>Creates a delimited path segment, where components of the path segment
+are delimited by ';'. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e206049 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CD78AD53-FD6C-397A-9930-12E8EDCF6040.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CD78AD53-FD6C-397A-9930-12E8EDCF6040.html"><code class="apiname">TDelimitedPathParser8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206052 "><p>Parses path delimited by a '/'. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e206049 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F76F2546-D3AC-341B-BED8-D3C88EA2C018.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F76F2546-D3AC-341B-BED8-D3C88EA2C018.html"><code class="apiname">TDelimitedQueryParser8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206052 "><p>Parses query delimited by a '&amp;'. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e206049 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F55AF53B-662F-3682-9B6D-A3D14AED0D58.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F55AF53B-662F-3682-9B6D-A3D14AED0D58.html"><code class="apiname">TDelimitedPathSegmentParser8</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206052 "><p>Parses path segments delimited by a ';'. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e206049 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9CC256C4-D4A2-3534-9B3C-2FBF1AAE5F51.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9CC256C4-D4A2-3534-9B3C-2FBF1AAE5F51.html"><code class="apiname">EscapeUtils</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206052 "><p>Encodes and decodes excluded and reserved URI characters. It can
+be used with 8 bit and 16 bit descriptors. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e206049 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9FC0E63B-1927-30B0-8A97-E9CB1010FFEE.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9FC0E63B-1927-30B0-8A97-E9CB1010FFEE.html"><code class="apiname"> InetProtTextUtils</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206052 "><p>Parses HTTP header text. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e206049 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-265F8D6B-4B88-342A-BD7B-5934CC9437DA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-265F8D6B-4B88-342A-BD7B-5934CC9437DA.html"><code class="apiname">UriUtils</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206052 "><p>Provides extra utilities for URI/Authority classes such as creating
+URI from Unicode descriptor. </p> </td>
+</tr>
+</tbody>
+</table></div> <p>The following classes are used for encoding and decoding WSP headers: </p> <div class="tablenoborder"><a name="GUID-7EFEBABF-2AE5-56EF-9C73-B3B84E279A93"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-7EFEBABF-2AE5-56EF-9C73-B3B84E279A93" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e206228">Class Name</th>
+<th class="cellrowborder" valign="top" id="d0e206231">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e206228 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-8E0D4BBE-BD06-396F-9517-45F9BFCDEF37.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-8E0D4BBE-BD06-396F-9517-45F9BFCDEF37.html"><code class="apiname">CWspHeaderEncoder</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206231 "><p>The class is used to encode one header field at a time with all
+its values and parameters. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e206228 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-310AB7CF-C1B0-3C5A-8C4A-C96259A49F0F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-310AB7CF-C1B0-3C5A-8C4A-C96259A49F0F.html"><code class="apiname">TWspHeaderSegmenter </code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206231 "><p>The class is used to separate a WSP buffer into WSP header name/value
+pairs. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e206228 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CFE23AB1-A94B-3609-8B37-35C2A9023DE3.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CFE23AB1-A94B-3609-8B37-35C2A9023DE3.html"><code class="apiname">TWspPrimitiveEncoder</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206231 "><p>The class is used to convert WSP header data into binary strings. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e206228 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A0F4B729-E70A-3125-A5A6-D908216FCA5A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A0F4B729-E70A-3125-A5A6-D908216FCA5A.html"><code class="apiname">TWspPrimitiveDecoder</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206231 "><p>The class is used to convert the binary data into integers, strings,
+dates, etc. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e206228 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9C280536-E402-35CB-B317-BE4E6A8C23D8.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9C280536-E402-35CB-B317-BE4E6A8C23D8.html"><code class="apiname">TWspField</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e206231 "><p>The class holds the name and value pair of WSP header field. </p> </td>
+</tr>
+</tbody>
+</table></div> <p>The following diagram shows the <code class="codeph">InetProtUtils</code> classes
+and their relationships. </p> <div class="figure" id="GUID-482F6611-C67C-5003-94DD-29DCBCC85092"><img src="GUID-C4D0B083-CCF9-52BD-A6BC-5187BEF3B0CB_d0e206337_href.png" /><p class="figure-title"><strong>Figure: </strong>              Class diagram for InetProtUtils            </p></div> </div>
+<div><h3 class="section-title">Typical uses</h3> <p>Applications that use HTTP transport
+framework use InetProtUtils API. The utilities may also
+be useful for applications which deal with internet strings or URIs, such
+as mail or IM applications. </p> <p>The following tasks can be performed using InetProtUtils: </p> <p><strong>Creating
+an URI </strong> </p> <p>URI can be created in different ways. It can be created
+from parts, from file or by resolving two URIs using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E6F8C94C-C74C-329B-BB11-E06F0E83A4BB.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E6F8C94C-C74C-329B-BB11-E06F0E83A4BB.html"><code class="apiname">CUri8</code></a> class. </p> <p>For
+more information on creating a URI, refer to <a href="GUID-4D32A29F-6573-5233-8982-BDEEDDB4F0FF.html">Creating
+an URI</a> tutorial. </p> <p><strong>Parsing an URI </strong> </p> <p>To check if
+the components in the URI are syntactically correct as per the four main components
+and fragment identifier, parse the URI. Use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EB2EEEF1-705B-334D-A4B0-3D0C4CBE2DA1.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EB2EEEF1-705B-334D-A4B0-3D0C4CBE2DA1.html"><code class="apiname">TUriParser8</code></a> class
+to parse an URI. </p> <p>For more information on parsing, refer to <a href="GUID-D535D51E-EAF5-581A-929B-5B1EF179A273.html">Parsing
+an URI</a> tutorial. </p> <p>URI classes namely, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E6F8C94C-C74C-329B-BB11-E06F0E83A4BB.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E6F8C94C-C74C-329B-BB11-E06F0E83A4BB.html"><code class="apiname">CUri8</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html"><code class="apiname">TUriC8</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EB2EEEF1-705B-334D-A4B0-3D0C4CBE2DA1.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EB2EEEF1-705B-334D-A4B0-3D0C4CBE2DA1.html"><code class="apiname">TUriParser8</code></a> provide
+functionalities for parsing generic and SIP URIs. <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E6F8C94C-C74C-329B-BB11-E06F0E83A4BB.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E6F8C94C-C74C-329B-BB11-E06F0E83A4BB.html"><code class="apiname">CUri8</code></a> class
+provides a reference to a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html"><code class="apiname">TUriC8</code></a> object so that the non-modifying
+functionality can be used. <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html"><code class="apiname">TUriC8</code></a> is used to obtain information
+about an URI. </p> <p><strong>Extracting URI components </strong> </p> <p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html"><code class="apiname">TUriC8</code></a> class
+provides extracting methods to extract components from the URI. TAuthority8 class
+extracts the authority component. </p> <p>For more information on getting
+URI components, refer to <a href="GUID-8E3BD71D-D372-5315-B282-F87FA60A1D5A.html">Extracting
+the URI Components</a> tutorial. </p> <p><strong>Generating the filename from
+an URI </strong> </p> <p>A fully qualified file name can be generated from a file
+URI object. <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-AD8DC94E-743B-3347-9AC4-B37AE23AA786"><code class="apiname">TUriC8::GetFileNameL()</code></a> provides this functionality.
+The path component encodes the file's location on the file system. </p> <p>For
+more information, refer to <a href="GUID-4B7352BF-4BF8-5FF2-8835-F146BB7D4EAC.html">Generating
+File Name from URI</a> tutorial. </p> <p><strong>Validating a URI </strong> </p> <p>Use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EB2EEEF1-705B-334D-A4B0-3D0C4CBE2DA1.html#GUID-9B6C3634-7E19-39B5-A12F-80A16DDCFF4E"><code class="apiname">TUriParser8::Validate()</code></a> to
+check if components in a given URI are valid. This validates only SIP and
+SIPS scheme components. </p> <p>For more information, refer to <a href="GUID-8F5BC47B-0551-5245-A1ED-629380111B43.html">Validating
+an URI</a> tutorial. </p> <p><strong>Parsing delimited data </strong> </p> <p>URI
+components are separated into segments using delimiters. Parse this delimited
+data. <code class="codeph">TDelimitedXxxxParser8</code> classes provide the functionality
+to parse the delimited data, extract the current segment and parse the string
+for the next segment. </p> <p>For more information, refer to <a href="GUID-42F0F282-58D6-4878-B53D-EAEEF86A3D7D.html">Parsing
+Delimited Data</a> tutorial. </p> <p><strong>Modifying the data
+and the delimiter </strong> </p> <p>The delimiters and segments of data within
+an URI can be added, removed and parsed. This functionality is provided by <code class="codeph">CDelimitedXxxx8</code> classes. </p> <p>For
+more information, refer to <a href="GUID-834F5FC8-EBE4-4076-B1E3-38DDFF89D700.html">Modifying
+the Data and Delimiter</a> tutorial. </p> <p><strong>Escape encoding and decoding
+unsafe characters in an URI </strong> </p> <p>The reserved and unsafe data in the
+URI is escape encoded and decoded using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9CC256C4-D4A2-3534-9B3C-2FBF1AAE5F51.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9CC256C4-D4A2-3534-9B3C-2FBF1AAE5F51.html"><code class="apiname">EscapeUtils</code></a> class.
+It also supports converting Unicode data (16-bit descriptor) into UTF8 data
+(8-bit descriptor) and vice-versa. For more information, refer to <a href="GUID-0E8206E9-4F1D-5DF5-8A69-9B0831061CFF.html">Escape
+Encoding and Decoding</a> and <a href="GUID-853BFDC0-1993-5EFC-AA68-C9EA496EEF3F.html">Converting
+between Unicode and Utf8</a> tutorials. </p> <p><strong>Manipulating the URI
+data </strong> </p> <p>The data in an URI can be manipulated using various text
+parsing utilities that are used typically in HTTP headers. <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9FC0E63B-1927-30B0-8A97-E9CB1010FFEE.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9FC0E63B-1927-30B0-8A97-E9CB1010FFEE.html"><code class="apiname">InetProtTextUtils</code></a> provides
+functionality to: </p> <ul>
+<li id="GUID-E845FA13-8644-5762-94C7-F34C21BA50CC"><a name="GUID-E845FA13-8644-5762-94C7-F34C21BA50CC"><!-- --></a><p>remove the leading/trailing
+contiguous white space characters from the descriptors </p> </li>
+<li id="GUID-D2418E05-405D-5E19-A239-D5261B420A83"><a name="GUID-D2418E05-405D-5E19-A239-D5261B420A83"><!-- --></a><p>convert the decimal/hexadecimal
+value to descriptor and vice versa. </p> </li>
+<li id="GUID-99B9C4A8-AE2A-5541-BCB0-59E138898FB8"><a name="GUID-99B9C4A8-AE2A-5541-BCB0-59E138898FB8"><!-- --></a><p>extract tokens from: </p> <ul>
+<li id="GUID-AE9AFA73-84D8-5EDD-A51C-21714FA5C96C"><a name="GUID-AE9AFA73-84D8-5EDD-A51C-21714FA5C96C"><!-- --></a><p>a list, which is a string
+separated with a character, for example, abc, def, ghi. </p> </li>
+<li id="GUID-CF6A13D6-0FB0-57A3-B6E2-1791316FD61E"><a name="GUID-CF6A13D6-0FB0-57A3-B6E2-1791316FD61E"><!-- --></a><p>quoted strings in text. </p> </li>
+</ul> </li>
+</ul> <p>It supports both Unicode and UTF-8 formats. For more information
+on text manipulations, refer to <a href="GUID-098106AC-0A5A-5C7D-B432-492EADFE7EA3.html">Manipulating
+URI Data</a> tutorial. </p><p><strong>Using URI utilities </strong> </p> <p>Additional
+functionality to create an URI from unicode descriptor is provided by <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-265F8D6B-4B88-342A-BD7B-5934CC9437DA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-265F8D6B-4B88-342A-BD7B-5934CC9437DA.html"><code class="apiname">UriUtils</code></a> class.
+It also allows to translate unsafe characters to UTF8 and escape-encode. </p> <p>For
+more information, refer to <a href="GUID-A8F13E5A-56F2-5C72-AF81-5AC062B94C6C.html">Using
+URI utilities</a>. </p> <p><strong>Using datetime utilities </strong> </p> <p>To
+store dates in universal times and parse the internet dates into <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-13A9DD2B-8ABC-3D62-B54E-4F5DD5B9228B.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-13A9DD2B-8ABC-3D62-B54E-4F5DD5B9228B.html"><code class="apiname">TDateTime</code></a> dates,
+use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-156E9C02-99AD-3C63-80AD-939A6DFB08B1.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-156E9C02-99AD-3C63-80AD-939A6DFB08B1.html"><code class="apiname">TInternetDate</code></a>. </p> <p>For more information, refer
+to <a href="GUID-3F7142D6-261B-5FB9-888A-1A9BB51B67E5.html">Using Date and Time
+Utilities</a> tutorial. </p> <p><strong>Escape encoding and decoding the WSP
+header </strong> </p> <p>The WSP header information is encoded and decoded using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-8E0D4BBE-BD06-396F-9517-45F9BFCDEF37.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-8E0D4BBE-BD06-396F-9517-45F9BFCDEF37.html"><code class="apiname">CWspHeaderEncoder</code></a>.
+It uses <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CFE23AB1-A94B-3609-8B37-35C2A9023DE3.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CFE23AB1-A94B-3609-8B37-35C2A9023DE3.html"><code class="apiname">TWspPrimitiveEncoder</code></a> to convert the data into binary
+strings. </p> <p>For more information, refer to <a href="GUID-0BE9F825-9FF8-55A1-AF7C-A380A0C64735.html">Encoding
+and Decoding WSP Header</a>. </p><div class="note"><p><strong class="note_title">Note: </strong> Use </p><code class="codeph">Cxxx</code> classes
+to create text from parts and <code class="codeph">TxxParser</code> classes to parse
+text into components.</div> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-F46CDF2C-DA64-5F30-B4C8-CC4B02CE67B9.html">HTTP Utilities
+Library Concepts</a></li><li><a href="GUID-96837414-3041-5E1E-A2E9-C18EECCF86D9.html">HTTP Utilities
+Library Tutorials</a></li><li><a href="GUID-AFAD0F36-330B-50BD-B810-85BE7FA21179.html">HTTP Utilities
+Library Example</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 6th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-795B41AF-FBEA-56CE-AE20-EF17BE754723.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:25 GMT -->
+</html>

@@ -1,0 +1,36 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-55A6DA94-FAE6-442D-BBA8-82F92D4C63F2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:50:48 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Creating a Private Key and Self Signed Certificate" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-0AF47934-0A16-51A2-9254-992D7C6B322B" /><meta name="DC.Relation" scheme="URI" content="GUID-8E160B29-18C4-574B-9259-9A8E958CDA91" /><meta name="DC.Relation" scheme="URI" content="GUID-3170F958-137A-5DD5-A6DD-D5474ABECD22" /><meta name="DC.Relation" scheme="URI" content="GUID-D45A4AE9-4169-4466-B02B-629B15C3E9AA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-55A6DA94-FAE6-442D-BBA8-82F92D4C63F2" /><meta name="DC.Language" content="en" /><title>Creating a Private Key and Self Signed Certificate </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-55A6DA94-FAE6-442D-BBA8-82F92D4C63F2">Creating a Private Key and Self Signed Certificate</h1><div>
+<h3>Steps</h3><ul>
+<li id="GUID-548F2317-948F-491D-BED4-1D83D6DF0520"><a name="GUID-548F2317-948F-491D-BED4-1D83D6DF0520"><!-- --></a><p>Run MakeKeys
+at the command prompt using the <code class="codeph">-cert</code> option. </p>
+<p>The following is the syntax: </p><pre class="codeblock">&gt; makekeys -cert [-v] [-expdays &lt;cert-expiry-in-days&gt;] [-password &lt;password&gt;] [-len &lt;key-length&gt;] -dname &lt;distinguished-name-string&gt; &lt;private-key-file&gt; &lt;public-key-cert&gt;</pre><div class="note"><p><strong class="note_title">Important: </strong> Specify a name for the output private key
+file with .key extension and output self-signed certificate file with
+.cer extension.  </p></div>
+<p>For example, </p><pre class="codeblock">&gt; makekeys -cert -expdays 3650 -password yourpassword -len 2048 -dname "CN=Symbian Developer O=Nokia C=GB" HelloWorld.key HelloWorld.cer
+</pre><p>Here, </p><ul>
+<li><p><code class="codeph">HelloWorld.key</code> is the name of the output private
+key file that must be kept secret </p></li>
+<li><p><code class="codeph">HelloWorld.cer</code> is the name of the output self-signed
+public key certificate that can be used to verify the digital signature.
+ </p></li>
+</ul>
+<p>See <a href="GUID-557BF1DA-B6E8-521B-89F0-15C84E3BCB1A.html">MakeKeys Reference</a> for more information on the options and arguments that can be provided
+with the MakeKeys tool.  </p>
+</li>
+</ul>
+<div id="GUID-AB6D4B78-1819-4249-A016-4F11DAC258A3"><h3 class="section-title">Next actions</h3><p>The self-signed
+certificate can be included in installation files and used to verify
+the digital signature with a matching private key. However, secure
+installation requires that the certificate containing the public key
+be digitally signed by a trusted third party. Therefore, a certificate
+request must be sent to the Certification Authority (CA) for signing.
+See <a href="GUID-1747534D-063A-45B0-8636-E7767F984BB0.html">Generating
+a Certificate Request</a> for details about creating a certificate
+request.</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 1st, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-55A6DA94-FAE6-442D-BBA8-82F92D4C63F2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:50:48 GMT -->
+</html>

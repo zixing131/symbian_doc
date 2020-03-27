@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-656BFC42-D6F5-332A-A156-013951B2C56C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:24 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="topic" />
+<meta name="DC.Title" content="The interface between a NIF and the TCP/IP stack." />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-656BFC42-D6F5-332A-A156-013951B2C56C" />
+<title>The interface between a NIF and the TCP/IP stack.</title>
+<link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-656BFC42-D6F5-332A-A156-013951B2C56C"><a name="GUID-656BFC42-D6F5-332A-A156-013951B2C56C"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="title pageHeading topictitle1">The interface between a NIF and the TCP/IP stack.</h1>
+<div class="body">
+<p class="p">The network interfaces (NIF's) are registered with the stack using the MNifIfUser::IfUserNewInterfaceL function. Stack has an internal object that represents the interface and the given CNifIfBase object is attached to this.</p>
+<p class="p">The stack communicates with the NIF using the public API defined by the CNifIfBase. The NIF sees the stack as an instance of CProtocolBase and can use a subset of public functions to communcite with the stack.</p>
+<p class="p">The following CNifBase functions are used by the stack:</p>
+<div class="p">
+<ul class="ul">
+<li class="li">
+<p class="p">
+CNifIfBase::Open, (binding stack and NIF)</p>
+</li>
+<li class="li">
+<p class="p">
+CNifIfBase::Close, (binding stack and NIF)</p>
+</li>
+<li class="li">
+<p class="p">
+CNifIfBase::BindL, (binding stack and NIF)</p>
+</li>
+<li class="li">
+<p class="p">
+CNifIfBase::Control, (for the configuration information)</p>
+</li>
+<li class="li">
+<p class="p">
+CNifIfBase::Info, (retrieve the interface name)</p>
+</li>
+<li class="li">
+<p class="p">
+CNifIfBase::Send, (send outbound packets to NIF)</p>
+</li>
+<li class="li">
+<p class="p">
+CNifIfBase::Notify, (NIFMAN about packet activity)</p>
+</li>
+</ul>
+</div>
+<p class="p">The following CProtocolBase functions are available for NIFs:</p>
+<div class="p">
+<ul class="ul">
+<li class="li">
+<p class="p">
+CProtocolBase::StartSending, (notify stack that NIF is ready)</p>
+</li>
+<li class="li">
+<p class="p">
+CProtocolBase::Error, (notify stack about NIF error)</p>
+</li>
+<li class="li">
+<p class="p">
+CProtocolBase::Process, (feed inbound packets to stack)</p>
+</li>
+</ul>
+</div>
+<p class="p">The network interface is removed from the stack either by directly deleting it, or by NIFMAN using MNifIfUser::IfUserInterfaceDown.</p>
+<div class="p">A pointer to the MNifIfUser object can be obtained from the network layer protocol. <pre class="pre codeblock">	MNetworkService *iNetwork;
+	TPckgBuf&lt;MNifIfUser*&gt; ifUser;
+	TInt err = iNetwork-&gt;Protocol()-&gt;GetOption(KNifOptLevel, KNifOptGetNifIfUser, ifUser);</pre>
+</div>
+<p class="p topictitle1">Binding the NIF and TCP/IP together</p>
+<p class="p para1">
+MNifIfUser::IfUserNewInterfaceL introduces a new network interface (NIF) to the stack. The introduction consists of the following steps:</p>
+<div class="p para1">
+<ol class="ol">
+<li class="li">
+<p class="p para1">retrieve interface info into TNifIfInfo by CNifIfBase::Info function. Stack uses only the interface name (iName) from this. The name cannot be an empty string.</p>
+</li>
+<li class="li">
+<p class="p para1">using the name, the stack searches for a matching internal interface object. If it does not exist, it is created. If there was an existing interface with the same name, the stack will disconnect that first.</p>
+</li>
+<li class="li">
+<p class="p para1">the stack gives itself to the new NIF by calling CNifIfBase::BindL.</p>
+</li>
+<li class="li">
+<p class="p para1">stack does not send any packets to the interface until the NIF has called CProtocolBase::StartSending at least once.</p>
+</li>
+<li class="li">
+<p class="p para1">stack executes the interface configuration when the first CProtocolBase::StartSending arrives after MNifIfUser::IfUserNewInterfaceL. The configuration uses the CNifIfBase::Control function with different options to retrieve additional information from the NIF.</p>
+</li>
+</ol>
+</div>
+<p class="p para1">
+MNifIfUser::IfUserInterfaceDown disconnects the NIF from the stack. There is one exception: if the MNifIfUser::IfUserInterfaceDown aResult parameter has a special value KErrLinkConfigChanged, then the internal interface state is only reset to the exact same state as if interface was just introduced by the MNifIfUser::IfUserNewInterfaceL, and a reconfiguration occurs when the NIF calls StartSending.</p>
+<p class="p topictitle1">The Control API</p>
+<p class="p para1">The stack requires the NIF to implement a minimal set of KSOLInterface level options via it's CNifIfBase::Control API.</p>
+<div class="p para1">
+<ul class="ul">
+<li class="li">
+<div class="p para1">at least one of the information options<ul class="ul"><li class="li"><p class="p para1">TSoIfInfo6 with KSoIfInfo6 (for IPv6)</p>
+</li>
+<li class="li"><p class="p para1">TSoIfInfo with KSoIfInfo (for IPv4)</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="li">
+<div class="p para1">at least one of the configuration options<ul class="ul"><li class="li"><p class="p para1">TSoInet6IfConfig (iFamily=KAfInet6) with KSoIfConfig</p>
+</li>
+<li class="li"><p class="p para1">TSoInetIfConfig (iFamily=KAfInet) with KSoIfConfig</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="li">
+<p class="p para1">
+TSoIfHardwareAddr with KSoIfHardwareAddr if the link uses hardware addresses (only used KIfNeedsND is also set.). The returned address is used in the neighbor discovery (ICMPv6 ND or ARP for IPv4), and in sending packets to NIF, the address family is used to indicate that the stack has chosen the destination link layer address (based on the neighbor cache).</p>
+</li>
+<li class="li">
+<div class="p para1">
+TSoIfConnectionInfo with KSoIfGetConnectionInfo (for IAP and NET numbers). If this is not supported, the stack will assign unique numbers for the IAP and NET. The scope vector (zone identifiers) is contructed as follows:<ol class="ol"><li class="li"><p class="p para1">[0] The unique interface index (node local scope id)</p>
+</li>
+<li class="li"><p class="p para1">[1] IAP number (link scope id)</p>
+</li>
+<li class="li"><p class="p para1">[2] IAP number (subnet scope id)</p>
+</li>
+<li class="li"><p class="p para1">[3] NET number</p>
+</li>
+<li class="li"><p class="p para1">[4] NET number (site local scope id)</p>
+</li>
+<li class="li"><p class="p para1">[5] NET number</p>
+</li>
+<li class="li"><p class="p para1">[6] NET number</p>
+</li>
+<li class="li"><p class="p para1">[7] NET number (organization scope id)</p>
+</li>
+<li class="li"><p class="p para1">[8] NET number</p>
+</li>
+<li class="li"><p class="p para1">[9] NET number</p>
+</li>
+<li class="li"><p class="p para1">[10] NET number</p>
+</li>
+<li class="li"><p class="p para1">[11] NET number</p>
+</li>
+<li class="li"><p class="p para1">[12] NET number</p>
+</li>
+<li class="li"><p class="p para1">[13] NET number (IPv6 global scope)</p>
+</li>
+<li class="li"><p class="p para1">[14] NET number</p>
+</li>
+<li class="li"><p class="p para1">[15] NET number (highest, NET id, IPv4 global)</p>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+<div class="p para1">
+<div class="note note"><span class="notetitle">Note:</span>
+<p class="p para1">To build complete ARP packets in the stack, stack needs to know the hardware type value to be used in the packet (see TInet6HeaderArp). This 16 bit value is assumed to be in the Port() field of the returned hardware address (KSoIfHardwareAddr). An IPv4 NIF that leaves the ARP to the stack, must provide this value (or sniff and fix the outgoing ARP packets).</p>
+</div>
+</div>
+<p class="p topictitle1">Inbound packets from the NIF to stack.</p>
+<p class="p para1">The NIF feeds the inbound packets to the stack through the CProtocolBase::Process function (see also MNetworkService::Process). The information block associated with the packet is RMBufPktInfo and the fields must have been set as follows:</p>
+<div class="p para1">
+<ul class="ul">
+<li class="li">
+<p class="p para1">
+RMBufPktInfo::iSrcAddr, the link layer source address (using the same address family as returned with the hardware address control option). If the link does not use addresses, then <a class="xref" href="GUID-51E6EBC3-D654-3274-9CD0-91EF3B224C97.html#GUID-FA144C49-FCEB-3780-B47A-A47B558C2B5C">KAFUnspec</a> should be used.</p>
+</li>
+<li class="li">
+<p class="p para1">
+RMBufPktInfo::iDstAddr, the link layer destination address (using the same address family as returned with the hardware address control option). If the link does not use addresses, then <a class="xref" href="GUID-51E6EBC3-D654-3274-9CD0-91EF3B224C97.html#GUID-FA144C49-FCEB-3780-B47A-A47B558C2B5C">KAFUnspec</a> should be used.</p>
+</li>
+<li class="li">
+<div class="p para1">
+RMBufPktInfo::iProtocol, the type of the packet:<ul class="ul"><li class="li"><p class="p para1">KProtocolInetIp, IPv4 packet</p>
+</li>
+<li class="li"><p class="p para1">KProtocolInet6Ip, IPv6 packet</p>
+</li>
+<li class="li"><p class="p para1">KProtocolArp, ARP packet</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="li">
+<p class="p para1">
+RMBufPktInfo::iLength, the length of the packet in octets</p>
+</li>
+<li class="li">
+<p class="p para1">
+RMBufPktInfo::iFlags, should be set to zero (reserved for future use).</p>
+</li>
+</ul>
+</div>
+<div class="p para1">
+<div class="note note"><span class="notetitle">Note:</span>
+<p class="p para1">The stack is relaxed about the checking of iProtocol field, and anything else except KProtocolArp is assumed to be an IP packet. This is potentially to changed in future, and NIFs should set the protocol field correctly. </p>
+<p class="p para1">The link layer addresses in iSrcAddr and iDstAddr are informative. The values do not affect the processing of the packet within stack. They are made available for the inbound post hooks (CProtocolPosthook).</p>
+</div>
+</div>
+<p class="p topictitle1">Outbound packets from the stack to NIF</p>
+<p class="p para1">The stack feeds the outbound packets to the NIF through the CNifIfBase::Send function. The information block associated with the packet follows RMBufPktInfo and the fields need to be interpreted as follows:</p>
+<div class="p para1">
+<ul class="ul">
+<li class="li">
+<p class="p para1">
+RMBufPktInfo::iSrcAddr, undefined (must be ignored by the NIF). The NIF must choose the link layer source address.</p>
+</li>
+<li class="li">
+<div class="p para1">
+RMBufPktInfo::iDstAddr, three variants, if link layer addresses are used<ul class="ul"><li class="li"><p class="p para1">hardware address, using the same address family as NIF returned in harware address control option (TSoIfHardwareAddr ). The packet must be sent to this link layer destination.</p>
+</li>
+<li class="li"><p class="p para1">KAfInet, the address is IPv4 multicast address. and the NIF must select a suitable link layer broadcast address as a destination.</p>
+</li>
+<li class="li"><p class="p para1">KAfInet6, the address is IPv6 multicast address, and the NIF msut select a suitable link layer broadcast address as a destination.</p>
+</li>
+</ul>
+If the NIF does not use link layer addresses, then iDstAddr is also undefined (must be ingnored byt the NIF). The link is a point-to-point interface.</div>
+</li>
+<li class="li">
+<div class="p para1">
+RMBufPktInfo::iProtocol, defines the type of packet<ul class="ul"><li class="li"><p class="p para1">KProtocolInetIp, IPv4 packet</p>
+</li>
+<li class="li"><p class="p para1">KProtocolInet6Ip, IPv6 packet</p>
+</li>
+<li class="li"><p class="p para1">KProtocolArp, ARP packet</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="li">
+<p class="p para1">
+RMBufPktInfo::iLength, the length of the packet in octets.</p>
+</li>
+<li class="li">
+<p class="p para1">
+RMBufPktInfo::iFlags, undefined (must be igrnored by the NIF).</p>
+</li>
+</ul>
+</div>
+<p class="p para1">The stack interprets the return value from the CNifIfBase::Send as follows:</p>
+<div class="p para1">
+<ul class="ul">
+<li class="li">
+<p class="p para1">return 1; the NIF is ready to receive more packets.</p>
+</li>
+<li class="li">
+<p class="p para1">return 0; the NIF is blocked and cannot receive any more packets. The stack <strong class="ph b">does not send anything</strong> to the NIF until it calls CProtocolBase::StartSending.</p>
+</li>
+<li class="li">
+<p class="p para1">return &lt; 0; unspecified, but currently, the error is passed on to all flows attached to this interface. The stack will continue sending packets to the interface (no StartSending is required).</p>
+</li>
+<li class="li">
+<p class="p para1">return &gt; 1; unspecified, but currently treated same as return 1. </p>
+</li>
+</ul>
+</div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-656BFC42-D6F5-332A-A156-013951B2C56C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:24 GMT -->
+</html>

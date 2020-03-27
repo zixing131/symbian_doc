@@ -1,0 +1,39 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AF65EC50-0922-57DD-809B-DB8970C8E4C6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="File server session" /><meta name="abstract" content="This topic describes the file server session concept." /><meta name="description" content="This topic describes the file server session concept." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-BB9760B4-4F3F-5326-81FB-B644C82F0E65" /><meta name="DC.Relation" scheme="URI" content="GUID-198DCED1-F429-5C95-A51D-53AE416687E8" /><meta name="DC.Relation" scheme="URI" content="GUID-F0D5C8DB-3AD0-53F1-8301-C0F69A4F13C1" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-AF65EC50-0922-57DD-809B-DB8970C8E4C6" /><meta name="DC.Language" content="en" /><title>File
+server session </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-AF65EC50-0922-57DD-809B-DB8970C8E4C6">File
+server session</h1><div><p>This topic describes the file server session concept.</p>
+<p>All files are handled by the file server, using either its local file system,
+or an installed file system. The server manages i/o activity, and contention,
+sharing and locking. </p>
+<p>Client programs access the file server through a client API defined in <code>f32file.h</code>.
+This API includes all classes and functions needed for file system, device,
+directory and file access, and associated utilities. </p>
+<p>All access from client to server is through a file server session, an instance
+of the <code class="codeph">RFs</code> class. After a client has connected an <code class="codeph">RFs</code> to
+the file server, it can perform any file-related operation. An <code class="codeph">RFs</code> is
+associated with a single current path: when a connection to the file server
+is made the session path is automatically set to the private directory of
+the connecting process. </p>
+<p>After operations have been completed, file server-related clean-up should
+be carried out using <code class="codeph">Close()</code> defined in the <code class="codeph">RHandleBase</code> class.
+Note that for the majority of functions, when a file or directory name is
+passed as an argument to the function, if no drive letter or directory is
+specified, the missing path component will be taken from the <em>session
+path.</em> </p>
+<p><strong>Component-based design </strong> </p>
+<p>Only a single path is supported, and the path includes the drive. Each
+component must have its own <code class="codeph">RFs</code> for its file access purposes.
+This gives each component all the flexibility it needs to maintain its own
+current path and other settings related to an <code class="codeph">RFs</code>. There
+is no limit on the number of <code class="codeph">RFs</code> handles available to a single
+thread. </p>
+<p>This is unlike DOS, which effectively maintains 26 current paths, one for
+each drive. DOS also maintains a current drive, and the effective current
+path is therefore the current path on the current drive. </p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AF65EC50-0922-57DD-809B-DB8970C8E4C6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:02 GMT -->
+</html>

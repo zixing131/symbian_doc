@@ -1,0 +1,124 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E9191C31-4D09-4C95-85E4-4282ADEE1D82.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:26 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Handling pointer events in custom controls" /><meta name="abstract" content="The Symbian platform passes touch events to applications by calling CCoeControl::HandlePointerEventL(). The application that receives these events is the one that owns the window." /><meta name="description" content="The Symbian platform passes touch events to applications by calling CCoeControl::HandlePointerEventL(). The application that receives these events is the one that owns the window." /><meta name="DC.Relation" scheme="URI" content="GUID-33D93E96-98A9-4116-9028-3241D76A1036" /><meta name="DC.Relation" scheme="URI" content="GUID-581A8E4B-12BE-41C0-A20E-3087A80FEECF-GENID-GUID-DE2BF6AE-5859-4458-A9D7-0C06FF2F2077" /><meta name="DC.Relation" scheme="URI" content="GUID-1614B24F-5DB2-43AA-9A18-723BD61B8B4C" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Relation" scheme="URI" content="GUID-A9330FEF-C559-4E2B-B064-0151FDADEA8C" /><meta name="DC.Relation" scheme="URI" content="GUID-26A4F760-C85A-4030-8910-15D239323E9D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E9191C31-4D09-4C95-85E4-4282ADEE1D82" /><meta name="DC.Language" content="en" /><title>Handling
+pointer events in custom controls </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E9191C31-4D09-4C95-85E4-4282ADEE1D82">Handling
+pointer events in custom controls</h1><div><p>The Symbian platform passes touch events to applications by calling <code class="parname">CCoeControl::HandlePointerEventL()</code>.
+The application that receives these events is the one that owns the window.</p>
+<p>While this method has been available since S60 3.0, it previously has been
+an optional method. If you have derived a custom control from <code class="parname">CCoeControl</code>,
+then you must implement the <code class="parname">CCoeControl::HandlePointerEventL()</code> method.
+Otherwise, your application cannot react to the touch events passed to it.</p>
+<p>You have to implement at least <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-5CF90E7A-4A91-36FF-BB3F-CF7CF687DED2"><code class="apiname">CCoeControl::HandlePointerEventL()</code></a> into
+your own custom UI components. If you have a container control that owns other
+controls, you have to remember to call the base class implementation of <code class="codeph">CCoeControl::HandlePointerEventL()</code> before
+your additional code as illustrated below:</p>
+<pre class="codeblock">void CMyContainerControl::HandlePointerEventL()
+    {
+    // Remember to call base class implementation
+    CCoeControl::HandlePointerEventL();
+    
+    // Your additional code here
+    // ...
+    }</pre>
+<p>The following figure illustrates changes in the code. Items marked with
+a black frame indicate usage of features in earlier editions, and items marked
+with a red frame are new features.</p>
+<div class="figure" id="GUID-A8FE0B16-FCA8-48FB-BAE8-EE141CED39C0"><img src="GUID-52783B69-09FC-4123-849A-79FF61406129_d0e79086_href.png" /><p class="figure-title"><strong>Figure: </strong><code class="parname">CCoeControl::HandlePointerEventL()</code> usage</p></div>
+<p>To handle pointer events in your custom control:</p>
+<ol>
+<li id="GUID-CFB37EC0-E28A-4E28-9D7E-FEE90F21C1E5"><a name="GUID-CFB37EC0-E28A-4E28-9D7E-FEE90F21C1E5"><!-- --></a><p>In your custom
+control header file, include the <code class="parname">CCoeControl::HandlePointerEventL()</code> method.</p><pre class="codeblock">    public: // from CCoeControl
+    void HandlePointerEventL(const TPointerEvent&amp; aPointerEvent);</pre></li>
+<li id="GUID-096D3B29-AD1F-4BBA-90FD-8A850A353BA3"><a name="GUID-096D3B29-AD1F-4BBA-90FD-8A850A353BA3"><!-- --></a><p>In your custom
+control, implement the <code class="parname">CCoeControl::HandlePointerEventL()</code> method.</p><pre class="codeblock">void CMyControl::HandlePointerEventL(const TPointerEvent&amp; aPointerEvent)
+    {
+    switch( aPointerEvent.iType )
+        {
+        case TPointerEvent::EButton1Up:
+            {
+            // Is the pointer position on this component?
+            if (Rect().Contains(aPointerEvent.iPosition))
+                {
+                SetFocus(ETrue);
+                // Tell container control that this is focused control
+                CMyContainerControl* parent = static_cast&lt;CMyContainerControl*&gt;(Parent());
+                parent-&gt;SetLastFocusedControl(this);
+                }
+            break;
+            }
+        default:
+            {
+            break;
+            }
+        }
+    }</pre><p>By default, the Symbian platform only passes <code class="parname">EButton1Down</code> and <code class="parname">EButton1Up</code> events
+to <code class="parname">CCoeControl::HandlePointerEventL()</code>. To enable drag
+events, see <a href="GUID-33D93E96-98A9-4116-9028-3241D76A1036.html">Enabling
+additional touch events for your application</a>.</p></li>
+<li id="GUID-6725474A-66CA-4AEE-99AA-7608E4219780"><a name="GUID-6725474A-66CA-4AEE-99AA-7608E4219780"><!-- --></a><p>In your custom
+container control header file, include the <code class="parname">CCoeControl::HandlePointerEventL()</code> method.</p><pre class="codeblock">void HandlePointerEventL(const TPointerEvent&amp; aPointerEvent);</pre></li>
+<li id="GUID-0166F02C-5B77-40D5-9CC5-FAEF53E8639A"><a name="GUID-0166F02C-5B77-40D5-9CC5-FAEF53E8639A"><!-- --></a><p>In your custom
+container control, implement the <code class="parname">CCoeControl::HandlePointerEventL()</code> method.</p><pre class="codeblock">void CMyContainerControl::HandlePointerEventL(const TPointerEvent&amp; aPointerEvent)
+    {
+    // Check if touch is enabled or not
+    if( !AknLayoutUtils::PenEnabled() )
+        {
+        return;
+        }
+ 
+    // Remove last focus
+    if (iLastFocusedControl)
+        {
+        iLastFocusedControl-&gt;SetFocus(EFalse);
+        }
+    
+    // Call base class method, that forwards pointer event the right child
+    // component
+    CCoeControl::HandlePointerEventL(aPointerEvent);
+    
+    // Check all button up cases again
+    if (aPointerEvent.iType == TPointerEvent::EButton1Up)
+        {
+        // Find which control was focused / received pointer event
+        CCoeControlArray::TCursor cursor = Components().Begin();
+        CCoeControl* ctrl = NULL;
+        TInt counter = 0;
+        while ((ctrl = cursor.Control&lt;CCoeControl&gt;()) != NULL)
+            {
+            if (ctrl-&gt;Rect().Contains(aPointerEvent.iPosition))
+                {
+                // Set focused index for the scroll bar
+                iFocusedIndex = counter;
+                break;
+                }
+            cursor.Next();
+            counter++;
+            }
+        }
+ 
+    // Do drawing
+    UpdateScrollBarFrameL();
+    DrawNow();
+    }</pre><div class="note"><p><strong class="note_title">Note: </strong>For information on the <code class="parname">AknLayoutUtils::PenEnabled()</code> method,
+see <a href="GUID-DB2E0959-C24E-4E6E-BC6D-064B91BDE662.html">Checking for touch
+support at runtime</a>.</p></div></li>
+</ol>
+<ul>
+<li><p>Features introduced:</p><ul>
+<li><p>Optional <code class="parname">TPointerEvent::EDrag()</code> for receiving
+events indicating that a mobile device user is dragging it across the screen.</p><p>For
+more information on this and other touch event options, see <a href="GUID-33D93E96-98A9-4116-9028-3241D76A1036.html">Enabling additional touch events for your application</a>.</p></li>
+<li><p>Optional <code class="parname">MTouchFeedback</code> observer for sending a
+vibration when a mobile device user touches a control with the feedback interface.</p><p>For
+more information on tactile feedback, see <a href="GUID-581A8E4B-12BE-41C0-A20E-3087A80FEECF-GENID-GUID-DE2BF6AE-5859-4458-A9D7-0C06FF2F2077.html">Tactile feedback</a>.</p></li>
+</ul></li>
+</ul>
+</div><h3>Related information</h3><ul><li><a href="GUID-33D93E96-98A9-4116-9028-3241D76A1036.html">Enabling
+additional touch events for your application</a></li><li><a href="GUID-581A8E4B-12BE-41C0-A20E-3087A80FEECF-GENID-GUID-DE2BF6AE-5859-4458-A9D7-0C06FF2F2077.html">Providing
+tactile feedback</a></li><li><a href="GUID-1614B24F-5DB2-43AA-9A18-723BD61B8B4C.html">Handling
+key events in your application</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated March 9th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E9191C31-4D09-4C95-85E4-4282ADEE1D82.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:27 GMT -->
+</html>

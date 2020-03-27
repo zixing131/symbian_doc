@@ -1,0 +1,81 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4B885E13-AC1E-5208-9F07-E6219E214626.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Call Forward Status Tutorial" /><meta name="abstract" content="This tutorial describes how to get the call forward status information with the telephony API for applications." /><meta name="description" content="This tutorial describes how to get the call forward status information with the telephony API for applications." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-34E7AAF2-EC62-5BF6-B9E7-C7D346BCDF93" /><meta name="DC.Relation" scheme="URI" content="GUID-0F647342-E069-5444-9370-58520375543A" /><meta name="DC.Relation" scheme="URI" content="GUID-7C197DC1-43CA-5146-B81D-36B685A1D0C9" /><meta name="DC.Relation" scheme="URI" content="GUID-8BE1690A-F331-5AD0-BC22-3122CA4C4E01" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4B885E13-AC1E-5208-9F07-E6219E214626" /><meta name="DC.Language" content="en" /><title>Call
+Forward Status Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4B885E13-AC1E-5208-9F07-E6219E214626">Call
+Forward Status Tutorial</h1><div><p>This tutorial describes how to get the call forward status information
+with the telephony API for applications. </p>
+<div id="GUID-01738CA7-BFF1-4BCF-A586-AE7AE6680AE6"><h3 class="section-title">Context</h3><p>The call forward information is only available on the GSM and
+the WCDMA networks.  </p></div>
+<h3>Steps</h3><ol id="GUID-37576512-F408-5B5B-A660-21C97860284B"><a name="GUID-37576512-F408-5B5B-A660-21C97860284B"><!-- --></a>
+<li id="GUID-FDD5B539-DF97-5C3B-AE17-34B1BE12622A"><a name="GUID-FDD5B539-DF97-5C3B-AE17-34B1BE12622A"><!-- --></a><p></p>
+create a new instance of CTelephony
+</li>
+<li id="GUID-6ABACC42-A7D1-506C-90EB-175CA2B0FE29"><a name="GUID-6ABACC42-A7D1-506C-90EB-175CA2B0FE29"><!-- --></a><p></p>
+call CTelephony::GetCallForwardingStatus() to
+get the call forward status information 
+pass a CTelephony::TCallForwardingCondition object 
+</li>
+<li id="GUID-0A59F98D-641A-5ABD-8112-C0A62FAD9A1A"><a name="GUID-0A59F98D-641A-5ABD-8112-C0A62FAD9A1A"><!-- --></a><p></p>
+you can cancel the asynchronous request with a CTelephony::EGetCallForwardingStatusCancel enumeration. 
+</li>
+</ol>
+<div id="GUID-BD080473-17C3-534E-A963-7C41A82C37BA"><h3 class="section-title">Call forward
+status example</h3> <pre class="codeblock">#include &lt;e32base.h&gt;
+#include &lt;Etel3rdParty.h&gt;
+
+class CClientApp : public CActive
+    { 
+
+private:
+    CTelephony* iTelephony;
+    CTelephony::TCallForwardingSupplServicesV1 iCallForwardingSupplServicesV1;
+    CTelephony::TCallForwardingSupplServicesV1Pckg iCallForwardingSupplServicesV1Pckg;
+
+public:
+    CClientApp(CTelephony* aTelephony);
+    void SomeFunction();
+
+private:
+    /*
+       These are the pure virtual methods from CActive that  
+       MUST be implemented by all active objects
+       */
+    void RunL();
+    void DoCancel();
+   };
+
+CClientApp::CClientApp(CTelephony* aTelephony)
+    : CActive(EPriorityStandard),
+      iTelephony(aTelephony),
+      iCallForwardingSupplServicesV1Pckg(iCallForwardingSupplServicesV1)
+    {
+    //default constructor
+    }
+
+void CClientApp::SomeFunction()
+    {
+    CTelephony::TCallForwardingCondition condition = CTelephony::ECallForwardingNoReply;
+    iTelephony-&gt;GetCallForwardingStatus(iStatus, condition, iCallForwardingSupplServicesV1Pckg);
+    SetActive();
+    }
+
+void CClientApp::RunL()
+    {
+    if(iStatus==KErrNone)
+       {
+       if( iCallForwardingSupplServicesV1.iCallForwarding == CTelephony::ENotActive )
+          {} // The call forwarding condition is inactive; 
+             // If the phone user does not answer a call then the call is _not_ forwarded
+       }
+    }
+
+void CClientApp::DoCancel()
+    {
+    iTelephony-&gt;CancelAsync(CTelephony::EGetCallForwardingStatusCancel);
+    }</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 7th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4B885E13-AC1E-5208-9F07-E6219E214626.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:02 GMT -->
+</html>

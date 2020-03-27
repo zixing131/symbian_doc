@@ -1,0 +1,72 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D7E279EE-05F5-4E82-AF25-1E10FF50FABA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Handling the Middle Soft Key and Enter Key in AVKON lists" /><meta name="abstract" content="This document describes how to handle the Middle Soft Key (MSK) and Enter keys in AVKON lists." /><meta name="description" content="This document describes how to handle the Middle Soft Key (MSK) and Enter keys in AVKON lists." /><meta name="DC.Relation" scheme="URI" content="GUID-021E8B9C-4A1B-4C6D-B69E-4337A766C39A" /><meta name="DC.Relation" scheme="URI" content="GUID-165EE4DD-C9CA-430B-8377-068A4194716E" /><meta name="DC.Relation" scheme="URI" content="GUID-2131E679-779D-427D-BD41-47D9949A8749" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D7E279EE-05F5-4E82-AF25-1E10FF50FABA" /><meta name="DC.Language" content="en" /><title>Handling
+the Middle Soft Key and Enter Key in AVKON lists </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D7E279EE-05F5-4E82-AF25-1E10FF50FABA">Handling
+the Middle Soft Key and Enter Key in AVKON lists</h1><div><p>This document describes how to handle the Middle Soft Key (MSK)
+and Enter keys in AVKON lists.</p>
+<div id="GUID-F94E9859-C7AE-45FA-80DC-F62625C32EA4"><h3 class="section-title">Context</h3> <p>If an application
+handles the list targeted MSK or Enter Key events (<code class="codeph">EKeyOK</code> and <code class="codeph">EKeyEnter</code>),
+for example, in the <code class="codeph">ProcessKeyEventL()</code> function, the handling
+of these key events must be moved to the listbox observer function <code class="codeph">HandleListBoxEventL()</code>.
+The MSK or Enter Key event related action must be performed when an <code class="codeph">EEventEnterKeyPressed</code> event
+is received. This way the list item-specific action is performed on a key
+event only when there is an option highlighted in the list.</p> </div>
+<div><h3 class="section-title">Example</h3><ul>
+<li><p>Remove key event handling code from <code class="codeph">ProcessKeyEventL</code>.</p><pre class="codeblock">TBool CLogsDetailView::ProcessKeyEventL(
+const TKeyEvent&amp; aKeyEvent,
+TEventCode aType )
+{
+  if( aType == EEventKey )
+  {
+    switch( aKeyEvent.iCode )
+    {
+      ...
+//------ Remove this code-------------
+<strong>// 	case EKeyOK:
+// 	case EKeyEnter:
+//	Select key pressed
+// 	CmdContextMenuL();
+// 	return ETrue;
+
+</strong>//--------------------------------------        
+       ...
+        default:
+        break;
+    }
+  }
+</pre></li>
+<li><p>Add key event handling code to <code class="codeph">HandleListBoxEventL</code>.</p><pre class="codeblock">void CLogsBaseView::HandleListBoxEventL(
+CEikListBox* aListBox,
+TListBoxEvent aEventType)
+{
+  ...
+    switch ( aEventType )
+  {
+    ...
+//---------Add MSK and enter key handling code----------------<strong> 
+      case EEventEnterKeyPressed:
+    {
+      TInt commandId( Cba()-&gt;ButtonGroup()-&gt;CommandId(
+        CEikButtonGroupContainer::EMiddleSoftkeyPosition ) );
+      ProcessCommandL( commandId );
+      break;
+    }
+</strong>//-------------------------------------------------------------- 
+ ...
+      default:
+// HW key shortcuts
+      break;
+  }
+}
+
+
+...
+}
+</pre></li>
+</ul></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 11th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D7E279EE-05F5-4E82-AF25-1E10FF50FABA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:55 GMT -->
+</html>

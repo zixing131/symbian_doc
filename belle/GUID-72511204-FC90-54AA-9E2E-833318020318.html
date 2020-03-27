@@ -1,0 +1,50 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-72511204-FC90-54AA-9E2E-833318020318.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Reading to a Buffer" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-868D5B32-1CC4-506E-9C49-C86428B9A50F" /><meta name="DC.Relation" scheme="URI" content="GUID-582CAA4A-1240-5138-983D-D9C6EEAF5566" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-72511204-FC90-54AA-9E2E-833318020318" /><meta name="DC.Language" content="en" /><title>Reading
+to a Buffer </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-72511204-FC90-54AA-9E2E-833318020318">Reading
+to a Buffer</h1><div>
+<p>This tutorial describes how to read the data from the table into a buffer. </p>
+<div id="GUID-2FC55195-ADCC-486A-8F48-6C199545436B"><h3 class="section-title">Introduction</h3> <p>This
+query allows you to retrieve the data in a field. You can retrieve one entry
+or multiple entries in the same column by executing the query in a loop. </p> </div>
+<div id="GUID-6221B43F-E095-43A6-8779-A95FBFEBFE5F"><h3 class="section-title">Basic procedure</h3> <p>The
+high level steps to read the data into the buffer are shown here: </p> <ol id="GUID-3E8A8F9B-DFC3-5809-93FF-899287668CC3">
+<li id="GUID-E42FA395-D5D4-5CE5-B6C2-4F81049D1973"><a name="GUID-E42FA395-D5D4-5CE5-B6C2-4F81049D1973"><!-- --></a><p>Configure the SQL statement. </p> </li>
+<li id="GUID-5C982F27-27E8-5AA1-A555-B7C54D3EB92F"><a name="GUID-5C982F27-27E8-5AA1-A555-B7C54D3EB92F"><!-- --></a><p>Allocate memory and
+copy data. </p> </li>
+<li id="GUID-CC3E796C-4637-50BF-BA10-559F72E9AD2D"><a name="GUID-CC3E796C-4637-50BF-BA10-559F72E9AD2D"><!-- --></a><p>Deallocate memory. </p> </li>
+</ol> </div>
+<div id="GUID-B53573AE-EEF9-4477-8088-12059025054A"><h3 class="section-title">Detailed steps</h3> <p>The
+steps to read data to a buffer are as follows: </p> <p><strong>Configure
+the SQL statement</strong> </p> <p>Instantiate an RSqlStatement object
+and declare the variables as required. </p> <pre class="codeblock">RSqlStatement myStatement;
+TInt err;</pre> <p><strong>Allocate
+memory and copy data</strong> </p> <p>To retrieve all the entries, use a loop.
+The steps to be performed within the loop are as described below: </p> <ol id="GUID-350EBCA3-166E-5B94-BACF-9A3FDF0B0E1D">
+<li id="GUID-F7E93B5F-793C-53C5-B97C-206589FC33AA"><a name="GUID-F7E93B5F-793C-53C5-B97C-206589FC33AA"><!-- --></a><p>Instantiate an object
+of the <code class="codeph">RBuf</code> class. </p> <pre class="codeblock">while((err = myStatement.Next()) == KSqlAtRow)
+    {
+    RBuf myBuffer;</pre> </li>
+<li id="GUID-3E3552E9-42F2-5715-B5CB-1D0412B62D09"><a name="GUID-3E3552E9-42F2-5715-B5CB-1D0412B62D09"><!-- --></a><p>Allocate enough memory
+to hold the column data using the <code class="codeph">CreateL()</code> function as shown
+below. </p> <pre class="codeblock">err = myBuffer.CreateL(myStatement.ColumnSize(columnIndex));</pre> </li>
+<li id="GUID-8E9C1C93-B5B2-5963-B418-FF16C1B873E7"><a name="GUID-8E9C1C93-B5B2-5963-B418-FF16C1B873E7"><!-- --></a><p>Copy the data from the
+table into the buffer using RSqlStatement::ColumnBinary(TInt,TDes8
+&amp;)const function. </p> <pre class="codeblock">    err = myStatement.ColumnBinary(myColumnIndex,myBuffer);
+    ...
+    // process data</pre> </li>
+</ol> <p><strong>Deallocate
+memory</strong> </p> <p>Deallocate the memory assigned to the <code class="codeph">RBuf</code> object. </p> <pre class="codeblock">myBuffer.Close();
+    }</pre> </div>
+<div id="GUID-F0F18DB6-7D49-4515-8419-11830C5B22F7"><h3 class="section-title">See also</h3> <p><a href="GUID-C60DAE3D-7FB9-5619-9E5D-476A430705AF.html">Querying a Database</a> </p> <p> <a href="GUID-B61EA8C5-0966-51DE-AC73-01DD34C7D3CC.html">Deleting Rows from a Table</a> </p> <p>Reading
+to a buffer - This document </p> <p> <a href="GUID-3CCA6503-54DA-5558-85DC-93A22A81F565.html">Reading
+to Memory</a> </p> <p> <a href="GUID-183280EE-0C57-54FE-8ABB-E1CC3BDE525B.html">Reading
+to a Data Stream</a> </p> <p> <a href="GUID-B9A3B17E-BDEB-5F66-968C-080335A721AC.html">Writing
+to a Data Stream</a> </p> <p> <a href="GUID-C474376E-1766-5781-B5BF-3786C5B4D72E.html">Performing
+Scalar Queries</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated April 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-72511204-FC90-54AA-9E2E-833318020318.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+</html>

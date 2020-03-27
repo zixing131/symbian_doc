@@ -1,0 +1,58 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F50003D0-402A-59E1-8F6F-8C999DC81735.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:12 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="When to choose the RArray and RPointerArray types" /><meta name="abstract" content="Describes the occasions to use the RArray and RPointerArray types." /><meta name="description" content="Describes the occasions to use the RArray and RPointerArray types." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Relation" scheme="URI" content="GUID-E3F403EE-717B-5EA6-BC4E-6840097CAC10" /><meta name="DC.Relation" scheme="URI" content="GUID-2F64B579-73D3-548A-9104-16483AF77BCB" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F50003D0-402A-59E1-8F6F-8C999DC81735" /><meta name="DC.Language" content="en" /><title>When
+to choose the RArray and RPointerArray types </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-F50003D0-402A-59E1-8F6F-8C999DC81735">When
+to choose the RArray and RPointerArray types</h1><div><p>Describes the occasions to use the RArray and RPointerArray types.</p>
+<p>The classes <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FAEBF321-6B08-3041-A01F-B1E7282D0707.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FAEBF321-6B08-3041-A01F-B1E7282D0707.html"><code class="apiname">RArray</code></a>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AAA13D1F-1BD7-3331-BB8C-11FA2795B53F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AAA13D1F-1BD7-3331-BB8C-11FA2795B53F.html"><code class="apiname">RPointerArray</code></a> and
+the specialisation classes for arrays of 32-bit integers, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6FCD6EC2-7293-37A9-8292-3FA05CCEE50B.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6FCD6EC2-7293-37A9-8292-3FA05CCEE50B.html"><code class="apiname">RArray&lt;TInt&gt;</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97995D22-5A1C-3271-8D63-22D8703B676B.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97995D22-5A1C-3271-8D63-22D8703B676B.html"><code class="apiname">RArray&lt;TUint&gt;</code></a>,
+provide behaviour equivalent to the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html"><code class="apiname">CArrayFixFlat</code></a> and<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FCE7D958-96AA-346D-8D22-0EF24B9DB7CC.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FCE7D958-96AA-346D-8D22-0EF24B9DB7CC.html"><code class="apiname">CArrayPtrFlat</code></a> classes.</p>
+<p>In general, the implementation of the <code class="codeph">CArray...</code> classes
+reuses the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-33BEE1B4-20A1-392B-89B3-DA5D4F46418E.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-33BEE1B4-20A1-392B-89B3-DA5D4F46418E.html"><code class="apiname">CBufBase</code></a> framework to provide two alternative
+storage structures for the array data with very little <code class="codeph">CArray...</code> specific
+code. There are two assertions for every array access, one in the <code class="codeph">CArray...</code> code
+and one in the <code class="codeph">CBufBase</code> code.</p>
+<p>In addition, the <code class="codeph">CBufBase</code> code operates in terms of byte
+buffers, and these appear in the API as descriptors. In the implementation,
+this requires a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0D29B11-1535-3D11-B318-B18D30A6120B.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0D29B11-1535-3D11-B318-B18D30A6120B.html"><code class="apiname">TPtr8</code></a> to be constructed, returned and inspected
+for every array access.</p>
+<p>Also, a number of TRAP harnesses are used to catch allocation failure.</p>
+<p>This means that, although very powerful, the implementation of the <code class="codeph">CArray...</code> classes
+can add considerable overhead for simple vector-like flat arrays of fixed
+length objects.</p>
+<p>The <code class="codeph">RArray...</code> classes were developed to overcome these
+problems. In addition, the generic searching and ordering capabilities are
+faster and easier to use. These classes should be used whenever an array of
+fixed length objects or an array of pointers is required, and the array has
+the following characteristics:</p>
+<ul>
+<li id="GUID-5A46A34C-F255-51C8-9777-6BCFA1D1F027"><a name="GUID-5A46A34C-F255-51C8-9777-6BCFA1D1F027"><!-- --></a><p>the size of an array
+element is bounded (the current implementation imposes an upper limit of 640)</p> </li>
+<li id="GUID-04E4B892-AD03-5F72-ACCF-80D4B9874181"><a name="GUID-04E4B892-AD03-5F72-ACCF-80D4B9874181"><!-- --></a><p>insertions into the
+array are infrequent</p> </li>
+</ul>
+<p>In contrast, the main benefit to be derived from the <code class="codeph">CArray...</code> classes
+is their support for segmented storage and their ability to handle arrays
+of variable length objects. However, the latter is a rare requirement.</p>
+<p>Note that for performance reasons, <code class="codeph">RArray</code> stores objects
+in the array as word (4 byte) aligned quantities. This means that some member
+functions do not work when <code class="codeph">RArray</code> is instantiated for classes
+of less than 4 bytes in size, or when the class's alignment requirement is
+not 4. Be aware that it is possible to get an unhandled exception on hardware
+that enforces strict alignment.</p>
+<p>The affected functions are:</p>
+<ul>
+<li id="GUID-485BFD16-FF55-573B-A831-F706BD9C1B70"><a name="GUID-485BFD16-FF55-573B-A831-F706BD9C1B70"><!-- --></a><p>the constructor: RArray(TInt,
+T*, TInt)</p> </li>
+<li id="GUID-65C548C2-D048-5FA4-9990-BFF141962BA5"><a name="GUID-65C548C2-D048-5FA4-9990-BFF141962BA5"><!-- --></a><p>Append(const T&amp;)</p> </li>
+<li id="GUID-C907314E-1884-51D5-98F4-2AD0953DE4C4"><a name="GUID-C907314E-1884-51D5-98F4-2AD0953DE4C4"><!-- --></a><p>Insert(const T&amp;,
+TInt)</p> </li>
+<li id="GUID-C4C989EF-67EE-5561-B53E-BA76FE91FE80"><a name="GUID-C4C989EF-67EE-5561-B53E-BA76FE91FE80"><!-- --></a><p>the [] operator, and
+then using the pointer to iterate through the array as you would with a C
+array.</p> </li>
+</ul>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F50003D0-402A-59E1-8F6F-8C999DC81735.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:12 GMT -->
+</html>

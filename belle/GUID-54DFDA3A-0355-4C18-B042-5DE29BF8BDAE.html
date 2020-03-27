@@ -1,0 +1,122 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-54DFDA3A-0355-4C18-B042-5DE29BF8BDAE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Creating Content Handler Plug-ins" /><meta name="abstract" content="This tutorial describes how to use the NFC Content Handler API to create Content Handler plug-ins." /><meta name="description" content="This tutorial describes how to use the NFC Content Handler API to create Content Handler plug-ins." /><meta name="DC.Relation" scheme="URI" content="GUID-86CC5E66-1219-4161-9204-C19A28550FE3" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-54DFDA3A-0355-4C18-B042-5DE29BF8BDAE" /><meta name="DC.Language" content="en" /><title>Creating Content Handler Plug-ins </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-54DFDA3A-0355-4C18-B042-5DE29BF8BDAE">Creating Content Handler Plug-ins</h1><div><p>This tutorial describes how to use the NFC Content Handler
+API to create Content Handler plug-ins.</p>
+<div id="GUID-4378D12A-7ED6-4730-AEA7-E1EC84EA5ADD"><h3 class="section-title">Context</h3><p>Content
+Handler plug-ins can be created by implementing the pre-defined <code class="codeph">CNfcCH</code> ECOM base class and defining the NDEF registration
+information in a resource file.</p></div><div id="GUID-F513E662-78A3-4935-893E-CD6633979658"><h3 class="section-title">Prerequisites</h3><div class="p">Before you
+begin, refer to the following header files and NFC libraries:<ul>
+<li><p><strong><code class="codeph">nfcch.h</code></strong> (declares <code class="codeph">CNfcCH</code> base class that must be inherited)</p></li>
+<li><p><strong><code class="codeph">ndef.lib</code></strong> (NDEF message)</p></li>
+<li><p><strong><code class="codeph">ecom.lib</code></strong> (ECom framework)</p></li>
+</ul></div></div>
+<h3>Steps</h3><ol id="GUID-7AD35B04-4213-40D6-8859-E9EBA68922FA"><a name="GUID-7AD35B04-4213-40D6-8859-E9EBA68922FA"><!-- --></a>
+<li id="GUID-90E785D9-B817-4DD8-B2C8-C2ACAAB13B4B"><a name="GUID-90E785D9-B817-4DD8-B2C8-C2ACAAB13B4B"><!-- --></a><p>Define the
+NDEF registration information of Content Handlers in a resource file.
+The following resource file example illustrates how two different
+NFC Content Handlers are registered for NDEF messages.</p>
+<div class="p"><p><strong>Example: </strong><pre class="codeblock">RESOURCE REGISTRY_INFO NfcOwnCHExampleInfo
+    {
+    // The UID of this example DLL
+    dll_uid = 0xe1000001;
+    interfaces = 
+        {
+        INTERFACE_INFO
+            {
+            // The NFC Content Handler ECOM interface UID
+            interface_uid = 0x20018416;
+            implementations = 
+                {
+                // The registration information for urn:nfc:ext:helloworld NDEF messages
+                IMPLEMENTATION_INFO
+                    {
+                    // The UID of this example content handler
+                    implementation_uid = 0xe1000002;
+                    version_no = 1;
+                    display_name = "NfcHelloWorldCH";
+                    default_data = "urn:nfc:ext:helloworld";
+                    opaque_data = "";
+                    },
+                
+                // The registration information for urn:nfc:ext:advancedhelloworld and 
+                // urn:nfc:ext:moreadvancedhelloworld NDEF messages
+                IMPLEMENTATION_INFO
+                    {
+                    // The UID of this example content handler
+                    implementation_uid = 0xe1000003;
+                    version_no = 1;
+                    display_name = "NfcAdvancedHelloWorldCH";
+                    default_data = "urn:nfc:ext:advancedhelloworld||urn:nfc:ext:moreadvancedhelloworld";
+                    opaque_data = "";
+                    }
+                };
+            }
+        };
+    }
+</pre></p></div>
+<p> The first content handler is registered to listen to NDEF
+messages with <code class="codeph">TNF = 0x04</code> (NFC Forum external type)
+and a type "<code class="codeph">helloworld</code>". The second Content Handler
+is registered to listen to NDEF messages with the same TNF (Type Name
+Format) value but with types "<code class="codeph">advancedhelloworld</code>"
+and "<code class="codeph">moreadvancedhelloworld</code>"</p><div class="note"><p><strong class="note_title">Note: </strong></p><ul>
+<li><p>The NDEF message type is defined in the <code class="codeph">default_data</code> field. </p></li>
+<li><p>It is possible to register for multiple NDEF message types
+in a single <code class="codeph">default_data</code> field by using "||" as a
+separator.</p></li>
+<li><p>The following list describes the mapping between <code class="codeph">default_data</code> field and NFC Forum NDEF specification: </p><ul>
+<li><p><code class="codeph">urn:nfc:wkt:&lt;TYPE&gt; =&gt; TNF</code> = NFC Forum well-known
+type (<code class="codeph">0x01</code>), where <code class="codeph">&lt;TYPE&gt;</code> is
+the NFC Forum NDEF record type.</p></li>
+<li><p><code class="codeph">urn:nfc:ext:&lt;TYPE&gt; =&gt; TNF</code> = NFC Forum external
+type (<code class="codeph">0x04</code>), where <code class="codeph">&lt;TYPE&gt;</code> is
+the NFC Forum NDEF record type.</p></li>
+</ul></li>
+</ul></div>
+</li>
+<li id="GUID-96850D0A-8089-449A-A5B6-4E49FE59EDC9"><a name="GUID-96850D0A-8089-449A-A5B6-4E49FE59EDC9"><!-- --></a><p>Implement
+the NFC Content Handler using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-24E2A5AA-5413-3474-9309-37AF819599C6.html#GUID-F1829CC0-24EB-3B06-A5E3-FFAE5995B535"><code class="apiname">CNfcCH::HandleNdefMessage()</code></a> method. The following code snippet illustrates an example of <code class="codeph">CNfcHelloWorldCH::HandleNdefMessage()</code> method:</p>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">void CNfcHelloWorldCH::HandleNdefMessage( TRequestStatus&amp; aRequestStatus,
+                                          CNdefMessage&amp; aMessage,
+                                        )
+    {
+    TInt err = KErrNone;
+    
+    // KRequestPending needs to be assigned to the TRequestStatus
+    TRequestStatus status = &amp;aRequestStatus
+    status = KRequestPending;
+    
+    // Handle aMessage here!
+    
+   
+    // Finally the request needs to be completed
+    User::RequestComplete( status, err );
+    }
+</pre></div>
+<p><strong>Note</strong>: The <code class="codeph">CNfcCH::HandleNdefMessage()</code> function is called when the NFC server receives an NDEF message
+and the registry information of NFC Content Handler matches the TNF
+and type of the NDEF message. </p>
+</li>
+<li id="GUID-15370441-61E7-462E-A696-F889684CE061"><a name="GUID-15370441-61E7-462E-A696-F889684CE061"><!-- --></a><p>Grant the NFC Content Handler capabilites.</p>
+<p>The Content Handler Loader has the following capabilities.
+To be loaded by the Content Handler Loader, the same capabilities
+must be granted to your Content Handler plug-in. </p><ul>
+<li>LocalServices</li>
+<li> ReadUserData</li>
+<li> WriteUserData</li>
+<li>NetworkServices</li>
+<li>UserEnvironment</li>
+<li>Location</li>
+<li>SwEvent</li>
+<li>ReadDeviceData</li>
+<li>WriteDeviceData</li>
+</ul>
+</li>
+</ol>
+</div><h3>Related information</h3><ul><li><a href="GUID-7A72B008-901E-454D-AD93-F99555CA904A.html">NFC
+Services Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated September 30th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-54DFDA3A-0355-4C18-B042-5DE29BF8BDAE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:15 GMT -->
+</html>

@@ -1,0 +1,144 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-7EFBEEAD-3E74-5165-B305-313F7DE4BEB4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="OpenVG Interface Component Overview" /><meta name="abstract" content="The OpenVG Interface component defines the interface to OpenVG on the Symbian platform. The component standardizes the source and binary interfaces in order to encourage both source and binary compatibility between Symbian-based OpenVG implementations." /><meta name="description" content="The OpenVG Interface component defines the interface to OpenVG on the Symbian platform. The component standardizes the source and binary interfaces in order to encourage both source and binary compatibility between Symbian-based OpenVG implementations." /><meta name="DC.Relation" scheme="URI" content="GUID-1A8ED0EB-B3B7-553F-95E3-2120D877966B" /><meta name="DC.Relation" scheme="URI" content="GUID-C2E24953-3D83-59FB-8B7A-C850474406DB" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-1B1C6D35-FFDF-55B3-BCE2-DD0295858E49" /><meta name="DC.Relation" scheme="URI" content="GUID-C2E24953-3D83-59FB-8B7A-C850474406DB" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-7EFBEEAD-3E74-5165-B305-313F7DE4BEB4" /><meta name="DC.Language" content="en" /><title>OpenVG
+Interface Component Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-7EFBEEAD-3E74-5165-B305-313F7DE4BEB4">OpenVG
+Interface Component Overview</h1><div><p>The OpenVG Interface component defines the interface to OpenVG
+on the Symbian platform. The component standardizes the source and binary
+interfaces in order to encourage both source and binary compatibility between
+Symbian-based OpenVG implementations.</p>
+<p> <strong>Variant</strong>: <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay</a> and <a href="GUID-F64E6551-670E-5E12-8103-DE504D3EC94F.html">non-ScreenPlay</a>. </p>
+<div id="GUID-4EEEC806-7C29-4D4B-963B-50311687F480"><h3 class="section-title">Supported APIs</h3> <p>The OpenVG specifications are defined
+by the Khronos Group (<a href="http://www.khronos.org/" target="_blank">www.khronos.org</a>).
+The following table provides links to the relevant specifications. </p> <div class="tablenoborder"><a name="GUID-5B734E4C-E838-5478-990F-817F4D0971FB"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-5B734E4C-E838-5478-990F-817F4D0971FB" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e255716">APIs</th>
+<th class="cellrowborder" valign="top" id="d0e255719">Specification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255716 "><p>OpenVG 1.0.1 and VGU 1.0 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255719 "><p> <a href="../registry/OpenVG/specs/openvg_1_0_1.pdf" target="_blank">http://www.khronos.org/registry/vg/specs/openvg_1_0_1.pdf </a> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255716 "><p>OpenVG 1.1 and VGU 1.1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255719 "><p> <a href="../registry/OpenVG/specs/openvg-1.1.pdf" target="_blank">http://www.khronos.org/registry/vg/specs/openvg-1.1.pdf </a> </p> </td>
+</tr>
+</tbody>
+</table></div> <p>VGU provides some handy functions that can be used by OpenVG applications.
+For example, it provides functions for drawing primitives (such as lines,
+polygons, rectangles and arcs) and for computing warp matrixes. The latter
+transform the drawing surface from one shape to another (for example, from
+a square to an arbitrary quadrilateral defined by points). </p> </div>
+<div id="GUID-81AD9891-73BD-4AEB-A975-2B65011CA801"><h3 class="section-title">Header files</h3> <p>The OpenVG Interface component includes
+the Khronos-released header files <code>openvg.h</code> and <code>vgu.h</code>.
+These header files incorporate minor changes such as Doxygen tags (<code class="codeph">/**</code> comments)
+and the Symbian-defined macro __SOFTFP, which is described
+below. Use of these standard header files helps to ensure binary compatibility
+for applications across different Symbian platforms. It also provides source
+compatibility between different operating systems. </p> <p>The header files
+are provided for both OpenVG 1.0 and OpenVG 1.1. Stub <code>openvg.h</code> and <code>vgu.h</code> files
+redirect to the OpenVG 1.0 headers by default. However a variability point
+can be used to expose the OpenVG 1.1 headers. </p> <p>The Symbian-defined
+header file <code>/epoc32/include/khronos_types.h</code> maps the
+Khronos-defined basic types to native Symbian types. </p> </div>
+<div id="GUID-6C35C182-B177-4646-9C5B-DD753E16425B"><h3 class="section-title">Floating point conventions</h3> <p>Within the Khronos-supplied
+header files, the Symbian-defined macro __SOFTFP has been
+added to the declaration of all functions that pass, or return, floating point
+numbers by value. This means that: </p> <ul>
+<li id="GUID-85D70C88-01C9-5ACF-A39E-F2DC74158FD8"><a name="GUID-85D70C88-01C9-5ACF-A39E-F2DC74158FD8"><!-- --></a><p>When using the API both
+clients and the OpenVG implementation must use software floating point calling
+conventions, regardless whether hardware or software floating point compiler
+options are actually used. </p> </li>
+<li id="GUID-C755520B-8CC8-55E0-A47F-584A7C3A19C5"><a name="GUID-C755520B-8CC8-55E0-A47F-584A7C3A19C5"><!-- --></a><p>If suitable hardware
+is available, the OpenVG implementation can use hardware-accelerated floating
+point features internally without a risk of binary incompatibility with client
+programs. </p> </li>
+<li id="GUID-6C5F4FDE-7C69-5C47-9D10-4CB6A43EB0B8"><a name="GUID-6C5F4FDE-7C69-5C47-9D10-4CB6A43EB0B8"><!-- --></a><p>If suitable hardware
+is available, OpenVG client programs can use hardware-accelerated floating
+point features internally without a risk of binary incompatibility with the
+OpenVG implementation. </p> </li>
+</ul> </div>
+<div id="GUID-7B98DA1E-B9F7-4A6B-8B9E-498785340B47"><h3 class="section-title">Library names</h3> <p>The OpenVG Interface component includes
+the following LIB files: </p> <div class="tablenoborder"><a name="GUID-DB65C429-5A67-5D4B-A42D-D48883BEB94F"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-DB65C429-5A67-5D4B-A42D-D48883BEB94F" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e255848">Library</th>
+<th class="cellrowborder" valign="top" id="d0e255851">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255848 "><p>OpenVG </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255851 "><p> <code>libOpenVG.lib</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255848 "><p>VGU </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255851 "><p> <code> libOpenVGU.lib</code> </p> </td>
+</tr>
+</tbody>
+</table></div> <p>The corresponding DLL files must be delivered by the implementation. </p> </div>
+<div id="GUID-2F975C84-2420-450D-ADAB-D4DDF709AB05"><h3 class="section-title">DEF files</h3> <p>The OpenVG Interface component supplies
+DEF files to further ensure binary compatibility between different platforms.
+These files exist for the WINS and WINSCW emulator and ARM hardware platforms
+as shown in the following tables. Although the names have a trailing "u",
+this is not specified in the MMP file because it is appended automatically. </p> <p><strong>DEF files for WINS and WINSCW </strong> </p> <div class="tablenoborder"><a name="GUID-2F4052FB-DEB3-5849-954A-8D6A333E3916"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-2F4052FB-DEB3-5849-954A-8D6A333E3916" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e255919">Library</th>
+<th class="cellrowborder" valign="top" id="d0e255922">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255919 "><p>OpenVG 1.0.1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255922 "><p> <code>\epoc32\include\platform\def\win32\libopenvg10u.def</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255919 "><p>VGU 1.0.1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255922 "><p> <code>\epoc32\include\platform\def\win32\libopenvgu10u.def</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255919 "><p>OpenVG 1.1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255922 "><p> <code>\epoc32\include\platform\def\win32\libopenvg11u.def</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255919 "><p>VGU 1.1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255922 "><p> <code>\epoc32\include\platform\def\win32\libopenvgu11u.def</code> </p> </td>
+</tr>
+</tbody>
+</table></div> <p><strong>DEF files for ARM </strong> </p> <div class="tablenoborder"><a name="GUID-B067511D-B957-5BC1-9967-04FADE5EF079"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B067511D-B957-5BC1-9967-04FADE5EF079" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e256011">Library</th>
+<th class="cellrowborder" valign="top" id="d0e256014">Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e256011 "><p>OpenVG 1.0.1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e256014 "><p> <code>\epoc32\include\platform\def\eabi\libopenvg10u.def</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e256011 "><p>VGU 1.0.1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e256014 "><p> <code> \epoc32\include\platform\def\eabi\libopenvgu10u.def</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e256011 "><p>OpenVG 1.1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e256014 "><p> <code>\epoc32\include\platform\def\eabi\libopenvg11u.def</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e256011 "><p>VGU 1.1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e256014 "><p> <code> \epoc32\include\platform\def\eabi\libopenvgu11u.def</code> </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-1A8ED0EB-B3B7-553F-95E3-2120D877966B.html">OpenVG Collection
+Overview</a></li><li><a href="GUID-C2E24953-3D83-59FB-8B7A-C850474406DB.html">OpenVG Interface
+Component</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated March 1st, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-7EFBEEAD-3E74-5165-B305-313F7DE4BEB4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:00 GMT -->
+</html>

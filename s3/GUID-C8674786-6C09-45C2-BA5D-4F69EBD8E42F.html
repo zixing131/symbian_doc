@@ -1,0 +1,46 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C8674786-6C09-45C2-BA5D-4F69EBD8E42F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:30 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Creating the MMP File" /><meta name="abstract" content="" /><meta name="description" content="" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-85372267-C352-4389-8FC9-32B8E1622BC9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C8674786-6C09-45C2-BA5D-4F69EBD8E42F" /><meta name="DC.Language" content="en" /><title>Creating
+the MMP File </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C8674786-6C09-45C2-BA5D-4F69EBD8E42F">Creating
+the MMP File</h1><div><p></p>
+<p><strong>Add needed libraries used by the MMP file structure:</strong></p>
+<p>If developers want to use any of the P.I.P.S. libraries, they need to link
+to the corresponding library in the MMP file using the <code class="codeph">LIBRARY</code> keyword.</p>
+<p>If the application has <code class="codeph">main()</code> as the entry point, the
+library <code>libcrt0.lib</code> must be specified as the first library
+otherwise, it will result in linker errors. The user must link to the Symbian
+platform <code>euser.dll</code>. This is required since the static
+library uses some of the services of the Symbian platform such as creating
+cleanup stack, and having a top level TRAP. All these details are hidden from
+the developer. The developer will write the application as if it were for
+the UNIX environment.</p>
+<pre class="codeblock">STATICLIBRARY  libcrt0.lib
+LIBRARY        libc.lib 
+LIBRARY        euser.lib  // Needed in order to use Symbian services
+// and whatever Open C libraries are needed…
+</pre>
+<p>The <code>libcrt0.lib</code> library is required if the user is
+not going to write <code class="codeph">E32Main</code> within the application (EXE).
+This static library has an implementation of <code class="codeph">E32Main</code> within
+which it calls the library initialization method followed by calling main
+written by the developer. This static library also gets command-line arguments
+and passes the same to main. </p>
+<p>If the application has <code class="codeph">E32Main()</code> as an entry point, there
+is no need to link to <code>libcrt0.lib</code> like in the example
+below.  </p>
+<pre class="codeblock">LIBRARY         libc.lib 
+LIBRARY         libm.lib libpthread.lib 
+LIBRARY         euser.lib</pre>
+<p><strong>Add needed include paths</strong></p>
+<pre class="codeblock">SYSTEMINCLUDE   \epoc32\include\stdapis 
+</pre>
+<div class="note"><p><strong class="note_title">Note: </strong>Some of the SSL/cryptography functions need more than the default available
+stack. The recommended stack size is 10K. To set the stack size to 10K add
+in the MMP file.</p></div>
+<pre class="codeblock">EPOCSTACKSIZE 0x10000</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 7th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C8674786-6C09-45C2-BA5D-4F69EBD8E42F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:30 GMT -->
+</html>

@@ -1,0 +1,74 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B9F07057-4B31-5FE8-BE4C-98CC8151CD29.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:07 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Single Phase Constructor Tutorial" /><meta name="abstract" content="Single phase construction is enabled by defining the CONSTRUCTORS_MAY_LEAVE() macro in a public section of a class definition if the single phase construction is part of the public interface of the class." /><meta name="description" content="Single phase construction is enabled by defining the CONSTRUCTORS_MAY_LEAVE() macro in a public section of a class definition if the single phase construction is part of the public interface of the class." /><meta name="DC.Relation" scheme="URI" content="GUID-B007634D-4D55-528A-8B85-6120C633AC8B" /><meta name="DC.Relation" scheme="URI" content="GUID-96AB1D5A-932E-55BE-A025-F01608546B99" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-28AD51DC-C101-5E6E-9EC3-C2B61400D8CD" /><meta name="DC.Relation" scheme="URI" content="GUID-D60B55FA-D8C1-559A-9D99-48845BE32A6C" /><meta name="DC.Relation" scheme="URI" content="GUID-D33EB877-CCCB-527B-8AFC-4A8385C55E78" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B9F07057-4B31-5FE8-BE4C-98CC8151CD29" /><meta name="DC.Language" content="en" /><title>Single
+Phase Constructor Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B9F07057-4B31-5FE8-BE4C-98CC8151CD29">Single
+Phase Constructor Tutorial</h1><div><p>Single phase construction is enabled by defining the <code class="codeph">CONSTRUCTORS_MAY_LEAVE()</code> macro
+in a public section of a class definition if the single phase construction
+is part of the public interface of the class. </p>
+<div id="GUID-D82AD7F2-633E-4A5B-9B82-4026A8F91B41"><h3 class="section-title">Context</h3><p>Single phase constructor
+provides a means to use the RAII concepts for Symbian Developers who are familiar
+with C++ standards. It is provided as a tool and needs to be used after careful
+consideration. </p> </div><div id="GUID-0FCC96BD-B7C4-4604-96C1-D6E5D574AB53"><h3 class="section-title">Prerequisites</h3><p><strong>Required background</strong></p><p>Before
+beginning you must know the following: </p> <ul>
+<li id="GUID-DC57A39F-122C-545C-A2A1-D26F71209C10"><a name="GUID-DC57A39F-122C-545C-A2A1-D26F71209C10"><!-- --></a><p> <strong>RAII:</strong> The Resource
+Acquisition Is Initialization (RAII) idiom is the basis of the implementation
+of the smart pointer class templates. </p> </li>
+<li id="GUID-C0228985-A32D-5652-8CCC-4BF401998FCC"><a name="GUID-C0228985-A32D-5652-8CCC-4BF401998FCC"><!-- --></a><p> CONSTRUCTORS_MAY_LEAVE():
+This macro is used for enabling single phase construction, particularly for
+CBase-derived classes. </p> </li>
+</ul> </div>
+<h3>Steps</h3><ol id="GUID-DF51DCE9-ACA3-4376-B4B3-4A31728670D2"><a name="GUID-DF51DCE9-ACA3-4376-B4B3-4A31728670D2"><!-- --></a>
+<li id="GUID-FA70E487-145A-4502-BB58-B09A42F69183"><a name="GUID-FA70E487-145A-4502-BB58-B09A42F69183"><!-- --></a><p>Enabling single
+phase constructor</p>
+<div class="p"><p><strong>Example: </strong>Single phase construction is enabled by defining the CONSTRUCTORS_MAY_LEAVE()
+macro in a public section of a class definition if the single phase construction
+is part of the public interface of the class. An example of this is given
+below: </p><pre class="codeblock">class CManagedUserSinglePhase : public CBase
+	{
+public:
+	CONSTRUCTORS_MAY_LEAVE
+	static CManagedUserSinglePhase* NewL(CTicker* aTicker)
+		{
+		return new(ELeave) CManagedUserSinglePhase(aTicker);
+		}
+	. . .
+	}	</pre></div>
+</li>
+<li id="GUID-5A449AB7-512E-4701-928A-2209C1A41A06"><a name="GUID-5A449AB7-512E-4701-928A-2209C1A41A06"><!-- --></a><p>Using single phase
+constructor</p>
+<div class="p"><p><strong>Example: </strong>This macro must be used within a public section of a class definition,
+if the single phase construction is part of the public interface of the class.
+Other classes, not derived from CBase will not be affected by this macro. </p><p>The
+following example code snippet the class demonstrates the use of an embedded
+string in the ingle-phase construction pattern, where a leave-safe constructor
+fully initializes the object.  </p><pre class="codeblock">class CStringUserSinglePhase : public CBase
+	{
+public:
+		CONSTRUCTORS_MAY_LEAVE
+
+	static CStringUserSinglePhase* NewL(const TDesC&amp; aName)
+		{
+		return new(ELeave) CStringUserSinglePhase(aName);
+		}
+
+	~CStringUserSinglePhase()
+		{
+		
+		}</pre></div>
+</li>
+<li id="GUID-D41D3443-FBFA-44DA-8E35-E82C12829F3D"><a name="GUID-D41D3443-FBFA-44DA-8E35-E82C12829F3D"><!-- --></a><p>Need to declare
+the CONSTRUCTORS_MAY_LEAVE macro</p>
+<div class="p"><p><strong>Example: </strong>This is necessary because the Symbian platform currently lacks
+the placement delete operator counterparts corresponding to the CBase placement
+new operators that take a TLeave parameter (new(ELeave)). The macro defines
+these missing placement delete operators and ensures that all allocated memory
+can be freed if a constructor leaves.</p></div>
+</li>
+</ol>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-B007634D-4D55-528A-8B85-6120C633AC8B.html">EUser High
+Level Library Overview</a></li><li><a href="GUID-96AB1D5A-932E-55BE-A025-F01608546B99.html">RAII Idiom</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated March 23rd, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B9F07057-4B31-5FE8-BE4C-98CC8151CD29.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:07 GMT -->
+</html>

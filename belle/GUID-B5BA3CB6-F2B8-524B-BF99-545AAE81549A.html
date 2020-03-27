@@ -1,0 +1,71 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B5BA3CB6-F2B8-524B-BF99-545AAE81549A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Message Stores" /><meta name="abstract" content="The SMS stack uses the following stores to store a complete message." /><meta name="description" content="The SMS stack uses the following stores to store a complete message." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-34E7AAF2-EC62-5BF6-B9E7-C7D346BCDF93" /><meta name="DC.Relation" scheme="URI" content="GUID-6BA58045-3864-599A-878E-0C7AE7E9741B" /><meta name="DC.Relation" scheme="URI" content="GUID-E0DA7DE7-FD5A-5C1D-A53C-870966F00445" /><meta name="DC.Relation" scheme="URI" content="GUID-30C21015-C433-5465-87A7-DA5A9C4AD7BD" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B5BA3CB6-F2B8-524B-BF99-545AAE81549A" /><meta name="DC.Language" content="en" /><title>Message
+Stores </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B5BA3CB6-F2B8-524B-BF99-545AAE81549A">Message
+Stores</h1><div><p>The SMS stack uses the following stores to store a complete message. </p>
+<div id="GUID-0754BD99-4FFF-5AC2-8E33-7E3B897C03D0"><h3 class="section-title">Segmentation
+and reassembly (SAR) stores</h3> <p>The SMS messages are sent as PDUs and
+all the PDUs are required to display the message to the user. The PDUs should
+be stored until all the PDUs are received by the device. The SMS stack stores
+the incomplete message PDUs in message stores for persistence storage. The
+segmentation store and the reassembly store are both created by the GSMU DLL.
+The message stores are also used to store the WAP datagrams. </p> <p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B9382772-FC6F-3A90-AF3B-218A299D64C3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B9382772-FC6F-3A90-AF3B-218A299D64C3.html"><code class="apiname">TSAREntry</code></a> provides
+information that is useful for the clients to segment and reassemble the SMS
+messages and WAP datagrams. TSAREntry provides information about the reference,
+total number of parts and the index of the parts of the complete message or
+datagram. </p> <p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B9382772-FC6F-3A90-AF3B-218A299D64C3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B9382772-FC6F-3A90-AF3B-218A299D64C3.html"><code class="apiname">TSAREntry</code></a> class also provides get and
+set methods for four non generic data items in a message. </p> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html"><code class="apiname">CSARStore</code></a> provides
+the methods to create the SAR stores and store the information useful for
+segmentation and reassembly. The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html"><code class="apiname">CSARStore</code></a> contains a permanent
+store and a list of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B9382772-FC6F-3A90-AF3B-218A299D64C3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B9382772-FC6F-3A90-AF3B-218A299D64C3.html"><code class="apiname">TSAREntry</code></a> elements. The member functions
+of the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html"><code class="apiname">CSARStore</code></a> allow the client applications to create
+a new store, add an entry, update an entry and delete the store. </p> </div>
+<div id="GUID-860AC34F-AD6A-5F01-86E9-B76DE3F9ADF3"><h3 class="section-title">Segmentation
+store</h3> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html"><code class="apiname">CSARStore</code></a> creates the segmentation
+store as <code class="codeph">smssegst.dat</code>. The SMS message is split into individual
+PDUs before sending them to the network. The segmentation store is used to
+store the PDUs. The segmentation store enables the client applications to
+receive the status report of the PDUs. </p> <p><strong>Segmentation store data </strong> </p> <p>The clients can implement segmentation
+store using CSmsSegmentationStore class. CSegmentationStore is
+derived from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html"><code class="apiname">CSARStore</code></a>. The segmentation store is generally
+used to store <code class="codeph">SUBMIT</code> and <code class="codeph">COMMAND</code> PDUs. The
+PDUs are stored as additional stream ID in the store. Each stream ID contains
+the SMS address, SMS message and an array of status reference items. The segmentation
+store creates a log of all sent and unsent PDUs with a log ID. The SMS stack
+uses the log ID to resend the message PDUs which failed. </p> </div>
+<div id="GUID-C48FFB78-1C80-5ECE-A19F-DE98A1814C25"><h3 class="section-title">Reassembly
+store</h3> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-349FD476-1D50-3D6A-8023-7CBB7DE4821F.html"><code class="apiname">CSARStore</code></a> class creates the reassembly
+store as <code class="codeph">smsreast.dat</code> . The reassembly store is used to individual
+PDUs when received from the network. Once all the PDUs of a message are received
+they are reassembled by the SMS stack. A complete message is then created,
+the message is ready for the client applications. </p> <p><strong>Reassembly store data </strong> </p> <p>The clients can implement the reassembly
+store using CSmsReassemblyStore class. The CSmsReassembly class
+is derived from CSARStore. The CSmsReassemblyStore class
+provides methods that can be used by the client applications to search for
+a PDU, update a existing PDU, clear the store and compact the store. </p> </div>
+<div id="GUID-C641C3FE-43B8-52CA-936A-5B3741C99894"><h3 class="section-title">Class 0 reassembly
+store</h3> <p>The normal SMS store are not designed to handle Class 0 SMS.
+A new class 0 reassembly store is available to handle the class 0 SMS messages
+in out of disk conditions. The class 0 reassembly store contains two stores
+1) A permanent file store and 2) Pre-allocated file store. The pre allocated
+file store is reserved exclusively for the class 0 SMS. The pre-allocated
+file store can be <a href="GUID-266B3FD6-A414-599D-BF31-FF67ADDD4E70.html">configured</a> to
+reserve for pre-defined number of PDUs. The pre-allocated store can only be
+configured by the licensees of Symbian platform. In normal conditions the
+message PDUs are stored in the permanent file store. In out of disk conditions
+it is not possible to delete older PDUs in the permanent files store. The
+SMS stack uses the pre-allocated store during the out of disk conditions.
+When the number of PDUs exceed the specified level in the ESK file, the SMS
+stack deleted the older PDUs to clear up space for the new incoming PDUs.
+The pre-allocated file store cannot be used to store other class/ type of
+SMS messages. CClass0SmsReassemblyStore store provides
+the required methods for the clients to use the class 0 reassembly store.
+The class 0 reassembly store provides the same functionality as the reassembly
+store. The additional functionality is that the client applications are able
+to process an incomplete message and display it to the users. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 4th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B5BA3CB6-F2B8-524B-BF99-545AAE81549A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:00 GMT -->
+</html>

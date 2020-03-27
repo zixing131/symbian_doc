@@ -1,0 +1,49 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5E522208-E8ED-5E95-946C-5D87CF303F1D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:04 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Storing Messages in SQL Database" /><meta name="abstract" content="This document explains how to define the header structure of messages before storing them in the SQL database and lists the advantages of doing so." /><meta name="description" content="This document explains how to define the header structure of messages before storing them in the SQL database and lists the advantages of doing so." /><meta name="DC.Relation" scheme="URI" content="GUID-9A3E0279-4F87-594D-A987-66DC77F408A0" /><meta name="DC.Relation" scheme="URI" content="GUID-6FE94423-9563-5F31-95EB-504479144B05" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-44CF5471-564E-5790-935B-51193A4978D6" /><meta name="DC.Relation" scheme="URI" content="GUID-5CFA3F21-3E42-5B53-8EC1-BC0F7F0E8136" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5E522208-E8ED-5E95-946C-5D87CF303F1D" /><meta name="DC.Language" content="en" /><title>Storing
+Messages in SQL Database </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5E522208-E8ED-5E95-946C-5D87CF303F1D">Storing
+Messages in SQL Database</h1><div><p>This document explains how to define the header structure of messages
+before storing them in the SQL database and lists the advantages of doing
+so. </p>
+<div id="GUID-FC18D7D2-4B90-548F-A3C7-AAA32DEAB058"><h3 class="section-title">Header
+structure</h3> <p>The header structure of messages is specific to each
+Message Type Module (MTM). The Messaging framework provides a generic interface
+to store and access the header information. </p> <p>MTM developers use the CMsvHeaderStore API to create a specific
+header table and specify their message header structure to the Message Server. </p> <p>The CMsvHeaderStore::CreateStoreL() function
+creates a header table. Before creating a header table for your MTM, you should
+check whether the table already exists, by calling the DoesStoreExistsL() function. </p> <p>  TCommonHeaderField is the enumeration
+defining the following standard message header fields: </p> <ul>
+<li id="GUID-B3C53A00-1430-57DB-BD3C-F0F63C105E87"><a name="GUID-B3C53A00-1430-57DB-BD3C-F0F63C105E87"><!-- --></a><p> <code class="codeph">EFrom</code> –
+‘From’ field of the message header </p> </li>
+<li id="GUID-44C7345E-911E-5392-ACC4-D3B6A6F15D78"><a name="GUID-44C7345E-911E-5392-ACC4-D3B6A6F15D78"><!-- --></a><p> <code class="codeph">EBCC</code> –
+‘BCC’ field of the message header </p> </li>
+<li id="GUID-45F46F10-9922-5646-8A4B-F00759B1BE72"><a name="GUID-45F46F10-9922-5646-8A4B-F00759B1BE72"><!-- --></a><p> <code class="codeph">ETo</code> –
+‘To’ field of the message header </p> </li>
+<li id="GUID-5F7CA59A-CD5F-573C-91A0-148442CCCC5A"><a name="GUID-5F7CA59A-CD5F-573C-91A0-148442CCCC5A"><!-- --></a><p> <code class="codeph">ECC</code> –
+‘CC’ field of the message header. </p> </li>
+<li id="GUID-CBEE41C2-0197-533D-AD0B-A76EC2506FE3"><a name="GUID-CBEE41C2-0197-533D-AD0B-A76EC2506FE3"><!-- --></a><p> <code class="codeph">ESubject</code> –
+‘Subject’ field of the message header. </p> </li>
+</ul> <p>To add specific fields to the header table, call the AddFieldL() function. </p> <p> CEmailAccounts is the API provided by the
+email client MTM. This class creates, loads, saves and deletes email accounts.
+When creating the email account, the client MTM has to provide the header
+structure through the CMsvHeaderStore API
+to pass to the Messaging framework. The framework will then create the header
+for the account. </p> </div>
+<div><h3 class="section-title">Advantages of SQL message storage</h3> <p>The message headers
+are stored in an SQL database, which provides the following advantages: </p> <ul>
+<li id="GUID-A1C20DCD-625E-5732-85E9-082FD488D398"><a name="GUID-A1C20DCD-625E-5732-85E9-082FD488D398"><!-- --></a><p>robustness of mail storage </p> </li>
+<li id="GUID-527ED804-E6E3-5833-BB10-EDD5E5D2EC81"><a name="GUID-527ED804-E6E3-5833-BB10-EDD5E5D2EC81"><!-- --></a><p>quick processing of
+the frequently-required header data </p> </li>
+<li id="GUID-E5E62B12-07EA-58A1-BC8A-389C17F43A21"><a name="GUID-E5E62B12-07EA-58A1-BC8A-389C17F43A21"><!-- --></a><p>support for search-sort
+operations </p> </li>
+<li id="GUID-39CB6C7D-AA08-5F7D-BC8B-ACCE227D6C5F"><a name="GUID-39CB6C7D-AA08-5F7D-BC8B-ACCE227D6C5F"><!-- --></a><p>increased performance
+of the Message Server. </p> </li>
+</ul> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-9A3E0279-4F87-594D-A987-66DC77F408A0.html">Creating
+and Reading Email Messages in Chunks</a></li><li><a href="GUID-6FE94423-9563-5F31-95EB-504479144B05.html">Storing and
+Restoring Email Messages in                 Chunks</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 9th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5E522208-E8ED-5E95-946C-5D87CF303F1D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:04 GMT -->
+</html>

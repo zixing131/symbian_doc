@@ -1,0 +1,68 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E4A950EA-5671-5755-B3EF-5D6B90E19AE6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Maintaining Log Events" /><meta name="abstract" content="This tutorial describes how to maintain events using Log Engine." /><meta name="description" content="This tutorial describes how to maintain events using Log Engine." /><meta name="DC.Relation" scheme="URI" content="GUID-BE65B3A7-04E8-5406-B46A-09E2608E0F1F" /><meta name="DC.Relation" scheme="URI" content="GUID-2022F702-9899-5798-8932-D70119C7177D" /><meta name="DC.Relation" scheme="URI" content="GUID-55ECBCF5-FC29-5A4A-A3C6-1CB1C0D562CE" /><meta name="DC.Relation" scheme="URI" content="GUID-BCB0E50F-B22E-5964-BB68-BEE1870D9C79" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FBCBF8A0-7922-5881-A1C5-5DB41630E75A" /><meta name="DC.Relation" scheme="URI" content="GUID-45A03C42-652C-59BD-9A21-6346A96310DB" /><meta name="DC.Relation" scheme="URI" content="GUID-5B63D14D-007D-566F-A065-1A25FE4B97A3" /><meta name="DC.Relation" scheme="URI" content="GUID-132DBA2F-B913-5565-9720-015777630C22" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E4A950EA-5671-5755-B3EF-5D6B90E19AE6" /><meta name="DC.Language" content="en" /><title>Maintaining
+Log Events  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E4A950EA-5671-5755-B3EF-5D6B90E19AE6">Maintaining
+Log Events </h1><div><p>This tutorial describes how to maintain events using Log Engine. </p>
+<div id="GUID-9230A593-9E3C-52B2-81F3-6C54F7E6015E"><h3 class="section-title">Context</h3><p>You maintain a
+log by adding, changing and deleting events with the appropriate calls to
+the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-51C67545-12BA-326D-BD8F-662B24C68ED2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-51C67545-12BA-326D-BD8F-662B24C68ED2.html"><code class="apiname">CLogClient</code></a> member of your application. When you are
+adding or changing events, the arguments are a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CDFB61A7-1C74-3F63-9FDF-5A3B8603A010.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CDFB61A7-1C74-3F63-9FDF-5A3B8603A010.html"><code class="apiname">CLogEvent</code></a> and
+a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html"><code class="apiname">TRequestStatus</code></a> object to hold the return value. When
+you are deleting, they are a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CDFB61A7-1C74-3F63-9FDF-5A3B8603A010.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CDFB61A7-1C74-3F63-9FDF-5A3B8603A010.html"><code class="apiname">CLogEvent</code></a> and a TLogId. </p> <p>It
+is sometimes necessary to create a custom event type. If you want to log events
+of a custom created event type, you need to initialize a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E7CCB043-770E-3722-B735-92B65CC7A0D8.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E7CCB043-770E-3722-B735-92B65CC7A0D8.html"><code class="apiname">CLogEventType</code></a> object
+and add it to the log. You add the event type when you install your application,
+and delete it if you uninstall the application. You add, change and delete
+custom event types by calling the appropriate functions of a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-51C67545-12BA-326D-BD8F-662B24C68ED2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-51C67545-12BA-326D-BD8F-662B24C68ED2.html"><code class="apiname">CLogClient</code></a> object: </p> <p> <code class="codeph">iLogClient-&gt;AddEventType(*iLogEventType,
+iStatus);</code> </p> <p> <code class="codeph">iLogClient-&gt;ChangeEventType(*iLogEventType,
+iStatus);</code> </p> <p> <code class="codeph">iLogClient-&gt;DeleteEventType(aId, iStatus);</code> </p> <p>The
+arguments are a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E7CCB043-770E-3722-B735-92B65CC7A0D8.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E7CCB043-770E-3722-B735-92B65CC7A0D8.html"><code class="apiname">CLogEventType</code></a> (or <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-530281E6-29FC-33F2-BC9B-610FBA389444.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-530281E6-29FC-33F2-BC9B-610FBA389444.html"><code class="apiname">TUid</code></a> when
+deleting) and a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html"><code class="apiname">TRequestStatus</code></a> object. </p><p> To maintain
+log events, do the following:  </p> </div>
+<h3>Steps</h3><ol id="GUID-41BB11DF-8016-58A1-9291-674C9CE396C3"><a name="GUID-41BB11DF-8016-58A1-9291-674C9CE396C3"><!-- --></a>
+<li id="GUID-474DF156-F653-569E-B038-446B11A788A4"><a name="GUID-474DF156-F653-569E-B038-446B11A788A4"><!-- --></a><p>declare an event
+as a member of your log client class </p>
+<pre class="codeblock">CLogEvent* iCurrentEvent;</pre>
+</li>
+<li id="GUID-09506C94-0251-503D-96CF-03F13296EB8E"><a name="GUID-09506C94-0251-503D-96CF-03F13296EB8E"><!-- --></a><p></p>
+initialize the event using its member functions 
+ <pre class="codeblock">iCurrentLogEvent = CLogEvent::NewL();
+...
+iCurrentLogEvent-&gt;SetTime(time);</pre>
+</li>
+<li id="GUID-18909AB0-6248-5FE5-A7ED-397F611AD412"><a name="GUID-18909AB0-6248-5FE5-A7ED-397F611AD412"><!-- --></a><p></p>
+add an event to a log with the AddEvent() function
+of a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-51C67545-12BA-326D-BD8F-662B24C68ED2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-51C67545-12BA-326D-BD8F-662B24C68ED2.html"><code class="apiname">CLogClient</code></a> object 
+ <pre class="codeblock">iLogClient-&gt;AddEvent(*iLogEvent, iStatus);</pre>
+AddEvent() creates an asynchronous request and no
+other asynchronous request must be outstanding when you call it. For this
+reason, the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CDFB61A7-1C74-3F63-9FDF-5A3B8603A010.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CDFB61A7-1C74-3F63-9FDF-5A3B8603A010.html"><code class="apiname">CLogEvent</code></a> argument is typically read off a
+queue of events waiting to be processed. 
+</li>
+<li id="GUID-4AB54E42-D28E-5806-B8F4-2F2A7B69880B"><a name="GUID-4AB54E42-D28E-5806-B8F4-2F2A7B69880B"><!-- --></a><p></p>
+change an event record with the ChangeEvent() function. 
+ <pre class="codeblock">iLogClient-&gt;ChangeEvent(*iLogEvent, iStatus);</pre>
+</li>
+</ol>
+<div id="GUID-306D0963-3299-59BB-BBCA-B0DDFD945F93"><h3 class="section-title">Results</h3><p> Note that it is
+not possible to change the event type of an event after  it has been added
+to the log.  </p><p>The events specified by the log engine clients are maintained. </p> </div>
+<div id="GUID-E9031A12-D139-5D86-A54D-99174D9A8012"><h3 class="section-title">Next actions</h3><p>You do not normally
+need to delete an event. A log has a maximum size which the log engine maintains
+automatically by deleting the oldest events when newly added events would
+cause the maximum to be exceeded. If you want to delete an event for other
+reasons you call the <code class="codeph">DeleteEvent()</code> function. <code class="codeph">iLogClient-&gt;DeleteEvent(aLogId,
+iStatus);</code> </p> <p>It is important to know that deleting an event
+type and deleting the actual events of that type are two separate actions.
+If you just delete the type and not the events, the events will remain in
+the log but have no type. </p> <p> </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-2022F702-9899-5798-8932-D70119C7177D.html">Setting Up
+A Log Engine Client</a></li></ul><h3>Related tasks</h3><ul><li><a href="GUID-BE65B3A7-04E8-5406-B46A-09E2608E0F1F.html">Requesting
+Log Engine Notifications</a></li><li><a href="GUID-55ECBCF5-FC29-5A4A-A3C6-1CB1C0D562CE.html">Displaying
+Log Events</a></li><li><a href="GUID-BCB0E50F-B22E-5964-BB68-BEE1870D9C79.html">Configuring
+Log Engine </a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 21st, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E4A950EA-5671-5755-B3EF-5D6B90E19AE6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:01 GMT -->
+</html>

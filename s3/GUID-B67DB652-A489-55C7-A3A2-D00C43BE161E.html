@@ -1,0 +1,40 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B67DB652-A489-55C7-A3A2-D00C43BE161E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:28 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to handle completed requests" /><meta name="abstract" content="This document describes how an active scheduler handles a completed request." /><meta name="description" content="This document describes how an active scheduler handles a completed request." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-B507490F-6BD3-5DF5-97E4-EFDFEA2B4EDD" /><meta name="DC.Relation" scheme="URI" content="GUID-C2608BF5-CDA7-530A-B67A-0414C7FA585D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B67DB652-A489-55C7-A3A2-D00C43BE161E" /><meta name="DC.Language" content="en" /><title>How
+to handle completed requests </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B67DB652-A489-55C7-A3A2-D00C43BE161E">How
+to handle completed requests</h1><div><p>This document describes how an active scheduler handles a completed
+request.</p>
+<p>When an asynchronous service provider signals completion of a request,
+the active scheduler's wait completes. </p>
+<p>The active scheduler scans those active objects whose active request flags
+are set. The active objects are checked in priority order. It invokes the <code class="codeph">RunL()</code> function
+of the first active object whose request has completed. If there are no such
+active objects then the signal cannot be identified and the active scheduler
+raises a panic. </p>
+<p>The <code class="codeph">RunL()</code> function performs whatever processing is required
+to complete the request, for example retrieving the results of the service
+function and displaying them. It may also: </p>
+<ul>
+<li id="GUID-F3DBFA70-BDC7-5205-89B8-6FD52D60F7E6"><a name="GUID-F3DBFA70-BDC7-5205-89B8-6FD52D60F7E6"><!-- --></a><p>schedule another request,
+for example, in a keyboard handler, a request for the next key press. </p> </li>
+<li id="GUID-387D63C5-8A05-5281-B825-47673094F0CB"><a name="GUID-387D63C5-8A05-5281-B825-47673094F0CB"><!-- --></a><p>terminate the active
+scheduler by calling <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html#GUID-B59D1017-1D81-3D5E-B0A2-73FC9C06194B"><code class="apiname">CActiveScheduler::Stop()</code></a>. </p> </li>
+</ul>
+<p>If it is possible for the <code class="codeph">RunL()</code> function to leave, then
+the active object should implement the <code class="codeph">RunError()</code> function. </p>
+<p>The active scheduler traps any leave occurring in the <code class="codeph">RunL()</code> function
+and calls the active object's <code class="codeph">RunError()</code> function, passing
+it the leave code. <code class="codeph">RunError()</code> has the opportunity to do appropriate
+cleanup and, when complete, should return <code class="codeph">KErrNone</code>. </p>
+<p>If <code class="codeph">RunError()</code> returns anything other than <code class="codeph">KErrNone</code>,
+then the <em>active scheduler</em>'s <code class="codeph">Error()</code> function is called.
+As the default implementation of <code class="codeph">Error()</code> raises a panic,
+then a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html"><code class="apiname">CActiveScheduler</code></a> derived class <em>must</em> be defined
+to implement a suitable <code class="codeph">Error()</code> function. </p>
+<p>It may be simpler to ensure that the active objects's <code class="codeph">RunError()</code> function <em>always</em> returns <code class="codeph">KErrNone</code>. </p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B67DB652-A489-55C7-A3A2-D00C43BE161E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:28 GMT -->
+</html>

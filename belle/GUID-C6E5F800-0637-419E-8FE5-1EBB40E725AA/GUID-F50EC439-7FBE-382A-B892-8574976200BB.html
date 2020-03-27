@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-F50EC439-7FBE-382A-B892-8574976200BB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:14:59 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="topic" />
+<meta name="DC.Title" content="Nokia Analytics Collector and Analytics API" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-F50EC439-7FBE-382A-B892-8574976200BB" />
+<title>Nokia Analytics Collector and Analytics API</title>
+<link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-F50EC439-7FBE-382A-B892-8574976200BB"><a name="GUID-F50EC439-7FBE-382A-B892-8574976200BB"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="title pageHeading topictitle1">Nokia Analytics Collector and Analytics API</h1>
+<div class="body">
+<p class="p">Nokia Analytics Collector (NAC) implements the Analytics API, providing two classes to support collection of application usage data:</p>
+<div class="p">
+<ul class="ul">
+<li class="li">
+<p class="p">
+<em class="ph i">
+<a class="xref" href="GUID-714AC84A-9A2C-3D42-A34C-8489A6736024.html#GUID-714AC84A-9A2C-3D42-A34C-8489A6736024" title="The class Application represents the client application.">Analytics::Application</a>
+</em> is a class that represents the client application and provides properties shared between Session instances.</p>
+</li>
+</ul>
+<ul class="ul">
+<li class="li">
+<p class="p">
+<em class="ph i">
+<a class="xref" href="GUID-891984E2-D72B-3E44-B75F-8D01C278D67E.html#GUID-891984E2-D72B-3E44-B75F-8D01C278D67E" title="The class Session represents a session in the course of which application usage data are logged and submitted to the back-end server.">Analytics::Session</a>
+</em> is a class used to log application-specific events.</p>
+</li>
+</ul>
+Both <em class="ph i"><a class="xref" href="GUID-714AC84A-9A2C-3D42-A34C-8489A6736024.html#GUID-714AC84A-9A2C-3D42-A34C-8489A6736024" title="The class Application represents the client application.">Analytics::Application</a></em> and <em class="ph i"><a class="xref" href="GUID-891984E2-D72B-3E44-B75F-8D01C278D67E.html#GUID-891984E2-D72B-3E44-B75F-8D01C278D67E" title="The class Session represents a session in the course of which application usage data are logged and submitted to the back-end server.">Analytics::Session</a></em> need to be instantiated by the client application.</div>
+<p class="p"> </p>
+<p class="p topictitle1">Calling Analytics API from QML and C++</p>
+<p class="p para1">The Analytics API can be used from both QML and C++ code.</p>
+<div class="p para1">QML usage example: <pre class="pre codeblock">  // Import AnalyticsNokia QML plugin.
+  import AnalyticsNokia 1.0
+
+  // Initialize Application class and set mandatory properties.
+  AnalyticsApplication {
+      id: nacApplication
+      agentName: "nac-test qml example app"
+      agentVersion: "1.0"
+  }
+
+  // Initialize Session class and set mandatory properties.
+  // AnalyticsSession's agentName property must match
+  // AnalyticsApplication's agentName property.
+  AnalyticsSession {
+      id: nacSession
+      sessionId: "nacSession1"
+      agentName: "nac-test qml example app"
+  }
+
+  // Open a session
+  nacSession.open();
+
+  // Log an event
+  nacSession.logEvent(AnalyticsSession.ActivityLogEvent, "QML event")
+
+  // Close the session
+  nacSession.close(AnalyticsSession.AppExitCloseReason);</pre>
+</div>
+<div class="p para1">C++ usage example: <pre class="pre codeblock">  // Import AnalyticsNokia header.
+  #include &lt;analyticsnokia.h&gt;
+
+  // Initialize Application class and set mandatory properties.
+  Analytics::Application nacApplication;
+  nacApplication.setAgentName("nac-test c++ example app");
+  nacApplication.setAgentVersion("1.0");
+
+  // Initialize Session class and set mandatory properties.
+  // Session's agentName property must match with Application's agentName
+  // property.
+  Analytics::Session nacSession;
+  nacSession.setSessionId("nacSession1");
+  nacSession.setAgentName("nac-test c++ example app");
+
+  // Open a session
+  nacSession.open();
+
+  // Log an event
+  nacSession.logEvent(Analytics::Session::ActivityLogEvent, "C++ event")
+
+  // Close the session
+  nacSession.close(Analytics::Session::AppExitCloseReason);</pre>
+</div>
+<p class="p para1"> </p>
+<p class="p topictitle1">Logging events to one session</p>
+<div class="p para1">It is also possible for QML and C++ code to log events into the same session. To do this: <ul class="ul"><li class="li"><p class="p para1">set the properties <em class="ph i">sessionId</em> and <em class="ph i">agentName</em> for the <a class="xref" href="GUID-891984E2-D72B-3E44-B75F-8D01C278D67E.html#GUID-891984E2-D72B-3E44-B75F-8D01C278D67E" title="The class Session represents a session in the course of which application usage data are logged and submitted to the back-end server.">Analytics::Session</a> objects to the same values in QML and C++ </p>
+</li>
+<li class="li"><p class="p para1">instantiate the class <a class="xref" href="GUID-714AC84A-9A2C-3D42-A34C-8489A6736024.html#GUID-714AC84A-9A2C-3D42-A34C-8489A6736024" title="The class Application represents the client application.">Analytics::Application</a> only once in C++ or QML code</p>
+</li>
+</ul>
+</div>
+<p class="p topictitle1">Linking the client</p>
+<p class="p para1">To link the client application against the Analytics API, add following line in to the client application's project file (<em class="ph i">.pro):</em></p>
+<div class="p para1">
+<pre class="pre codeblock">  LIBS += -lanalyticscollector</pre>
+</div>
+<p class="p para1"> </p>
+<p class="p topictitle1">Network connections</p>
+<p class="p para1">NAC does not open network connections on its own. Instead, it monitors and uses open connections to send data to the back-end server. For this reason, a connection must be opened by the client application or some other application before analytics data can be dispatched to the server.</p>
+<p class="p para1"> </p>
+<p class="p topictitle1">MeeGo - Aegis secure storage</p>
+<p class="p para1">On the MeeGo platform, NAC relies on the Aegis secure storage for protecting the data from unauthorized access on the device. Applications should enable Aegis secure storage by including an Aegis manifest, although no specific credentials are needed by NAC. For more information, please see: <a class="xref" href="https://projects.maemo.org/trac/meego-security/wiki/meego-security-aegis-manifest">https://projects.maemo.org/trac/meego-security/wiki/meego-security-aegis-manifest</a></p>
+<p class="p para1"> </p>
+<p class="p topictitle1">S60 - Capabilities</p>
+<p class="p para1">An S60 client application using NAC requires the following Symbian capabilities to be enabled:</p>
+<div class="p para1">
+<ul class="ul">
+<li class="li">
+<p class="p para1">
+<tt class="ph tt">NetworkServices</tt> </p>
+</li>
+<li class="li">
+<p class="p para1">
+<tt class="ph tt">LocalServices</tt> </p>
+</li>
+<li class="li">
+<p class="p para1">
+<tt class="ph tt">ReadUserData</tt> </p>
+</li>
+<li class="li">
+<p class="p para1">
+<tt class="ph tt">WriteUserData</tt> </p>
+</li>
+<li class="li">
+<p class="p para1">
+<tt class="ph tt">UserEnvironment</tt> </p>
+</li>
+<li class="li">
+<p class="p para1">
+<tt class="ph tt">ReadDeviceData</tt> </p>
+</li>
+</ul>
+Note that <em class="ph i">{ReadDeviceData}</em> cannot be used with self-signed applications. For further information about Symbian capabilities, please see <a class="xref" href="http://wiki.forum.nokia.com/index.php/Capabilities">http://wiki.forum.nokia.com/index.php/Capabilities</a> The <em class="ph i">{ReadDeviceData}</em> cabability requirement comes from Qt Mobility System Information API. See: <a class="xref" href="http://doc.qt.nokia.com/qtmobility-1.0/quickstart.html">http://doc.qt.nokia.com/qtmobility-1.0/quickstart.html</a></div>
+<p class="p para1"> </p>
+<p class="p topictitle1">S60 - Heap size</p>
+<p class="p para1">In addition, in S60, the default maximum heap size for a Qt application may be insufficient, as the maximum memory consumption for NAC may reach 1500kB. We recommend that you increase the client application's maximum heap size to 33MB by adding following line to its project file (<em class="ph i">.pro):</em></p>
+<div class="p para1">
+<pre class="pre codeblock">  TARGET.EPOCHEAPSIZE = 0x020000 0x2000000</pre>
+</div>
+<p class="p para1">This heap size recommendation comes from Qt.</p>
+<p class="p para1"> </p>
+<p class="p topictitle1">S60 - Deploying your application</p>
+<div class="p para1">The applications should embed the NAC SIS package into their SIS package and define a dependency to it, e.g.: <pre class="pre codeblock">  analytics_deployment.pkg_prerules = "@\"NokiaAnalyticsCollector.sis\",(0x20031573)"
+  analytics_deployment.pkg_prerules += "(0x20031573), 1, 0, 0 ~ *, *, *, {\"NokiaAnalyticsCollector\"}"
+  DEPLOYMENT += analytics_deployment</pre>
+ In addition, NAC needs Qt 4.7.3 and Qt Mobility 1.1.3 to work properly, so the applications have to use Smart Installer to get these. In short, you need to provide an installer sis which contains your application sis (embedding NAC) and a Smart Installer sis. For more details see <a class="xref" href="http://wiki.forum.nokia.com/index.php/Nokia_Smart_Installer_for_Symbian">http://wiki.forum.nokia.com/index.php/Nokia_Smart_Installer_for_Symbian</a> </div>
+<p class="p">See also: <a class="xref" href="GUID-714AC84A-9A2C-3D42-A34C-8489A6736024.html#GUID-714AC84A-9A2C-3D42-A34C-8489A6736024" title="The class Application represents the client application.">Analytics::Application</a> <a class="xref" href="GUID-891984E2-D72B-3E44-B75F-8D01C278D67E.html#GUID-891984E2-D72B-3E44-B75F-8D01C278D67E" title="The class Session represents a session in the course of which application usage data are logged and submitted to the back-end server.">Analytics::Session</a> </p>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-F50EC439-7FBE-382A-B892-8574976200BB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:14:59 GMT -->
+</html>

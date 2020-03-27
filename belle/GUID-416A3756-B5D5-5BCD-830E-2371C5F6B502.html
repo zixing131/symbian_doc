@@ -1,0 +1,211 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-416A3756-B5D5-5BCD-830E-2371C5F6B502.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Font Store Component Overview" /><meta name="abstract" content="The Font Store contains information about the fonts and typefaces on a device. It is encapsulated by the Font and Bitmap server (FBS). Applications can use client-side APIs to search and retrieve required fonts" /><meta name="description" content="The Font Store contains information about the fonts and typefaces on a device. It is encapsulated by the Font and Bitmap server (FBS). Applications can use client-side APIs to search and retrieve required fonts" /><meta name="DC.Relation" scheme="URI" content="GUID-90644B52-69D7-595C-95E3-D6F7A30C060D" /><meta name="DC.Relation" scheme="URI" content="GUID-71DADA82-3ABC-52D2-8360-33FAEB2E5DE9" /><meta name="DC.Relation" scheme="URI" content="GUID-1E68A78A-52E5-5DF7-B540-85C7194E4617" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DCA2F4D-ABE6-52A0-AC4E-5AAC1AB5909D" /><meta name="DC.Relation" scheme="URI" content="GUID-762A665F-43D0-53ED-B698-0CBD3AC46391" /><meta name="DC.Relation" scheme="URI" content="GUID-B798C19D-4030-564A-A208-D84738259D72" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-416A3756-B5D5-5BCD-830E-2371C5F6B502" /><meta name="DC.Language" content="en" /><title>Font Store Component Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-416A3756-B5D5-5BCD-830E-2371C5F6B502">Font Store Component Overview</h1><div><p>The Font Store contains information about the fonts and
+typefaces on a device. It is encapsulated by the Font and Bitmap server
+(FBS). Applications can use client-side APIs to search and retrieve
+required fonts</p>
+<p>The Font Store component is also called the <strong>Open Font System</strong> or <strong>Open Font Framework</strong>. </p>
+<div id="GUID-5A945D4E-39AF-44EF-82B8-4E8072AC6680"><h3 class="section-title">Required
+background</h3><p>This topic requires an understanding of the <a href="GUID-90644B52-69D7-595C-95E3-D6F7A30C060D.html#GUID-9F33DD34-F5E5-5EA0-8559-7A933D230129">font concepts and terms</a> and the <a href="GUID-90644B52-69D7-595C-95E3-D6F7A30C060D.html#GUID-C1EBE332-8515-467A-A16B-630690E4EEB4">Font and Text Services Collection Architecture</a>.</p> </div>
+<div id="GUID-E1E028D3-2858-46AC-A0EE-69ED99358210"><h3 class="section-title">Introduction</h3> <p>The Font Store supports two types of fonts:</p><ul>
+<li><p>Bitmap fonts that are stored as fixed-size pixel definitions.</p></li>
+<li><p>Open fonts that can be stored in any format.</p></li>
+</ul><p> Open fonts must be converted into bitmaps (rasterized) before
+they can be used. Therefore, the Font Store must also contain a font
+rasterizer for each format of open font. </p><p>Fonts are stored on
+Symbian devices as files. The Font Store maintains a list of font
+files along with specifications for each font that the file contains.
+When an application requests for a font, the Font Store searches its
+list for the best match. If the font is a bitmap font, the Font Store
+loads it into the FBS's shared heap (unless the font is in eXecute
+In Place (XIP) ROM, in which case it is accessed directly from ROM).
+If the font is an open font, the Font Store uses the associated open
+font rasterizer to rasterize glyphs into bitmaps and cache the bitmaps
+in the shared heap. Font rasterizers are ECOM plug-ins. </p> </div>
+<div id="GUID-B8445F75-8D4D-4C49-96A8-27C7D0E56962"><h3 class="section-title">APIs</h3> <p>The Font Store contains APIs for specifying and selecting fonts
+and for rasterizing open fonts. The following diagram shows the key
+classes in the Font Store component. Following the diagram is a summary
+of the Font Store classes.</p><div class="figure" id="GUID-E71F31AB-1D64-489F-9094-2775B6F63A45"><img src="GUID-B821D77B-0F58-4157-A95F-A8DDDDBC4B33_d0e476893_href.png" /></div> <div class="tablenoborder"><a name="GUID-2F133AAE-E960-58A0-84C8-C0807D79FA24"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-2F133AAE-E960-58A0-84C8-C0807D79FA24" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e476906">API</th>
+<th class="cellrowborder" valign="top" id="d0e476909">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">CFontStore </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Central font storage class that routes the FBS client requests
+to the correct font classes. </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">CBitmapFont </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Bitmap-based font object, which encapsulates font metadata
+information. This is a wrapper class that can access the <code class="codeph">COpenFont</code>. </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e476906 "> COpenFont</td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Generic outline font object that represents an open font, from
+which all open font rasterizer implementations must be derived.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">COpenFontFile </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Open font file, from which all open font rasterizer implementations
+must be derived. </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">COpenFontRasterizer </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Open font rasterizer, from which all open font rasterizer implementations
+must be derived. </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">COpenFontRasterizerContext </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Open font rasterizer context, from which all open font rasterizer
+implementations must be derived. </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e476906 "> TOpenFontAttachment</td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Diacritic attachment point information. </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">TOpenFontCharMetrics </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Open font character metrics. </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">TOpenFontFaceAttrib </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Open font typeface information. </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">TOpenFontFaceAttribBase </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Basic open font typeface information. </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">TOpenFontGlyphData </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Open font glyph information. </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">TOpenFontMetrics </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Open font metrics. </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">TOpenFontSpec </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Open font specification such as font face and font size. </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">CLinkedTypefaceGroup </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Linked font typeface group. </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e476906 "> CLinkedTypefaceSpecification</td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Linked font creation. </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">CLinkedTypefaceElementSpec </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Linked font typeface element specification. </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">TLinkedTypeface </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Linked fonts. </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">TAlgStyle </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Algorithmic style attributes. </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">TCharacterMetrics </td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Character information. </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">CShaper</td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">Text shaper abstract class, from which all text shaper implementations
+must be derived.</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e476906 ">CShaperFactory</td>
+<td class="cellrowborder" valign="top" headers="d0e476909 ">ECOM plug-in base class for shaper factories, which create
+text shapers.</td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-93267E72-6382-4782-A752-9B2FC1200446"><h3 class="section-title">Typical
+uses</h3><p>In most cases, FBS forwards client requests to the
+Font Store, which calls the corresponding APIs to handle these requests. </p> <p><strong>Loading font files</strong></p><div class="figure" id="GUID-FB4B5A79-6133-49C3-A3E2-1448851B6202"><img src="GUID-E59A63B8-A6AE-4529-A748-35B0FE56387E_d0e477186_href.png" /></div><p>Open font files can be loaded at system startup or run time. </p><ul>
+<li><p>At system startup, the FBS initializes the Font Store (<code class="codeph">CFontStore</code>), which then calls font rasterizers to scan all
+of the drives on the device and load font files. The Font Store maintains
+a list of font files along with the font specifications.</p></li>
+<li><p>At run time, clients can call <code class="codeph">CFbsTypefaceStore::AddFile()</code> or <code class="codeph">CFbsTypefaceStore::InstallFile()</code> to load font
+files.  The IPC request is sent to the FBS, which calls the Font Store
+and font rasterizers in turn to load the specified font files. </p><p><em>Note</em>: Font rasterizers can only be installed by restarting
+the phone. If loading a new font file requires a font rasterizer to
+read and parse the font file, the phone must be restarted.</p></li>
+</ul><p><strong>Requesting a font</strong></p><div class="figure" id="GUID-890720EF-2F36-45D9-9EC3-B495FE9D18B8"><img src="GUID-088B92C7-BA5A-4C9A-B0EF-40B88E1C2B0F_d0e477218_href.png" /></div><ol>
+<li id="GUID-288FA355-FA49-460D-B2CF-A4F8ECD2956D"><a name="GUID-288FA355-FA49-460D-B2CF-A4F8ECD2956D"><!-- --></a><p>Clients call
+the <code class="codeph">CFbsTypefaceStore</code>’s GetNearestFont function such
+as GetNearestFontToMaxHeightInPixels() to request
+a font. </p><p>The GetNearestFont functions take the requested font
+specification (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-052E4F6B-71C5-304C-B387-07A2F6F9900B.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-052E4F6B-71C5-304C-B387-07A2F6F9900B.html"><code class="apiname">TFontSpec</code></a>) as one of the parameters
+and return <code class="codeph">CFont&amp;*</code> on success.  <code class="codeph">CFont</code> is the pointer to the concrete instance of <code class="codeph">CFbsFont</code>.</p></li>
+<li id="GUID-9360FC0E-2DE5-4C9C-B1A1-8BCF5F5AD660"><a name="GUID-9360FC0E-2DE5-4C9C-B1A1-8BCF5F5AD660"><!-- --></a><p>The IPC request
+is sent to the FBS.</p></li>
+<li id="GUID-845EE98F-F178-40B3-A773-495825EB669C"><a name="GUID-845EE98F-F178-40B3-A773-495825EB669C"><!-- --></a><p>FBS calls the
+Font Store’s corresponding GetNearestFont function. The function searches
+the font list for the best match based on the font specification.</p></li>
+<li id="GUID-DCE80D7E-080E-4961-8FE8-69F22107306D"><a name="GUID-DCE80D7E-080E-4961-8FE8-69F22107306D"><!-- --></a><p>If the matching
+font file is found in the list, the Font Store creates <code class="codeph">CBitmapFont</code>.</p></li>
+<li id="GUID-45E8BDD9-B79D-45B9-876D-2CB28D8C5BE6"><a name="GUID-45E8BDD9-B79D-45B9-876D-2CB28D8C5BE6"><!-- --></a><p>As a wrapper, <code class="codeph">CBitmapFont</code> constructs <code class="codeph">COpenFont</code>, which
+represents the open font.  In some cases a font rasterizer that implements <code class="codeph">COpenFont</code> is called to get the requested open font.</p></li>
+<li id="GUID-AF137091-7D63-472A-8C8E-947E8F5BB575"><a name="GUID-AF137091-7D63-472A-8C8E-947E8F5BB575"><!-- --></a><p><code class="codeph">CFbsFont</code> (client-side) which declares <code class="codeph">CBitmapFont</code> (server-side)
+as a data member is returned to the <code class="codeph">CFbsTypefaceStore</code>’s GetNearestFont function.</p></li>
+</ol><p><strong>Using a font</strong></p><div class="figure" id="GUID-62D39385-F3AB-4F65-AB92-43CD3FE6BE70"><img src="GUID-61B30F79-1458-4E3F-B12A-958FC42C479F_d0e477293_href.png" /></div><p>To use a font to render text, clients must use character
+data such as character metrics and bitmaps. The font rasterizer is
+usually called first to convert (rasterize) the character to a bitmap. </p><ol>
+<li id="GUID-9FC5E078-A1CE-4423-8DF9-8654748B60DE"><a name="GUID-9FC5E078-A1CE-4423-8DF9-8654748B60DE"><!-- --></a><p>Clients call
+the <code class="codeph">CFbsFont::GetCharacterData()</code> function and pass
+in the Unicode of the character to be rendered.  The returning parameters
+include the metrics, bitmap and bitmap size of the character. </p></li>
+<li id="GUID-E03A4219-10F1-488D-83FF-FDCB8A5738BE"><a name="GUID-E03A4219-10F1-488D-83FF-FDCB8A5738BE"><!-- --></a><p>For performance
+efficiency, the <code class="codeph">CFbsFont</code> delegates <code class="codeph">CBitmapFont</code> to search the shared heap and system caches for the metrics and
+bitmap of this character. If not, the following steps are taken to
+rasterize the character.</p></li>
+<li id="GUID-FE3F9472-D9FE-47C6-A7D6-BAF2971EF915"><a name="GUID-FE3F9472-D9FE-47C6-A7D6-BAF2971EF915"><!-- --></a><p></p><code class="codeph">CFbsFont</code> sends an IPC request to the FBS.</li>
+<li id="GUID-DA5111B9-D597-4E58-9533-89F35E2BEA56"><a name="GUID-DA5111B9-D597-4E58-9533-89F35E2BEA56"><!-- --></a><p>The FBS sends
+the request to <code class="codeph">CBitmapFont</code>.</p></li>
+<li id="GUID-EE2B584A-B237-4A2C-BBE1-060186A04826"><a name="GUID-EE2B584A-B237-4A2C-BBE1-060186A04826"><!-- --></a><p>The <code class="codeph">CBitmapFont</code> calls COpenFont::Rasterize(), which is forwarded to the <code class="codeph">Rasterize()</code> function
+of the derived font rasterization implementation such as the Freetype
+Font Rasterizer.</p></li>
+<li id="GUID-B973B804-D5DA-497B-A9BA-33E231D66B1D"><a name="GUID-B973B804-D5DA-497B-A9BA-33E231D66B1D"><!-- --></a><p>After the font
+rasterization, the font rasterizer returns the metrics and bitmap
+information to the <code class="codeph">CFbsFont::GetCharacterData()</code> function
+through the FBS. </p><p>Meanwhile, the glyph and bitmap of this character
+are cached in the system for later access.</p></li>
+</ol><p><strong>Retrieving font tables and glyph outlines</strong></p><div class="figure" id="GUID-C249F8AF-4407-4684-B901-1A14DC18FA5D"><img src="GUID-C0868AD6-D52A-4C42-A582-F4DB3055AA7B_d0e477357_href.png" /></div><p>Clients can call the GDI RFontTable and RGlyphOutlineIterator classes to retrieve font tables and
+glyph outlines. These functions are enabled only if the font rasterizer
+has implemented the related font extension APIs. The following explains
+how the request for font tables is processed by the FBS and Font Store.
+The request for glyph outlines is processed in a similar way.</p><ol>
+<li id="GUID-9CE0A8E5-8EC1-41AE-9A09-A2DD1775FA07"><a name="GUID-9CE0A8E5-8EC1-41AE-9A09-A2DD1775FA07"><!-- --></a><p>Clients call <code class="codeph">RFontTable::Open()</code>. This function takes <code class="codeph">CFont&amp;</code>, which points to the concrete instance of <code class="codeph">CFbsFont</code>.</p></li>
+<li id="GUID-53F39A00-F40B-47C9-BA77-AD83605E916B"><a name="GUID-53F39A00-F40B-47C9-BA77-AD83605E916B"><!-- --></a><p>The FBS forwards
+the IPC call from <code class="codeph">CFbsFont</code> to the Font Store's <code class="codeph">CBitmapFont</code>.</p></li>
+<li id="GUID-C1338490-8688-4C56-80DE-86AD7F63694C"><a name="GUID-C1338490-8688-4C56-80DE-86AD7F63694C"><!-- --></a><p><code class="codeph">CBitmapFont</code> calls <code class="codeph">COpenFont</code>. </p></li>
+<li id="GUID-424012BC-D1A1-4E90-B112-82A5F8DA1D9B"><a name="GUID-424012BC-D1A1-4E90-B112-82A5F8DA1D9B"><!-- --></a><p>The font rasterizer,
+for example FreeType Font Rasterizer performs the actual retrieval
+of the font table if the font rasterizer has implemented the related <code class="codeph">MOpenFontTrueTypeExtension</code> extension.</p><p>The Font Store
+caches the font table in the shared heap for later access.</p></li>
+<li id="GUID-172C1810-83A3-45A4-A42F-722F97FC176B"><a name="GUID-172C1810-83A3-45A4-A42F-722F97FC176B"><!-- --></a><p>Clients call <code class="codeph">RFontTable::TableLength()</code> and <code class="codeph">RFontTable::TableContent()</code> to get the table length and beginning address of the content. These
+two functions access the cached font table.</p></li>
+<li id="GUID-CF97FBFC-59F4-4B9A-933B-8A6E1A294B7F"><a name="GUID-CF97FBFC-59F4-4B9A-933B-8A6E1A294B7F"><!-- --></a><p>Finally, clients
+must call <code class="codeph">RFontTable::Close()</code> to release resources
+when the returned font table is not in use. </p></li>
+</ol> </div>
+<div id="GUID-77D12CFC-C766-4159-874B-FD78BF412748"><h3 class="section-title">Platform
+security information</h3> <p>Font data files are installed and
+saved in the folder <code class="codeph">\resource\fonts</code>. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-90644B52-69D7-595C-95E3-D6F7A30C060D.html"> Font
+and Text Services Collection Overview</a></li><li><a href="GUID-71DADA82-3ABC-52D2-8360-33FAEB2E5DE9.html"> Font
+and Bitmap Server Component Overview</a></li><li><a href="GUID-1E68A78A-52E5-5DF7-B540-85C7194E4617.html">GDI
+Component Tutorials</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 27th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-416A3756-B5D5-5BCD-830E-2371C5F6B502.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:08 GMT -->
+</html>

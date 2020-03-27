@@ -1,0 +1,180 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E8266924-FA52-5171-BD73-423A46227A74.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:50 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Descriptor Arrays" /><meta name="DC.Relation" scheme="URI" content="GUID-685CF352-372F-5393-97AF-1FA17DC57BA8" /><meta name="DC.Relation" scheme="URI" content="GUID-E3F403EE-717B-5EA6-BC4E-6840097CAC10" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-D02B5AF1-B1C3-560D-9654-971A5CC1A904" /><meta name="DC.Relation" scheme="URI" content="GUID-C8BD333E-8384-534B-822B-F61B2F7C8B9F" /><meta name="DC.Relation" scheme="URI" content="GUID-F61D1710-2D52-5B9B-A25F-6DFA606DAC0F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E8266924-FA52-5171-BD73-423A46227A74" /><meta name="DC.Language" content="en" /><title> Descriptor
+Arrays </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E8266924-FA52-5171-BD73-423A46227A74"> Descriptor
+Arrays</h1><div>
+<p>A descriptor array is a mechanism which allows descriptors to be aggregated
+in a convenient way. </p>
+<div><h3 class="section-title">Introduction</h3> <p>Descriptor arrays build on the behaviour
+supplied by the Dynamic Arrays API and provides normal array operations for
+inserting, appending, deleting, and accessing elements. </p> <p>There are
+two types of descriptor array, based on the way data is represented by the
+array: </p> <ul>
+<li id="GUID-798A2774-299C-5078-9F48-588AC1EE8143"><a name="GUID-798A2774-299C-5078-9F48-588AC1EE8143"><!-- --></a><p>an array whose elements
+consist of non-modifiable pointer descriptors. </p> </li>
+<li id="GUID-D456390C-34ED-5908-B188-73F55C26559C"><a name="GUID-D456390C-34ED-5908-B188-73F55C26559C"><!-- --></a><p>an array whose elements
+consist of memory pointers. </p> </li>
+</ul> <p>Either array can be used to represent descriptor data. The difference
+between them is based on the way they are implemented, and this determines
+which one is most suitable for a given situation. </p> <p> <strong>NOTE</strong>: All
+array classes are provided in variants for narrow and wide characters (for
+example, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5C0DD165-5C23-38C0-983E-B856F9F46F12.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5C0DD165-5C23-38C0-983E-B856F9F46F12.html"><code class="apiname">CDesC8Array</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9EC9CD13-91FB-38F7-9E55-F41C584AC5A6.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9EC9CD13-91FB-38F7-9E55-F41C584AC5A6.html"><code class="apiname">CDesC16Array</code></a>).
+These concrete types can be used directly, but it is usual to use typedefs
+(for example, CDesCArray) that are conditionally defined
+to map to the wide or narrow characters depending on the build. Only the conditional
+types are used below. </p> <p>Descriptor arrays has three key concepts - descriptor
+array protocol (<code class="codeph">MDesC16Array</code>), general descriptor array (<code class="codeph">CDesC16Array</code>)
+and pointer descriptor array (<code class="codeph">CPtrC16Array</code>). </p> <p><strong>Descriptor
+array protocol</strong> </p> <p>This array defines an interface implemented by
+all descriptor array classes, and hence provides a degree of polymorphism.
+It provides a count function, and can return a TPtrC for
+an indexed element. </p> <p>The interface is defined by MDesCArray. </p> <p><strong>General
+descriptor array</strong> </p> <p>This array accepts elements of any descriptor
+type. For each descriptor added, it creates a new heap descriptor (HBufC)
+and copies the contents into it. </p> <p>The base class is CDesCArray.
+Derived classes provide storage in flat arrays (CDesCArrayFlat)
+and segmented arrays (CDesCArraySeg). </p> <p><strong>Pointer
+descriptor array</strong> </p> <p>This array holds only TPtrC descriptor
+elements, that is, the descriptor type that points to data stored elsewhere.
+The data pointed to by the TPtrC descriptors is not copied
+or moved. </p> <p>The pointer descriptor array is CPtrCArray.
+It implements MDesCArray, and can be used polymorphically
+with general descriptor arrays. </p> </div>
+<div><h3 class="section-title">Array of non-modifiable pointer descriptor elements</h3> <p>The
+array is supplied in two variants: </p> <ul>
+<li id="GUID-B55063AC-A34D-5156-B35A-085BADDD66B2"><a name="GUID-B55063AC-A34D-5156-B35A-085BADDD66B2"><!-- --></a><p>the 16-bit variant <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3A648EBA-DD13-31A8-863C-602D84E1913D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3A648EBA-DD13-31A8-863C-602D84E1913D.html"><code class="apiname">CPtrC16Array</code></a> containing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8FE95467-D48B-3E61-9028-29C0F15F567E.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8FE95467-D48B-3E61-9028-29C0F15F567E.html"><code class="apiname">TPtrC16</code></a> types. </p> </li>
+<li id="GUID-E51F01E9-4956-5E0A-A422-4A5A1E7B642C"><a name="GUID-E51F01E9-4956-5E0A-A422-4A5A1E7B642C"><!-- --></a><p>the 8-bit variant <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-421D5F30-909F-39AC-A945-F1AE4B401E2F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-421D5F30-909F-39AC-A945-F1AE4B401E2F.html"><code class="apiname">CPtrC8Array</code></a> containing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6DF731E4-5691-31C4-BEE0-03A3873F15EC.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6DF731E4-5691-31C4-BEE0-03A3873F15EC.html"><code class="apiname">TPtrC8</code></a> types. </p> </li>
+</ul> <p>The array is also supplied as a build independent type, CPtrCArray.
+This is used whenever the descriptor elements are used to represent text strings.
+By using the build independent type, the appropriate variant, either 16-bit
+or 8-bit, is selected at build time depending on whether the <code class="codeph">_UNICODE</code> macro
+has been defined or not. </p> <p>Binary data always requires the 8-bit variant,
+regardless of the build, and this should be explicitly used in program code. </p> <p>Explicit
+use of the 16-bit variant is rare. </p> <p>The elements of this type of array
+consist of non-modifiable pointer descriptors. These pointer descriptors represent
+the data of the descriptors added to the array. The following diagram illustrates
+this. The diagram is also true for <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6DF731E4-5691-31C4-BEE0-03A3873F15EC.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6DF731E4-5691-31C4-BEE0-03A3873F15EC.html"><code class="apiname">TPtrC8</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8FE95467-D48B-3E61-9028-29C0F15F567E.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8FE95467-D48B-3E61-9028-29C0F15F567E.html"><code class="apiname">TPtrC16</code></a>. </p> <div class="figure" id="GUID-AB7B77C5-31BC-5DD0-B1FC-D02436E18D14"><img src="GUID-77EC9F20-32F4-5A1D-B183-75838EBA30B1_d0e236442_href.png" /><p class="figure-title"><strong>Figure: </strong>              Array of non-modifiable pointer descriptor elements 
+          </p></div> <p> <strong>NOTE:</strong> delete() and reset() removes
+the non-modifiable pointer descriptors from the array but does <strong>not</strong> delete
+the data or descriptors that they point to. </p> </div>
+<div><h3 class="section-title">Array of pointer elements</h3> <p>The elements of this
+type of array consist of <strong>pointers</strong> to heap descriptors. </p> <p>When
+a descriptor is added to this type of array, a heap descriptor is allocated,
+taking its data from the supplied descriptor. The pointer to this heap descriptor
+is added as an array element. The following diagram illustrates this. The
+diagram is also true for <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2A528453-0279-3E47-838C-F8A8D29B88F1.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2A528453-0279-3E47-838C-F8A8D29B88F1.html"><code class="apiname">HBufC8</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3D3D9CD7-C8FD-3F81-9CC5-1A71D4F9751E.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3D3D9CD7-C8FD-3F81-9CC5-1A71D4F9751E.html"><code class="apiname">HBufC16</code></a>. </p> <div class="figure" id="GUID-D6B993E5-AF6B-5AD2-A30F-834C6815EFEF"><img src="GUID-3853600F-A096-53A6-8E68-4815ED85FD05_d0e236489_href.png" /><p class="figure-title"><strong>Figure: </strong>              Array of pointer elements            </p></div> <p>There are two implementations of the array, one using a flat buffer
+and the other using a segmented buffer. </p> <p>The flat buffer implementation
+is supplied in two variants: </p> <ul>
+<li id="GUID-8E031CC3-AC57-5882-A96A-40F041543714"><a name="GUID-8E031CC3-AC57-5882-A96A-40F041543714"><!-- --></a><p>the 16-bit variant implemented
+using a flat buffer, a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0DF28074-4B76-3767-9FD8-EADF36E3EA14.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0DF28074-4B76-3767-9FD8-EADF36E3EA14.html"><code class="apiname">CDesC16ArrayFlat</code></a>, constructed from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html"><code class="apiname">TDesC16</code></a> types. </p> </li>
+<li id="GUID-53DE0372-9FE8-55F8-A358-7062CA7FC37A"><a name="GUID-53DE0372-9FE8-55F8-A358-7062CA7FC37A"><!-- --></a><p>the 8-bit variant implemented
+using a flat buffer, a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A774AF80-82C3-3031-A197-5625DACD60FE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A774AF80-82C3-3031-A197-5625DACD60FE.html"><code class="apiname">CDesC8ArrayFlat</code></a>, constructed from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html"><code class="apiname">TDesC8</code></a> types. </p> </li>
+</ul> <p>The segmented buffer implementation is supplied in two variants: </p> <ul>
+<li id="GUID-DAEB51F2-19D5-5BC8-95DA-0375AC759C57"><a name="GUID-DAEB51F2-19D5-5BC8-95DA-0375AC759C57"><!-- --></a><p>the 16-bit variant implemented
+using a segmented buffer, a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-F2998F7B-DFB1-3EDA-A6FF-1F3B2065DE4D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-F2998F7B-DFB1-3EDA-A6FF-1F3B2065DE4D.html"><code class="apiname">CDesC16ArraySeg</code></a>, constructed
+from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html"><code class="apiname">TDesC16</code></a> types. </p> </li>
+<li id="GUID-0880573C-40D7-5C27-A2DB-5B9FF808E670"><a name="GUID-0880573C-40D7-5C27-A2DB-5B9FF808E670"><!-- --></a><p>the 8-bit variant implemented
+using a segmented buffer, a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DFC1F01A-A107-3C7F-883A-6C4F11859E1C.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DFC1F01A-A107-3C7F-883A-6C4F11859E1C.html"><code class="apiname">CDesC8ArraySeg</code></a>, constructed
+from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html"><code class="apiname">TDesC8</code></a> types. </p> </li>
+</ul> <p>Both array implementations are also supplied as build independent
+types, CDesCArrayFlat and CDesCArraySeg.
+These are used whenever the descriptors are used to represent text strings.
+By using the build independent types, the appropriate variants, either 16-bit
+or 8-bit, are selected at build time depending on whether the <code class="codeph">_UNICODE</code> macro
+has been defined or not. </p> <p>Binary data always requires the 8-bit variants,
+regardless of the build, and this should be explicitly used in program code. </p> <p>Explicit
+use of the 16-bit variants is rare. </p> <p> <strong>NOTE:</strong> delete() and reset() removes
+the pointers from the array and also deletes the heap descriptors that they
+point to. </p> </div>
+<div><h3 class="section-title">Type of array to be used</h3> <p>The advantages of using
+one type over the other are subtle. </p> <p>When using an array of non-modifiable
+pointer descriptors, the data represented by each TPtrC exists
+independently of the TPtrC itself. The memory required
+by the array is that required to contain the TPtrC elements.
+The data represented by the TPtrC descriptors is not copied
+or moved. On the other hand, that same data must be guaranteed to remain in
+memory if the array is to have any purpose. </p> <p>When using an array of
+pointers, a new heap descriptor is allocated for each descriptor to be added
+to the array. This increases the total memory requirements of the array. On
+the other hand, each array element is smaller because the size of a pointer
+is slightly smaller than the size of a TPtrC object. The
+original descriptor data can also be safely discarded once it has been added
+to the array. </p> <p>This type also has the advantage that there is no commitment
+to a concrete descriptor type. </p> </div>
+<div><h3 class="section-title">Relationship between descriptor array classes</h3> <p>The
+following diagram illustrates the relationship between the descriptor array
+concrete classes and the base classes which support them. </p> <div class="figure" id="GUID-43444E8B-F2F5-539B-BA9D-EDF9B832DFD9"><img src="GUID-B3166752-9B99-5669-8AB4-078164144AA1_d0e236643_href.png" /><p class="figure-title"><strong>Figure: </strong>              The class relationships for CDesCArrayFlat &amp; CDesCArraySeg
+           </p></div> <p> </p> <div class="figure" id="GUID-3BD4A73F-1E09-515A-9833-6D9592A98E97"><img src="GUID-93678518-1FBD-521D-807A-63DA2E33551F_d0e236654_href.png" /><p class="figure-title"><strong>Figure: </strong>              The class relationships for CPtrCArray            </p></div> </div>
+<div id="GUID-9948A6D4-19A2-58A2-B2F1-73EC577E1B0B"><h3 class="section-title">Copying Descriptor
+Arrays </h3> <p>An array of non-modifiable pointer descriptors, a CPtrCArray type,
+provides a function which can copy elements from any descriptor array. </p> <p>The
+source descriptor array must be one which satisfies the protocol defined by
+the MDesCArray mixin class. Add the new TPtrC elements
+to the CPtrCArray array to represent the source data. </p> <p>The
+implementation of the copy does not and cannot depend on the type of the source
+descriptor array,that is, whether it is a CPtrCArray type
+or a CDesCArray type. However, the following diagram shows
+the effect of the copy operation based on the concrete type of the source
+array. </p> <div class="figure" id="GUID-E320FF9E-CBCA-597C-AE3B-8480A0829EF7"><img src="GUID-6FFEC753-4006-559C-B8E9-14940CFCD012_d0e236700_href.png" /><p class="figure-title"><strong>Figure: </strong>              Copying descriptor arrays            </p></div> </div>
+<div id="GUID-009C368B-80E3-523B-BC4A-12BB90244CE1"><h3 class="section-title">8-Bit Variant,
+16-Bit Variant and Build Independence</h3> <p>Descriptor arrays are supplied
+in two variants: </p> <ul>
+<li id="GUID-7819B939-C7C0-5117-812D-B2D05D7650D4"><a name="GUID-7819B939-C7C0-5117-812D-B2D05D7650D4"><!-- --></a><p>the 16-bit variant for
+16-bit descriptors. These descriptors are used for handling Unicode strings
+and double byte valued data. </p> </li>
+<li id="GUID-A1DCAB83-37F6-51ED-8AEA-0EFE361BE107"><a name="GUID-A1DCAB83-37F6-51ED-8AEA-0EFE361BE107"><!-- --></a><p>the 8-bit variant for
+8-bit variant descriptors. These descriptors are used for handling non-Unicode
+strings and single byte valued data. (binary data). </p> </li>
+</ul> <p>Descriptor arrays are also supplied as build independent types. These
+are used for descriptors which are used to represent text strings. </p> <p>By
+using build independent types, the appropriate variant, either 16-bit or 8-bit,
+is selected at build time depending on whether the <code class="codeph">_UNICODE</code> macro
+has been defined or not. </p> <p>Binary data always requires the 8-bit variant
+regardless of the build, and it must be explicitly used in program code. Explicit
+use of the 16-bit variant is rare. With a few exceptions, the behaviour of
+both 8-bit and 16-bit variants is the same. </p> </div>
+<div id="GUID-A8D3CD4B-9069-5B98-ADBA-2272F597DE4D"><h3 class="section-title">The MDesCArray
+mixin class</h3> <p>The <code class="codeph">MDesCArray</code> class is a mixin which
+defines a protocol for: </p> <ul>
+<li id="GUID-21092598-F289-5A57-BA93-48F23EF788AF"><a name="GUID-21092598-F289-5A57-BA93-48F23EF788AF"><!-- --></a><p>returning the number
+of elements in a descriptor array </p> </li>
+<li id="GUID-0FAE184F-6D54-5CFF-858C-2A75F70D3969"><a name="GUID-0FAE184F-6D54-5CFF-858C-2A75F70D3969"><!-- --></a><p>returning a non-modifiable
+pointer descriptor, a TPtrC type representing a specific
+indexed element. </p> </li>
+</ul> <p>The use of the mixin permits a degree of polymorphism amongst the
+descriptor array classes. It permits the number of descriptor array elements
+to be returned and a TPtrC type for a specific descriptor
+array element to be returned without knowing the specific concrete descriptor
+array type being accessed. </p> <p id="GUID-DA93F261-9E35-5073-AA06-3991B9B1AA35"><a name="GUID-DA93F261-9E35-5073-AA06-3991B9B1AA35"><!-- --></a><strong>MDesCArray
+example</strong> </p> <p>The following code fragments illustrate how the MDesCArray mixin
+class is used to return: </p> <ul>
+<li id="GUID-6262BE55-0B74-5779-AEB6-94357104051C"><a name="GUID-6262BE55-0B74-5779-AEB6-94357104051C"><!-- --></a><p>the number of descriptor
+elements in a descriptor array. </p> </li>
+<li id="GUID-4D7F6F00-301C-534F-901E-85DB9847E9FF"><a name="GUID-4D7F6F00-301C-534F-901E-85DB9847E9FF"><!-- --></a><p>a TPtrC representing
+a specific indexed descriptor element. </p> </li>
+</ul> <p>The code uses the build independent forms but the code is equally
+valid while using the explicit 8-bit or 16-bit variants. </p> <p>In this case, CDesCArrayFlat, CDesCArraySeg and CPtrCArray can be handled by the single function <code class="codeph">foo()</code>. </p> <pre class="codeblock"> ...
+ CDesCArrayFlat* descflat = new( ELeave ) CDesCArrayFlat( 4 );
+ CDesCArraySeg*  descseg  = new( ELeave ) CDesCArraySeg( 4 );
+ CPtrCArray*     ptrc     = new( ELeave ) CPtrCArray( 4 );
+ ...
+ ... // add descriptor elements to all three arrays
+ ...
+ foo( descflat );
+ foo( descseg );
+ foo( ptrc );
+ ...</pre> <pre class="codeblock">void foo( MDesCArray* anArray )
+    {
+    ..
+    TInt  somenumber = anArray-&gt;MdcaCount();
+    TPtrC someptrc   = anArray-&gt;MdcaPoint( someindexvalue );
+    ..
+    }</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-685CF352-372F-5393-97AF-1FA17DC57BA8.html">Constructing
+descriptor                 arrays</a></li><li><a href="GUID-E3F403EE-717B-5EA6-BC4E-6840097CAC10.html">Using Dynamic
+Arrays</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 27th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E8266924-FA52-5171-BD73-423A46227A74.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:56 GMT -->
+</html>

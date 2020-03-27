@@ -1,0 +1,122 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C55881E0-3B90-48CE-B258-7978BA6BE0BA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Generating and loading localization files" /><meta name="abstract" content="Provides the step-by-step instructions to generate the localization files and load them to the applications." /><meta name="description" content="Provides the step-by-step instructions to generate the localization files and load them to the applications." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-9F54E3BC-E902-4DB8-A653-0A10A76DAA0C" /><meta name="DC.Relation" scheme="URI" content="GUID-3C151C7A-3EEC-4EDE-9C19-44A93175D626" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C55881E0-3B90-48CE-B258-7978BA6BE0BA" /><meta name="DC.Language" content="en" /><title>Generating and loading localization files </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C55881E0-3B90-48CE-B258-7978BA6BE0BA">Generating and loading localization files</h1><div><p>Provides the step-by-step instructions to generate the
+localization files and load them to the applications.</p>
+<div id="GUID-F42A4449-C295-4B20-AE82-5B4D89D37445"><h3 class="section-title">Context</h3><p>The following
+steps will guide you to generate the localization files and load them
+to the applications.</p></div><div id="GUID-442CD457-B138-45ED-A7A7-6F182AC5F5CB"><h3 class="section-title">Prerequisites</h3><p>Localization
+using the Vanilla Qt and Qt product (QtP) differs to some extent.
+So you must determine the Qt version being used to build your application
+before localizing.</p><p>The following table lists the differences
+between Vanilla Qt v4.8 and QtP:</p><div class="tablenoborder"><a name="GUID-8958D238-DFD1-4CEF-B2C1-F3F5E582239F"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-8958D238-DFD1-4CEF-B2C1-F3F5E582239F" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e22467">Vanilla Qt v4.8</th>
+<th class="cellrowborder" valign="top" id="d0e22470">QtP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e22467 "><code>lupdate.exe</code> generates the translation
+files for each locale. The files are named as, <code>&lt;application
+name&gt;_&lt;locale&gt;.ts</code>. For example, the translation files
+for chatapp supporting English and French locales will be named as <code>chatapp_en.ts</code> and <code>chatapp_fr.ts</code>.</td>
+<td class="cellrowborder" valign="top" headers="d0e22470 ">The translation files are available by default and are named
+randomly.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e22467 ">Qmake parses the translation files and generates an ID for
+each language supported, based on an internal mapping table.</td>
+<td class="cellrowborder" valign="top" headers="d0e22470 ">Qmake loads the <code>symbian_i18n.prf</code> and generates
+an ID for each supported language, based on modified internal mapping
+table. More languages are added to the table from <code>system_languages.ini.</code></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e22467 ">The language IDs are added to the <code>.mmp</code> file using the <em>LANG</em> keyword.</td>
+<td class="cellrowborder" valign="top" headers="d0e22470 ">The <em>LANGUAGE_IDS</em> variable is used to include
+the language IDs in the resource file section of the <code>.mmp</code> file.<div class="note"><p><strong class="note_title">Note: </strong>The </p><em>LANGUAGE_IDS</em> variable is defined
+in the <code>bldpublic.hrh</code>.</div></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e22467 ">Qmake parses the short and long captions in the translation
+files for all supported languages and generates a localization file
+(<code>.loc</code>), <code>&lt;appname&gt;.loc</code>. For example, if the application name is chatapp, the localization
+file name would be <code>chatapp.loc</code>.</td>
+<td class="cellrowborder" valign="top" headers="d0e22470 ">Qmake parses the short and long captions in the translation
+files for all the supported languages and generates a <code>random.loc</code> file, which includes the localization file for each language.</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e22467 ">The resource file (<code>.rss</code>) includes the
+localization file containing the short and long captions for all the
+supported languages.</td>
+<td class="cellrowborder" valign="top" headers="d0e22470 ">The resource file (<code>.rss</code>) includes the <code>random.loc</code> file, which contains the localization file
+for each supported language.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e22467 ">Qmake extra compiler can be used to convert the translation
+files (<code>.ts</code>) to qmake files (<code>.qm</code>).</td>
+<td class="cellrowborder" valign="top" headers="d0e22470 ">The <code>ts2qm.flm</code> config file can be used
+with SBS to convert the translation files (<code>.ts</code>) to qmake files (<code>.qm</code>).</td>
+</tr>
+</tbody>
+</table></div></div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-75084764-2707-4EE2-8652-B857FE09EA02"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-75084764-2707-4EE2-8652-B857FE09EA02"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-75084764-2707-4EE2-8652-B857FE09EA02"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-75084764-2707-4EE2-8652-B857FE09EA02"><!-- --></a><p>Export all
+the translation files for the supported languages to <code>/epoc32/include/platform/qt/translations</code> </p>
+<p>You can export the translation files by adding their source
+and destination locations in the MMP file under the PRJ_EXPORTS section.</p>
+</li>
+<li id="GUID-BE366F86-59BF-4D02-9F98-F041E4C9F3AE"><a name="GUID-BE366F86-59BF-4D02-9F98-F041E4C9F3AE"><!-- --></a><p>List the
+translation files in the <code>.pro</code> file using the <em>SYMBIANTRANSLATIONSFILES</em> keyword within the <em>symbian</em> block.</p>
+<div class="note"><p><strong class="note_title">Note: </strong>You can reset the translation files if
+your language sets are different from the ones provided by the platform.</p></div>
+<div class="p">For example, the <code>.pro</code> file for
+the chatapp would look like:<pre class="codeblock">symbian: {
+SYMBIANTRANSLATIONSFILES =  filename
+load(loc)
+} </pre></div>
+</li>
+<li id="GUID-D013051E-2DE3-4933-8E58-25326318F07B"><a name="GUID-D013051E-2DE3-4933-8E58-25326318F07B"><!-- --></a><p>Add the <em>load(loc)</em> keyword right after the <em>SYMBIANTRANSLATIONSFILES</em> keyword in the <code>.pro</code> file.</p>
+</li>
+<li id="GUID-FD8F8ED3-94DC-4E03-B164-4D7AA22EA913"><a name="GUID-FD8F8ED3-94DC-4E03-B164-4D7AA22EA913"><!-- --></a><p>Load the
+localization files to the Qt/QML application using <code class="codeph">QTranslator</code>.</p>
+<p>Use one <code class="codeph">QTranslator</code> class instance for each
+localization file.</p>
+<div class="p"><p><strong>Example: </strong><pre class="codeblock">QApplication app(argc, argv);
+QTranslator translator;
+QChar driveLetter = app.applicationFilePath().at(0);
+QString path_to_translations = QString(driveLetter) + ":/resource/qt/translations";
+translator.load("tsfilename_" + QLocale::system().name(), path_to_translations);
+app.installTranslator(&amp;translator);</pre></p><p>You can
+get path_to_translations (= \resource\qt\translations) by calling
+QLibraryInfo::location(QLibraryInfo::TranslationsPath), or hard coding
+it. </p><pre class="codeblock">translator.load("tsfilename_" + QLocale::system().name(), "z:/resource/qt/translations");
+</pre><p>But there is a small problem with drive letter. Qt
+is requiring it to path definition and QLibraryInfo does not return
+it. And actually it might not be good idea to hard code letter from
+IAD point of view. But luckily there is a way to circumvent this by
+using <a href="http://doc.qt.nokia.com/latest/qcoreapplication.html#applicationFilePath">applicationFilePath</a> information and getting drive letter from
+it. Like this: </p><pre class="codeblock">QChar driveLetter = app.applicationFilePath().at(0);
+QString path = QString(driveLetter) + ":/resource/qt/translations";
+</pre><p>If application has multiple localization files, those
+must be loaded to multiple <code class="codeph">QTranslator</code> s respectively.</p><pre class="codeblock">QTranslator translator;
+translator.load("appname_" + QLocale::system().name(), "Z:/resource/qt/translations");
+QTranslator translator2;
+translator2.load("another_" + QLocale::system().name(), "Z:/resource/qt/translations");
+app.installTranslator(&amp;translator);
+app.installTranslator(&amp;translator2);
+</pre><p>Note that in case you don't have any application instance
+but you need localization in DLL, you should create <code class="codeph">QTranslator</code> with new so that it's available during the whole lifetime of process.</p><pre class="codeblock">QTranslator *translator = new QTranslator();
+</pre><p>For more information, see <a href="http://doc.qt.nokia.com/latest/linguist-programmers.html#http://doc.qt.nokia.com/latest/linguist-programmers.html">Qt
+translation loading</a>.</p></div>
+</li>
+</ol>
+<div id="GUID-6FC3F9F0-B332-4D4E-9976-2B4C06EC876C"><h3 class="section-title">Results</h3><p>The loaded
+localized resources enable the application to display the appropriate
+captions as and when the device language changes.</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C55881E0-3B90-48CE-B258-7978BA6BE0BA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:09 GMT -->
+</html>

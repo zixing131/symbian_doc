@@ -1,0 +1,42 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-361BB951-DB74-4D83-ACFC-812383C8129C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Activating items in a list" /><meta name="abstract" content="This document describes the code changes required to activate items in a list on single-tap." /><meta name="description" content="This document describes the code changes required to activate items in a list on single-tap." /><meta name="DC.Relation" scheme="URI" content="GUID-021E8B9C-4A1B-4C6D-B69E-4337A766C39A" /><meta name="DC.Relation" scheme="URI" content="GUID-165EE4DD-C9CA-430B-8377-068A4194716E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-361BB951-DB74-4D83-ACFC-812383C8129C" /><meta name="DC.Language" content="en" /><title>Activating
+items in a list </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-361BB951-DB74-4D83-ACFC-812383C8129C">Activating
+items in a list</h1><div><p>This document describes the code changes required to activate items
+in a list on single-tap.</p>
+<h3>Steps</h3><ul id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-7B72E898-8322-4BAC-8EC3-5478ECC239DB"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-7B72E898-8322-4BAC-8EC3-5478ECC239DB"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-7B72E898-8322-4BAC-8EC3-5478ECC239DB"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-7B72E898-8322-4BAC-8EC3-5478ECC239DB"><!-- --></a><p>Replace the <code class="codeph">EEventItemDoubleClicked</code> event
+with <code class="codeph">EEventItemSingleClicked</code>. Remove the <code class="codeph">EEventItemClicked</code> processing
+code if any.</p>
+<p>The following code snippet illustrates the changes to the event
+handling code of a File Browser application.</p><pre class="codeblock">// ----------------------------------------------------------------------------
+// CFileBrowseBaseView::HandleListBoxEventL
+//
+// If single-tap is enabled, the touch related events must be handled here
+// ----------------------------------------------------------------------------
+//
+void CFileBrowseBaseView::HandleListBoxEventL(CEikListBox* /*aListBox*/, TListBoxEvent aEventType)
+ {
+  if(AknLayoutUtils::PenEnabled())
+  {
+    switch (aEventType)
+    {
+<strong>		  //case EEventItemDoubleClicked:</strong> ----- Remove this code--------------
+      <strong>case EEventItemSingleClicked:</strong> //------- Include this new event for item activation---
+      {
+        NavigateL(iListBox-&gt;CurrentItemIndex()); // user defined function for navigating to the selected folder
+	     OpenFolderL(); // user defined function for opening the selected folder
+	     break;
+      }
+    }
+  }
+}
+</pre>
+</li>
+</ul>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 11th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-361BB951-DB74-4D83-ACFC-812383C8129C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:55 GMT -->
+</html>

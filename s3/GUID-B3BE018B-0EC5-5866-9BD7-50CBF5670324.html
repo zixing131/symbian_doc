@@ -1,0 +1,224 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B3BE018B-0EC5-5866-9BD7-50CBF5670324.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:50:52 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="reference" /><meta name="DC.Title" content="Language-Neutral Files" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-0AF47934-0A16-51A2-9254-992D7C6B322B" /><meta name="DC.Relation" scheme="URI" content="GUID-8E160B29-18C4-574B-9259-9A8E958CDA91" /><meta name="DC.Relation" scheme="URI" content="GUID-ED2D5BEA-AD2A-51CE-8CBC-8B5E33DD6356" /><meta name="DC.Relation" scheme="URI" content="GUID-100F41B4-67BE-5978-99DA-C9B6DE8760F7" /><meta name="DC.Relation" scheme="URI" content="GUID-6D6C54E2-66DA-5626-A75D-5597469D5BE0" /><meta name="DC.Relation" scheme="URI" content="GUID-43B4B4E7-413E-5D18-811C-4B9E38CDEB69" /><meta name="DC.Relation" scheme="URI" content="GUID-72C2E618-C33D-5770-908D-E1A99E5D1B1D" /><meta name="DC.Relation" scheme="URI" content="GUID-FF39192E-9C93-593F-8F47-DB18DB876F6F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B3BE018B-0EC5-5866-9BD7-50CBF5670324" /><meta name="DC.Language" content="en" /><title>Language-Neutral Files </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B3BE018B-0EC5-5866-9BD7-50CBF5670324">Language-Neutral Files</h1><div><div><p>Language-Neutral files are files that are required to
+be installed irrespective of the languages supported on the Symbian
+device.</p><p>This Language-Neutral files section specifies the location
+and name of each file on the PC and its target location on the Symbian
+device. Files are installed in the order in which they are specified
+in the PKG file. </p></div>
+<div id="GUID-744D2F39-8483-44C0-B335-03882385063E"><h3 class="section-title">Syntax</h3> <pre class="codeblock">"source-filename" - "destination-filename"[, install-options]</pre> <p>where </p> <div class="tablenoborder"><a name="GUID-B9A07521-29B4-5F5C-925F-B261E52FB1D6"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B9A07521-29B4-5F5C-925F-B261E52FB1D6" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Argument</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Description</strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>source-filename </p> </td>
+<td class="cellrowborder" valign="top"><p>Specifies the name and location of the file on computer
+that must be included in the SIS file. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>destination-filename </p> </td>
+<td class="cellrowborder" valign="top"><p>Specifies the location on the Symbian device, to which the
+file must be installed. See, <a href="#GUID-1584AED6-8583-51FC-AF7A-24C135DDC5AA">destination-filename</a> for more information. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>install-options </p> </td>
+<td class="cellrowborder" valign="top"><p>Specifies the type of file and how it affects the installation
+or removal. It is an optional comma-separated list. See, <a href="#GUID-E2911CFD-7B9D-55B7-86D1-4DA68870944D">install-options</a>, for more information. </p> </td>
+</tr>
+</tbody>
+</table></div> <p id="GUID-1584AED6-8583-51FC-AF7A-24C135DDC5AA"><a name="GUID-1584AED6-8583-51FC-AF7A-24C135DDC5AA"><!-- --></a><strong>destination-filename</strong> </p> <p>The <code class="codeph">destination-filename</code> must specify the
+full path. A <code class="codeph">!</code> character can be used instead of a
+drive letter to enable the Symbian device user to install the file
+to any required location. As an alternative to <code class="codeph">!</code>,
+the <code class="codeph">$</code> character can be used to denote the system
+drive. </p> <p>The <code class="codeph">destination-filename</code> must not
+be specified if the file is not required to be installed. For example,
+a text file containing a licence agreement to be displayed during
+the installation must not include destination-filename and can be
+specified with empty quotes. </p> <p>If a file can be installed by
+other packages, for example, a shared DLL, it is recommended to install
+it using an embedded SIS file. </p> <p>The <code class="codeph">destination-filename</code> can be specified in one of the following formats: </p> <pre class="codeblock">"drive:path"</pre> <pre class="codeblock">"!:path"</pre> <pre class="codeblock">""</pre> <p id="GUID-E2911CFD-7B9D-55B7-86D1-4DA68870944D"><a name="GUID-E2911CFD-7B9D-55B7-86D1-4DA68870944D"><!-- --></a><strong> install-options</strong> </p> <p>The following table provides a list of the <code class="codeph">install-options</code>. </p> <div class="tablenoborder"><a name="GUID-947C0669-A1F7-52F7-985F-3F75FFBB17C4"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-947C0669-A1F7-52F7-985F-3F75FFBB17C4" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e32180">Name</th>
+<th class="cellrowborder" valign="top" id="d0e32183">Abbreviation</th>
+<th class="cellrowborder" valign="top" id="d0e32186">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e32180 "><p> <code class="codeph">FILE</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32183 "><p> <code class="codeph">FF</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32186 "><p>Specifies a standard installable file. For example: </p> <pre class="codeblock">"text\file1.txt"-"!:\private\E800005A\file1.txt", FF</pre> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e32180 "><p> <code class="codeph">FILETEXT</code> </p> <p> <code class="codeph">[,text-options]</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32183 "><p> <code class="codeph">FT</code> </p> <p> <code class="codeph">[,text-options]</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32186 "><p>A text file that is displayed in a dialog box during installation.
+The dialog type is determined by the <code class="codeph">text-options</code> specified. See, <a href="#GUID-E6210579-BFAB-505B-A99F-99175FA0F572">text-options</a> for more information. </p> <p>Text files are
+not installed on the target device, so the target location is empty.
+An example <code class="codeph">FILETEXT</code> line is: </p> <pre class="codeblock">"text\textfilec.txt"-"", FT, TC</pre> <p>Any <code class="codeph">FILETEXT</code> statements present in a PKG file
+for a preinstalled application are ignored by the software installer. </p><p>For Unicode text files to be displayed correctly, it is recommended
+that the Byte Order Mark (BOM) be specified at the beginning of the
+text files.</p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e32180 "><p> <code class="codeph">FILERUN</code> </p> <p> <code class="codeph">[,run-options][,RUNWAITEND]</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32183 "><p> <code class="codeph">FR</code> </p> <p> <code class="codeph">[,run-options][,RW]</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32186 "><p>Specifies a file that is installed on the Symbian device
+and run during installation or uninstallation of packages based on
+the <code class="codeph">RI</code>, <code class="codeph">RR</code> and <code class="codeph">RB</code> arguments. For details, see <a href="#GUID-B913501B-A5AB-5ADB-96FF-8060DD45A87E">run-options</a>. </p> <p>For example: </p> <pre class="codeblock">"\epoc32\release\armv5\urel\zoom.exe"-"!:\sys\bin\zoom.exe", FILERUN, RUNINSTALL</pre> <p> <strong>Notes</strong>: </p> <ul>
+<li id="GUID-62883591-AE70-5ABA-B86B-232084BCACF1"><a name="GUID-62883591-AE70-5ABA-B86B-232084BCACF1"><!-- --></a><p>The file can
+be an executable or a document containing text. </p> </li>
+<li id="GUID-84B90271-D1A2-578B-AC19-52B04DC9284C"><a name="GUID-84B90271-D1A2-578B-AC19-52B04DC9284C"><!-- --></a><p>The untrusted
+applications are run through the <code class="codeph">FILERUN</code> (<code class="codeph"></code><code class="codeph">FR</code>) or <code class="codeph">FILEMIME</code> (<code class="codeph">FM</code>) statements based on configuration of the installation
+policy. </p> </li>
+</ul> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e32180 "><p> <code class="codeph">FILEMIME,</code> </p> <p> <code class="codeph">mime-type</code> </p> <p> <code class="codeph">,run-options</code> </p> <p> <code class="codeph">[,RUNWAITEND]</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32183 "><p> <code class="codeph">FM,</code> </p> <p> <code class="codeph">mime-type</code> </p> <p> <code class="codeph">,run-options [,RW]</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32186 "><p>Instructs the installer to associate the file with the default
+application associated with the given MIME type, for example, <code class="codeph">text or                      x-vCard</code> is required to be open
+for contact details. </p> <p>The MIME type in quotes must be specified
+after the <code class="codeph">FM</code> argument. <code class="codeph">FILEMIME</code> is
+intended for use with files that are launched during the installation
+or uninstallation and not for standard installation files. For example: </p> <pre class="codeblock">"my_picture.gif"-"", FM, "image/gif", RI</pre> <p>The Software Installer ignores any <code class="codeph">FILEMIME</code> statements
+present in a PKG file for a preinstalled application. </p> </td>
+</tr>
+</tbody>
+</table></div> <p id="GUID-E6210579-BFAB-505B-A99F-99175FA0F572"><a name="GUID-E6210579-BFAB-505B-A99F-99175FA0F572"><!-- --></a><strong>text-options</strong> </p> <p> <code class="codeph">text-options</code> can be used after <code class="codeph">FT</code> is specified. It is used by the UI to determine the type
+of dialog that is used to display the text. It can have one of the
+following values. </p> <div class="tablenoborder"><a name="GUID-2DDEC392-244A-505C-B102-EBE19D8A3CC3"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-2DDEC392-244A-505C-B102-EBE19D8A3CC3" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e32469">Name</th>
+<th class="cellrowborder" valign="top" id="d0e32472">Abbreviation</th>
+<th class="cellrowborder" valign="top" id="d0e32475">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e32469 "><p> <code class="codeph">TEXTCONTINUE</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32472 "><p> <code class="codeph">TC</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32475 "><p>It is recommended that the UI displays a dialog containing
+a <code class="codeph">Continue</code> button. </p> <p>The installation continues
+regardless of the return value of the dialog. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e32469 "><p> <code class="codeph">TEXTABORT</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32472 "><p> <code class="codeph">TA</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32475 "><p>It is recommended that the UI displays a dialog containing <code class="codeph">Yes</code> /<code class="codeph">No</code> buttons. </p> <p>The software installer
+continues with the installation if the dialog returns true (if the
+Symbian device user selects <code class="codeph">Yes</code>). It aborts the installation
+if the dialog returns false (if the Symbian device user selects <code class="codeph">No</code>). </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e32469 "><p> <code class="codeph">TEXTEXIT</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32472 "><p> <code class="codeph">TE</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32475 "><p>Same as <code class="codeph">TEXTABORT</code>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e32469 "><p> <code class="codeph">FORCEABORT</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32472 "><p> <code class="codeph"> FA </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32475 "><p>It is recommended that the UI displays a dialog containing
+a <code class="codeph">ForceAbort</code> button. </p> <p>On selecting this dialog,
+it aborts the installation. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e32469 "><p><code class="codeph">TEXTSKIP</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e32472 "><p><code class="codeph">TS</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e32475 "><p>It is recommended that the UI displays a dialog containing <code class="codeph">Yes</code> /<code class="codeph">No</code> buttons. </p><p>The software installer
+continues the installation without skipping the file mentioned in
+the next statement if the dialog returns true (if the Symbian device
+user selects <code class="codeph">Yes</code>). It skips the installation of the
+file mentioned in the next statement if the dialog returns false (if
+the Symbian device user selects <code class="codeph">No</code>).</p></td>
+</tr>
+</tbody>
+</table></div> <p> <strong>Note</strong>: UIs can implement installation dialogs differently,
+so you must refer to the UI SDK for details about the actual behavior. </p> <p id="GUID-B913501B-A5AB-5ADB-96FF-8060DD45A87E"><a name="GUID-B913501B-A5AB-5ADB-96FF-8060DD45A87E"><!-- --></a><strong>run-options</strong> </p> <p> <code class="codeph"> run-options</code> can be used
+after <code class="codeph">FR</code> or <code class="codeph">FM</code> has been specified.
+It can be any of the following: </p> <div class="tablenoborder"><a name="GUID-7B193CA1-4057-5680-93E3-9DC931924D3B"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-7B193CA1-4057-5680-93E3-9DC931924D3B" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e32679">Name</th>
+<th class="cellrowborder" valign="top" id="d0e32682">Abbreviation</th>
+<th class="cellrowborder" valign="top" id="d0e32685">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e32679 "><p> <code class="codeph">RUNINSTALL</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32682 "><p> <code class="codeph">RI</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32685 "><p>Run on install </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e32679 "><p> <code class="codeph">RUNREMOVE</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32682 "><p> <code class="codeph">RR</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32685 "><p>Run on uninstall and upgrade </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e32679 "><p> <code class="codeph">RUNBOTH</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32682 "><p> <code class="codeph">RB</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32685 "><p>Run on install, uninstall and upgrade </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e32679 "><p> <code class="codeph">RUNBEFORESHUTDOWN</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32682 "><p> <code class="codeph">RBS</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32685 "><p>Run on uninstall before the applications in the package
+are shut down </p> </td>
+</tr>
+</tbody>
+</table></div> <p>Optionally, <code class="codeph">RW</code> (or <code class="codeph">RUNWAITEND</code>) can be specified in addition to the <code class="codeph">run-options</code>. If this option is specified, the installation server waits for
+the program to terminate before continuing with the install. If this
+option is not specified, the installation server runs the program
+and continues with the installation. The program is shut down after
+the installation is complete. </p><p>When uninstalling a package with
+a <code class="codeph">RUNREMOVE</code> or <code class="codeph">RUNBOTH</code> executable
+specified, the installation server always waits for the executable
+to terminate or timeout before continuing with the uninstall.</p> <p><strong>Verification options</strong> </p> <p>The following option is available
+for checking the integrity of a file at restore time: </p> <div class="tablenoborder"><a name="GUID-78249B09-3D1C-5A89-AC4B-BA53DA2ACA4F"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-78249B09-3D1C-5A89-AC4B-BA53DA2ACA4F" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e32831">Name</th>
+<th class="cellrowborder" valign="top" id="d0e32834">Abbreviation</th>
+<th class="cellrowborder" valign="top" id="d0e32837">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e32831 "><p> <code class="codeph">VERIFY</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32834 "><p> <code class="codeph">VR</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e32837 "><p>This flag is necessary if the integrity of a file installed
+in a directory outside <code>\sys</code> or <code>\restore</code> needs to be verified at restore time. For example, an application
+can check this flag to verify that a security policy file restored
+to its private directory is identical to the file delivered by the
+SIS file. </p> <p>The following example illustrates the usage of this
+option: </p> <pre class="codeblock">"data\ups_01041000_01041001.rsc"-
+"$:\private\10283558\policies\ups_01041000_01041001.rsc", VERIFY</pre> </td>
+</tr>
+</tbody>
+</table></div> <p id="GUID-90E6B97B-3A6A-5D88-80D1-B66248C82543"><a name="GUID-90E6B97B-3A6A-5D88-80D1-B66248C82543"><!-- --></a><strong>Import
+and Private Directories</strong> </p> <p>The software installer ensures
+that files are placed in appropriate areas of the file system. The
+following rules are applied: </p> <ul>
+<li id="GUID-F92635A7-7B97-5CA8-8C2C-E2E52CBB279C"><a name="GUID-F92635A7-7B97-5CA8-8C2C-E2E52CBB279C"><!-- --></a><p>A package can
+only deliver a data file into the private directory belonging to any
+executable in the package. If a package delivers three executables: <code class="codeph">SID1</code>, <code class="codeph">SID2</code>, <code class="codeph">SID3</code> (where
+SID stands for Secure ID), then data files can be delivered to <code>/private/SID1/</code>, <code>/private/SID2/</code>, or <code>/private/SID3/</code>. In an upgrade, this is possible by associating
+the upgrade package with the SIDs present in the original package
+unless one of the original executables is to be removed during the
+upgrade. </p> </li>
+<li id="GUID-AB6861A6-C1DB-5F82-B621-798D8C131417"><a name="GUID-AB6861A6-C1DB-5F82-B621-798D8C131417"><!-- --></a><p>Any package
+can deliver a file into the <code>//private/SID/import</code> of an entirely unrelated package. However, replacement and eclipsing
+rules apply. </p> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated September 23rd, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B3BE018B-0EC5-5866-9BD7-50CBF5670324.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:50:52 GMT -->
+</html>

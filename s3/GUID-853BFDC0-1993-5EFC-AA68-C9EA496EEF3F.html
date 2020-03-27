@@ -1,0 +1,37 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-853BFDC0-1993-5EFC-AA68-C9EA496EEF3F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Converting between Unicode and UTF8" /><meta name="DC.Relation" scheme="URI" content="GUID-795B41AF-FBEA-56CE-AE20-EF17BE754723" /><meta name="DC.Relation" scheme="URI" content="GUID-0E8206E9-4F1D-5DF5-8A69-9B0831061CFF" /><meta name="DC.Relation" scheme="URI" content="GUID-E0DC9706-AAC5-5950-86E8-D667A7AFCD49" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-94215E49-605B-51BA-B215-10BDA1A0C013" /><meta name="DC.Relation" scheme="URI" content="GUID-A602E35E-69BE-5F8C-A7E6-4B98E67BF382" /><meta name="DC.Relation" scheme="URI" content="GUID-96837414-3041-5E1E-A2E9-C18EECCF86D9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-853BFDC0-1993-5EFC-AA68-C9EA496EEF3F" /><meta name="DC.Language" content="en" /><title>Converting
+between Unicode and UTF8 </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-853BFDC0-1993-5EFC-AA68-C9EA496EEF3F">Converting
+between Unicode and UTF8</h1><div>
+<p>This tutorial describes the steps to convert between Unicode and UTF8. </p>
+<div><h3 class="section-title">Introduction</h3> <p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9CC256C4-D4A2-3534-9B3C-2FBF1AAE5F51.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9CC256C4-D4A2-3534-9B3C-2FBF1AAE5F51.html"><code class="apiname">EscapeUtils</code></a> escape
+encodes and decodes unsafe data in URI. It also supports converting of Unicode
+data (16-bit descriptor) into UTF8 data (8-bit descriptor) and vice-versa. </p> </div>
+<div><h3 class="section-title">Procedure</h3> <p><strong>Converting to UTF8 </strong> </p> <p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9CC256C4-D4A2-3534-9B3C-2FBF1AAE5F51.html#GUID-4B9587D9-5DBF-3DD2-8792-BF37C18A1D50"><code class="apiname"> EscapeUtils::ConvertFromUnicodeToUtf8L() </code></a> converts
+the Unicode data into UTF8 format. </p> <pre class="codeblock">_LIT16(KUnicode, "Unicode string"); //data to be converted
+    
+HBufC8* utf8  = EscapeUtils::ConvertFromUnicodeToUtf8L(KUnicode);</pre> <p> <code class="codeph">utf8</code> contains
+the UTF8 form of the string. </p> <p><strong>Converting to Unicode </strong> </p> <p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9CC256C4-D4A2-3534-9B3C-2FBF1AAE5F51.html#GUID-0363432A-E064-3B44-B6C7-D17DA4CE58D5"><code class="apiname"> EscapeUtils::ConvertToUnicodeFromUtf8L()</code></a> converts
+the data from UTF8 format to Unicode. </p> <pre class="codeblock">_LIT8(KUtf8, "UTF-8 string"); // UTF8 string to be converted
+    
+HBufC16* unicode = EscapeUtils::ConvertToUnicodeFromUtf8L(KUtf8); // convert the srting to Unicode
+          </pre> <p> <code class="codeph">unicode</code> contains the Unicode form
+of the string. </p> <p>Call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9CC256C4-D4A2-3534-9B3C-2FBF1AAE5F51.html#GUID-BFDB092D-81AB-36D7-99F4-30A8F37566C3"><code class="apiname">EscapeUtils::IsEscapeTriple</code></a> to
+check if the input data contains an escape triple. For example, <code class="codeph">%2a</code>.
+If there is a triple, its value is calculated and returned through the output
+argument <code class="codeph">HexVal</code>. If there is no escape triple, then this
+argument is left unchanged. </p> <pre class="codeblock">_LIT(KEscapeTriple1, "%2a"); // input data containing escape triple
+TInt KEscapeTriple1_value = 0x2a;
+TInt HexVal;
+EscapeUtils::IsEscapeTriple(KEscapeTriple1,HexVal); // escape triple value
+//variable HexVal contains value 0x2a</pre> <p>The code above returns
+'42' , the value of escape triple. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-795B41AF-FBEA-56CE-AE20-EF17BE754723.html">HTTP Utilities
+Library Overview</a></li><li><a href="GUID-0E8206E9-4F1D-5DF5-8A69-9B0831061CFF.html">Escape encoding
+and decoding tutorial</a></li><li><a href="GUID-E0DC9706-AAC5-5950-86E8-D667A7AFCD49.html">Reserved
+and unreserved characters</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 26th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-853BFDC0-1993-5EFC-AA68-C9EA496EEF3F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:25 GMT -->
+</html>

@@ -1,0 +1,59 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5EAED550-5FFC-54A6-BB4A-720975B127B8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:08 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Stores Overview" /><meta name="abstract" content="Provides structured data storage, using networks of streams." /><meta name="description" content="Provides structured data storage, using networks of streams." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FBCBF8A0-7922-5881-A1C5-5DB41630E75A" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-3FAB9077-3EC3-5539-B391-D11456362513" /><meta name="DC.Relation" scheme="URI" content="GUID-E9C608C0-AC22-5267-BEC4-207C9758F968" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5EAED550-5FFC-54A6-BB4A-720975B127B8" /><meta name="DC.Language" content="en" /><title>Stores
+Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5EAED550-5FFC-54A6-BB4A-720975B127B8">Stores
+Overview</h1><div><p>Provides structured data storage, using networks of streams.</p>
+<div id="GUID-A750DA94-F7BD-49F2-AB3C-4B75665C211D"><h3 class="section-title">Architectural relationships</h3> <p>A stream is a representation
+of a data structure (such as an object) as a sequence of bytes. Structures
+as complex as most applications require multiple streams to store their state.
+This is termed a store. Stream types that work with stores are provided by
+the Store Streams API. </p> <p>The Stores API defines both base classes that
+define store abstractions without specifying the storage medium, and some
+concrete store types. The File Stores API defines further concrete stores,
+which use file storage. </p> <p>Concrete store types do not have to provides
+all the stream manipulation functionality defined by the base class interfaces:
+for example, direct file stores do not support individual deletion of streams
+within a store. </p> <p>Stores are integrated with the application architecture
+as defined in the Uikon Core API. That expects file-based and embeddable applications
+to handle their data storage through stores. </p> </div>
+<div id="GUID-5806D6A8-2256-4741-8691-AB75DF877598"><h3 class="section-title">Description</h3> <p>The API has five key concepts: stream
+store base, persistent store base, embedded store, memory store, and dictionary
+store base and streams.</p> <p><strong>Stream store base</strong> </p> <p>This defines
+an interface for streams to be added and deleted to a store, a commit/revert
+mechanism, and space compaction and reclamation. Stores return a stream ID
+when a stream is created. A particular stream can be opened by specifying
+its ID. </p> <p>Some objects can save and restore their state to and from
+a store. It is conventional to implement functions named <code class="codeph">StoreL()</code> and <code class="codeph">RestoreL()</code> for
+these purposes. The most important case of this is the application document
+class (<code class="codeph">CEikDocument</code>), which can be implemented to store and
+restore an application document. </p> <p>The stream store base class is <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-30726D8E-E18D-3A3A-8EFB-CCA4F04C984D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-30726D8E-E18D-3A3A-8EFB-CCA4F04C984D.html"><code class="apiname">CStreamStore</code></a>.</p> <p><strong>Persistent
+store base</strong> </p> <p>Most store types require that the store persists beyond
+the lifetime of the application that created it. The persistent store base
+extends the stream store base to provide this. In particular it provides:</p> <p>a
+root stream, from which all other streams within the store can be found</p> <p>open
+and close store functions</p> <p>The persistent store base class is <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-21637329-EC49-39AD-8986-A22289D8CFE8.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-21637329-EC49-39AD-8986-A22289D8CFE8.html"><code class="apiname">CPersistentStore</code></a>.</p> <p><strong>Embedded
+store</strong> </p> <p>An embedded store can itself be stored as a stream in another
+store. They are used to embed application documents in other application documents.
+Once written, streams in the store cannot be modified: the store must be deleted
+and rewritten in its entirety. </p> <p>The embedded store is a concrete type,
+derived from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-21637329-EC49-39AD-8986-A22289D8CFE8.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-21637329-EC49-39AD-8986-A22289D8CFE8.html"><code class="apiname">CPersistentStore</code></a>, and is provided by <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F2EC3A9D-5F4B-3C98-98DC-44394C54B6DE.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F2EC3A9D-5F4B-3C98-98DC-44394C54B6DE.html"><code class="apiname">CEmbeddedStore</code></a>.</p> <p><strong>Memory
+store</strong> </p> <p>A memory store resides in memory and exists only for the
+life of the store object. They can be used for transient complex dynamic structures
+such as undo buffers.</p> <p>The memory store is a concrete type, derived
+from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-30726D8E-E18D-3A3A-8EFB-CCA4F04C984D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-30726D8E-E18D-3A3A-8EFB-CCA4F04C984D.html"><code class="apiname">CStreamStore</code></a>, and is provided by <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5EC5199D-50F2-3BFA-BA45-4C5C017281DD.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5EC5199D-50F2-3BFA-BA45-4C5C017281DD.html"><code class="apiname">CBufStore</code></a>.</p> <p><strong>Dictionary
+store base and streams</strong> </p> <p>A dictionary store contains a sequence
+of streams, each of which is accessed using a UID, rather than a simple stream
+ID. Dictionary stores are used by the application architecture to handle <code>.ini</code> files
+for applications. </p> <p>The dictionary store base class is <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9899DA2C-DB1B-3D67-8719-B7E13658B4D7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9899DA2C-DB1B-3D67-8719-B7E13658B4D7.html"><code class="apiname">CDictionaryStore</code></a>.
+Specialised stream types, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F3322968-F922-3676-9BDD-611089C10D98.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F3322968-F922-3676-9BDD-611089C10D98.html"><code class="apiname">RDictionaryReadStream</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C8A4BDE0-9F00-376E-9BA3-BAC539800D17.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C8A4BDE0-9F00-376E-9BA3-BAC539800D17.html"><code class="apiname">RDictionaryWriteStream</code></a>,
+are provided for use with dictionary stores.</p> </div>
+<div id="GUID-902CA56A-CAD2-4CB8-8640-FCB121773405"><h3 class="section-title">See also</h3> <p><a href="GUID-21CF1D5F-44C5-5407-B3C9-8BC103C97079.html">File
+Stores Overview</a> </p> <p><a href="GUID-66ACFC54-5671-5B72-9DBC-A76F7A112D63.html">Store
+Streams Overview</a> </p> <p><a href="GUID-744ACF2C-963B-5E2F-A6B3-220AB899FD23.html">Streaming
+Overview</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5EAED550-5FFC-54A6-BB4A-720975B127B8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:08 GMT -->
+</html>

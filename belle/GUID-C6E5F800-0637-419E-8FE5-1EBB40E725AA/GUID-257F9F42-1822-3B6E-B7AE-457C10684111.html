@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-257F9F42-1822-3B6E-B7AE-457C10684111.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:23:43 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="topic" />
+<meta name="DC.Title" content="Domain Name Resolver Daemon (DND)" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-257F9F42-1822-3B6E-B7AE-457C10684111" />
+<title>Domain Name Resolver Daemon (DND)</title>
+<link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-257F9F42-1822-3B6E-B7AE-457C10684111"><a name="GUID-257F9F42-1822-3B6E-B7AE-457C10684111"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="title pageHeading topictitle1">Domain Name Resolver Daemon (DND)</h1>
+<div class="body">
+<p class="p topictitle1">Overview</p>
+<p class="p para1">The EPOC32 differs architecturally from the usual Unix resolver library implementations:</p>
+<div class="p para1">
+<ul class="ul">
+<li class="li">
+<p class="p para1">Traditionally on Unix, the resolver library is linked with the application and from the view point of the kernel, the application is just using additional sockets to communicate with the name servers. </p>
+</li>
+<li class="li">
+<p class="p para1">on EPOC32, the name name resolver for the internet is implemented by the TCP/IP protocol module, and is shared by all applications. Applications only establish a session to this service via <a class="xref" href="GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD">RHostResolver</a> class. EPOC32 has standardised the resolver interface, and each protocol can have its own implementation of the service (with TCPIP protocol, all protocols use the same instance of the name resolver).</p>
+</li>
+</ul>
+The IPv6/Ipv4 stack does not contain the name resolution code. Instead, it provides a special socket API for a protocol named <strong class="ph b">resolver</strong>, which is used by an external server application providing the actual implementation of the name resolution.</div>
+<div class="p para1">The stack maintains a <strong class="ph b">communication path</strong> or session between user <a class="xref" href="GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD">RHostResolver</a> and the resolver instance within the name resolver implementation. This path is a chain of objects starting from the <a class="xref" href="GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD">RHostResolver</a> and ending into CDndResolver, which performs the real name resolution using the other modules of the name resolver application: <pre class="pre codeblock">
+  RHostResolver (application -&gt; Socket Server)
+    CHostResolver (Socket Server -&gt; TCPIP stack)
+      CDndSession (TCPIP stack -&gt; gateway socket)
+        RSocket (gateway socket -&gt; resolver application)
+          CDndResolver (resolver instance)
+          - use host files
+          - use UDP sockets to communicate with DNS servers
+</pre>
+</div>
+<p class="p para1">The name resolver is a <strong class="ph b">server application</strong> listening to the incoming requests from a special <strong class="ph b">resolver</strong> socket. When an application requests a name resolution via some <a class="xref" href="GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD">RHostResolver</a> method (GetByName, GetByAddress or Query), the resolver gateway code in the stack (res.cpp) translates this into a message which is received by the DND listener. The message includes a session id, which is assigned by the resolver gateway. TDnsRequestBase defines the basic message format.</p>
+<p class="p para1">The name resolver receives the request and uses the session id in choosing the correct resolver instance to serve the request. If a session does not yet have a resolver, it will be allocated.</p>
+<p class="p para1">The resolver processes the request and returns the result as a reply message to the socket. The resolver gateway will then translate the result into <a class="xref" href="GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD">RHostResolver</a> completion.</p>
+<p class="p topictitle1">Major components of the implementation</p>
+<div class="p para1">
+<pre class="pre codeblock">
+Application                .
+===================== RHostResolver ==========
+Socket Server              .
+===================== CHostResolver ==========
+TCPIP Stack                .
+                       CDndSession
+           resolver        .
+            gateway   (session id)
+============ socket ===========================
+DND                   (session id)
+                           .
+     main                  .
+       \                   .
+       engine              .
+       /  \                .
+      /    \               .
+   hosts    \              .
+   file    listener        .
+           /   |  \        .
+          /    |    \      .
+         /     |      \    .
+   DNS  /     DNS       \  .
+ servers   protocol    resolvers
+ manager  /  . |  . .    . .
+         /  .  |   . .  . .
+        /  .  DNS   . .. .
+  (LLMNR) .  cache   query
+       . .          sessions
+        .
+        .
+     UDP/TCP
+==== socket(s) =================================
+        .
+        .
+      remote
+     DNS Server
+</pre>
+</div>
+<p class="p topictitle2">Main component</p>
+<p class="p para2">The <strong class="ph b">main</strong> contains the necessary glue and wrappings that are required to run an application under EPOC32. The main implements the user interface of the application. The standard DND is run as a <strong class="ph b">daemon process</strong> and there is no real user interface. However, the architecture also allows one to write a main module with full user interface, if desired.</p>
+<p class="p para2">The MDemonMain class defines the services which are required by the resolver implementation (engine) from the main module.</p>
+<p class="p topictitle2">Engine component</p>
+<p class="p para2">The <strong class="ph b">engine</strong> contains usually the implementation of the application. This is intended to be independent of the user interface. The class MDemonEngine defines the API from engine to the <strong class="ph b">main</strong>.</p>
+<p class="p para2">In the name resolver implementation, the <strong class="ph b">engine</strong> module is left as an intermediate between the real implementation in the listener and the main module. The CDndEngine is passed as the <strong class="ph b">control</strong> instance to almost every other component of the resolver implementation. <strong class="ph b">Engine</strong> creates and owns some common resources, for example: timer service (MTimeoutManager), host files handler (RHostsFile) and the configuration parameters (TDndConfigParameters).</p>
+<p class="p topictitle2">Listener component</p>
+<p class="p para2">The listener (CDndListener) is the real <strong class="ph b">main program</strong> of the name resolver implementation. If opens the socket and listens to the incoming request messages.</p>
+<p class="p para2">Using the session id, the listener delegates the task of serving the session to an available resolver instance (CDndResolver).</p>
+<p class="p topictitle2">Resolver component</p>
+<p class="p para2">The <strong class="ph b">resolver</strong> (CDndResolver) serves one <a class="xref" href="GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD">RHostResolver</a> session at time. The same session may serve different <a class="xref" href="GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD">RHostResolver</a>'s at different times. It receives the requests from the gateway socket via the listener. The resolver state diagram is roughly</p>
+<div class="p para2">
+<pre class="pre codeblock">
+     Start
+       |----------------&gt; Stop
+     Receive a Query
+       |----------------&gt; Stop
+     Return first result
+       |
+   +--&gt;|
+   |   | - - -&gt; listener forced Stop
+   |   |
+   |   |----------------&gt; Stop
+   | Receive Next Query
+   |   |----------------&gt; Stop
+   | Return next result
+   +---|
+     Stop
+</pre>
+</div>
+<p class="p para2">Because many applications are only interested about the first result, and because they often leave the <a class="xref" href="GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD">RHostResolver</a> session(s) open, the gateway may sometimes <em class="ph i">steal a session for a new <a class="xref" href="GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD">RHostResolver</a></em>, if all resolvers are already busy. The oldest resolver that has returned at least one answer is assigned to the new <a class="xref" href="GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD">RHostResolver</a>.</p>
+<p class="p para2">The "stealing action" action does not harm the application in any other way, except that if it now tries to call Next(), it will return an error. If such application issues a new query (GetByName, GetByAddress or Query), a new resolver is just assigned to serve it.</p>
+<p class="p para2">The resolver session is always stopped, after query has completed (no further answers are available).</p>
+<p class="p para2">The resolver performs its work by establishing a number of query sessions (MDnsSession) with the DNS protocol module. The progress of an active query session is reported through callbacks (MDnsResolver).</p>
+<p class="p topictitle2">Host File component</p>
+<p class="p para2">The hosts file handler (RHostsFile) provides the service for looking an answer from the local hosts file (if any is present). Only the GetByName or GetByAddr queries can be satisfied from the hosts file. The "hosts" file has a very simple format which binds a name to an address, for example:</p>
+<div class="p para2">
+<pre class="pre codeblock">
+127.0.0.1 localhost
+
+10.0.0.2 server
+10.0.0.3 server
+10.0.0.3 alternatename
+
+fe80::dead:beef local-beef
+
+::1 localhost6
+
+ff02::1 allnodes6
+ff02::2 allrouters6
+ff02::3 allhosts6
+
+</pre>
+</div>
+<p class="p topictitle2">DNS Protocol implementation</p>
+<p class="p para2">The DNS procotol is implemented by CDndDnsclient class (or by some derived class). The class exports MDnsSource API, which is used by the resolvers to start query sessions (MDnsSession), which send and receive the actual DNS protocol messages.</p>
+<p class="p topictitle2">Link Local Multicast Name Resolution</p>
+<p class="p para2">The link local multicast name resolution uses the DNS protocol with link local multicast. The DNS protocol messages are sent to the link with multicast destinations and a node that owns the queried name, will respond as if it was a DNS server.</p>
+<p class="p para2">When LLMNR is compiled in, the DNS protocol is implemented by CDndLlmnrSender class, which is derived from the CDndDnsclient. This class extends the normal DNS with the link local multicast name resolution additions.</p>
+<p class="p topictitle2">Server Manager component</p>
+<p class="p para2">The server manager (MDnsServerManager) maintains the list of currently known and avalable DNS servers. The content of the list may be constantly changing depending on which interfaces are active at any particular point of time. The issues are even more complicated by the fact that initially there are no interfaces up (or at least, there may be no known servers), and name resolver just has to wait until something becomes available.</p>
+<p class="p topictitle2">DNS Cache</p>
+<p class="p para2">The cache component (CDndCache) stores cached answers from the DNS servers. When resolvers send questions to the protocol module, the cache is first checked for a matching valid answer. If found, the cached answer is returned to the resolver, and no actual queries need to be sent.</p>
+<p class="p topictitle1">Scoped name resolution architecture</p>
+<p class="p para1">The answers to a query can be found from different sources at different scope levels. This implementation uses three levels:</p>
+<div class="p para1">
+<ul class="ul">
+<li class="li">
+<p class="p para1">the <strong class="ph b">hosts file</strong> is a node local scope source.</p>
+</li>
+</ul>
+<ul class="ul">
+<li class="li">
+<p class="p para1">the <strong class="ph b">"real" DNS</strong> is a global scope source.</p>
+</li>
+</ul>
+<ul class="ul">
+<li class="li">
+<p class="p para1">
+<strong class="ph b">LLMNR</strong> is a link local scope source.</p>
+</li>
+</ul>
+The above order is also the current default order of the sources: first, the <strong class="ph b">hosts</strong> file is checked, then real DNS and finally, the link local name resolution is attempted. The first source to give an answer defines the whole answer. Answers from different sources are never mixed.</div>
+<p class="p para1">A scope level is assigned to all queries that are received. Currently a global scope is given to all GetByName and Query requests. The scope level of the GetByAddress is the scope level of queried address.</p>
+<p class="p para1">For a specific query, only sources that have same or smaller scope level are used. For example, only LLMNR is used, when GetByAddress to a link local address (169.254/16 or fe80::/10) is requested.</p>
+<p class="p para1">GetByName queries could also have other than global scope. For example, it could be agreed that a query for a name ending with ".local" would have a link local scope, and thus only LLMNR would be tried for it (the current implementation does not have such feature coded). </p>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-257F9F42-1822-3B6E-B7AE-457C10684111.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:23:43 GMT -->
+</html>

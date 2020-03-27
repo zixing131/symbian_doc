@@ -1,0 +1,90 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B5CC77D2-5871-51D8-B359-77EFC081B423.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:43 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Files Containing Multiple Content Objects" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-315452C2-A1E2-5888-A694-6D2DE73A3F5E" /><meta name="DC.Relation" scheme="URI" content="GUID-E6C91CF2-A616-5E52-8BB2-630C42C8D540" /><meta name="DC.Relation" scheme="URI" content="GUID-7EE46FD9-DC9E-5C1F-9AC5-48F5212AF0CA" /><meta name="DC.Relation" scheme="URI" content="GUID-E6762A98-36A4-5860-B3F9-2AEBBCEAAB2A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B5CC77D2-5871-51D8-B359-77EFC081B423" /><meta name="DC.Language" content="en" /><title>Files Containing Multiple Content Objects </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B5CC77D2-5871-51D8-B359-77EFC081B423">Files Containing Multiple Content Objects</h1><div>
+<p>Content Access Framework provides a generic mechanism for exploring
+files that contain multiple content objects. These files are often
+referred to as archive files. This can be <code>.ZIP</code> compression archive or a DRM protected archive, such as an OMA <code>.DCF</code> file. An application can explore the content objects
+inside a file using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-FC40011B-32D3-328B-BB59-35BEF46A215A"><code class="apiname">ContentAccess::CContent</code></a> class. </p>
+<div id="GUID-287429A2-31AB-4592-A7DC-ECE4AB6DC419"><h3 class="section-title">Structure
+of a file containing multiple content objects</h3> <p>An archive
+file can have content objects and meta-data or information associated
+with the content. This meta-data can include information, such as
+the MIME type of the content, the encryption algorithm, the compressed
+size of the content. </p> <p>The content and meta-data may also be arranged in a hierachy
+with container objects grouping content objects together. A typical
+archive can have a complex structure as the example shown below: </p> <div class="figure" id="GUID-13E44820-5D67-580F-BC0D-26A935EB1F72"><img src="GUID-4B7410B2-849B-5E89-97BF-E06613F600CB_d0e444363_href.png" /></div> <p>In this scenario, the file itself can be considered as the
+top level container. All other content, containers and meta-data are
+nested inside. In an archive file, applications can quickly search
+for the content objects they are interested in by using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-FA4BB868-3297-39F0-BAB8-C4BF4F5A2B60"><code class="apiname">ContentAccess::CContent::Search()</code></a>, see <a href="GUID-09A760FD-4C2A-5F79-91F2-DCC25A63699C.html">Consumer
+API Tutorial</a>. </p> </div>
+<div id="GUID-34F8F3F7-B497-5BBE-B282-33DF7DB0D560"><h3 class="section-title">Identifying
+a content object within a file</h3> <p>Archive files containing
+several content objects cannot be referred to using just the URI of
+the file. The Content Access Framework uses a concept of virtual paths
+to identify content objects within a file. The virtual path is a combination
+of the file URI and a unique identifier supplied by the agent: </p> <ul>
+<li id="GUID-CA623AF7-3752-5369-BFE2-1CDADC963A26"><a name="GUID-CA623AF7-3752-5369-BFE2-1CDADC963A26"><!-- --></a><p> <code class="codeph">URI</code>: the location of the file. </p> </li>
+<li id="GUID-9455FFE0-129D-5EDB-B7E9-BC4D907DE53C"><a name="GUID-9455FFE0-129D-5EDB-B7E9-BC4D907DE53C"><!-- --></a><p> <code class="codeph">UniqueId</code>: the content object inside the file. </p> </li>
+</ul> <p>A content file is only handled by the agent that recognises
+it. The unique identifier is not required to be decoded by anyone
+other than the agent that generated it, so the format is left for
+the agent to implement as it sees fit. For instance, an OMA DRM agent
+may put the Content ID (CID) in the <code class="codeph">UniqueId</code> field. </p> <p>The only constraint is that the <code class="codeph">UniqueId</code> must
+be unique within the file. An application must be able to directly
+reference a content object just using the <code class="codeph">UniqueId</code>. </p> </div>
+<div id="GUID-28BE6074-E800-5320-89DD-D047F5C0FD86"><h3 class="section-title">Objects
+used to identify a content object within a file</h3> <p><strong>Virtual
+path pointer objects on the stack </strong> </p> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-70925BDF-36EF-3705-9C95-9EE211543517"><code class="apiname">ContentAccess::TVirtualPathPtr</code></a> is used to point to two descriptors holding the URI of a file and
+the <code class="codeph">UniqueId</code> of a content object within the file.
+It can also be used to point to another <code class="codeph">TVirtualPathPtr</code>. Since it is only a pointer, the original descriptors used to initalise
+the <code class="codeph">TVirtualPathPtr</code> must not be destroyed or modified
+while the <code class="codeph">TVirtualPathPtr</code> is still in use. </p><p></p> <strong>Virtual path objects on the heap </strong> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-D56FD380-1335-33BB-B42E-6C1911274B06"><code class="apiname">ContentAccess::CVirtualPath</code></a> class stores the file URI and content object <code class="codeph">UniqueId</code> in its own descriptors. There is a cast operator that allows the <code class="codeph">CVirtualPath</code> to be used as if it were a <code class="codeph">TVirtualPathPtr</code> .</p><p><strong>Examples </strong> </p> <pre class="codeblock">// Open a CContent object to browse the objects inside a file 
+CContent *c = CContent::NewL(_L("C:\file.dcf")); 
+CleanupStack::PushL(c); 
+
+// Create an array to store the embedded objects 
+RStreamablePtrArray&lt;CEmbeddedObject&gt; myArray; 
+
+// Get an array of the embedded objects within the current container in the file 
+c-&gt;GetEmbeddedObjects(myArray); 
+
+// If necessary we can get a "mangled" version of the URI that 
+// references the particular object within the file 
+// i.e. "C:\file.dcf\\OBJECT1" 
+                
+CData* data = iContent-&gt;OpenContentL(EPlay,myArray[0]-&gt;UniqueId());
+
+TFileName uri;
+data-&gt;GetStringAttribute(EPreviewURI,uri); 
+.
+.
+.
+// Now we can use our TPtrC later to create a TVirtualPath object from a URI 
+TVirtualPathPtr aPtr = aURI; 
+
+// print the file URI "C:\file.dcf" 
+printf(aPtr.URI()); 
+                         
+// print the content object's UniqueId "OBJECT1" 
+printf(aPtr.UniqueId()); 
+
+// Create a copy of the virtual path on the heap so we don't have any ownership problems 
+CVirtualPath *myVirtualpath =  CVirtualPath::NewL(aPtr)
+// Can now delete the CContent object without losing our VirtualPath
+CleanupStack::PopAndDestroy(c);</pre> </div>
+<div id="GUID-84BCF4B8-DFED-4EAB-9994-0AE88D9B6058"><h3 class="section-title">Special
+cases for the UniqueId field</h3> <p><strong>KNullDesC16() - "" </strong> </p> <p>A zero length <code class="codeph">UniqueId</code> is used to refer
+to the entire file. If a file is opened this way, no translation of
+the contents is performed. The ability to open the file with no translation
+is required for example to attach the file to an outgoing message.
+As with any other function in CAF, access to the file is at the agent's
+discretion. </p> <p><strong>KDefaultContentObject() - "DEFAULT" </strong> </p> <p>Allows an application to refer to the default content object
+within a file. In the case of an unprotected file handled by the <code class="codeph">F32Agent</code>, it is the entire file, the same as if the <code class="codeph">UniqueId</code> <code class="codeph">""</code> was used. Other agents, particularly
+those with a single content object embedded within the file, use <code class="codeph">"DEFAULT"</code> to refer to their only content object. </p> <p>Even though the <code class="codeph">DEFAULT</code> content object is supported,
+it is recommended that agents always use <code class="codeph">CContent</code> to enumerate the objects within the file. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 27th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B5CC77D2-5871-51D8-B359-77EFC081B423.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:44 GMT -->
+</html>

@@ -1,0 +1,307 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-EC21A1A2-FD5A-5764-A69A-18D74090BA92.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:29 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Format string syntax" /><meta name="abstract" content="TDes8::Format(), TDes16::Format() and some other functions take a format string containing literal text embedded with directives for converting a trailing list of arguments into text." /><meta name="description" content="TDes8::Format(), TDes16::Format() and some other functions take a format string containing literal text embedded with directives for converting a trailing list of arguments into text." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Relation" scheme="URI" content="GUID-11EEFB3D-0414-5BEB-9D78-56A4B9154008" /><meta name="DC.Relation" scheme="URI" content="GUID-E8BEE049-6814-543B-8A88-889E434A5D92" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-EC21A1A2-FD5A-5764-A69A-18D74090BA92" /><meta name="DC.Language" content="en" /><title>Format
+string syntax </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-EC21A1A2-FD5A-5764-A69A-18D74090BA92">Format
+string syntax</h1><div><p><code class="codeph">TDes8::Format()</code>, <code class="codeph">TDes16::Format()</code> and
+some other functions take a format string containing literal text embedded
+with directives for converting a trailing list of arguments into text.</p>
+<p> Each formatting directive consumes a number of arguments from the trailing
+list. Directives have the following syntax: </p>
+<pre class="codeblock">format directive
+escaped-percent
+simple-conversion
+padded-conversion
+aligned-conversion
+escaped percent
+%%</pre>
+<p>Formatting directives begin with a "<code class="codeph">%</code> ". To insert a percentage
+sign, use the digraph "<code class="codeph">%%</code> ". </p>
+<p>Examples of how to use format string syntax are provided in <a href="GUID-0B6C97D3-0E2D-5BBE-B8AC-985902715160.html#GUID-E0D95020-9E74-5FE1-8A84-74FFE8C2CB1E">Formatting text</a>. </p>
+<div id="GUID-E6DF6CA4-D6BA-494B-A2B1-CCD63B3DC4A3"><h3 class="section-title">Unpadded, dynamic-width
+formatting </h3><pre class="codeblock">simple-conversion
+%
+conversion-specifier</pre><p>Data from the argument list is converted
+without padding, and only occupies the space required. The <code class="codeph">conversion
+specifier</code> describes how the data is to be formatted into a string. </p></div>
+<div id="GUID-35FE3AB2-8B3D-4459-9A8F-8E3688216066"><h3 class="section-title">Fixed-width,
+padded formatting </h3><pre class="codeblock">padded-conversion
+%
+zero-or-space-pad
+field-width
+precision
+conversion-specifier
+0</pre><p>Data from the argument list is converted, but may not occupy
+more space than specified. If the width of the formatted data is less than
+the field width, the field is padded to the left with the specified character.
+If the width of the formatted string is greater than the field width, the
+result depends on the <code class="codeph">conversion specifier</code> as follows: </p><ul>
+<li id="GUID-25BEB2AC-3A2C-5917-B417-61627F0FB9FC"><a name="GUID-25BEB2AC-3A2C-5917-B417-61627F0FB9FC"><!-- --></a><p>If the conversion specifier
+is either: 'e', 'E', 'f', or 'F', i.e. the source data is a real number, then
+the value of the width is ignored and all generated characters are accepted.
+However, the maximum number of characters can never exceed the value of <code class="codeph">KMaxRealWidth</code>. </p> </li>
+<li id="GUID-878BB7DB-D66A-5965-AC0A-D058A3455413"><a name="GUID-878BB7DB-D66A-5965-AC0A-D058A3455413"><!-- --></a><p>If the conversion specifier
+is either 'g' or 'G', i.e. the source data is a real number, then the value
+of the width is ignored and all generated characters are accepted. However,
+the maximum number of characters can never exceed the value of KDefaultRealWidth. </p> </li>
+<li id="GUID-E4398EC7-16CF-5484-9A2D-A4A337F12A9B"><a name="GUID-E4398EC7-16CF-5484-9A2D-A4A337F12A9B"><!-- --></a><p>If the conversion specifier
+is anything else, then the number of converted characters is limited to the
+width value. </p> </li>
+</ul></div>
+<div id="GUID-C4A3149B-B791-4CD8-9E2F-F8BA7D27C0BD"><h3 class="section-title">Formatting
+with alignment, arbitrary pad character and a specified field width </h3><p>Note
+that for this formatting conversion, only a zero or a space is permitted for
+the pad character. </p><pre class="codeblock">aligned-conversion
+alignment	[pad]
+field-width		[precision]
+conversion-specifier</pre><p>The full <code class="codeph">aligned-conversion</code> is
+verbose, but in addition to the zero and space characters, it permits non-numeric
+characters to be specified as the padding character. It also permits its value
+to be aligned within the field. </p><p>Undefined terms are discussed below. </p></div>
+<div id="GUID-0E226EE4-FDF2-4ED0-8F4F-82862EEAFE4A"><h3 class="section-title">Alignment specifiers</h3> <p>Formatted
+data whose width in characters is less than the width of the field can optionally
+be aligned to the left, or to the centre of the field. The default is right-alignment. </p> <p>The <code class="codeph">alignment</code> specifier
+is a single character with one of the following values: </p> <div class="tablenoborder"><a name="GUID-D728B8E3-380B-5A78-B4A7-70EBAAB4ACF2"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-D728B8E3-380B-5A78-B4A7-70EBAAB4ACF2" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e302195">Spec</th>
+<th class="cellrowborder" valign="top" id="d0e302198">Alignment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302195 "><p> <code class="codeph">+</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302198 "><p>Right alignment </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302195 "><p> <code class="codeph">-</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302198 "><p>Left alignment </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302195 "><p> <code class="codeph">=</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302198 "><p>Centre alignment </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-80251801-E0A5-4733-AB94-D3311F005F0D"><h3 class="section-title">Field width
+specifiers</h3> <p>Data may be formatted into a field with a fixed or a
+dynamic width. Fixed field widths require an extra argument. </p> <p>The <code class="codeph">field-width</code> specifier
+is either a sequence of decimal digits which explicitly define the size of
+the field to be occupied by the converted data, or an asterisk ('<code class="codeph">*</code>')
+character. An asterisk indicates that the size of the field is taken from
+the next TUint value in the argument list. </p> </div>
+<div id="GUID-A7B658B7-E137-4FE0-B70C-F2F439A3E33F"><h3 class="section-title">Pad characters</h3> <p>Formatted
+data whose width in characters is less than the width of the field can optionally
+be padded with as many characters as are needed. </p> <p>The <code class="codeph">pad</code> character
+may be any non-numeric character (although "<code class="codeph">0</code> " can be specified).
+If the pad character is an asterisk ("<code class="codeph">*</code> "), then the next
+argument in the list is read, interpreted as a <code class="codeph">TUint</code>, and
+used as the pad character. </p> </div>
+<div id="GUID-D7578AD1-9749-441E-B7E3-13170B961F1C"><h3 class="section-title">Precision specifiers</h3> <p>A
+dot after a field width introduces a precision specifier. This is only useful
+when formatting real values. Precision specifiers are integers whose decimal
+values specify the number of decimal places to use when formatting the data. </p> <p>If
+the precision specifier is omitted, conversion defaults to <code class="codeph">KDefaultPrecision</code> decimal
+places. </p> </div>
+<div id="GUID-B317D693-E5B6-4F6F-90D3-5576B894DEAD"><h3 class="section-title">Variable argument
+positions</h3> <p>The format string syntax was extended in v7.0 to include
+a way of specifying which argument or argument block should correspond to
+a conversion specifier. </p> <p>Immediately after the initial <code class="codeph">%</code> character
+preceding every conversion specifier, <code class="codeph">$</code> <em>x</em> <code class="codeph">$</code> may
+optionally be specified, where <em>x</em> is an integer greater than zero. This
+integer is used as a one-based index indicating which argument or block of
+arguments in the argument list should be used for that conversion specifier.
+Note that arguments in the argument list may be grouped into argument blocks.
+For instance an integer field width argument and the data to insert into the
+field are an argument block and share the same index. </p> <p>Examples of
+this are provided in <a href="GUID-0B6C97D3-0E2D-5BBE-B8AC-985902715160.html#GUID-E0D95020-9E74-5FE1-8A84-74FFE8C2CB1E">Formatting
+text</a>. </p> </div>
+<div id="GUID-8B1B622B-4FA4-5B31-908B-7B03F8B851F0"><h3 class="section-title">Conversion
+specifiers</h3> <p>The conversion of argument data is dictated by the value
+of the <em>conversion specifier</em> which can consist of one or more characters;
+most of the conversion specifiers are just a single character. For some of
+these specifiers, the case is significant. </p> <p>The possible values for <code class="codeph">conversion-specifier</code> are
+as follows: </p> <div class="tablenoborder"><a name="GUID-9ECD5627-3AA7-560C-B8CB-93E2EA43CDF0"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-9ECD5627-3AA7-560C-B8CB-93E2EA43CDF0" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e302373">Spec</th>
+<th class="cellrowborder" valign="top" id="d0e302376">Interpretation and formatting</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>b</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TUint</code> and convert it
+to its binary character representation. This specifier is case insensitive. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>o</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TUint</code> and convert it
+to its octal character representation. This specifier is case insensitive. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>d</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TInt</code> and convert it
+to its signed decimal representation. This specifier is case insensitive. </p> <p>If
+the value is negative, the representation will be prefixed by a minus sign. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>Ld </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TInt64</code> and convert
+it to its signed decimal representation. The second character of this specifier
+is case insensitive, so that the character pair <em>LD</em> has the same meaning. </p> <p>If
+the value is negative, the representation will be prefixed by a minus sign. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>LD </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>This is the same as <em>Ld</em> above, i.e. interpret the argument
+as a <code class="codeph">TInt64</code>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>i</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>This is the same as <em>d</em> above, i.e. interpret the argument
+as a <code class="codeph">TInt</code>. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>Li </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>This is the same as <em>Ld</em> above, i.e. interpret the argument
+as a <code class="codeph">TInt64</code>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>LI </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>This is the same as <em>LD</em> above, i.e. interpret the argument
+as a <code class="codeph">TInt64</code>. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>e</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TReal</code> and convert it
+to exponent format representation. Three digit exponents are allowed. (See
+also <code class="codeph">TRealFormat</code>). </p> <p>(Note the lower case) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>E</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TRealX</code>, and convert
+it to exponent format representation. Three digit exponents are allowed (See
+also <code class="codeph">TRealFormat</code>). </p> <p>(Note the upper case) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>f</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TReal</code> and convert it
+to fixed format representation (See <code class="codeph">TRealFormat</code>). </p> <p>(Note
+the lower case) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>F</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TRealX</code>, and convert
+it to fixed format representation (See <code class="codeph">TRealFormat</code>). </p> <p>(Note
+the upper case) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>g</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TReal</code> and convert it
+to either fixed or exponent format representation, whichever format can present
+the greater number of significant digits. </p> <p>If the exponent format is
+chosen, three digit exponents are allowed. (See also <code class="codeph">TRealFormat</code>). </p> <p>(Note
+the lower case) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>G</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TRealX</code>, and convert
+it to either fixed or exponent format representation, whichever format can
+present the greater number of significant digits. </p> <p>If the exponent
+format is chosen, three digit exponents are allowed. (See also <code class="codeph">TRealFormat</code>). </p> <p>(Note
+the upper case) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>u</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TUint</code> and convert it
+to its unsigned decimal representation. This specifier is case insensitive. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>Lu </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TUint64</code> and convert
+it to its unsigned decimal representation. The second character of this specifier
+is case insensitive, so that the character pair LU has the same meaning. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>LU </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>This is the same as <em>Lu</em> above. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>x</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TUint</code> and convert it
+to its hexadecimal representation. This specifier is case insensitive. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>p</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Generate the required number of pad characters. No arguments are
+accessed. This specifier is case insensitive. </p> <p>For this directive to
+be useful, a field with should be specified. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>c</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TUint</code> value and convert
+it to a single character value. This specifier is case insensitive. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>s</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a pointer to a <code class="codeph">TUint16</code> type,
+for 16 bit descriptors, or a <code class="codeph">TUint8</code> type, for 8 bit descriptors,
+and copy all data starting at this location up to, but not including the location
+which contains a zero value. </p> <p>(Note the lower case). </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>S</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>In 16 bit descriptors, interpret the argument as a pointer to a
+16 bit descriptor, and copy the data from it; in 8 bit descriptors, interpret
+the argument as a pointer to an 8 bit descriptor, and copy the data from it. </p> <p>(Note
+the upper case). </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>w</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TUint</code> and convert the
+value to a two byte binary numeric representation with the least significant
+byte first. The generated output is two bytes. </p> <p>(Note the lower case). </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>W</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TUint</code> and convert the
+value to a four byte binary numeric representation with the least significant
+byte first. The generated output is four bytes. </p> <p>(Note the upper case). </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>m</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TUint</code> and convert the
+value to a two byte binary numeric representation with the most significant
+byte first. The generated output is two bytes. </p> <p>(Note the lower case). </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e302373 "><p>M</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e302376 "><p>Interpret the argument as a <code class="codeph">TUint</code> and convert the
+value to a four byte binary numeric representation with the most significant
+byte first. The generated output is four bytes. </p> <p>(Note the upper case). </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-D2A688DE-C73C-4086-946A-9A9724D04252"><h3 class="section-title">Notes</h3> <p>Using
+an asterisk for both <code class="codeph">field-width</code> and <code class="codeph">pad</code> means
+that the width value and the pad character will be taken from the argument
+list. Note that the first '<code class="codeph">*</code>' will be interpreted as representing
+the width only if it is preceded by one of the alignment characters '<code class="codeph">+</code>'
+'<code class="codeph">-</code>' or '<code class="codeph">=</code>'. </p> <p>If <code class="codeph">precision</code> is
+specified when the data to be converted is not a real number, then it is ignored. </p><strong>Related
+APIs</strong> <ul>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C04A9A0C-DBA7-37DA-B744-54FBF3D544CD.html#GUID-D7E07487-DCE6-39D9-B4A2-BA7E5BD4A4B9"><code class="apiname">TDes16::AppendFormat()</code></a></p></li>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C04A9A0C-DBA7-37DA-B744-54FBF3D544CD.html#GUID-F3ED8A38-74C5-3C4D-AEAF-B405A0C5807D"><code class="apiname">TDes16::Format()</code></a></p></li>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C04A9A0C-DBA7-37DA-B744-54FBF3D544CD.html#GUID-3939029A-12DF-3CBB-9408-B1FF4A1287E6"><code class="apiname">TDes16::AppendFormatList()</code></a></p></li>
+<li><p>Des16::FormatList()</p></li>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-E8BE9DD1-2D96-3E8E-943A-CD2ECFD78333"><code class="apiname">TDes8::AppendFormat()</code></a></p></li>
+<li><p>TDes8:Format()</p></li>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-8B605683-979A-3505-9755-FEA085BD5427"><code class="apiname">TDes8::AppendFormatList()</code></a></p></li>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-445B19E5-E2EE-32E2-8D6C-C7D6A9B3C507.html#GUID-1380E737-F4C4-3D6F-9B9B-B0ED267B6BFF"><code class="apiname">TDes8::FormatList()</code></a></p></li>
+</ul></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 23rd, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-EC21A1A2-FD5A-5764-A69A-18D74090BA92.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:29 GMT -->
+</html>

@@ -1,0 +1,177 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-43CA02E7-0101-5824-B91B-E15EE20C829A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Avoid Transient Tables" /><meta name="abstract" content="This guide gives advice for avoiding the use of transient tables." /><meta name="description" content="This guide gives advice for avoiding the use of transient tables." /><meta name="DC.Relation" scheme="URI" content="GUID-22844C28-AB5B-5A6F-8863-7269464684B4" /><meta name="DC.Relation" scheme="URI" content="GUID-78773BCA-ADF6-53E6-AC80-5CB2AE1F8BCC" /><meta name="DC.Relation" scheme="URI" content="GUID-1F12E3F5-45B2-55EC-B021-00338277C608" /><meta name="DC.Relation" scheme="URI" content="GUID-49A3419F-D20A-5C5D-B2FF-51724EF37704" /><meta name="DC.Relation" scheme="URI" content="GUID-C2FAEBB2-4A1A-5BB0-9670-4801525CBC6A" /><meta name="DC.Relation" scheme="URI" content="GUID-B994E6F7-228A-5433-B87F-91857C5D93D6" /><meta name="DC.Relation" scheme="URI" content="GUID-4FC23DB7-4758-5DA4-81FF-0DAB169E2757" /><meta name="DC.Relation" scheme="URI" content="GUID-2A2920E0-5D40-5358-BC0C-8572CEFE078C" /><meta name="DC.Relation" scheme="URI" content="GUID-126FCCCC-0E7D-59AE-959A-2F94A7319C4B" /><meta name="DC.Relation" scheme="URI" content="GUID-ACCCB148-DAF9-59EC-B585-8EF632B9BF04" /><meta name="DC.Relation" scheme="URI" content="GUID-B7E978C1-45CA-554C-8028-D901B97BA2E0" /><meta name="DC.Relation" scheme="URI" content="GUID-AF5A75D7-0687-546C-87B2-0B7DF7D33217" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-868D5B32-1CC4-506E-9C49-C86428B9A50F" /><meta name="DC.Relation" scheme="URI" content="GUID-C6D3827F-8F73-593E-A339-B510EEB9771F" /><meta name="DC.Relation" scheme="URI" content="GUID-831F9AA3-0209-53DC-96C4-04157F22870C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-43CA02E7-0101-5824-B91B-E15EE20C829A" /><meta name="DC.Language" content="en" /><title>Avoid Transient Tables </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-43CA02E7-0101-5824-B91B-E15EE20C829A">Avoid Transient Tables</h1><div><p>This guide gives advice for avoiding the use of transient
+tables.</p>
+<div id="GUID-191FA663-E058-49EF-A514-008C2755CAC2"><h3 class="section-title">Introduction</h3> <p>Transient tables are nameless entities that exist for the duration
+of a single SQL statement and are automatically deleted at the conclusion
+of the statement. It is best to avoid queries that need transient
+tables. </p> <p><strong>Intended audience:</strong> </p> <p>This document is intended to be
+used by Symbian platform licensees and third party application developers. </p> </div>
+<div id="GUID-62920E16-50D3-504A-9E8C-B835CF374A8B"><h3 class="section-title">Avoid
+Queries that Require Transient Tables</h3> <p>Complex queries sometimes
+require SQLite to compute intermediate results that are stored in <em>transient tables</em>. Transient tables are nameless entities that
+exist for the duration of a single SQL statement and are automatically
+deleted at the conclusion of the statement. </p> <p>We use the term
+transient to describe these tables rather than temporary to avoid
+confusion with TEMP tables. TEMP tables are tables that are private
+to a particular database connection and which persist for the duration
+of that database connection. TEMP tables have names and work like
+regular tables with the exceptions that they are only visible to the
+current database connection and are automatically deleted when the
+connection is closed. Transient tables, in contrast, are invisible
+internal holding areas for intermediate results that exist only until
+the end of the current SQL statement. </p> <p>Transient tables will
+be stored either in RAM or on disk depending on device configuration.
+The Symbian default configuration is to store transient tables on
+disk although downstream device manufacturers may alter this. </p> <p>When configured to store transient tables on disk, in reality
+a combination of memory and file space is used to hold the table.
+Transient tables go through the same page cache mechanism that regular
+database files go through. So as long as the transient tables do not
+grow too large, they will always be held in memory in the page cache
+rather than being written to disk. Information is only written to
+disk when the cache overflows. </p> <p>When transient tables are configured
+to be stored in memory rather than in a file, the cache is considered
+infinitely large and will never overflow and thus nothing will ever
+be written out to the file system. Storing transient tables in memory
+rather than in files avoids the overhead of file I/O but requires
+potentially unbounded amounts of memory. Using file-based transient
+tables puts an upper bound on the amount of memory required but adds
+file I/O overhead. </p> <p>One strategy for dealing with transient
+tables is to avoid them all together. If you never use transient tables
+then it does not really matter if they are stored in memory or on
+disk. The remainder of this section will enumerate all of the things
+that might provoke SQLite to create a transient table. If you avoid
+all of these things in your code, then you never need to worry about
+where your transient tables are stored. </p> <p>A transient table
+is created whenever you use the DISTINCT keyword in a query: </p> <pre class="codeblock">
+SELECT DISTINCT name FROM artist;
+</pre> <p>The DISTINCT keyword guarantees that each row of the
+result set will be different from all other rows. In order to enforce
+this SQLite creates a transient table that stores all prior output
+rows from the query. If a new row can be found in the transient table
+then the new row is skipped. The same situation occurs when DISTINCT
+is used within an aggregate function: </p> <pre class="codeblock">
+SELECT avg(DISTINCT cnt) FROM playlist;
+</pre> <p>In this context the DISTINCT keyword means that the
+aggregate function is only applied to distinct elements of the result.
+As before, a transient table is used to record prior values of the
+result so that SQLite can tell if new results have been seen before. </p> <p>The UNION, INTERSECT, and EXCEPT operators used to create compound
+queries always generate a distinct set of rows. Even though the DISTINCT
+keyword does not appear, it is implied for these connectors, and a
+transient table is used to enforce the distinctness. In contrast,
+the UNION ALL operator does not require a transient table. </p> <p>A transient table might be used to implement an ORDER BY or GROUP
+BY clause. SQLite always tries to use an index to satisfy an ORDER
+BY or GROUP BY clause if it can. But if no indexes are available which
+can satisfy the ORDER BY or GROUP BY, then the entire results set
+is loaded into a transient table and sorted there. </p> <p>Subqueries
+on the right-hand side of the IN operator use a transient table. Consider
+an example: </p> <pre class="codeblock">
+SELECT * FROM ex334a WHERE id IN (SELECT id FROM ex334b WHERE amt&gt;7);
+</pre> <p>The results of the (SELECT id FROM ex334b WHERE amt&gt;7)
+subquery are stored in a transient table. Then the value of the <em>id</em> column is checked against this table for each row of the outer
+query to determine if that row should be included in the result set. </p> <p>Sometimes subqueries in the FROM clause of a query will result
+in a transient table. This is not always the case because SQLite tries
+very hard to convert subqueries in the FROM clause into a join that
+does not use subqueries. SQLite uses the term <em>flattening</em> to
+describe the conversion of FROM clause subqueries into joins. Flattening
+is an optimization that makes queries run faster. But in some cases,
+flattening cannot occur. When the flattening optimization is inhibited,
+the results of the subqueries are stored in transient tables and then
+a separate query is run against those transient tables to generate
+the final results. </p> <p>Consider the following schema and query: </p> <pre class="codeblock">
+CREATE TABLE t1(a,b,c);
+CREATE TABLE t2(x,y,z);
+SELECT * FROM t1 JOIN (SELECT x,y FROM t2);
+</pre> <p>The subquery in the FROM clause is plainly visible
+in the SELECT statement above. But if the subquery were disguised
+as a view, it might be less noticeable. A view is really just a macro
+that serves as a place-holder for a subquery. So the SELECT statement
+above is equivalent to the following: </p> <pre class="codeblock">
+CREATE VIEW v2 AS SELECT x, y FROM t2;
+SELECT * FROM t1 JOIN v2;
+</pre> <p>In either case above, whether the subquery is stated
+explicitly or is implied by the use of a view, flattening occurs and
+the query is converted into this: </p> <pre class="codeblock">
+SELECT a,b,c,x,y FROM t1 JOIN t2;
+</pre> <p>Had flattening not occurred, it would have been necessary
+to evaluate the v2 view or the subquery into a transient table then
+execute the outer query using the transient table as one of the two
+tables in the join. SQLite prefers to flatten the query because a
+flattened query generally uses fewer resources and is better able
+to take advantage of indexes. The rules for determining when flattening
+occurs and when it does not are complex. Flattening occurs if all
+of the following conditions in the outer query and in the subquery
+are satisfied: </p> <ul>
+<li id="GUID-C2006064-D688-50F2-BDAA-0903746BBDCA"><a name="GUID-C2006064-D688-50F2-BDAA-0903746BBDCA"><!-- --></a><p>The subquery
+and the outer query do not both use aggregates. </p> </li>
+<li id="GUID-8B0A124C-D2A1-51C3-80B2-37E53A22BEA8"><a name="GUID-8B0A124C-D2A1-51C3-80B2-37E53A22BEA8"><!-- --></a><p>The subquery
+is not an aggregate or the outer query is not a join. </p> </li>
+<li id="GUID-265A05AB-6C73-598E-9B5E-D602E3ACF399"><a name="GUID-265A05AB-6C73-598E-9B5E-D602E3ACF399"><!-- --></a><p>The subquery
+is not the right operand of a left outer join, or the subquery is
+not itself a join. </p> </li>
+<li id="GUID-F85FC64A-22E9-550C-B24D-7A8D52AC39E0"><a name="GUID-F85FC64A-22E9-550C-B24D-7A8D52AC39E0"><!-- --></a><p>The subquery
+is not DISTINCT or the outer query is not a join. </p> </li>
+<li id="GUID-A78B6644-6DBE-584B-9216-3415ADA1E35B"><a name="GUID-A78B6644-6DBE-584B-9216-3415ADA1E35B"><!-- --></a><p>The subquery
+is not DISTINCT or the outer query does not use aggregates. </p> </li>
+<li id="GUID-B86B1D2C-CC0D-5C04-A2C5-BC3D26069964"><a name="GUID-B86B1D2C-CC0D-5C04-A2C5-BC3D26069964"><!-- --></a><p>The subquery
+does not use aggregates or the outer query is not DISTINCT. </p> </li>
+<li id="GUID-D89420C6-6AD0-5B4A-9A1D-DF9CE690BA7D"><a name="GUID-D89420C6-6AD0-5B4A-9A1D-DF9CE690BA7D"><!-- --></a><p>The subquery
+has a FROM clause. </p> </li>
+<li id="GUID-671D51CA-0C05-5610-8A66-0A7B795270B6"><a name="GUID-671D51CA-0C05-5610-8A66-0A7B795270B6"><!-- --></a><p>The subquery
+does not use LIMIT or the outer query is not a join. </p> </li>
+<li id="GUID-81632F3C-3E30-53B8-94C4-214498C11A34"><a name="GUID-81632F3C-3E30-53B8-94C4-214498C11A34"><!-- --></a><p>The subquery
+does not use LIMIT or the outer query does not use aggregates. </p> </li>
+<li id="GUID-6E30A9D8-F758-58D8-8A60-2D1F98DC571D"><a name="GUID-6E30A9D8-F758-58D8-8A60-2D1F98DC571D"><!-- --></a><p>The subquery
+does not use aggregates or the outer query does not use LIMIT. </p> </li>
+<li id="GUID-55523D18-9421-582C-8CB4-601BC6BBA8A0"><a name="GUID-55523D18-9421-582C-8CB4-601BC6BBA8A0"><!-- --></a><p>The subquery
+and the outer query do not both have ORDER BY clauses. </p> </li>
+<li id="GUID-12AD267C-F596-5188-8075-14D29CAB66DF"><a name="GUID-12AD267C-F596-5188-8075-14D29CAB66DF"><!-- --></a><p>The subquery
+is not the right term of a LEFT OUTER JOIN or the subquery has no
+WHERE clause. </p> </li>
+<li id="GUID-1E253D10-A3B3-528A-A599-6E000040FAF3"><a name="GUID-1E253D10-A3B3-528A-A599-6E000040FAF3"><!-- --></a><p>The subquery
+and outer query do not both use LIMIT </p> </li>
+<li id="GUID-1FC29A55-C941-59CE-AE16-23C5F867069C"><a name="GUID-1FC29A55-C941-59CE-AE16-23C5F867069C"><!-- --></a><p>The subquery
+does not use OFFSET </p> </li>
+</ul> <p>Nobody really expects a programmer to memorize or even understand
+the above set of flattening rules. As a short-cut, perhaps it is best
+to remember that a complicated subquery or view in the FROM clause
+of a complicated query might defeat the flattening optimization and
+thus require the use of transient tables. </p> <p>One other obscure
+use of transient tables is when there is an INSTEAD OF DELETE or INSTEAD
+OF UPDATE trigger on a view. When such triggers exists and a DELETE
+or an UPDATE is executed against that view then a transient table
+is created which stores copies of the rows to be deleted or updated.
+Since it is unusual to have INSTEAD OF triggers in the first place
+this case rarely arises. </p> <p>In summary, transient tables are
+used to implement the following features: </p> <ul>
+<li id="GUID-AA436587-D5B8-57A4-A256-AA255B316086"><a name="GUID-AA436587-D5B8-57A4-A256-AA255B316086"><!-- --></a><p>The DISTINCT
+keyword or other situations where distinct results are required such
+as compound queries using UNION, INTERSECT, or EXCEPT. </p> </li>
+<li id="GUID-84FC9506-4E85-5F7E-A96A-45EC239360DA"><a name="GUID-84FC9506-4E85-5F7E-A96A-45EC239360DA"><!-- --></a><p>ORDER BY or
+GROUP BY clauses that cannot be satisfied by indexes. </p> </li>
+<li id="GUID-59EAEE54-98A0-5647-B4E4-9A213342D46D"><a name="GUID-59EAEE54-98A0-5647-B4E4-9A213342D46D"><!-- --></a><p>Subqueries on
+the right-hand side of the IN operator. </p> </li>
+<li id="GUID-BCB93FF3-F959-5292-A3D7-C23CD436DC4E"><a name="GUID-BCB93FF3-F959-5292-A3D7-C23CD436DC4E"><!-- --></a><p>Subqueries or
+views in the FROM clause of a query that cannot be flattened. </p> </li>
+<li id="GUID-552BE4BC-2242-5E26-85C0-20CB99C188A1"><a name="GUID-552BE4BC-2242-5E26-85C0-20CB99C188A1"><!-- --></a><p>DELETE or UPDATE
+against a view with INSTEAD OF triggers. </p> </li>
+</ul> <p>The resource-limited nature of the environment, where file
+I/O is expensive and memory is scarce, means you will be well served
+to avoid these constructs and thus avoid the need for transient tables. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-22844C28-AB5B-5A6F-8863-7269464684B4.html">SQL
+Overview</a></li><li><a href="GUID-78773BCA-ADF6-53E6-AC80-5CB2AE1F8BCC.html">SQL
+Server Guide</a></li><li><a href="GUID-1F12E3F5-45B2-55EC-B021-00338277C608.html">SQL DB Overview</a></li><li><a href="GUID-49A3419F-D20A-5C5D-B2FF-51724EF37704.html">Prevent
+Datafile Corruption</a></li><li><a href="GUID-C2FAEBB2-4A1A-5BB0-9670-4801525CBC6A.html">SQL
+Index Tips</a></li><li><a href="GUID-B994E6F7-228A-5433-B87F-91857C5D93D6.html">SQL
+Insertion Tips</a></li><li><a href="GUID-4FC23DB7-4758-5DA4-81FF-0DAB169E2757.html">SQL
+Schema Tips</a></li><li><a href="GUID-2A2920E0-5D40-5358-BC0C-8572CEFE078C.html">SQL
+Expressions</a></li><li><a href="GUID-126FCCCC-0E7D-59AE-959A-2F94A7319C4B.html">SQL
+Statement Tips</a></li><li><a href="GUID-ACCCB148-DAF9-59EC-B585-8EF632B9BF04.html">SQL
+Joins</a></li><li><a href="GUID-B7E978C1-45CA-554C-8028-D901B97BA2E0.html"> ANALYZE
+Command</a></li><li><a href="GUID-AF5A75D7-0687-546C-87B2-0B7DF7D33217.html"> SQL
+WHERE CLause Tips</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 11th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-43CA02E7-0101-5824-B91B-E15EE20C829A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+</html>

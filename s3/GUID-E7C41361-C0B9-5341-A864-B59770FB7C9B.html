@@ -1,0 +1,93 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E7C41361-C0B9-5341-A864-B59770FB7C9B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Supporting Writable Static Data in DLLs" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-C4C85189-BA6F-5F11-ABB3-727D8C1F5984" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E7C41361-C0B9-5341-A864-B59770FB7C9B" /><meta name="DC.Language" content="en" /><title>Supporting
+Writable Static Data in DLLs  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E7C41361-C0B9-5341-A864-B59770FB7C9B">Supporting
+Writable Static Data in DLLs </h1><div>
+<div><h3 class="section-title">Introduction</h3> <p>Many UNIX programs rely
+on Writable Static Data (WSD) for data storage. Native Symbian platform applications
+have been developed without any support for WSD on an Emulator for dynamic
+link libraries. P.I.P.S. supports WSD and a complete implementation is available
+for target phones. The implementation of WSD on an Emulator, however, poses
+certain restrictions for dynamic link libraries. </p><p>A Symbian project's
+MMP file can specify the <code class="codeph">EPOCALLOWDLLDATA</code> directive to enforce
+a rule that WSD should not be shared between processes. The P.I.P.S. <code class="codeph">STDEXE</code>y
+target type sets this directive automatically. The rule imposes the restriction
+that only one process can load a DLL with WSD. P.I.P.S. provides a mechanism
+to avoid these restrictions. </p> </div>
+<div><h3 class="section-title">A UNIX DLL with WSD</h3><pre class="codeblock">int refCount = 0;
+int IncRefCount()
+{
+  //Increment the reference count
+  return ++refCount;
+}
+
+int DecRefCount()
+{
+  //Decrement the reference count
+  return --refCount;
+}
+</pre><p></p></div>
+<div><h3 class="section-title">A Symbian DLL with WSD</h3><p>The UNIX code above will
+provide indeterminate results on a Symbian emulator. If the DLL had <code class="codeph">EPOCALLOWDLLDATA</code> in
+its MMP file, then only one process would be able to use the reference counting
+functions. Without <code class="codeph">EPOCALLOWDLLDATA</code>, the reference count
+would be global and not process specific. </p><p>The following code demonstrates
+the use of the Pls() function (Process Local Storage),
+which is the P.I.P.S. WSD solution to the problem. </p><pre class="codeblock">#include &lt;pls.h&gt;
+
+#ifdef __WINSCW__
+//The next code will run only on the emulator
+
+//Put the global count into a structure
+struct DLLData
+{
+   int refCount;
+};
+
+//Define a way to access the structure
+//On the first call to this function, memory will be allocated with the specified
+//UID as an identifier and the Initialization function will be called
+//Subsequent calls to this function return the allocated memory
+struct DLLData* GetGlobals()
+{
+   return Pls&lt;DLLData&gt;(KDLLUid3, InitializeGlobals);
+}
+
+//Initialization function
+TInt InitializeGlobals(DLLData* aData)
+{
+   aData-&gt;refCount = 0;
+   return KErrNone;
+}
+
+//Access the refCount variable
+int&amp; get_refCount()
+{
+   return GetClobals()-&gt;refCount;
+}
+
+//Macro to replace the variable with our new method
+#define refCount get_refCount()
+
+#else
+//Target device code
+int refCount;
+
+#endif
+
+int IncRefCount()
+{
+  return ++refCount;
+}
+
+int DecRefCount()
+{
+  return --refCount;
+}
+</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 15th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E7C41361-C0B9-5341-A864-B59770FB7C9B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:34 GMT -->
+</html>

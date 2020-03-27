@@ -1,0 +1,112 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-80EC80E2-E197-50F7-B1FD-720A00AC3B4D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:33 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Onboard Camera Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DE5CDAD-8D71-5384-9E98-5665D5A4C792" /><meta name="DC.Relation" scheme="URI" content="GUID-3E341F9F-2635-589B-A59A-B999FE7DF9BE" /><meta name="DC.Relation" scheme="URI" content="GUID-98499337-5CB4-5A9C-907A-95FF57775983" /><meta name="DC.Relation" scheme="URI" content="GUID-BDB622BF-1CFA-5F1C-81FB-5579C8599689" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-80EC80E2-E197-50F7-B1FD-720A00AC3B4D" /><meta name="DC.Language" content="en" /><title>Onboard Camera Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-80EC80E2-E197-50F7-B1FD-720A00AC3B4D">Onboard Camera Overview</h1><div>
+<p>This document introduces you to the Onboard Ecam API. </p>
+<div id="GUID-09FDE5EA-AF80-4129-913F-C1DA9D82E73E"><h3 class="section-title">Purpose</h3> <p>The Onboard Camera provides functionality to control a digital
+camera and to request and receive specific image data from it. Still
+or video images may be captured. A camera may be controlled with its
+output media going into a non-Symbian platform sink (for example,
+into hardware), or it may be controlled with output going into the
+Symbian platform. </p> <p>The API defines basic common operations,
+but is also extensible to allow for proprietary properties. </p> <p><strong>Onboard Ecam API Library Details</strong> </p> <p>The DLL that provides
+the functionality and the library to which your code must link is
+identified below. </p> <div class="tablenoborder"><a name="GUID-5DF138D2-3ADC-5BCD-ADCD-D04240B33DC9"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-5DF138D2-3ADC-5BCD-ADCD-D04240B33DC9" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e385475">DLL</th>
+<th class="cellrowborder" valign="top" id="d0e385478">LIB</th>
+<th class="cellrowborder" valign="top" id="d0e385481">Short Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e385475 "><p> <code>ecam.dll</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e385478 "><p> <code>ecam.lib</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e385481 "><p>These files are used for implementing the Onboard Camera
+functions. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-7ECFC164-8751-4DBE-93E2-9B0CF275CBB0"><h3 class="section-title">Architectural
+Relationship</h3> <p>The Onboard Camera provides images to clients.
+A client may be an application with image requirements, or the Multimedia
+Framework. Clients have specific priorities and may pre-empt others
+in their interactions with the camera. </p> <p>When a new camera object is required, the ECam library
+requests a camera plug-in from the ECom framework. When more than
+one ROM based plug-ins have been registered on the platform, the one
+with the highest version defined in its resource file is selected. </p> </div>
+<div id="GUID-22512109-39BA-4E88-B615-609A60A5F199"><h3 class="section-title">Description</h3> <p>Client Applications can use the onboard camera function for a
+number of tasks, including: </p> <p>Controlling camera power, using
+the view finder, making basic camera image settings, capturing a still
+image, capturing video, making advanced settings, getting snapshots,
+getting image histograms, using image overlays, using preset camera
+settings, image processing on the camera. </p> </div>
+<div id="GUID-1AC509C3-E1D9-5DB4-9C09-90E0DCE576CB"><h3 class="section-title">Key
+Onboard Ecam API Classes</h3> <p>The key classes that make up the
+Onboard Camera are as follows: </p> <ul>
+<li id="GUID-7D8751E9-C2B3-50DA-9B1C-6AC29FF592FA"><a name="GUID-7D8751E9-C2B3-50DA-9B1C-6AC29FF592FA"><!-- --></a><p> CCamera </p> <p>It provides the base class for camera devices. This is
+the interface that the client application uses to communicate with
+the camera. It provides all the functions necessary to control, and
+acquire images from, the camera. </p> </li>
+<li id="GUID-F8732ED8-D86C-591C-93FF-89BF4386FCE9"><a name="GUID-F8732ED8-D86C-591C-93FF-89BF4386FCE9"><!-- --></a><p> MCameraObserver2 </p> <p>It is an observer class which permits access to picture
+data as descriptors, bitmaps or chunks. It defines an event-handling
+interface that is called when events are generated from use of the
+camera functions, or from external sources such as the camera being
+plugged or unplugged. </p> <p> MCameraObserver is
+an earlier version of this callback interface. </p> </li>
+<li id="GUID-DB8CCF2A-54DA-565E-8CD4-DEE608AAB1CA"><a name="GUID-DB8CCF2A-54DA-565E-8CD4-DEE608AAB1CA"><!-- --></a><p> TCameraInfo </p> <p>It provides information about the camera. This includes:
+the version number and name of camera hardware, camera orientation,
+whether the camera supports still image capture and so on. </p> </li>
+<li id="GUID-4A214B79-32AD-5BBC-AD34-084A9C960F50"><a name="GUID-4A214B79-32AD-5BBC-AD34-084A9C960F50"><!-- --></a><p> MCameraBuffer </p> <p>It is the buffer class used by <code class="codeph">MCameraObserver2</code> to pass back view finder data, images and video frames. It enables
+the client to choose in which way it accesses the picture data (descriptor,
+bitmap or kernel chunk). </p> </li>
+<li id="GUID-C76A2F13-FC4F-5ABA-A818-B6031F4FB116"><a name="GUID-C76A2F13-FC4F-5ABA-A818-B6031F4FB116"><!-- --></a><p> TECAMEvent </p> <p>It is a simple event class containing a UID to identify
+the event and a status code. It is passed to MCameraObserver2 as functional argument using HandleEvent method,
+when a request is completed. The request is complete, if a control
+of the camera switches, camera hardware settings changes, or due to
+external events such as the camera being plugged in. </p> <p>Use a
+derived version of <code class="codeph">TECAMEvent</code> and <code class="codeph">TECAMEvent2</code> to pass additional information required by extended API to the API
+client along with the error event code. </p> </li>
+<li id="GUID-F1E7A83E-6382-51FC-8E19-9F66CB1844CD"><a name="GUID-F1E7A83E-6382-51FC-8E19-9F66CB1844CD"><!-- --></a><p> CCamera::CCameraAdvancedSettings </p> <p>It provides domain specific get and set methods for well
+known camera hardware settings that relate directly to the image acquisition
+phase for both still images and video. </p> </li>
+<li id="GUID-A8284E63-1463-547D-9FB1-F2C9AA9FBA01"><a name="GUID-A8284E63-1463-547D-9FB1-F2C9AA9FBA01"><!-- --></a><p> CCamera::CCameraPresets </p> <p>It associates a single command with setting of several
+camera parameters to specific values (and ranges). The class allows
+clients without knowledge of the camera specifics to achieve comparable
+results for different cameras. </p> </li>
+<li id="GUID-135AC315-B294-5587-B71C-379D0CBF4547"><a name="GUID-135AC315-B294-5587-B71C-379D0CBF4547"><!-- --></a><p> CCamera::CCameraImageProcessing  </p> <p>It is used to perform image processing operations on still
+images, video, viewfinder (both client and direct). These include
+brightness, contrast, gamma, hue, sharpness and saturation adjustments
+on the camera. The client is also able to perform simple image transformations
+like cropping, rotation, mirroring, scaling, noise reduction and glare
+reduction. </p> </li>
+<li id="GUID-15E61113-8CE9-527B-A52C-B3A180B9960D"><a name="GUID-15E61113-8CE9-527B-A52C-B3A180B9960D"><!-- --></a><p>  CCamera::CCameraOverlay </p> <p>It allows the client to overlay an image onto the view
+finder, snapshots, still images, and video. </p> </li>
+<li id="GUID-B8569488-6C25-5304-9A9E-8AAC964BCB06"><a name="GUID-B8569488-6C25-5304-9A9E-8AAC964BCB06"><!-- --></a><p> CCamera::CCameraHistogram allows the client to get histogram data (MHistogramBuffer) in a specified format for an image, such as a luminance-based,
+or average colour value histogram. </p> <p>This class is deprecated,
+so use CCamera::CCameraV2Histogram class. </p> </li>
+<li id="GUID-7DAA023E-D0A5-598D-B97F-9C706A8D44DD"><a name="GUID-7DAA023E-D0A5-598D-B97F-9C706A8D44DD"><!-- --></a><p>  CCamera::CCameraSnapshot </p> <p>It allows the client to request snapshot data in a specified
+image format for both still images and video. Snapshot object can
+be created specifically for still images and video APIs. </p> </li>
+<li id="GUID-B25BB7CA-8FDC-5344-BCDB-9C2018248B67"><a name="GUID-B25BB7CA-8FDC-5344-BCDB-9C2018248B67"><!-- --></a><p> CCamera::CCameraDirectViewFinder used for those viewfinders that use only viewfinder APIs of Ccamera.
+It provides support for Direct View Finder functionalities, such as
+pause and resume. </p> </li>
+<li id="GUID-F2BE13B7-5ADB-5E16-B2D3-CFB88A72068F"><a name="GUID-F2BE13B7-5ADB-5E16-B2D3-CFB88A72068F"><!-- --></a><p>  CCamera::CCameraClientViewFinder </p> <p>It provides support for multiple client View Finder. </p> </li>
+<li id="GUID-44C02BC0-02AE-5EDA-82FC-1F1DE23210B3"><a name="GUID-44C02BC0-02AE-5EDA-82FC-1F1DE23210B3"><!-- --></a><p>  CCamera::CCameraPreImageCaptureControl </p> <p>It allows to control image operations or its settings prior
+to image capture. </p> </li>
+<li id="GUID-65E481B6-DEEC-57DD-98EC-A7D8433D5DEF"><a name="GUID-65E481B6-DEEC-57DD-98EC-A7D8433D5DEF"><!-- --></a><p> CCamera::CCameraImageCapture </p> <p>It captures the image and controls the overall capture. </p> </li>
+<li id="GUID-9A6713D4-C284-545E-BD40-9269DBD2C573"><a name="GUID-9A6713D4-C284-545E-BD40-9269DBD2C573"><!-- --></a><p>  CCamera::CCameraPostImageCaptureControl </p> <p>It retrieves the image data from individual images and
+also controls the captured images individually. </p> </li>
+<li id="GUID-FBBF3E1B-D511-5AFB-8AE5-E996AD7CC4FC"><a name="GUID-FBBF3E1B-D511-5AFB-8AE5-E996AD7CC4FC"><!-- --></a><p> CCamera::CCameraVideoCaptureControl </p> <p>It controls the operations related to video capture. </p> </li>
+</ul> <p>The class diagram of CCamera is shown below: </p> <div class="figure" id="GUID-E2F73C42-38F9-5EE1-B5EB-C255B42E0621"><img src="GUID-C1A6477D-2130-5664-A845-898212F96381_d0e385790_href.png" /></div> </div>
+<div id="GUID-29660557-F0B3-4400-A482-CEEE36A7B3F4"><h3 class="section-title">Using
+Onboard Ecam API</h3> <p>The clients can use CCamera function to
+control and acquire image data from the camera. </p> </div>
+<div id="GUID-16BFDFCF-2805-402D-911B-A1A81A8BF50C"><h3 class="section-title">See
+also</h3> <p><a href="GUID-36C3A2FD-F4F9-5B8C-91B7-40C29B3D2224.html">Camera Framework Overview</a> </p> <p><a href="GUID-55A1A47A-A7DD-5B1A-88E1-4818CB65B782.html">Camera Tutorials</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 1st, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-80EC80E2-E197-50F7-B1FD-720A00AC3B4D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:36 GMT -->
+</html>

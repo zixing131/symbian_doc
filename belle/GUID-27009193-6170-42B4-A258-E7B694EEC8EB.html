@@ -1,0 +1,45 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-27009193-6170-42B4-A258-E7B694EEC8EB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:36 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Types of Alarm" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1FB321DE-4A02-5468-9AF1-F3786EB678CF" /><meta name="DC.Relation" scheme="URI" content="GUID-CFE3A216-E637-51C1-B258-2ADF4E0F4150" /><meta name="DC.Relation" scheme="URI" content="GUID-E6788741-EF34-57B7-B4D4-8AAC21B25774" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-27009193-6170-42B4-A258-E7B694EEC8EB" /><meta name="DC.Language" content="en" /><title>Types
+of Alarm </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-27009193-6170-42B4-A258-E7B694EEC8EB">Types
+of Alarm</h1><div>
+<p>This section explains the various types of alarms that are handled by the
+Alarm Server. </p>
+<p>Session alarms and Non-Session alarms are handled by the Alarm Server after
+creating a session using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3598EAEE-0EF4-35A2-89E5-F3B2555B1AB4.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3598EAEE-0EF4-35A2-89E5-F3B2555B1AB4.html"><code class="apiname">RASCliSession</code></a> function. </p>
+<div><h3 class="section-title">Session Alarms </h3> <p>The alarms that are removed from
+the alarm queue when the session disconnects are referred as Session Alarms.
+Session alarms can either be synchronous or asynchronous. </p> <p>The session-based
+alarms are defined by setting an alarm’s characteristics flag as TAlarmCharacteristics::EAlarmCharacteristicsSessionSpecific. </p> <p>Session Alarms are handled on behalf of a session with the Alarm Server.
+Each session is allowed to set only one Session Alarm. The server informs
+the session when to set the next alarm. If the session disconnects, the Session
+Alarm is cancelled. </p> <p>The Session Alarm is completed when the alarm
+expires, is cancelled, or a timing error occurs. </p> <p> <strong>NOTE</strong>: If
+the client session is closed before the alarm has expired, the Alarm Server
+automatically dequeues the alarm. </p> <p><strong>Synchronous Session Alarms</strong> </p> <p>To
+add a session alarm to the queue synchronously, use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3598EAEE-0EF4-35A2-89E5-F3B2555B1AB4.html#GUID-45B0A300-B65E-3503-92AF-441DB44CD5CD"><code class="apiname">RASCliSession::AlarmAdd()</code></a>. </p> <p><strong>Asynchronous
+Session Alarms</strong> </p> <p>To add a session alarm to the queue asynchronously,
+use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3598EAEE-0EF4-35A2-89E5-F3B2555B1AB4.html#GUID-D9A2FDAA-D303-349D-B099-A770021720CC"><code class="apiname">RASCliSession::AlarmAddWithNotification()</code></a>. If a client
+decides to cancel a Session Alarm, it must use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3598EAEE-0EF4-35A2-89E5-F3B2555B1AB4.html#GUID-C8FAE669-D389-3921-8FBF-2D04F90B6CA6"><code class="apiname">RASCliSession::AlarmNotificationCancelAndDequeue()</code></a>.
+This requires that the ID of the alarm object be passed to the Alarm Server,
+so that it can correctly identify the Session Alarm to be removed. </p> </div>
+<div><h3 class="section-title">Non-Session Alarms</h3> <p>The alarms that continue to
+persist in the alarm queue, even after their session owner which added these
+alarms disconnect, are referred as Non-Session alarms. They are independent
+of the client that set them. </p> <p>Non-Session alarms are also referred
+as Orphaned Session alarms because these alarms are orphaned with no session
+owners. </p> </div>
+<div><h3 class="section-title">Wake-Up Alarms</h3> <p>An alarm that wakes-up the device,
+if the device is switched OFF when the alarm expires, is referred to as Wake-Up
+alarm. If the device is in the normal state, then it works as a clock alarm. </p> <p>It
+is set using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3598EAEE-0EF4-35A2-89E5-F3B2555B1AB4.html#GUID-92A40392-98CC-3BEA-AD92-0566C88905D9"><code class="apiname">RASCliSession::SetWakeup</code></a>, by passing the unique
+identifier of the alarm. </p> <p>A wake-up alarm that has been set and not
+started alerting the device user is referred as an active Wake-Up alarm. Alarm
+Server sets <code class="codeph">EActiveWakeupAlarmSet</code> value if there are active
+wake-up alarm(s) else, it sets <code class="codeph">EActiveNoWakeupAlarmsSet</code> value. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 16th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-27009193-6170-42B4-A258-E7B694EEC8EB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:36 GMT -->
+</html>

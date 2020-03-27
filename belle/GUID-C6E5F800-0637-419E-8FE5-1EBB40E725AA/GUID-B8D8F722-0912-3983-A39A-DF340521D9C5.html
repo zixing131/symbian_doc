@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B8D8F722-0912-3983-A39A-DF340521D9C5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:18:41 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxClass" />
+<meta name="DC.Title" content="MHWRMBatteryPowerObserver" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-B8D8F722-0912-3983-A39A-DF340521D9C5" />
+<title>MHWRMBatteryPowerObserver</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-B8D8F722-0912-3983-A39A-DF340521D9C5"><a name="GUID-B8D8F722-0912-3983-A39A-DF340521D9C5"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">MHWRMBatteryPowerObserver Class Reference</h1>
+<div class="state state apiQualifier apiQualifier cxxClassDeclarationFile section include"><p>#include 
+            
+                    &lt;hwrmpower.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>class MHWRMBatteryPowerObserver</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-EA89F844-1D30-37B1-B265-A30D5D49B19D">PowerMeasurement</a>(<a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>, <a class="xref xref apiRelation" href="GUID-509A4C61-DF2C-39B0-A92B-412B4B4C5098.html">CHWRMPower::TBatteryPowerMeasurementData</a> &amp;)</td></tr></tbody></table></div><div class="section section apiDesc section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+<p class="p">A callback interface for power measurements reporting.</p>
+<p class="p">If the client requires periodical measurements of the Average Power, it needs to derive a class from the <a class="xref" href="GUID-B8D8F722-0912-3983-A39A-DF340521D9C5.html#GUID-B8D8F722-0912-3983-A39A-DF340521D9C5">MHWRMBatteryPowerObserver</a> interface and implement the <a class="xref" href="GUID-B8D8F722-0912-3983-A39A-DF340521D9C5.html#GUID-EA89F844-1D30-37B1-B265-A30D5D49B19D">PowerMeasurement()</a> method.</p>
+<p class="p">A callback object header example:</p>
+<div class="p">
+<pre class="pre codeblock"> // INCLUDES
+ #include &lt;hwrmpower.h&gt; // Link against HWRMPowerClient.lib.
+
+ class CTest : public CBase, 
+               public MHWRMBatteryPowerObserver    
+    {
+    public:
+        CTest();
+        ~CTest();
+                       
+        void ConstructL();
+        static CTest* NewL();
+                
+        // from MHWRMBatteryPowerObserver
+        virtual void PowerMeasurement(TInt aErr, CHWRMPower::TBatteryPowerMeasurementData&amp; aMeasurement);
+
+    private:
+        CHWRMPower* iPower;
+    };</pre>
+</div>
+<p class="p">A callback method implementation example:</p>
+<div class="p">
+<pre class="pre codeblock"> void CTest::PowerMeasurement(TInt aErr, CHWRMPower::TBatteryPowerMeasurementData&amp; aMeasurement);
+    {
+  	 if (aErrorCode == KErrNone)
+	 	{
+		INFO_PRINTF2(_L("INFO: Power Measurement Received, averageVolatge=%d, averageCurrent=%d"),aMeasurement.iAverageVoltage, aMeasurement.iAverageCurrent);
+		}
+	 else
+		{
+		INFO_PRINTF2(_L("INFO: Power Measurement Measurement Error, error=%d"),aErr);
+		}
+    }</pre>
+</div>
+</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-EA89F844-1D30-37B1-B265-A30D5D49B19D"><a name="GUID-EA89F844-1D30-37B1-B265-A30D5D49B19D"><!-- --></a>
+<a name="GUID-841108EE-A942-354B-AE5D-87E0E5EC9233"><!-- --></a><h3 class="sectiontitle">PowerMeasurement ( TInt, CHWRMPower::TBatteryPowerMeasurementData &amp; )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>PowerMeasurement</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td><span class="parameter">aErr</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-509A4C61-DF2C-39B0-A92B-412B4B4C5098.html">CHWRMPower::TBatteryPowerMeasurementData</a> &amp;</td><td><span class="parameter">aMeasurement</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Called when a Power(Voltage and Current) consumption measurement value is received.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aErr</td><td>Error code.  </td></tr><tr class="bg"><td class="parameter">aMeasurement</td><td>The Average Power value calculated by the plugin. Valid only when aErr == KErrNone.  </td></tr></table></div>
+</div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B8D8F722-0912-3983-A39A-DF340521D9C5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:18:41 GMT -->
+</html>

@@ -1,0 +1,129 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3D1E5144-00BC-51AF-8887-4C97167E73FB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:06 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="SMS Stack Tutorial" /><meta name="abstract" content="This tutorial describes how to send and receive messages using the SMS stack." /><meta name="description" content="This tutorial describes how to send and receive messages using the SMS stack." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-34E7AAF2-EC62-5BF6-B9E7-C7D346BCDF93" /><meta name="DC.Relation" scheme="URI" content="GUID-6BA58045-3864-599A-878E-0C7AE7E9741B" /><meta name="DC.Relation" scheme="URI" content="GUID-E0DA7DE7-FD5A-5C1D-A53C-870966F00445" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3D1E5144-00BC-51AF-8887-4C97167E73FB" /><meta name="DC.Language" content="en" /><title>SMS Stack Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3D1E5144-00BC-51AF-8887-4C97167E73FB">SMS Stack Tutorial</h1><div><p>This tutorial describes how to send and receive messages using the SMS stack. </p><div id="GUID-BA144B2C-BDE0-5D9E-A977-ED38C80CB8E7"><h3 class="section-title">Send SMS example</h3> <pre class="codeblock">
+#include &lt;e32std.h&gt;
+#include &lt;es_sock.h&gt;
+#include &lt;gsmubuf.h&gt;
+#include &lt;gsmumsg.h&gt;
+#include &lt;gsmuset.h&gt;
+#include &lt;smsustrm.h&gt;
+#include &lt;smsuaddr.h&gt;
+
+_LIT(KSmsMessage, "Sample SMS message for illustration");
+_LIT(KDestination,"+44789456123");
+_LIT(KServiceCentre, "+44123456789");
+RFs  fs;
+RSocketServ socketServer;
+RSocket socket;
+
+//connect to the file server
+User::LeaveIfError(fs.Connect());
+CleanupClosePushL(fs);
+
+//connect to the socket server
+User::LeaveIfError(socketServer.Connect());
+CleanupClosePushL(socketServer);
+
+//Open a SMS socket
+User::LeaveIfError(socket.Open(socketServer, KSMSAddrFamily, KSockDatagram, KSMSDatagramProtocol));
+CleanupClosePushL(socket);
+TSmsAddr smsAddr;
+
+//set the sockets to only send the messages
+smsAddr.SetSmsAddrFamily(ESmsAddrSendOnly);
+
+//Bind the socket
+socket.Bind(smsAddr);
+
+//create a message and encoding scheme to be used
+CSmsBuffer* buffer=CSmsBuffer::NewL();
+CSmsMessage* smsMessage=CSmsMessage::NewL(fs, CSmsPDU::ESmsSubmit, buffer);
+CleanupStack::PushL(smsMessage);
+
+TSmsUserDataSettings smsSettings;
+smsSettings.SetAlphabet(TSmsDataCodingScheme::ESmsAlphabet7Bit);
+smsMessage-&gt;SetUserDataSettingsL(smsSettings);
+
+smsMessage-&gt;SetToFromAddressL(KDestination);
+smsMessage-&gt;SmsPDU().SetServiceCenterAddressL(KServiceCentre);
+buffer-&gt;InsertL(0,KSmsMessage);
+
+TRequestStatus status;
+
+RSmsSocketWriteStream writestream(socket);
+
+writestream &lt;&lt; *smsMessage;
+writestream.CommitL();
+
+TPckgBuf&lt;TUint&gt; sbuf;
+socket.Ioctl(KIoctlSendSmsMessage, status, &amp;sbuf, KSolSmsProv);
+User::WaitForRequest(status);
+
+CleanupStack::PopAndDestroy(smsMessage);
+CleanupStack::PopAndDestroy(&amp;socket);
+CleanupStack::PopAndDestroy(&amp;socketServer);
+CleanupStack::PopAndDestroy(&amp;fs);
+</pre> </div> <div id="GUID-314DEC98-B67D-5ADF-B5E7-D96FEAF59455"><h3 class="section-title">Receive SMS example</h3> <pre class="codeblock">
+#include &lt;e32std.h&gt;
+#include &lt;es_sock.h&gt;
+#include &lt;gsmubuf.h&gt;
+#include &lt;gsmumsg.h&gt;
+#include &lt;gsmuset.h&gt;
+#include &lt;smsustrm.h&gt;
+#include &lt;smsuaddr.h&gt;
+
+_LIT(KSmsMessage, "Sample SMS message for illustration");
+_LIT(KDestination,"+44789456123");
+_LIT(KServiceCentre, "+44123456789");
+RFs fs;
+RSocketServ socketServer;
+RSocket socket;
+
+//connect to the file server
+User::LeaveIfError(fs.Connect());
+CleanupClosePushL(fs);
+
+//connect to the socket server
+User::LeaveIfError(socketServer.Connect());
+CleanupClosePushL(socketServer);
+
+//Open a SMS socket
+User::LeaveIfError(socket.Open(socketServer, KSMSAddrFamily, KSockDatagram, KSMSDatagramProtocol));
+CleanupClosePushL(socket);
+
+TSmsAddr smsAddr;
+
+//set the sockets to receive all SMS messages
+smsAddr.SetSmsAddrFamily(ESmsAddrRecvAny);
+
+//Bind the socket
+socket.Bind(smsAddr);
+TRequestStatus status;
+TPckgBuf&lt;TUint&gt; sbuf;
+
+socket.Ioctl(KIOctlSelect,status,&amp;sbuf,KSOLSocket);
+User::WaitForRequest(status);
+CSmsBuffer* buffer=CSmsBuffer::NewL();
+CSmsMessage* smsMessage=CSmsMessage::NewL(fs, CSmsPDU::ESmsSubmit, buffer);
+CleanupStack::PushL(smsMessage);
+
+//read from the stream
+RSmsSocketReadStream readstream(socket);
+
+readstream &gt;&gt; *smsMessage;
+
+socket.Ioctl(KIoctlReadMessageSucceeded, status, &amp;sbuf, KSolSmsProv);
+User::WaitForRequest(status);
+CleanupStack::Pop(smsMessage);    
+
+//clear the contents from buffer
+CleanupStack::PopAndDestroy(smsMessage);
+CleanupStack::PopAndDestroy(&amp;socket);
+CleanupStack::PopAndDestroy(&amp;socketServer);
+CleanupStack::PopAndDestroy(&amp;fs);
+</pre> </div> </div></div></div><div class="footer"><p class="metadata">Last updated January 4th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3D1E5144-00BC-51AF-8887-4C97167E73FB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:06 GMT -->
+</html>

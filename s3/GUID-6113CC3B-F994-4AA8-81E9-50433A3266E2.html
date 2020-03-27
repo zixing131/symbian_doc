@@ -1,0 +1,54 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6113CC3B-F994-4AA8-81E9-50433A3266E2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:58:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Adding and removing toolbar extension items" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-E35887BB-7E58-438C-AA27-97B2CDE7E069_overview-GUID-8C40E993-C9A0-423D-979D-7BB11CE091C1" /><meta name="DC.Relation" scheme="URI" content="GUID-E35887BB-7E58-438C-AA27-97B2CDE7E069_overview-GUID-FA9679A1-6FD7-4FB6-883A-D5719388A2B6" /><meta name="DC.Relation" scheme="URI" content="GUID-B05B61B8-1217-441F-BAFA-C209C8F123C5" /><meta name="DC.Relation" scheme="URI" content="GUID-95CE2206-7AE0-48C0-97A7-4E2082F9F662" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-6113CC3B-F994-4AA8-81E9-50433A3266E2" /><meta name="DC.Language" content="en" /><title>Adding
+and removing toolbar extension items </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-6113CC3B-F994-4AA8-81E9-50433A3266E2">Adding
+and removing toolbar extension items</h1><div>
+<p>The toolbar extension can basically hold the same items as the toolbar
+itself. However, the floating toolbar extension can only have focusable buttons.
+A fixed toolbar extension does not naturally have focus since its parent toolbar
+is not focusing. </p>
+<p>The toolbar extension can have a variable number of items. They are located
+from the upper left (right in mirrored layout) corner. If all items cannot
+fit into the extension, items from the end will be dropped. </p>
+<p>You can add items to the toolbar extension in the similar way as to a toolbar,
+either by defining <code class="codeph">TBAR_CTRL</code> resource structures in the resource
+file or adding the items dynamically by using toolbar extension functions.</p>
+<p>You can also remove items from the extension.</p>
+<p>The example below shows how to add an item to the toolbar extension as
+the first item.</p>
+<pre class="codeblock">void CMyAppView::AddItemAsFirstToToolbarExtensionL()
+    {
+    CAknToolbar* toolbar = Toolbar();
+    if ( toolbar )
+        {
+        CAknToolbarExtension* toolbarExtension = toolbar-&gt;ToolbarExtension();
+        if ( toolbarExtension )
+            {
+            CAknButton* newButton = CAknButton::NewL( R_MYAPP_EXTENSION_BUTTON );
+            // Last parameter tells the index at where to add new item
+            toolbarExtension-&gt;AddItemL( 
+                newButton, EAknCtButton, KExtensionButtonId, 0, 0 );
+            }
+        }
+    }
+</pre>
+<p>The example below shows how to remove an item from the toolbar extension.</p>
+<pre class="codeblock">void CMyAppView::RemoveItemFromToolbarExtensionL()
+    {
+    CAknToolbar* toolbar = Toolbar();
+    if ( toolbar )
+        {
+        CAknToolbarExtension* toolbarExtension = toolbar-&gt;ToolbarExtension();
+        if ( toolbarExtension )
+            {
+            toolbarExtension-&gt;RemoveItemL( KExtensionButtonId );
+            }
+        }
+    }
+</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 28th, 2008</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6113CC3B-F994-4AA8-81E9-50433A3266E2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:58:40 GMT -->
+</html>

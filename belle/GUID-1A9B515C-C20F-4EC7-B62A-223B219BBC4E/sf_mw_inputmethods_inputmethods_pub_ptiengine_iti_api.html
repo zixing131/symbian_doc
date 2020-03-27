@@ -1,0 +1,794 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_inputmethods_inputmethods_pub_ptiengine_iti_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:40 GMT -->
+<head><title>PtiEngine API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i710 i713"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>PtiEngine API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Emulator_support"><span class="tocnumber">1.1.1</span> <span class="toctext">Emulator support</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+<li class="toclevel-2"><a href="#PtiEngine_design"><span class="tocnumber">1.5</span> <span class="toctext">PtiEngine design</span></a></li>
+<li class="toclevel-2"><a href="#User_dictionary"><span class="tocnumber">1.6</span> <span class="toctext">User dictionary</span></a></li>
+<li class="toclevel-2"><a href="#Observer"><span class="tocnumber">1.7</span> <span class="toctext">Observer</span></a></li>
+<li class="toclevel-2"><a href="#Language_databases"><span class="tocnumber">1.8</span> <span class="toctext">Language databases</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Initializing_PtiEngine"><span class="tocnumber">2.1</span> <span class="toctext">Initializing PtiEngine</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Multitapping"><span class="tocnumber">2.1.1</span> <span class="toctext">Multitapping</span></a></li>
+<li class="toclevel-3"><a href="#Predictive"><span class="tocnumber">2.1.2</span> <span class="toctext">Predictive</span></a></li>
+<li class="toclevel-3"><a href="#Numeric"><span class="tocnumber">2.1.3</span> <span class="toctext">Numeric</span></a></li>
+<li class="toclevel-3"><a href="#Pinyin"><span class="tocnumber">2.1.4</span> <span class="toctext">Pinyin</span></a></li>
+<li class="toclevel-3"><a href="#Stroke"><span class="tocnumber">2.1.5</span> <span class="toctext">Stroke</span></a></li>
+<li class="toclevel-3"><a href="#Zhuyin"><span class="tocnumber">2.1.6</span> <span class="toctext">Zhuyin</span></a></li>
+<li class="toclevel-3"><a href="#Pinyin_phrase"><span class="tocnumber">2.1.7</span> <span class="toctext">Pinyin phrase</span></a></li>
+<li class="toclevel-3"><a href="#Zhuyin_phrase"><span class="tocnumber">2.1.8</span> <span class="toctext">Zhuyin phrase</span></a></li>
+<li class="toclevel-3"><a href="#CangJie"><span class="tocnumber">2.1.9</span> <span class="toctext">CangJie</span></a></li>
+<li class="toclevel-3"><a href="#QWERTY"><span class="tocnumber">2.1.10</span> <span class="toctext">QWERTY</span></a></li>
+<li class="toclevel-3"><a href="#Chinese_QWERTY"><span class="tocnumber">2.1.11</span> <span class="toctext">Chinese QWERTY</span></a></li>
+<li class="toclevel-3"><a href="#Japanese_input_modes"><span class="tocnumber">2.1.12</span> <span class="toctext">Japanese input modes</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Entering_text_in_Latin_multitapping_mode"><span class="tocnumber">2.2</span> <span class="toctext">Entering text in Latin multitapping mode</span></a></li>
+<li class="toclevel-2"><a href="#Entering_text_in_Latin_predictive_mode"><span class="tocnumber">2.3</span> <span class="toctext">Entering text in Latin predictive mode</span></a></li>
+<li class="toclevel-2"><a href="#Querying_and_activating_installed_languages"><span class="tocnumber">2.4</span> <span class="toctext">Querying and activating installed languages</span></a></li>
+<li class="toclevel-2"><a href="#Numeric_language"><span class="tocnumber">2.5</span> <span class="toctext">Numeric language</span></a></li>
+<li class="toclevel-2"><a href="#Changing_Input_modes_and_Text_cases"><span class="tocnumber">2.6</span> <span class="toctext">Changing Input modes and Text cases</span></a></li>
+<li class="toclevel-2"><a href="#User_dictionary_"><span class="tocnumber">2.7</span> <span class="toctext">User dictionary_</span></a></li>
+<li class="toclevel-2"><a href="#Keymappings"><span class="tocnumber">2.8</span> <span class="toctext">Keymappings</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>PtiEngine (Predictive Text Engine) API provides low level text input interface
+to applications. Its purpose is to handle all the non-UI related low level
+text input operations and act as an integration layer for third party text
+input engines. The basic use case for PtiEngine is one where it receives a
+sequence of key presses, processes them and returns one or more candidate
+words as a result. It knows what input languages and input methods are available
+in the device and provides the interface for using them.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 5.0
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>ptiengine.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/inputmethods/inputmethods_pub/ptiengine_iti_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/inputmethods/inputmethods_pub/ptiengine_iti_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>PtiEngine API is a single calling point to provide all the low level text
+input functionality. It provides methods for querying and activating installed
+input languages, changing input modes and text cases and performing text input
+operations. The API contains set of methods for Latin based, Chinese and Japanese
+text input. Some of the methods are common to all of those variants. PtiEngine
+also provides access to predictive text input functionality, in case there
+is need to use it directly without standard <span class="plainlinks"><code>CEikEdwin</code> </span>/ FEP
+chain (hence the name 'predictive text input engine') Predictive text engine
+integration is hidden behind PtiCore Plug-in API and is used through PtiEngine
+API.
+</p>
+<a name="Emulator_support"><h4> <span class="mw-headline">1.1.1 Emulator support </span></h4>
+</a><p>This API is fully supported in the WINS/WINSCW emulator environment.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>This API is an SDK API and was first published in S60 release 3.0. This
+document is valid from S60 release 5.1 onwards.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>With PtiEngine API, typical use cases are
+</p>
+<ul><li> Initializing PtiEngine
+</li><li> Entering text in Latin multitapping mode.
+</li><li> Entering text in Latin predictive mode.
+</li><li> Querying and activating installed languages.
+</li><li> Numeric language
+</li><li> Changing input modes and text cases.
+</li><li> User dictionary
+</li><li> Keymappings
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CPtiCore <td><span class="plainlinks"><code>/epoc32/include/mw/PtiCore.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CPtiCoreLanguage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiLanguage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPtiEngine</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiEngine.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPtiHalfQwertyKeyMappings</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiKeyMappings.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPtiKeyMappings</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiKeyMappings.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPtiLanguageDatabase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiLanguageDatabase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPtiMappings</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiKeyMappings.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPtiQwertyKeyMappings</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiKeyMappings.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPtiQwertyKeymappingsExtension</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiKeyMappings.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPtiUserDictionary</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiUserDictionary.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MPtiCore</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiCore.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MPtiCoreInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiDefs.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MPtiEngineCompositionDataInterface</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiCompositionDataIF.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MPtiKeyMappings</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiKeyMappings.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MPtiLanguage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiLanguage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MPtiLanguageDatabase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiLanguageDatabase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MPtiObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MPtiUserDictionary</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiUserDictionary.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MPtiUserDictionaryEntry</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiUserDicEntry.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiAutoSubstBinding</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiDefs.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiCoreBinding</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiLanguage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiCoreInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiDefs.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiKeyMapping</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiKeyMappings.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiKeyMappingsHolder</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiLanguage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiLangDatabaseMapping</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiLanguageDatabase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiLangDatabaseMappingOpaque</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiLanguageDatabase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiLangDatabaseOpaqueBinding</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiLanguageDatabase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiLangName</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiDefs.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiNumericKeyBinding</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiDefs.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiReplacedMapping</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiKeyMappings.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPtiUserDictionaryEntry</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiUserDicEntry.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/PtiUserDicEntry.inl</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/PtiDefs.inl</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/PtiLanguage.inl</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/PtiUids.hrh</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/PtiUserDictionary.inl</code></span>
+</td></tr>
+<a name="PtiEngine_design"><h3> <span class="mw-headline">1.5 PtiEngine design </span></h3>
+</a><p>The class <span class="plainlinks"><code>CPtiEngine</code> </span> implements the PtiEngine client side
+API. It is a thin wrapper class and acts only as an API front-end <span class="plainlinks"><code>CPtiEngine</code> </span> is
+the main class for PtiEngine API. The client application creates an instance
+of this class when it wants to use PtiEngine API. The <span class="plainlinks"><code>CPtiEngine</code> </span> class
+has the following responsibilities:
+</p>
+<ul><li> Maintain the language list
+</li><li> Forward the API function calls to the correct core object depending on
+</li></ul>
+<p>the selected input mode and language
+</p>
+<ul><li> Maintain the list of active user dictionaries (see next chapter) and secondary
+</li></ul>
+<p>core related data files
+</p>
+<ul><li> Below figure shows the main classes of PtiEngine API. The figure shows
+</li></ul>
+<p>logical relations.  In the PtiEngine API, most objects are accessible via
+M mixin classes.  In the plug-in API, C or T counterpart of the corresponding
+M mixin classes are used.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ptiengine_classdiagram.png" title="PtiEngine class diagram"><img alt="PtiEngine class diagram" border="0" height="423" src="images/SPB_10_1_ptiengine_classdiagram.png" width="551" /></a></div>
+<div style="text-align:center"><i>PtiEngine class diagram</i></div>
+<a name="User_dictionary"><h3> <span class="mw-headline">1.6 User dictionary </span></h3>
+</a><p>Typically third party text input engines are delivered with a language
+databases containing a list of the most frequently used words for each language.
+These default language databases are usually optimized to be as small as possible,
+which also means that the number of words in them is more or less limited.
+There are always words (such as names, abbreviations, etc.) that are related
+to a specific user and cannot be included into the default language databases
+by the engine vendor. Prediction engines typically support some kind of user
+dictionary mechanism for expanding default language databases. The PtiEngine
+user dictionary is a set of words that can be dynamically attached to the
+default language database. Once a user dictionary is attached, its entries
+are available as candidates in prediction result data in a same way as the
+entries from the default language databases. Some prediction engines allow
+several user dictionaries to be attached simultaneously.
+</p><p>PtiEngine API supports two kinds of user dictionaries: default and additional.
+The default user dictionary is something that a core object automatically
+loads and sets up when an instance of PtiEngine is created. The client application
+does not need to know the filename or the location for the default user dictionary
+file. Additional user dictionaries can be attached independently using the <span class="plainlinks"><code><font color="darkred">CPtiEngine-&gt;AttachUserDictionary()</font></code> </span> method.
+In that case the client application must know the full name of the user dictionary
+file. There can be as many additional user dictionaries as the core object
+allows (it is possible that none are allowed), but only one default dictionary
+per core object.
+</p><p>The client does not know the location of the default dictionary and if
+client wants to create an additional dictionary, add it to the core, then
+client would know the location of the dictionary that is added.
+</p>
+<a name="Observer"><h3> <span class="mw-headline">1.7 Observer </span></h3>
+</a><p>PtiEngine observer is used for indicating the client application when multitapping
+timer expires, last item in prediction candidate list is reached, first item
+in prediction candidate list is reached. If the client application needs to
+observe PtiEngine, it must inherit the <span class="plainlinks"><code>MPtiObserver</code> </span> interface
+class and call the <span class="plainlinks"><code><font color="darkred">CPtiEngine-&gt;SetObserver()</font></code> </span> method.
+</p>
+<a name="Language_databases"><h3> <span class="mw-headline">1.8 Language databases </span></h3>
+</a><p>Core (third party text input engine) objects may implement their language
+data in any format they wish, PtiEngine also provides a wrapper class for
+scanning, loading and accessing language data. It is recommended that a core
+object uses <span class="plainlinks"><code>MPtiLanguageDatabase</code> </span> interface instead of implementing
+its own. Language database, The default implementation is provided in the
+class <span class="plainlinks"><code>CPtiLanguageDatabase</code> </span>. The core object language database
+implementation should inherit from latter.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>Below are some of the most frequently used methods of PtiEngine explained
+by using use cases.
+</p>
+<a name="Initializing_PtiEngine"><h3> <span class="mw-headline">2.1 Initializing PtiEngine </span></h3>
+</a><p>Predictive Text Input Engine is created and initialized
+by using the following method:
+</p>
+<pre>static CPtiEngine* NewL(TBool aUseDefaultUserDictionary = EFalse)
+</pre>
+<p>When this method is called, it creates an instance of the <span class="plainlinks"><code>CPtiEngine</code> </span> class,
+initializes the default core object and connects it to the <span class="plainlinks"><code>CPtiEngine</code> </span> object.
+The default core object scans available multitapping and QWERTY resource files,
+updates the language list and prepares to handle multitapping, QWERTY and
+numeric input modes. Then it does the ECom plug-in query for other available
+core objects and initializes the found plug-ins in a similar way.
+</p><p>The Boolean parameter <span class="plainlinks"><code><font color="darkred">aUseDefaultUserDictionary</font></code> </span> specifies
+whether core objects are instructed to load and attach their default user
+dictionaries. This parameter applies to all core objects for the whole lifetime
+of the <span class="plainlinks"><code>CPtiEngine</code> </span> instance.
+</p><p>After this method is successfully called, PtiEngine is ready to be used
+but at this point there is not an active language yet, so most of the PtiEngine
+API methods would return an error value (usually <span class="plainlinks"><code>KErrNoActiveLanguage</code> </span>).
+The client application must call the method
+</p>
+<pre>TInt ActivateLanguageL(TInt aEpocLanguageID, TPtiEngineInputMode aMode = EPtiEngineInputModeNone)
+</pre>
+<p>to activate one of the available languages. PtiEngine is set to the <span class="plainlinks"><code><font color="darkred">aMode</font></code> </span> input
+mode. Available input modes are explained in the following sections.
+</p>
+<pre>	CPtiEngine* eng = CPtiEngine::NewL( ETrue );
+	CleanupStack::PushL( eng );
+</pre>
+<pre>	//Active english input with multitapping mode
+	eng-&gt;ActivateLanguageL(ELangEnglish,EPtiEngineMultitapping);
+	.......
+	eng-&gt;CloseCurrentLanguageL();//close the language
+</pre>
+<pre>	CleanupStack::Pop(eng);
+	delete eng;
+</pre>
+<a name="Multitapping"><h4> <span class="mw-headline">2.1.1 Multitapping </span></h4>
+</a><p>The multitapping input mode ( <span class="plainlinks"><code>EPtiEngineMultitapping</code> </span>) implements
+the basic multitapping input for ITU-T keyboard. This is the traditional text
+input mode, where the user may need to press one key several times to input
+the requested character.
+</p>
+<a name="Predictive"><h4> <span class="mw-headline">2.1.2 Predictive </span></h4>
+</a><p>The predictive input mode ( <span class="plainlinks"><code>EPtiEngineMultitapping</code> </span>) implements
+the predictive text input such as T9&#174; or eZiText&#174;. In this input, instead
+of cycling through characters bound to keys, the user presses each key only
+once and Predictive Text Input Engine tries to guess which word the user is
+inputting. Usually Predictive Text Input Engine prepares several candidates
+for each input sequence. The candidates can be queried with the <span class="plainlinks"><code>CPtiEngine</code> </span> methods: GetCandidateListL, GetFirstCandidate, GetNextCandidate, GetPreviousCandidate.
+</p>
+<a name="Numeric"><h4> <span class="mw-headline">2.1.3 Numeric </span></h4>
+</a><p>The numeric input mode ( <span class="plainlinks"><code>EPtiEngineNumeric</code> </span>)
+is a basic input mode for numeric data. It works exactly like the multitapping
+mode, except that key mappings are not loaded from the resource file, but
+are always available in memory. This input mode is always available for each
+language. In addition there is a special language object called numeric language.
+See the section [PtiEngine_API_Specification.topic3.5 Numeric language] for
+more details
+</p>
+<a name="Pinyin"><h4> <span class="mw-headline">2.1.4 Pinyin </span></h4>
+</a><p>The Pinyin input mode ( <span class="plainlinks"><code>EPtiEnginePinyin</code> </span>)
+is a Chinese input method where the user inputs phonetic spellings for Chinese
+characters using Latin characters. Key presses produce a candidate list consisting
+of Pinyin spellings. The user selects one of the Pinyin spellings, which is
+then fed again to the prediction engine. The result is a set of Chinese candidate
+words (a candidate page).
+</p><p>The rest of the pages can be accessed with the following <span class="plainlinks"><code>CPtiEngine</code> </span> methods: CandidatePage, NextCandidatePage, PreviousCandidatePage, and MoreCandidatePages.
+The length of the candidate page can be controlled with the method <span class="plainlinks"><code>SetCandidatePageLength</code> </span>.
+</p>
+<a name="Stroke"><h4> <span class="mw-headline">2.1.5 Stroke </span></h4>
+</a><p>The stroke input mode ( <span class="plainlinks"><code>EPtiEngineStroke</code> </span>) is a Chinese
+input method where the user builds Chinese characters from a set of strokes.
+Key presses produce a string of stroke characters, which is passed to prediction
+engine. The list of Chinese candidate characters is produced as a result.
+S60 supports the 6-stroke version.
+</p>
+<a name="Zhuyin"><h4> <span class="mw-headline">2.1.6 Zhuyin </span></h4>
+</a><p>The Zhuyin input mode ( <span class="plainlinks"><code>EPtiEngineZhuyin</code> </span>) is a Chinese
+input method, where the user enters a string of Zhuyin symbols. That string
+is passed to prediction engine and a list of Chinese candidate characters
+is produced as a result. Since there are more Zhuyin symbols than keys in
+a normal ITU-T keypad, Zhuyin symbols are entered by using the multitapping
+method. Illegal Zhuyin characters are rejected and the user is allowed to
+enter only valid combinations.
+</p>
+<a name="Pinyin_phrase"><h4> <span class="mw-headline">2.1.7 Pinyin phrase </span></h4>
+</a><p>The Pinyin phrase input ( <span class="plainlinks"><code>EPtiEnginePinyinByPhrase</code> </span>)
+is essentially the same as regular the Pinyin input, except that the user
+may enter several Pinyin words. Candidates can be fetched either by using
+the <span class="plainlinks"><code><font color="darkred">GetcandidatePage()</font></code> </span> method (as with regular Pinyin) or
+by using <span class="plainlinks"><code><font color="darkred">GetChinesePhraseCandidates()</font></code> </span>. The latter method
+returns all candidates in a single table.
+</p>
+<a name="Zhuyin_phrase"><h4> <span class="mw-headline">2.1.8 Zhuyin phrase </span></h4>
+</a><p>The Zhuyin phrase input ( <span class="plainlinks"><code>EPtiEngineZhuyinByPhrase</code> </span>) is
+essentially the same as the regular Zhuyin input, except that Zhuyin symbols
+are entered by using QWERTY keyboard.
+</p>
+<a name="CangJie"><h4> <span class="mw-headline">2.1.9 CangJie </span></h4>
+</a><p>The CangJie input is separated to three different input
+modes:
+</p>
+<ul><li> <span class="plainlinks"><code>EPtiEngineNormalCangjieQwerty</code> </span> implements normal CangJie
+</li></ul>
+<p>input.
+</p>
+<ul><li> <span class="plainlinks"><code>EPtiEngineEasyCangjieQwerty</code> </span> implements easy CangJie input.
+</li><li> <span class="plainlinks"><code>EPtiEngineAdvCangjieQwerty</code> </span> implements advanced CangJie
+</li></ul>
+<p>input.
+</p>
+<a name="QWERTY"><h4> <span class="mw-headline">2.1.10 QWERTY </span></h4>
+</a><p>The QWERTY input mode ( <span class="plainlinks"><code>EPtiEngineQwerty</code> </span>)
+implements the basic QWERTY input mode for Latin-like languages. Basic functionality
+of Latin QWERTY input is very simple. The client calls the <span class="plainlinks"><code>CPtiEngine::AppendKeyPress</code> </span> method
+and PtiEngine appends a new character to the input buffer according to the
+current key mappings. In addition to normal upper and lower test cases, there
+are two extra case definitions: <span class="plainlinks"><code>EPtiCaseChrLower</code> </span> and <span class="plainlinks"><code>EPtiCaseChrUpper</code> </span>.
+They are needed for the Chr-key functionality and when either of them is activated
+(by calling <span class="plainlinks"><code>CPtiEngine::SetCase</code> </span>) consecutive key presses
+cycle through accented characters associated to that key.
+</p><p>Another QWERTY related special case is the dead key
+functionality. A dead key does not produce any character initially when pressed,
+but when a suitable key is pressed next, the character associated to the second
+key is appended to the buffer in accented form. If the second key is not able
+to produce any accented form associated to the first key, then both the dead
+key root character and the character for second key are appended to the buffer.
+PtiEngine client should prepare to handle a situation in which a single key
+press produces two characters.
+</p><p>Dead key functionality variation is implemented for
+Vietnamese QWERTY. Vietnamese input specification specifies certain vowel
+sequences, where two consecutive key presses are combined into one character.
+The vowel sequences are not defined in key mapping data, but handled as hardcoded
+special case in QWERTY key mapping handler.
+</p>
+<a name="Chinese_QWERTY"><h4> <span class="mw-headline">2.1.11 Chinese QWERTY </span></h4>
+</a><p>The following input modes are defined for Chinese QWERTY:
+</p>
+<ul><li> <span class="plainlinks"><code>EPtiEngineZhuyinQwerty</code> </span> for the Zhuyin QWERTY mode.
+</li><li> <span class="plainlinks"><code>EPtiEngineZhuyinPhraseQwerty</code> </span> for the Zhuyin QWERTY phrase
+</li></ul>
+<p>mode.
+</p>
+<ul><li> <span class="plainlinks"><code>EPtiEnginePinyinQwerty</code> </span> for the Pinyin QWERTY mode.
+</li><li> <span class="plainlinks"><code>EPtiEnginePinyinPhraseQwerty</code> </span> for the Pinyin QWERTY phrase
+</li></ul>
+<p>mode.
+</p>
+<ul><li> <span class="plainlinks"><code>EPtiEngineStrokeQwerty</code> </span> for the Stroke QWERTY mode.
+</li></ul>
+<a name="Japanese_input_modes"><h4> <span class="mw-headline">2.1.12 Japanese input modes </span></h4>
+</a><p>The following input modes are defined for Japanese input:
+</p>
+<ul><li> <span class="plainlinks"><code>EPtiEngineHiraganaKanji</code> </span> for the Hiragana/Kanji mode.
+</li><li> <span class="plainlinks"><code>EPtiEngineHiraganaKanjiPredictive</code> </span> for the predictive
+</li></ul>
+<p>Hiragana/Kanji mode.
+</p>
+<ul><li> <span class="plainlinks"><code>EPtiEngineKatakana</code> </span> for the half-width Katakana mode.
+</li><li> <span class="plainlinks"><code>EPtiEngineFullWidthKatakana</code> </span> for the full-width Katakana
+</li></ul>
+<p>mode.
+</p>
+<ul><li> <span class="plainlinks"><code>EPtiEngineFullWidthNumeric</code> </span> for the full-width numeric.
+</li><li> <span class="plainlinks"><code>EPtiEngineFullWidthAlphabet</code> </span> for the full-width alphabet
+</li></ul>
+<p>mode.
+</p>
+<a name="Entering_text_in_Latin_multitapping_mode"><h3> <span class="mw-headline">2.2 Entering text in Latin multitapping mode </span></h3>
+</a><p>The multitapping input mode ( <span class="plainlinks"><code>EPtiEngineMultitapping</code> </span>) implements
+the basic multitapping input for ITU-T keyboard. This is the traditional text
+input mode, where the user may need to press one key several times to input
+the requested character. The basic use case for inputting one character is
+presented in next figure .
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_multitapping.png" title="Inputting one character"><img alt="Inputting one character" border="0" height="330" src="images/SPB_10_1_multitapping.png" width="531" /></a></div>
+<div style="text-align:center"><i>Inputting one character</i></div>
+<p>The below code fragment shows how to input text "dog" to PtiEngine using
+multitapping input mode.
+</p>
+<pre> 	CPtiEngine* eng = CPtiEngine::NewL();
+ 	CleanupStack::PushL(eng);
+</pre>
+<pre> 	....
+ 	eng-&gt;ActivateLanguageL(ELangEnglish, EPtiEngineMultitapping);
+ 	eng-&gt;AppendKeyPress(EPtiKey3);
+ 	eng-&gt;AppendKeyPress(EPtiKey6);
+ 	eng-&gt;AppendKeyPress(EPtiKey6);
+ 	eng-&gt;AppendKeyPress(EPtiKey6);
+ 	eng-&gt;AppendKeyPress(EPtiKey4);
+ 	TBuf&lt;100&gt; temp;
+ 	temp.Copy(eng-&gt;CurrentWord()); // At this point temp would contain word "dog"
+ 	....
+</pre>
+<pre> 	eng-&gt;CloseCurrentLanguageL();
+</pre>
+<pre> 	CleanupStack::Pop(eng);
+ 	delete eng;
+</pre>
+<a name="Entering_text_in_Latin_predictive_mode"><h3> <span class="mw-headline">2.3 Entering text in Latin predictive mode </span></h3>
+</a><p>The predictive input mode ( <span class="plainlinks"><code>EPtiEngineMultitapping</code> </span>) implements
+the predictive text input. In this input, instead of cycling through characters
+bound to keys, the user presses each key only once and Predictive Text Input
+Engine tries to guess which word the user is inputting. Usually Predictive
+Text Input Engine returns several candidates for each input sequence. The
+basic use case for entering one key and returning the topmost candidate for
+it is presented in next figure.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_prediction.png" title="Candidate for input"><img alt="Candidate for input" border="0" height="390" src="images/SPB_10_1_prediction.png" width="596" /></a></div>
+<div style="text-align:center"><i>Candidate for input</i></div>
+<p>The below code fragment shows how to input text "this" to PtiEgine using
+predictive input mode.
+</p>
+<pre> 	CPtiEngine* eng = CPtiEngine::NewL();
+	CleanupStack::PushL(eng);
+</pre>
+<pre>	....
+	eng-&gt;ActivateLanguageL(ELangEnglish, EPtiEnginePredictive);
+	eng-&gt;AppendKeyPress(EPtiKey8);
+	eng-&gt;AppendKeyPress(EPtiKey4);
+ 	eng-&gt;AppendKeyPress(EPtiKey4);
+ 	eng-&gt;AppendKeyPress(EPtiKey7);
+ 	TBuf&lt;100&gt; temp;
+ 	temp.Copy(eng-&gt;CurrentWord()); // At this point temp would contain(depending on the underlying engine) word "this".
+ 	temp.Copy(eng-&gt;NextCandidate()); // Move on to next candidate.
+ 	eng-&gt;CommitCurrentWord(); // Tell engine that current word was accepted.
+ 	....
+ 	eng-&gt;CloseCurrentLanguageL();
+</pre>
+<pre> 	CleanupStack::Pop(eng);
+ 	delete eng;
+</pre>
+<a name="Querying_and_activating_installed_languages"><h3> <span class="mw-headline">2.4 Querying and activating installed languages </span></h3>
+</a><p>PtiEngine can query for the list of installed languages and can activate
+any of the installed languages with a particular input mode. The client application
+must call the method
+</p>
+<pre>TInt ActivateLanguageL(TInt aEpocLanguageID, TPtiEngineInputMode aMode = EPtiEngineInputModeNone)
+</pre>
+<p>to activate one of the available languages. If <span class="plainlinks"><code>ActivateLanguageL</code> </span> is
+called without passing any <span class="plainlinks"><code>TPtiEngineInputMode</code> </span>(default mode
+is <span class="plainlinks"><code>EPtiEngineInputModeNone</code> </span>), client has to call <span class="plainlinks"><code>SetInputMode</code> </span> separately
+to set the desired input mode.
+</p>
+<pre>	CPtiEngine* eng = CPtiEngine::NewL( ETrue );
+	CleanupStack::PushL( eng );
+</pre>
+<pre>	if ( eng-&gt;NumberOfLanguages() )
+		{
+		RArray&lt;TInt&gt; languages;
+	  eng-&gt;GetAvailableLanguagesL( languages );
+	   ........
+</pre>
+<pre>    	// see if finnish language is there in list of available input languages and if "yes", activate finnish input.
+ 		for(TInt i=0;i&lt;languages.Count();i++)
+			{
+			if(languages(i) ==ELangFinnish)
+				{
+				eng-&gt;ActivateLanguageL(ELangFinnish,EPtiEngineMultitapping);
+				........
+				eng-&gt;CloseCurrentLanguageL();
+				}
+			}
+		languages.Close();
+  		}
+</pre>
+<pre>  CleanupStack::Pop(eng);
+  delete eng;
+</pre>
+<a name="Numeric_language"><h3> <span class="mw-headline">2.5 Numeric language </span></h3>
+</a><p>When Predictive Text Input Engine is initialized, it
+creates a special language object called numeric language and adds it to the
+list of available languages. The numeric language is for those clients who
+wish to use the numeric input mode without activating a real language. The
+numeric language implements only one input mode, <span class="plainlinks"><code>EPtiEngineNumeric</code> </span>.
+The numeric language is excluded from the list of available languages returned
+by the <span class="plainlinks"><code>GetAvailableLangugesL</code> </span> method. It is also excluded
+from the value returned by the <span class="plainlinks"><code>NumberOfLanguages</code> </span> method.
+However it is possible to get access to the numeric language via the <span class="plainlinks"><code>GetLanguage</code> </span> method.
+The numeric language has the language code <span class="plainlinks"><code>ELangNumeric</code> </span> and
+can be activated as follows:
+</p>
+<pre> 	CPtiEngine* eng = CPtiEngine::NewL();
+ 	CleanupStack::PushL(eng);
+</pre>
+<pre> 	....
+ 	eng-&gt;ActivateLanguageL(ELangNumeric, EPtiEngineNumeric);
+ 	eng-&gt;AppendKeyPress(EPtiKey8);
+ 	eng-&gt;AppendKeyPress(EPtiKey4);
+ 	eng-&gt;AppendKeyPress(EPtiKey2);
+ 	eng-&gt;AppendKeyPress(EPtiKey7);
+ 	TBuf&lt;100&gt; temp;
+ 	temp.Copy(eng-&gt;CurrentWord());// At this point the temp will contain "8427"
+</pre>
+<pre> 	eng-&gt;CloseCurrentLanguageL();
+</pre>
+<pre> 	CleanupStack::Pop(eng);
+ 	delete eng;
+</pre>
+<a name="Changing_Input_modes_and_Text_cases"><h3> <span class="mw-headline">2.6 Changing Input modes and Text cases </span></h3>
+</a><p>The client can change the input mode when ever there is a need for specific
+input mode. For example, if the user wants to activate the multitapping predictive
+mode, that can be done using the following method.
+</p>
+<pre>CPtiEngine::SetInputMode(TPtiEngineInputMode aMode);
+</pre>
+<pre>//Here aMode can be one of the modes found in enum TPtiEngineInputMode of PtiDefs.h
+</pre>
+<p>In the same way client can change the text case between lower and upper
+when ever there is a need using the method below.
+</p>
+<pre>IMPORT_C void CPtiEngine::SetCase(TPtiTextCase  aCase);
+</pre>
+<pre>	//Here aCase could either be EPtiCaseUpper or EPtiCaseLower.
+</pre>
+<pre> 	//Code fragment on how to change the Text Case:
+</pre>
+<pre> 	CPtiEngine* eng = CPtiEngine::NewL();
+ 	CleanupStack::PushL(eng);
+</pre>
+<pre> 	....
+ 	eng-&gt;ActivateLanguageL(ELangEnglish, EPtiEngineMultitapping);
+ 	eng-&gt;SetCase(EPtiCaseUpper);
+ 	eng-&gt;AppendKeyPress(EPtiKey3);
+ 	eng-&gt;AppendKeyPress(EPtiKey6);
+ 	eng-&gt;AppendKeyPress(EPtiKey6);
+ 	eng-&gt;AppendKeyPress(EPtiKey6);
+ 	eng-&gt;AppendKeyPress(EPtiKey4);
+ 	TBuf&lt;100&gt; temp;
+ 	temp.Copy(eng-&gt;CurrentWord()); // At this point temp would contain word "DOG"
+ 	....
+</pre>
+<pre>	eng-&gt;CloseCurrentLanguageL();
+</pre>
+<pre> 	CleanupStack::Pop(eng);
+ 	delete eng;
+</pre>
+<a name="User_dictionary_"><h3> <span class="mw-headline">2.7 User dictionary_ </span></h3>
+</a><p>The PtiEngine user dictionary is a set of words that can be dynamically
+attached to the default language database. Once a user dictionary is attached,
+its entries are available as candidates in prediction result data in a same
+way as the entries from the default language databases. Some prediction engines
+allow several user dictionaries to be attached simultaneously. For more details,
+refer to User dictionary section of API Description. The below code fragment
+shows how to add a user dictionary to default language database. The support
+for adding additional user dictionary is entirely depends up on the core that
+supports that current language and input mode. But each core will have a default
+dictionary to which words can be added using API <span class="plainlinks"><code>AddUserDictionaryEntry</code> </span>,
+and pointer to default user dictionary for current language can be get by
+using API <span class="plainlinks"><code>DefaultUserDictionary</code> </span> of <span class="plainlinks"><code>CPtiEngine</code> </span>.
+</p>
+<pre>	CPtiEngine* eng = CPtiEngine::NewL();
+</pre>
+<pre>	CleanupStack::PushL(eng);
+  eng-&gt;ActivateLanguageL(ELangEnglish, EPtiEngineMultitapping);
+</pre>
+<pre>  CDesCArrayFlat* words = new (ELeave) CDesCArrayFlat(5);
+  CleanupStack::PushL( words );
+  words-&gt;AppendL(_L("lorem"));
+  words-&gt;AppendL(_L("ipsum"));
+  words-&gt;AppendL(_L("dolor"));
+ 	words-&gt;AppendL(_L("sit"));
+  TBuf&lt;50&gt; filename(_L("C:\\data\\TempUDB\\TestUserDictFile.txt"));
+</pre>
+<pre>  RFs fsSession;
+  User::LeaveIfError( fsSession.Connect() );
+  CleanupClosePushL( fsSession );
+</pre>
+<pre>  RFile file;
+  CleanupClosePushL(file);
+  if ( file.Open( fsSession, filename, EFileWrite | EFileShareAny ) != KErrNone )
+		{
+    	file.Create( fsSession, filename, EFileWrite | EFileShareAny );
+		}
+</pre>
+<pre>  file.Close();
+  CleanupStack::PopAndDestroy(2); //file , fsSession
+</pre>
+<pre>  TInt err  = eng-&gt;CreateUserDictionaryL(filename, words, EPtiEnginePredictive);
+  CleanupStack::PopAndDestroy(words);  //words
+</pre>
+<pre>  // The above call will add the words "lorem",ipsum","dolor",and "sit" to the user dictonary.
+  if(KErrNone == err)
+		{
+		MPtiUserDictionary* dict = eng-&gt;AttachUserDictionaryL(filename);
+</pre>
+<pre>    //The above call will attach the created user dictonary to the current core.From now onwards ,     the above 4 words will be
+    //predicted by the current active core.
+    if(dict)
+			{
+       TFileName msg;
+       TPtiUserDictionaryEntry entry(_L("amet"));
+       eng-&gt;AddUserDictionaryEntry(entry,dict-&gt;Id());  //The above call will add "amet" to the user 				dictonary ,so it will be predicted from now on.
+       //the prediction engine will start predicting the above added words   ....
+       eng-&gt;RemoveEntryFromUserDictionary(entry,dict-&gt;Id());  //The above call will remove "amet" 			from the user dictornary,so it will not be predicted anymore.
+</pre>
+<pre>       eng-&gt;DetachUserDictionary(filename);
+       //Above call detaches the dictonery from the current core.
+</pre>
+<pre>       }
+</pre>
+<pre>		}
+	eng-&gt;CloseCurrentLanguageL();
+  CleanupStack::Pop(eng);
+  delete eng;
+</pre>
+<a name="Keymappings"><h3> <span class="mw-headline">2.8 Keymappings </span></h3>
+</a><p><span class="plainlinks"><code>CPtiKeyMappings</code> </span> class can be used to get the data that
+is mapped to a particular key ( <span class="plainlinks"><code>TPtiKey</code> </span>) with a particular
+case ( <span class="plainlinks"><code>TPtiTextCase</code> </span>) and input mode ( <span class="plainlinks"><code>TPtiEngineInputMode</code> </span>).
+Call the function <span class="plainlinks"><code>StartMapping</code> </span> to get the first character
+that is mapped to the particular key and then call <span class="plainlinks"><code>NextKey</code> </span> to
+get the subsequent mapped characters. We can replace the data that is mapped
+to a particular key by using the <span class="plainlinks"><code>ReplaceKeyMapL</code> </span> function.
+Next subsequent <span class="plainlinks"><code>StartMapping</code> </span>, or <span class="plainlinks"><code>NextKey</code> </span> calls
+for that key returns the newly mapped characters.
+</p>
+<pre>	CPtiEngine* eng = CPtiEngine::NewL();
+	CleanupStack::PushL(eng);
+</pre>
+<pre>	eng-&gt;ActivateLanguageL(ELangEnglish, EPtiEngineMultitapping);
+</pre>
+<pre>	CPtiKeyMappings * keyMappings = dynamic_cast &lt; CPtiKeyMappings* &gt; (dynamic_cast &lt; CPtiCoreLangua	ge* &gt;(eng-&gt;CurrentLanguage())-&gt;GetKeymappings());
+</pre>
+<pre>	TBool isAppend;
+	TUint16 key = keyMappings-&gt;StartMapping(EPtiKey2,EPtiCaseLower,EPtiEngineMultitapping); // retur	ns the first character that is mapped to EPtiKey2 'a'
+	TUint16 key1 = keyMappings-&gt;NextKey(EPtiKey2,isAppend,EPtiCaseLower);    // returns the next cha	racter that is mapped to EPtiKey2 'b'
+</pre>
+<pre>	TBuf&lt;20&gt; beforeReplace;
+	keyMappings-&gt;GetDataForKey(EPtiKey2,beforeReplace,EPtiCaseLower); // gets the first 20 characters 	that are mapped to EPtiKey2 for lower case "abc2...."
+</pre>
+<pre>	_LIT(KNewMapLower, "def");
+	TBuf&lt;5&gt; lowerMap(KNewMapLower);
+	keyMappings-&gt;ReplaceKeyMapL(EPtiKey2,lowerMap,EPtiCaseLower); // replaces the data that is mapped 	to EPtiKey2 for lower case
+</pre>
+<pre>	TUint16 key2 = keyMappings-&gt;StartMapping(EPtiKey2,EPtiCaseLower,EPtiEngineMultitapping);// retur	ns the first character that is mapped to EPtiKey2 'd'
+	TUint16 key3 = keyMappings-&gt;NextKey(EPtiKey2,isAppend,EPtiCaseLower); // returns the first chara	cter that is mapped to EPtiKey2 'e'
+</pre>
+<pre>	TBuf&lt;20&gt; afterReplace;
+	keyMappings-&gt;GetDataForKey(EPtiKey2,beforeReplace,EPtiCaseLower);  // gets the first 20 characte	rs that are mapped to EPtiKey2 for lower case "def"
+</pre>
+<pre>	eng-&gt;CloseCurrentLanguageL();
+</pre>
+<pre>	eng-&gt;ActivateLanguageL(ELangEnglish, EPtiEngineHalfQwerty);
+</pre>
+<pre>	CPtiHalfQwertyKeyMappings * keyHalfQwertyMappings = dynamic_cast&lt; CPtiHalfQwertyKeyMappings*&gt; (d	ynamic_cast&lt; CPtiCoreLanguage* &gt;(eng-&gt;CurrentLanguage())-&gt;GetHalfQwertyKeymappings());
+</pre>
+<pre>	TUint16 key4 = keyHalfQwertyMappings-&gt;StartMapping(EPtiKeyQwertyA,EPtiCaseFnLower,EPtiEngineHalf	Qwerty);
+	// returns the first functionalized character that is mapped to EPtiKeyQwertyA '?'
+</pre>
+<pre>	eng-&gt;CloseCurrentLanguageL();
+</pre>
+<pre>	CleanupStack::Pop(eng);
+	delete eng;
+</pre>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><p>The following are the abbreviations and definitions used in this document.
+</p>
+<a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<tr bgcolor="gray">
+<th></th><th> Description
+</th></tr>
+<tr>
+<td> FEP</td><td> Front End Processor
+</td></tr>
+<tr>
+<td> UI</td><td> User Interface
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> <b> Definition</b>
+</td><td> <b> Description</b>
+</td></tr>
+<tr>
+<td> PtiEngine</td><td> Predictive Text Input Engine
+</td></tr>
+<tr>
+<td> Multitapping</td><td> The conventional text input method for mobile
+<p>phones where often several key presses are required to insert a single character.
+</p>
+</td></tr>
+<tr>
+<td> Predictive text input</td><td> Text input method where the text input software
+<p>tries to guess the correct words simultaneously when the user is typing them.
+Its purpose is to decrease the number of required key presses and to make
+text input faster and easier.
+</p>
+</td></tr>
+<tr>
+<td> Input sequence</td><td> The sequence of key presses. Predictive Text
+<p>Input Engine may produce several candidate words for a single input sequence.
+</p>
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_inputmethods_inputmethods_pub_ptiengine_iti_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:44 GMT -->
+</html>

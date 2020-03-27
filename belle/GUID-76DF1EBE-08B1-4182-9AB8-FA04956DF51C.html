@@ -1,0 +1,163 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-76DF1EBE-08B1-4182-9AB8-FA04956DF51C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Setting up a Bluetooth Connection" /><meta name="abstract" content="This tutorial describes how to enable a Bluetooth connection using the AIW Service API. This API also enables applications to register for callback notifications when a phone comes in contact with another phone and gets paired successfully." /><meta name="description" content="This tutorial describes how to enable a Bluetooth connection using the AIW Service API. This API also enables applications to register for callback notifications when a phone comes in contact with another phone and gets paired successfully." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-76DF1EBE-08B1-4182-9AB8-FA04956DF51C" /><meta name="DC.Language" content="en" /><title>Setting up a Bluetooth Connection  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-76DF1EBE-08B1-4182-9AB8-FA04956DF51C">Setting up a Bluetooth Connection </h1><div><p>This tutorial describes how to enable a Bluetooth connection
+using the AIW Service API. This API also enables applications to register
+for callback notifications when a phone comes in contact with another
+phone and gets paired successfully.</p>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-7F76B8D2-A684-47BD-8384-4CDD705E5400"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-7F76B8D2-A684-47BD-8384-4CDD705E5400"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-7F76B8D2-A684-47BD-8384-4CDD705E5400"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-7F76B8D2-A684-47BD-8384-4CDD705E5400"><!-- --></a><p>Define an <code class="codeph">AIW_INTEREST</code> resource element in the application using <code class="codeph">F</code> as the service command and <code class="codeph">KAiwClassBase</code> as the service class:</p>
+<pre class="codeblock">RESOURCE AIW_INTEREST r_example_app_aiw_nfc_bt_interest
+{
+    items =
+        {
+        AIW_CRITERIA_ITEM
+            {
+            id              = 200002;
+            serviceCmd      = KAiwCmdNFCEasySetup;
+            contentType     = "*";            
+            serviceClass    = KAiwClassBase;
+            maxProviders    = 1;
+            }
+        };
+ }
+</pre>
+</li>
+<li id="GUID-F760EE9F-A1AB-4B46-8BC0-CA6930019669"><a name="GUID-F760EE9F-A1AB-4B46-8BC0-CA6930019669"><!-- --></a><p>Register
+Bluetooth pairing callbacks using any of the following ways:</p>
+<ul>
+<li><p>Run the <code class="codeph">KAiwCmdNFCEasySetup</code> service command
+with <code class="codeph">KAiwOptASyncronous</code> as the only parameter:</p><pre class="codeblock">iAiwServiceHandler = CAiwServiceHandler::NewL();
+iAiwServiceHandler-&gt;AttachL( R_EXAMPLE_APP_AIW_NFC_BT_INTEREST );
+iAiwServiceHandler-&gt;ExecuteServiceCmdL( KAiwCmdNFCEasySetup,
+                                        iAiwServiceHandler-&gt;InParamList(),
+                                        iAiwServiceHandler-&gt;OutParamListL(), 
+                                        KAiwOptASyncronous,
+                                        this );
+</pre></li>
+<li>Call the <code class="codeph">ExecuteServiceCmdL</code> method without any
+optional parameter (value 0). When one phone comes in contact with
+another and before a time-out occurs, the <code class="codeph">ExecuteServiceCmdL</code> method sets up a Bluetooth connection between the two phones.<pre class="codeblock">iAiwServiceHandler-&gt;ExecuteServiceCmdL( KAiwCmdNFCEasySetup,
+                                        iAiwServiceHandler-&gt;InParamListL(),
+                                        iAiwServiceHandler-&gt;OutParamListL(), 
+                                        0,
+                                        this );
+</pre><p><strong>Note</strong>: The previous service commands must be
+canceled before <code class="codeph">ExecuteServiceCmdL</code> is called.</p></li>
+</ul>
+</li>
+<li id="GUID-BEDF98E8-F382-4E91-977D-570C5AA51AE5"><a name="GUID-BEDF98E8-F382-4E91-977D-570C5AA51AE5"><!-- --></a><p>Implement
+the <code class="codeph">MAiwNotifyCallback::HandleNotifyL</code> method to receive
+callback notifications when the two NFC enabled devices are held together
+and the Bluetooth information have been exchanged between the devices.
+To start the Bluetooth Out-Of-Band (OOB) pairing, call <code class="codeph">ExecureServiceCmdL()</code> after the <code class="codeph">KAiwEventStarted</code> event has been received.
+If the pairing (that is authenticated Bluetooth link) is not required, <code class="codeph">Reset()</code> must be called when receiving the <code class="codeph">KAiwEventStarted</code> event.</p>
+<pre class="codeblock">TInt CExampleApplication::HandleNotifyL(
+
+TInt aCmdId,
+TInt aEventId,
+CAiwGenericParamList&amp; /*aEventParamList*/,
+const CAiwGenericParamList&amp; /*aInParamList*/ )
+  {
+  If ( aCmdId == KAiwCmdNFCEasySetup )
+      {
+      if ( aEventId == KAiwEventStarted )
+          {
+          // aEventParamList contains information about the other device
+          // Start OOB pairing by calling ExecuteServiceCmdL another time.
+          // If pairing is not needed, Reset should be called already here.
+          iAiwServiceHandler-&gt;ExecuteServiceCmdL( KAiwCmdNFCEasySetup, 
+              iAiwServiceHandler-&gt;InParamListL(),
+              iAiwServiceHandler-&gt;OutParamListL(),
+              KAiwOptASyncronous, this );
+				 }
+      else if ( aEventId == KAiwEventCompleted )
+          {
+          // Easy Setup completed – release touch 
+          iAiwServiceHandler-&gt;Reset();
+          }
+      else // KAiwEventError
+          {
+          // In case of easy setup failure release must be done
+          // For preparation failure resetting is not necessary
+          iAiwServiceHandler-&gt;Reset();
+          }
+      }
+    
+  return KErrNone;
+</pre>
+<p>In <code class="codeph">KAiwEventStarted</code> event <code class="codeph">aEventParamList</code> contains a buffer with information about the device that was touched.
+The information in the buffer may contain multiple item, the type
+of each defined by the first byte of the item:</p><p></p><div class="tablenoborder"><a name="GUID-ACBBB68C-67A0-4E61-AFF2-0F6C2D9A8789"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-ACBBB68C-67A0-4E61-AFF2-0F6C2D9A8789" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="39.5%" id="d0e428859"><p>Item identifier byte</p></th>
+<th class="cellrowborder" valign="top" width="60.5%" id="d0e428863"><p>Item description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="39.5%" headers="d0e428859 "><p>0x00</p></td>
+<td class="cellrowborder" valign="top" width="60.5%" headers="d0e428863 "><p>RFU</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="39.5%" headers="d0e428859 "><p>0x01</p></td>
+<td class="cellrowborder" valign="top" width="60.5%" headers="d0e428863 "><p>Bluetooth information</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="39.5%" headers="d0e428859 "><p>0x02 </p></td>
+<td class="cellrowborder" valign="top" width="60.5%" headers="d0e428863 "><p><code class="codeph">KpeerDeviceNameEasyDataType</code>: It contains
+the length of the device name and the name itself. For example: </p><pre class="codeblock">20:02:45.841 ....0x2 // KPeerDeviceNameEasyDataType 
+20:02:45.841 ....0xb // devicename length 11 
+20:02:45.841 ....0x4e // N 
+20:02:45.841 ....0x6f // o 
+20:02:45.841 ....0x6b // k 
+20:02:45.841 ....0x69 // i 
+20:02:45.841 ....0x61 // a 
+20:02:45.841 ....0x20 // space 
+20:02:45.841 ....0x43 // C 
+20:02:45.841 ....0x37 // 7 
+20:02:45.841 ....0x2d // - 
+20:02:45.841 ....0x30 // 0 
+20:02:45.841 ....0x30 // 0 
+</pre></td>
+</tr>
+</tbody>
+</table></div><p>Format of the Bluetooth information item is following:</p><div class="tablenoborder"><a name="GUID-03BFC94E-76D1-48C8-AE91-BD516965AEED"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-03BFC94E-76D1-48C8-AE91-BD516965AEED" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e428924"><p>Field</p></th>
+<th class="cellrowborder" valign="top" id="d0e428928"><p>Length</p></th>
+<th class="cellrowborder" valign="top" id="d0e428932"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e428924 "><p>Device address</p></td>
+<td class="cellrowborder" valign="top" headers="d0e428928 "><p>6 bytes</p></td>
+<td class="cellrowborder" valign="top" headers="d0e428932 "><p>Bluetooth address of the target device</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e428924 "><p>Device class</p></td>
+<td class="cellrowborder" valign="top" headers="d0e428928 "><p>3 bytes</p></td>
+<td class="cellrowborder" valign="top" headers="d0e428932 "><p>Device class of the target device</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e428924 "><p>Device name length</p></td>
+<td class="cellrowborder" valign="top" headers="d0e428928 "><p>1 byte</p></td>
+<td class="cellrowborder" valign="top" headers="d0e428932 "><p>Length of the device name in bytes</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e428924 "><p>Device name</p></td>
+<td class="cellrowborder" valign="top" headers="d0e428928 "><p>n bytes</p></td>
+<td class="cellrowborder" valign="top" headers="d0e428932 "><p>Device name of the target device</p></td>
+</tr>
+</tbody>
+</table></div>
+</li>
+</ol>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 11th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-76DF1EBE-08B1-4182-9AB8-FA04956DF51C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:15 GMT -->
+</html>

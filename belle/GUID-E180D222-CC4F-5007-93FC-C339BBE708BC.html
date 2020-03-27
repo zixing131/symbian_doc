@@ -1,0 +1,362 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E180D222-CC4F-5007-93FC-C339BBE708BC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:03 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Client MTM" /><meta name="DC.Relation" scheme="URI" content="GUID-59217FA7-3078-53CA-88B3-78D6FB788271" /><meta name="DC.Relation" scheme="URI" content="GUID-BAD138D5-2914-5C6E-9FA4-F7A3CCB85E6D" /><meta name="DC.Relation" scheme="URI" content="GUID-1E2DB50A-D8D7-595D-8448-77F057655E82" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-44CF5471-564E-5790-935B-51193A4978D6" /><meta name="DC.Relation" scheme="URI" content="GUID-8B843382-D27A-5E36-8F60-304903F3AA41" /><meta name="DC.Relation" scheme="URI" content="GUID-400E4702-973A-5CAC-9F9C-3A10121F856A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC" /><meta name="DC.Language" content="en" /><title>Client MTM </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC">Client MTM</h1><div>
+<p>Client MTMs provide a client-side API to functionality provided
+by the Server MTM, mainly for message manipulation and transport.
+It acts as the interface between the internal representation of a
+message’s data and the User Interface (UI) MTM. This architecture
+provides certain advantages; for example, a UI MTM can offer a user
+interface to enter message addresses without knowing the address storage
+format. Message client applications that do not require a user interface
+can use these client-side functions directly for automated message
+handling. </p>
+<p>The Message Server entry with which Client MTMs currently work
+is referred to as the context. UI MTMs always operate on the contexts
+set through Client MTMs. </p>
+<p>Client MTMs offer some or all of the following capabilities: </p>
+<ul>
+<li id="GUID-4327B533-04C0-5110-B8AD-90EC90C73D32"><a name="GUID-4327B533-04C0-5110-B8AD-90EC90C73D32"><!-- --></a><p>Address list
+manipulation </p> </li>
+<li id="GUID-FC4908FC-5958-5815-90EB-D601B4710247"><a name="GUID-FC4908FC-5958-5815-90EB-D601B4710247"><!-- --></a><p>Creation of
+forward and response messages </p> </li>
+<li id="GUID-CF8196EB-1C40-50D0-86AA-0F2C954CBC5D"><a name="GUID-CF8196EB-1C40-50D0-86AA-0F2C954CBC5D"><!-- --></a><p>Message subject
+access </p> </li>
+<li id="GUID-51B25D57-A577-5375-9DD6-D398C8B860A8"><a name="GUID-51B25D57-A577-5375-9DD6-D398C8B860A8"><!-- --></a><p>Message validation </p> </li>
+<li id="GUID-4345AB18-2096-5312-955D-EACE72DCA52F"><a name="GUID-4345AB18-2096-5312-955D-EACE72DCA52F"><!-- --></a><p>Internalising
+and externalising MTM-specific data to the Message Store </p> </li>
+</ul>
+<div id="GUID-BCFBE2C5-2C90-5E43-9B21-0D80A469CEAB"><h3 class="section-title">Client
+MTM base class</h3> <p>The base class for Client MTMs is <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html"><code class="apiname">CBaseMtm</code></a> which provides a high-level interface for accessing
+and manipulating a Message Server entry </p> <p>The following are
+some significant functions in <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html"><code class="apiname">CBaseMtm</code></a>. Some functions
+are implemented by the base class, and others must be implemented
+in a derived class: </p> <ul>
+<li id="GUID-8E6AB26D-BDD2-5D5E-BEDD-5371EE86834D"><a name="GUID-8E6AB26D-BDD2-5D5E-BEDD-5371EE86834D"><!-- --></a><p> <strong>Context
+functions</strong> </p> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-00C140DE-012F-3785-A628-E8D1330438B8"><code class="apiname">CBaseMtm::SetCurrentEntryL</code></a> <code class="codeph">(CMsvEntry                 *)</code> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-016A5DFD-5C88-3531-A5F3-456884CAC041"><code class="apiname">CBaseMtm::SwitchCurrentEntryL</code></a> <code class="codeph">(TMsvId)</code> functions change the Message Server entry
+(the context) on which later actions are performed. After creating
+a new Client MTM object, a message client application must set an
+initial context before using other functions. </p> </li>
+<li id="GUID-1E3E98F7-FBBF-5594-A7EF-93D7106FD3D3"><a name="GUID-1E3E98F7-FBBF-5594-A7EF-93D7106FD3D3"><!-- --></a><p> <strong>Store and
+restore entry data functions</strong> </p> <p>The changes that a message
+client application makes to a message context through Client MTM functions,
+such as altering the body text obtained through <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-072E627F-8AB4-3C90-AD48-A5AF6A39581B"><code class="apiname">CBaseMtm::Body()</code></a>, are, for efficiency, cached in memory by a Client MTM. The message
+store (SaveMessageL())and restore (LoadMessageL()), functions are concerned with transferring data between that cache
+and committed storage. </p> <p> <strong>Note:</strong> Unlike message contexts,
+message client applications are not expected to manipulate directly
+contexts for message services. Instead, the corresponding <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html"><code class="apiname">User</code></a> Interface MTM provides a dialog to allow the user
+to alter service settings, and calls Client MTM functions to handle
+their retrieval and storage. </p> </li>
+<li id="GUID-A0FDCB02-3C4E-5CB0-A374-61C89889621B"><a name="GUID-A0FDCB02-3C4E-5CB0-A374-61C89889621B"><!-- --></a><p> <strong>Store and
+restore body text functions</strong> </p> <p>The base class maintains
+a private CRichText object cache to store the body
+text for the current context. This can be accessed for reading and
+writing by message client applications through <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-072E627F-8AB4-3C90-AD48-A5AF6A39581B"><code class="apiname">CBaseMtm::Body()</code></a>. The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-A036C34A-EFB9-3E98-983B-0DFF1EE8CD85"><code class="apiname">CBaseMtm::StoreBodyL()</code></a> <code class="codeph">(CMsvStore
+&amp;)</code> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-43AF1C02-C435-3450-A549-8AECE9F6CAB0"><code class="apiname">CBaseMtm::RestoreBodyL()</code></a> <code class="codeph">(CMsvStore &amp;)</code> functions encapsulate the retrieval and
+storage of this CRichText object to a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html"><code class="apiname">CMsvStore</code></a>. </p> </li>
+<li id="GUID-B44CFD8D-DB97-5A4D-B876-EA04D464A5B1"><a name="GUID-B44CFD8D-DB97-5A4D-B876-EA04D464A5B1"><!-- --></a><p> <strong>Address
+list functions</strong> </p> <p>The format and storage of message addresses
+is MTM-specific. The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-51A8768D-684A-3668-98BF-AB88D676DEB5"><code class="apiname">CBaseMtm::AddresseeList()</code></a> <code class="codeph">const</code>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-D3DFE444-DB84-331C-BC3F-AB12E148CD00"><code class="apiname">CBaseMtm::AddAddresseeL</code></a> <code class="codeph">(const TDesC &amp;)</code>, and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-770E749C-BA7F-3F31-B7B8-F2C21F4F06A1"><code class="apiname">CBaseMtm::RemoveAddressee</code></a> <code class="codeph">(TInt)</code> allow clients to access address information
+in a generic way without having MTM-specific knowledge. </p> </li>
+<li id="GUID-F1E2AAD3-41E0-522A-B7AC-7090EE823807"><a name="GUID-F1E2AAD3-41E0-522A-B7AC-7090EE823807"><!-- --></a><p> <strong>MTM-specific
+client functions</strong> </p> <p>MTM components can offer protocol-specific
+functionality not provided by base class interface functions. MTM
+components define IDs that correspond to each protocol-specific operation
+offered, and implement the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-A5B6CDAC-7C02-35F4-840E-35932B438FD8"><code class="apiname">CBaseMtm::InvokeSyncFunctionL()</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-05327221-98A9-35FA-BD28-D6323BE449D1"><code class="apiname">CBaseMtm::InvokeAsyncFunctionL()</code></a> functions
+to allow clients to access these operations by passing in the appropriate
+ID. These functions are provided to allow the MTM component to offer
+both synchronous and asynchronous functionality. Message client applications
+can dynamically add user-interface features for these operations using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-899C6D87-5712-34A7-902C-EA452894700C.html#GUID-75DE35D7-4738-38C0-9BFA-A066F67B114B"><code class="apiname">CBaseMtmUiData::MtmSpecificFunctions()</code></a>. </p> </li>
+<li id="GUID-A4A3ED85-EAC5-58BC-BB40-E40949A84B66"><a name="GUID-A4A3ED85-EAC5-58BC-BB40-E40949A84B66"><!-- --></a><p> <strong>Query function</strong> </p> <p>The Client MTM QueryCapability() function
+is used to inquire whether an MTM supports a given feature. The first
+argument is a UID defined to correspond to a particular capability.
+The function returns a system error code and the response (whether
+the MTM supports the queried capability) is passed back through the
+second (by-reference)<code class="codeph">aResponse</code> parameter. This value
+can be an integer or a bit set, depending on the capability. </p> <p>The UIDs for the different types of query are as follows: </p> <div class="tablenoborder"><a name="GUID-6ADE624E-8B18-58F9-9386-79A75E72E0C7"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-6ADE624E-8B18-58F9-9386-79A75E72E0C7" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e370302">UID</th>
+<th class="cellrowborder" valign="top" id="d0e370305">Capability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph">KUidMsvMtmQueryMaxBodySize</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Maximum message body size </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph">KUidMtmQueryMaxTotalMsgSize</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Maximum total size of message. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph"> KUidMtmQuerySupportedBody</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Character widths supported by message type. The returned
+value is the sum of the appropriate values. The return type is either
+of KMtm7BitBody, KMtm8BitBody, KMtm16BitBody, and KMtmBinaryBody) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph"> KUidMtmQuerySupportAttachments</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>To check if the attachments are supported </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph">KUidMtmQuerySupportSubject</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Does the MTM message type have a subject field </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph"> KUidMtmQuerySupportsFolder</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Does the MTM support folders </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph"> KUidMtmQueryOffLineAllowed</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Off-line operation allowed </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph">KUidMtmQueryCanSendMsg</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Can send the message </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph">KUidMtmQueryCanReceiveMsg</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Can receive the message </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph">KUidMtmQueryMaxRecipientCount</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Maximum number of recipients (-1 indicates unlimited numbers). </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph">KUidMtmQuerySendAsRequiresRenderedImage</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>When using the MTM in Send As, does a rendered image have
+to be prepared. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph"> KUidMtmQuerySendAsRenderingUid</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Printer driver UID for rendering the fax image. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph">KUidMsvMtmQueryEditorUid</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>UID of default message editor. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph">KUidMsvQuerySupportsBioMsg</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Does the MTM support BIO messages </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph"> KUidMsvQuerySupportsScheduling</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Does the MTM support scheduled sending. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph">KUidMtmQuerySupportsRecipientType</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Does the MTM support the use of recipient type. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e370302 "><p> <code class="codeph">KUidMtmQuerySendAsMessageSendSupport</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e370305 "><p>Support for Sending messages using SendAs. </p> <p>If this
+is supported, then the MTM supports sending messages created through
+the SendAs API. </p> </td>
+</tr>
+</tbody>
+</table></div> <pre class="codeblock">TInt CTextMtmClient::QueryCapability(TUid aCapability, TInt&amp; aResponse)
+    {
+    TInt error = KErrNone;
+    switch (aCapability.iUid)
+        {
+        case KUidMtmQueryMaxBodySizeValue:
+        case KUidMtmQueryMaxTotalMsgSizeValue:
+            aResponse = KMaxTextMessageSize;
+            break;
+        case KUidMtmQuerySupportedBodyValue:
+            aResponse = KMtm8BitBody + KMtm7BitBody;
+            break;
+        case KUidMtmQueryOffLineAllowedValue:
+        case KUidMtmQueryCanReceiveMsgValue:
+            aResponse = ETrue;
+            break;
+        case KUidMtmQuerySupportAttachmentsValue:
+        default:
+            return KErrNotSupported;
+        }
+    return error;
+    }
+</pre> </li>
+</ul> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html"><code class="apiname">CBaseMtm</code></a> class provides the virtual
+functions for overriding in derived classes. </p> </div>
+<div id="GUID-6DD0912E-1E82-5BAD-889C-5FA79E5E800C"><h3 class="section-title">Client-side
+operations</h3> <p>Many Messaging tasks can take a long time to
+complete. For example, sending all items from the Outbox or downloading
+a large number of items from a POP3 server. In these situations, the
+use of active objects to wait for the completion of the task is inadequate,
+since applications also require to obtain progress information while
+the task is running (for example, to update a progress dialog). To
+solve this problem, most asynchronous functions in Messaging create
+a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html"><code class="apiname">CMsvOperation</code></a> object and return a pointer to
+it, as well as taking a <code class="codeph">TRequestStatus&amp;</code> parameter.
+The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html"><code class="apiname">CMsvOperation</code></a> class is derived from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">CActive</code></a> and is used to obtain progress information about
+a long-running task. </p> <p>The base class for all client-side Messaging
+operations is <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html"><code class="apiname">CMsvOperation</code></a>. The asynchronous methods
+in the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html"><code class="apiname">CBaseMtm </code></a> interface all return a pointer
+to a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html"><code class="apiname">CMsvOperation</code></a> object. When you implement an
+MTM, you will have to provide your own custom operations, derived
+from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html"><code class="apiname">CMsvOperation</code></a>, and return those polymorphically
+from your implementations of the asynchronous APIs. </p> <p><strong>Example</strong> </p> <p>The forward operation of the Text MTM is explained in the
+following example. </p> <p>The forward operation is an active object
+state machine that runs a series of asynchronous tasks one after another
+and waits for each to complete before moving on to the next. After
+the operation has been completed, an active object is notified through
+its <code class="codeph">TRequestStatus</code> passed into the operation at construction. </p> <p>The forward operation is constructed using standard two-phase
+construction. The NewL() function takes two arguments
+of a TMsvId (source message and destination folder)
+type, a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DA04D96-F0AD-3FDC-9E36-1C27D889AF4B.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DA04D96-F0AD-3FDC-9E36-1C27D889AF4B.html"><code class="apiname">CMsvSession</code></a> reference, and the observer’s <code class="codeph">TRequestStatus</code>, which is notified on completion. The active
+object is constructed and added to the scheduler, and then ConstructL() is called: </p> <pre class="codeblock">void CTxtMtmForwardOperation::ConstructL()
+    {
+    iObserverRequestStatus = KRequestPending;
+    SetActive();
+    TRequestStatus* stat = &amp;iStatus;
+    User::RequestComplete(stat, KErrNone);
+    }
+</pre> <p>This has the effect of marking this stage of the operation
+as complete and means that RunL() is called at
+the next opportunity. This simplifies the state machine because it
+means that all states and tasks are started in RunL() and not in ConstructL(). </p> <p>The RunL() function starts each task and receives a notification
+when it completes. The current task being executed is stored in iProgress and iState, as are the errors
+and the ID of the new forwarded message, once complete. The default
+state for iState on construction is <code class="codeph">EInit</code>. </p> <pre class="codeblock">void CTxtMtmForwardOperation::RunL()
+    {
+    User::LeaveIfError(iStatus.Int());
+    switch(iProgress.iState)
+        {        
+        case TTxtMtmForwardOpProgress::EInit:
+            iProgress.iState =
+               TTxtMtmForwardOpProgress::ECreateMessage;
+            CreateMessageL();
+            break;
+
+        case TTxtMtmForwardOpProgress::ECreateMessage:
+            iProgress.iState =
+               TTxtMtmForwardOpProgress::EFormatBodyText;
+            FormatBodyTextL();
+            break;
+
+        case TTxtMtmForwardOpProgress::EFormatBodyText:
+            iProgress.iState =
+               TTxtMtmForwardOpProgress::EFinished;
+        
+        default:
+            break;
+        }
+    if(!IsActive())
+        {
+        TRequestStatus* stat = &amp;iObserverRequestStatus;
+        User::RequestComplete(stat, KErrNone);
+        }
+    }
+</pre> <p>If the state is <code class="codeph">EInit</code>, the RunL() changes state to <code class="codeph">ECreateMessage</code> and then calls CreateMessageL() to start the
+process of creating a message asynchronously. </p> <pre class="codeblock">void CTxtMtmForwardOperation::CreateMessageL()
+    {
+</pre> <p>The function constructs a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-85BBE389-81F7-3E2F-A789-446D9BE2CC49.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-85BBE389-81F7-3E2F-A789-446D9BE2CC49.html"><code class="apiname">CMsvEntry</code></a> for the source entry and then retrieves its index entry. </p> <pre class="codeblock">delete iMsvEntry;
+    iMsvEntry = NULL;
+    iMsvEntry = iMsvSession.GetEntryL(iSourceMessage);
+        
+    // Get the entry to be forwarded    
+    TMsvEntry forwardEntry = iMsvEntry-&gt;Entry();
+</pre> <p>The context of iMsvEntry is changed
+to the destination folder and an entry is created. </p> <pre class="codeblock">// Set the context to the destination folder
+    iMsvEntry-&gt;SetEntryL(iDestinationFolder);
+</pre> <p>The index entry’s date is updated to reflect the current
+date. </p> <pre class="codeblock">// Create the forwarded index entry
+    forwardEntry.iDate.HomeTime();
+    iMsvEntry-&gt;CreateL(forwardEntry);
+</pre> <p>The iFinalMsgId member of the progress
+is updated to reflect the newly created entry. </p> <pre class="codeblock">iProgress.iFinalMsgId = forwardEntry.Id();
+
+    // schedules the active object to complete so that this 
+    // class's RunL method
+    // will be called by the active scheduler
+    SetActive();
+</pre> <p>The operation’s <code class="codeph">TRequestStatus</code> is
+then flagged to cause RunL(). </p> <pre class="codeblock">TRequestStatus* stat = &amp;iStatus;
+    User::RequestComplete(stat, KErrNone);
+     }
+</pre> <p>When this happens,<code class="codeph"> iProgress.iState</code> is set to <code class="codeph">ECreateMessage</code>, so the following code
+is executed: </p> <pre class="codeblock">case TTxtMtmForwardOpProgress::ECreateMessage:
+    iProgress.iState =        TTxtMtmForwardOpProgress::EFormatBodyText;
+    FormatBodyTextL();
+    break;</pre> <p>The state is set to <code class="codeph">EFormatBodyText</code> and the FormatBodyTextL() function is called. </p> <pre class="codeblock">
+void CTxtMtmForwardOperation::FormatBodyTextL()
+   { 
+</pre> <p>The function constructs a CParaFormatLayer, a CCharFormatLayer, and a CRichText object. These objects are required to store the body text of the
+forwarded message. </p> <pre class="codeblock">CParaFormatLayer* paraLayer = CParaFormatLayer::NewL();
+   CleanupStack::PushL(paraLayer);
+   CCharFormatLayer* charLayer = CCharFormatLayer::NewL();
+   CleanupStack::PushL(charLayer);
+   CRichText* body = CRichText::NewL(paraLayer, charLayer);
+   CleanupStack::PushL(body);
+</pre> <p>Then the context of <code class="codeph">iMsvEntry</code> is
+changed to point at the source message and a read-only <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html"><code class="apiname">CMsvStore</code></a> is opened for that entry. </p> <pre class="codeblock">// Get the message store from the source entry
+   iMsvEntry-&gt;SetEntryL(iSourceMessage);
+   CMsvStore* readStore = iMsvEntry-&gt;ReadStoreL();
+   CleanupStack::PushL(readStore);</pre> <p>The context of the iMsvEntry object is changed to point at the newly created
+entry and a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html"><code class="apiname">CMsvStore</code></a> is opened for that entry. </p> <pre class="codeblock">// Get the message store from the newly created destination 
+   // entry
+   iMsvEntry-&gt;SetEntryL(iProgress.iFinalMsgId);
+   CMsvStore* writeStore = iMsvEntry-&gt;EditStoreL();
+   CleanupStack::PushL(writeStore);
+
+   // Get the body text from the source entry and write it
+   // to the destination entry, prepending the forward 
+   // prefix
+   readStore-&gt;RestoreBodyTextL(*body);
+   body-&gt;InsertL(0, KTxtMtmFwdPrefix);
+
+     // this method performs a commit for us
+   writeStore-&gt;StoreBodyTextL(*body);
+ 
+   CleanupStack::PopAndDestroy(5, paraLayer); 
+
+   // schedules the active object to complete so that this 
+   // class's RunL method
+   // will be called by the active scheduler
+   SetActive();
+   TRequestStatus* stat = &amp;iStatus;
+   User::RequestComplete(stat, KErrNone);
+   }
+</pre> <p>The <code class="codeph">iProgress.iState</code> is set to <code class="codeph">EFinished</code>, and because the object has not been activated
+the following conditional statement evaluates true: </p> <pre class="codeblock">if(!IsActive())
+    {
+    TRequestStatus* stat = &amp;iObserverRequestStatus;
+    User::RequestComplete(stat, KErrNone);
+    }
+</pre> <p>The observer active object’s <code class="codeph">TRequestStatus</code> is flagged to let it know that the operation is complete. </p> <p>To return progress from the operation, implement the ProgressL() and FinalProgress() functions. ProgressL() must be used to return progress information on the operation during
+processing, and FinalProgress() is guaranteed to
+return the status of a completed operation. ProgressL() must be implemented to leave with <code class="codeph">KErrNotReady</code> if
+the operation is not in progress, and FinalProgress() must panic if the operation is not complete. </p> <pre class="codeblock">const TDesC8&amp; CTxtMtmForwardOperation::ProgressL()
+            {
+            if (!IsActive())
+                        {
+                        User::Leave(KErrNotReady);
+                        }
+   iProgressBuf() = iProgress;
+   return iProgressBuf;
+   }
+
+const TDesC8&amp; CTxtMtmForwardOperation::FinalProgress()
+            {
+    __ASSERT_ALWAYS(!IsActive(), User::Panic(KTxtCPanic,
+                            ETxtcOperationIsActive));
+            iProgressBuf() = iProgress;
+   return iProgressBuf;
+   }</pre> <p>The RunError() function must
+also be implemented to get any leaves in RunL(). </p> <pre class="codeblock">TInt CTxtMtmForwardOperation::RunError(TInt aError)
+    {
+    iProgress.iError = aError;    
+    TRequestStatus* stat = &amp;iObserverRequestStatus;
+    User::RequestComplete(stat, aError);
+    return KErrNone;
+    }</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-59217FA7-3078-53CA-88B3-78D6FB788271.html">MTM
+overview</a></li><li><a href="GUID-BAD138D5-2914-5C6E-9FA4-F7A3CCB85E6D.html">MTM
+Capabilities</a></li></ul><h3>Related tasks</h3><ul><li><a href="GUID-1E2DB50A-D8D7-595D-8448-77F057655E82.html">Writing
+a Client MTM</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 17th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E180D222-CC4F-5007-93FC-C339BBE708BC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:03 GMT -->
+</html>

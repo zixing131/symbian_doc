@@ -1,0 +1,214 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E3F3FA3D-FE16-429A-8BE0-35267C5DE72B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:12 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Understanding Symbian platform security" /><meta name="abstract" content="Platform security is the collective name for a group of technologies whose primary function is to control application access to data and system services." /><meta name="description" content="Platform security is the collective name for a group of technologies whose primary function is to control application access to data and system services." /><meta name="DC.Relation" scheme="URI" content="GUID-AB3D07E6-83C9-4948-A13F-75A65498F444" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-2CA5C27E-A526-4B26-941B-85F0B32E1FFA" /><meta name="DC.Relation" scheme="URI" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E3F3FA3D-FE16-429A-8BE0-35267C5DE72B" /><meta name="DC.Language" content="en" /><title>Understanding Symbian platform security </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E3F3FA3D-FE16-429A-8BE0-35267C5DE72B">Understanding Symbian platform security</h1><div><p>Platform security is the collective name for a group of
+technologies whose primary function is to control application access
+to data and system services.</p>
+<p>Platform security gives the user confidence that an application
+can only do the things it claims it needs to do. For example, a simple
+game may be refused network access or access to a user’s personal
+data.</p>
+<div class="p">There are three interrelated components of platform security:<ol>
+<li id="GUID-9B2854C8-395E-463D-87A4-739322128102"><a name="GUID-9B2854C8-395E-463D-87A4-739322128102"><!-- --></a><p>The capability
+model: this says that every process on the device runs with a set
+of capabilities. Access to certain system services and resources is
+only permitted by processes that possess specific capabilities. </p></li>
+<li id="GUID-32B0E14C-028B-46B7-B43D-089F13995373"><a name="GUID-32B0E14C-028B-46B7-B43D-089F13995373"><!-- --></a><p>Process identity: </p><ul>
+<li><p>Every independently certified EXE on the device has a globally
+unique secure identifier. All servers are able to examine the identifier
+of their client processes, so a server may know exactly which EXE
+is requesting a given service. </p></li>
+<li><p>Every independently certified EXE on the device may have a
+vendor identifier that securely identifies the organization that created
+it.</p></li>
+</ul></li>
+<li id="GUID-1B15B224-929C-4961-845A-FA14EB136C0E"><a name="GUID-1B15B224-929C-4961-845A-FA14EB136C0E"><!-- --></a><p>Data caging:
+different parts of the file system are restricted, so only processes
+with specific capability sets, or secure identifiers, can read and/or
+write particular directories.</p></li>
+</ol></div>
+<div id="GUID-DC82C683-4BB9-4A64-896E-974AAB812B05"><h3 class="section-title">User
+and system capabilities</h3><p>Every binary in the system has a
+capability field that defines the capabilities it has requested at
+build time. The capability field is a bitfield in which each bit represents
+a single capability. Each capability is logically independent of all
+the others, so having any one capability does not imply ownership
+of any other, and there is no logical hierarchy of capabilities.</p><p>Capabilities are divided into user and system capabilities. User
+capabilities are designed to be meaningful to the end user. They are
+defined for activities that could cost the user money (such as using
+the network) or violate their privacy (such as accessing the address
+book). Users can be given the option to grant these capabilities to
+an application.</p><p>The list of user capabilities can vary depending
+on the specific security policy chosen by the device manufacturer,
+but the following capabilities are typically user grantable:</p><ul>
+<li><p>NetworkServices: the ability to make phone calls, send e-mails,
+and so on.</p></li>
+<li><p>LocalServices: the ability to use short-link network services
+such as Bluetooth.</p></li>
+<li><p>ReadUserData: the ability to read the user’s private data.</p></li>
+<li><p>WriteUserData: the ability to modify or create the user’s private
+data.</p></li>
+<li><p>Location: get access to the device’s location.</p></li>
+<li><p>UserEnvironment: access to information about the user’s environment,
+including the ability to record audio and use the camera.</p></li>
+</ul><p>System capabilities are not expected to be meaningful to the
+end user, so users are not given the option to grant them. Some system
+capabilities allow access to services at a lower level than user capabilities,
+thereby providing backdoor access to activities already protected
+by a user capability. For example, direct access to comms device drivers
+could provide a backdoor to access the network, and direct access
+to application private data could provide a backdoor to access user
+data. Additional capabilities are defined for activities that could
+affect the integrity of the system as a whole, and for certain other
+quite specialized activities such as digital rights management.</p><div class="p">A subset of system capabilities is given below:<ul>
+<li><p>ReadDeviceData: the ability to read system settings (such as
+IAP settings).</p></li>
+<li><p>WriteDeviceData: the ability to modify or create system settings.</p></li>
+<li><p>CommDD: access to communication device drivers.</p></li>
+<li><p>DRM: access to content protected by some form of digital rights
+management.</p></li>
+<li><p>AllFiles: read access to all file system, and write access
+to application private data.</p></li>
+<li><p>TCB: read and write access to the part of the file system where
+binaries are stored. TCB stands for 'trusted computing base'. The
+TCB capability enables the code possessing it to assign any set of
+capabilities to any binary on the device. So TCB-capable code is able
+to subvert the whole security model, and must be trusted to the highest
+degree.</p></li>
+</ul><strong>Capability example</strong></div><p>Most capability checks take place
+when an application makes a request of a server. The server can find
+out the capabilities of their clients, and use this to decide whether
+or not to service a request. This decision can sometimes depend on
+the values of the request parameters, as in the following code fragment
+that creates a file server session and attempts to read from the z:\sys
+directory.</p><pre class="codeblock">// Create a file server session.
+RFs fs;
+User::LeaveIfError( fs.Connect() );
+
+// Add the session to the cleanup stack
+// before calling a leaving function.
+CleanupClosePushL( fs );
+
+// Retrieve information about directory contents into a CDir object.
+// The call to GetDir() instantiates the CDir.
+_LIT( KDirectory, "Z:\\sys" );
+CDir* dir = 0;
+User::LeaveIfError( fs.GetDir(KDirectory, KEntryAttMaskSupported, ESortNone, dir) );
+
+// Add the CDir to the cleanup stack.
+CleanupStack::PushL( dir );
+
+// Use the CDir to retrieve information about
+// the directory contents.
+...
+
+// Clean up.
+CleanupStack::PopAndDestroy( 2, &amp;fs );</pre><div class="p">As \sys is
+a protected directory this code will fail the file server's capability
+check if it is run from an application without the AllFiles capability.
+The server will complete the request with a <code class="codeph">KErrPermissionDenied</code> error code (-46). To resolve the error you request the AllFiles
+capability in the application's project file (.pro):<pre class="codeblock">symbian {
+   ...
+   TARGET.CAPABILITY += AllFiles
+}</pre>The requested capability is not user grantable, so the
+application developer needs to interact with the <a href="http://www.symbiansigned.com/" target="_blank">Symbian Signed</a> certification process.</div><p><strong>DLL capabilities</strong></p><p>DLLs
+also have capabilities, represented in the same way and referring
+to the same privileges. Note that the capabilities of a DLL do not
+affect the capabilities of the process that loads it: process capabilities
+are entirely defined by the capabilities of the EXE.</p><p>The rule
+for DLL capabilities is: a binary cannot load any DLL that has fewer
+capabilities than itself. This ensures an EXE can trust that the code
+it is linking to will not abuse the privileges derived from the EXE.
+The DLL is trusted not to abuse the privilege it has been granted,
+and so may safely be loaded into processes running with that capability
+level. The rule is enforced by the program loader.</p></div>
+<div id="GUID-1B679A3F-1893-4214-B575-2550F5B0753D"><h3 class="section-title">Process
+identity</h3><p>Every EXE in the system contains a 32-bit secure
+identifier value, referred to as the SID. A SID cannot be changed.
+When an EXE is launched, the SID is copied from the EXE into the process.
+If the same EXE is launched multiple times, all the processes will
+have the same SID.</p><p>You can specify the SID of an application
+using the <code class="codeph">TARGET.SID</code> variable in the project file.
+More commonly a SID is not explicitly specified. In this case the
+value of the SID defaults to the same as the value of the <code class="codeph">TARGET.UID3</code> variable.</p><p>There is a protected range of
+SIDs (from 0x00000000 to 0x7FFFFFFF) that is managed by <a href="http://www.symbiansigned.com/" target="_blank">Symbian Signed</a>. EXEs that contain SIDs in the protected range must be signed by
+an approved authority (this is enforced by the software installer
+at install time). This means that code running on the device can be
+assured that protected SIDs were properly assigned from the global
+SID-space. So protected SIDs are globally unique, and can be used
+to identify individual applications.</p><p>If an application has a
+secure identifier in the protected range, the system is able to protect
+it from other applications. This means that it can store private data
+in its own private directory that is inaccessible to other applications,
+that other applications are not able to impersonate it, and that other
+application install packages are not able to alter it. Note that processes
+with the AllFiles capability can access private directories belonging
+to other applications. However, AllFiles is only granted to very trusted
+applications.</p></div>
+<div id="GUID-26718EF0-864F-49DD-AF4C-D8665F7173E2"><h3 class="section-title">Data
+caging</h3><p>Data caging is the term used to describe the practice
+of restricting access to certain parts of the file system. Data caging
+protects read-only resources from accidental or intentional modification
+by unauthorized code, and provides each EXE with its own private data
+area.</p><p>Data caging is enforced by the file server on a per-directory
+basis. The following top-level directories have some restrictions
+placed on them:</p><div class="p"><div class="tablenoborder"><a name="GUID-23BFAF3F-6ACF-48E6-85AE-08EE0374575C"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-23BFAF3F-6ACF-48E6-85AE-08EE0374575C" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="10.776942355889725%" id="d0e29298">Directory</th>
+<th class="cellrowborder" valign="top" width="15.288220551378448%" id="d0e29301">Capabilities required for read access </th>
+<th class="cellrowborder" valign="top" width="15.288220551378448%" id="d0e29304">Capabilities required for write access</th>
+<th class="cellrowborder" valign="top" width="58.64661654135338%" id="d0e29307">Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="10.776942355889725%" headers="d0e29298 ">\sys\</td>
+<td class="cellrowborder" valign="top" width="15.288220551378448%" headers="d0e29301 ">AllFiles </td>
+<td class="cellrowborder" valign="top" width="15.288220551378448%" headers="d0e29304 ">TCB </td>
+<td class="cellrowborder" valign="top" width="58.64661654135338%" headers="d0e29307 ">All binaries are stored under \sys\bin\. The loader will only
+load binaries from this location. Hashes of binaries stored on removable
+media are stored under \sys\hash\. </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="10.776942355889725%" headers="d0e29298 ">\resource\ </td>
+<td class="cellrowborder" valign="top" width="15.288220551378448%" headers="d0e29301 ">None</td>
+<td class="cellrowborder" valign="top" width="15.288220551378448%" headers="d0e29304 ">TCB</td>
+<td class="cellrowborder" valign="top" width="58.64661654135338%" headers="d0e29307 ">Read-only resources (such as bitmaps) go here. </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="10.776942355889725%" headers="d0e29298 ">\private\</td>
+<td class="cellrowborder" valign="top" width="15.288220551378448%" headers="d0e29301 ">AllFiles, or a SID equal to the subdirectory name </td>
+<td class="cellrowborder" valign="top" width="15.288220551378448%" headers="d0e29304 ">AllFiles, or a SID equal to the subdirectory name </td>
+<td class="cellrowborder" valign="top" width="58.64661654135338%" headers="d0e29307 ">Application private data storage.  This contains a subdirectory
+for each EXE that requires it: the directory name is the SID of the
+EXE, for example: \private\101f7663\. </td>
+</tr>
+</tbody>
+</table></div></div><p><strong>Data caging and removable media</strong></p><div class="p">Binaries
+can be stored on removable cards. If the card is inserted into a reader
+attached to a PC, we could directly alter the capabilities inside
+the binaries. To prevent this, when binaries are installed to a removable
+drive, the installer calculates a hash of the binary, and stores the
+hash on the internal drive, under \sys\hash\. Then when the loader
+loads any binary from a removable drive, it recalculates the hash
+of the binary and checks that it matches the hash retrieved from the
+internal \sys\hash\ directory. If it doesn’t match, it fails to load.
+So: <ul>
+<li><p>Any binaries on removable media that have not been through
+the installer will not be run, because the hash will not be found. </p></li>
+<li><p>Any binaries on removable media that have been altered post-install
+will not be run, because the hash will not match.</p></li>
+</ul></div></div>
+<div id="GUID-45654D36-C161-41DB-99DD-E9D7DC086DBB"><h3 class="section-title">Copyright
+note</h3>This topic is based with permission on a Symbian Foundation
+wiki article <cite>Platform Security</cite> which is part of the series <cite>The Fundamentals of Symbian C++</cite>. The version used was that
+available at <a href="http://developer.symbian.org/" target="_blank">http://developer.symbian.org/</a> on 3 November 2010. The content in this page is licensed
+under the Creative Commons Attribution-Share Alike 2.0 UK: England
+&amp; Wales License (<a href="http://creativecommons.org/licenses/by-sa/2.0/uk" target="_blank">http://creativecommons.org/licenses/by-sa/2.0/uk</a>).<p></p></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-AB3D07E6-83C9-4948-A13F-75A65498F444.html">Security</a><div class="linkdesc">This section provides information about the platform security
+architecture.</div></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 19th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E3F3FA3D-FE16-429A-8BE0-35267C5DE72B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:12 GMT -->
+</html>

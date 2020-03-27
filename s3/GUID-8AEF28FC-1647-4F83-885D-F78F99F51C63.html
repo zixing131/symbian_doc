@@ -1,0 +1,42 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8AEF28FC-1647-4F83-885D-F78F99F51C63.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:11:46 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="FindME: LBS" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-7F476137-5E7F-5288-9F4A-6C20F0A1AD9B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-8AEF28FC-1647-4F83-885D-F78F99F51C63" /><meta name="DC.Language" content="en" /><title>FindME: LBS </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-8AEF28FC-1647-4F83-885D-F78F99F51C63">FindME: LBS</h1><div>
+<p>The application prints the latitude and longitude of the smartphone
+onto the screen demonstrating how to use the LBS API with GPS. The
+example is the same for mobile phones with either internal or external
+GPS as the API automatically searches for an internal GPS receiver
+once started and if none is found it then searches for an external
+receiver by initiating a Bluetooth discovery session. </p>
+<p>A client application has to set up a connection to the LBS server
+by calling <code class="codeph">RPosition-Server::Connect()</code>to enable it
+to retrieve positional information. Then the client must initiate
+a subsession to the connected server instance by using one of the <code class="codeph">OpenL()</code>method overloads of the <code class="codeph">RPositioner</code>class. Once the connection is established, a requestor for the location
+service is identified in order to use it.</p>
+<p>LBS require the implementation of an active object to manipulate
+the asynchronous calls for location information acquisition. For this
+purpose, we have implemented the active object class <code class="codeph">CFindMeActive</code>, which is derived from <code class="codeph">CActive</code>, implementing its
+two pure virtual functions <code class="codeph">RunL()</code>and <code class="codeph">DoCancel()</code>.</p>
+<p>The class encapsulates all necessary information and constructions
+for operating the location service.The second-phase <code class="codeph">ConstructL()</code>method performs the main actions to connect to the server as previously
+discussed. When <code class="codeph">ConstructL()</code>is executed, the active
+object submits an asynchronous request to receive positional information
+from the server. When positional data is available, <code class="codeph">RunL()</code>is called by the active scheduler (which schedules all current active
+objects) to handle this obtained data. </p>
+<p>The function checks whether the position was updated successfully,
+before requesting the view to update the screen with this newly available
+positional data. It also issues a new request to get updated positional
+data. The application continues retrieving location data in this manner
+until it shuts down.</p>
+<div id="GUID-8AC49E35-EB7B-4224-B561-B3AF26C8BD65"><h3 class="section-title">Download</h3>
+<p>Click on the following link
+to download the example:<a href="guid-6013a680-57f9-415b-8851-c4fa63356636/zips/guid-7c195a20-9158-4542-ac1a-f1b7e89d5408.zip" target="_blank"> FindMe.zip </a></p><p>Click: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/guid-7c195a20-9158-4542-ac1a-f1b7e89d5408.html#guid-6013a680-57f9-415b-8851-c4fa63356636/guid-7c195a20-9158-4542-ac1a-f1b7e89d5408.html"> browse </a>to view the example code. </p>
+</div>
+<div id="GUID-27CAA475-855F-4EC4-974E-C70CF19C2EEA"><h3 class="section-title">Class
+summary</h3><p><code class="codeph">RPositionerServer RPositioner TPositionInfoBase
+TPositionUpdateOptions </code></p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated June 14th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8AEF28FC-1647-4F83-885D-F78F99F51C63.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:11:47 GMT -->
+</html>

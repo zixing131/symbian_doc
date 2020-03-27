@@ -1,0 +1,75 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Introduction to Symbian C++ development" /><meta name="abstract" content="Qt applications can use Symbian APIs directly. This section is an accelerated introduction to Symbian C++ for application developers with a working knowledge of standard C++." /><meta name="description" content="Qt applications can use Symbian APIs directly. This section is an accelerated introduction to Symbian C++ for application developers with a working knowledge of standard C++." /><meta name="DC.Relation" scheme="URI" content="GUID-C50A3F22-FF47-4074-9A8B-E1E8EFDF65EA" /><meta name="DC.Relation" scheme="URI" content="GUID-B717CAA0-237B-48B9-AAE9-A805E4EB8E9E" /><meta name="DC.Relation" scheme="URI" content="GUID-E3F3FA3D-FE16-429A-8BE0-35267C5DE72B" /><meta name="DC.Relation" scheme="URI" content="GUID-1ED4913E-DEB4-40EE-8DD9-4F8B8E97AEFC" /><meta name="DC.Relation" scheme="URI" content="GUID-3642FBBC-53B8-4BA7-926C-09DC50AF1B20" /><meta name="DC.Relation" scheme="URI" content="GUID-6EE35AD2-053B-4B46-BFF4-E29E8BA63D34" /><meta name="DC.Relation" scheme="URI" content="GUID-21627ABC-AA70-4837-89A1-28BD9B2FD4B0" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-2CA5C27E-A526-4B26-941B-85F0B32E1FFA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Language" content="en" /><title>Introduction to Symbian C++ development </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18">Introduction to Symbian C++ development</h1><div><p>Qt applications can use Symbian APIs directly. This section
+is an accelerated introduction to Symbian C++ for application developers
+with a working knowledge of standard C++.</p>
+<div id="GUID-D0FCBCB0-4F1F-48EE-94D9-5B2178C0FC1B"><h3 class="section-title">How
+different is Symbian C++?</h3><div class="p">As a C++ developer your skills
+will be used and extended if you choose to program in Symbian C++.
+You will find full support for the 'Big Three' of object oriented
+programming: encapsulation, inheritance, and polymorphism. In addition
+Symbian complements C++ language basics by providing:<ul>
+<li><p>clear <a href="GUID-B717CAA0-237B-48B9-AAE9-A805E4EB8E9E.html">coding conventions</a>.</p></li>
+<li><p>a framework for controlling access to <a href="GUID-0F0BCB36-53F0-4C05-AE55-5994441EC777.html">shared system services</a>.</p></li>
+<li><p>an elegant mechanism for <a href="GUID-116A02BE-F93C-4E2C-8D75-E23B6EE67D2A.html">managing multiple
+asynchronous requests</a> from a single thread. </p></li>
+<li><p>a technique for <a href="GUID-226AF3DB-3C92-4B11-B31C-B26492B6B900.html">managing memory</a> and other resources.</p></li>
+<li><p>a lightweight alternative to standard C++ <a href="GUID-6B58FC67-221A-49B5-B2CA-C247A938103F.html">exception handling</a>.</p></li>
+</ul>Standard C++ is a general purpose programming language and the
+designers of Symbian C++ decided that some language features were
+less useful for coding on constrained devices. For example:<ul>
+<li><p>Symbian encourages only single inheritance of implementation
+('subclassing') , but allows multiple interface inheritance ('subtyping').</p></li>
+<li><p>Class and function templates are not used extensively in Symbian
+C++. Examples of using templates in Symbian include the dynamic array
+class templates such as <code class="codeph">RArray</code> and <code class="codeph">RPointerArray</code>. The Thin Template idiom is used to prevent code bloat. See <a href="GUID-497930CE-4D61-50EE-A63B-3656158EE29C.html">Thin templates</a> for details.</p></li>
+<li><p>Standard C++ exception handling was not originally supported
+due to the overhead involved. It is now possible to use standard exception
+syntax but this is primarily to make porting existing C++ code easier.</p></li>
+<li><p>The smart pointer idiom is not widely used in Symbian code.
+Exception safety is achieved through the leave mechanism and the cleanup
+stack instead of releasing resources in the destructors of local variables.</p></li>
+</ul></div></div>
+<div id="GUID-952F6053-D42A-44A0-BE6B-CA717BDC1895"><h3 class="section-title">Using
+a Symbian server</h3><p>The device resources and services that
+you are most likely to use in your application are provided by <a href="GUID-0F0BCB36-53F0-4C05-AE55-5994441EC777.html">Symbian servers</a>. A Symbian server is a system program that runs in the background
+and manages access by applications to the resources of the device,
+such as the file system, multimedia, and networking. Individual servers
+control shared access to key device components, for example the camera.</p><p>The <cite>QtMobility</cite> package offers convenient access to
+much of the functionality provided by Symbian servers. In cases where
+a particular server is not yet accessible using <cite>QtMobility</cite>, you can interact with the server directly from Symbian code. </p><div class="p">A server is typically a separate executable with a client side
+API defined in a Symbian DLL, so you link against the .LIB of the
+DLL to use the server. In addition, using a server may involve:<ul>
+<li><p>creating active objects to make asynchronous requests of the
+server. Active objects are managed by a component called the active
+scheduler. The application framework creates an active scheduler to
+which you can add your active objects.</p></li>
+<li><p>passing data to and receiving data from the server in the form
+of descriptors. Descriptors are how strings are represented in Symbian
+code. There are 16 bit and 8 bit descriptor classes. For serializing
+objects across the client server boundary 8 bit package descriptors
+are used. </p></li>
+</ul>If your application uses <cite>QtMobility</cite> and also creates
+a session with a Symbian server, you may choose to create a component
+to act as the application controller. The controller handles interactions
+between the user interface and the service providers. It encapsulates
+the logic for routing requests either to the <cite>QtMobility</cite> APIs or to the Symbian DLL that interacts with the server, allowing
+an easy migration to a pure Qt solution in future.</div><p>For further
+information on developing an application using both Qt and Symbian
+C++, see <a href="GUID-123ED0A9-2F1C-4DDD-9D90-E8DDADF673DB.html">Mixing
+Qt and Symbian C++ in your application</a>.</p><div class="p"><div class="figure" id="GUID-CC773D3D-9D5A-40F3-A617-12BE5E18D4AA"><p></p><img src="GUID-296A2797-E26D-4692-B527-86A3BBEA8784_d0e25890_href.png" /><p class="figure-title"><strong>Figure: </strong>Application architecture for using a Symbian server</p></div></div></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-C50A3F22-FF47-4074-9A8B-E1E8EFDF65EA.html">Symbian programming conventions</a><div class="linkdesc">This section describes some of the general conventions
+for writing Symbian C++.</div></li><li class="ulchildlink"><a href="GUID-B717CAA0-237B-48B9-AAE9-A805E4EB8E9E.html">Symbian class conventions</a><div class="linkdesc">The fundamental rules for instantiating and using Symbian
+classes.</div></li><li class="ulchildlink"><a href="GUID-E3F3FA3D-FE16-429A-8BE0-35267C5DE72B.html">Understanding Symbian platform security</a><div class="linkdesc">Platform security is the collective name for a group of
+technologies whose primary function is to control application access
+to data and system services.</div></li><li class="ulchildlink"><a href="GUID-1ED4913E-DEB4-40EE-8DD9-4F8B8E97AEFC.html">Symbian frameworks</a><div class="linkdesc">Client applications frequently make use of services provided
+by Symbian servers. This section introduces the role of servers and
+the use of active objects to send requests to servers asynchronously.</div></li><li class="ulchildlink"><a href="GUID-3642FBBC-53B8-4BA7-926C-09DC50AF1B20.html">Handling exceptional conditions</a><div class="linkdesc">An introduction to the Symbian exception handling mechanism
+and how memory cleanup is managed.</div></li><li class="ulchildlink"><a href="GUID-6EE35AD2-053B-4B46-BFF4-E29E8BA63D34.html">Symbian Platform fundamental examples</a><div class="linkdesc">This section describes some of the general Symbian Platform
+fundamental examples.</div></li><li class="ulchildlink"><a href="GUID-21627ABC-AA70-4837-89A1-28BD9B2FD4B0.html">Descriptors survival guide</a><div class="linkdesc">Introduction to Symbian strings, and advice on which concrete
+class to use.</div></li></ul></div></div><div class="footer"><p class="metadata">Last updated June 24th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:09 GMT -->
+</html>

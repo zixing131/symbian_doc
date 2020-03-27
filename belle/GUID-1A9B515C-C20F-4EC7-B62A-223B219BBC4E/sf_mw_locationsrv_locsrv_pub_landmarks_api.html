@@ -1,0 +1,1620 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_locationsrv_locsrv_pub_landmarks_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:47 GMT -->
+<head><title>Landmarks API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i770 i772"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Landmarks API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Database_access"><span class="tocnumber">1.4.1</span> <span class="toctext">Database access</span></a></li>
+<li class="toclevel-3"><a href="#Category_management"><span class="tocnumber">1.4.2</span> <span class="toctext">Category management</span></a></li>
+<li class="toclevel-3"><a href="#Database_events"><span class="tocnumber">1.4.3</span> <span class="toctext">Database events</span></a></li>
+<li class="toclevel-3"><a href="#Exchange_operations"><span class="tocnumber">1.4.4</span> <span class="toctext">Exchange operations</span></a></li>
+<li class="toclevel-3"><a href="#Incremental_operations"><span class="tocnumber">1.4.5</span> <span class="toctext">Incremental operations</span></a></li>
+<li class="toclevel-3"><a href="#Serialization_support"><span class="tocnumber">1.4.6</span> <span class="toctext">Serialization support</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Landmarks"><span class="tocnumber">1.5</span> <span class="toctext">Landmarks</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Landmark_attributes"><span class="tocnumber">1.5.1</span> <span class="toctext">Landmark attributes</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Landmark_categories"><span class="tocnumber">1.6</span> <span class="toctext">Landmark categories</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Local_and_global_landmark_categories"><span class="tocnumber">1.6.1</span> <span class="toctext">Local and global landmark categories</span></a></li>
+<li class="toclevel-3"><a href="#Category_attributes"><span class="tocnumber">1.6.2</span> <span class="toctext">Category attributes</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Landmark_URL_format_specification"><span class="tocnumber">1.7</span> <span class="toctext">Landmark URL format specification</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Notations_Used"><span class="tocnumber">1.7.1</span> <span class="toctext">Notations Used</span></a></li>
+<li class="toclevel-3"><a href="#Grammar_Definition"><span class="tocnumber">1.7.2</span> <span class="toctext">Grammar Definition</span></a></li>
+<li class="toclevel-3"><a href="#Restrictions"><span class="tocnumber">1.7.3</span> <span class="toctext">Restrictions</span></a></li>
+<li class="toclevel-3"><a href="#Example_URL"><span class="tocnumber">1.7.4</span> <span class="toctext">Example URL</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Landmarks_URL_Format_Specification_for_m.ovi.me_domain"><span class="tocnumber">1.8</span> <span class="toctext">Landmarks URL Format Specification for m.ovi.me domain</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Grammar_Definition_2"><span class="tocnumber">1.8.1</span> <span class="toctext">Grammar Definition</span></a></li>
+<li class="toclevel-3"><a href="#Restrictions_2"><span class="tocnumber">1.8.2</span> <span class="toctext">Restrictions</span></a></li>
+<li class="toclevel-3"><a href="#Example_URL_2"><span class="tocnumber">1.8.3</span> <span class="toctext">Example URL</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Using_a_landmarks_database"><span class="tocnumber">2.1</span> <span class="toctext">Using a landmarks database</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Database_URI"><span class="tocnumber">2.1.1</span> <span class="toctext">Database URI</span></a></li>
+<li class="toclevel-3"><a href="#Compacting_database"><span class="tocnumber">2.1.2</span> <span class="toctext">Compacting database</span></a></li>
+<li class="toclevel-3"><a href="#Releasing_resources"><span class="tocnumber">2.1.3</span> <span class="toctext">Releasing resources</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Managing_landmarks"><span class="tocnumber">2.2</span> <span class="toctext">Managing landmarks</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Reading_partial_landmarks"><span class="tocnumber">2.2.1</span> <span class="toctext">Reading partial landmarks</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Managing_categories"><span class="tocnumber">2.3</span> <span class="toctext">Managing categories</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Creating_a_local_category"><span class="tocnumber">2.3.1</span> <span class="toctext">Creating a local category</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Assigning_categories_to_landmarks"><span class="tocnumber">2.4</span> <span class="toctext">Assigning categories to landmarks</span></a></li>
+<li class="toclevel-2"><a href="#Listening_to_database_events"><span class="tocnumber">2.5</span> <span class="toctext">Listening to database events</span></a></li>
+<li class="toclevel-2"><a href="#Exchanging_landmarks"><span class="tocnumber">2.6</span> <span class="toctext">Exchanging landmarks</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Exporting_landmarks"><span class="tocnumber">2.6.1</span> <span class="toctext">Exporting landmarks</span></a></li>
+<li class="toclevel-3"><a href="#Importing_landmarks"><span class="tocnumber">2.6.2</span> <span class="toctext">Importing landmarks</span></a></li>
+<li class="toclevel-3"><a href="#Encoding_of_Landmarks_to_a_URL"><span class="tocnumber">2.6.3</span> <span class="toctext">Encoding of Landmarks to a URL</span></a></li>
+<li class="toclevel-3"><a href="#Parsing_a_URL_to_obtain_a_landmark"><span class="tocnumber">2.6.4</span> <span class="toctext">Parsing a URL to obtain a landmark</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Incremental_operations_2"><span class="tocnumber">2.7</span> <span class="toctext">Incremental operations</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.8</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.9</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Extensions_to_the_API"><span class="tocnumber">2.10</span> <span class="toctext">Extensions to the API</span></a></li>
+<li class="toclevel-2"><a href="#Security_issues"><span class="tocnumber">2.11</span> <span class="toctext">Security issues</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#References"><span class="tocnumber">4</span> <span class="toctext">References</span></a></li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The Landmarks API enables client applications to manage
+landmarks in a consistent way. For example, if a landmark is received in an email and the user chooses to store the landmark, the landmark is instantly available for a map application.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>eposlandmarks.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/locationsrv/locsrv_pub/landmarks_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/locationsrv/locsrv_pub/landmarks_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>The Landmarks API does not provide search functionality. Search is provided by Landmarks
+Search API.
+</p><p>Landmarks API is mainly targeted for end-user applications. It allows clients to 
+access landmark databases and read and edit their content.
+</p><p>This API uses position classes and generic position field IDs from Location
+Acquisition API to define the location of a landmark.
+</p><p>The Landmarks API enables defining landmark categories. Landmark categories
+are labels, which can be assigned to a landmark to define the type of the
+landmark. For instance, a landmark of some restaurant could be a assigned
+with category "Restaurants".
+</p><p>The Landmarks API provides an interface for listening to database events. Clients
+can be notified when a landmark database is edited.
+</p><p>The Landmarks API also offers methods for exporting landmark data to and importing
+from exchange format, which enables exchanging landmarks between terminals.
+</p><p>As a part of the exchange format support,it provides encoding of a landmark
+object into a URL and parsing of a URL and decoding it into a landmark
+object.
+</p><p>The logical type of the API is Library API. Technically it is method-call
+interface. Landmarks API loads the implementation at run time but the implementation
+consists only of local objects.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>The Landmarks API is introduced in Symbian OS, S60 3.0. 
+</p><p>Support for importing GPX content is introduced in Symbian OS, S60 5.0.
+</p><p>Support for importing KML/KMZ content is introduced in Symbian OS, S60 5.0.
+</p><p>Support for URL encoding and decoding is introduced in Symbian OS, S60 5.2.
+</p><p>Support for <b>m.ovi.me</b> format for URL encoding and decoding is introduced in Symbian OS, S60 5.3
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The following are the main use cases of the Landmarks API:
+</p>
+<ul><li> Opening landmark databases
+</li><li> Managing landmarks
+</li><li> Managing landmark categories
+</li><li> Assigning categories to landmarks
+</li><li> Exchanging landmarks
+</li><li> Observing landmark database events
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CPosLandmark <td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLandmark.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CPosLandmarkCategory</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLandmarkCategory.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLandmarkDatabase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLandmarkDatabase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLandmarkDatabaseExtended</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/epos_cposlandmarkdatabaseextended.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLandmarkEncoder</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLandmarkEncoder.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLandmarkParser</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLandmarkParser.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmCategoryManager</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmCategoryManager.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmItemIterator</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmItemIterator.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmOperation</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmOperation.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmPartialReadParameters</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmPartialReadParameters.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>PosLandmarkSerialization</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/epos_poslandmarkserialization.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>PosLmCategorySerialization</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/epos_poslmcategoryserialization.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TMapImageAttributes</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_TMapImageAttributes.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPosLmSortPref</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_TPosLmSortPref.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmOperation.inl</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/EPos_Landmarks.h</code></span>
+</td></tr>
+<p>The following subchapters describe the Landmarks API class structure.
+UML diagrams are used to present the classes and their dependencies.<b> Note</b>:
+The UML diagrams do not show all the available methods, and some of or all
+of the method parameters may be left out.
+</p>
+<a name="Database_access"><h4> <span class="mw-headline">1.4.1 Database access </span></h4>
+</a><p>Landmarks are stored in databases. A client accesses landmark
+databases through the <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> class.
+Each instance of CPosLandmarkDatabase is a handle to exactly one landmark
+database. All operations upon a landmark database are performed through instances
+of <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span>.
+</p><p><span class="plainlinks"><code>CPosLandmark</code> </span> represents the content
+of a landmark, for example the landmark name and landmark position. This class
+is used in <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> methods to let
+the client read or edit a landmark in the database.
+</p><p>A landmark stored in a database is referenced by an ID ( <span class="plainlinks"><code>TPosLmItemId</code> </span>),
+which is unique within the database. To access a landmark through CPosLandmarkDatabase,
+the client must specify the ID of the landmark.
+</p><p>It is common that a client needs to retrieve a set of landmarks,
+for instance when listing the content of a landmark database. In Landmarks
+API, a landmark set is accessed by using an iterator object. <span class="plainlinks"><code>CPosLmItemIterator</code> </span> lets
+the client retrieve the IDs of the iterated landmarks. The client can iterate
+all the landmarks in a database by retrieving a <span class="plainlinks"><code>CPosLmItemIterator</code> </span> instance
+from <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span>.
+</p><p>Clients may require retrieving landmarks in a certain sort order.
+In Landmarks API, the client specifies sort preference by using a <span class="plainlinks"><code>TPosLmSortPref</code> </span> object.
+</p><p>If a client is not interested in full landmark information,
+it can perform a partial read. For instance, the client may only be interested
+in the name of the landmark. By using a <span class="plainlinks"><code>CPosLmPartialReadParameters</code> </span> object,
+the client can specify which landmark information is of interest.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_API_DbAccess_Class_Structure.png" title="Landmark database access classes"><img alt="Landmark database access classes" border="0" height="624" src="images/SPB_10_1_Landmarks_API_DbAccess_Class_Structure.png" width="758" /></a></div>
+<div style="text-align:center"><i>Landmark database access classes</i></div>
+<a name="Category_management"><h4> <span class="mw-headline">1.4.2 Category management </span></h4>
+</a><p>A landmark database can contain landmark categories. To access
+categories in the database, the client must create a <span class="plainlinks"><code>CPosLmCategoryManager</code> </span> object
+connected to the database. Through this object, the client can retrieve information
+about the categories in the database or edit the category content.
+</p><p><span class="plainlinks"><code>CPosLandmarkCategory</code> </span> represents
+information about a landmark category. It is used in the <span class="plainlinks"><code>CPosLmCategoryManager</code> </span> interface
+to pass category information from/to the client.
+</p><p>A landmark category stored in a database is referenced by an
+ID ( <span class="plainlinks"><code>TPosLmItemId</code> </span>), which is unique within the
+database. To refer to a landmark category, the client specifies the ID of
+the category.<b> Note:</b> The same type, <span class="plainlinks"><code>TPosLmItemId</code> </span>,
+is used to refer to landmarks and categories. It is possible that a landmark
+and a category have the same ID.
+</p><p>Categories can be iterated, just like landmarks. <span class="plainlinks"><code>CPosLmItemIterator</code> </span> is
+used for iterating both landmark and category sets.<b> Note:</b> The
+iterator is never used to iterate a mixed set of landmarks and categories.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_API_CatMgmt_Class_Structure.png" title="Landmark category management classes"><img alt="Landmark category management classes" border="0" height="447" src="images/SPB_10_1_Landmarks_API_CatMgmt_Class_Structure.png" width="774" /></a></div>
+<div style="text-align:center"><i>Landmark category management classes</i></div>
+<a name="Database_events"><h4> <span class="mw-headline">1.4.3 Database events </span></h4>
+</a><p>A client can listen to events from landmark databases. To listen
+to the next event, the client calls <span class="plainlinks"><code>CPosLandmarkDatabase::NotifyDatabaseEvent()</code> </span>.
+The client passes a <code>TRequestStatus</code>, which will
+be completed when an event is detected. When an event has been retrieved,
+the client must renew the <code>NotifyDatabaseEvent()</code> request
+to listen to further events.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_API_Events_Class_Structure.png" title="Classes for listening to landmark database events"><img alt="Classes for listening to landmark database events" border="0" height="248" src="images/SPB_10_1_Landmarks_API_Events_Class_Structure.png" width="704" /></a></div>
+<div style="text-align:center"><i>Classes for listening to landmark database events</i></div>
+<a name="Exchange_operations"><h4> <span class="mw-headline">1.4.4 Exchange operations </span></h4>
+</a><p>A client can exchange landmark data with another party by using the import
+and export functionality. If a client has received a file or buffer containing
+landmark data and the client is connected to a landmark database, the client
+can use the Landmarks API to import landmarks to the landmark database. To import
+landmarks, the client must create an instance of the <span class="plainlinks"><code>CPosLandmarkParser</code> </span> class.
+</p><p>The client can also use the Landmarks API to export landmarks from the landmark
+database. This will result in a file or buffer containing the landmark data.
+To export landmarks, the client must create an instance of the <span class="plainlinks"><code>CPosLandmarkEncoder</code> </span> class.
+</p><p>The exchange of landmarks is also supported via a URL.The client can encode
+a landmark object into a URL containing all the location inforamtion. To encode
+a landmark to a URL, the client must create an instance of the CPosLandmarkEncoder class.
+</p><p>Also the client can parse a given URL to decode the location
+information present in the URL and create a landmark object. To parse a URL, the client must create an instance of the CPosLandmarkParser class.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_API_Exchange_Class_Structure.png" title="Classes for handling exchange of landmark content"><img alt="Classes for handling exchange of landmark content" border="0" height="404" src="images/SPB_10_1_Landmarks_API_Exchange_Class_Structure.png" width="814" /></a></div>
+<div style="text-align:center"><i>Classes for handling exchange of landmark content</i></div>
+<a name="Incremental_operations"><h4> <span class="mw-headline">1.4.5 Incremental operations </span></h4>
+</a><p>Some operations in the Landmarks API can potentially take a long
+time. These operations can therefore be run incrementally. The client retrieves
+a <span class="plainlinks"><code>CPosLmOperation</code> </span> object, which can either be
+run incrementally or all at once.
+</p><p>If the operation is run incrementally, the client can read the
+operation progress between incremental steps.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_API_Incremental_Class_Structure.png" title="Classes for handling incremental operations in Landmarks API"><img alt="Classes for handling incremental operations in Landmarks API" border="0" height="477" src="images/SPB_10_1_Landmarks_API_Incremental_Class_Structure.png" width="773" /></a></div>
+<div style="text-align:center"><i>Classes for handling incremental operations in Landmarks API</i></div>
+<a name="Serialization_support"><h4> <span class="mw-headline">1.4.6 Serialization support </span></h4>
+</a><p>A client can pack a landmark or a landmark category object into
+a buffer for further serialization. This can be used e.g. for sending data
+over process boundaries. On the receiving side packed objects can be unpacked
+from buffer. The <span class="plainlinks"><code>PosLandmarkSerialization</code> </span> class
+contains static methods <code>PackL()</code> and <code>UnpackL()</code> for
+packing and unpacking <span class="plainlinks"><code>CPosLandmark</code> </span> instances. <span class="plainlinks"><code>PosLmCategorySerialization</code> </span> class
+contains appropriate methods for packing and unpacking <span class="plainlinks"><code>CPosLandmarkCategory</code> </span> instances.
+</p><p>This feature is added in Symbian OS, S60 3.1.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_API_Serialz_Class_Structure.png" title="Classes for packing landmark and categories into buffer and unpacking back"><img alt="Classes for packing landmark and categories into buffer and unpacking back" border="0" height="211" src="images/SPB_10_1_Landmarks_API_Serialz_Class_Structure.png" width="673" /></a></div>
+<div style="text-align:center"><i>Classes for packing landmark and categories into buffer and unpacking back</i></div>
+<a name="Landmarks"><h3> <span class="mw-headline">1.5 Landmarks </span></h3>
+</a><p>A landmark is a location with a name and it may also contain other data,
+such as description, icon and address details. Landmarks are organized in
+landmark databases, which reside on terminal or may be remote. Client can
+read landmarks from a database, add new, modify and remove existing landmarks.
+</p>
+<a name="Landmark_attributes"><h4> <span class="mw-headline">1.5.1 Landmark attributes </span></h4>
+</a><p>A landmark can contain the following attributes:
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Landmark attributes</b>
+</caption>
+<tr bgcolor="gray">
+<th> Landmark attribute</th><th> Description
+</th></tr>
+<tr>
+<td> Item ID</td><td> This ID is a reference to the landmark in a landmark database. It is locally unique within one database.
+</td></tr>
+<tr>
+<td> Landmark name</td><td> The name of the landmark can contain a maximum of 255 characters. The landmark name does not have to be unique in a database.
+</td></tr>
+<tr>
+<td> Position</td><td> The WGS84 coordinate for the landmark.
+</td></tr>
+<tr>
+<td> Coverage radius</td><td> Coverage radius is set if the landmark is big, for example, a city. It defines the size of the area, which the landmark represents. The coverage area is specified in meters.
+</td></tr>
+<tr>
+<td> Category info</td><td> The categories related to the landmark, such as restaurants, gas stations and grocery stores.
+</td></tr>
+<tr>
+<td> Icon</td><td> A reference to an icon in an icon file which can be used to symbolize the landmark in a UI. An icon mask can also be specified from the same icon file.
+</td></tr>
+<tr>
+<td> Description</td><td> A textual description of the landmark, for example, "Chinese restaurant. Nice atmosphere and the service is superb". The description has a maximum length of 4095 characters.
+</td></tr>
+<tr>
+<td> Position fields</td><td> Generic position fields as defined by Location Acquisition API . A position field can, for instance, be the street address of the landmark or the name of the city where the landmark is found. Landmarks API only supports
+<p>text position fields. If the client wants to store a non-text field, the value must first be converted to a textual representation. A landmark can contain any number of position fields.
+</p>
+</td></tr>
+<tr>
+<td> Place ID</td><td> The unique id specified by the client for any location.
+</td></tr>
+<tr>
+<td> TimeStamp</td><td> The time associated with a landmark.The format that is used for timestamp is YYYYMMDD:HHMMSS.MMMMMM wherein the date field is mandatory.Validations for this field are the same as in TTime object.
+</td></tr></table>
+<a name="Landmark_categories"><h3> <span class="mw-headline">1.6 Landmark categories </span></h3>
+</a><p>A landmark may be assigned to one or many categories (or none at all).
+Categories help to classify landmarks, group them, enable finer search criteria
+etc. Landmark categories are also stored in landmark databases.
+</p>
+<a name="Local_and_global_landmark_categories"><h4> <span class="mw-headline">1.6.1 Local and global landmark categories </span></h4>
+</a><p>Landmark categories may be local or global. Local categories are defined
+by the user. They are stored in a database and cannot be reused by multiple
+databases unless the user creates the same category in several databases.
+</p><p>Global categories are predefined in the terminal and may be reused in multiple
+databases and multiple phones and on different platforms. The Global Category
+ID uniquely specifies a global category, which makes global categories localizable.
+The names and icons of global categories are predefined in a resource file
+and the category name is automatically changed in the database when it is
+open if the terminal language changes since the last usage of the database.<b> Note:</b> The
+global category name will not be changed to the newly selected language if
+the user has previously renamed this category.
+</p><p>The predefined global landmark categories are listed in the following table:
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Predefined global landmark categories</b>
+</caption>
+<tr bgcolor="gray">
+<th> ID</th><th> Name</th><th> Purpose (examples of landmarks)
+</th></tr>
+<tr>
+<td> 3000</td><td> Accommodation</td><td> Hotel, Camping site
+</td></tr>
+<tr>
+<td> 6000</td><td> Business</td><td> Bank, Factory, Office
+</td></tr>
+<tr>
+<td> 9000</td><td> Communication</td><td> Internet Access Point, Public Telephone, Wireless LAN Hot Spot
+</td></tr>
+<tr>
+<td> 12000</td><td> Educational institute</td><td> School, College
+</td></tr>
+<tr>
+<td> 15000</td><td> Entertainment</td><td> Amusement park, Cinema, Concert hall, Night club
+</td></tr>
+<tr>
+<td> 18000</td><td> Food &amp; Beverage</td><td> Fast food, Restaurant, Caf&#233;, Bar
+</td></tr>
+<tr>
+<td> 21000</td><td> Geographical area</td><td> City, City center, Town
+</td></tr>
+<tr>
+<td> 24000</td><td> Outdoor activities</td><td> Camping site, Fishing place, Hunting, National park, Playground
+</td></tr>
+<tr>
+<td> 27000</td><td> People</td><td> My home, My friend's home, Father's summer cottage, Child's school
+</td></tr>
+<tr>
+<td> 30000</td><td> Public service</td><td> Tourist information office, Government office, Library, Post office,
+<p>Hospital, Police
+</p>
+</td></tr>
+<tr>
+<td> 33000</td><td> Religious places</td><td> Church, Mosque
+</td></tr>
+<tr>
+<td> 36000</td><td> Shopping</td><td> Market Place, Pharmacy, Shop, Shopping Center
+</td></tr>
+<tr>
+<td> 39000</td><td> Sightseeing</td><td> Monument, Mountain top, Museum
+</td></tr>
+<tr>
+<td> 42000</td><td> Sports</td><td> Bowling, Golf course, Ice hockey hall, Stadium
+</td></tr>
+<tr>
+<td> 45000</td><td> Transport</td><td> Airport, Bus stop, Harbour, Railway Station, Rest area
+</td></tr></table>
+<p>Other IDs are reserved for future use. Names are given only
+for reference purposes, localized names are defined for all languages supported
+by the platform.
+</p>
+<a name="Category_attributes"><h4> <span class="mw-headline">1.6.2 Category attributes </span></h4>
+</a><p>A landmark category contains the following attributes:
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Landmark category attributes</b>
+</caption>
+<tr bgcolor="gray">
+<th> Category attribute</th><th> Description
+</th></tr>
+<tr>
+<td> Item ID</td><td> This ID is a reference to the category in a landmark database. It is
+<p>locally unique within one database.
+</p>
+</td></tr>
+<tr>
+<td> Category name</td><td> The name of the category can contain a maximum of 124 characters. The
+<p>category name must be unique in a database. If the client tries to change
+the name of a category and that name is already occupied by another category,
+the update fails.
+</p>
+</td></tr>
+<tr>
+<td> Global category ID</td><td> This ID refers to a category in a globally defined category set.
+</td></tr>
+<tr>
+<td> Icon</td><td> A reference to an icon in an icon file, which can be used to symbolize
+<p>the category in a UI. An icon mask can also be specified from the same icon
+file.
+</p>
+</td></tr></table>
+<a name="Landmark_URL_format_specification"><h3> <span class="mw-headline">1.7 Landmark URL format specification </span></h3>
+</a><p>The URL that is required to be encoded or parsed should be specified according
+to the following format.
+</p>
+<a name="Notations_Used"><h4> <span class="mw-headline">1.7.1 Notations Used </span></h4>
+</a><p><i>*</i> 	- 0 or more occurences
+</p><p>1* 	- 1 or more occurrences
+</p><p>()	- optional contents
+</p><p>' '	- literals
+</p><p>X*Y	- between X &amp; Y occurences ( For Eg : 2*5	- between 2 &amp; 5
+occurences )
+</p>
+<a name="Grammar_Definition"><h4> <span class="mw-headline">1.7.2 Grammar Definition </span></h4>
+</a><p>url -&gt; ( protocol  '://' ) hostname '/?' location *( '??' location )
+</p><p>protocol -&gt; 'http' | 'https'
+</p><p>hostname -&gt; ('www.') 'maps.ovi.com'
+</p><p>location -&gt; locationparams *( '&amp;' locationparams )
+</p><p>locationparams -&gt; placeid | latitude | longitude | name | street | housenumber
+| postalcode | city | state | country | telephone | web | category | description
+| positionaccuracy | altitude | altitudeaccuracy | speed | heading | timestamp
+</p><p>placeid -&gt; 'pid =' placeidvalue
+</p><p>placeidvalue -&gt;  0*255 ( alphanum | escaped )
+</p><p>alphanum -&gt; alpha | digit
+</p><p>alpha    -&gt; lowalpha | upalpha
+</p><p>lowalpha -&gt; 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' |
+'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w'
+| 'x' | 'y' | 'z'
+</p><p>upalpha  -&gt; 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' |
+'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W'
+| 'X' | 'Y' | 'Z'
+</p><p>digit -&gt; '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+</p><p>escaped -&gt; '%' hex hex
+</p><p>hex -&gt; digit | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'A' | 'B' | 'C' | 'D'
+| 'E' | 'F'
+</p><p>latitude -&gt; 'la =' latitudevalue
+</p><p>latitudevalue -&gt; (sign) 1*2 digit ( '.'0 *6 digit )
+</p><p>sign -&gt; '+' | '-'
+</p><p>longitude -&gt; 'lo =' longitudevalue
+</p><p>longitudevalue -&gt; (sign) 1*3 digit ( '.'0 *6 digit )
+</p><p>name -&gt; 'n =' namevalue
+</p><p>namevalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>street -&gt; 's =' streetvalue
+</p><p>streetvalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>housenumber -&gt; 'sn =' housenumbervalue
+</p><p>housenumbervalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>postalcode -&gt; 'pz =' postalcodevalue
+</p><p>postalcodevalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>city -&gt; 'c =' cityvalue
+</p><p>cityvalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>state -&gt; 'sp =' statevalue
+</p><p>statevalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>country -&gt; 'cr =' countryvalue
+</p><p>countryvalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>telephone -&gt; 't =' telephonevalue
+</p><p>telephonevalue -&gt;  0*255 ( alphanum | escaped )
+</p><p>web -&gt; 'w =' webvalue
+</p><p>webvalue -&gt;0 *255 ( alphanum | escaped )
+</p><p>category -&gt; 'cat =' categoryvalue
+</p><p>categoryvalue -&gt; 0*124 ( alphanum | escaped )
+</p><p>description -&gt; 'd =' descriptionvalue
+</p><p>descriptionvalue -&gt; 0*4095 ( alphanum | escaped )
+</p><p>positionaccuracy -&gt; 'pa =' positionaccuracyvalue
+</p><p>positionaccuracyvalue -&gt; 1* digit ( '.' 0*2digit )
+</p><p>altitude -&gt; 'a=' altitudevalue
+</p><p>altitudevalue -&gt; (sign) 1* digit ( '.' 0*2 digit )
+</p><p>altitudeaccuracy -&gt; 'aa =' altitudeaccuracyvalue
+</p><p>altitudeaccuracyvalue -&gt; 1* digit ( '.'0 *2 digit )
+</p><p>speed -&gt; 'v =' speedvalue
+</p><p>speedvalue -&gt; 1* digit ( '.'0 *2 digit )
+</p><p>heading -&gt; 'h =' headingvalue
+</p><p>headingvalue -&gt; 1* digit ( '.'0 *2 digit )
+</p><p>timestamp -&gt; 'ts =' timestampvalue
+</p><p>timestampvalue -&gt; full-date ':' ( full-time )
+</p><p>full-date -&gt; date-fullyear date-month date-mday
+</p><p>full-time -&gt; time-hour time-minute time-second ('.'time-microseconds)
+</p><p>time-microseconds -&gt; 0*6digit
+</p><p>time-second -&gt; 2digit
+</p><p>time-minute -&gt; 2digit
+</p><p>time-hour -&gt; 2digit
+</p><p>date-mday -&gt; 2digit
+</p><p>date-month -&gt; 2digit
+</p><p>date-fullyear -&gt; 4digit
+</p>
+<a name="Restrictions"><h4> <span class="mw-headline">1.7.3 Restrictions </span></h4>
+<table border="1" cellspacing="0">
+<tr>
+<td> locationparams</td><td> Latitude &amp; longitude params are mandatory.Except the category param
+<p>( cat ),if there is repetition of any other params then only the value of
+the first occurrence is considered.The category param is allowed to be repeated
+in order to support multiple categories to be associated with a single landmark.
+</p>
+</td></tr>
+<tr>
+<td> latitudevalue</td><td> Value ranges between -90 and +90,where negative values indicate southern
+<p>hemisphere &amp; positive values indicate northern hemisphere.The decimal
+number is rounded upto 6 decimal digits.
+</p>
+</td></tr>
+<tr>
+<td> longitudevalue</td><td> Value ranges between -180 and +180,where negative values indicate western
+<p>hemisphere &amp; positive values indicate eastern hemisphere.The decimal number
+is rounded upto 6 decimal digits.
+</p>
+</td></tr>
+<tr>
+<td> escaped</td><td> Only special characters whose Ascii value ( provided in hex ) ranges
+<p>between these are to be escaped : 20 - 2F , 3A - 40 , 5B - 60 , 7B - 7E. 
+</p>
+</td></tr>
+<tr>
+<td> positionaccuracyvalue</td><td> Max value is that of max value of TReal32 .The metric considered here
+<p>is metres.The decimal number is rounded upto 2 decimal digits.
+</p>
+</td></tr>
+<tr>
+<td> altitudevalue</td><td> Max value is that of max value of TReal32 .The metric considered here
+<p>is metres.The decimal number is rounded upto 2 decimal digits.
+</p>
+</td></tr>
+<tr>
+<td> altitudeaccuracyvalue</td><td> Max value is that of max value of TReal32 The metric considered here
+<p>is metres.The decimal number is rounded upto 2 decimal digits.
+</p>
+</td></tr>
+<tr>
+<td> speedvalue</td><td> Max value is that of max value of TReal32 .The metric considered here
+<p>is metres/second.The decimal number is rounded upto 2 decimal digits.
+</p>
+</td></tr>
+<tr>
+<td> headingvalue</td><td> Max value is that of max value of TReal32 .The metric considered here
+<p>is degrees.The decimal number is rounded upto 2 decimal digits.
+</p>
+</td></tr>
+<tr>
+<td> timestampvalue</td><td> The full date is mandatory for this field to be encoded/parsed whereas
+<p>if the full time is not specified then the default value assumed for time
+will be 0.
+</p>
+</td></tr></table>
+</a><a name="Example_URL"><h4> <span class="mw-headline">1.7.4 Example URL </span></h4>
+</a><p>The following example URL contains the location information and follows the
+grammar as defined previously.
+</p><p>"<a class="external free" href="http://www.maps.ovi.com/?la=23.134&amp;lo=120.22&amp;pid=12&amp;n=Placemark&amp;s=HighStreet&amp;sn=1234&amp;pz=123457&amp;c=Bangalore&amp;sp=Karnataka&amp;cr=India&amp;t=9812434125&amp;w=www.weburl.com&amp;cat=MyLandmarks&amp;cat=MyFavouritePlaces&amp;d=Placemark%20from%20Bangalore&amp;pa=12.22&amp;a=43215&amp;v=0&amp;h=0&amp;ts=20090304:121209.123456" rel="nofollow" title="http://www.maps.ovi.com/?la=23.134&amp;lo=120.22&amp;pid=12&amp;n=Placemark&amp;s=HighStreet&amp;sn=1234&amp;pz=123457&amp;c=Bangalore&amp;sp=Karnataka&amp;cr=India&amp;t=9812434125&amp;w=www.weburl.com&amp;cat=MyLandmarks&amp;cat=MyFavouritePlaces&amp;d=Placemark%20from%20Bangalore&amp;pa=12.22&amp;a=43215&amp;v=0&amp;h=0&amp;ts=20090304:121209.123456">http://www.maps.ovi.com/?la=23.134&amp;lo=120.22&amp;pid=12&amp;n=Placemark&amp;s=HighStreet&amp;sn=1234&amp;pz=123457&amp;c=Bangalore&amp;sp=Karnataka&amp;cr=India&amp;t=9812434125&amp;w=www.weburl.com&amp;cat=MyLandmarks&amp;cat=MyFavouritePlaces&amp;d=Placemark%20from%20Bangalore&amp;pa=12.22&amp;a=43215&amp;v=0&amp;h=0&amp;ts=20090304:121209.123456</a>"
+</p>
+<a name="Landmarks_URL_Format_Specification_for_m.ovi.me_domain"><h3> <span class="mw-headline">1.8 Landmarks URL Format Specification for m.ovi.me domain </span></h3>
+</a><p>The URL that is required to be encoded or parsed should be specified according
+to the following format.
+</p>
+<a name="Grammar_Definition_2"><h4> <span class="mw-headline">1.8.1 Grammar Definition </span></h4>
+</a><p>url -&gt; ( '<a class="external free" href="http://m.ovi.me/'" rel="nofollow" title="http://m.ovi.me/'">http://m.ovi.me/'</a> )location
+</p><p>location -&gt; (encodedlocation | plaintextlocation) *( '&amp;' locationparams )
+</p><p>plaintextlocation -&gt; '?latitude&amp;longitude'
+</p><p>latitude -&gt; 'la=' latitudevalue
+</p><p>latitudevalue -&gt; (sign) 1*2 digit ( '.'0 *6 digit )
+</p><p>sign -&gt; '+' | '-'
+</p><p>longitude -&gt; 'lo=' longitudevalue
+</p><p>longitudevalue -&gt; (sign) 1*3 digit ( '.'0 *6 digit )
+</p><p>encodedlocation -&gt; base64encodedvalue
+</p><p>base64encodedvalue -&gt; alphanum | '-' | '_'
+</p><p>alphanum -&gt; alpha | digit
+</p><p>alpha    -&gt; lowalpha | upalpha
+</p><p>lowalpha -&gt; 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' |
+'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w'
+| 'x' | 'y' | 'z'
+</p><p>upalpha  -&gt; 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' |
+'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W'
+| 'X' | 'Y' | 'Z'
+</p><p>digit -&gt; '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+</p><p>locationparams -&gt; street | housenumber | postalcode | city | state | country | zoomValue | imageHeight | imageWidth | imageFormat | imageQuality | mapScheme | mapRadius | locationUncertainty
+</p><p>street -&gt; 's=' streetvalue
+</p><p>streetvalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>housenumber -&gt; 'n=' housenumbervalue
+</p><p>housenumbervalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>postalcode -&gt; 'zi=' postalcodevalue
+</p><p>postalcodevalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>city -&gt; 'ci=' cityvalue
+</p><p>cityvalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>country -&gt; 'co=' countryvalue
+</p><p>countryvalue -&gt; 0*255 ( alphanum | escaped )
+</p><p>zoomValue -&gt; 'z=' 0*2 (digit)
+</p><p>imageHeight -&gt; 'h=' 0*4 (digit)
+</p><p>imageWidth -&gt; 'w=' 0*4 (digit)
+</p><p>imageFormat -&gt; 'f=' 0*1 (digit)
+</p><p>imageQuality -&gt; 'q=' 0*3 (digit)
+</p><p>mapScheme -&gt; 't=' 0*1 (digit)
+</p><p>mapRadius -&gt; 'r=' 0*2 digit ( '.'0 *6 digit )
+</p><p>locationUncertainty -&gt; 'u=' 0*2 digit ( '.'0 *6 digit )
+</p><p>escaped -&gt; '%' hex hex
+</p><p>hex -&gt; digit | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'A' | 'B' | 'C' | 'D'
+| 'E' | 'F'
+</p>
+<a name="Restrictions_2"><h4> <span class="mw-headline">1.8.2 Restrictions </span></h4>
+<table border="1" cellspacing="0">
+<tr>
+<td> encodedParams </td><td> Latitude &amp; longitude params are mandatory.
+</td></tr>
+<tr>
+<td> plainTextParams </td><td> Latitude &amp; longitude params are mandatory.
+</td></tr>
+<tr>
+<td> latitudevalue</td><td> Value ranges between -90 and +90,where negative values indicate southern
+<p>hemisphere &amp; positive values indicate northern hemisphere.The decimal
+number is rounded upto 6 decimal digits.
+</p>
+</td></tr>
+<tr>
+<td> longitudevalue</td><td> Value ranges between -180 and +180,where negative values indicate western
+<p>hemisphere &amp; positive values indicate eastern hemisphere.The decimal number
+is rounded upto 6 decimal digits.
+</p>
+</td></tr>
+<tr>
+<td> escaped</td><td> Only special characters whose Ascii value ( provided in hex ) ranges
+<p>between these are to be escaped : 20 - 2F , 3A - 40 , 5B - 60 , 7B - 7E. 
+</p>
+</td></tr>
+<tr>
+<td> zoomValue</td><td> Ranges from 0 to 17
+</td></tr>
+<tr>
+<td> imageHeight</td><td> Ranges from 0 to 2048 (works only when imageWidth is also specified)
+</td></tr>
+<tr>
+<td> imageWidth</td><td> Ranges from 0 to 2048 (works only when imageHeight is also specified)
+</td></tr>
+<tr>
+<td> imageFormat</td><td> Ranges from 0 to 3. 0-PNG, 1-JPEG, 2-GIF, 3-BMP
+</td></tr>
+<tr>
+<td> mapScheme</td><td> Ranges from 0 to 2. 0-normal.day, 1-hybrid.day, 2-terrain.day
+</td></tr>
+<tr>
+<td> imageQuality</td><td> Ranges from 0 to 100. Applicable only for JPEG images
+</td></tr>
+</table>
+</a><a name="Example_URL_2"><h4> <span class="mw-headline">1.8.3 Example URL </span></h4>
+</a><p>The following example URLs contains the location information and follows the
+grammar as defined previously.
+</p><p>Example of Plaintext URL:
+</p><p><a class="external free" href="http://m.ovi.me/?lo=2.29464&amp;la=48.8580&amp;u=10d&amp;z=10&amp;w=111&amp;h=121&amp;f=2&amp;t=2&amp;co=France&amp;ci=Paris&amp;s=Champ%20de%20Mars&amp;zi=1234567&amp;n=123" rel="nofollow" title="http://m.ovi.me/?lo=2.29464&amp;la=48.8580&amp;u=10d&amp;z=10&amp;w=111&amp;h=121&amp;f=2&amp;t=2&amp;co=France&amp;ci=Paris&amp;s=Champ%20de%20Mars&amp;zi=1234567&amp;n=123">http://m.ovi.me/?lo=2.29464&amp;la=48.8580&amp;u=10d&amp;z=10&amp;w=111&amp;h=121&amp;f=2&amp;t=2&amp;co=France&amp;ci=Paris&amp;s=Champ%20de%20Mars&amp;zi=1234567&amp;n=123</a>
+</p><p>Example of Encoded URL:
+</p><p><a class="external free" href="http://m.ovi.me/BE_Uh_TozbGo&amp;s=E Huamen Ave 87&amp;ci=Beijing&amp;co=China" rel="nofollow" title="http://m.ovi.me/BE_Uh_TozbGo&amp;s=E%20Huamen%20Ave%2087&amp;ci=Beijing&amp;co=China">http://m.ovi.me/BE_Uh_TozbGo&amp;s=E%20Huamen%20Ave%2087&amp;ci=Beijing&amp;co=China</a>
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Using_a_landmarks_database"><h3> <span class="mw-headline">2.1 Using a landmarks database </span></h3>
+</a><p>To start accessing landmarks in a landmark database, the client only must create an instance of the <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> class.
+This is accomplished by calling one of the <span class="plainlinks"><code>CPosLandmarkDatabase::OpenL()</code> </span> overloads.
+The default landmark database is opened by calling the overload with no parameters.
+(If the client wants to open any other landmark database, a URI is used to
+specify which database to open.
+</p><p>When the client has opened a landmark database, the database may have to
+be initialized. There is a method <span class="plainlinks"><code>CPosLandmarkDatabase::IsInitializingNeeded()</code> </span> for
+checking if the database must be initialized and a method <span class="plainlinks"><code>CPosLandmarkDatabase::InitializeL()</code> </span> for
+performing initialization. If the database is not initialized, the client
+will not be able to access the database. The client may also be required to
+call <code>InitializeL()</code> in the case when the database needs recovery
+(which may happen if a modifying transaction has failed).
+</p><p>When the client has a <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> object, it
+can start reading or editing the database content.<b> Note:</b> It is not
+possible to edit the database content if the database is read-only.
+</p><p>The database handle is closed by destroying the <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> object.
+Closing the handle is not allowed while there are still operations running
+on it. Doing so will result in a panic.
+</p><p>When the client is done using Landmarks API, it must call the global
+method <code>ReleaseLandmarkResources()</code>.
+If this method is not called, the client may get a memory leak.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_API_UsingDb_Sequence.png" title="Using database sequence diagram"><img alt="Using database sequence diagram" border="0" height="688" src="images/SPB_10_1_Landmarks_API_UsingDb_Sequence.png" width="620" /></a></div>
+<div style="text-align:center"><i>Using database sequence diagram</i></div>
+<p>It is recommended to execute initialization operation incrementally-asynchronously.
+</p>
+<a name="Database_URI"><h4> <span class="mw-headline">2.1.1 Database URI </span></h4>
+</a><p><span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> contains a method <code>OpenL()</code>,
+which takes a database URI as input. The URI consists of a scheme and the
+database location-<i>&lt;scheme&gt;://&lt;location&gt;</i>. If the
+scheme is left out, it is understood that the database is local on the terminal
+and is accessed through the file system. The URI<i> c:landmarks.LDB</i> is
+therefore the same thing as<i> file://c:landmarks.ldb</i>.
+</p><p>The location part of a landmark database URI for a database residing in
+the terminal is specified by a drive letter, a database name and the LDB extension.
+The format is<i> &lt;drive&gt;:&lt;database name&gt;.ldb</i>, e.g.<i> c:landmarks.ldb</i>.<b> Note:</b> A
+path cannot be specified. If the URI does not specify the drive letter, for
+example<i> landmarks.ldb</i>, the default landmark database drive will be
+assumed.
+</p><p><span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> provides also method <code>DatabaseUriLC()</code>,
+which retrieves the URI of the open database.
+</p>
+<a name="Compacting_database"><h4> <span class="mw-headline">2.1.2 Compacting database </span></h4>
+</a><p>When modifying a landmark database, the database size increases. Some of
+this memory is not really used. The client should therefore supervise the
+database usage using the <span class="plainlinks"><code>CPosLandmarkDatabase::SizeL()</code> </span> method
+and compact the database if there is too much unused space. <span class="plainlinks"><code>CPosLandmarkDatabase::CompactL()</code> </span> is
+used to perform compacting and it can be run incrementally.
+</p><p>Compaction is done internally in Landmarks as fallback in case the client
+does not do it. This will lock the database and clients will not be able to
+access the database until the compaction is complete. This is unexpected behavior
+from the user's point of view and it is therefore recommended that the client
+performs the compaction itself.
+</p><p>It is recommended to perform compaction when the usage level drops below
+70%.
+</p>
+<a name="Releasing_resources"><h4> <span class="mw-headline">2.1.3 Releasing resources </span></h4>
+</a><p>The Landmarks subsystem uses ECom plug-ins that provide the implementation
+for accessing landmark databases. ECom allocates resources that are not released
+when the plug-in is unloaded. These must be explicitly released by the client
+at shutdown. This is done by calling the global method <code>ReleaseLandmarkResources()</code>, which has
+the same effect as <code>REComSession::FinalClose()</code>.
+</p><p>The most common way to release landmark resources is to call <code>ReleaseLandmarkResources()</code> last in the
+client's destructor.
+</p>
+<a name="Managing_landmarks"><h3> <span class="mw-headline">2.2 Managing landmarks </span></h3>
+</a><p>Landmark properties are maintained by <span class="plainlinks"><code>CPosLandmark</code> </span> class. A client uses this class to get and set landmark data.
+</p><p>The following example shows how to open database and read landmarks.
+</p>
+<pre>// Open a handle to the default landmark database.
+CPosLandmarkDatabase* db = CPosLandmarkDatabase::OpenL();
+CleanupStack::PushL( db );
+
+// Perform initialization.
+// If initialization is not needed, this method will not do anything.
+ExecuteAndDeleteLD( db-&gt;InitializeL() );
+
+// Create an iterator for iterating the landmarks in the database
+CPosLmItemIterator* iter = db-&gt;LandmarkIteratorL();
+CleanupStack::PushL( iter );
+
+// Read each landmark in the database and do something.
+TPosLmItemId lmID = KPosLmNullItemId;
+while ( ( lmID = iter-&gt;NextL() ) != KPosLmNullItemId )
+    {
+    CPosLandmark* lm = db-&gt;ReadLandmarkLC( lmID );
+    // Do something with the landmark information
+    CleanupStack::PopAndDestroy( lm );
+    }
+// Close the iterator and the database handle.
+CleanupStack::PopAndDestroy( iter );
+CleanupStack::PopAndDestroy( db );
+</pre>
+<p>The client can also edit the attributes of a landmark in the database.
+In order to save changes permanently in database the <span class="plainlinks"><code>CPosLandmarkDatabase::UpdateLandmarkL</code> </span> method
+needs to be used.
+</p><p>The following example shows how to change the name of a landmark ( <span class="plainlinks"><code><font color="darkred">aDatabase</font></code> </span> is
+an open <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> handle).
+</p>
+<pre>void RenameLandmarkL(
+    CPosLandmarkDatabase&amp; aDatabase,
+    TPosLmItemId aLandmarkId,
+    const TDesC&amp; aNewName )
+{
+// Read the landmark from the database.
+CPosLandmark* lm = aDatabase.ReadLandmarkLC( aLandmarkId );
+
+// Set the new name and update the database
+lm-&gt;SetLandmarkNameL( aNewName );
+aDatabase.UpdateLandmarkL( *lm );
+
+CleanupStack::PopAndDestroy( lm );
+}
+</pre>
+<p>The following example shows how a landmark is added to a landmark database
+( <span class="plainlinks"><code><font color="darkred">aDatabase</font></code> </span> is an open <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> pointer).
+</p>
+<pre>_LIT( KName, "My Thai" );
+_LIT( KDescription, "Best Thai restaurant ever. Spicy food." );
+
+TLocality pos;
+pos.SetCoordinate( 61.1120, 23.4231 );
+
+// Create the landmark object and set available information.
+CPosLandmark* lm = CPosLandmark::NewLC();
+lm-&gt;SetLandmarkNameL( KName );
+lm-&gt;SetLandmarkDescriptionL( KDescription );
+lm-&gt;SetPositionL( pos );
+
+// Add the landmark to the database.
+aDatabase-&gt;AddLandmarkL(*lm);
+
+CleanupStack::PopAndDestroy(lm);
+</pre>
+<a name="Reading_partial_landmarks"><h4> <span class="mw-headline">2.2.1 Reading partial landmarks </span></h4>
+</a><p>Landmark data can be spread among different tables in the landmark database.
+When landmark is read from database, all those tables need to be accessed.
+However, in many cases when many landmarks are read (e.g. for landmark list)
+applications need only partial information for every landmark. In this case
+amount of tables accessed and data transferred during reading can be reduced
+(thus improving performance) by using "partial read" mechanism of Landmarks
+API. Following diagram shows basic steps of partial read.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_API_ReadPartial_Sequence.png" title="Partial read sequence diagram"><img alt="Partial read sequence diagram" border="0" height="755" src="images/SPB_10_1_Landmarks_API_ReadPartial_Sequence.png" width="830" /></a></div>
+<div style="text-align:center"><i>Partial read sequence diagram</i></div>
+<p>The following example shows how the client can efficiently read just the
+names of all the landmarks using partial read. <code>aDatabase</code> is
+an open <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> handle. For simplicity the
+incremental operation is executed in one batch in this example.
+</p>
+<pre>CArrayPtr&lt;CPosLandmark&gt;* ReadLandmarkNamesOnlyLC( CPosLandmarkDatabase&amp; aDatabase )
+{
+// Retrieve IDs for all landmarks in the database.
+RArray&lt;TPosLmItemId&gt; landmarkIds;
+CleanupClosePushL( landmarkIds );
+CPosLmItemIterator* iter = aDatabase-&gt;LandmarkIteratorL();
+CleanupStack::PushL( iter );
+iter-&gt;GetItemIdsL( landmarkIds, 0, iter-&gt;NumOfItemsL() );
+CleanupStack::PopAndDestroy(iter);
+
+// Set partial parameters so that only the landmark name will be retrieved.
+CPosLmPartialReadParameters* part = CPosLmPartialReadParameters::NewLC();
+part-&gt;SetRequestedAttributes( CPosLandmark::ELandmarkName );
+aDatabase-&gt;SetPartialReadParametersL( *part );
+CleanupStack::PopAndDestroy( part );
+
+// Start collecting the partial landmark data. Note that
+// this will be quicker than reading full landmarks.
+CPosLmOperation* op = aDatabase-&gt;PreparePartialLandmarksL( landmarkIds );
+CleanupStack::PushL( op );
+op-&gt;ExecuteL();
+
+// The landmark objects can be retrieved from the operation object. These
+// landmark objects now contain only the names of the landmarks so
+// the heap is used efficiently.
+CArrayPtr&lt;CPosLandmark&gt;* lmData = aDatabase-&gt;TakePreparedPartialLandmarksL( op );
+CleanupStack::PopAndDestroy(op);
+CleanupStack::PopAndDestroy( &amp;landmarkIds );
+
+CleanupStack::PushL( lmData ); // there is a slot for it freed by previous Pop
+return lmData;
+}
+</pre>
+<a name="Managing_categories"><h3> <span class="mw-headline">2.3 Managing categories </span></h3>
+</a><p>To access categories in a landmark database, the client must first have a handle to a landmark
+database ( <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span>). This handle is passed
+to <span class="plainlinks"><code>CPosLmCategoryManager::NewL()</code> </span> to create a category
+manager. After this, the client can read and edit category content in the
+database. Category properties are maintained by <span class="plainlinks"><code>CPosLandmarkCategory</code> </span> class.
+</p><p>The following example shows how to read all landmark categories in a database
+and retrieve their names. aDb is an open database handle.
+</p>
+<pre>void ReadAllCategoriesInDatabase( CPosLandmarkDatabase&amp; aDb )
+{
+// Create the category manager
+CPosLmCategoryManager* categoryManager = CPosLmCategoryManager::NewL( aDb );
+CleanupStack::PushL( categoryManager );
+
+// Create an iterator for iterating the landmarks in the database
+CPosLmItemIterator* iter = categoryManager-&gt;CategoryIteratorL();
+CleanupStack::PushL( iter );
+
+// Read each category in the database and do something.
+TPosLmItemId catID;
+while ( ( catID = iter-&gt;NextL() ) != KPosLmNullItemId )
+    {
+    CPosLandmarkCategory* cat = categoryManager-&gt;ReadCategoryLC( catID );
+
+    // do something with the category information
+    TPtrC catName;
+    cat-&gt;GetCategoryName( catName );
+
+    // if any changes made, following code saves them to database
+    // categoryManager-&gt;UpdateCategoryL( *cat );
+
+    CleanupStack::PopAndDestroy( cat );
+    }
+
+// Close the iterator and the category manager.
+CleanupStack::PopAndDestroy( iter );
+CleanupStack::PopAndDestroy( categoryManager );
+}
+</pre>
+<a name="Creating_a_local_category"><h4> <span class="mw-headline">2.3.1 Creating a local category </span></h4>
+</a><p>The following example shows how the client can create a new category and
+add it to the database.
+</p>
+<pre>// Create a local category object
+CPosLandmarkCategory* category = CPosLandmarkCategory::NewLC();
+_LIT( KRestaurant, "Restaurant" );
+category-&gt;SetCategoryNameL( KRestaurant );
+
+// Add it to the database
+TPosLmItemId categoryId = aCategoryManager-&gt;AddCategoryL( *category );
+CleanupStack::PopAndDestroy( category );
+</pre>
+<a name="Assigning_categories_to_landmarks"><h3> <span class="mw-headline">2.4 Assigning categories to landmarks </span></h3>
+</a><p>There is a "many-to-many" relationship between landmarks and landmarks
+categories: landmark can be assigned to zero or more categories and one category
+may be assigned to zero or more landmarks.
+</p><p>The following example shows how the client can add a category to a landmark.
+</p>
+<pre>void AddCategoryToLandmarkL(
+    CPosLandmarkDatabase&amp; aDatabase,
+    TPosLmItemId aLandmarkId,
+    TPosLmItemId aCategoryId )
+{
+// Find landmark in database
+CPosLandmark* landmark = aDatabase.ReadLandmarkLC( aLandmarkId );
+// Add category. If it is already added, nothing happens
+landmark-&gt;AddCategoryL( aCategoryId );
+// Save to database
+aDatabase.UpdateLandmarkL( *landmark );
+// Cleanup
+CleanupStack::PopAndDestroy( landmark );
+}
+</pre>
+<p>The following code example shows how the client can add a category to multiple
+landmarks. A global category is assigned to a set of landmarks in this example.
+</p>
+<pre>void AddLandmarksToGlobalCategoryL(
+    CPosLandmarkDatabase&amp; aDatabase,
+    RPointerArray&lt;TPosLmItemId&gt;&amp; aLandmarkIds,
+    TPosLmGlobalCategory aGlobalCategoryID )
+{
+CPosLmCategoryManager* categoryManager = CPosLmCategoryManager::NewL( aDatabase );
+CleanupStack::PushL( categoryManager );
+
+// Find ID of the given global category in given database
+TPosLmItemId categoryId = categoryManager-&gt;GetGlobalCategory( aGlobalCategoryID );
+
+// Add given landmarks to this category
+ExecuteAndDeleteLD(
+ categoryManager-&gt;AddCategoryToLandmarksL( categoryId, aLandmarkIds ) );
+
+CleanupStack::PopAndDestroy( categoryManager );
+}
+</pre>
+<a name="Listening_to_database_events"><h3> <span class="mw-headline">2.5 Listening to database events </span></h3>
+</a><p>The following sequence shows how a client can listen to database events.
+</p>
+<ul><li> The client has a handle to a landmark database; that is, a <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> instance.
+</li><li> The client calls <span class="plainlinks"><code>CPosLandmarkDatabase::NotifyDatabaseEvent()</code> </span>, which takes a <span class="plainlinks"><code>TPosLmEvent</code> </span> object and <code>TRequestStatus</code>.
+</li><li> <code>TRequestStatus</code> is completed when there is an event. Information about the event is found in the <span class="plainlinks"><code>TPosLmEvent</code> </span> object supplied by the client.
+</li><li> When the event is handled, the client renews the <code>NotifyDatabaseEvent()</code> request to listen to the next event.
+</li><li> When the client does not want to listen to events any more, it stops calling <code>NotifyDatabaseEvent()</code>. If the client has an outstanding request to <code>NotifyDatabaseEvent()</code>, it can cancel the request by calling <code>NotifyDatabaseEvent()</code>. The <span class="plainlinks"><code>TPosLmEvent</code> </span> object consists of an event type and an item ID. The event type specifies what has happened and in some events the item ID specifies a database item involved in the event (for example,
+</li></ul>
+<p>the ID of a newly added landmark).
+</p><p>The following table lists defined events:
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Landmark database events</b>
+</caption>
+<tr bgcolor="gray">
+<th> Event type</th><th> Description</th><th> Item Id
+</th></tr>
+<tr>
+<td> <span class="plainlinks"><code>EPosLmEventUnknownChanges</code> </span></td><td> Unknown change event. Something has been changed in the database but no further details are given. All content, which is of interest for the client, should be read again from the database. This event may be received if there are big changes in the database.</td><td>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EPosLmEventNewDefaultDatabaseLocation</code> </span></td><td> This event is received if the default landmark database location is
+<p>changed. The client has to open a new <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> handle to access the default database from the new location.||
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EPosLmEventMediaRemoved</code> </span></td><td> This event is received if the media where the database is stored is removed. After this, the database cannot be accessed. If the media is inserted again, the database must still be reopened by the client.</td><td>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EPosLmEventLandmarkUnknownChanges</code> </span></td><td> Unknown change event concerns only landmarks. This is analogous to <span class="plainlinks"><code>EPosLmEventUnknownChanges</code> </span> but it is known that only landmark data has been modified.</td><td>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EPosLmEventLandmarkCreated</code> </span></td><td> A new landmark has been created in the database.</td><td> The ID of the new landmark.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EPosLmEventLandmarkDeleted</code> </span></td><td> A landmark has been deleted from the database.</td><td> The ID of the deleted landmark.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EPosLmEventLandmarkUpdated</code> </span></td><td> A landmark in the database has been updated.</td><td> The ID of the updated landmark.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EPosLmEventCategoryUnknownChanges</code> </span></td><td> Unknown change event concerning only landmark categories. This is analogous
+<p>to <span class="plainlinks"><code>EPosLmEventUnknownChanges</code> </span> but it is known that only landmark category data has been modified.||
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EPosLmEventCategoryCreated</code> </span></td><td> A new landmark category has been created in the database.</td><td> The ID of the new landmark category.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EPosLmEventCategoryDeleted</code> </span></td><td> A landmark category has been deleted from the database.<b> Note:</b> No events relating to landmarks are sent even if the deleted category was assigned to some landmarks.</td><td> The ID of the deleted landmark category.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EPosLmEventCategoryUpdated</code> </span></td><td> A landmark category in the database has been updated.</td><td> The ID of the updated landmark category.
+</td></tr></table>
+<p>The following code example shows how to implement a class, which listens to changes in a landmark database. The following code section shows how the class is defined.  class CLandmarkEventListener : public CActive
+</p>
+<pre>    {
+    public: // constructor and destructor
+
+        static CLandmarkEventListener* NewL( CPosLandmarkDatabase* aDatabase );
+        virtual ~CLandmarkEventListener();
+
+    public: // From CActive
+
+        void RunL();
+        void DoCancel();
+        TInt RunError( TInt aError );
+
+    private:
+        CLandmarkEventListener( CPosLandmarkDatabase* aDatabase );
+        void ConstructL();
+
+    private:
+        CPosLandmarkDatabase* iDatabase;
+        TPosLmEvent iEvent;
+    };
+</pre>
+<p>The following example code shows the source code for <span class="plainlinks"><code>CLandmarkEventListener</code> </span>.
+</p>
+<pre>CLandmarkEventListener::CLandmarkEventListener( CPosLandmarkDatabase* aDatabase )
+: CActive( EPriorityStandard ), iDatabase( aDatabase )
+    {
+    }
+
+void CLandmarkEventListener::ConstructL()
+    {
+    // Start listening for events.
+    iDatabase-&gt;NotifyDatabaseEvent( iEvent, iStatus );
+    SetActive();
+    }
+
+CLandmarkEventListener* CLandmarkEventListener::NewL(
+    CPosLandmarkDatabase* aDatabase)
+    {
+    CLandmarkEventListener* self =
+        new (ELeave) CLandmarkEventListener( aDatabase );
+    CleanupStack::PushL( self );
+    self-&gt;ConstructL();
+    CleanupStack::Pop( self );
+    return self;
+    }
+
+CLandmarkEventListener::~CLandmarkEventListener()
+    {
+    // Cancel any outstanding event request.
+    Cancel();
+    }
+
+void CLandmarkEventListener::RunL()
+    {
+    if ( iStatus != KErrNone )
+        {
+        // Unexpected error. This should be handled in some way, such as
+        // shut down application, try to listen again, notify user.
+        }
+    switch ( iEvent.iEventType )
+        {
+        case EPosLmEventLandmarkCreated :
+            {
+            TPosLmItemId newLandmarkId = iEvent.iLandmarkItemId;
+            // Read new landmark from database and add it to UI.
+            }
+            break;
+        case EPosLmEventLandmarkDeleted :
+            {
+            TPosLmItemId deletedLandmarkId = iEvent.iLandmarkItemId;
+            // Remove the landmark from the UI.
+            }
+            break;
+        }
+    // Resume event listening
+    iDatabase-&gt;NotifyDatabaseEvent( iEvent, iStatus );
+    SetActive();
+    }
+
+void CLandmarkEventListener::DoCancel()
+    {
+    iDatabase-&gt;CancelNotifyDatabaseEvent();
+    }
+
+TInt CLandmarkEventListener::RunError( TInt /*aError*/ )
+    {
+    // process leaves from RunL, if any
+    return KErrNone;
+    }
+</pre>
+<a name="Exchanging_landmarks"><h3> <span class="mw-headline">2.6 Exchanging landmarks </span></h3>
+</a><p>A client can exchange landmark data with another party by using the import
+and export functionality. Two classes, <span class="plainlinks"><code>CPosLandmarkEncoder</code> </span> and <span class="plainlinks"><code>CPosLandmarkParser</code> </span> are
+used to convert landmark data to exchange format and from. The exchange format
+is defined by specifying its MIME type. The recommended format is "application/vnd.nokia.landmarkcollection+xml".
+Since S60 5.0 also GPX format parsing supported. GPX format is identified
+by MIME "application/gps+xml".
+</p><p>since S60 5.1 KML/KMZ format parsing supported. KML format is identified
+by MIME "application/vnd.google-earth.kml+xml " and KMZ formate is identified
+by MIME "application/vnd.google-earth.kmz "
+</p><p>Since S60 5.2, Encoding and Parsing of a URL is also supported.The mime
+type to be specified here ,while creating an instance of the <span class="plainlinks"><code>CPosLandmarkEncoder</code> </span> and <span class="plainlinks"><code>CPosLandmarkParser</code> </span> class
+is the hostname of the URL to be parsed. For example, if the URL to be parsed is
+"<a class="external free" href="http://www.maps.ovi.com/" rel="nofollow" title="http://www.maps.ovi.com/">http://www.maps.ovi.com/</a>? la = 23.45 &amp; lo = 45.65 ", the mime type
+to be passed will be " maps.ovi.com". Currently there is support only for
+this hostname.
+</p>
+<a name="Exporting_landmarks"><h4> <span class="mw-headline">2.6.1 Exporting landmarks </span></h4>
+</a><p>To export a set of landmarks, the client must first create a <span class="plainlinks"><code>CPosLandmarkEncoder</code> </span> object
+for the landmark content format in which the landmarks should be encoded.
+The client can add some information of the landmark collection in the encoder
+as well.
+</p><p>The client must also provide a list of the landmarks to be exported. If
+some of the landmarks are not found in the database, the export operation
+fails with the error code <code>KErrNotFound</code>. The client does not
+have to add any landmarks to the encoder object. The export operation will
+add the ones specified in the ID array. The method returns an operation object,
+which can be run in incremental mode. If it is run incrementally, the client can
+supervise the progress of the operation.
+</p><p>If the <span class="plainlinks"><code>CPosLmOperation</code> </span> object is deleted before the
+operation is complete, it is possible that only a subset of the landmarks
+is exported. The client takes ownership of the returned operation object.
+When all the landmarks have been exported, the client must finalize the encoding
+by calling <span class="plainlinks"><code>CPosLandmarkEncoder::FinalizeEncodingL()</code> </span>.
+</p><p>The sequence diagram below describes basic steps a client does to export
+landmarks from a database to a file.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_API_Export_Sequence.png" title="Exporting landmarks sequence diagram"><img alt="Exporting landmarks sequence diagram" border="0" height="822" src="images/SPB_10_1_Landmarks_API_Export_Sequence.png" width="881" /></a></div>
+<div style="text-align:center"><i>Exporting landmarks sequence diagram</i></div>
+<p>The following example shows how the client can export landmarks to a file
+using the <span class="plainlinks"><code>CPosLandmarkDatabase::ExportLandmarksL()</code> </span> method.
+aDatabase is an open <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> handle. In this
+example incremental operations are executed synchronously.
+</p>
+<pre>void ExportSelectedLandmarksL(
+    CPosLandmarkDatabase&amp; aDatabase,
+    RArray&lt;TPosLmItemId&gt;&amp; aSelectedLandmarks)
+{
+_LIT( KExportFilePath, "c:\\eposLmExport.lmx" );
+// Mime type of landmarks exchange format
+_LIT8( KPosMimeTypeLandmarkCollectionXml,
+ "application/vnd.nokia.landmarkcollection+xml" );
+
+// Create the encoder to be used for exporting landmarks
+CPosLandmarkEncoder* encoder =
+	  CPosLandmarkEncoder::NewL( KPosMimeTypeLandmarkCollectionXml );
+CleanupStack::PushL( encoder );
+
+// Point out the file to export landmark data to
+encoder-&gt;SetOutputFileL( KExportFilePath );
+
+// Execute the operation in one batch
+// Note: There must be landmarks for specified IDs in the database,
+// otherwise operation will fail with KErrNotFound leave code
+ExecuteAndDeleteLD( aDatabase-&gt;ExportLandmarksL(
+ *encoder, aSelectedLandmarks, CPosLandmarkDatabase::EIncludeCategories ) );
+
+// Finalize encoding to complete export
+ExecuteAndDeleteLD( encoder-&gt;FinalizeEncodingL() );
+CleanupStack::PopAndDestroy( encoder );
+}
+</pre>
+<a name="Importing_landmarks"><h4> <span class="mw-headline">2.6.2 Importing landmarks </span></h4>
+</a><p>To import landmark content, the client must first create a parser object
+of class <span class="plainlinks"><code>CPosLandmarkParser</code> </span>, which can parse the landmark
+content. The client does not have to call <span class="plainlinks"><code>CPosLandmarkParser::ParseContentL()</code> </span> first.
+If the content is not already parsed, this will be handled by the import operation.
+</p><p>There are two different <span class="plainlinks"><code>CPosLandmarkDatabase::ImportLandmarksL()</code> </span> overloads
+defined that can be used to import landmark data. In one of them, the client
+can pass an array defining a subset of the landmarks in the parser object.
+This way the client can select to import only a part of the landmark content.
+The other method does not take any parameters and imports all landmarks. Both
+the import methods return an operation object, which can be run in incremental
+mode. If it is run incrementally, the client can
+supervise the progress of the operation.
+</p><p>If the <span class="plainlinks"><code>CPosLmOperation</code> </span> object is deleted before the
+operation is complete, it is possible that only a subset of the landmarks
+is imported. The client takes ownership of the returned operation object.
+After completion, <span class="plainlinks"><code>CPosLandmarkDatabase::ImportedLandmarksIteratorL()</code> </span> can
+be called to retrieve the IDs of the added landmarks. If the database is read-only,
+this operation will complete with the error code <code>KErrAccessDenied</code>.
+If the client specifies invalid transfer option values, this operation will
+panic.
+</p><p><b> Note:</b> The <span class="plainlinks"><code>CPosLmOperation::NextStep()</code> </span> method
+cannot be executed synchronously using <code>User::WaitForRequest()</code> for
+the import operations. Doing so may cause the operation to hang. <span class="plainlinks"><code>CPosLmOperation::NextStep()</code> </span> must
+be executed using an active object.
+</p><p>The diagram below describes general steps, which client does when imports
+landmarks from a file.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_API_Import_Sequence.png" title="Importing landmarks sequence diagram"><img alt="Importing landmarks sequence diagram" border="0" height="690" src="images/SPB_10_1_Landmarks_API_Import_Sequence.png" width="892" /></a></div>
+<div style="text-align:center"><i>Importing landmarks sequence diagram</i></div>
+<p>The following example shows how the client can import landmarks from file
+using the <span class="plainlinks"><code>CPosLandmarkDatabase::ImportLandmarksL()</code> </span> method.
+aDatabase is an open <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> handle.
+</p>
+<pre>void ImportLandmarksL(
+    CPosLandmarkDatabase&amp; aDatabase,
+    const TDesC&amp; aImportFilePath )
+{
+// Mime type of landmarks exchange format
+_LIT8( KPosMimeTypeLandmarkCollectionXml,
+    "application/vnd.nokia.landmarkcollection+xml");
+
+// Create the parser to be used for importing landmarks
+CPosLandmarkParser* parser =
+    CPosLandmarkParser::NewL( KPosMimeTypeLandmarkCollectionXml );
+CleanupStack::PushL( parser );
+
+// Point out the file to import landmark data from
+parser-&gt;SetInputFileL( aImportFilePath );
+CPosLmOperation* op = aDatabase-&gt;ImportLandmarksL(
+    *parser, CPosLandmarkDatabase::EDefaultOptions );
+CleanupStack::PushL( op );
+// Execute the operation in one batch
+op-&gt;ExecuteL();
+
+// Fetch the landmark iterator of imported landmark IDs
+CPosLmItemIterator* iter = aDatabase-&gt;ImportedLandmarksIteratorL( op );
+CleanupStack::PushL( iter );
+
+// Fetch imported landmark data using this iterator
+
+// Cleanup
+CleanupStack::PopAndDestroy( iter );
+CleanupStack::PopAndDestroy( op );
+CleanupStack::PopAndDestroy( parser );
+}
+</pre>
+<a name="Encoding_of_Landmarks_to_a_URL"><h4> <span class="mw-headline">2.6.3 Encoding of Landmarks to a URL </span></h4>
+</a><p>To encode a landmark to a URL ,the client has to first create an instance
+of <span class="plainlinks"><code>CPosLandmarkEncoder</code> </span> class with the URL hostname as the
+MIME type.( which can either be 'maps.ovi.com' or 'm.ovi.me').The output buffer into which the encoded
+URL is written can be set using the CPosLandmarkEncoder::SetUseOutputBufferL.The output can also be encoded into a file by setting the output file using CPosLandmarkEncoder::SetUseOutputFileL.
+</p><p>The client can specify the landmark to be encoded by using <span class="plainlinks"><code>CPosLandmarkEncoder::AddLandmarkL()</code> </span> method.When
+the landmark has been encoded, the client must finalize the encoding by calling <span class="plainlinks"><code>CPosLandmarkEncoder::FinalizeEncodingL().</code> </span>
+</p><p>The sequence diagram below describes basic steps a client does to encode
+landmark to a URL.Currently encoding of only a single landmark is supported.Therefore
+if AddLandmarkL() method is called more than once during the encoding process
+KErrNotSupported is returned.
+</p><p>The following example shows how the client can encode landmark to a URL
+using CPosLandmarkEncoder class.
+</p>
+<pre>void EncodeLandmarktoUrl ( CPosLandmark&amp; aLandmark )
+{
+//Mime type used for encoding URL
+_LIT8( KUrlMimeType , "maps.ovi.com" );
+
+// Mime type used for encoding a URL for m.ovi.me domain
+// _LIT8( KUrlMimeType , "m.ovi.me" );
+
+// Create the encoder to be used for encoding landmark to URL
+CPosLandmarkEncoder* encoder =
+	  CPosLandmarkEncoder::NewL( KUrlMimeType );
+CleanupStack::PushL( encoder );
+
+// Set output buffer into which the encoded URL will be written
+CBufBase* outputBuffer = encoder-&gt;SetUseOutputBufferL();
+
+// Add the landmark to be encoded
+encoder-&gt;AddLandmarkL( aLandmark );
+
+// Perform required operation on the outputBuffer
+// Delete the buffer
+delete outputBuffer;
+
+// Finalize encoding
+ExecuteAndDeleteLD( encoder-&gt;FinalizeEncodingL() );
+CleanupStack::PopAndDestroy( encoder );
+
+}
+</pre>
+<a name="Parsing_a_URL_to_obtain_a_landmark"><h4> <span class="mw-headline">2.6.4 Parsing a URL to obtain a landmark </span></h4>
+</a><p>The client can parse a URL and decode the landmark information present
+in the URL by using the <span class="plainlinks"><code>CPosLandmarkParser</code> </span> class.In order
+to do this,the client has to first create an instance of the <span class="plainlinks"><code>CPosLandmarkParser</code> </span> with
+the MIME type as the hostname of the URL( which can either be 'maps.ovi.com' or 'm.ovi.me').
+</p><p>The URL can be provided as an input buffer or input file by using the CPosLandmarkParser::SetInputBuffer method and CPosLandmarkParser::SetInputFileL or CPosLandmarkParser::SetInputFileHandleL methods respectively.
+</p><p>The URL can then be parsed by calling the CPosLandmarkParser::ParseContentL
+method.This method returns a pointer to the CPosLmOperation class , which is then used to call the CPosLmOperation::ExecuteL method to complete the parsing operation.
+</p><p>The parsed landmark can then be retrieved using the CPosLandmarkParser::LandmarkLC method.
+</p><p>The sequence diagram below describes basic steps a client does to parse
+a URL and decode it to a landmark Currently decoding of only a single landmark
+is supported.
+</p><p>The following example shows how the client can parse a URL using CPosLandmarkParser class.
+</p>
+<pre>void ParseURLtoLandmark ( TDesC&amp; aUrl )
+{
+//Mime type used for encoding URL
+_LIT8( KUrlMimeType , "maps.ovi.com" );
+
+// Mime type used for decoding a URL for m.ovi.me domain
+// _LIT8( KUrlMimeType , "m.ovi.me" );
+
+// Create the parser to be used for parsing the URL
+CPosLandmarkParser* parser =
+	  CPosLandmarkParser::NewL( KUrlMimeType );
+CleanupStack::PushL( parser );
+
+// Set the input buffer that contains the URL to be parsed
+parser-&gt;SetInputBuffer( aUrl );
+
+// Parse the URL
+CPosLmOperation* op  = parser-&gt;ParseContentL();
+CleanupStack::PushL( op );
+// Execute the operation in one batch
+op -&gt; ExecuteL();
+
+// Retrieve the parsed landmark
+CPosLandmark* parsedLandmark = parser-&gt;LandmarkLC();
+
+// Client can perform required operation on the parsedLandmark
+
+CleanupStack::PopAndDestroy( parsedLandmark );
+CleanupStack::PopAndDestroy( op );
+CleanupStack::PopAndDestroy( parser );
+
+}
+</pre>
+<a name="Incremental_operations_2"><h3> <span class="mw-headline">2.7 Incremental operations </span></h3>
+</a><p>Some operations in  the Landmarks API can take a long time to complete. It is
+recommended to run them incrementally. The client can use an active object
+to run the incremental operations in the background so that other tasks can
+be handled in the meantime, in particular handling UI events. 
+</p><p>The following sequence shows a typical usage of an incremental operation.
+</p>
+<ul><li> The client requests an incremental operation, for example <span class="plainlinks"><code>CPosLandmarkDatabase::CompactL()</code> </span>.
+</li></ul>
+<ul><li> The Landmarks API method returns a <span class="plainlinks"><code>CPosLmOperation</code> </span> object, which the client takes ownership of.
+</li></ul>
+<ul><li> The client uses an active object and calls <span class="plainlinks"><code>CPosLmOperation::NextStep()</code> </span> once every time the active object is scheduled. <code>NextStep()</code> returns a progress value, which the client uses to display a progress bar to the user. The client stops when <code>NextStep()</code> reports the status <code>KErrNone</code> or an error code.
+</li></ul>
+<ul><li> When <code>NextStep()</code> reports that the operation is complete, the client is responsible for deleting the <span class="plainlinks"><code>CPosLmOperation</code> </span> object.
+</li></ul>
+<p>The operation can be cancelled by deleting the operation object before the operation is complete.<b> Note:</b> Changes that were already done before the operation was cancelled are not rolled back. These changes will be a part of the database.
+</p><p><b> Note:</b> It is still possible to run the operation all at once. This
+is done by calling <span class="plainlinks"><code>CPosLmOperation::ExecuteL()</code> </span> instead
+of <span class="plainlinks"><code>CPosLmOperation::NextStep()</code> </span>. If there is some error, <code>ExecuteL()</code> will
+leave. There is a utility method, <span class="plainlinks"><code><font color="darkred">ExecuteAndDeleteLD()</font></code> </span>,
+which first calls <code>ExecuteL()</code> and then deletes the operation
+object. The utility method leaves if the operation fails. This utility method
+is useful when the client does not need to use the operation object after
+it has completed.
+</p>
+<pre>ExecuteAndDeleteLD( database-&gt;InitializeL() );
+</pre>
+<p><b> Note:</b> The usage of <code>ExecuteL()</code> and <code>NextStep()</code> cannot
+be mixed. For instance, if <code>NextStep()</code> has been called, any
+call to <code>ExecuteL()</code> will panic.
+</p><p>The next example shows how to handle the compaction of a landmark database
+using incremental execution of operations. <span class="plainlinks"><code>CCompactHandler</code> </span> is
+responsible for the compact operation, and to be able to handle incremental
+execution asynchronously, it inherits from <span class="plainlinks"><code>CActive</code> </span>.
+</p><p>The <span class="plainlinks"><code>CCompactHandler</code> </span> class is defined as follows:
+</p>
+<pre>class CCompactHandler : public CActive
+    {
+    public:
+       CCompactHandler( CPosLandmarkDatabase* aDatabase );
+       virtual ~CCompactHandler();
+
+       void CompactIfNeededL();
+
+    public: // from CActive
+       void RunL();
+       void DoCancel();
+
+    private:
+       CPosLandmarkDatabase* iDatabase;
+       CPosLmOperation* iCompactOperation;
+       TReal32 iProgress;
+ };
+</pre>
+<p>The following code section shows implementation of <span class="plainlinks"><code>CCompactHandler</code> </span>.
+</p>
+<pre>CCompactHandler::CCompactHandler( CPosLandmarkDatabase* aDatabase )
+: CActive( EPriorityIdle ), iDatabase( aDatabase )
+    {
+    }
+
+CCompactHandler::~CCompactHandler()
+    {
+    Cancel();
+    delete iCompactOperation;
+    }
+
+void CCompactHandler::CompactIfNeededL()
+    {
+    // Only compact if not started yet.
+    if ( !iCompactOperation )
+        {
+        CPosLandmarkDatabase::TSize size = iDatabase-&gt;SizeL();
+        // When to compact is up to the client.
+        // In this example we compact when
+        // less than 70% of the database is used.
+        const TReal32 KPercentage = 0.70f;
+        if ( size.iUsage &lt; KPercentage )
+            {
+            iCompactOperation = iDatabase-&gt;CompactL();
+            }
+        iCompactOperation-&gt;NextStep( iStatus, iProgress );
+        SetActive();
+        }
+    }
+
+void CCompactHandler::RunL()
+    {
+    if ( iStatus == KPosLmOperationNotComplete )
+        { // The compact operation has not completed.
+
+        // Use the value iProgress to show progress bar to the phone user.
+        // Perform the next compact step
+        iCompactOperation-&gt;NextStep( iStatus, iProgress );
+        SetActive();
+        }
+    else
+        { // The compact operation has completed.
+        if ( iStatus != KErrNone )
+            {
+            // Notify user of error
+            }
+        delete iCompactOperation;
+        iCompactOperation = NULL;
+        }
+    }
+
+void CCompactHandler::DoCancel()
+    {
+    // Cancel is done by deleting the operation object.
+    delete iCompactOperation;
+    iCompactOperation = NULL;
+    }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.8 Error handling </span></h3>
+</a><p>The Landmarks API uses the standard Symbian error reporting mechanism. In case
+of an irrecoverable error, panics are used, otherwise, errors are reported
+through return codes or leaves.
+</p><p><span class="plainlinks"><code>CPosLmOperation::NextStep()</code> </span> returns a status, which indicates if there is an error.
+</p><p>The following table lists the panic codes defined by  the Landmarks API and
+other Landmarks APIs (such as Landmarks Search API and Landmarks Database Management
+API). The panic category is "Landmarks Client".
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Landmarks panic codes</b>
+</caption>
+<tr bgcolor="gray">
+<th> Panic code</th><th> Panic name</th><th> Description
+</th></tr>
+<tr>
+<td> 0</td><td> EPosInvalidPositionFieldId</td><td> A client has specified a position field ID that is invalid for the
+<p>landmark.
+</p>
+</td></tr>
+<tr>
+<td> 1</td><td> EPosNoneOrMultipleLandmarkAttributeSet</td><td> A client has specified none or multiple landmark attributes.
+</td></tr>
+<tr>
+<td> 2</td><td> EPosSpecifiedIntervalLiesOutsideIteratedSet</td><td> A client has specified an interval that lies partially outside the
+<p>iterated set.
+</p>
+</td></tr>
+<tr>
+<td> 3</td><td> EPosNaNCoordinate</td><td> A client has specified a coordinate with latitude and/or longitude
+<p>set to NaN.
+</p>
+</td></tr>
+<tr>
+<td> 4</td><td> EPosInvalidLandmarkAttribute</td><td> A client has specified a landmark attribute that is invalid.
+</td></tr>
+<tr>
+<td> 5</td><td> EPosInvalidValueSpecifiedInResourceFile</td><td> An invalid value has been detected in an internal resource file. Configuration
+<p>problem.
+</p>
+</td></tr>
+<tr>
+<td> 6</td><td> EPosInvalidPartialReadParameters</td><td> The client has specified invalid partial read parameters in <span class="plainlinks"><code>CPosLmPartialReadParameters</code> </span>.
+</td></tr>
+<tr>
+<td> 7</td><td> EPosInvalidRequestedPositionFields</td><td> The client has specified invalid requested position fields in <span class="plainlinks"><code>CPosLmPartialReadParameters</code> </span>.
+</td></tr>
+<tr>
+<td> 8</td><td> EPosNegativeValue</td><td> The client specified a negative value where a negative value was not
+<p>allowed.
+</p>
+</td></tr>
+<tr>
+<td> 9</td><td> EPosInvalidOperationMode</td><td> Invalid operation mode. Caused by mixed calls to <code>NextStep</code> and <code>ExecuteL</code> for
+<p>a <span class="plainlinks"><code>CPosLmOperation</code> </span> object or subsequent calls to <code>NextStep</code>.
+</p>
+</td></tr>
+<tr>
+<td> 10</td><td> EPosInvalidEnumValue</td><td> Invalid enumeration value.
+</td></tr>
+<tr>
+<td> 11</td><td> EPosLmProtocolBreak</td><td> The protocol of <span class="plainlinks"><code>CPosLandmarkEncoder</code> </span> or <span class="plainlinks"><code>CPosLandmarkParser</code> </span> is
+<p>not followed.
+</p>
+</td></tr>
+<tr>
+<td> 12</td><td> EPosLmInvalidArgument</td><td> A client has passed an invalid argument.
+</td></tr>
+<tr>
+<td> 14</td><td> EPosInvalidIndex</td><td> A client has specified an invalid index.
+</td></tr>
+<tr>
+<td> 15</td><td> EPosInvalidItemType</td><td> A client has specified an invalid item type.
+</td></tr>
+<tr>
+<td> 16</td><td> EPosSearchOperationInUse</td><td> A client has tried to set/unset display data during an ongoing search.
+</td></tr></table>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.9 Memory and Performance Considerations </span></h3>
+</a><p>When using the Landmarks API, the memory overhead depends on the amount
+of classes instantiated by the client. However, there are some cases where
+extra memory usage can be involved and cannot be controlled by the client.
+</p><p><span class="plainlinks"><code>CPosLmItemIterator</code> </span> objects may use a caching scheme
+to enable fast access to landmarks that have already been read. This means
+that the iterator can use memory that the client cannot control. This memory
+will be released when the iterator is destroyed.
+</p><p><span class="plainlinks"><code>CPosLandmarkDatabase::PreparePartialLandmarksL()</code> </span> allocates
+a lot of information on the heap if many landmarks are read, especially if
+partial read parameters are set to include a lot of landmark attributes. These
+landmark objects are stored inside the <span class="plainlinks"><code>CPosLmOperation</code> </span> object
+until retrieved by the client.
+</p><p>Clients take ownership of the <span class="plainlinks"><code>CPosLmOperation</code> </span> objects
+and must delete them immediately after they are not needed to release
+unused heap memory.
+</p>
+<a name="Extensions_to_the_API"><h3> <span class="mw-headline">2.10 Extensions to the API </span></h3>
+</a><p>This API does not allow extensions.
+</p>
+<a name="Security_issues"><h3> <span class="mw-headline">2.11 Security issues </span></h3>
+</a><p>Landmarks are considered as important user data and this applies some access
+limitations to client applications. For example, to be able to read
+landmarks from landmark database, clients must have <code>ReadUserData</code> capability
+and <code>WriteUserData</code> to modify it. Whenever special
+capabilities are needed to work with landmarks database, they are listed in
+appropriate class and method descriptions.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> WGS 84</td><td> World Geodetic System 1984
+</td></tr>
+<tr>
+<td> GPX</td><td> GPS Exchange (format)
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> Landmark</td><td> A landmark is a named object that contains a location. The location can be defined by various attributes such as WGS 84 coordinates or a textual address.
+</td></tr>
+<tr>
+<td> Landmark category</td><td> A landmark can be categorized by assigning a landmark category to it. A typical landmark category is "Restaurant".
+</td></tr>
+<tr>
+<td> Landmark database</td><td> Persistent storage of a collection of landmarks and landmark categories.
+</td></tr></table>
+</a><a name="References"><h2> <span class="mw-headline">4 References </span></h2>
+<table border="1" cellspacing="0">
+<tr>
+<td> GPX</td><td> </td></tr></table></a><a class="external free" href="http://www.topografix.com/GPX" rel="nofollow" title="http://www.topografix.com/GPX">http://www.topografix.com/GPX</a>
+
+<tr>
+<td> KML</td><td> <a class="external free" href="http://code.google.com/apis/kml/documentation/kmlreference.html" rel="nofollow" title="http://code.google.com/apis/kml/documentation/kmlreference.html">http://code.google.com/apis/kml/documentation/kmlreference.html</a>
+</td></tr>
+<tr>
+<td> URL</td><td> <a class="external free" href="../../rfc/rfc2396-2.txt" rel="nofollow" title="http://www.rfc-editor.org/rfc/rfc2396.txt">http://www.rfc-editor.org/rfc/rfc2396.txt</a> <a class="external free" href="../../rfc/rfc1738.txt" rel="nofollow" title="http://www.rfc-editor.org/rfc/rfc1738.txt">http://www.rfc-editor.org/rfc/rfc1738.txt</a>
+</td></tr>
+<tr>
+<td> ASCII table</td><td> <a class="external free" href="http://www.asciitable.com/" rel="nofollow" title="http://www.asciitable.com/">http://www.asciitable.com/</a>
+</td></tr>
+<div class="copy"><?php include ("copy.html"); ??></div></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_locationsrv_locsrv_pub_landmarks_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:59 GMT -->
+</html>

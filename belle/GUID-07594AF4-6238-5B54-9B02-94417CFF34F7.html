@@ -1,0 +1,25 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-07594AF4-6238-5B54-9B02-94417CFF34F7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:53 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to insert a field into the header" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F7469158-1B8D-5357-A418-F1DC9475E31C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-07594AF4-6238-5B54-9B02-94417CFF34F7" /><meta name="DC.Language" content="en" /><title>How to insert a field into the header </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-07594AF4-6238-5B54-9B02-94417CFF34F7">How to insert a field into the header</h1><div><p>The following code inserts a centred page number field as the header on each page.</p> <ol id="GUID-53613330-1E24-558F-B36F-93C75A769BA3"><li id="GUID-328B7E8E-A77C-5F83-8760-5BF0B61FB175"><a name="GUID-328B7E8E-A77C-5F83-8760-5BF0B61FB175"><!-- --></a><p>Call <code class="codeph">CHeaderFooter::CreateTextL()</code> to allocate and construct the rich text component which is owned by the header/footer. </p> </li> <li id="GUID-74DD080C-81E6-5ED3-AEC9-6EF5647011A1"><a name="GUID-74DD080C-81E6-5ED3-AEC9-6EF5647011A1"><!-- --></a><p>Retrieve the rich text component by calling <code class="codeph">CHeaderFooter::Text()</code>. This can be used to apply rich text formatting to the header and footer. </p> </li> <li id="GUID-EE890241-56E9-5A95-8150-B1CAB8F8229A"><a name="GUID-EE890241-56E9-5A95-8150-B1CAB8F8229A"><!-- --></a><p>Construct a paragraph format container and mask using <code class="codeph">CParaFormat</code> and <code class="codeph">TParaFormatMask</code> to apply paragraph formatting to the header. The centre alignment attribute is set in the container. </p> </li> <li id="GUID-26298C0D-F6D8-5029-9854-C40D76CAAD20"><a name="GUID-26298C0D-F6D8-5029-9854-C40D76CAAD20"><!-- --></a><p>Use <code class="codeph">CRichText::ApplyParaFormatL()</code> to apply the formatting to the header.</p> </li> <li id="GUID-19B3E6AF-EB90-537F-8D7E-3ED4293AB935"><a name="GUID-19B3E6AF-EB90-537F-8D7E-3ED4293AB935"><!-- --></a><p>To create a field in a header, use <code class="codeph">CRichText::NewTextFieldL()</code>, specifying the UID of the desired field type. Update the field before printing it. </p> </li> </ol> <pre class="codeblock">// Set header text
+iPrintSetup-&gt;Header()-&gt;CreateTextL();
+_LIT(KPage,"Page  "); // Header text
+TBuf&lt;8&gt; buf(KPage); 
+iPrintSetup-&gt;Header()-&gt;Text()-&gt;InsertL(0,buf);
+CTextField* field=iPrintSetup-&gt;Header()-&gt;Text()-&gt;NewTextFieldL(KPageNumberFieldUid);
+iPrintSetup-&gt;iHeader-&gt;iText-&gt;InsertFieldL
+(5,field,KPageNumberFieldUid); 
+// Make field at doc pos'n 5 visible
+iPrintSetup-&gt;Header()-&gt;Text()-&gt;UpdateFieldL(5); 
+
+// Centre the paragraph containing header
+CParaFormat* paraFormat=CParaFormat::NewL();
+TParaFormatMask paraFormatMask;
+paraFormat-&gt;iHorizontalAlignment=CParaFormat::ECenterAlign;
+paraFormatMask.SetAttrib(EAttAlignment); // To centre align text
+iPrintSetup-&gt;Header()-&gt;Text()-&gt;ApplyParaFormatL(paraFormat,paraFormatMask,0,1); 
+delete paraFormat;</pre> <div><h3 class="section-title">Note</h3> <ul><li id="GUID-C200A63E-231B-507B-AB86-1C88FF11BA99"><a name="GUID-C200A63E-231B-507B-AB86-1C88FF11BA99"><!-- --></a><p>To insert any field type other than the page number into a document, a field factory is required. </p> </li> </ul> </div> </div></div></div><div class="footer"><p class="metadata">Last updated October 8th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-07594AF4-6238-5B54-9B02-94417CFF34F7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:53 GMT -->
+</html>

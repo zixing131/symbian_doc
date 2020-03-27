@@ -1,0 +1,75 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-69D916D3-ED05-58DA-BA42-CE4D7E4F6482.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:07 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Automatic Resource Management Class Templates Tutorial" /><meta name="DC.Relation" scheme="URI" content="GUID-B1D5B680-00E3-5702-985A-94256180E2D8" /><meta name="DC.Relation" scheme="URI" content="GUID-B419D99E-8312-5336-9693-3ED8DFCD0559" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-28AD51DC-C101-5E6E-9EC3-C2B61400D8CD" /><meta name="DC.Relation" scheme="URI" content="GUID-D60B55FA-D8C1-559A-9D99-48845BE32A6C" /><meta name="DC.Relation" scheme="URI" content="GUID-D33EB877-CCCB-527B-8AFC-4A8385C55E78" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-69D916D3-ED05-58DA-BA42-CE4D7E4F6482" /><meta name="DC.Language" content="en" /><title>Automatic
+Resource Management Class Templates Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-69D916D3-ED05-58DA-BA42-CE4D7E4F6482">Automatic
+Resource Management Class Templates Tutorial</h1><div><div>The <code class="codeph">LCleanedupX</code> class provide a means of automatically
+cleaning up local variables on scope exit. Variants are provided for cleaning
+up pointers, references, handles and arrays, as well as generic cleanup items.
+The user is able to define a cleanup strategy to clean up the resource on
+scope exit.</div>
+<div><h3 class="section-title">Prerequisites</h3><p>Before beginning you must know the following: </p><ul>
+<li id="GUID-90A3678E-CB31-5817-AB27-C115AC486A3A"><a name="GUID-90A3678E-CB31-5817-AB27-C115AC486A3A"><!-- --></a><p> <strong> Clean-up Stratergy:</strong> Cleanup
+strategies can be specified as an optional template parameter of the class
+templates for automatic resource management. </p> </li>
+</ul> </div>
+<h3>Steps</h3><ul>
+<li id="GUID-26218FF0-6994-4FD7-9609-357AFDB3C177"><a name="GUID-26218FF0-6994-4FD7-9609-357AFDB3C177"><!-- --></a><p><strong>Declaring an LCleanedupX object</strong></p>
+<p>An <code class="codeph">LCleanedupX</code> object is declared using one of the
+class template constructors. The type to be managed is declared as the first
+template parameter. An optional second template parameter can be declared
+to implement a non-default cleanup strategy. </p> <p>An example code snippet
+for declaring <code class="codeph">LCleanedupX</code> class is shown below: </p> <pre class="codeblock">class LCleanedupPtr
+            {
+            CTicker* ticker1 = new(ELeave) CTicker;
+            LCleanedupPtr CManagedUserTwoPhase one(CManagedUserTwoPhase::NewL(ticker1));
+
+            CTicker* ticker2 = new(ELeave) CTicker;
+            LCleanedupPtr CManagedUserSinglePhase two(CManagedUserSinglePhase::NewL(ticker2));
+        }
+</pre>
+</li>
+<li id="GUID-AF65DC71-78C1-4B4D-9546-A9F4921E89D9"><a name="GUID-AF65DC71-78C1-4B4D-9546-A9F4921E89D9"><!-- --></a><p><strong>Disabling Automatic Cleanup</strong></p>
+<p>An object that is being managed by an <code class="codeph">LCleanedupX</code> class
+can be unmanaged by calling the <code class="codeph">Unmanage()</code> method of the
+LCleanedupX class. </p> <p>The managing object can be accessed using the .
+operator as in the call to <code class="codeph">Unmanage()</code>. The <code class="codeph">Unmanage()</code> disables
+cleanup and yields the previously managed pointer so that it can be safely
+returned. </p> <p>An example code snippet is given below: </p> <pre class="codeblock">
+        static CStringUserTwoPhase* NewL(const TDesC&amp; aName)
+            {
+                LCleanedupPtr CStringUserTwoPhase self(new(ELeave) CStringUserTwoPhase);
+                self-&gt;ConstructL(aName);
+                return self.Unmanage(); 
+            }
+</pre>
+</li>
+<li id="GUID-B9F7C183-E92E-47D6-8A6E-A1E1A76C1253"><a name="GUID-B9F7C183-E92E-47D6-8A6E-A1E1A76C1253"><!-- --></a><p><strong>Accessing the managed object</strong></p>
+<p>The managed object can be accessed using the -&gt; operator as in the
+call to <code class="codeph">ConstructL()</code> </p> <pre class="codeblock">self-&gt;ConstructL(aName);</pre>
+</li>
+<li id="GUID-D070D636-665B-4023-A81A-C5AB0A5390CB"><a name="GUID-D070D636-665B-4023-A81A-C5AB0A5390CB"><!-- --></a><p><strong>Passing the managed object to a function</strong></p>
+<p>The managed object can be passed to a function by dereferencing the
+managing object. An example code snippet is given below: </p> <pre class="codeblock">
+void RegisterTicker(CTicker&amp; aTicker)
+    {
+    (void)aTicker;
+    }
+
+</pre><p>The <code class="codeph">RegisterTicker</code> function defined above
+takes a <code class="codeph">CTicker&amp;</code> argument. If we have a <code class="codeph">LCleanedupPtr&lt;CTicker&gt;</code> as
+defined below, we can pass the <code class="codeph">CTicker</code> object to the function
+by dereferencing as shown below in the code snippet: </p> <pre class="codeblock">
+LCleanedupPtr CTicker t(new(ELeave) CTicker);
+
+RegisterTicker(*t); // Takes a CTicker&amp;
+</pre>
+</li>
+</ul>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-B1D5B680-00E3-5702-985A-94256180E2D8.html">Automatic
+Resource Management</a></li></ul><h3>Related tasks</h3><ul><li><a href="GUID-B419D99E-8312-5336-9693-3ED8DFCD0559.html">Automatic
+Resource Management Tutorial</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 4th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-69D916D3-ED05-58DA-BA42-CE4D7E4F6482.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:07 GMT -->
+</html>

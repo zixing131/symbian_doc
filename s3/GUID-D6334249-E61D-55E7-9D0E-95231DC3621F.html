@@ -1,0 +1,55 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D6334249-E61D-55E7-9D0E-95231DC3621F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:12 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Answer a Call Tutorial" /><meta name="abstract" content="This tutorial describes how to detect and answer an inbound call with the telephony API for applications." /><meta name="description" content="This tutorial describes how to detect and answer an inbound call with the telephony API for applications." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-34E7AAF2-EC62-5BF6-B9E7-C7D346BCDF93" /><meta name="DC.Relation" scheme="URI" content="GUID-0F647342-E069-5444-9370-58520375543A" /><meta name="DC.Relation" scheme="URI" content="GUID-7C197DC1-43CA-5146-B81D-36B685A1D0C9" /><meta name="DC.Relation" scheme="URI" content="GUID-844C335C-E8FD-5DF8-8E05-7DB1DF4C3360" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D6334249-E61D-55E7-9D0E-95231DC3621F" /><meta name="DC.Language" content="en" /><title>Answer a Call Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D6334249-E61D-55E7-9D0E-95231DC3621F">Answer a Call Tutorial</h1><div><p>This tutorial describes how to detect and answer an inbound call with the telephony API for applications. </p> <h3>Steps</h3><ol id="GUID-00FE5186-EF10-5AFB-B633-D6A09A988E28"><a name="GUID-00FE5186-EF10-5AFB-B633-D6A09A988E28"><!-- --></a> <li id="GUID-1E64BB78-64C9-5CEE-8242-75DF3B93CA45"><a name="GUID-1E64BB78-64C9-5CEE-8242-75DF3B93CA45"><!-- --></a><p></p>create a new instance of <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CTelephony'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CTelephony']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony</code></a> </li> <li id="GUID-CE695413-811F-5089-8701-A78FB58CDA35"><a name="GUID-CE695413-811F-5089-8701-A78FB58CDA35"><!-- --></a><p></p>Use <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CTelephony'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CTelephony']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::NotifyChange()</code></a> to detect changes in the voice line's status. <code class="codeph">NotifyChange()</code> can be used to detect a variety of changes, but in this case you are only interested in the status of the voice line. Pass a notification event, in this case <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CTelephony'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CTelephony']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::EVoiceLineStatusChange</code></a>. Also pass it an empty <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CTelephony'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CTelephony']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::TCallStatusV1Pckg</code></a>.  Possible status values are Idle, Ringing, On-Hold. When the voice line status is Ringing(<code class="codeph">CTelephony::EStatusRinging</code>) there is an incoming voice call to be answered.  </li> <li id="GUID-367A68B1-9149-561A-9AC1-3EFF30415319"><a name="GUID-367A68B1-9149-561A-9AC1-3EFF30415319"><!-- --></a><p></p>answer a call with <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CTelephony'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CTelephony']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::AnswerIncomingCall()</code></a>. You can only answer a call when the voice line status is Ringing(<strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CTelephony'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CTelephony']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::EStatusRinging</code></a>)  </li> <li id="GUID-72EBECDA-178A-541C-B05A-F560F113480C"><a name="GUID-72EBECDA-178A-541C-B05A-F560F113480C"><!-- --></a><p></p>pass the enumeration <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CTelephony'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CTelephony']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::EAnswerIncomingCallCancel</code></a> to cancel the operation.  </li> </ol> <div id="GUID-5F63DA49-52D4-5E10-81E1-BE71CD5BA923"><h3 class="section-title">Answer a call example</h3> <pre class="codeblock">#include &lt;e32base.h&gt;
+#include &lt;Etel3rdParty.h&gt;
+
+class CClientApp : public CActive
+    { 
+
+private:
+    CTelephony* iTelephony;
+    CTelephony::TCallId iCallId;
+
+public:
+    CClientApp(CTelephony* aTelephony);
+    void SomeFunction();
+
+private:
+    /*
+       These are the pure virtual methods from CActive that  
+       MUST be implemented by all active objects
+       */
+    void RunL();
+    void DoCancel();
+   };
+
+CClientApp::CClientApp(CTelephony* aTelephony)
+    : CActive(EPriorityStandard),
+      iTelephony(aTelephony)
+    {
+    //default constructor
+    }
+
+void CClientApp::SomeFunction()
+    {
+    iTelephony-&gt;AnswerIncomingCall(iStatus, iCallId);
+    SetActive();
+    }
+
+void CClientApp::RunL()
+    {
+    if(iStatus==KErrNone)
+       {} // The call has been answered successfully;
+          // iCallId contains the call's ID, needed when controlling the call.
+    }
+
+void CClientApp::DoCancel()
+    {
+    iTelephony-&gt;CancelAsync(CTelephony::EAnswerIncomingCallCancel);
+    }
+</pre> </div> <div id="GUID-19AC29A6-3A34-57E8-A0BE-8242CF60BF86"><h3 class="section-title">Next actions</h3><p>This describes how to answer a second call while another is in progress. </p> <ol id="GUID-6E342500-D7DA-5DD9-89A6-120B2C8FCC0F"><li id="GUID-66CB266C-96CF-58A3-AAEA-00949C356545"><a name="GUID-66CB266C-96CF-58A3-AAEA-00949C356545"><!-- --></a><p>Put the first call on hold. </p> <p>This is the same as holding a call in <a href="GUID-1907CF0B-2F4B-50F6-B676-7B7059B7FF74.html">Call Hold Tutorial</a>. </p> <p>If the other call was not dialled or answered by you then you cannot control it, and so you cannot put it on hold. If it is not on hold already (<strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CTelephony'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CTelephony']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::EStatusHold</code></a>) then you cannot answer the call. </p> </li> <li id="GUID-90CFC6A4-CA1B-593C-937F-B189630DCB0C"><a name="GUID-90CFC6A4-CA1B-593C-937F-B189630DCB0C"><!-- --></a><p>Answer the second call. </p> <p>This is the same as answering the first call. <code class="codeph">AnswerIncomingCall()</code> will return a different call ID from the first call. </p> </li> <li id="GUID-E278B859-89BE-5C90-94CE-21D66335CEBD"><a name="GUID-E278B859-89BE-5C90-94CE-21D66335CEBD"><!-- --></a><p>If the operation fails, remember to resume the original call. </p> </li> </ol> <p>As a result, the first call is on-hold and the second call is active. </p> </div> </div></div></div><div class="footer"><p class="metadata">Last updated January 5th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D6334249-E61D-55E7-9D0E-95231DC3621F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:12 GMT -->
+</html>

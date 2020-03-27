@@ -1,0 +1,98 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5329C067-60B8-4E0E-A2B3-9423B75E189D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:45 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Getting GLib events in Symbian UI applications" /><meta name="abstract" content="Symbian UI applications run an event loop that is based on CActiveScheduler. The active scheduler is started by the UI framework immediately after the UI has been created (that is after ConstructL() of CEikAppUi-derived class)." /><meta name="description" content="Symbian UI applications run an event loop that is based on CActiveScheduler. The active scheduler is started by the UI framework immediately after the UI has been created (that is after ConstructL() of CEikAppUi-derived class)." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-94D67092-5EB3-4D83-A164-CA628F2E2DB0" /><meta name="DC.Relation" scheme="URI" content="GUID-51FF9F99-8005-4480-9645-64476B953C57" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5329C067-60B8-4E0E-A2B3-9423B75E189D" /><meta name="DC.Language" content="en" /><title>Getting
+GLib events in Symbian UI applications </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5329C067-60B8-4E0E-A2B3-9423B75E189D">Getting
+GLib events in Symbian UI applications</h1><div><p>Symbian UI applications run an event loop that is based on <code class="codeph">CActiveScheduler</code>.
+The active scheduler is started by the UI framework immediately after the
+UI has been created (that is after <code class="codeph">ConstructL()</code> of <code class="codeph">CEikAppUi</code>-derived
+class).</p>
+<p>To receive events from GLib event sources, an active object can be added
+to the active scheduler especially for this purpose. The active object runs
+one iteration of the glib event loop every time it gets scheduled.</p>
+<div class="note"><p><strong class="note_title">Note: </strong>The scheduling logic in the sample code provided below is based on a
+simple timer; more complex scheduling logic can be implemented depending on
+the requirement of the application.</p></div>
+<pre class="codeblock">/********* GlibEventHandler.h *********************/
+
+class CGlibEventHandler: public CActive
+{
+public:
+	static CGlibEventHandler* NewL();
+	~CGlibEventHandler();
+       void RunL();
+       void DoCancel();
+       void Start();
+       void Stop();
+private:
+       CGlibEventHandler();
+       void ConstructL();	
+       RTimer iTimer;
+};
+
+/********* GlibEventHandler.h *********************/
+
+
+/********* GlibEventHandler.cpp *******************/
+
+CGlibEventHandler* CGlibEventHandler::NewL()
+{
+       CGlibEventHandler* self = new(ELeave) CGlibEventHandler();
+       CleanupStack::PushL(self);
+       self-&gt;ConstructL();
+       CleanupStack::Pop();
+       return self;
+}
+
+CGlibEventHandler::CGlibEventHandler():CActive(EPriorityStandard)
+{
+}
+	
+void CGlibEventHandler::ConstructL()
+{
+	User::LeaveIfError(iTimer.CreateLocal());
+	CActiveScheduler::Add(this);	
+}
+
+CGlibEventHandler::~CGlibEventHandler()
+{
+	Cancel();
+	iTimer.Close();		
+}
+
+void CGlibEventHandler::Start()
+{
+	iTimer.After(iStatus, TTimeIntervalMicroSeconds32(1000));
+	SetActive();	
+}
+	
+void CGlibEventHandler::Stop()
+{
+	Cancel();
+}
+	
+void CGlibEventHandler::RunL()
+{
+	g_main_context_iteration(NULL, FALSE);
+	iTimer.After(iStatus, TTimeIntervalMicroSeconds32(1000));
+	SetActive();	
+}
+	
+void CGlibEventHandler::DoCancel()
+{
+	iTimer.Cancel();	
+}
+
+/********* GlibEventHandler.cpp *******************/
+</pre>
+<p>The following is done in the application:</p>
+<pre class="codeblock">GMainLoop* mainloop = g_main_loop_new(NULL, FALSE);
+CGlibEventHandler* glibeventhandler = NULL;
+glibeventhandler = CGlibEventHandler::NewL();
+glibeventhandler-&gt;Start();
+</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 23rd, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5329C067-60B8-4E0E-A2B3-9423B75E189D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:45 GMT -->
+</html>

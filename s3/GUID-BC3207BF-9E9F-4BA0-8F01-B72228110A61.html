@@ -1,0 +1,44 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-BC3207BF-9E9F-4BA0-8F01-B72228110A61.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:58:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Accessing the toolbar from applications or application views" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-E35887BB-7E58-438C-AA27-97B2CDE7E069_overview-GUID-8C40E993-C9A0-423D-979D-7BB11CE091C1" /><meta name="DC.Relation" scheme="URI" content="GUID-E35887BB-7E58-438C-AA27-97B2CDE7E069_overview-GUID-FA9679A1-6FD7-4FB6-883A-D5719388A2B6" /><meta name="DC.Relation" scheme="URI" content="GUID-B05B61B8-1217-441F-BAFA-C209C8F123C5" /><meta name="DC.Relation" scheme="URI" content="GUID-95CE2206-7AE0-48C0-97A7-4E2082F9F662" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-BC3207BF-9E9F-4BA0-8F01-B72228110A61" /><meta name="DC.Language" content="en" /><title>Accessing the toolbar from applications or application views </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-BC3207BF-9E9F-4BA0-8F01-B72228110A61">Accessing the toolbar from applications or application views</h1><div>
+<div id="GUID-6DF3CACC-8A4F-437E-B4A9-59BA7D8974A3"><h3 class="section-title"><!--no section title--></h3> <p>To
+access the current toolbar (<a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9E7F4397-3DE4-36A3-A55B-56D9E39BEFF2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9E7F4397-3DE4-36A3-A55B-56D9E39BEFF2.html"><code class="apiname">CAknToolbar</code></a>, defined
+in <code class="codeph">akntoolbar.h</code>) in applications, use the methods <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-77329067-34D9-3698-B764-294535E660EB.html#GUID-952F177C-D499-3FE1-A187-26A5454353DD"><code class="apiname">CAknAppUi::CurrentPopupToolbar(</code></a>) or <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EE32BF64-6DE3-3C82-94AE-D31C1DB24C79.html#GUID-214129C8-7ACD-34B0-A0D0-7936EBF8D512"><code class="apiname">CEikAppUiFactory::CurrentPopupToolbar() </code></a>in the case of a floating toolbar. For a fixed toolbar, use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-77329067-34D9-3698-B764-294535E660EB.html#GUID-9EEEC887-905A-3046-9C3B-451AE64C5B41"><code class="apiname">CAknAppUi::CurrentFixedToolbar()</code></a> or <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EE32BF64-6DE3-3C82-94AE-D31C1DB24C79.html#GUID-07F8AE53-CB58-3AC0-BC4E-7E0C555E6967"><code class="apiname">CEikAppUiFactory::CurrentFixedToolbar()</code></a>. The methods return a pointer to either the application toolbar
+or a view-specific toolbar (if defined). </p><p>To access the application
+toolbar directly from applications, you can also call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-77329067-34D9-3698-B764-294535E660EB.html#GUID-13C45E71-4B9F-3BEB-9CC3-1EAC895E02B5"><code class="apiname">CAknAppUi::PopupToolbar()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EE32BF64-6DE3-3C82-94AE-D31C1DB24C79.html#GUID-1BACB40B-B62B-383A-B429-87C211E6D80B"><code class="apiname">CEikAppUiFactory::PopupToolbar()</code></a> . To access
+the view-specific toolbar as a client, call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-11967EBB-7439-3775-B287-7560ECA0AF1F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-11967EBB-7439-3775-B287-7560ECA0AF1F.html"><code class="apiname">CAknView</code></a>. These calls do not transfer the ownership of the toolbar,
+so the framework takes care of the toolbar destruction.</p></div>
+<div id="GUID-CE4304AF-E891-472E-8B30-46ECFE50276B"><h3 class="section-title"><!--no section title--></h3><p>The example
+below shows how to access the toolbar in the application AppUi class.
+(You can also use <code class="codeph">CEikAppUiFactory</code> methods.)</p><pre class="codeblock">void CMyAppUi::DoSomethingToToolbar()
+    {
+    
+    // Current fixed toolbar (if view has no fixed toolbar, returns application toolbar)
+    CAknToolbar* fixedToolbar = CurrentFixedToolbar();
+    
+    // Current popup toolbar (if view has no popup toolbar, returns application toolbar)
+    CAknToolbar* popupToolbar = CurrentPopupToolbar();
+    
+    // Application toolbar
+    CAknToolbar* appToolbar = PopupToolbar();
+
+    …
+
+    }</pre><p>The example below shows how to access a view specific
+toolbar in the application view class.</p><pre class="codeblock">
+void CMyView::DoSomethingToToolbar()
+    {
+    
+    // View toolbar
+    CAknToolbar* toolbar = Toolbar();
+    
+    …
+
+    }
+</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 18th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-BC3207BF-9E9F-4BA0-8F01-B72228110A61.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:58:40 GMT -->
+</html>

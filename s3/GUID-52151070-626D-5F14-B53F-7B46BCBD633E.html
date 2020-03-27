@@ -1,0 +1,31 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-52151070-626D-5F14-B53F-7B46BCBD633E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:46 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using TAutoClose" /><meta name="abstract" content="Example code showing how TAutoClose can be used to clean up when an object goes out of scope." /><meta name="description" content="Example code showing how TAutoClose can be used to clean up when an object goes out of scope." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-61DEE78D-4E78-5367-BC8A-F99D3B4E9D5A" /><meta name="DC.Relation" scheme="URI" content="GUID-7366AE99-DE25-5DE0-BF9A-58E7742DA952" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-52151070-626D-5F14-B53F-7B46BCBD633E" /><meta name="DC.Language" content="en" /><title>Using
+TAutoClose </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-52151070-626D-5F14-B53F-7B46BCBD633E">Using
+TAutoClose</h1><div><p>Example code showing how <code class="codeph">TAutoClose</code> can be used
+to clean up when an object goes out of scope.</p>
+<p>A simple example shows how this class can be used.</p>
+<pre class="codeblock">TInt ReadFile(const TDesC&amp; aFile)
+//
+// Read a file
+//
+    {
+    TAutoClose&lt;RFile&gt; file;
+    TInt r=file.iObj.Open(aFile,KFileStreamText|EFileExclusive);
+    if (r!=KErrNone)
+        return(r);
+    TBuf&lt;100&gt; b;
+    if ((r=file.iObj.Read(b))!=KErrNone)
+        return(r);
+    ...
+    }</pre>
+<p>The object <code class="codeph">file</code> goes out of scope when the function completes,
+and the compiler automatically destroys it, calling the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3377FA4B-FDC8-3B25-8C5F-34675F6BEA12.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3377FA4B-FDC8-3B25-8C5F-34675F6BEA12.html"><code class="apiname">TAutoClose</code></a> destructor
+in the process. The destructor calls <code class="codeph">Close()</code> on the <code class="codeph">RFile</code> member
+of <code class="codeph">TAutoClose</code>.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-52151070-626D-5F14-B53F-7B46BCBD633E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:46 GMT -->
+</html>

@@ -1,0 +1,31 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-237E0861-EC1B-41DA-BDB0-1DEB50620CC8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:22 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Converting from UTC to local time in a non-system time zone" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-4FCF605D-52D9-5B2D-80CF-80C940F680CA" /><meta name="DC.Relation" scheme="URI" content="GUID-F0C71D6E-CAF1-49CC-A697-FC1A810DF1D5" /><meta name="DC.Relation" scheme="URI" content="GUID-DF4D7DFF-ECA9-40CF-9F3B-4BBC3F8162E4" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-237E0861-EC1B-41DA-BDB0-1DEB50620CC8" /><meta name="DC.Language" content="en" /><title>Converting
+from UTC to local time in a non-system time zone </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-237E0861-EC1B-41DA-BDB0-1DEB50620CC8">Converting
+from UTC to local time in a non-system time zone</h1><div>
+<h3>Steps</h3><ul>
+<li id="GUID-ABF16F17-59D3-4655-909E-B637E1D80971"><a name="GUID-ABF16F17-59D3-4655-909E-B637E1D80971"><!-- --></a><p>The following code fragment converts a randomly chosen UTC time
+to local time for London:</p>
+<div class="p"><pre class="codeblock">_LIT8( KEuropeLondon,"Europe/London" );
+// Create a pointer to the time zone id.
+// This is the time zone for the local time to which you wish to convert.
+CTzId* myZoneId = CTzId::NewL( KEuropeLondon );
+CleanupStack::PushL( myZoneId );</pre><pre class="codeblock">// Create a client interface object to the time zone server
+RTz myTZoneServer; 
+// Connect to the time zone server, leaves if fails to connect
+User::LeaveIfError( myTZoneServer.Connect() ); 
+CleanupClosePushL( myTZoneServer );</pre><pre class="codeblock">// Create a converter object.
+CTzConverter* myConverter = CTzConverter::NewL( myTZoneServer ); 
+CleanupStack::PushL( myConverter );</pre><pre class="codeblock">_LIT8( KMyTime,"20050328:185600.00" ); // UTC time to convert (28 March 2005 18:56 hrs).
+TTime myTime( KMyTime ); // Create the time as a TTime object</pre><pre class="codeblock">// Convert UTC to local time in Europe/London time zone.
+myConverter-&gt;ConvertToLocalTime( myTime, *myZoneId ); 
+// myTime is updated to hold the local time value.</pre><pre class="codeblock">// Clean up
+CleanupStack::PopAndDestroy(3);// causes myTZoneServer.Close() to be called</pre></div>
+</li>
+</ul>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 17th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-237E0861-EC1B-41DA-BDB0-1DEB50620CC8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:22 GMT -->
+</html>

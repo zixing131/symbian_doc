@@ -1,0 +1,144 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1AA32C40-CDE0-4627-A634-7C07BB1ED67B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:54:05 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Forms" /><meta name="DC.Relation" scheme="URI" content="specs/guides/Dialogs_API_Specification/Dialogs_API_Specification.html" /><meta name="DC.Relation" scheme="URI" content="GUID-53C71C87-BFD9-4C9A-8A90-6735494F300C" /><meta name="DC.Relation" scheme="URI" content="GUID-A5756C5F-9C93-4949-8B60-03DCA1BAF683" /><meta name="DC.Relation" scheme="URI" content="GUID-03DE8DB5-BF37-4E02-BFB7-D14BD8B3E1BA" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-CCE6DC36-625C-487C-9AD8-F1BF8E36080A" /><meta name="DC.Relation" scheme="URI" content="GUID-E6803961-14A0-44BD-A94E-5D8A38EA907F" /><meta name="DC.Relation" scheme="URI" content="GUID-114C52FE-C8C5-4418-9C73-CEBB228C7542" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1AA32C40-CDE0-4627-A634-7C07BB1ED67B" /><meta name="DC.Language" content="en" /><title>Forms </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1AA32C40-CDE0-4627-A634-7C07BB1ED67B">Forms</h1><div>
+<p>A form is a specific kind of selection list, where all items (fields)
+have some editable content. </p>
+<p>A form can be in the View state or in the Edit state. The item
+layouts and functionality are different in these states:</p>
+<ul>
+<li><p>In the View state, the items are not editable. The form functions
+and looks exactly like a similar selection list. Items can be selected
+to perform an application-specific function. </p></li>
+<li><p>In the Edit state, the user can edit all the fields. Forms
+can contain text fields (alphanumeric or numeric content), pop-up
+fields and sliders.</p></li>
+</ul>
+<p>Forms work with single tap. The view state of the form follows
+list behavior. Edit state works with single tap but it has the highlight
+always visible to indicate the active form item. Note that the entire
+form component item should be touch sensitive in normal state. This
+means that even if the user does not touch the edit field but instead
+the field header, the item is still activated.</p>
+<p>The user can switch from the View state to the Edit state using
+the Edit command in the Options menu. In the Edit state, the contents
+of the form can be accepted using the right softkey labeled as Done.
+The form then returns to the View state.</p>
+<div class="figure" id="GUID-A2BD480A-8FF8-46D2-8C2D-1C300761BBEF"><img src="GUID-783161AE-708E-4FB4-8219-EEC0F9939E9B_d0e78170_href.png" /><p class="figure-title"><strong>Figure: </strong>An example form</p></div>
+<p>The following table lists the default touch events for forms:</p>
+<div class="tablenoborder"><a name="GUID-9342F902-5F33-4A51-BCCB-258C4AADAC8C"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-9342F902-5F33-4A51-BCCB-258C4AADAC8C" frame="border" border="1" rules="all"><caption><strong>Table: </strong>Default
+touch events for forms</caption>
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="26.666666666666668%" id="d0e78189"><p>User action</p></th>
+<th class="cellrowborder" valign="top" width="34.333333333333336%" id="d0e78193"><p>State change</p></th>
+<th class="cellrowborder" valign="top" width="38.99999999999999%" id="d0e78197"><p>Feedback</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" colspan="3" valign="top" headers="d0e78189 d0e78193 d0e78197 "><p><strong>In Edit State</strong></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e78189 "><p>Touch down on item</p></td>
+<td class="cellrowborder" valign="top" width="34.333333333333336%" headers="d0e78193 "><p>No change</p></td>
+<td class="cellrowborder" valign="top" width="38.99999999999999%" headers="d0e78197 "><p>Highlight is shown on the item and focus shifts to the item.</p><p>Tactile: Basic list effect and audio feedback is provided with
+touch down event.</p><div class="note"><p><strong class="note_title">Note: </strong> Only form-specific feedback is provided.
+No sensitive edit feedback provided on editor item in the form.</p></div></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e78189 "><p>Touch release on item</p></td>
+<td class="cellrowborder" valign="top" width="34.333333333333336%" headers="d0e78193 "><p>Item is activated.</p><p>When the user moves a cursor to
+a text field, the cursor is placed at the end of the text in the field.
+If the field is empty, the cursor is placed at the beginning of the
+field.</p><p>Touch release on a radio button list item selects the
+item and closes the pop-up.</p></td>
+<td class="cellrowborder" valign="top" width="38.99999999999999%" headers="d0e78197 "><p>Highlight remains on the item.</p><p>In case of a radio
+button list, highlight stays on the full list, and not on any single
+selection item.</p><p>Tactile: Basic list effect provided with release
+event.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e78189 "><p>Touch down and hold on item</p></td>
+<td class="cellrowborder" valign="top" width="34.333333333333336%" headers="d0e78193 "><p>Inactive</p></td>
+<td class="cellrowborder" valign="top" width="38.99999999999999%" headers="d0e78197 "><p>Tactile: No effect</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e78189 "><p>Touch down and move inside form</p></td>
+<td class="cellrowborder" valign="top" width="34.333333333333336%" headers="d0e78193 "><p>Refer to <a href="GUID-28A0E021-C702-4AAF-9C64-B60B09B40176.html">Dragging and flicking</a> events</p></td>
+<td class="cellrowborder" valign="top" width="38.99999999999999%" headers="d0e78197 "><p>Highlight remains on the item that is currently active,
+when the user starts to move.</p><p>Tactile: Refer to <a href="GUID-28A0E021-C702-4AAF-9C64-B60B09B40176.html">Dragging and flicking</a> events.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e78189 "><p>Touch down and move outside the form without releasing touch.</p></td>
+<td class="cellrowborder" valign="top" width="34.333333333333336%" headers="d0e78193 "><p>Refer to <a href="GUID-28A0E021-C702-4AAF-9C64-B60B09B40176.html">Dragging and flicking</a> events</p></td>
+<td class="cellrowborder" valign="top" width="38.99999999999999%" headers="d0e78197 "><p>Tactile: Refer to <a href="GUID-28A0E021-C702-4AAF-9C64-B60B09B40176.html">Dragging and flicking</a> events.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e78189 "><p>Touch down and release outside the radio button list</p></td>
+<td class="cellrowborder" valign="top" width="34.333333333333336%" headers="d0e78193 "><p>Radio button list is closed.</p></td>
+<td class="cellrowborder" valign="top" width="38.99999999999999%" headers="d0e78197 "><p>Tactile: Pop-up effect is provided with touch down event.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" colspan="3" valign="top" headers="d0e78189 d0e78193 d0e78197 ">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" colspan="3" valign="top" headers="d0e78189 d0e78193 d0e78197 "><p><strong>In View State</strong></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e78189 "><p>Touch down on item</p></td>
+<td class="cellrowborder" valign="top" width="34.333333333333336%" headers="d0e78193 "><p>No effect</p></td>
+<td class="cellrowborder" valign="top" width="38.99999999999999%" headers="d0e78197 "><p>Highlight is shown.</p><p>Tactile: Basic list effect and
+audio feedback is provided with the touch down event.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e78189 "><p>Touch release</p></td>
+<td class="cellrowborder" valign="top" width="34.333333333333336%" headers="d0e78193 "><div class="p">One of the following occurs:<ul>
+<li><p>Item is activated.</p></li>
+<li><p>Item get editable.</p></li>
+<li><p>Item opens context specific <strong>Options</strong> menu.</p></li>
+</ul></div></td>
+<td class="cellrowborder" valign="top" width="38.99999999999999%" headers="d0e78197 "><p>Highlight disappears.</p><p>Tactile: Basic list effect is
+provided with touch release event.</p><p>If the touch release opens
+a pop-up, the pop-up open effect is provided with the touch release.
+If theme effects are ON, then increasing long touch effect with touch
+release is provided.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e78189 "><p>Touch down and hold</p></td>
+<td class="cellrowborder" valign="top" width="34.333333333333336%" headers="d0e78193 "><p>Inactive</p></td>
+<td class="cellrowborder" valign="top" width="38.99999999999999%" headers="d0e78197 "><p>Tactile: No effect</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e78189 "><p>Touch down and move inside form</p></td>
+<td class="cellrowborder" valign="top" width="34.333333333333336%" headers="d0e78193 "><p>Refer to <a href="GUID-28A0E021-C702-4AAF-9C64-B60B09B40176.html">Dragging and flicking</a> events</p></td>
+<td class="cellrowborder" valign="top" width="38.99999999999999%" headers="d0e78197 "><p>Tactile: Refer to <a href="GUID-28A0E021-C702-4AAF-9C64-B60B09B40176.html">Dragging and flicking</a> events.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e78189 "><p>Touch down and move outside the form without releasing touch.</p></td>
+<td class="cellrowborder" valign="top" width="34.333333333333336%" headers="d0e78193 "><p>Refer to <a href="GUID-28A0E021-C702-4AAF-9C64-B60B09B40176.html">Dragging and flicking</a> events</p></td>
+<td class="cellrowborder" valign="top" width="38.99999999999999%" headers="d0e78197 "><p>Tactile: Refer to <a href="GUID-28A0E021-C702-4AAF-9C64-B60B09B40176.html">Dragging and flicking</a> events.</p></td>
+</tr>
+</tbody>
+</table></div>
+<div id="GUID-CB9AC4F2-4C2B-49AA-9FCE-E9EA7209CC50"><h3 class="section-title">Using forms in applications</h3><p>The API to use for creating forms is the <a href="specs/guides/Form_API_Specification/Form_API_Specification.html#specs/guides/Form_API_Specification/Form_API_Specification.html">Form API</a>. For implementation information, see <a href="specs/guides/Form_API_Specification/Form_API_Specification.html#Form_API_Specification.topic3">Using the Form API</a>.</p><p>Typically, a form will
+be derived from the class <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-05554F35-27D7-3B85-A33F-D5781DCB383B.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-05554F35-27D7-3B85-A33F-D5781DCB383B.html"><code class="apiname">CAknForm</code></a> and the methods <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-05554F35-27D7-3B85-A33F-D5781DCB383B.html#GUID-C2E87FCB-E3D0-3F7F-865F-979132C8F57B"><code class="apiname">CAknForm::SaveFormDataL()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-05554F35-27D7-3B85-A33F-D5781DCB383B.html#GUID-792561A8-4E94-38B5-9E1C-3FC46D113F00"><code class="apiname">CAknForm::DoNotSaveFormData()</code></a> will be implemented by the developer. These are called when users
+switch from edit mode to view mode and are prompted by the form as
+to whether they wish to save their modifications.</p><p>For customization,
+the class <code class="codeph">CAknForm</code> provides a single-line or double-line
+layout and it is possible to use icons on forms. </p><p>In the following
+example, the form is pushed on the cleanup stack before <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-05554F35-27D7-3B85-A33F-D5781DCB383B.html#GUID-2ABE764A-0061-3A5D-B9C8-42DE9ED2CD72"><code class="apiname">CAknForm::
+ConstructL()</code></a> (a potentially leaving method) is called, and
+popped off before <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FBE5021B-FA5C-3306-B836-601E4BCB11E4.html#GUID-D13FF32C-88D4-3F43-82B6-754990A23A8C"><code class="apiname">CAknDialog:: ExecuteLD()</code></a>. </p><pre class="codeblock">CAknExFormAdd* form = new(ELeave) CAknExFormAdd;
+CleanupStack::PushL(form);
+form-&gt;ConstructL();
+CleanupStack::Pop();
+form-&gt;ExecuteLD(R_AKNEXFORM_TEXT_FIELD_DIALOG);
+</pre></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-53C71C87-BFD9-4C9A-8A90-6735494F300C.html">Always-editable
+forms</a></li><li class="ulchildlink"><a href="GUID-A5756C5F-9C93-4949-8B60-03DCA1BAF683.html">Form items</a></li><li class="ulchildlink"><a href="GUID-03DE8DB5-BF37-4E02-BFB7-D14BD8B3E1BA.html">Forms
+without the options softkey</a></li></ul><h3>Related APIs</h3><ul><li><a href="specs/guides/Dialogs_API_Specification/Dialogs_API_Specification.html#specs/guides/Dialogs_API_Specification/Dialogs_API_Specification.html">Dialogs API</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 7th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1AA32C40-CDE0-4627-A634-7C07BB1ED67B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:54:10 GMT -->
+</html>

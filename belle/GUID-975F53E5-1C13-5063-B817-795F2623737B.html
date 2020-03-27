@@ -1,0 +1,72 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-975F53E5-1C13-5063-B817-795F2623737B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:45 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Sharable sessions" /><meta name="abstract" content="Describes how a session can be shared by threads." /><meta name="description" content="Describes how a session can be shared by threads." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-6047DB3F-DC92-51DF-9EEB-00E79E890B54" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-975F53E5-1C13-5063-B817-795F2623737B" /><meta name="DC.Language" content="en" /><title>Sharable
+sessions </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-975F53E5-1C13-5063-B817-795F2623737B">Sharable
+sessions</h1><div><p>Describes how a session can be shared by threads.</p>
+<p>A session can be shared by threads provided the server is marked as supporting
+shared sessions. </p>
+<div id="GUID-33D699D4-50DD-4B46-BFEA-8E9AD46C66C1"><h3 class="section-title">Sharing</h3> <p>Once a server has started, and a client
+has connected to that server (by creating a session), then the client thread
+can make the session sharable. There are two types of sharing: </p> <ul>
+<li id="GUID-4AF39204-BA70-50CB-9D13-185655322A1D"><a name="GUID-4AF39204-BA70-50CB-9D13-185655322A1D"><!-- --></a><p>where the session is
+sharable among all threads belonging to the same process as the originating
+thread. </p> </li>
+<li id="GUID-69DFB418-D434-58B0-A27E-57C053C822A5"><a name="GUID-69DFB418-D434-58B0-A27E-57C053C822A5"><!-- --></a><p>where the session is
+sharable among all threads in the system, i.e. across all processes. </p> </li>
+</ul> <p>A server must support the creation of sharable sessions, otherwise
+an attempt to make a session sharable panics the calling thread. Servers can
+be created to be either unsharable, sharable among threads in the same process,
+or sharable among all threads in the system. </p> <p><strong>Sharing
+a session among threads in a single process</strong> </p> <p>There are two ways
+of doing this: </p> <ul>
+<li id="GUID-285E2AE9-DEB7-502E-B8B2-47D3B45F50EB"><a name="GUID-285E2AE9-DEB7-502E-B8B2-47D3B45F50EB"><!-- --></a><p>if the session has already
+been created, then call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6D8A458C-9A39-3000-A3BC-060A2A3663E6.html#GUID-0A453CA9-9DF7-35B8-963E-D75763626136"><code class="apiname">RSessionBase::ShareAuto()</code></a>, which
+has the effect of mutating the handle from a thread relative handle to a process
+relative handle. The handle can then be shared by the threads. Until this
+function is called, the session is specific to the originating thread, and
+cannot be used by any other thread. </p> </li>
+<li id="GUID-BD414669-EE7A-5821-A591-12D77CD0FBA9"><a name="GUID-BD414669-EE7A-5821-A591-12D77CD0FBA9"><!-- --></a><p>if the session has not
+yet been created, then create the session as sharable from the beginning using
+one of the overloads of <code class="codeph">RSessionBase::CreateSession()</code> that
+takes a <code class="codeph">TIpcSessionType</code> argument - <em>this is the preferred
+method</em> </p> </li>
+</ul> <strong>Sharing
+a session among threads across all processes</strong><div class="p"> There are two ways of
+doing this:<ul>
+<li><p>if the session has already been created, then call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6D8A458C-9A39-3000-A3BC-060A2A3663E6.html#GUID-943BCB86-1497-3940-BDA5-6DB1767DA395"><code class="apiname">RSessionBase::ShareProtected()</code></a>,
+which has the effect of mutating the handle from a thread relative handle
+to a process relative handle; this is also protected and can be passed to
+another process. The handle can then be shared by the threads. Until this
+function is called, the session is specific to the originating thread, and
+cannot be used by any other thread.</p></li>
+<li><p>if the session has not yet been created, then create the session as
+sharable from the beginning using one of the overloads of <code class="codeph">RSessionBase::CreateSession()</code> that
+takes a <code class="codeph">TIpcSessionType</code> argument - <em>this is the preferred
+method</em></p></li>
+</ul></div> </div>
+<div id="GUID-49F7BFC0-2DD3-4AA5-A105-18ACFE702789"><h3 class="section-title">Server exit</h3> <p>If the server terminates, all outstanding
+messages which have been sent to it are completed with a <code class="codeph">KErrServerTerminated</code> code.
+Any attempt to send further messages, or to share session, fail immediately
+with <code class="codeph">KErrServerTerminated</code>. The only valid operation on such
+a session is to close it. </p> </div>
+<div id="GUID-20F18655-D04E-40CE-8199-058DA9AD1585"><h3 class="section-title">Session closure</h3> <p>If <code class="codeph">Close()</code> is
+called on a session, any outstanding messages on the session may not be completed
+for the client. Following this, the only message that the server receives
+from the session is the disconnect message. </p> </div>
+<div id="GUID-C4508E0A-50FC-4780-AEAA-08018CF2AB7F"><h3 class="section-title">Client thread exit</h3> <p>If a session has not been shared,
+then the session is closed as part of normal thread cleanup. </p> <p>If a
+session has been shared, the session handle is owned by the process and is
+not automatically cleaned up with the thread. In addition, the server is not
+informed that the thread has terminated. </p> <p>The only way to free resources
+owned by the session is to explicitly close the session, or to terminate the
+client process. Note that this makes it possible for a session to have no
+client threads ! </p> </div>
+<div id="GUID-9F7C4330-C524-4D8E-A78D-B519CF737D7D"><h3 class="section-title">Message slots</h3> <p>The maximum number of message slots
+that can be allocated to a session, or the maximum number that can be dynamically
+acquired from the system-wide pool, is 255. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-975F53E5-1C13-5063-B817-795F2623737B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:45 GMT -->
+</html>

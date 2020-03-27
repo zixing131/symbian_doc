@@ -1,0 +1,50 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-785B2F0B-E7E6-5DAE-98F1-6C32BED25964.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Database storage overhead" /><meta name="abstract" content="Database storage is very efficient. This document gives details of the storage overhead." /><meta name="description" content="Database storage is very efficient. This document gives details of the storage overhead." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-C0414BDC-06FD-5E3C-93F7-DD3467CAA75E" /><meta name="DC.Relation" scheme="URI" content="GUID-B10B6363-9FB9-562C-8DCA-42FEF8D5413B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-785B2F0B-E7E6-5DAE-98F1-6C32BED25964" /><meta name="DC.Language" content="en" /><title>Database
+storage overhead </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-785B2F0B-E7E6-5DAE-98F1-6C32BED25964">Database
+storage overhead</h1><div><p>Database storage is very efficient. This document gives details
+of the storage overhead.</p>
+<p>Space utilization is efficient</p>
+<ul>
+<li id="GUID-8AE05C00-0C7E-5D9C-AC2B-DC1D5432DF0D"><a name="GUID-8AE05C00-0C7E-5D9C-AC2B-DC1D5432DF0D"><!-- --></a><p>the underlying permanent
+file store adds minimal overhead to maintain its structure: store imposes
+a fixed 46 bytes + two bytes per additional 16K; each stream requires seven
+bytes.</p> </li>
+<li id="GUID-5BDB30B0-9140-55AA-A7BE-4C4B30355ADE"><a name="GUID-5BDB30B0-9140-55AA-A7BE-4C4B30355ADE"><!-- --></a><p>the database has minimal
+space requirements to store its schema and data structure.</p> </li>
+<li id="GUID-3FCF5F99-767F-5526-B0AF-40F7F248CF26"><a name="GUID-3FCF5F99-767F-5526-B0AF-40F7F248CF26"><!-- --></a><p>including the stream
+overhead, row storage overhead can be less than two bytes per row in ideal
+clustering conditions, even with lower clustering the overhead is usually
+below 1% of the data volume.</p> </li>
+</ul>
+<p>The storage required for a row can be determined as follows:</p>
+<ul>
+<li id="GUID-41E7E40C-6E34-5C7A-BB82-A0AF92B5D455"><a name="GUID-41E7E40C-6E34-5C7A-BB82-A0AF92B5D455"><!-- --></a><p>each non-null value
+requires the storage for fixed width columns, and the raw storage plus one
+byte for variable width columns.</p> </li>
+<li id="GUID-845C1A45-8C1F-5EA0-A3A6-787359332505"><a name="GUID-845C1A45-8C1F-5EA0-A3A6-787359332505"><!-- --></a><p>long columns are stored
+embedded in the row data when they are small enough, and otherwise they are
+stored in a separate stream: this makes more efficient use of the both space
+and speed. When embedded they require just one bit more than the short columns,
+when separated they require eight bytes in the row data plus any stream overhead.</p> </li>
+<li id="GUID-CD64205E-894B-50D3-9AAA-ACA375D820EA"><a name="GUID-CD64205E-894B-50D3-9AAA-ACA375D820EA"><!-- --></a><p>each nullable column
+requires one extra bit.</p> </li>
+<li id="GUID-4FF233BB-3863-5869-9E6E-E56AC3B29924"><a name="GUID-4FF233BB-3863-5869-9E6E-E56AC3B29924"><!-- --></a><p>bits are packed into
+bytes in the row storage.</p> </li>
+</ul>
+<div id="GUID-14305B1D-41AF-452E-9E44-131569F00FBC"><h3 class="section-title">Indexes</h3> <p>Indexes
+are implemented using STORE B+trees. Note in particular that indexes use fixed
+length keys, so that indexes on longer text fields can consume significant
+space.</p> <p>If the key for the index is <em>k</em> bytes, the number of rows
+to index is <em>n</em>, the index page size is <em>P</em>, and the B-tree packing
+density is <em>r</em>:</p> <p><em>a = [(P-8)/(k+4)] * r</em> </p> <p>Where <em>[x]</em> is
+the largest integer &lt;= <em>x</em>. Then the number of pages required, <em>N</em>,
+is</p> <p><em>N = n * (1/a + 1/(a*a))</em> </p> <p>Each page requires <em>P+7</em> bytes
+in the store, so the total indexing overhead, <em>S</em>, is</p> <p><em>S = N
+* (P+7)</em> </p> <p>For DBMS <em>P=512</em> and <em>r=0.86</em>.</p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-785B2F0B-E7E6-5DAE-98F1-6C32BED25964.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:01 GMT -->
+</html>

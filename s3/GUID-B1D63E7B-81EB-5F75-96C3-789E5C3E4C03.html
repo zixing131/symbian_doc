@@ -1,0 +1,232 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B1D63E7B-81EB-5F75-96C3-789E5C3E4C03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:26 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to construct and manipulate a doubly linked list" /><meta name="abstract" content="This document describes how to construct and use a doubly linked list." /><meta name="description" content="This document describes how to construct and use a doubly linked list." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Relation" scheme="URI" content="GUID-F45EA14E-F857-5D59-BFBA-E2F563287359" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B1D63E7B-81EB-5F75-96C3-789E5C3E4C03" /><meta name="DC.Language" content="en" /><title>How to
+construct and manipulate a doubly linked list </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B1D63E7B-81EB-5F75-96C3-789E5C3E4C03">How to
+construct and manipulate a doubly linked list</h1><div><p>This document describes how to construct and use a doubly linked
+list.</p>
+<p>The following code fragments show how a doubly linked list can be constructed
+and manipulated. The list consists of <code class="codeph">CItem</code> objects. In this
+example, a <code class="codeph">CItem</code> object can contain an item of text implemented
+as an <code class="codeph">HBufC</code>. The <code class="codeph">CItem</code> objects can form
+elements of a doubly linked list using the <code class="codeph">iDlink</code> data member
+as the link object. </p>
+<p>The class is declared as:</p>
+<pre class="codeblock">class CItem : public CBase
+    {
+public  :
+    static CItem* NewL(const TDesC&amp; aText);
+    static CItem* NewLC(const TDesC&amp; aText); 
+    virtual       ~CItem();
+public   :
+    static const  TInt iOffset;
+private  :
+    void          ConstructL(const TDesC&amp; aText);
+private  :
+    TDblQueLink  iDlink;
+    HBufC*       iText;
+    friend class CXy;
+    };</pre>
+<p>The <code class="codeph">CItem</code> member functions are implemented as:</p>
+<pre class="codeblock">const TInt CItem::iOffset = _FOFF(CItem,iDlink);</pre>
+<pre class="codeblock">CItem* CItem::NewLC(const TDesC&amp; aText)
+    {
+    CItem* self = new (ELeave) CItem;
+    CleanupStack::PushL(self);
+    self-&gt;ConstructL(aText);
+    return self;
+    }</pre>
+<pre class="codeblock">CItem* CItem::NewL(const TDesC&amp; aText)
+    {
+    CItem* self = CItem::NewLC(aText);
+    CleanupStack::Pop();
+    return self;
+    }</pre>
+<pre class="codeblock">void CItem::ConstructL(const TDesC&amp; aText)
+    {
+    iText    = aText.AllocL();
+    }</pre>
+<pre class="codeblock">CItem::~CItem()
+    {
+    delete (iText);
+    }</pre>
+<p>As part of its construction process, a <code class="codeph">CItem</code> constructs
+an <code class="codeph">HBufC</code> of the correct length and copies the content of
+the descriptor parameter into it.</p>
+<p>A <code class="codeph">CXy</code> object maintains the list by:</p>
+<ul>
+<li id="GUID-048EFEF6-B2EC-5333-A835-BC735C334220"><a name="GUID-048EFEF6-B2EC-5333-A835-BC735C334220"><!-- --></a><p> creating <code class="codeph">CItem</code> objects
+and adding them into the list</p> </li>
+<li id="GUID-310AB703-85C5-5DFC-8AB6-2A0938095134"><a name="GUID-310AB703-85C5-5DFC-8AB6-2A0938095134"><!-- --></a><p>removing <code class="codeph">CItem</code> objects
+from the list and then destroying them</p> </li>
+</ul>
+<p>The class is declared as:</p>
+<pre class="codeblock">class CXy : public CBase
+    {
+public :
+    CXy();
+    virtual ~CXy();
+    void    DoItems();
+    TBool   AddItem(const TDesC&amp; anItem,TItemPos aPos);
+private :
+    TDblQue&lt;CItem&gt;     iHdr; 
+    TDblQueIter&lt;CItem&gt; iIter;
+    };</pre>
+<p>Here, the list header, <code class="codeph">iHdr</code>, and the iterator, <code class="codeph">iIter</code>,
+are declared as data members of the class and are constructed when the <code class="codeph">CXy</code> object
+is constructed. A C++ constructor must be supplied so that <code class="codeph">iIter</code> can
+be properly constructed. (<code class="codeph">TDblQueIter</code> has no default constructor).</p>
+<p>Specifically:</p>
+<ul>
+<li id="GUID-36B75BBC-B6EA-5717-9E88-8C1FFB4F9119"><a name="GUID-36B75BBC-B6EA-5717-9E88-8C1FFB4F9119"><!-- --></a><p><code class="codeph">AddItem()</code> constructs
+a new <code class="codeph">CItem</code> and adds it to the list, either after the current
+item or at the end of the list.</p> </li>
+<li id="GUID-B85DEE50-218E-5CC9-B60D-D6EA2176643F"><a name="GUID-B85DEE50-218E-5CC9-B60D-D6EA2176643F"><!-- --></a><p><code class="codeph">DoItems()</code> scans
+through the list, removing and destroying each element from the list.</p> </li>
+</ul>
+<p>The <code class="codeph">CXy</code> member functions are implemented as:</p>
+<pre class="codeblock">CXy::CXy()
+    : iHdr(CItem::iOffset),iIter(iHdr) //construct header &amp; iterator
+    {}</pre>
+<pre class="codeblock">CXy::~CXy()
+    {
+    CItem*  anyitem;
+    
+    iIter.SetToFirst();
+    while ((anyitem = iIter++) != NULL)
+        {
+        anyitem-&gt;iDlink.Deque();
+        delete anyitem;
+        };
+    }</pre>
+<p>Before destroying a <code class="codeph">CXy</code> object, the list is destroyed.
+This is achieved using the iterator. The iterator pointer is set to point
+to each element in turn, removing that element from the list before destroying
+it.</p>
+<p>Once the iterator has reached the end of the list, the operator<code class="codeph">++</code> returns <code class="codeph">NULL</code>.</p>
+<p>The destruction process is safe if the list is empty; the statement <code class="codeph">iter.SetToFirst()</code> is
+harmless, the operator<code class="codeph">++</code> returns <code class="codeph">NULL</code> and
+execution of the body of the <code class="codeph">while</code> loop never happens.</p>
+<pre class="codeblock">TBool CXy::AddItem(const TDesC&amp; aText,TItemPos aPos)
+    {
+    CItem* newitem;
+    
+    TRAPD(leavecode,newitem = CItem::NewL(aText));
+    if (leavecode != KErrNone)
+        return EFalse;              // Cannot create a CItem</pre>
+<pre class="codeblock">    switch (aPos)
+        {
+    case EAtEnd:
+        iHdr.AddLast(*newitem);     // Add at back of list
+        return ETrue;
+
+    case EAfterCurrent:
+        CItem* currentitem = iIter; 
+        if (currentitem)
+            {
+            newitem-&gt;iDlink.Enque(&amp;currentitem-&gt;iDlink);
+            iIter.Set(*newitem);
+            }
+        else
+            {
+            iHdr.AddFirst(*newitem);
+            iIter.SetToFirst();    
+            }
+        return ETrue;
+        }
+                
+    return EFalse;
+        }</pre>
+<p>This member function creates a new <code class="codeph">CItem</code> and then, depending
+on the value of <code class="codeph">aPos</code>, either adds it at the back of the list
+or after the current element. <code class="codeph">TItemPos</code> is just an enumeration
+taking the enumerators <code class="codeph">EAtEnd</code> and <code class="codeph">EAfterCurrent</code>.</p>
+<p>The statement:</p>
+<pre class="codeblock">newitem-&gt;iDlink.Enque(&amp;currentitem-&gt;iDlink);</pre>
+<p>inserts the newly created <code class="codeph">CItem</code> with pointer <code class="codeph">newitem</code>, <em>after</em> the
+existing item with pointer <code class="codeph">currentitem</code>.</p>
+<p>Note also that the statement:</p>
+<pre class="codeblock">CItem* currentitem = iIter; 
+</pre>
+<p>implicitly uses the conversion operator <code class="codeph">T*()</code> where, in
+general, <code class="codeph">T</code> is the class forming elements of the list. In
+this specific example, the conversion operator returns a pointer to the current
+element, of type <code class="codeph">CItem</code>, in the list. Immediately after construction
+of the iterator <code class="codeph">iIter</code>, the value of <code class="codeph">currentitem</code> is <code class="codeph">NULL</code>.</p>
+<pre class="codeblock">void CXy::DoItems()
+    {
+    CItem* currentitem;
+
+    iIter.SetToFirst();
+
+    while((currentitem = iIter++) != NULL)
+        {
+        // do something with the text;
+        currentitem-&gt;iDlink.Deque();
+        delete currentitem;
+        };
+    }</pre>
+<p>The <code class="codeph">DoItems()</code> member function iterates through the whole
+list, removing each <code class="codeph">CItem</code> object in turn before destroying
+it. This member function could be modified to include extra functionality
+before the removal and destruction of the <code class="codeph">CItem</code> element.</p>
+<p>If the list is empty on entry to this function, the <code class="codeph">iter.SetToFirst()</code> statement
+is safe, <code class="codeph">currentitem</code> is <code class="codeph">NULL</code> on the first
+execution of the <code class="codeph">while</code> condition and the body of the <code class="codeph">while</code> loop
+is never executed.</p>
+<p>Executing the code:</p>
+<pre class="codeblock">    {
+    _LIT(KTxtOne,"one");
+    _LIT(KTxtTwo,"two");
+    _LIT(KTxtThree",three");
+    _LIT(KTxtFour,"four");
+    _LIT(KTxtFive,"five");
+    _LIT(KTxtSix,"six");
+
+    CXy* items;
+
+    items = new CXy;
+
+    items-&gt;AddItem(KTxtone,EAfterCurrent);
+    items-&gt;AddItem(KTxttwo,EAtEnd);
+    items-&gt;AddItem(KTxtthree,EAfterCurrent);
+    items-&gt;AddItem(KTxtfour,EAtEnd);
+    items-&gt;AddItem(KTxtfive,EAfterCurrent);
+    items-&gt;AddItem(KTxtsix,EAtEnd);
+    ...
+</pre>
+<p>results in the construction of a doubly linked list of <code class="codeph">CItem</code> objects
+each containing a pointer to an <code class="codeph">HBufC</code> descriptor containing
+the text as shown:</p>
+<div class="figure" id="GUID-10DC05B0-64A2-52D0-ABC6-ACD231F402C4"><img src="GUID-03AC137D-173A-558C-A2F3-9522870AC43C_d0e270597_href.png" /><p class="figure-title"><strong>Figure: </strong></p></div>
+<p>The following code destroys the list elements and the <code class="codeph">CXy</code> object
+containing the list header and iterator:</p>
+<pre class="codeblock">    ...
+    items-&gt;DoItems();
+    delete items;
+    }</pre>
+<p>There are a number of other possible ways to proceed, depending on the
+precise needs of an application. In the previous example, the list header
+and the iterator are declared as members of the class.</p>
+<p>Some situations may demand that a list be created, used and destroyed within
+the scope of a member function. Because list headers and iterators are “<code class="codeph">T</code> ”
+types, they can be declared on the stack; for example:</p>
+<pre class="codeblock">void CXy::SomeFunction();
+    {
+    TDblQue&lt;CItem&gt;     iHdr(CItem::iOffset); 
+    TDblQueIter&lt;CItem&gt; iIter(iHdr);
+
+    // the body of the function
+    //
+
+    }
+</pre>
+<p>The list header and the iterator go out of scope at the end of the function
+and are destroyed. Unless the list elements themselves are “<code class="codeph">T</code> ”
+types and exist on the stack, make sure that they are explicitly destroyed
+before the function terminates.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B1D63E7B-81EB-5F75-96C3-789E5C3E4C03.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:27 GMT -->
+</html>

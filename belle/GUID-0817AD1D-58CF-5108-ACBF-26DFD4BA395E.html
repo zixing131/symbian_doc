@@ -1,0 +1,71 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0817AD1D-58CF-5108-ACBF-26DFD4BA395E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:14 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Descriptors Overview" /><meta name="abstract" content="This document provides an overview of descriptors." /><meta name="description" content="This document provides an overview of descriptors." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0817AD1D-58CF-5108-ACBF-26DFD4BA395E" /><meta name="DC.Language" content="en" /><title>Descriptors Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0817AD1D-58CF-5108-ACBF-26DFD4BA395E">Descriptors Overview</h1><div><p>This document provides an overview of descriptors.</p>
+<div id="GUID-B9DAC214-E22A-4E05-AC39-CE994E87C8CA"><h3 class="section-title">Purpose</h3> <p>Manipulates string and data buffers. </p> </div>
+<div id="GUID-A49ACEBD-15DA-4525-BAA7-C15635518D52"><h3 class="section-title">Description</h3> <p>Descriptors are a family of classes that are used in Symbian
+platform for string handling. They are used in preference to NULL-terminated
+C strings. The same classes are used for general binary data. </p> <p>The basic classification of descriptor types is given below.
+Concrete descriptor classes implement variations on these basic types
+for different data widths and for different abilities to modify the
+data. The names of the concrete classes follow certain naming conventions
+that modify the basic name given in the table. </p> <p><strong>Basic classification</strong> </p> <div class="tablenoborder"><a name="GUID-F074AE70-AC9D-53E5-AD5F-BB391CD32831"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-F074AE70-AC9D-53E5-AD5F-BB391CD32831" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Type</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Description</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Basic name</strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>abstract </p> </td>
+<td class="cellrowborder" valign="top"><p>Base interface: allows descriptors of different types to
+be use polymorphically </p> </td>
+<td class="cellrowborder" valign="top"><p> TDes </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>buffer </p> </td>
+<td class="cellrowborder" valign="top"><p>Stack based: contains the data as part of itself. Buffer
+descriptors have a maximum length set at compile time. </p> </td>
+<td class="cellrowborder" valign="top"><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html"><code class="apiname">TBuf</code></a> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>pointer </p> </td>
+<td class="cellrowborder" valign="top"><p>Refer to data stored elsewhere that is not owned by the
+descriptor </p> </td>
+<td class="cellrowborder" valign="top"><p> TPtr </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>heap </p> </td>
+<td class="cellrowborder" valign="top"><p>Refers to data stored on the heap that is owned by the descriptor.
+The maximum length of this data can be set and changed dynamically. </p> </td>
+<td class="cellrowborder" valign="top"><p> HBufC </p> <p> RBuf </p> </td>
+</tr>
+</tbody>
+</table></div> <p><strong>Width</strong> </p> <p>Descriptor types can store 8-bit or 16-bit data.
+These types are indicated by the convention of appending 8 or 16 on
+the basic name, e.g. <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C04A9A0C-DBA7-37DA-B744-54FBF3D544CD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C04A9A0C-DBA7-37DA-B744-54FBF3D544CD.html"><code class="apiname">TDes16</code></a>. In practice, the basic
+names correspond to 16-bit types, for example <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html"><code class="apiname">TBuf</code></a> is defined to be <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EF25E407-26DF-3D97-B725-2DD0345975BA.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EF25E407-26DF-3D97-B725-2DD0345975BA.html"><code class="apiname">TBuf16</code></a>. </p> <p><strong>Modifiable and non-modifiable</strong> </p> <p>Modifiable descriptor
+types have an interface that allows callers to alter their contents,
+such as appending characters. </p> <p>Non-modifiable descriptor types
+can have their contents reset, but not modified. The convention is
+for non-modifiable types to append a C on the basic name, e.g. <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html"><code class="apiname">TBufC</code></a>. </p> <p>Heap type descriptors are an exceptional
+case: they are available only in the non-modifiable form, but can,
+nevertheless, be modified through use of a pointer: see <code class="codeph">HBufC::Des()</code>. Alternatively, you can use the RBuf descriptor,
+which is simpler to use than <code class="codeph">HBufC</code>. The general rule
+is: </p> <ul>
+<li id="GUID-82384688-B4EB-545B-869D-9BF5C0BC3DD2"><a name="GUID-82384688-B4EB-545B-869D-9BF5C0BC3DD2"><!-- --></a><p>Use <code class="codeph">HBufC</code> for data that rarely changes. </p> </li>
+<li id="GUID-A15A3A8B-4B8A-58FB-A972-91242331502D"><a name="GUID-A15A3A8B-4B8A-58FB-A972-91242331502D"><!-- --></a><p>Use <code class="codeph">RBuf</code> for data that changes frequently. </p> </li>
+</ul> <p><strong>Example code</strong></p><p>For
+examples, see:</p><ul>
+<li><p><a href="GUID-14FAE656-7CDE-56ED-ACB2-7853276C24E9.html">Descriptor
+Example Code</a></p></li>
+<li><p><a href="http://www.developer.nokia.com/info/sw.nokia.com/id/9c61aadd-8ae7-4c19-9484-2b165f0cb55e/S60_Platform_Descriptor_Example_v2_1_en.zip.html" target="_blank">S60 Platform: Descriptor Example v2.1</a> on Nokia Developer.</p></li>
+</ul></div>
+<div id="GUID-72EDBF0F-A0EB-4D93-85D0-55D0EA4740BB"><h3 class="section-title">See
+also</h3> <p> <a href="GUID-EA98D77C-743B-5BA5-B131-A327B12A099C.html">Character Representation Of Real Numbers Overview</a> </p> <p> <a href="GUID-C15F56E3-753C-55CA-B3EF-63B2D139BCE4.html">Dynamic Buffers
+Overview</a> </p> <p> <a href="GUID-106B5A31-012E-503D-A972-A745ECADC1E7.html">Literals Overview</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated June 23rd, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0817AD1D-58CF-5108-ACBF-26DFD4BA395E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:14 GMT -->
+</html>

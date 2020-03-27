@@ -1,0 +1,72 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E20C2C98-A294-551B-99CF-BE1DAA6F597E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Serialising XML DOM" /><meta name="abstract" content="This topic explains how to serialise a DOM document and save it to a file." /><meta name="description" content="This topic explains how to serialise a DOM document and save it to a file." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-82AF5F49-EE25-54C7-AEE9-D1F41BD5190F" /><meta name="DC.Relation" scheme="URI" content="GUID-A25E730C-F34D-5464-BE78-650B3DEA4A88" /><meta name="DC.Relation" scheme="URI" content="GUID-05A3E75B-25F9-54AC-8AF8-3E97F832E626" /><meta name="DC.Relation" scheme="URI" content="GUID-74E3A687-18BD-5255-9CB9-F4B01878A1E1" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E20C2C98-A294-551B-99CF-BE1DAA6F597E" /><meta name="DC.Language" content="en" /><title>Serialising
+XML DOM </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E20C2C98-A294-551B-99CF-BE1DAA6F597E">Serialising
+XML DOM</h1><div><p>This topic explains how to serialise a DOM document and save it
+to a file. </p>
+<div><h3 class="section-title">Context</h3> <p>The XML Engine is based on the libxml2 library, which supports
+the serialisation of XML documents. This process converts a DOM tree into
+a format that can be saved to a file or transferred through a network connection. </p> <p>This
+tutorial explains how to save an existing XML document to a file. To store
+the result in a buffer, use the SetOutput(RBuf8&amp;) method
+instead of the SetOutputL(TDesC&amp;) method
+used below. </p> </div><div><h3 class="section-title">Prerequisites</h3><p>Before you start, you must: </p> <ul>
+<li id="GUID-128FA93B-B492-5F86-8E94-2DE1FDC3E29C"><a name="GUID-128FA93B-B492-5F86-8E94-2DE1FDC3E29C"><!-- --></a><p>understand the concepts
+of <a href="http://www.w3.org/DOM/" target="_blank">Document Object Model
+(DOM)</a> and serialisation </p> </li>
+<li id="GUID-B55CE275-DE00-5788-8D53-0F581078FFC9"><a name="GUID-B55CE275-DE00-5788-8D53-0F581078FFC9"><!-- --></a><p>understand the structure
+and classes of the <a href="GUID-5ACFA8E4-3C4B-5851-A43E-9FA72D0B8403.html">XML
+DOM Engine </a> component </p> </li>
+<li id="GUID-75078E65-3FB2-5DC1-8D52-3D5B0E1A9674"><a name="GUID-75078E65-3FB2-5DC1-8D52-3D5B0E1A9674"><!-- --></a><p>have created an RXmlEngDocument (called <code class="codeph">myDoc </code> in
+this example), either by parsing an XML file (as indicated in the <a href="GUID-C5C30218-311C-58D9-A990-3F95642F7517.html">XML
+DOM Parsing Tutorial</a>) or by adding nodes to a new DOM tree. </p> </li>
+</ul> </div>
+<h3>Steps</h3><ol id="GUID-818D2E7F-4ECB-5687-AF68-2C02930519C7"><a name="GUID-818D2E7F-4ECB-5687-AF68-2C02930519C7"><!-- --></a>
+<li id="GUID-A241AD29-F46C-51DE-A30A-7F37AAACB5D4"><a name="GUID-A241AD29-F46C-51DE-A30A-7F37AAACB5D4"><!-- --></a><p></p>
+If you have not done it earlier, call the XmlEnginePushL() method
+to open the XML library and put serialisation resources on the clean-up stack. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">XmlEnginePushL();</pre> </div>
+</li>
+<li id="GUID-3A35C368-F1CB-5183-8C4D-1E141F2B8ED4"><a name="GUID-3A35C368-F1CB-5183-8C4D-1E141F2B8ED4"><!-- --></a><p>Create an instance
+of the serialiser by calling its NewL() method. </p>
+The serialiser type is a member of the TXmlEngSerializerType enumeration. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">CXmlEngSerializer* serializer = CXmlEngSerializer::NewL( ESerializerDefault );</pre> </div>
+</li>
+<li id="GUID-79270763-1081-57D8-9EB2-D21F7DF7035F"><a name="GUID-79270763-1081-57D8-9EB2-D21F7DF7035F"><!-- --></a><p>Configure the serialiser
+by using the SetOutputL() and SetSerialisationOptions() methods. </p>
+You set the type of output (file, buffer, or stream) by choosing one
+of the <code class="codeph">SetOutput()</code> or <code class="codeph">SetOuputL()</code> methods. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">_LIT( KOutputFile, "c:\\tutorial.xml" );
+serializer-&gt;SetOutputL( KOutputFile );</pre> </div>
+The <code class="codeph">SetSerialisationOptions()</code> function sets other serialisation
+options from the TXmlEngSerializationOptions class. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">TXmlEngSerializationOptions options( TXmlEngSerializationOptions::KOptionIndent );
+serializer-&gt;SetSerializationOptions( options );
+</pre> </div>
+</li>
+<li id="GUID-77071B6A-3FAE-5BC6-BC91-FF998AC1E744"><a name="GUID-77071B6A-3FAE-5BC6-BC91-FF998AC1E744"><!-- --></a><p></p>
+Call the SerializeL() method to save
+your document to the <code>tutorial.xml</code> file. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">TInt bytesWritten = serializer-&gt;SerializeL( myDoc );</pre> </div>
+</li>
+<li id="GUID-EC0F4C51-CD58-5142-A17D-EB4FCAAA7099"><a name="GUID-EC0F4C51-CD58-5142-A17D-EB4FCAAA7099"><!-- --></a><p></p>
+Free your resources as necessary. 
+<ol type="i" id="GUID-17893DB6-AFBE-5E69-8FBD-F4010C7B0664"><a name="GUID-17893DB6-AFBE-5E69-8FBD-F4010C7B0664"><!-- --></a>
+<li id="GUID-6475F251-42DE-51B2-A4DD-26195B95ACB2"><a name="GUID-6475F251-42DE-51B2-A4DD-26195B95ACB2"><!-- --></a><p></p>
+Close the XML library by calling the XmlPopAndClose() method.
+This method also removes the serialisation resources from the clean-up stack. 
+</li>
+<li id="GUID-3B286D3D-049D-52A2-893A-B5601A79C727"><a name="GUID-3B286D3D-049D-52A2-893A-B5601A79C727"><!-- --></a><p></p>
+Perform any other clean-up operations. 
+</li>
+</ol>
+</li>
+</ol>
+<div><h3 class="section-title">Results</h3><p>The data in the <code class="codeph">myDoc</code> XML document
+is stored in the <code>tutorial.xml</code> file. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 20th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E20C2C98-A294-551B-99CF-BE1DAA6F597E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:25 GMT -->
+</html>

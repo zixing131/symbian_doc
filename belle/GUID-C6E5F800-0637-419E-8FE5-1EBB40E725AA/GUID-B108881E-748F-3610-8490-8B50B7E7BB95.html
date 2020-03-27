@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B108881E-748F-3610-8490-8B50B7E7BB95.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:51 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="coeutils.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-B108881E-748F-3610-8490-8B50B7E7BB95" />
+<title>coeutils.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-B108881E-748F-3610-8490-8B50B7E7BB95"><a name="GUID-B108881E-748F-3610-8490-8B50B7E7BB95"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">coeutils.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-17C2902B-166D-3EE9-9746-DD743D54B3C0"><a name="GUID-17C2902B-166D-3EE9-9746-DD743D54B3C0"><!-- --></a>
+<a name="GUID-CE3EAA3D-B7C6-3AC3-B3E3-B8EC5F6A3363"><!-- --></a><h3 class="sectiontitle">NONSHARABLE_CLASS ( RCoeResourceLoader )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>NONSHARABLE_CLASS</td><td>(</td><td>RCoeResourceLoader</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Class encapsulates methods for opening and closing localised resource files in the CONE environment. The actual reading of resources from an opened resource file is done using various <a class="xref" href="GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html#GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40">CCoeEnv</a> provided resource-reading methods. The Cone Resource Loader API consists of the RCoeResourceLoader class.</p>
+<p class="p">Only one resource at a time may be opened by one RCoeResourceLoader instance. You can use several RCoeResourceLoader instances for accessing several resources simultaneously or use one instance and close the previous resource before opening a new one.</p>
+<p class="p">The implementation uses <a class="xref" href="GUID-5F9CAA3E-D8BF-3488-9797-3B9FB4452930.html#GUID-9EB018F6-5270-3263-8388-49DAFF9F8C51">BaflUtils::NearestLanguageFile</a> to search for a localised resource in proper search order.</p>
+<p class="p">Usage example:</p>
+<div class="p">
+<pre class="pre codeblock">#include &lt;coeutils.h&gt;  
+
+// Get CCoeEnv instance
+CEikonEnv* eikEnv = CEikonEnv::Static();
+// Initialize loader
+RCoeResourceLoader rLoader(eikEnv);
+
+// Push resource loader to cleanup stack, so that it will always be properly 
+// closed when popped.
+CleanupClosePushL(rLoader);
+
+// Open resource file
+_LIT( KSampleResourceFileName, "Z:\\System\\Apps\\sample\\sample.rsc" );
+TFileName fileName(KSampleResourceFileName);
+rLoader.OpenL(fileName);
+
+// Read a resource   
+iSomeArray = eikEnv-&gt;ReadDesC16ArrayResourceL(R_SOME_RESOURCE);
+
+// Pop and destroy rLoader from stack. 
+// This also calls the rLoader close function after CleanupClosePushL is used.
+CleanupStack::PopAndDestroy(); // rLoader</pre>
+</div>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+</div>
+</div>
+</div></p></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B108881E-748F-3610-8490-8B50B7E7BB95.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:52 GMT -->
+</html>

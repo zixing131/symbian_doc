@@ -1,0 +1,139 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3799F0DA-B99C-55BB-B44F-63B971DF1865.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:07 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Cleanup Strategy Tutorial" /><meta name="abstract" content="This tutorial describes the cleanup strategy and provides details on alternative cleanup strategies." /><meta name="description" content="This tutorial describes the cleanup strategy and provides details on alternative cleanup strategies." /><meta name="DC.Relation" scheme="URI" content="GUID-B007634D-4D55-528A-8B85-6120C633AC8B" /><meta name="DC.Relation" scheme="URI" content="GUID-A18153C0-230C-51FB-9384-A48BB4E42F03" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-28AD51DC-C101-5E6E-9EC3-C2B61400D8CD" /><meta name="DC.Relation" scheme="URI" content="GUID-D60B55FA-D8C1-559A-9D99-48845BE32A6C" /><meta name="DC.Relation" scheme="URI" content="GUID-D33EB877-CCCB-527B-8AFC-4A8385C55E78" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3799F0DA-B99C-55BB-B44F-63B971DF1865" /><meta name="DC.Language" content="en" /><title>Cleanup
+Strategy Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3799F0DA-B99C-55BB-B44F-63B971DF1865">Cleanup
+Strategy Tutorial</h1><div><p>This tutorial describes the cleanup strategy and provides details
+on alternative cleanup strategies. </p>
+<div><h3 class="section-title">Context</h3><p>Cleanup strategy is based on a template-based implementation of
+the Strategy design pattern. The strategy design pattern is one of the most
+popular, highly recommended design patterns. The vast majority of the competent
+C++ developers are already familiar with the strategy (Policy) design pattern
+and Policy-based design, which should improve the usability of these class
+templates. </p> <p>Each
+resource management class has a default cleanup strategy that is invoked when
+the managing object goes out of scope. It is however possible to define an
+alternative cleanup strategy when constructing the managing object. It is
+also possible to define a custom cleanup strategy using the DEFINE_CLEANUP_FUNCTION macro. </p> <p> <strong>Note:</strong> Although
+the examples below use LCleanedupX classes, the method for definfing how the
+object is cleaned up is equally applicable to LManagedX classes. </p> <p>An
+example code snippet is given below: </p> <pre class="codeblock">
+//Class definition of trivial R-Class
+class RSimple
+    {
+public:
+
+    RSimple(){iData = NULL;}
+
+    void Open(TInt aValue)
+        {
+        iData = new(ELeave) TInt(aValue);
+        }
+
+    //Cleanup function – frees resource
+    void Close()
+        {
+        delete iData;
+        iData = NULL;
+        }
+
+    //Cleanup function – frees resource
+    void Free()
+        {
+        delete iData;
+        iData = NULL;
+        }
+
+    //Cleanup function – frees resource
+    void ReleaseData()
+        {
+        delete iData;
+        iData = NULL;
+        }
+
+    //static cleanup function – frees aRSimple resources
+    static void Cleanup(TAny* aRSimple)
+        {
+        static_cast RSimple* (aRSimple)-&gt;Close();
+        }
+private:
+    Tint* iData;
+
+    };
+
+</pre> <p>The above RSimple class has three cleanup member functions,
+Close, Free and ReleaseData. </p> <p>Each resource management class has a
+default cleanup strategy that is invoked when the managing object goes out
+of scope. The default cleanup strategy is dependent on the managing type.
+Consider the example code snippet below: </p> <p> <strong>Note:</strong> Although the
+examples below use LManagedX classes, the method for defining a custom cleanup
+strategy is equally applicable to LCleanedupX classes. </p> <pre class="codeblock">
+class CTicker : public CBase
+    {
+public:
+    void Tick() { ++iTicks; }
+    void Tock() { ++iTocks; }
+
+    void Zap() { delete this; }
+
+public:
+    TInt iTicks;
+    TInt iTocks;
+    };
+
+
+class CManagedUserSinglePhase : public CBase
+    {
+public:
+    . . .
+
+    ~CManagedUserSinglePhase()
+        {
+        // The iTicker manager will automatically delete the CTicker
+        // The iTimer manager will automatically Close() the RTimer
+        }
+
+    . . .
+private:
+    // We have to use LManagedXxx for fields, not LCleanedupXxx
+    LManagedPtr CTicker iTicker;
+    LManagedHandle RTimer iTimer;
+    };
+</pre> <p>The default cleanup strategy for an LManagedPtr is to delete
+the pointer and this is the action taken in the destructor for CManagedUserSinglePhase. </p> <p>Alternate
+cleanup strategies are pre-defined in <code>emanaged.h</code> file.
+It is also possible to define a custom alternate cleanup strategy that can
+be passed as the second template parameter to the constructor of an LManagedX
+or LCleanedupX object. </p> <p>Although the examples below use LManagedX classes,
+the method for defining an alternate cleanup strategy is equally applicable
+to LCleanedupX classes. </p> <p>The default cleanup strategy is to call CTicker::Zap() function.
+It is possible however to define a custom alternate cleanup strategy as shown
+below: </p> <pre class="codeblock">
+// Defines a custom pointer cleanup policy that calls the Zap member
+template &lt;class T&gt;
+class TTickerZap 
+    {
+public:
+    static void Cleanup(T* aPtr)
+        {
+        // The general template/class scaffolding remains the same
+        // for all custom cleanups, just this cleanup body varies
+        aPtr-&gt;Zap();
+        test.Printf(_L("Zapped CTicker\n"));
+        }
+    };
+</pre> </div><div><h3 class="section-title">Prerequisites</h3><p>Before you start, you must: </p> <ul>
+<li id="GUID-18CD0776-EEA9-56AF-9E5F-E5101BB88643"><a name="GUID-18CD0776-EEA9-56AF-9E5F-E5101BB88643"><!-- --></a><p> <strong>Deafult cleanup
+strategies:</strong> These are based on a template-based implementation of the
+strategy design pattern. </p> </li>
+<li id="GUID-598FF730-0C91-51C4-B9AA-16B74137BB6E"><a name="GUID-598FF730-0C91-51C4-B9AA-16B74137BB6E"><!-- --></a><p> <strong>Alternative cleanup
+strategies:</strong> These can be specified as an optional template parameter of
+the class templates for automatic resource management. </p> </li>
+</ul> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-B007634D-4D55-528A-8B85-6120C633AC8B.html">EUser High
+Level Overview</a></li><li><a href="GUID-A18153C0-230C-51FB-9384-A48BB4E42F03.html">Clean-up
+Strategy</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 5th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3799F0DA-B99C-55BB-B44F-63B971DF1865.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:07 GMT -->
+</html>

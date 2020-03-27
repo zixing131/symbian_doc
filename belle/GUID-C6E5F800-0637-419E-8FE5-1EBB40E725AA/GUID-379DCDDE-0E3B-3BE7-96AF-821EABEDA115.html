@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-379DCDDE-0E3B-3BE7-96AF-821EABEDA115.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:24:05 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="wtlsnames.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-379DCDDE-0E3B-3BE7-96AF-821EABEDA115" />
+<title>wtlsnames.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-379DCDDE-0E3B-3BE7-96AF-821EABEDA115"><a name="GUID-379DCDDE-0E3B-3BE7-96AF-821EABEDA115"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">wtlsnames.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+<p class="p">This file contains the definition for class <a class="xref" href="GUID-04C4024C-2987-37F9-8D85-ACCB3D4C1293.html#GUID-04C4024C-2987-37F9-8D85-ACCB3D4C1293">CWTLSName</a>.</p>
+<p class="p">enum { null(0), text(1), binary(2), key_hash_sha(254), x509_name(255)} IdentifierType;</p>
+<p class="p">We only support text and x509_name as these are the only meaningful identifiers.. x509_name is X.500 Distinguished Name, and should use our existing X.500 DN implementation.</p>
+<p class="p">struct { IdentifierType identifier_type; select (identifier_type) { case null: struct {}; case text: CharacterSet character_set; opaque name&lt;1.. 2^8-1&gt;; case binary: opaque identifier&lt;1..2^8-1&gt;; case key_hash_sha: opaque key_hash[20]; case x509_name: opaque distinguished_name&lt;1..2^8-1&gt;; } Identifier;</p>
+<p class="p">uint16 CharacterSet;</p>
+<p class="p">This maps on to one of the IANA defined character sets. There are rather a lot of these. We just support the text type, with either Latin1 or UTF8 encoding. </p>
+</div>
+</p></div>
+<div class="topic reference apiRef apiValue cxxEnumeration nested1" id="GUID-9A58CB3C-B7FB-3FC9-855A-9F5506D72CA9"><a name="GUID-9A58CB3C-B7FB-3FC9-855A-9F5506D72CA9"><!-- --></a>
+<h3 class="sectiontitle">Enum anonymous</h3>
+<div class="body refbody apiDetail apiValueDetail cxxEnumerationDetail section enumerationdetail"><div class="section section apiDesc section apidesc">
+<p class="p">Enumerates the types of WTLS certificate name forms/identifiers.</p>
+<p class="p">Only text strings and X.500 Distinguished Names are currently supported. </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxEnumerators section enumerators"><table class="enumerators"><thead><tr><th>Enumerator</th><th>Value</th><th>Description</th></tr></thead><tr><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-B844E9F0-9191-3FB8-B98B-14CF2A6ADAE2"><span class="enumerator">EWTLSNull</span></a></td><td>0x00</td><td> </td></tr><tr class="bg"><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-226D3E26-65F3-31B8-B2A2-BFCC70CAFFDB"><span class="enumerator">EWTLSText</span></a></td><td>0x01</td><td> </td></tr><tr><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-33A28251-E6C3-3C46-A6E6-35A388B1D749"><span class="enumerator">EWTLSBinary</span></a></td><td>0x02</td><td> </td></tr><tr class="bg"><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-89B2ED75-AF5F-3FD8-A93C-A316170E37A7"><span class="enumerator">EWTLSKeyHashSha</span></a></td><td>0xfe</td><td> </td></tr><tr><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-ACA5CF72-EF76-3AAE-AA11-372F03FD203D"><span class="enumerator">EWTLSX500DN</span></a></td><td>0xff</td><td> </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-BACE4652-406B-393F-BCA4-387C1A699947"><a name="GUID-BACE4652-406B-393F-BCA4-387C1A699947"><!-- --></a>
+<h3 class="sectiontitle">Typedef TWTLSNameType</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef 
+					<a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TUint8</a>
+</td><td>TWTLSNameType</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-66FE402E-C076-34BC-837E-2ED49F14C345"><a name="GUID-66FE402E-C076-34BC-837E-2ED49F14C345"><!-- --></a>
+<h3 class="sectiontitle">Typedef TWTLSCharSet</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef 
+					<a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+</td><td>TWTLSCharSet</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-4D884D9E-5A5F-37E1-9E95-B566FB6E08F1"><a name="GUID-4D884D9E-5A5F-37E1-9E95-B566FB6E08F1"><!-- --></a>
+<h3 class="sectiontitle">KWTLSLatin1CharSet</h3>
+<div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td>KWTLSLatin1CharSet</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">MIBenum constant for the Latin1 IANA character set </p>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-0F5DF75C-90C6-3FF1-AC35-100F9CDCD0C3"><a name="GUID-0F5DF75C-90C6-3FF1-AC35-100F9CDCD0C3"><!-- --></a>
+<h3 class="sectiontitle">KWTLSUTF8CharSet</h3>
+<div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td>KWTLSUTF8CharSet</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">MIBenum constant for the UTF-8 IANA character set </p>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-146D0186-4CD2-3675-A0D0-D8162467B869"><a name="GUID-146D0186-4CD2-3675-A0D0-D8162467B869"><!-- --></a>
+<h3 class="sectiontitle">KWTLSCountryName</h3>
+<div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-02059516-298A-3DB3-937C-9D9B2C1DBE07.html">TLitC</a>&lt; sizeof(L"C")/2 &gt;</td><td>KWTLSCountryName</td><td>[static]</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-FB49D288-4797-3912-ABB7-4C130DA60890"><a name="GUID-FB49D288-4797-3912-ABB7-4C130DA60890"><!-- --></a>
+<h3 class="sectiontitle">KWTLSOrganizationName</h3>
+<div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-02059516-298A-3DB3-937C-9D9B2C1DBE07.html">TLitC</a>&lt; sizeof(L"O")/2 &gt;</td><td>KWTLSOrganizationName</td><td>[static]</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-26E3E448-9C46-3718-AFB3-D8D90AA8A727"><a name="GUID-26E3E448-9C46-3718-AFB3-D8D90AA8A727"><!-- --></a>
+<h3 class="sectiontitle">KWTLSServiceName</h3>
+<div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-02059516-298A-3DB3-937C-9D9B2C1DBE07.html">TLitC</a>&lt; sizeof(L"OU")/2 &gt;</td><td>KWTLSServiceName</td><td>[static]</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-FC8A3B09-2240-3717-8113-BEC1EE4B8A21"><a name="GUID-FC8A3B09-2240-3717-8113-BEC1EE4B8A21"><!-- --></a>
+<h3 class="sectiontitle">KWTLSTitle</h3>
+<div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-02059516-298A-3DB3-937C-9D9B2C1DBE07.html">TLitC</a>&lt; sizeof(L"T")/2 &gt;</td><td>KWTLSTitle</td><td>[static]</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-2703A6EC-413D-3C28-BEB5-C0FD3126C20C"><a name="GUID-2703A6EC-413D-3C28-BEB5-C0FD3126C20C"><!-- --></a>
+<h3 class="sectiontitle">KWTLSCommonName</h3>
+<div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-02059516-298A-3DB3-937C-9D9B2C1DBE07.html">TLitC</a>&lt; sizeof(L"CN")/2 &gt;</td><td>KWTLSCommonName</td><td>[static]</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></div></div></div></div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-379DCDDE-0E3B-3BE7-96AF-821EABEDA115.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:24:06 GMT -->
+</html>

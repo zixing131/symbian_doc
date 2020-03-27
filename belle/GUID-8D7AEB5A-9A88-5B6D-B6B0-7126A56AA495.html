@@ -1,0 +1,189 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-8D7AEB5A-9A88-5B6D-B6B0-7126A56AA495.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:39 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Versit Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-40E64445-CBA3-59E4-A777-937609B311C9" /><meta name="DC.Relation" scheme="URI" content="GUID-3A6BEF56-ADBF-543E-B70A-52195DE3E92A" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F22B8035-CD08-4181-B03A-759E92CA967B" /><meta name="DC.Relation" scheme="URI" content="GUID-27E38FBB-F417-56C8-BFCF-B32215668902" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-8D7AEB5A-9A88-5B6D-B6B0-7126A56AA495" /><meta name="DC.Language" content="en" /><title>Versit
+Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-8D7AEB5A-9A88-5B6D-B6B0-7126A56AA495">Versit
+Overview</h1><div>
+<p>This topic describes the Versit component, which can be used to import
+and export contact and calendar information. </p>
+<div id="GUID-AECE894E-FC12-4A34-85C6-DA1693678E0C"><h3 class="section-title">Purpose</h3> <p>The
+Versit component provides a set of classes that can be used by application
+or system developers, to import and export data formatted according to a set
+of standards initially prescribed by the Versit consortium. </p> <p>The plain-text
+formatted data can be included in emails, saved to disk or transferred from
+one application to another using streams. Two specifications have been published,
+one for the transmission of contact information and the other for the transmission
+of calendaring information in the form of vCards and vCalendars. </p> <p>Although
+the information contained in vCard is different from that contained in vCalendar,
+the basic formatting of the information follows the same style. </p> </div>
+<div id="GUID-D85D8717-F895-4AA2-A8F7-7BA3F7F2C1FF"><h3 class="section-title">Required background</h3> <p>Some
+knowledge of vCard and vCalendar specifications, which are documented on the
+Internet Mail Consortium's website at <a href="http://www.imc.org/pdi/" target="_blank">http://www.imc.org</a>. </p> </div>
+<div id="GUID-928B9A7F-5A93-4549-877E-19B48F747422"><h3 class="section-title">Key concepts</h3> <p>In
+this component a vCard or vCalendar is referred to as an entity. An entity
+has an array of properties. Entities can be nested, making them sub-entities. </p> <p>The
+component has the following key concepts: </p> <dl>
+<dt class="dlterm">Parser</dt>
+<dd><p>The parser converts the vCard and vCal data into a format understandable
+by the current system and vice-a-versa. The vCard and vCal are common standards
+used for exchanging contact and calendar data across different systems such
+as handheld devices, PDA and so on. Each handheld device or PDA store and
+interpret these kind of personal information in their own way. A parser reads
+and writes properties and sub-entities for an entity. The base class for parsers
+is provided by CVersitParser which provides the basic functionality
+for both vCard and vCal. </p> <p>The <code class="codeph">CVersitParser</code> class
+is extended to provide separate implementations for vCard, vCal and their
+sub-entities such as vEvent, vTodo and so on. The following are few such classes: </p> <ul>
+<li id="GUID-9D84C4F1-1802-56F6-AA12-611759FE04D5"><a name="GUID-9D84C4F1-1802-56F6-AA12-611759FE04D5"><!-- --></a><p> CParserVCard is
+a vCard parser that converts between a vCard entities, stored in a stream
+using the format standard set by the Internet Mail Consortium, and a vCard
+entities stored on a Symbian phone. </p> </li>
+<li id="GUID-F03F393F-4D4C-5CD3-A914-CA9FA90BC3DE"><a name="GUID-F03F393F-4D4C-5CD3-A914-CA9FA90BC3DE"><!-- --></a><p> CParserVCal is
+a vCalendar parser that converts between a vCalendar entities stored in a
+stream, and vCalender entities stored on a Symbian phone. </p> </li>
+<li id="GUID-078030ED-1974-55DF-948F-2F56544EE0F2"><a name="GUID-078030ED-1974-55DF-948F-2F56544EE0F2"><!-- --></a><p> CParserVCalEntity is
+a parser for vCalendar sub-entities such as, events and to-do lists. </p> </li>
+</ul> <p>The <code class="codeph">CVersitParser</code> class provides support for vCard
+version 2.1 and vCalendar version 1.0 by default. But this class is not compatible
+with higher versions of vCard, and these compatibility issues are addressed
+in <code class="codeph">MVersitPlugIn</code> abstract class. An implementation of <code class="codeph">MVersitPlugIn</code> class
+along with a derived class of <code class="codeph">CParserVCard</code> can extend the
+parser support to vCard versions above 2.1. </p> </dd>
+<dt class="dlterm">Property</dt>
+<dd><p>A property consists of a property name, a property value and optionally
+one or more property parameters. They have the general form: </p> <pre class="codeblock">Property Name (; Parameter Name(= Parameter Value))* : Property Value</pre> <p>where
+items in brackets are optional and * indicates that the item may be repeated. </p> <p>For
+example, </p> <pre class="codeblock">TEL; HOME; ENCODING=QUOTED-PRINTABLE; CHARSET=US-ASCII : 01234 567890</pre> <p>Here, TEL is the property name, HOME, ENCODING and CHARSET are property
+parameter names and QUOTED-PRINTABLE and US-ASCII are property parameter values.
+The component following the colon is the property value. </p> <p>The property
+interface is provided by CParserProperty. </p> </dd>
+<dt class="dlterm">Property parameter</dt>
+<dd><p>A property parameter describes an aspect of a property. A property
+may have multiple aspects. In the above example the TEL property has several
+aspects (parameters), such as HOME, ENCODING and CHARSET with their associated
+values QUOTED-PRINTABLE and US-ASCII. </p> <p>The property parameter interface
+is provided by CParserParam. </p> </dd>
+<dt class="dlterm">Property value</dt>
+<dd><p>A property value may be of any type, such as date/time, integer, string
+etc. </p> <p>A number of classes are provided to support any type of data
+as a property value, these classes are derived from CParserPropertyValue. </p> </dd>
+<dt class="dlterm">Observer</dt>
+<dd><p>The versit parser observer can find out the version of the entity being
+parsed, which is the version number of the vCard/vCalendar. Then the behaviour
+of the parser is adjusted according to the version number detected. The observer
+is implemented as a pure virtual plug-in class MVersitObserver,
+for use in conjunction with <code class="codeph">MVersitPlugIn</code> class. </p> <p>The
+implementor of <code class="codeph">MVersitObserver</code> class can respond to new parser
+creation by setting <code class="codeph">MVersitPlugIn</code> as the parser, and itself
+as the observer to parse the embedded sub-entity. </p> </dd>
+</dl> </div>
+<div id="GUID-4E0DF6B1-B9B1-4A6C-966F-2C0237307E83"><h3 class="section-title">Architectural
+relationships</h3> <p>Any application or system intending to import or
+export vCards or vCalendars can use this component. At present, it is used
+by <a href="GUID-40E64445-CBA3-59E4-A777-937609B311C9.html">Contacts Model</a> and <a href="GUID-3A6BEF56-ADBF-543E-B70A-52195DE3E92A.html">Calendar</a> components
+to support import and export of contact and calendar information. </p> <p>The
+Versit libraries export a set of utility classes that allow clients to parse
+and generate data formatted according to the specifications first published
+by the Versit consortium (The specifications are now owned by the IMC). </p> <p>In
+broad terms, the Versit API allows clients to: </p> <ul>
+<li id="GUID-F1CAD47E-986F-5BFD-906A-70FCEF8CAD56"><a name="GUID-F1CAD47E-986F-5BFD-906A-70FCEF8CAD56"><!-- --></a><p>Internalise Versit formatted
+data into container classes. </p> </li>
+<li id="GUID-34EC2D80-F27E-54FE-827C-36EFC3692442"><a name="GUID-34EC2D80-F27E-54FE-827C-36EFC3692442"><!-- --></a><p>Externalise contact
+and calendar data. </p> </li>
+<li id="GUID-FF90C782-49BE-57F8-8FEB-F97D62D7451B"><a name="GUID-FF90C782-49BE-57F8-8FEB-F97D62D7451B"><!-- --></a><p>Derive a custom Versit
+parser from the base classes. </p> </li>
+<li id="GUID-DA2EDC5F-DD00-5F68-8EB8-D28CEDEDC5C5"><a name="GUID-DA2EDC5F-DD00-5F68-8EB8-D28CEDEDC5C5"><!-- --></a><p>Perform various utility
+functions (searching, modifying etc.) on the data. </p> </li>
+</ul> <p>It delivers four files: </p> <ul>
+<li id="GUID-56543C10-C588-5B03-A78D-4B473DF9DCEA"><a name="GUID-56543C10-C588-5B03-A78D-4B473DF9DCEA"><!-- --></a><p>Versit.dll - defines
+the client API common to all versit parser. </p> </li>
+<li id="GUID-BD75E9BB-DB18-5121-985D-B342D9920854"><a name="GUID-BD75E9BB-DB18-5121-985D-B342D9920854"><!-- --></a><p>VCard.dll - implements
+a vCard v2.1 parser &amp; generator. </p> </li>
+<li id="GUID-830FF6FC-A5F1-54C1-AE99-67BC447F704D"><a name="GUID-830FF6FC-A5F1-54C1-AE99-67BC447F704D"><!-- --></a><p>VCal.dll - implements
+a vCalendar 1.0 parser &amp; generator. </p> </li>
+<li id="GUID-212C14CC-7D30-54B0-812D-1BEEA041D348"><a name="GUID-212C14CC-7D30-54B0-812D-1BEEA041D348"><!-- --></a><p>RVERSIT.MDL - implements
+a Recognizer which recognises Versit vCalendar and vCard files and reports
+their file type. This is according to the standard Symbian file recognizer
+pattern. For more information about recognizers, refer to <a href="GUID-F18D0E06-2FB8-5339-AF31-02CC7D5A8010.html">Using
+MIME</a>. </p> </li>
+</ul> <p><strong>Internal Relationships </strong> </p> <p>The Versit libraries are designed
+to provide a self contained set of tools. As such, they have no internal dependencies
+with other App-Services components. The diagram below gives an abstract illustration
+of the internal dependencies of the Versit components themselves. </p> <div class="figure" id="GUID-EF3BAA2A-3072-551A-B89C-99AB7F0A70DF"><img src="GUID-48D06D0E-C4D6-54F1-B603-7A75DEF669AA_d0e442847_href.png" /><p class="figure-title"><strong>Figure: </strong>              Abstraction of Versit deliverables            </p></div> <p>As the diagram above illustrates, it is possible to make use of
+the Versit.dll library on its own. If vCard or vCalendar support is required
+then the Versit library must be included as both vCard.dll and vCal.dll depend
+on it. </p> <p>It is also possible for users to develop their own Versit parsers
+using the base classes provided in Versit.dll and not include the vCard and
+vCalendar libraries. </p> <p><strong>External Relationships </strong> </p> <p>It is possible for any third party
+code to make use of the Versit libraries. The only Symbian components that
+have a dependency on Versit are the App-Engines. The application engines provide
+API’s which allow their users to import and export Versit formatted data. </p> <p>The
+mechanism used to allow these operations differs depending on the application
+engine and the documentation associated to each should be referred to for
+more detail. The two application engines that make use of Versit are the <a href="GUID-40E64445-CBA3-59E4-A777-937609B311C9.html">Contacts Model</a> and <a href="GUID-3A6BEF56-ADBF-543E-B70A-52195DE3E92A.html">Calendar</a> components. </p> </div>
+<div id="GUID-10536254-0D16-475C-82B3-451ADAFEC983"><h3 class="section-title">API summary </h3> <div class="figure" id="GUID-41DFB840-D409-5B34-949E-27E9B62A0F1E"><img src="GUID-2A109FEC-5173-55FD-ACA8-3CAE48A93540_d0e442883_href.png" /><p class="figure-title"><strong>Figure: </strong>              Relationship between different classes of the Versit
+component            </p></div> <div class="tablenoborder"><a name="GUID-B009CAB5-2555-5AB2-AF90-41C7E61C2401"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B009CAB5-2555-5AB2-AF90-41C7E61C2401" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e442896">Class Name</th>
+<th class="cellrowborder" valign="top" id="d0e442899">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e442896 "><p> CVersitParser </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e442899 "><p>This is a generic parser class which provides functions implementing
+behaviour common to both vCalendar and vCard parsers. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e442896 "><p> CParserVCard </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e442899 "><p>This is a vCard parser class derived from <code class="codeph">CVersitParser</code>.
+It implements additional functionality needed to parse vCards, other than
+the generic functionality inherited from <code class="codeph">CVersitParser</code>. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e442896 "><p> CParserVCal </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e442899 "><p>This is a vCalendar parser class derived from <code class="codeph">CVersitParser</code>.
+It also implements additional functionality needed to parse vCalendar, other
+than the generic functionality inherited from <code class="codeph">CVersitParser</code>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e442896 "><p> CParserVCalEntity </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e442899 "><p>This is a parser for vCalendar sub-entities. A vCalendar sub-entity
+is a vEvent or vToDo contained in a vCalendar. vEvents and vToDos are derived
+from CRecurrenceParser, which provides recurrence functionality. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e442896 "><p> CParserProperty </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e442899 "><p>This is a property class used to store properties of vCard and vCalendar,
+and also sub-entities of vCalendar such as vEvent and vToDo. Each property
+has a name, an optional value and one or more optional parameters. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-2BC8DF31-058E-447F-A186-A563CBFAE550"><h3 class="section-title">Typical uses</h3> <p>The
+Versit component can be used by any application which needs to import or export
+vCards or vCalendars. The following are the typical use cases for this API. </p> <p><strong>Importing contact and calendar data </strong> </p> <p>Any application can import
+contact and/or calendar data using this API. To import contact or calendar
+data from an external source, the client has to make use of appropriate parsers.
+That is, vCard parser to import contact data, and vCalendar parser to import
+calendar data. For more information, refer to <a href="GUID-2A39CCBD-CADB-56B7-872A-1EC617AC7D93.html">How
+to Import Contact and Calendar Data</a>. </p> <p><strong>Exporting contact and calendar data </strong> </p> <p>Any application can export
+contact and/or calendar data using this API. To export contact or calendar
+data to an external source, clients have to make use of appropriate parsers.
+That is, vCard parser to export contact data, and vCalendar parser to export
+calendar data. For more information, refer to <a href="GUID-082E47B3-8AAB-51B7-93F9-3C528B97D0A9.html">How
+to Export Contact and Calendar Data</a>. </p> <p><strong>Creating a custom Versit parser </strong> </p> <p>Apart from the typical vCard
+and vCalendar parsers, custom versit parser can be implemented using the CVersitParser class
+as the base class. These kind of parsers are needed, when the functionality
+provided by <code class="codeph">CVersitParser</code>, CParserVCard and CParserVCal classes
+are not sufficient. </p> <p><strong>Using various utility functions </strong> </p> <p>In addition to the normal
+import and export functionality, the client applications can use these APIs
+for character set conversions and to parse character strings using the VersitUtils class. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-40E64445-CBA3-59E4-A777-937609B311C9.html">Contacts
+Model Overview</a></li><li><a href="GUID-3A6BEF56-ADBF-543E-B70A-52195DE3E92A.html">Calendar
+Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated February 26th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-8D7AEB5A-9A88-5B6D-B6B0-7126A56AA495.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:40 GMT -->
+</html>

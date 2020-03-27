@@ -1,0 +1,50 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-95448841-5E5B-54C4-85A7-DCE6D078E036.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:06 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Constructing an embedded store" /><meta name="abstract" content="Embedded stores are represented by an instance of the CEmbeddedStore class." /><meta name="description" content="Embedded stores are represented by an instance of the CEmbeddedStore class." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-3FAB9077-3EC3-5539-B391-D11456362513" /><meta name="DC.Relation" scheme="URI" content="GUID-E9C608C0-AC22-5267-BEC4-207C9758F968" /><meta name="DC.Relation" scheme="URI" content="GUID-A0F56EA1-49BA-5306-9ADC-A0647270F720" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-95448841-5E5B-54C4-85A7-DCE6D078E036" /><meta name="DC.Language" content="en" /><title>Constructing
+an embedded store </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-95448841-5E5B-54C4-85A7-DCE6D078E036">Constructing
+an embedded store</h1><div><p>Embedded stores are represented by an instance of the <code class="codeph">CEmbeddedStore</code> class.</p>
+<p>A <code class="codeph">CEmbeddedStore</code> object is constructed from a host stream. </p>
+<p>When the <code class="codeph">CEmbeddedStore</code> object represents a new embedded
+store, it is constructed from an <code class="codeph">RWriteStream</code> object; for
+example, a class might include the following code fragment in one of its functions:</p>
+<pre class="codeblock">...
+    // create the stream to contain the embedded store
+RStoreWriteStream childStream;
+                // we need to keep track of this stream id
+iEmbeddedStoreId = childStream.CreateLC(iStore);
+    // construct the embedded store
+CPersistentStore* embeddedStore = CEmbeddedStore::NewLC(childStream);
+...</pre>
+<p>Here, the code assumes that <code class="codeph">iStore</code> refers to the top level
+store and <code class="codeph">iEmbeddedStoreId</code> is a data member to hold the ID
+of the hosting stream.</p>
+<p>On successful construction, ownership of the host stream passes to the
+embedded store which means that the embedded store takes on the responsibility
+for closing the stream.</p>
+<p>When the <code class="codeph">CEmbeddedStore</code> object represents an existing
+embedded store, it is constructed from an <code class="codeph">RReadStream</code> object;
+for example, a class might include the following code fragment in one of its
+functions:</p>
+<pre class="codeblock">...
+RStoreReadStream childStream;
+childStream.OpenL(iStore,iEmbeddedStoreId);
+iEmbeddedStore = CEmbeddedStore::FromL(childStream);
+...</pre>
+<p>Where:</p>
+<ul>
+<li id="GUID-7A3338F6-252E-5D47-9D22-CDD505222958"><a name="GUID-7A3338F6-252E-5D47-9D22-CDD505222958"><!-- --></a><p><code class="codeph">iStore</code> refers
+to the top level store</p> </li>
+<li id="GUID-162A3315-AA91-55CD-B07A-2F02EDBCC5ED"><a name="GUID-162A3315-AA91-55CD-B07A-2F02EDBCC5ED"><!-- --></a><p><code class="codeph">iEmbeddedStoreId</code> is
+a data member that holds the ID of the hosting stream</p> </li>
+<li id="GUID-8AE6849E-0BA8-5CB4-8F3F-B33CC4FEED4E"><a name="GUID-8AE6849E-0BA8-5CB4-8F3F-B33CC4FEED4E"><!-- --></a><p><code class="codeph">iEmbeddedStore</code> holds
+a reference to the embedded store object.</p> </li>
+</ul>
+<p>When saving data, an application re-creates the embedded store by re-writing
+the complete partial object network to the embedded store, replacing any existing
+data.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-95448841-5E5B-54C4-85A7-DCE6D078E036.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:06 GMT -->
+</html>

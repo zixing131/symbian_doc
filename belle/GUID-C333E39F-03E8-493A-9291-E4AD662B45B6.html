@@ -1,0 +1,90 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C333E39F-03E8-493A-9291-E4AD662B45B6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Converting strings and buffers between Symbian and Qt" /><meta name="abstract" content="Symbian's strings are called descriptors and in most cases are easily converted to Qt strings. Binary data buffers work in a similar way. Both Symbian and Qt have different strengths for character conversion." /><meta name="description" content="Symbian's strings are called descriptors and in most cases are easily converted to Qt strings. Binary data buffers work in a similar way. Both Symbian and Qt have different strengths for character conversion." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-D1F69FDA-6ED7-4E29-BCD4-250DF3C4841B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C333E39F-03E8-493A-9291-E4AD662B45B6" /><meta name="DC.Language" content="en" /><title>Converting strings and buffers between Symbian and Qt </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C333E39F-03E8-493A-9291-E4AD662B45B6">Converting strings and buffers between Symbian and Qt</h1><div><p>Symbian's strings are called descriptors and in most cases
+are easily converted to Qt strings. Binary data buffers work in a
+similar way. Both Symbian and Qt have different strengths for character
+conversion.</p>
+<div id="GUID-C689E9ED-D069-4DC5-A20A-BB03EB9D6C88"><h3 class="section-title">Symbian
+strings</h3><p>Symbian C++ uses <a href="GUID-21627ABC-AA70-4837-89A1-28BD9B2FD4B0.html">descriptors</a> to handle both text and data. Descriptors are self-describing: they
+use the minimum amount of memory to store the string data and information
+about its length and memory layout. Descriptors do not resize automatically,
+and instead <a href="GUID-B2DDCCB6-4350-4A67-9015-DE7094C0F590.html">panic</a> if an operation goes over the buffer length. This promotes
+robust code on devices that are designed to be rarely or never rebooted.
+As mentioned above, they can be used for both text and data because
+the length is not determined from the presence of NULL ('\0') terminators. </p><p>Symbian's descriptor class hierarchy is complicated; providing
+concrete modifiable and non-modifiable descriptors that store their
+data on the stack or heap, and a number of base classes that are used
+for function return types and parameters, but which are not intended
+for instantiation (such as <code class="codeph">TDes</code> and <code class="codeph">TDesC</code>). There are even some pointer descriptors (<code class="codeph">TPtr</code>, <code class="codeph">TPtrC</code>) which simply point to data stored in other
+locations. </p><p>Every descriptor class comes in a narrow (8 bit)
+and wide (16 bit) variant (such as <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-955061A8-A83E-39E5-8745-8FAC7DEA7BCC.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-955061A8-A83E-39E5-8745-8FAC7DEA7BCC.html"><code class="apiname">RBuf8</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BEFF9C91-DA64-3032-96E8-F5054405DC74.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BEFF9C91-DA64-3032-96E8-F5054405DC74.html"><code class="apiname">RBuf16</code></a>, respectively). The 8 bit variant is primarily used
+for data, while the 16 bit variant is used for Unicode text. For string
+data you actually use the bare version of the descriptors (such as <code class="codeph">RBuf</code>) shown in the figure. This is a typedef over the 16
+bit variant on all current versions of the Symbian platform. </p><p>For detailed information on descriptors, see <a href="GUID-0817AD1D-58CF-5108-ACBF-26DFD4BA395E.html">Descriptors Overview</a> and <a href="GUID-11EEFB3D-0414-5BEB-9D78-56A4B9154008.html">Using
+Descriptors</a>. You should also be aware of <code class="codeph">TLex</code> (which is used for lexical parsing and converting numeric strings
+into number types), the various typdef classes used for characters: <code class="codeph">TText</code>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-CDCFA2A5-EA8A-3B39-B90F-77AC41571E2D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-CDCFA2A5-EA8A-3B39-B90F-77AC41571E2D.html"><code class="apiname">TChar</code></a>, and <a href="GUID-C71311A7-F747-57EB-B31F-6E634D5976A3.html">Charconv</a> for
+conversion between character sets. (Charconv converts more sets than
+Qt and is extensible.) </p></div>
+<div id="GUID-6CADE8A4-BF87-48A0-9A6D-C0DF12082BEA"><h3 class="section-title">Qt
+strings</h3><p>Qt uses a single class, <code class="codeph">QString</code>  for almost all Unicode string handling. The class provides almost
+all functionality you might need, including string comparison, conversion
+to and from numeric types, and conversion between character sets.
+The class integrates with Qt's regular expression classes to provide
+powerful parsing and string manipulation. Its also works seamlessly
+with Qt's <a href="http://qt.nokia.com/doc/internationalization.html" target="_blank">Internationalization</a> APIs. </p><p><code class="codeph">QString</code> automatically resizes if necessary to accommodate
+a larger string. (If the string cannot be reallocated the operation
+throws.) QString uses <a href="http://qt.nokia.com/doc/4.6/implicit-sharing.html" target="_blank">implicit sharing</a>  (copy-on-write) to reduce memory usage and
+to avoid the needless copying of data. This means that while the variable
+is stored on the stack, the associated data is stored on the heap. </p><div class="note"><p><strong class="note_title">Note: </strong>In terms of memory usage, Symbian C++ developers may find
+it helpful to think of QStrings (and any implicitly shared objects)
+as reference-counted R-Classes. The object data is allocated on the
+heap; copy operations that do not change the data simply increase
+the count without needing to create a new object. The data is only
+freed when all objects that use it go out of scope.)</p></div><p>The <code class="codeph">QString</code> API is much easier to understand than
+the descriptor hierarchy, and is more powerful in many respects. <code class="codeph">QString</code> is less memory efficient than the descriptor classes,
+but still relatively efficient and robust. </p><p>Qt also provides <code class="codeph">QByteArray</code> (an array of bytes) which can be used for string
+operations. <code class="codeph">QByteArray</code> is often used for data, and
+is discussed in the section <a href="GUID-B41F0C89-7E3D-45D0-B249-2F3801A8EAED.html">Converting Input/output,
+binary and geometry data</a>. </p></div>
+<div id="GUID-4D2BE865-DFB2-4BDB-84ED-1C80ABB4DA19"><h3 class="section-title">Converting
+a descriptor to a QString </h3><p>Use <code class="codeph">QString::fromUtf16()</code> to create a new <code class="codeph">QString</code> with a deep copy of the
+data at a specified address and length. The address and length are
+obtained with <code class="codeph">TDesC16::Ptr()</code> and <code class="codeph">TDesC::Length()</code> respectively: </p><pre class="codeblock">QString myString = QString::fromUtf16(theDescriptor.Ptr(), theDescriptor.Length());</pre><div class="note"><p><strong class="note_title">Note: </strong><code>qcore_symbian_p.h</code> defines <code class="codeph">QString
+qt_TDesC2QStringL(const TDesC&amp; aDescriptor)</code>, which does
+this conversion. Because this file is not part of the public API,
+you may choose to copy the source code from <code class="codeph">qcore_symbian_p.cpp</code> into your own project.</p></div><p>In most cases you can use the
+above method to create a <em>copy</em> of the data. If you need to do
+a zero copy transfer of data, and you can guarantee that <code class="codeph">theDescriptor</code>'s lifetime exceeds that of possible Qt variables, you can use <code class="codeph">QString::fromRawData()</code> to get a <code class="codeph">QString</code> pointing at the Descriptor's data: </p><pre class="codeblock">QString myString = 
+    QString::fromRawData(reinterpret_cast&lt;const QChar*&gt;(theDescriptor.Ptr()),theDescriptor.Length());</pre><p>8 bit descriptors containing text may be converted to Unicode
+within Symbian C++ and then transferred as above. This has advantages
+because Symbian's character conversion classes allow auto-detection
+of the character set, and provide out-of-the-box support for conversion
+between more character sets. </p><p>However, you may find it easier
+to convert them within Qt code. You can use <code class="codeph">const TUint8*
+TDesC8::Ptr() const</code> to get a pointer to the data in the descriptor.
+If you know the character set, you can use <code class="codeph">QString's fromAscii()</code>, <code class="codeph">fromLatin1()</code>, or <code class="codeph">fromUtf8()</code> to
+do the conversion. If you just know the data is in the current locale's
+default set you can use <code class="codeph">QString::fromLocal8Bit()</code>. </p></div>
+<div id="GUID-59BC760D-B7CE-4A18-90A0-B78D1F59415E"><h3 class="section-title">Converting
+a QString to a descriptor </h3><p>Use <code class="codeph">QString::utf16()</code> or <code class="codeph">QString::constData()</code> to get a pointer to the
+data in the <code class="codeph">QString myString</code> and cast this to a <code class="codeph">TPtrC16 (TPtrC)</code> as shown: </p><pre class="codeblock">TPtrC myDescriptor (static_cast&lt;const TUint16*&gt;(myString.utf16()), myString.length());</pre><p>or </p><pre class="codeblock">TPtrC myDescriptor (reinterpret_cast&lt;const TText*&gt;(myString.constData()),myString.length());</pre><p>The pointer descriptor is valid while the original <code class="codeph">QString</code> (or any shallow copies) are still in scope. Unless you can guarantee
+this, you should copy the string into a heap or buffer descriptor.
+Using an (<code class="codeph">RBuf</code>) heap descriptor do this: </p><pre class="codeblock">    RBuf buffer;
+    qt_symbian_throwIfError(buffer.Create(myDescriptor));</pre><p>For a buffer descriptor you can do this: </p><pre class="codeblock">TBuf buffer(myDescriptor);</pre><p>or: </p><pre class="codeblock">TBuf&lt;KBufLength&gt; buffer(text.utf16());</pre><p>The above approach is used in the Dialpad example to copy the
+phone number from the <code class="codeph">QString</code> into a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html"><code class="apiname">TBuf</code></a> (see implementation of <code class="codeph">TelephonyPrivate::startCall()</code> ) in <a href="GUID-1D726592-A754-4212-B77D-54A1168403A8.html">Converting active objects to Qt signals and slots</a>.</p><div class="note"><p><strong class="note_title">Note: </strong><code>qcore_symbian_p.h</code> defines <code class="codeph">HBufC* qt_QString2HBufC(const QString&amp; aString)</code> and <code class="codeph">TPtrC qt_QString2TPtrC( const QString&amp; string )</code> which
+do these conversions. Because this file is not part of the public
+API, you may choose to copy the source code from qcore_symbian_p.cpp
+into your own project.</p></div></div>
+<div id="GUID-B6E77357-9661-41ED-81D2-6F12A4131C52-GENID-GUID-E666F13E-EC96-4780-A437-709BEAD3652A"><h3 class="section-title">Copyright
+note</h3><p>Most of the material in this topic is based with permission
+on a Symbian Foundation wiki article <cite>Apps:Using Qt and Symbian
+C++ Together</cite> . The version used was that available at Symbian
+Foundation on 3 November 2010. The content in this page is licensed
+under the Creative Commons Attribution-Share Alike 2.0 UK: England
+&amp; Wales License (<a href="http://creativecommons.org/licenses/by-sa/2.0/uk" target="_blank">http://creativecommons.org/licenses/by-sa/2.0/uk</a>).</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 23rd, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C333E39F-03E8-493A-9291-E4AD662B45B6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:00 GMT -->
+</html>

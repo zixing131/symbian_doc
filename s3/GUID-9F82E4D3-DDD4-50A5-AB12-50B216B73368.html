@@ -1,0 +1,116 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-9F82E4D3-DDD4-50A5-AB12-50B216B73368.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:17 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use the heap descriptor - HBufC" /><meta name="abstract" content="Heap descriptors provide a buffer of fixed length, allocated on the heap. Descriptors are useful for holding constant strings or data, when the length of the data may not be known until run time." /><meta name="description" content="Heap descriptors provide a buffer of fixed length, allocated on the heap. Descriptors are useful for holding constant strings or data, when the length of the data may not be known until run time." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Relation" scheme="URI" content="GUID-11EEFB3D-0414-5BEB-9D78-56A4B9154008" /><meta name="DC.Relation" scheme="URI" content="GUID-E8BEE049-6814-543B-8A88-889E434A5D92" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9F82E4D3-DDD4-50A5-AB12-50B216B73368" /><title>How to use the heap descriptor - HBufC </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-9F82E4D3-DDD4-50A5-AB12-50B216B73368">How to use the heap descriptor - HBufC</h1><div><p>Heap descriptors provide a buffer of fixed length, allocated on the heap. Descriptors are useful for holding constant strings or data, when the length of the data may not be known until run time.</p>
+<div id="CONTEXT_361D960801D14A01BDCA84C4583DBC07"><h3 class="section-title"><!--no section title--></h3><p>Some key points about heap descriptors:</p><ul id="UL_1B2EE288A79A45CDADC061A8AD013AA1"><li id="LI_593B247AD60649A3995B848E524423FF"><a name="LI_593B247AD60649A3995B848E524423FF"><!-- --></a>For text data, it is usual to construct a &lt;code&gt;<code class="codeph">HBufC</code>&lt;/code&gt; type and			 allow the appropriate variant, either a &lt;code&gt;<code class="codeph">HBufC8</code>&lt;/code&gt; or a <code class="codeph">HBufC16</code> to be selected at build time.</li><li id="LI_5FB940C2E42143B9BFE6961D6CD72B86"><a name="LI_5FB940C2E42143B9BFE6961D6CD72B86"><!-- --></a>For binary data, an explicit <code class="codeph">HBufC8</code> is used.</li><li id="LI_9D41DDF6F4544E90A79494F10D453DC4"><a name="LI_9D41DDF6F4544E90A79494F10D453DC4"><!-- --></a>It is rare to use an explicit <code class="codeph">HBufC16</code>.</li><li id="LI_0C6D6B9242EC473B8754A321A68A1BB2"><a name="LI_0C6D6B9242EC473B8754A321A68A1BB2"><!-- --></a>Data cannot be changed through this descriptor although it can be
+			 replaced using the assignment operators.
+</li><li id="LI_FFFA4A8EB811448BB63BED6865555087"><a name="LI_FFFA4A8EB811448BB63BED6865555087"><!-- --></a>If you need to pass an <code class="codeph">HBufC</code> to a function that takes a <code class="codeph">TDesC&amp;</code> parameter, simply dereference the <code class="codeph">HBufC</code> pointer.</li><li id="LI_D010A4CD7E26494EA8AB123A6FD76BEA"><a name="LI_D010A4CD7E26494EA8AB123A6FD76BEA"><!-- --></a>If you need to modify the <code class="codeph">HBufC</code>'s data, use its <code class="codeph">Des()</code> function to construct a <code class="codeph">TPtr/TPtr8/TPtr16</code> modifiable pointer descriptor for the buffer's data.</li><li id="LI_1317203B41FC4D1887AC3E4F9E62EEBC"><a name="LI_1317203B41FC4D1887AC3E4F9E62EEBC"><!-- --></a>The size of the heap descriptor buffer can be replaced by
+			 reallocating it with a new length.
+</li></ul><p>Although the following notes refer to the build independent types, they are equally valid for the 8 bit and 16 bit types.</p>
+</div>
+<div id="SECTION_C424B2F2D52D477AA71C739E4B27BBBC"><h3 class="section-title">Constructing an <code class="codeph">HBufC</code></h3>
+<p>
+		  A heap descriptor can be constructed in one of two ways:
+		</p>
+<ul id="UL_97F558DD94EA45068D1C8B885D092AB1">
+<li id="LI_FAA60C6043CB42BF84558932764C1054"><a name="LI_FAA60C6043CB42BF84558932764C1054"><!-- --></a>
+<p>
+				using the static member functions <code class="codeph">New()</code>,
+				<code class="codeph">NewL()</code> or <code class="codeph">NewLC()</code>
+</p>
+</li>
+<li id="LI_3A20A3574E404335BFFE058BB3DEA02F"><a name="LI_3A20A3574E404335BFFE058BB3DEA02F"><!-- --></a>
+<p>
+				using the <code class="codeph">Alloc()</code>, <code class="codeph">AllocL()</code> or
+				<code class="codeph">AllocLC()</code> functions of an existing descriptor
+			 </p>
+</li>
+</ul>
+<p>
+		  The following code fragment constructs a heap descriptor which can hold up to 15 data items. The current length is zero.
+		</p>
+<pre class="codeblock">HBufC* buf;
+...
+buf = HBufC::NewL(15);</pre>
+<p>
+		  The following code fragment constructs a heap descriptor from an existing descriptor. The new heap descriptor is initialised with the content of
+		  <code class="codeph">buf1</code>, i.e. the string: "Hello World!"
+		</p>
+<p>
+		  The source descriptor is a literal which is converted to descriptor type.
+		</p>
+<pre class="codeblock">_LIT(KText,"Hello World!");
+TBufC&lt;16&gt; buf1(KText);
+...
+HBufC* hptr;
+hptr = buf1.AllocL();
+...</pre>
+</div>
+<div id="SECTION_B06A1A56ECEE4F02BEB57288C759CF80"><h3 class="section-title">Replacing data and re-allocating</h3>
+<p>
+		  Although existing data within a heap descriptor cannot be modified, the
+		  assignment operator can be used to replace that data.
+		</p>
+<pre class="codeblock">_LIT(KText,"Hello World!");
+...
+HBufC* buf;
+...
+buf  = HBufC::NewL(15);
+*buf = KText;</pre>
+<p>
+		  The source descriptor is a literal which is converted to descriptor
+		  type.
+		</p>
+<p>
+		  To allow more than 15 characters or data items to be assigned into the
+		  heap descriptor, it must be reallocated:
+		</p>
+<pre class="codeblock">buf = buf-&gt;ReAllocL(20);</pre>
+<p>
+		  This permits the following assignment to be done without raising a
+		  panic:
+		</p>
+<pre class="codeblock">_LIT(KNewText,"Hello World! Morning");
+...
+*buf = KNewText;</pre>
+<p>
+<code class="codeph">buf</code> may or may not point to a different location in the
+		  heap after reallocation. The location of the reallocated descriptor depends on
+		  the heap fragmentation and the size of the new cell. It is always safer to
+		  assume that the location changes.
+		</p>
+</div>
+<div id="SECTION_27A2310F89E141159A3DF3169D860CDA"><h3 class="section-title">Changing data through a modifiable pointer descriptor.</h3>
+<p>
+		  The data contained by a heap descriptor <em>can</em> be changed by
+		  constructing a <code class="codeph">TPtr</code> modifiable pointer descriptor using the
+		  <code class="codeph">Des()</code> member function and then changing the data through that
+		  <code class="codeph">TPtr</code>.
+		</p>
+<p>
+		  The maximum length of the <code class="codeph">TPtr</code> is determined from the size
+		  of the cell allocated to the data area of the heap descriptor.
+		</p>
+<p>
+		  The following code fragment changes the data in the heap descriptor and
+		  the length of the heap descriptor.
+		</p>
+<pre class="codeblock">TPtr ptr = buf-&gt;Des();
+...
+ptr.Delete((ptr.Length()-9),9);
+ptr.Append(_LIT(" &amp; Hi"));</pre>
+<p>
+		  Take particular care if a the heap descriptor is re-allocated after the
+		  <code class="codeph">TPtr</code> has been constructed. A <code class="codeph">TPtr</code> created before
+		  re-allocating the heap descriptor is not guaranteed to have a valid pointer
+		  after re-allocation. Any attempt to modify data through the original
+		  <code class="codeph">TPtr</code> after re-allocation may have undefined consequences.
+		</p><div class="note"><p><strong class="note_title">Note: </strong>it is a common error to use </p><code class="codeph">Des()</code> to create a
+		  <code class="codeph">TDesC&amp;</code> reference. While not incorrect, it is simpler and much
+		  more efficient to simply dereference the heap descriptor.</div>
+</div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 23rd, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-9F82E4D3-DDD4-50A5-AB12-50B216B73368.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:17 GMT -->
+</html>

@@ -1,0 +1,79 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-845F3021-E3ED-4676-916A-75740886DCBD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:58:18 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Providing a vertical list of selectable items" /><meta name="DC.Relation" scheme="URI" content="GUID-C29FE12C-C412-40A8-A067-27C63A519D71" /><meta name="DC.Relation" scheme="URI" content="GUID-462239D1-4B40-4342-92DA-32AB0AF0D2F2" /><meta name="DC.Relation" scheme="URI" content="GUID-17F3FFF4-00B8-492F-95BD-11AFF02CAAB2" /><meta name="DC.Relation" scheme="URI" content="GUID-F2397B5A-0700-46D5-8E07-CBB9F769DA01" /><meta name="DC.Relation" scheme="URI" content="GUID-A84EDC63-0A74-4B93-BED2-7BE273A6DDB3" /><meta name="DC.Relation" scheme="URI" content="GUID-E332F544-0759-4C10-B29C-14AA5EAEBD49" /><meta name="DC.Relation" scheme="URI" content="GUID-73DD8A9B-6F7A-4BF5-87A1-5D86662B30D3" /><meta name="DC.Relation" scheme="URI" content="GUID-210606BE-A36C-4B65-B083-93F71024196C" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-E35887BB-7E58-438C-AA27-97B2CDE7E069_overview-GUID-8C40E993-C9A0-423D-979D-7BB11CE091C1" /><meta name="DC.Relation" scheme="URI" content="GUID-E35887BB-7E58-438C-AA27-97B2CDE7E069_overview-GUID-FA9679A1-6FD7-4FB6-883A-D5719388A2B6" /><meta name="DC.Relation" scheme="URI" content="GUID-C29FE12C-C412-40A8-A067-27C63A519D71" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-845F3021-E3ED-4676-916A-75740886DCBD" /><meta name="DC.Language" content="en" /><title>Providing
+a vertical list of selectable items </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-845F3021-E3ED-4676-916A-75740886DCBD">Providing
+a vertical list of selectable items</h1><div>
+<p>To provide a vertical list of selectable items using the Choice List API,
+follow the steps below:</p>
+<ol>
+<li id="GUID-7BC9F7F7-7C48-4D8B-AA78-E9F03B0037D1"><a name="GUID-7BC9F7F7-7C48-4D8B-AA78-E9F03B0037D1"><!-- --></a><p>Link the AVKON libraries
+(<code class="codeph">avkon.lib</code> and <code class="codeph">eikcoctl.lib</code>) to the project
+file of the application.</p></li>
+<li id="GUID-2AAE484A-042E-413E-95C5-075213B1F9FD"><a name="GUID-2AAE484A-042E-413E-95C5-075213B1F9FD"><!-- --></a><p>Provide an observer
+class that realizes the <code class="codeph">McoeControlObserver</code> interface.</p></li>
+<li id="GUID-0DB766B5-F05E-4724-AEA3-3AD7ED200941"><a name="GUID-0DB766B5-F05E-4724-AEA3-3AD7ED200941"><!-- --></a><p>Create an instance of
+the class <code class="codeph">CAknChoiceList</code>.</p></li>
+<li id="GUID-02B3DF80-EBF2-463C-A347-256A2CEE08F6"><a name="GUID-02B3DF80-EBF2-463C-A347-256A2CEE08F6"><!-- --></a><p>Add content to the created
+choice list instance.</p></li>
+<li id="GUID-4CBFB485-526E-4A94-B177-E7B8C89828F9"><a name="GUID-4CBFB485-526E-4A94-B177-E7B8C89828F9"><!-- --></a><p>Show the choice list.</p></li>
+<li id="GUID-1F3926D0-CCBE-4F16-98E2-8E6C0C0DA973"><a name="GUID-1F3926D0-CCBE-4F16-98E2-8E6C0C0DA973"><!-- --></a><p>Receive information
+from the choice list through the observer interface.</p></li>
+<li id="GUID-22CBB678-6954-42CF-8F8E-FA847A7FBEA9"><a name="GUID-22CBB678-6954-42CF-8F8E-FA847A7FBEA9"><!-- --></a><p>Delete the choice list.</p></li>
+</ol>
+<div id="GUID-046C0B82-B9A4-4123-9FDD-530A0232B252"><h3 class="section-title">Indexing of
+items in the choice list</h3><p>The client application is responsible for
+keeping track of item indexes in the choice list. The choice list component
+does not do this: it only returns the index of a list item.</p><p>The choice
+list items are indexed as follows:</p><ul>
+<li><p>When the items are added to the choice list from e.g. an array, the
+first item gets an index of 0.</p></li>
+<li><p>The other items added from the array get indexes 1, 2, 3 and so forth
+until the last item has received an index. Therefore, for example, in a list
+of four items, the items have indexes 0 - 3.</p></li>
+<li><p>If an item is added to the end of the list, it gets the next index
+number based on the number of items already in the list. For example, adding
+the fifth item in a four-item list results in that item having the index 4.</p></li>
+<li><p>If items are added to the middle of the list, the indexes of the items
+after the added items are shifted up accordingly. For example, if an item
+is added as the fourth item in a six-item list, the old fourth, fifth, and
+sixth items with indexes 3 - 5 get indexes 4 - 6.</p></li>
+<li><p>If an items is removed from the list, the indexes of the subsequent
+items in the list are shifted down accordingly. For example, if the second
+item is removed, the old third item becomes the second item and therefore
+gets an index of 1.</p></li>
+</ul></div>
+<div id="GUID-42664A41-C3D3-4DAF-802D-8A98B15984CA"><h3 class="section-title">Use cases</h3><div class="figure" id="GUID-7FFCC838-A49D-4A91-9480-3295B0E036B7"><img src="GUID-92067BE3-40F0-4652-A882-FFDE2816C9BD_d0e97087_href.png" /><p class="figure-title"><strong>Figure: </strong>Choice list API use cases</p></div><p>To use a choice list in your application, implementing the following
+use cases is mandatory:</p><ul>
+<li><p><a href="GUID-462239D1-4B40-4342-92DA-32AB0AF0D2F2.html">Creating the
+choice list</a></p></li>
+<li><p><a href="GUID-17F3FFF4-00B8-492F-95BD-11AFF02CAAB2.html">Adding items
+to the choice list</a></p></li>
+<li><p><a href="GUID-F2397B5A-0700-46D5-8E07-CBB9F769DA01.html">Getting user
+selection from the choice list</a></p></li>
+<li><p><a href="GUID-A84EDC63-0A74-4B93-BED2-7BE273A6DDB3.html">Deleting the
+choice list</a></p></li>
+</ul><p>The following use cases are optional, allowing you to set additional
+properties for your choice list:</p><ul>
+<li><p><a href="GUID-E332F544-0759-4C10-B29C-14AA5EAEBD49.html">Showing the
+choice list</a></p></li>
+<li><p><a href="GUID-73DD8A9B-6F7A-4BF5-87A1-5D86662B30D3.html">Removing items
+from the choice list</a></p></li>
+<li><p><a href="GUID-210606BE-A36C-4B65-B083-93F71024196C.html">Setting the
+item selected when the choice list is opened</a></p></li>
+</ul></div>
+<div id="GUID-6609939C-29EA-405B-9B53-3EF19BAE8230"><h3 class="section-title">Main implementation
+files</h3><p>The implementation file for the Choice list API is <code class="codeph">aknchoicelist.h</code>.</p></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-462239D1-4B40-4342-92DA-32AB0AF0D2F2.html">Creating
+the choice list</a></li><li class="ulchildlink"><a href="GUID-17F3FFF4-00B8-492F-95BD-11AFF02CAAB2.html">Adding
+items to the choice list</a></li><li class="ulchildlink"><a href="GUID-F2397B5A-0700-46D5-8E07-CBB9F769DA01.html">Getting
+user selection from the choice list</a></li><li class="ulchildlink"><a href="GUID-A84EDC63-0A74-4B93-BED2-7BE273A6DDB3.html">Deleting
+the choice list</a></li><li class="ulchildlink"><a href="GUID-E332F544-0759-4C10-B29C-14AA5EAEBD49.html">Showing
+the choice list</a></li><li class="ulchildlink"><a href="GUID-73DD8A9B-6F7A-4BF5-87A1-5D86662B30D3.html">Removing
+items from the choice list</a></li><li class="ulchildlink"><a href="GUID-210606BE-A36C-4B65-B083-93F71024196C.html">Setting
+the item selected when the choice list is opened</a></li></ul><h3>Related concepts</h3><ul><li><a href="GUID-C29FE12C-C412-40A8-A067-27C63A519D71.html">Choice list
+API description</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 24th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-845F3021-E3ED-4676-916A-75740886DCBD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:58:19 GMT -->
+</html>

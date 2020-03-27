@@ -1,0 +1,51 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-49A7E8FD-72DA-5D56-86BE-74AA9AAF7C02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:42 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Using XPath Extension Function" /><meta name="abstract" content="This topic explains how to use the XPath Extension Function API to implement XPath functions and register them with the XML DOM Engine." /><meta name="description" content="This topic explains how to use the XPath Extension Function API to implement XPath functions and register them with the XML DOM Engine." /><meta name="DC.Relation" scheme="URI" content="GUID-92C2317A-57B8-558E-984B-B10FD0404981" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-82AF5F49-EE25-54C7-AEE9-D1F41BD5190F" /><meta name="DC.Relation" scheme="URI" content="GUID-A25E730C-F34D-5464-BE78-650B3DEA4A88" /><meta name="DC.Relation" scheme="URI" content="GUID-05A3E75B-25F9-54AC-8AF8-3E97F832E626" /><meta name="DC.Relation" scheme="URI" content="GUID-74E3A687-18BD-5255-9CB9-F4B01878A1E1" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-49A7E8FD-72DA-5D56-86BE-74AA9AAF7C02" /><meta name="DC.Language" content="en" /><title>Using
+XPath Extension Function </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-49A7E8FD-72DA-5D56-86BE-74AA9AAF7C02">Using
+XPath Extension Function</h1><div><p>This topic explains how to use the XPath Extension Function API
+to implement XPath functions and register them with the XML DOM Engine. </p>
+<div><h3 class="section-title">Context</h3><p>XPath is a query language for exploring XML documents. You can
+extend it with domain-specific functions or with general utility functions,
+to add functionality to XPath queries. </p> </div><div><h3 class="section-title">Prerequisites</h3><p>Before you start, you must: </p> <ul>
+<li id="GUID-6FEBC3D4-5972-52C8-AE2D-DC10960E7CB9"><a name="GUID-6FEBC3D4-5972-52C8-AE2D-DC10960E7CB9"><!-- --></a><p>understand <a href="http://www.w3schools.com/XPath/xpath_syntax.asp" target="_blank">XPath syntax</a> and the concept of <a href="http://www.w3.org/DOM/" target="_blank">Document Object Model (DOM)</a>. </p> </li>
+<li id="GUID-5AB869C6-6DC3-5434-8A96-F1FBC23391EB"><a name="GUID-5AB869C6-6DC3-5434-8A96-F1FBC23391EB"><!-- --></a><p>understand the architecture
+and classes of the <a href="GUID-5ACFA8E4-3C4B-5851-A43E-9FA72D0B8403.html">XML
+DOM Engine</a> component. </p> </li>
+</ul> </div>
+<h3>Steps</h3><ol id="GUID-78E28A2F-8B09-5B02-BF61-1C83927423FF"><a name="GUID-78E28A2F-8B09-5B02-BF61-1C83927423FF"><!-- --></a>
+<li id="GUID-D11FCC80-B452-591E-8674-245755847629"><a name="GUID-D11FCC80-B452-591E-8674-245755847629"><!-- --></a><p>Write a new class
+that implements the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>MXmlEngXPathEvaluationContext interface. </p>
+This class represents the evaluation context. It processes the arguments
+of the extension function and stores the result of the evaluation. <p></p>
+</li>
+<li id="GUID-B6848240-EE53-5677-A75B-F0741FC60764"><a name="GUID-B6848240-EE53-5677-A75B-F0741FC60764"><!-- --></a><p>Write a new class
+that implements the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>MXPathExtensionFunction interface. </p>
+This class represents the new extension function. The <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>MXPathExtensionFunction::Evaluate() function
+uses its <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>MXmlEngXPathEvaluationContext parameter
+to process input arguments and return a result. This result can be a set of
+nodes, a number, a boolean or a string.<p></p>
+</li>
+<li id="GUID-7061B984-982E-54A6-9915-D0BB73E412BC"><a name="GUID-7061B984-982E-54A6-9915-D0BB73E412BC"><!-- --></a><p>Create an instance
+of the new extension function class. </p>
+</li>
+<li id="GUID-F5AC95C9-B770-5484-BDA3-9F3A0C806EC7"><a name="GUID-F5AC95C9-B770-5484-BDA3-9F3A0C806EC7"><!-- --></a><p>Create a <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>TXmlEngExtensionFunctionDescriptor structure. </p>
+This structure contains a pointer to the new extension function, the
+name of the function, and the optional namespace URI. <p></p>
+</li>
+<li id="GUID-A230F1A0-AEEF-594A-93C5-29349322BD73"><a name="GUID-A230F1A0-AEEF-594A-93C5-29349322BD73"><!-- --></a><p>Register this instance
+by calling the static <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>TXmlEngXPathConfiguration::AddExtensionFunctionL() function. </p>
+</li>
+<li id="GUID-5B333061-45E5-5288-95D8-801D468AB065"><a name="GUID-5B333061-45E5-5288-95D8-801D468AB065"><!-- --></a><p>Use the new extension
+function in an XPath query.</p>
+</li>
+<li id="GUID-F314293B-69F9-5A54-963C-7EBA3AA67129"><a name="GUID-F314293B-69F9-5A54-963C-7EBA3AA67129"><!-- --></a><p>Free your resources
+as necessary.</p>
+</li>
+</ol>
+</div><h3>Related tasks</h3><ul><li><a href="GUID-92C2317A-57B8-558E-984B-B10FD0404981.html">Searching
+a DOM Tree using XPath</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 4th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-49A7E8FD-72DA-5D56-86BE-74AA9AAF7C02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:42 GMT -->
+</html>

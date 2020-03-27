@@ -1,0 +1,67 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-01677FF9-8FA1-5F0D-8223-46EDD20E3075.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:03:18 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="LString" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-28AD51DC-C101-5E6E-9EC3-C2B61400D8CD" /><meta name="DC.Relation" scheme="URI" content="GUID-D60B55FA-D8C1-559A-9D99-48845BE32A6C" /><meta name="DC.Relation" scheme="URI" content="GUID-ECE93783-F571-51DA-AB92-EDDA8618A85C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-01677FF9-8FA1-5F0D-8223-46EDD20E3075" /><meta name="DC.Language" content="en" /><title>LString </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-01677FF9-8FA1-5F0D-8223-46EDD20E3075">LString</h1><div>
+<p> LString is a convenient, general-purpose string class derived
+from RBuf. LString adds automatic cleanup and on-demand
+buffer resize facilities. Like an RBuf, an LString
+can be passed to any function that is prototyped to take a <code class="codeph">TDes</code> or a <code class="codeph">TDesC</code> reference. Again like an RBuf, an LString maintains its string data in a heap buffer. </p>
+<div id="GUID-09672740-7FB8-4E7E-BBF8-08C5D098B824"><h3 class="section-title">Need
+for LString</h3> <p>While being simpler to use than existing descriptors
+in many cases, LString's use of heap allocation and it’s resizing
+variant methods clearly come with associated costs. Their use in performance-critical
+code should be carefully considered. On the other hand, LString's
+small stack footprint and ability to better-handle inputs of unpredictable
+size may make them a better choice when the alternative is a large,
+fixed-max-size <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html"><code class="apiname">TBuf</code></a> or HBufC. </p> </div>
+<div id="GUID-7E61CA33-679E-474A-8260-DBCCC71F9F2C"><h3 class="section-title">Variants
+of LString</h3> <p>The concrete LString classes provided are <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C788743B-AD3C-3508-83CD-942EFA243B26.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C788743B-AD3C-3508-83CD-942EFA243B26.html"><code class="apiname">LString8</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C5A68FFA-9AED-319D-B29D-723F9AA7FFD7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C5A68FFA-9AED-319D-B29D-723F9AA7FFD7.html"><code class="apiname">LString16</code></a> for 8 and 16
+bit data respectively. Two convenient Typedefs are also provided: </p> <p>LString for <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C5A68FFA-9AED-319D-B29D-723F9AA7FFD7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C5A68FFA-9AED-319D-B29D-723F9AA7FFD7.html"><code class="apiname">LString16</code></a> and LData for <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C788743B-AD3C-3508-83CD-942EFA243B26.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C788743B-AD3C-3508-83CD-942EFA243B26.html"><code class="apiname">LString8</code></a> </p> </div>
+<div id="GUID-4FF80A26-98A6-4DE8-9552-54829F2A38C5"><h3 class="section-title"> Library
+and header file</h3> <p> LString is part of the EUser High Level
+library which is found in <code>euserhl.dll</code>. To use
+LString you must link <code>euserhl.lib</code> library and
+include <code>estring.h</code> header file. </p> </div>
+<div id="GUID-63175BA0-47AA-442D-A3CC-44CAB7CACA70"><h3 class="section-title"> Characteristics
+of LString</h3> <p>The following are the characteristics of LString: </p> <ul>
+<li id="GUID-BD07F012-83A8-5A10-964C-DA710D73CAD9"><a name="GUID-BD07F012-83A8-5A10-964C-DA710D73CAD9"><!-- --></a><p> <strong>Automatic
+in-place resizing:</strong> LString replaces standard descriptor APIs with
+a corresponding leaving method that automatically expands the underlying
+buffer on-demand. </p> </li>
+<li id="GUID-986A6AD5-E6F4-51E1-B6CB-5B2E58A19954"><a name="GUID-986A6AD5-E6F4-51E1-B6CB-5B2E58A19954"><!-- --></a><p> <strong>Automatic
+Growth:</strong> LString supports automatic growth when being manipulated
+directly as an LString. When an LString is passed to a function accepting
+a TDes() that function will operate on it as if
+it is a fixed-max-length descriptor. </p> </li>
+<li id="GUID-DAC97247-345B-5E11-8E32-1A08920CB765"><a name="GUID-DAC97247-345B-5E11-8E32-1A08920CB765"><!-- --></a><p> <strong>Compression:</strong> It is difficult to predict the use of an LString object and therefore
+auto-compression would likely result in further allocations and be
+inefficient. If compression is desired this must be done manually
+via <code class="codeph">LString::Compress()</code>. </p> </li>
+</ul> </div>
+<div id="GUID-31C1CAEA-0DA1-4C70-BF3D-2DDF8F3960A6"><h3 class="section-title">LString
+APIs</h3> <p>The following are the LString APIs: </p> <ul>
+<li id="GUID-44F43752-D692-5A53-AFD9-D0F81C21ECD0"><a name="GUID-44F43752-D692-5A53-AFD9-D0F81C21ECD0"><!-- --></a><p> <code class="codeph">SetMaxLengthL()</code> </p> <pre class="codeblock">void LStringX::SetMaxLength(TInt aMaxLength)</pre> <p> <strong>Description:</strong> This method sets the storage space allocated to this descriptor
+to the specified value by growing or compressing its buffer size.
+If the current length of the descriptor is greater than the specified
+max length, length is truncated to max length. </p> </li>
+<li id="GUID-29DA153C-459B-5ADD-919F-4BBCD50B0116"><a name="GUID-29DA153C-459B-5ADD-919F-4BBCD50B0116"><!-- --></a><p> <code class="codeph">ReserveFreeCapacityL()</code> </p> <pre class="codeblock">void LStringX::ReserveFreeCapacityL(TInt aExtraSpaceRequired)</pre> <p> <strong>Description:</strong> This method ensures that the remaining unused
+space is more than the supplied value. It may reallocate a larger
+storage space to meet the requirement. As a result <code class="codeph">MaxLength()</code> and <code class="codeph">Ptr()</code> may return different values afterwards,
+and any existing raw pointers to into the descriptor data may be invalidated. </p> </li>
+<li id="GUID-A75B4E77-51ED-5F83-AAB8-234C6D184C68"><a name="GUID-A75B4E77-51ED-5F83-AAB8-234C6D184C68"><!-- --></a><p> <code class="codeph">Compress()</code> </p> <pre class="codeblock">void LStringX::Compress()</pre> <p> <strong>Description:</strong> This
+method re-allocates a smaller descriptor buffer space to the current
+descriptor length. This may cause the string descriptor's heap buffer
+to be reallocated in order to accommodate the new data. As a result,
+MaxLength() and Ptr() may return different values afterwards, and
+any existing raw pointers to into the descriptor data may be invalidated. </p> </li>
+<li id="GUID-0824D4AC-6978-5455-B65F-06CEAB3A0CEF"><a name="GUID-0824D4AC-6978-5455-B65F-06CEAB3A0CEF"><!-- --></a><p> <code class="codeph">Reset()</code> </p> <pre class="codeblock">void LStringX::Reset()</pre> <p> <strong>Description:</strong> This method
+re-initialises the descriptor destroying its payload. </p> </li>
+</ul> </div>
+<div id="GUID-0EFA8AED-1D18-4D71-876C-2037CF523F3D"><h3 class="section-title">See
+Also</h3> <p><a href="GUID-B007634D-4D55-528A-8B85-6120C633AC8B.html">EUser High Level Library Overview</a> </p> <p><a href="GUID-D33EB877-CCCB-527B-8AFC-4A8385C55E78.html">EUser High Level
+Library Tutorials</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 17th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-01677FF9-8FA1-5F0D-8223-46EDD20E3075.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:03:18 GMT -->
+</html>

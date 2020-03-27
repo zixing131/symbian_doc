@@ -1,0 +1,94 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E81D72B2-BA77-5F4E-8742-3812A60A4DAC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:17 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use modifiable buffer descriptor — TBuf&lt;TInt&gt;" /><meta name="abstract" content="Modifiable buffer descriptors are useful for holding strings or data and providing safe ways to access and modify that data." /><meta name="description" content="Modifiable buffer descriptors are useful for holding strings or data and providing safe ways to access and modify that data." /><meta name="DC.Relation" scheme="URI" content="GUID-7CB11EAD-260E-551A-85F1-FEAC975FE722" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Relation" scheme="URI" content="GUID-11EEFB3D-0414-5BEB-9D78-56A4B9154008" /><meta name="DC.Relation" scheme="URI" content="GUID-E8BEE049-6814-543B-8A88-889E434A5D92" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E81D72B2-BA77-5F4E-8742-3812A60A4DAC" /><meta name="DC.Language" content="en" /><title>How to use modifiable buffer descriptor — TBuf&lt;TInt&gt; </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E81D72B2-BA77-5F4E-8742-3812A60A4DAC">How to use modifiable buffer descriptor — TBuf&lt;TInt&gt;</h1><div><p>Modifiable buffer descriptors are useful for holding strings
+or data and providing safe ways to access and modify that data.</p>
+<ul>
+<li id="GUID-F276E9FE-B839-54ED-9F50-8E45CB094922"><a name="GUID-F276E9FE-B839-54ED-9F50-8E45CB094922"><!-- --></a><p>For text data,
+it is usual to construct a <code class="codeph">TBuf&lt;TInt&gt;</code> type and
+allow the appropriate variant, either a <code class="codeph">TBuf8&lt;TInt&gt;</code> or a <code class="codeph">TBuf16&lt;TInt&gt;</code> to be selected at build time.</p> </li>
+<li id="GUID-9860DB57-62C3-5295-B00E-5F629771FED9"><a name="GUID-9860DB57-62C3-5295-B00E-5F629771FED9"><!-- --></a><p>For binary data,
+an explicit <code class="codeph">TBuf8&lt;TInt&gt;</code> is used.</p> </li>
+<li id="GUID-34C95FAB-0F58-5B61-B9FC-A31588855F96"><a name="GUID-34C95FAB-0F58-5B61-B9FC-A31588855F96"><!-- --></a><p>It is rare to
+use an explicit <code class="codeph">TBuf16&lt;TInt&gt;</code>.</p> </li>
+</ul>
+<p>Although, the following notes refer to the build independent types;
+they are equally valid for the explicit 8 bit and 16 bit types.</p>
+<div id="GUID-824524FB-98B7-4CDA-A3FD-233C7C0DDD5F"><h3 class="section-title">Constructing
+a TBuf&lt;TInt&gt;</h3> <p>A modifiable buffer descriptor can be constructed
+in a number of ways:</p> <ul>
+<li id="GUID-BCFAA769-D038-5A09-B6BF-586C93F08B0B"><a name="GUID-BCFAA769-D038-5A09-B6BF-586C93F08B0B"><!-- --></a><p>as an empty
+buffer descriptor.</p> </li>
+<li id="GUID-9DE61358-D6B9-54CA-9FED-11AC29443093"><a name="GUID-9DE61358-D6B9-54CA-9FED-11AC29443093"><!-- --></a><p>as an empty
+buffer descriptor but giving it a length.</p> </li>
+<li id="GUID-50FB7967-79C8-5F8C-8569-36B40D14894E"><a name="GUID-50FB7967-79C8-5F8C-8569-36B40D14894E"><!-- --></a><p>by copying data
+from any other type of descriptor.</p> </li>
+<li id="GUID-26E1FDDC-F0BB-5441-8F81-EF2CFA61787A"><a name="GUID-26E1FDDC-F0BB-5441-8F81-EF2CFA61787A"><!-- --></a><p>by copying data
+from another modifiable buffer descriptor of the same size.</p> </li>
+</ul> <p>The following code fragment constructs a <code class="codeph">TBuf&lt;16&gt;</code> object. The buffer descriptor is uninitialised, i.e. it contains
+no data. The assignment operator or the <code class="codeph">Copy()</code> function
+can be used to put data into the buffer descriptor after construction:</p> <pre class="codeblock">_LIT(KText,"Hello World!");
+...
+TBuf&lt;16&gt; buf1; // length of buf1 is 0
+...
+buf1 = KText;  // data assigned</pre> <p>The source descriptor
+is a literal which is converted to descriptor type.</p> <p>The following
+code fragment constructs a <code class="codeph">TBuf&lt;16&gt;</code> object and
+sets it length to 12. No data is assigned into the descriptor.</p> <pre class="codeblock">...
+TBuf&lt;16&gt; buf1(12); // length of buf1 is 12
+...</pre> <p>The following code fragment constructs a <code class="codeph">TBuf&lt;16&gt;</code> object, initialised with the 12 characters making
+up the English language phrase "Hello World!".</p> <pre class="codeblock">_LIT(KText,"Hello World!");
+...
+TBuf&lt;16&gt; buf1(KText);</pre> <p>The following code fragment
+constructs a <code class="codeph">TBuf&lt;16&gt;</code> object from another <code class="codeph">TBuf&lt;16&gt;</code> object. This is, in effect, copy construction.</p> <pre class="codeblock">_LIT(KText,"Hello World!");
+...
+TBuf&lt;16&gt; buf1(KText);
+TBuf&lt;16&gt; buf2(buf1);   // buf2 constructed from the data in buf1</pre> <p>In both of these cases, the resulting length of the descriptor
+is 12.</p> <p>A non-modifiable buffer descriptor can also be constructed
+from 'C' style zero terminated string. However, this is rarely necessary
+but may make it easier to port legacy 'C' code.</p> </div>
+<div id="GUID-8A534041-1730-43FB-8FCD-4C5BFDAAE730"><h3 class="section-title">Replacing
+data</h3> <p>Data within a modifiable buffer descriptor can be
+completely replaced through the assignment operator or by using the <code class="codeph">Copy()</code> function.</p> <pre class="codeblock">_LIT(KText,"Hello World!");
+_LIT(KNewText,"New text");
+_LIT(KReplaced,"Replaced");
+...
+TBuf&lt;16&gt; buf1(KText);
+TBuf&lt;16&gt; buf2;
+...
+buf2 = buf1;               // buf2 now contains "Hello World!"
+...
+buf2 = KNewText;           // buf2 now contains "New text".
+                           // the literal is converted to a descriptor
+                           // type.
+buf2.Copy(KReplaced);      // buf2 content replaced using Copy()</pre> </div>
+<div id="GUID-E49444E0-457E-4645-A1D5-C350FF998F9A"><h3 class="section-title">Accessing
+and changing data</h3> <p>Once a modifiable buffer descriptor has
+been constructed, the functions in the base classes, <code class="codeph">TDesC</code> and <code class="codeph">TDes</code>, are available to be access and change
+the data.</p> <pre class="codeblock">_LIT(KText,"Hello World!");
+...
+TBufC&lt;16&gt; buf1(KText);
+...
+buf1.Length();</pre> <p>and</p> <pre class="codeblock">_LIT(KText,"Hello World!");
+...
+TBufC&lt;16&gt; buf1(KText);   // length is 12 
+...
+buf1.Delete(6,6);        // length is now 6, leaving "Hello" in
+                         // the buffer</pre> </div>
+<div id="GUID-970BCE5F-CC4D-4F60-91A9-6107975E9C3F"><h3 class="section-title">Illegal
+access causing an exception</h3> <p>The following code fragment
+raises a panic because of an attempt to assign too much data. The
+maximum length of the buffer descriptor is 16 but the length of the
+data to be copied is 31:</p> <pre class="codeblock">_LIT(KText,"Hello World! The sun is shining");
+...
+TBufC&lt;16&gt; buf1(KText);</pre> <p>The following code fragment
+raises a panic because of an attempt to delete data outside the boundary
+defined by the descriptor:</p> <pre class="codeblock">_LIT(KText,"Hello World!");
+...
+TBufC&lt;16&gt; buf1(KText);
+buf1.Delete(99,1);</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-7CB11EAD-260E-551A-85F1-FEAC975FE722.html">Literal Descriptors</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated July 2nd, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E81D72B2-BA77-5F4E-8742-3812A60A4DAC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:17 GMT -->
+</html>

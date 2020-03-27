@@ -1,0 +1,54 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-23014C8A-2A0B-5F6A-9BB2-6642E1EC0462.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:46 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using Content Processor" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-82AF5F49-EE25-54C7-AEE9-D1F41BD5190F" /><meta name="DC.Relation" scheme="URI" content="GUID-A25E730C-F34D-5464-BE78-650B3DEA4A88" /><meta name="DC.Relation" scheme="URI" content="GUID-AF28D930-6BD1-5DC5-9BE5-7512241E90CD" /><meta name="DC.Relation" scheme="URI" content="GUID-4A9255D1-42A4-57FA-A4B4-42C552964047" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-23014C8A-2A0B-5F6A-9BB2-6642E1EC0462" /><meta name="DC.Language" content="en" /><title>Using Content Processor </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-23014C8A-2A0B-5F6A-9BB2-6642E1EC0462">Using Content Processor</h1><div>
+<p>This section explains how to implement the <code class="codeph">MContentProcessor</code> interface to parse, validate and autocorrect an XML document. </p>
+<div id="GUID-F7705D3C-EE52-49CC-9A74-566123F93D88"><h3 class="section-title">Introduction</h3> <p>The parsed document can also
+be validated against a specification and auto-corrected for spelling
+errors in the validated text. This can be done by writing three applications
+- a parser, a validator and an autocorrector. These applications must
+implement the MContentProcessor interface. </p> <p>Writing a content processor is similar to writing a content handler
+as explained in <a href="GUID-AF937B6E-7BC0-5B7D-818E-93F7CAFD8808.html">Parsing an XML Document</a>. MContentProcessor is an extension of MContentHandler. Each application
+is writen by implementing the callback functions of MContentHandler. The only difference is that MContentProcessor has a mechanism for directing output, so that the output of the
+parser is the input to the validator, and the output of the validator
+is the input to the autocorrector. </p> <p>Direct output of a content
+processor by implementing the <code class="codeph">SetContentSink()</code> function,
+so that the parser outputs to the validator and the validator outputs
+to the autocorrector. A sequence of several applications linked in
+this way is called a <strong>Plug-in Chain</strong>. </p> </div>
+<div id="GUID-8ACA0B77-378E-452C-8251-AD0C01984BBF"><h3 class="section-title">Procedure</h3> <ol id="GUID-F18654E9-0325-5111-9D00-5196196BD0D5">
+<li id="GUID-324DEAF3-690F-5DA0-9DD0-C16533114B0E"><a name="GUID-324DEAF3-690F-5DA0-9DD0-C16533114B0E"><!-- --></a><p>Implement the <code class="codeph">MContentProcessor</code> interface. </p> </li>
+<li id="GUID-97B4EA3B-3CF1-582E-864C-73EF0FA1A1EC"><a name="GUID-97B4EA3B-3CF1-582E-864C-73EF0FA1A1EC"><!-- --></a><p>Implement the MContentProcessor::SetContentSink() function. </p> </li>
+<li id="GUID-6A95E431-C203-5442-BDD8-AEF0FD19AE72"><a name="GUID-6A95E431-C203-5442-BDD8-AEF0FD19AE72"><!-- --></a><p>Perform the
+actual parsing. </p> <p>Use a <code class="codeph">CParser</code> object as explained
+in <a href="GUID-E16070E5-379A-5818-81CC-B00059A40084.html">Choosing
+a Parser Plug-in</a>. To ensure that parsing is followed by validation
+and autocorrection, associate the <code class="codeph">CParser</code> object
+with the plug-in chain. This can be done by calling <code class="codeph">SetProcessorChainL()</code> function of the <code class="codeph">CParser</code> object with a list of the
+items in the plugin chain as a parameter. </p> <p>The following code
+illustrates how to validate and autocorrect the parsed document: </p> <pre class="codeblock">RFs fs;
+User::LeaveIfError( fs.Connect() );
+CleanupClosePushL( fs );
+
+_LIT8( KXmlMimeType, "text/xml" );
+TSimpleContentHandler sax; // You’ll have to implement this class…
+
+CParser* parser = CParser::NewLC( KXmlMimeType, sax );
+
+RContentProcessorUids uids;
+uids.Append( KValidatorUid ); // The ECOM implementation UID of a validator plug-in
+CleanupClosePushL( uids );
+
+// Sets up the chain of call-back events from the parser through to the
+// validating plug-in and then the client.
+parser-&gt;SetProcessorChainL( uids );
+
+parser-&gt;ParseFileL( fs, KMyFile );
+
+CleanupStack::PopAndDestroy( 3 );</pre> </li>
+</ol> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 10th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-23014C8A-2A0B-5F6A-9BB2-6642E1EC0462.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:46 GMT -->
+</html>

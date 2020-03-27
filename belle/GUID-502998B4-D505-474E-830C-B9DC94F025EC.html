@@ -1,0 +1,117 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-502998B4-D505-474E-830C-B9DC94F025EC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:47:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Mapping custom softkeys" /><meta name="abstract" content="Describes the changes required to map the custom softkeys to the corresponding Symbian Belle icons." /><meta name="description" content="Describes the changes required to map the custom softkeys to the corresponding Symbian Belle icons." /><meta name="DC.Relation" scheme="URI" content="GUID-2BD07F78-4275-4274-B20C-8AB14D3C3D20" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-502998B4-D505-474E-830C-B9DC94F025EC" /><meta name="DC.Language" content="en" /><title>Mapping custom softkeys </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-502998B4-D505-474E-830C-B9DC94F025EC">Mapping custom softkeys</h1><div><p>Describes the changes required to map the custom softkeys
+to the corresponding Symbian Belle icons.</p>
+<div id="GUID-B24EC934-F2F7-4372-8ACB-FEE28E7245D3"><h3 class="section-title">Context</h3><p>The custom
+softkeys are not mapped to the appropriate icons automatically like
+the standard softkeys. You can either choose to use the following
+standard AVKON softkey IDs or map an icon to your custom softkey key
+ID explicitly:</p><ul>
+<li><p><code class="codeph">EAknSoftkeyEmpty</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyOk</code></p></li>
+<li><p><code class="codeph">EAknSoftkeySelect</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyCancel</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyDetails</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyCall</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyOptions</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyBack</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyDone</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyExit</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyClose</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyHide</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyMark</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyUnmark</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyYes</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyNo</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyUnlock</code></p></li>
+<li><p><code class="codeph">EAknSoftkeySave</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyShow</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyRead</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyListen</code></p></li>
+<li><p><code class="codeph">EAknSoftkeySearch</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyAgain</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyQuit</code></p></li>
+<li><p><code class="codeph">EAknSoftkeyInsert</code></p></li>
+</ul>It is recommended that you use these standard softkey IDs to
+avoid the effort of explicitly mapping the softkey to an icon, and
+also to ensure that the look-and-feel of the application adheres to
+the UI guidelines for Symbian Belle.</div><div id="GUID-126DA5E7-D34C-4CD6-8B12-A06453C0926E"><h3 class="section-title">Prerequisites</h3>If you decide
+to explicitly map your custom softkey ID to an icon, have the icon
+ready and follow the steps outlined here.</div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-DBAC848C-3C94-40B7-AE4D-47BBE04F1EF7"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-DBAC848C-3C94-40B7-AE4D-47BBE04F1EF7"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-DBAC848C-3C94-40B7-AE4D-47BBE04F1EF7"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-DBAC848C-3C94-40B7-AE4D-47BBE04F1EF7"><!-- --></a><p>Set callback
+to <code class="codeph">CEikCba::SetCommandToIconMapperL</code></p>
+<div class="p"><p><strong>Example: </strong>For example:</p><pre class="codeblock">static_cast&lt;CEikCba*&gt;( cba-&gt;ButtonGroup() )-&gt;SetCommandToIconMapperL(MapCommandToIcon, cba);
+
+//Callback handler function
+TBool CMyClass::MapCommandToIcon( TInt aCommand, CEikCba::TIconInfo&amp; aIconInfo, TAny* /*aPtr*/ )
+    {
+    switch( aCommand )
+    {
+    case EMyCmd0:
+        aIconInfo = CEikCba::TIconInfo( KAknsIIDQgnIndiTpIdle, KAvkonBitmapFile,
+            EMbmAvkonQgn_indi_tp_idle, EMbmAvkonQgn_indi_tp_idle_mask );
+        return ETrue;
+    case EMyCmd1:
+        aIconInfo.iIconFile.Set(KAvkonBitmapFile);
+        aIconInfo.iIconId = EMbmAvkonQgn_indi_tp_dialler;
+        aIconInfo.iMaskId = EMbmAvkonQgn_indi_tp_dialler_mask;
+        return ETrue;
+    default:
+        return EFalse;
+    }
+    }
+</pre></div>
+</li>
+<li id="GUID-1227032A-2FB4-4EDB-846F-EC015E53235D"><a name="GUID-1227032A-2FB4-4EDB-846F-EC015E53235D"><!-- --></a><p>Add the
+icon information to the<code class="codeph">ICONIC_CBA_BUTTON</code> resource
+structure in the application's resource header</p>
+<div class="p"><p><strong>Example: </strong>For example:</p><pre class="codeblock">RESOURCE ICONIC_CBA_BUTTON r_custom_icon_cba_button
+    {
+    id = EMyCmd0;
+    txt = "Options";
+    bmpfile = "\\resource\\apps\\avkon2.mbm";
+    bmpid = EMbmAvkonQgn_indi_tp_idle;
+    bmpmask = EMbmAvkonQgn_indi_tp_idle_mask;
+    skinid_major = EAknsMajorGeneric;
+    skinid_minor = EAknsMinorGenericQgnIndiTpIdle;
+    }
+
+RESOURCE CBA r_custom_icon_cba
+    {
+    buttons =
+        {
+        ICONIC_CBA_BUTTON
+            {
+            id = EMyCmd0;
+            txt = "Options";
+            bmpfile = "\\resource\\apps\\avkon2.mbm";
+            bmpid = EMbmAvkonQgn_indi_tp_dialler;
+            bmpmask = EMbmAvkonQgn_indi_tp_dialler_mask;
+            skinid_major = EAknsMajorGeneric;
+            skinid_minor = EAknsMinorGenericQgnIndiTpDialler;
+            },
+        ICONIC_CBA_BUTTON
+            {
+            id = EMyCmd1;
+            txt = "Back";
+            bmpfile = "\\resource\\apps\\avkon2.mbm";
+            bmpid = EMbmAvkonQgn_indi_tp_help;
+            bmpmask = EMbmAvkonQgn_indi_tp_help_mask;
+            skinid_major = EAknsMajorGeneric;
+            skinid_minor = EAknsMinorGenericQgnIndiTpHelp;
+            }
+        };
+    }
+</pre></div>
+</li>
+</ol>
+<div id="GUID-4D43352D-684F-456F-98F7-FD40B51FEA75"><h3 class="section-title">Results</h3><p>This will
+ensure that the custom softkeys are mapped to icons. If the icons
+are not found in the specified location, a textual softkey is displayed.</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 4th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-502998B4-D505-474E-830C-B9DC94F025EC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:47:01 GMT -->
+</html>

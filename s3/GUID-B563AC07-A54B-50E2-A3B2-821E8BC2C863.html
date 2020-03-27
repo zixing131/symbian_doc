@@ -1,0 +1,28 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B563AC07-A54B-50E2-A3B2-821E8BC2C863.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:10:49 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using CDirScan" /><meta name="abstract" content="This topic describes about setting up the scan and parsing path." /><meta name="description" content="This topic describes about setting up the scan and parsing path." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-BB9760B4-4F3F-5326-81FB-B644C82F0E65" /><meta name="DC.Relation" scheme="URI" content="GUID-198DCED1-F429-5C95-A51D-53AE416687E8" /><meta name="DC.Relation" scheme="URI" content="GUID-ACF6C0A2-87ED-55B3-B22A-9B331D9940AC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B563AC07-A54B-50E2-A3B2-821E8BC2C863" /><meta name="DC.Language" content="en" /><title>Using
+CDirScan </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B563AC07-A54B-50E2-A3B2-821E8BC2C863">Using
+CDirScan</h1><div><p>This topic describes about setting up the scan and
+parsing path.</p>
+<div id="GUID-838F2F37-69AE-49B6-970E-FFF29B93709E"><h3 class="section-title">Setting up the scan using SetScanDataL()</h3> <div class="figure" id="GUID-CC897DCB-73B0-53A4-B1AA-351DF18F0AE0"><img src="GUID-3F172A97-8B96-5E1B-854C-F198D1334D2A_d0e336752_href.png" /></div> <p>Taking the above directory structure, if <code class="codeph">SetScanData()</code> is
+called as follows:</p> <pre class="codeblock">_LIT(KDirText,"C:\\TopDir\\");
+...
+SetScanDataL(KDirText,KEntryAttDir,ESortByName|EAscending,CDirScan::EScanDownTree);
+...</pre> <p>then the directories are scanned, by repeatedly calling <code class="codeph">CDirScan::NextL()</code> in
+the following order: <code>TopDir</code>, <code>Dir1</code>, <code>Dir2</code>, <code>Dir3</code>, <code>Dir4</code>, <code>Dir5</code>, <code>Dir6</code>, <code>Dir7</code>.
+The sort key of <code class="codeph">EAscending</code> means that multiple directories
+within the same parent directory are scanned in ascending alphabetic or numeric
+order.</p> <p>If the scan direction is upwards, i.e.<code class="codeph">CDirScan::EScanUpTree</code>,
+the directories are scanned in the order: <code>Dir2</code>, <code>Dir4</code>, <code>Dir3</code>, <code>Dir1</code>, <code>Dir6</code>, <code>Dir7</code>, <code>Dir5</code>, <code>TopDir</code>.</p> </div>
+<div id="GUID-890778ED-0009-40C1-A1AC-FBCF2F137FF6"><h3 class="section-title">Parsing paths using FullPath()</h3> <p>If the full path
+of the entry currently being scanned is:</p> <p><code>C:\Topdir\Middledir\Bottomdir\</code> </p> <p>and
+the top level directory in the scan as passed to <code class="codeph">SetScanDataL()</code> is:</p> <p><code>C:\Topdir\</code> </p> <p>then:</p> <ul>
+<li id="GUID-016B0C1F-D5BD-53D7-82F0-9393B3B45FD7"><a name="GUID-016B0C1F-D5BD-53D7-82F0-9393B3B45FD7"><!-- --></a><p><code class="codeph">AbbreviatedPath()</code> returns <code>\Middledir\</code> </p> </li>
+<li id="GUID-80ECD7D1-9532-5ED3-8CBD-2A9E6F04C067"><a name="GUID-80ECD7D1-9532-5ED3-8CBD-2A9E6F04C067"><!-- --></a><p><code class="codeph">FullPath()</code> returns <code>C:\Topdir\Middledir\</code>.</p> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B563AC07-A54B-50E2-A3B2-821E8BC2C863.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:10:50 GMT -->
+</html>

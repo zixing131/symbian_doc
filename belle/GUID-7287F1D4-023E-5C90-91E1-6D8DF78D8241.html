@@ -1,0 +1,58 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7287F1D4-023E-5C90-91E1-6D8DF78D8241.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:54 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Virtual machine model" /><meta name="abstract" content="The Kernel provides a 'virtual machine' environment to user processes where each process accesses its data in the same virtual address range." /><meta name="description" content="The Kernel provides a 'virtual machine' environment to user processes where each process accesses its data in the same virtual address range." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-BFEBCD57-3C83-56D7-B7A3-B8A361725645" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-7287F1D4-023E-5C90-91E1-6D8DF78D8241" /><meta name="DC.Language" content="en" /><title>Virtual
+machine model </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-7287F1D4-023E-5C90-91E1-6D8DF78D8241">Virtual
+machine model</h1><div><p>The Kernel provides a 'virtual machine' environment to user processes
+where each process accesses its data in the same virtual address range.</p>
+<p>The Kernel provides a 'virtual machine' environment to user processes.
+Each process accesses its data in the same virtual address range, called the
+data section, which ranges from:</p>
+<pre class="codeblock">0x00400000 to 0x3FFFFFFF</pre>
+<p>but note that the static data always appears at:</p>
+<pre class="codeblock">0x00400000</pre>
+<p>The code chunk for RAM loaded processes always appears at:</p>
+<pre class="codeblock">0x20000000</pre>
+<p>This allows multiple processes to run, each executing the same code (from
+the same code chunk) for each of the processes. For example, multiple word
+documents open at the same time, each in a separate instance of the word application.
+This reduces RAM usage.</p>
+<p>In effect, each user process has the same kind of view. Code instructions
+address data using the virtual address; the Memory Management Unit (MMU) is
+responsible for the translation of the virtual address to the physical RAM
+address.</p>
+<p>Only one chunk can occupy a given virtual address range at a time, so a
+context switch between different processes involves re-mapping the chunks.
+The process chunks of the old process are re-mapped to their home addresses.
+These are in the home section, which is the virtual address range from:</p>
+<pre class="codeblock">0x80000000 to 0xFFFFFFFF</pre>
+<p>ROM code is normally mapped into the address range:</p>
+<pre class="codeblock">0x50000000 to 0x5FFFFFFF</pre>
+<p>The process chunks of the new process are mapped from their home addresses
+back to the data section. Chunks which are not accessible by the current user
+process reside in the home section, and they have supervisor-mode-only access
+permissions, so that only the kernel can access them.</p>
+<p>The Kernel's data and stack/heap chunks also reside in the home section.
+These are never visible to user processes. Code chunks for RAM-loaded libraries
+reside at the top end of the home section and have user read-only access,
+so that all user processes can execute code from a loaded library.</p>
+<p>A context switch between processes therefore involves:</p>
+<ul>
+<li id="GUID-F83EAD6D-626D-53B2-9DEB-310617FC03EE"><a name="GUID-F83EAD6D-626D-53B2-9DEB-310617FC03EE"><!-- --></a><p>moving the old process
+chunks to the home section, and changing their access permissions to supervisor-only</p> </li>
+<li id="GUID-7BEBDFDE-DFFB-50F9-A136-5C0018CBD78F"><a name="GUID-7BEBDFDE-DFFB-50F9-A136-5C0018CBD78F"><!-- --></a><p>moving the new process
+chunks to the data section and changing their access permissions back to user-accessible.</p> </li>
+</ul>
+<p>This is best seen graphically. In the first diagram shown below, user-process
+1 is running and can 'see' all chunks in the clear boxes. Those boxes with
+dark background represent chunks which are not visible to user-process 1.</p>
+<p>When user-process 2 is running, the context switch re-maps the user-process
+2 data to the data section and user process 1 data is re-mapped to the home
+section as the second diagram shows.</p>
+<div class="figure" id="GUID-A8C12C7E-7779-5D66-908B-51A1C36E1B63"><img src="GUID-09044578-9ADB-540F-A854-A818EA3970B7_d0e322143_href.png" /><p class="figure-title"><strong>Figure: </strong>User process 1's view.</p></div>
+<div class="figure" id="GUID-5F15432A-0CCD-5195-921F-506679F023CC"><img src="GUID-1A7183EC-B55E-5B61-8965-89C939ECB395_d0e322151_href.png" /><p class="figure-title"><strong>Figure: </strong>User process 2's view.</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7287F1D4-023E-5C90-91E1-6D8DF78D8241.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:55 GMT -->
+</html>

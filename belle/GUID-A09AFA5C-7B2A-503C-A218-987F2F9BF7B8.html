@@ -1,0 +1,97 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A09AFA5C-7B2A-503C-A218-987F2F9BF7B8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Adding attachments to messages" /><meta name="abstract" content="The messaging framework allows you to add attachments to messages." /><meta name="description" content="The messaging framework allows you to add attachments to messages." /><meta name="DC.Relation" scheme="URI" content="GUID-54AB166A-8B24-5065-92AD-5FC1BF3ED89C" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-DD27A452-8B0F-5C6D-A2E6-FC21145468B6" /><meta name="DC.Relation" scheme="URI" content="GUID-3FD2EADD-DC46-516D-B88D-DA523F51C5E3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A09AFA5C-7B2A-503C-A218-987F2F9BF7B8" /><meta name="DC.Language" content="en" /><title>Adding attachments to messages </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A09AFA5C-7B2A-503C-A218-987F2F9BF7B8">Adding attachments to messages</h1><div><p>The messaging framework allows you to add attachments to
+messages. </p>
+<div id="GUID-DCEBCACA-CABD-59C7-A172-2BBA58ACA037"><h3 class="section-title">Context</h3><p>A message
+attachment, once it has been created, must be added to its message
+in a separate procedure explained in this document. </p> </div>
+<h3>Steps</h3><ol id="GUID-A4D8D1D3-5A11-5107-9A4C-55BAB1837024"><a name="GUID-A4D8D1D3-5A11-5107-9A4C-55BAB1837024"><!-- --></a>
+<li id="GUID-EB4005D6-C444-5FA7-BEEB-C8C2D795D1D6"><a name="GUID-EB4005D6-C444-5FA7-BEEB-C8C2D795D1D6"><!-- --></a><p></p>
+Create an active object implementation. All the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4E2B0CEA-1EDA-3452-895D-3CE1B59FD8FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4E2B0CEA-1EDA-3452-895D-3CE1B59FD8FD.html"><code class="apiname">MMsvAttachmentManager</code></a> functions that modify attachments for an entry are asynchronous,
+so a request must be called with an active object implementation. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">//* Active object request function to add an attachment.
+Arguments:
+aEntry -  entry to make attachment for
+aAttachPath -  path of file to attach
+aSize - size of attachment in bytes 
+*/
+
+void CFoo::AttachFileL(CMsvEntry&amp; aEntry, const TFileName&amp; aAttachPath, TInt aSize)
+    { 
+...
+    // Wait for request to complete
+    User::WaitForRequest(status);
+        
+    CleanupStack::PopAndDestroy(store);    
+    }
+
+</pre> </div>
+</li>
+<li id="GUID-43BF419C-2571-506A-A4F0-B33EAB231394"><a name="GUID-43BF419C-2571-506A-A4F0-B33EAB231394"><!-- --></a><p>Get the
+details of the message to which you want to add an attachment using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-85BBE389-81F7-3E2F-A789-446D9BE2CC49.html#GUID-1864B96D-CB22-3EE1-8E73-023F12C68CB0"><code class="apiname">CMsvEntry::EditStoreL()</code></a>. </p>
+This function returns <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html"><code class="apiname">CMsvStore</code></a> in writable
+mode. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">    // Get store   
+    CMsvStore* store = aEntry.EditStoreL();
+    CleanupStack::PushL(store);
+</pre> </div>
+</li>
+<li id="GUID-D202696D-6ECF-5F0A-AB3F-6BA939911EAB"><a name="GUID-D202696D-6ECF-5F0A-AB3F-6BA939911EAB"><!-- --></a><p>Get an <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4E2B0CEA-1EDA-3452-895D-3CE1B59FD8FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4E2B0CEA-1EDA-3452-895D-3CE1B59FD8FD.html"><code class="apiname">MMsvAttachmentManager</code></a> attachment manager for the message
+entry, using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html#GUID-73CE27F3-855B-3F87-AE11-4B4F2B8F8825"><code class="apiname">CMsvStore::AttachmentManagerL()</code></a>. </p>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">    // Get attachment manager from the entry's store     
+    MMsvAttachmentManager&amp; attManager = store-&gt;AttachmentManagerL();    
+</pre> </div>
+</li>
+<li id="GUID-77E5F564-264F-524F-8DEA-C22AB05504B2"><a name="GUID-77E5F564-264F-524F-8DEA-C22AB05504B2"><!-- --></a><p></p>
+Create a new attachment attributes object using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8C2B9B89-D6B7-3622-AF26-658F53BCB70F.html#GUID-CB0C9E14-A0D3-340A-929D-8B2C3BC11300"><code class="apiname">CMsvAttachment::NewL()</code></a> function. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">    // Create a new attachment attributes object    
+    CMsvAttachment* attachment = CMsvAttachment::NewL(CMsvAttachment::EMsvFile);    
+    CleanupStack::PushL(attachment);    
+</pre> </div>
+</li>
+<li id="GUID-4405D256-83F8-554B-A39B-05E273D47E76"><a name="GUID-4405D256-83F8-554B-A39B-05E273D47E76"><!-- --></a><p></p>
+Set the attachments name and size attributes using the functions
+of the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8C2B9B89-D6B7-3622-AF26-658F53BCB70F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8C2B9B89-D6B7-3622-AF26-658F53BCB70F.html"><code class="apiname">CMsvAttachment</code></a> class. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">    // Set the attachment name and size attributes    
+    TParse fparse;    
+    User::LeaveIfError(fparse.Set(aAttachPath,NULL,NULL));    
+    attachment-&gt;SetAttachmentNameL(fparse.NameAndExt());    
+    attachment-&gt;SetSize(aSize);
+</pre> </div>
+</li>
+<li id="GUID-BF384C85-B97E-585E-BDFA-57132E11BE5B"><a name="GUID-BF384C85-B97E-585E-BDFA-57132E11BE5B"><!-- --></a><p></p>
+Add the attachment using any of the following functions: 
+
+<ol type="i" id="GUID-9412CD8C-D6C6-5245-A9D2-55A51636A028"><a name="GUID-9412CD8C-D6C6-5245-A9D2-55A51636A028"><!-- --></a>
+<li id="GUID-EE27135A-9ACB-5BCE-B21C-C283756343D7"><a name="GUID-EE27135A-9ACB-5BCE-B21C-C283756343D7"><!-- --></a><p></p>
+For copied attachments, use the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4E2B0CEA-1EDA-3452-895D-3CE1B59FD8FD.html#GUID-283B631D-0166-30F9-BBA3-CA364DB66B45"><code class="apiname">MMsvAttachmentManager::AddAttachmentL()</code></a> function. 
+</li>
+<li id="GUID-6EEC55E5-0D9E-596B-924D-CAA207E64F3D"><a name="GUID-6EEC55E5-0D9E-596B-924D-CAA207E64F3D"><!-- --></a><p></p>
+For linked attachments, use the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4E2B0CEA-1EDA-3452-895D-3CE1B59FD8FD.html#GUID-D11BB466-2529-3C49-AFAB-810806376478"><code class="apiname">MMsvAttachmentManager::AddLinkedAttachmentL()</code></a> function. 
+</li>
+</ol>
+ Note: For OBEX MTM, to add headers to an attachment, use the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-F4577312-35AC-32DE-AE0E-45BB0E0A761F.html#GUID-B1806BF9-78F5-31A2-AD51-D9B163EA62D6"><code class="apiname">CObexHeaderList::ExportToAttachmentL()</code></a> function. Headers
+can be retrieved using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-F4577312-35AC-32DE-AE0E-45BB0E0A761F.html#GUID-1BD1998A-7C9C-32CF-AD6B-CB96358A0438"><code class="apiname">CObexHeaderList::ImportFromAttachmentL()</code></a> function. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">    TRequestStatus status;
+         
+    // Ownership of attachment will transfer to attachManager    
+    CleanupStack::Pop(attachment);
+    // Add the attachment    
+    attManager.AddAttachmentL(aAttachPath, attachment, status);    
+</pre> </div>
+</li>
+<li id="GUID-05B4EF20-8994-582B-9C7E-3A27141BAD08"><a name="GUID-05B4EF20-8994-582B-9C7E-3A27141BAD08"><!-- --></a><p></p>
+Commit the store. 
+</li>
+</ol>
+<div id="GUID-8D1AA546-5150-5778-A716-B2933EEDF028"><h3 class="section-title">Results</h3><p>You now
+have an attachment added to its message. </p> </div>
+<div id="GUID-FD541AE4-7474-5CBB-AC0D-6987D6B0F9AE"><h3 class="section-title">Next actions</h3><p>You can
+now retrieve and modify the message attachment. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-54AB166A-8B24-5065-92AD-5FC1BF3ED89C.html">Messaging
+Framework Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 18th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A09AFA5C-7B2A-503C-A218-987F2F9BF7B8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:09 GMT -->
+</html>

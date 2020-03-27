@@ -1,0 +1,46 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-CC686E6C-FECB-548E-984A-15F7B9742DCB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:04 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Client Application Programming" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-44CF5471-564E-5790-935B-51193A4978D6" /><meta name="DC.Relation" scheme="URI" content="GUID-F854D45A-A8CD-5B9F-9A59-C30A87F0955A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-CC686E6C-FECB-548E-984A-15F7B9742DCB" /><meta name="DC.Language" content="en" /><title>Client Application Programming </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-CC686E6C-FECB-548E-984A-15F7B9742DCB">Client Application Programming</h1><div>
+<p>This section explains the important steps that must be followed
+when programming a message client application. </p>
+<div id="GUID-D8FD451A-289B-4F34-83DE-3AB312B6EA9B"><h3 class="section-title">Basic set-up</h3> <p>A client application performs
+the following steps in a set-up function, such as the ConstructL() function of the application UI class: </p> <ol id="GUID-F7F948E4-EAAA-577C-8716-D8E176A7AC97">
+<li id="GUID-2AEA1017-FB12-5A40-BEEA-84FEE83BF7F5"><a name="GUID-2AEA1017-FB12-5A40-BEEA-84FEE83BF7F5"><!-- --></a><p>Create a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DA04D96-F0AD-3FDC-9E36-1C27D889AF4B.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DA04D96-F0AD-3FDC-9E36-1C27D889AF4B.html"><code class="apiname">CMsvSession</code></a> session to Message Server. </p> </li>
+<li id="GUID-B773FE76-47A3-5B19-8078-7DDB94579836"><a name="GUID-B773FE76-47A3-5B19-8078-7DDB94579836"><!-- --></a><p>Create registry
+classes, so that MTM components can later be instantiated. </p> </li>
+<li id="GUID-BAD3AAF3-DB8A-5663-BDE8-6A556452D155"><a name="GUID-BAD3AAF3-DB8A-5663-BDE8-6A556452D155"><!-- --></a><p>From the session,
+obtain the root entry of the index, from which other entries can later
+be obtained. </p> </li>
+</ol> </div>
+<div id="GUID-9393A8C8-3F0E-462F-88A7-886F075D6F63"><h3 class="section-title">User interface</h3> <p>Your message client application
+can now discover the immediate children of the root entry. To display
+entries to the user in a message or folder view format, the application
+can query the MTM type of each entry, and load icon resources from
+the appropriate User Interface MTMs. </p> <p>After an initial message
+view display, it is up to the message client application to handle
+user input events and access User Interface MTMs if required. For
+example, if the user selects an entry and then chooses an Edit command,
+the application must: </p> <ul>
+<li id="GUID-F76EE23F-3E1F-55BD-B60F-BB0B248524CE"><a name="GUID-F76EE23F-3E1F-55BD-B60F-BB0B248524CE"><!-- --></a><p>identify the
+selected entry and set the context to this entry (so it has instances
+of the generic message header class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html"><code class="apiname">TMsvEntry</code></a> and
+of the message encapsulation class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-85BBE389-81F7-3E2F-A789-446D9BE2CC49.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-85BBE389-81F7-3E2F-A789-446D9BE2CC49.html"><code class="apiname">CMsvEntry</code></a> for
+the entry) </p> </li>
+<li id="GUID-1C6DEA39-49FD-577A-92BC-B795F7B9BB85"><a name="GUID-1C6DEA39-49FD-577A-92BC-B795F7B9BB85"><!-- --></a><p>use the data
+from the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html"><code class="apiname">TMsvEntry</code></a> object to discover the MTM type
+that handles the entry </p> </li>
+<li id="GUID-6A0CB9FA-EB73-53E7-B6E7-13B2B5C2EF78"><a name="GUID-6A0CB9FA-EB73-53E7-B6E7-13B2B5C2EF78"><!-- --></a><p>request instances
+of the relevant Client MTM and User Interface MTM objects from the
+registries </p> </li>
+<li id="GUID-95C58848-0C9F-5BE5-AC15-46924FEAAE24"><a name="GUID-95C58848-0C9F-5BE5-AC15-46924FEAAE24"><!-- --></a><p>inform the Client
+MTM of the current context </p> </li>
+<li id="GUID-E4B73140-BBCA-5FBE-9CDC-755168FAC177"><a name="GUID-E4B73140-BBCA-5FBE-9CDC-755168FAC177"><!-- --></a><p>call the EditL() function provided by the User Interface MTM. This
+returns a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html"><code class="apiname">CMsvOperation</code></a> operation object to manage
+the asynchronous operation. </p> </li>
+</ul> <p>See the <a href="GUID-BB35DBCC-FE56-547F-BADA-9EF854691ADC.html">example code</a> for detailed illustration of the above steps. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 27th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-CC686E6C-FECB-548E-984A-15F7B9742DCB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:04 GMT -->
+</html>

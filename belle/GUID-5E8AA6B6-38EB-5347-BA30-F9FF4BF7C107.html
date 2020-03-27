@@ -1,0 +1,180 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5E8AA6B6-38EB-5347-BA30-F9FF4BF7C107.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:03 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Index" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-44CF5471-564E-5790-935B-51193A4978D6" /><meta name="DC.Relation" scheme="URI" content="GUID-5CFA3F21-3E42-5B53-8EC1-BC0F7F0E8136" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5E8AA6B6-38EB-5347-BA30-F9FF4BF7C107" /><meta name="DC.Language" content="en" /><title>Index </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5E8AA6B6-38EB-5347-BA30-F9FF4BF7C107">Index</h1><div>
+<p>Messaging Server maintains an index entry in memory. A copy of the index
+entry of all message types is stored in the SQL database, so that it can be
+restored in the event of a system reset or Messaging Server failure. </p>
+<p>Some fields only apply to particular types of entry (such as messages or
+services); other fields can be interpreted differently for different entry
+types. </p>
+<div id="GUID-10265557-F31B-50B3-A955-A548A5A78D7B"><h3 class="section-title">Operating with
+the SQL database</h3> <p>The SQL database is used to store each <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html"><code class="apiname">TMsvEntry</code></a> (index
+entry) as a row of an SQL table in the SQL database. It caches entries, and
+maintains the most recently accessed entries in the RAM. Entries are cached
+in the RAM, and are loaded only when required. The RAM usage is controlled
+by emptying the oldest entry in the cache when it is full. For more information
+on caching, see <a href="GUID-2FAB8281-569A-52BE-8BC8-A2D378068706.html">Caching</a>.
+The following illustration shows the architecture of the Message Server with
+the SQL database. </p> <div class="figure" id="GUID-57F87249-8F4F-59B4-902C-2A577A120F1A"><img src="GUID-38089CC3-D969-5501-9FDA-BB0369D5D6A9_d0e372472_href.png" /><p class="figure-title"><strong>Figure: </strong>              Message Server architecture with the SQL database   
+        </p></div><div class="note"><p><strong class="note_title">Note: </strong> Write operations like updating, creating and deleting entries
+require disk operation to retrieve </p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html"><code class="apiname">TMsvEntry</code></a> from database,
+because the entry cache is always in synchronisation with the corresponding
+entry in the database.</div> <p><strong>Advantages</strong> </p> <p>The following are
+the advantages of using the SQL database to store index entries: </p> <ul>
+<li id="GUID-49050952-7EB4-52A9-BEB3-0D1F467BFD42"><a name="GUID-49050952-7EB4-52A9-BEB3-0D1F467BFD42"><!-- --></a><p>Reduces the amount of
+RAM used by messaging, as the message the index file is not used. </p> </li>
+<li id="GUID-AE0A5FA5-4588-5C28-A261-8ADD8917D56B"><a name="GUID-AE0A5FA5-4588-5C28-A261-8ADD8917D56B"><!-- --></a><p>Enables more messages
+to be stored on the device, as the number of messages stored is not restricted
+to the amount of RAM available to store the message index file. </p> </li>
+<li id="GUID-565D30B2-9249-5C9D-9DFD-B67C83BFAC35"><a name="GUID-565D30B2-9249-5C9D-9DFD-B67C83BFAC35"><!-- --></a><p>Enables controlled usage
+of RAM, as index entries are loaded on a need basis. </p> </li>
+<li id="GUID-E5CC0C68-A23F-5F99-BFBB-1AD1A3775454"><a name="GUID-E5CC0C68-A23F-5F99-BFBB-1AD1A3775454"><!-- --></a><p>Eliminates the possibility
+of the message index file getting damaged and messages stored on the device
+getting deleted. </p> </li>
+<li id="GUID-148420E8-C23D-5678-8870-B8AA1CD8ED15"><a name="GUID-148420E8-C23D-5678-8870-B8AA1CD8ED15"><!-- --></a><p>Provides advanced search
+and sort capabilities for searching messages. </p> </li>
+<li id="GUID-0E1A2485-A90C-565B-B927-487EE3FB7E4C"><a name="GUID-0E1A2485-A90C-565B-B927-487EE3FB7E4C"><!-- --></a><p>Accesses and manages
+message entries on one or more drives at the same time. </p> </li>
+</ul> </div>
+<div id="GUID-887B217A-0344-5764-800A-CD31481B1493"><h3 class="section-title">Index fields</h3> <p>The
+following information is stored for each index entry. Some fields only apply
+to particular types of entry, such as, messages or services; other fields
+can be interpreted differently for different entry types. </p> <div class="tablenoborder"><a name="GUID-B0A760AE-DD82-56E5-A826-7AA0D4F522CD"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B0A760AE-DD82-56E5-A826-7AA0D4F522CD" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Attachment flag </p> </td>
+<td class="cellrowborder" valign="top"><p>Indicates that the message has an attachment </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>BIO </p> </td>
+<td class="cellrowborder" valign="top"><p><a href="GUID-17DE7D55-00C9-5D40-8AE4-39BDB20FCC5B.html">BIO message</a> type </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Complete flag </p> </td>
+<td class="cellrowborder" valign="top"><p>Indicates that the message is complete (for example download has
+completed. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Connected flag </p> </td>
+<td class="cellrowborder" valign="top"><p>For a service: indicates whether it is currently connected to a
+remote server </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Deleted flag </p> </td>
+<td class="cellrowborder" valign="top"><p>Indicates that the entry has been deleted. The entry is not removed
+until any PC synchronisation tools have been informed of the deletion. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Description </p> </td>
+<td class="cellrowborder" valign="top"><p>A text string, usually giving the subject of the message </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Details </p> </td>
+<td class="cellrowborder" valign="top"><p>A text string, as follows: </p> <p>Message: For received messages,
+this is the sender; for outgoing messages, it is the recipient </p> <p>Attachment:
+The name of the attachment </p> <p>Folder: The name of the folder </p> <p>Service:
+The name of the service </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Error </p> </td>
+<td class="cellrowborder" valign="top"><p>A system-wide or MTM-specific error code </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Flag </p> </td>
+<td class="cellrowborder" valign="top"><p>Use </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Failed flag </p> </td>
+<td class="cellrowborder" valign="top"><p>For an outgoing message: indicates that sending failed </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Identifier </p> </td>
+<td class="cellrowborder" valign="top"><p>An integer that uniquely identifies the entry in the Index </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>In preparation </p> </td>
+<td class="cellrowborder" valign="top"><p>Entry deleted if server restarts </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>MTM </p> </td>
+<td class="cellrowborder" valign="top"><p>A unique identifier specifying the MTM associated with the entry </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>MTM Data </p> </td>
+<td class="cellrowborder" valign="top"><p>Three integer fields for MTM-specific use </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Multiple Recipients flag </p> </td>
+<td class="cellrowborder" valign="top"><p>Indicates the message has multiple recipients that require separate
+transmissions (for example, a fax going to two people) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>New flag </p> </td>
+<td class="cellrowborder" valign="top"><p>Indicates a new message in a folder </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Owner flag </p> </td>
+<td class="cellrowborder" valign="top"><p>Indicates that the entry owns other entries (that it is a parent) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Parent </p> </td>
+<td class="cellrowborder" valign="top"><p>An integer giving the identifier of the entry’s parent </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Priority </p> </td>
+<td class="cellrowborder" valign="top"><p>An integer giving the message priority </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Read flag </p> </td>
+<td class="cellrowborder" valign="top"><p>Indicates that a message has been read </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Read Only flag </p> </td>
+<td class="cellrowborder" valign="top"><p>Indicates that the entry is read-only </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Related folder </p> </td>
+<td class="cellrowborder" valign="top"><p>The identifier of a target folder for copying or moving entries </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Sending state </p> </td>
+<td class="cellrowborder" valign="top"><p>Describes the state the message is in, for example "Sending", "Failed"
+and "Sent" </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Service </p> </td>
+<td class="cellrowborder" valign="top"><p>The identifier of the service by which the message is to be sent
+or from which it was received </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Size </p> </td>
+<td class="cellrowborder" valign="top"><p>An integer giving the size of the message </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Standard Folder flag </p> </td>
+<td class="cellrowborder" valign="top"><p>Identifies standard folders so that they can be properly sorted
+and stops them being changed/deleted </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Time </p> </td>
+<td class="cellrowborder" valign="top"><p>The time when the message was last edited, sent, or received. Includes
+date. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Type </p> </td>
+<td class="cellrowborder" valign="top"><p>A unique identifier giving the type (service, folder, message, and
+attachment) of the entry </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Visibility flag </p> </td>
+<td class="cellrowborder" valign="top"><p>Indicates the intended visibility of the entry to users of message
+client applications </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 9th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5E8AA6B6-38EB-5347-BA30-F9FF4BF7C107.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:04 GMT -->
+</html>

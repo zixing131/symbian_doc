@@ -1,0 +1,72 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-ED784025-4E65-4BE9-ADA8-A13427B6EA30-GENID-GUID-E9AD7953-9DA3-4D7C-BCDE-8AAD1DFEDE0B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:48:10 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Markable list" /><meta name="DC.Relation" scheme="URI" content="GUID-E05B471F-6B74-4A33-91A8-6F30F1A2951E" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-36F720B1-4FA7-452E-9062-62923E8A70D6" /><meta name="DC.Relation" scheme="URI" content="GUID-114C52FE-C8C5-4418-9C73-CEBB228C7542-GENID-GUID-AEFEE7A9-73A5-40BF-8714-D62320CD0492" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-ED784025-4E65-4BE9-ADA8-A13427B6EA30-GENID-GUID-E9AD7953-9DA3-4D7C-BCDE-8AAD1DFEDE0B" /><meta name="DC.Language" content="en" /><title>Markable list </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-ED784025-4E65-4BE9-ADA8-A13427B6EA30-GENID-GUID-E9AD7953-9DA3-4D7C-BCDE-8AAD1DFEDE0B">Markable list</h1><div>
+<p>A markable list is a selection list with the added marking feature.
+The user can mark any number of items on the list while browsing it,
+and then execute a single command, which is applied to all the marked
+items. This is analogous to the multiple-item highlight feature available
+on desktop computers.</p>
+<p>The marking feature is typically applied to lists that contain
+a large number of items that can be, for example, sent, moved, or
+deleted. By marking items first and then selecting a command, the
+user can perform certain operations more quickly and with fewer key
+presses than if dealing with each item separately.</p>
+<p>Marked items are indicated graphically.</p>
+<div class="figure" id="GUID-171B4713-C197-4D05-9FBC-E3296C26ABFF-GENID-GUID-E9AD7953-9DA3-4D7C-BCDE-8AAD1DFEDE0B"><img src="GUID-8CCA308A-5302-4D95-8E60-DA75D8B6DC41_d0e8821_href.png" /><p class="figure-title"><strong>Figure: </strong>Marking mode</p></div>
+<p>The <strong>Mark</strong> and <strong>Unmark</strong> functions are available in the
+Options menu of the markable list. Alternatively, as a shortcut, the
+user can keep the Hash (#) key pressed while using the Arrow keys
+and the Selection key in the following way:</p>
+<ul>
+<li><p>Pressing the Hash (#) key marks the current item. This is a
+toggling function, so pressing the Hash (#) key on a marked item unmarks
+the item. </p></li>
+<li><p>Pressing an Arrow key (up or down) while holding down the Hash
+(#) key marks both the current item and the one onto which the focus
+moves. If the user keeps holding the Hash (#) key and scrolls further
+in the same direction, all the scrolled items are marked; to unmark
+the items in reverse order the user can scroll in the opposite direction
+while holding the Hash (#) key down. </p></li>
+<li><p>Items can be unmarked by pressing the Hash (#) key together
+with scrolling: if the user holds the Hash (#) key down when on a
+marked item and then scrolls, all the scrolled items become unmarked. </p></li>
+<li><p>Several marking actions can be done subsequently. The user
+can mark an item, then release the Hash (#) key, browse and move the
+focus onto some other item on the list, and then mark that item. The
+first item remains marked, and the ones between the two are not marked. </p></li>
+<li><p>All items become unmarked when the user exits the list, for
+example, by back stepping. There may be exceptions to this rule in
+certain applications that require selecting items from several levels
+of folder hierarchy. </p></li>
+<li><p>Pressing the Selection key when there are marked items on the
+list opens the context sensitive <strong>Options</strong> menu containing only
+those functions that apply to multiple items.</p></li>
+</ul>
+<p>A markable list functions exactly like a normal selection list,
+except for the marking feature.</p>
+<p>The user may access the <strong>Options</strong> menu to perform functions
+on all marked items at once. When user has one or more items marked, <strong>Options</strong> menu does not contain items that apply to one item only
+(such as <strong>Open</strong>). Exceptions are Help and Exit, which should
+appear in every <strong>Options</strong> menu. Appropriate error handling must
+be designed for functions that do not apply to some or all of the
+marked items.</p>
+<ul>
+<li><p>When executing a function, if any of the items are marked,
+all the marked items are affected by the function. If the focus is
+on an item that is not marked, the function does not affect that item. </p></li>
+<li><p>After the selected function is successfully done, all items
+are unmarked. In an error case, when the function cannot be applied,
+the marks should remain in place.</p></li>
+</ul>
+<p>The Options menu includes the marking and unmarking functions in
+a submenu so that any user can find the feature. The submenu has also
+the <strong>Mark all</strong> and <strong>Unmark all</strong> options.</p>
+<div id="GUID-69189A53-90FA-4874-AC60-D18D120C9C90-GENID-GUID-E9AD7953-9DA3-4D7C-BCDE-8AAD1DFEDE0B"><h3 class="section-title">Using markable lists in
+applications</h3><p>The API to use for markable lists is the Lists
+API. For more information, see <strong>Symbian C++ API specifications</strong>.</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 23rd, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-ED784025-4E65-4BE9-ADA8-A13427B6EA30-GENID-GUID-E9AD7953-9DA3-4D7C-BCDE-8AAD1DFEDE0B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:48:13 GMT -->
+</html>

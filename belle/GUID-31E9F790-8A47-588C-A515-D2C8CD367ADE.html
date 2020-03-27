@@ -1,0 +1,50 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-31E9F790-8A47-588C-A515-D2C8CD367ADE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:48 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="How to Terminate Read Requests Early: Tutorial" /><meta name="abstract" content="This tutorial explains how to terminate a read request. topic." /><meta name="description" content="This tutorial explains how to terminate a read request. topic." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-9B83CDD4-FC94-51A0-AC67-CD04BCAFEF08" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-31E9F790-8A47-588C-A515-D2C8CD367ADE" /><meta name="DC.Language" content="en" /><title>How
+to Terminate Read Requests Early: Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-31E9F790-8A47-588C-A515-D2C8CD367ADE">How
+to Terminate Read Requests Early: Tutorial</h1><div><p>This tutorial explains how to terminate a read request. topic. </p>
+<div><h3 class="section-title">Context</h3><p>This tutorial assumes a knowledge of the <a href="GUID-934AEB9C-77EA-5F50-BB84-2446DDD432C8.html">How
+to transfer data:  Tutorial</a> topic.</p><p>An application that must respond
+quickly can set termination charactes  that are expected in the data. The
+read requests complete if any termination characters appear in the data.</p><p>If
+an application needs to respond quickly to the content of the data that is
+received, the application can set termination characters. If any termination
+characters are set, the Serial Communications Server inspects the data during
+a read request. If the Serial Communications Server detects a termination
+character during a read request, the Serial Communicatoins Server completes
+the request with the data. </p> <p>For example, an application that is reading
+lines of text can set the termination character to the line end character. </p> </div>
+<h3>Steps</h3><ol id="GUID-D81B578F-B7DA-5B12-93FB-8A89D552E0B6"><a name="GUID-D81B578F-B7DA-5B12-93FB-8A89D552E0B6"><!-- --></a>
+<li id="GUID-3FCA89C0-2E9A-52DA-B6D1-EB3522381606"><a name="GUID-3FCA89C0-2E9A-52DA-B6D1-EB3522381606"><!-- --></a><p></p>
+Create an object of type TCommConfig. 
+</li>
+<li id="GUID-30F3B132-DADB-5F4B-8709-6EAA19E6AD13"><a name="GUID-30F3B132-DADB-5F4B-8709-6EAA19E6AD13"><!-- --></a><p>Call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-4C38E1D8-EC81-36A3-BAA2-4D4FFECFD995"><code class="apiname">RComm::Config()</code></a> with
+the <code class="codeph">aConfig</code> parameter set to the <code class="codeph">TCommConfig</code> object. </p>
+The <code class="codeph">TCommConfig</code> object now contains the port settings. 
+</li>
+<li id="GUID-59D4C184-805F-5847-AB28-9466FA184D05"><a name="GUID-59D4C184-805F-5847-AB28-9466FA184D05"><!-- --></a><p></p>
+Set the <code class="codeph">iTerminator</code> array in the <code class="codeph">TCommconfig</code> object
+to the terminator characters. The <code class="codeph">iTerminator</code> array can contain
+four characters. If less than four characters are required, set the characters
+from index 0 of the array. 
+</li>
+<li id="GUID-FEA59CB4-BBED-5265-AA4A-7B9DAB220A80"><a name="GUID-FEA59CB4-BBED-5265-AA4A-7B9DAB220A80"><!-- --></a><p></p>
+Set the <code class="codeph">iTerminatorCount</code> field in the <code class="codeph">TCommconfig</code> object
+to the number of characters set in the <code class="codeph">iTerminator</code> array. 
+</li>
+<li id="GUID-8D23744E-8BB7-5931-A375-B2B0ECF17141"><a name="GUID-8D23744E-8BB7-5931-A375-B2B0ECF17141"><!-- --></a><p>Call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-732174E9-930F-37D4-AD7C-1434E5731C50"><code class="apiname">RComm::SetConfig()</code></a> with
+the <code class="codeph">aConfig</code> parameter set to the <code class="codeph">TCommConfig</code> object. </p>
+</li>
+</ol>
+<div><h3 class="section-title">Example</h3> <pre class="codeblock">TCommConfig portSettings;
+commPort.Config (portSettings);
+portSettings ().iTerminator[0] = 10;     // LF char
+portSettings ().iTerminatorCount = 1;    // so that we terminate a read when each line feed arrives
+User::LeaveIfError (commPort.SetConfig(portSettings));
+</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 6th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-31E9F790-8A47-588C-A515-D2C8CD367ADE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:48 GMT -->
+</html>

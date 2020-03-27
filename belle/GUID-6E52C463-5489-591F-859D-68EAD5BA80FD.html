@@ -1,0 +1,87 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-6E52C463-5489-591F-859D-68EAD5BA80FD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:04:52 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Multimedia Framework Guide" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DE5CDAD-8D71-5384-9E98-5665D5A4C792" /><meta name="DC.Relation" scheme="URI" content="GUID-3E341F9F-2635-589B-A59A-B999FE7DF9BE" /><meta name="DC.Relation" scheme="URI" content="GUID-DDE1A8A9-1D67-53BF-8A65-340F139AD4AB" /><meta name="DC.Relation" scheme="URI" content="GUID-923C50A1-813A-5B51-A630-FACFB8B35B3B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-6E52C463-5489-591F-859D-68EAD5BA80FD" /><meta name="DC.Language" content="en" /><title>Multimedia Framework Guide </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-6E52C463-5489-591F-859D-68EAD5BA80FD">Multimedia Framework Guide</h1><div>
+<p>This document introduces the Multimedia Framework (MMF) audio and
+video client interfaces. </p>
+<div id="GUID-BD6B3BA5-498F-5F8F-96CA-24B0412B63EE"><h3 class="section-title">Purpose</h3> <p>Multimedia Framework (MMF) provides several client interfaces
+that encapsulate a lightweight plugin framework. These interfaces
+enable you to manipulate the audio and video features of the Symbian
+platform. </p> </div>
+<div id="GUID-9382D1BB-F304-437C-B4ED-864950214762"><h3 class="section-title">Architectural
+Relationships</h3> <p>The following diagram shows how the MMF client
+interfaces interact with the Multimedia Controller Framework and the
+Media Device Framework (MDF). </p> <div class="figure" id="GUID-2B9D4325-D2CA-5436-BAC4-24D6366B96C9"><img src="GUID-FCC51FFE-DC34-5168-9564-8F30273DE1BD_d0e399400_href.png" /><p class="figure-title"><strong>Figure: </strong>              Multimedia Framework - client utilities     
+      </p></div> <p><strong>MMF Controller Framework</strong> </p> <p>The MMF Controller Framework
+provides support for multimedia plugins within the Symbian platform.
+The main type of plugin for the MMF Controller Framework is the controller
+plugin. Each controller plugin provides support for one or more multimedia
+formats, for example, MP3 or AVI. </p> <p> <strong>Note:</strong> In addition
+to controller plugins, the Multimedia framework can also be extended
+through format encoder/decoder, codec, and sink/source plugins. For
+more information about plugins, see <a href="GUID-B58DEF65-B08F-5D0B-98E7-EB8DB7082F8B.html">How to write Multimedia
+Framework plugins</a>. </p> <p>The player and recorder interfaces
+of both audio and video and also the audio converter interface use
+the controller plugins provided by the MMF Controller Framework. These
+plugins provide the functionality to convert, interpret, and play
+audio and video data. The resultant data from the plugins can then
+be directed to one or more sinks such as a file, or directly to a
+screen or lower level device driver. </p> <p> <strong> Note:</strong> Tone player and audio streaming are also
+provided as part of the MMF but do not interact with controller plugins.
+Input and output is already in a known data format and so does not
+require a plugin for encoding or decoding. As a result, they bypass
+the MMF Controller Framework. </p> <p><strong>Media Device Framework</strong> </p> <p>Media Device Framework is the
+layer below the controller plugins and above the hardware. It provides
+a layer of abstraction for the audio and video hardware. The MDF consists
+of DevSound, for audio input and output, and DevVideo for video. </p> <p><strong>DRM Support</strong> </p> <p>The Symbian platform provides support
+for playback of Digital Rights Management (DRM) protected audio and
+video content by making use of the Content Access Framework (CAF).
+For more information about the CAF, see <a href="GUID-7EE46FD9-DC9E-5C1F-9AC5-48F5212AF0CA.html">Content Access Framework</a>. </p> <p> <strong> Note:</strong> In order to access any DRM protected content
+using Symbian multimedia, the client process must have the DRM capability. </p> </div>
+<div id="GUID-05BC96E8-8607-45F3-B7A0-BFC022E5E345"><h3 class="section-title">Description</h3> <p>The features made available by the MMF client interfaces are: </p> <ul>
+<li id="GUID-DE436989-1892-5D7E-94A8-AC37E2E90B9F"><a name="GUID-DE436989-1892-5D7E-94A8-AC37E2E90B9F"><!-- --></a><p>Audio playing,
+recording, and conversion - An interface consisting of three classes; <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-778D24B5-A68E-3C91-B66A-69007FBA4791.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-778D24B5-A68E-3C91-B66A-69007FBA4791.html"><code class="apiname">CMdaAudioPlayerUtility</code></a>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-29FB1DE6-D00C-3E6B-A8AA-476FAFD7F26C.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-29FB1DE6-D00C-3E6B-A8AA-476FAFD7F26C.html"><code class="apiname">CMdaAudioRecorderUtility</code></a>, and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-810D29DA-8332-3E63-8A63-5B8A04EC9688.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-810D29DA-8332-3E63-8A63-5B8A04EC9688.html"><code class="apiname">CMdaAudioConvertUtility</code></a>. These classes provide
+methods to create, play, and manipulate audio data stored in files,
+descriptors, and URLs. </p> </li>
+<li id="GUID-3A1A5D7D-376D-5633-AD78-D19D0B771A41"><a name="GUID-3A1A5D7D-376D-5633-AD78-D19D0B771A41"><!-- --></a><p>Audio streaming
+- An interface consisting of two classes; <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-92BDB3AF-D9DB-35E2-AC6F-6435D3D1A4D8.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-92BDB3AF-D9DB-35E2-AC6F-6435D3D1A4D8.html"><code class="apiname">CMdaAudioInputStream</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B87C8F92-9737-3636-9800-BA267A1DCA6D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B87C8F92-9737-3636-9800-BA267A1DCA6D.html"><code class="apiname">CMdaAudioOutputStream</code></a>. These classes provide
+methods for recording and playing audio streams such as audio from
+a web address. </p> <p> <strong> Note:</strong> There are no explicit interfaces
+for video streaming. However, the Onboard Camera can be used to achieve
+video input streaming, and direct screen access can be used to achieve
+video output streaming. For more information about the Onboard Camera,
+see <a href="GUID-80EC80E2-E197-50F7-B1FD-720A00AC3B4D.html">Onboard
+Camera Overview</a>. </p> </li>
+<li id="GUID-0F2716B1-3D7A-5A18-B84C-5BBB9354F1AB"><a name="GUID-0F2716B1-3D7A-5A18-B84C-5BBB9354F1AB"><!-- --></a><p>Tone playing
+- An interface consisting of a single class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D728A286-A202-3915-9643-8FD70646F78A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D728A286-A202-3915-9643-8FD70646F78A.html"><code class="apiname">CMdaAudioToneUtility</code></a>. This class provides methods for playing and configuring single
+and sequenced tones as well as DTMF (Dual Tone Multi-Frequency) strings. </p> </li>
+<li id="GUID-279F8A4B-6D73-5F87-8424-371DE1C01A9F"><a name="GUID-279F8A4B-6D73-5F87-8424-371DE1C01A9F"><!-- --></a><p>Video playing
+and recording - An interface consisting of two classes CVideoPlayerUtility and CVideoRecorderUtility. These classes provide
+methods to create, play, and manipulate video clips with or without
+audio tracks stored in files, descriptors, and URLs. </p> </li>
+</ul> <p><strong>Observer Classes</strong> </p> <p>For each multimedia client interface,
+there is a corresponding mixin class that must be implemented by the
+client. For example, to use the audio player utility you must implement
+the observer mixin class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5CD5C032-68A4-3024-85EF-B073C8284D6E.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5CD5C032-68A4-3024-85EF-B073C8284D6E.html"><code class="apiname">MMdaAudioPlayerCallback</code></a>. </p> <p>When instantiating any of the MMF interfaces, it is necessary
+to provide a reference to a class that implements the appropriate
+mixin class. This allows the MMF to notify the client of events that
+occur and also to notify the client of errors that may occur. </p> </div>
+<div id="GUID-E23BB00B-1871-47D3-955E-D0F6A4D90DB5"><h3 class="section-title">Multimedia
+Framework Tutorials</h3> <p>The following tutorials are provided: </p> <ul>
+<li id="GUID-D746F0B6-9861-50BE-BA03-B60BC42E6358"><a name="GUID-D746F0B6-9861-50BE-BA03-B60BC42E6358"><!-- --></a><p><a href="GUID-F46E4F89-B9ED-5A4A-B812-B605B925D0C0.html">How to use the audio
+convert utility</a> </p> </li>
+<li id="GUID-9F9651A0-383F-5171-AAF0-355327361C25"><a name="GUID-9F9651A0-383F-5171-AAF0-355327361C25"><!-- --></a><p><a href="GUID-1C499E7D-8099-5BE4-AE46-6143388E6ACB.html">Audio Input Stream
+Tutorial</a> </p> </li>
+<li id="GUID-7C271F01-7479-5727-88F3-F028219A579C"><a name="GUID-7C271F01-7479-5727-88F3-F028219A579C"><!-- --></a><p><a href="GUID-ECBA6331-2187-52C9-A5DF-20CD1EEFE781.html">Audio Output Stream
+Tutorial</a> </p> </li>
+<li id="GUID-816AB33E-AE82-59AC-941D-70C1BE4E8120"><a name="GUID-816AB33E-AE82-59AC-941D-70C1BE4E8120"><!-- --></a><p><a href="GUID-F370A917-6963-58F6-8876-160A1DC42040.html">Video Client Tutorials</a> </p> </li>
+</ul> </div>
+<div id="GUID-DDE2EE07-2733-4FB2-AB43-6FAD239810FB"><h3 class="section-title">See
+Also</h3> <p><a href="GUID-D62A282E-9DEA-5EF3-A606-20647BC5049D.html">Audio Client Overview</a> </p> <p><a href="GUID-715E0EA4-8B3D-5DDF-B773-922E367B114F.html">Audio Input Stream
+Overview</a> </p> <p><a href="GUID-68417158-D625-56BF-BDD5-BE49A7651CED.html">Audio Output Stream
+Overview</a> </p> <p><a href="GUID-2DC80BA9-7AA2-5CD3-9105-1DE28CE196C1.html">Video Client Overview</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 29th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-6E52C463-5489-591F-859D-68EAD5BA80FD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:04:54 GMT -->
+</html>

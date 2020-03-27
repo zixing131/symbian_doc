@@ -1,0 +1,71 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-4DBE9AD9-2942-450B-B43C-3F2B47777357.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="reference" /><meta name="DC.Title" content="Scaling Channel Data Values" /><meta name="abstract" content="The value of a channel data item can represent the actual or relative value of the measured quantity. The relative value is a scaled value that lies within the maximum and minimum values of the measured quantity." /><meta name="description" content="The value of a channel data item can represent the actual or relative value of the measured quantity. The relative value is a scaled value that lies within the maximum and minimum values of the measured quantity." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-E3ADCC42-ACFC-49FC-88FF-8196CE61014B" /><meta name="DC.Relation" scheme="URI" content="GUID-9102DB10-3B93-4E79-9125-25791CEEBEFB" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4DBE9AD9-2942-450B-B43C-3F2B47777357" /><meta name="DC.Language" content="en" /><title>Scaling
+Channel Data Values </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4DBE9AD9-2942-450B-B43C-3F2B47777357">Scaling
+Channel Data Values</h1><div><p>The value of a channel data item can represent the actual or relative
+value of the measured quantity. The relative value is a scaled value that
+lies within the maximum and minimum values of the measured quantity.</p>
+<div id="GUID-D46EE015-C2B6-44AA-B021-F6AC1BB76F02"><h3 class="section-title"><!--no section title--></h3> <p>The <code class="codeph">KSensrvPropIdChannelDataFormat</code> property
+defines if channel data items are in a scaled format. For scaled data items,
+the <code class="codeph">KSensrvPropIdScaledRange</code> property defines range of the
+data item value and the <code class="codeph">KSensrvPropIdMeasureRange</code> property
+defines range of the measured quantity.</p> </div>
+<div><h3 class="section-title">Example</h3><p>The following example explains how the sensor data can be scaled
+by reading the maximum value of measure range for data items (<code class="codeph">KSensrvPropIdScaledRange</code>)
+and the maximum value of the measured quantity (<code class="codeph">KSensrvPropIdMeasureRange</code>).
+The example considers that the <code class="codeph">KSensrvPropIdMeasureRange</code> property
+is defined as an array property. </p><pre class="codeblock">TSensrvProperty property;
+    TInt  channelDataFormat( ESensrvFormatAbsolute );
+    TInt  channelDataScaledRange( 1 );
+    TReal channelDataMeasureRangeMaxValue( 1 );
+
+    //Read channel data format
+    iSensorChannel-&gt;GetPropertyL( KSensrvPropIdChannelDataFormat, KSensrvItemIndexNone, property );
+    property.GetValue( channelDataFormat );
+
+    if( ESensrvFormatScaled == channelDataFormat )
+        {
+        //Read data item scaled range
+        iSensorChannel-&gt;GetPropertyL( KSensrvPropIdScaledRange, KSensrvItemIndexNone, property );
+        property.GetMaxValue( channelDataScaledRange );
+
+        //Read data item measure range
+        iSensorChannel-&gt;GetPropertyL( KSensrvPropIdMeasureRange, KSensrvItemIndexNone, property );
+
+        if( ESensrvArrayPropertyInfo == property.GetArrayIndex() )
+            {
+            TInt arrayIndex( 0 );
+            property.GetValue( arrayIndex );//Value points to array index currently in use
+            iSensorChannel-&gt;GetPropertyL( KSensrvPropIdMeasureRange,
+                                          KSensrvItemIndexNone,
+                                          arrayIndex,
+                                          property );
+            }
+        else
+            {
+            //Single property
+            }
+        property.GetMaxValue( channelDataMeasureRangeMaxValue );
+        }
+    else
+        {
+        //No scaling needed.
+        //Value of the data item represents actual value of the measured quantity.
+        }</pre><p>You can convert the scaled channel data item value
+to the absolute value by dividing the channel data item value with the maximum
+value of scaled range of the channel and multiplying it with the maximum value
+of the measured quantity. </p><p>For example, if the accelerometer channel
+provides the following properties: </p><ul>
+<li><p><code class="codeph">KSensrvPropIdChannelDataFormat</code> with value <code class="codeph">ESensrvFormatScaled</code></p></li>
+<li><p><code class="codeph">KSensrvPropIdScaledRange</code> with maximum value of 127</p></li>
+<li><p><code class="codeph">KSensrvPropIdMeasureRange</code> with maximum value of 2
+g</p></li>
+<li><p><code class="codeph">KSensrvPropIdChannelUnit</code> with value <code class="codeph">ESensrvUnitGravityConstant</code></p></li>
+</ul><p>then the accelerometer channel data item value of 64 is equal to an
+absolute value of 1.01g (that is, 64 / 127 * 2g = 1.01g).</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 14th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-4DBE9AD9-2942-450B-B43C-3F2B47777357.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:40 GMT -->
+</html>

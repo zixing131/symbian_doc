@@ -1,0 +1,65 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FF28B015-DFC5-5656-9066-FBCCBA2818AF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Transactions and locks" /><meta name="abstract" content="Describes transactions and locks." /><meta name="description" content="Describes transactions and locks." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-C0414BDC-06FD-5E3C-93F7-DD3467CAA75E" /><meta name="DC.Relation" scheme="URI" content="GUID-766F8505-4536-57A6-A788-EFCD8CCF875F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FF28B015-DFC5-5656-9066-FBCCBA2818AF" /><meta name="DC.Language" content="en" /><title>Transactions
+and locks </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FF28B015-DFC5-5656-9066-FBCCBA2818AF">Transactions
+and locks</h1><div><p>Describes transactions and locks. </p>
+<p>When multiple clients can access the same database, transactions ensure
+that only one client can change data at a time.</p>
+<p>DBMS transactions do not provide any form of isolation between clients;
+while one client is updating a table within a transaction, other clients can
+see the changes as they are made. For example, if a client retrieves two separate
+rows from a database, there is no automatic guarantee that the data being
+retrieved has not been changed between the reads; this can lead to an ‘inconsistent
+read’. A client can prevent an update while retrieving related rows by enclosing
+the individual reads within a transaction. Such a transaction does not modify
+the database and only operates as a read-lock; the <code class="codeph">Commit()</code> or <code class="codeph">Rollback()</code> member
+functions of the abstract base class <code class="codeph">RDbDatabase</code> releases
+such a lock and does not affect the database in any way.</p>
+<p>In practice:</p>
+<ul>
+<li id="GUID-472055B2-90BF-523F-B1D7-22A8D45EDBC2"><a name="GUID-472055B2-90BF-523F-B1D7-22A8D45EDBC2"><!-- --></a><p>calling <code class="codeph">Begin()</code> (a
+member of <code class="codeph">RDbDatabase</code>) on a shared database attempts to get
+a shared read-lock on the database; this fails if <em>any</em> other client
+already has an exclusive write-lock. Other clients with read-locks will not
+cause this operation to fail.</p> </li>
+<li id="GUID-419F8999-E7A4-5C0E-8CAB-A21C59BCCFD1"><a name="GUID-419F8999-E7A4-5C0E-8CAB-A21C59BCCFD1"><!-- --></a><p>any operation which
+modifies the database, tries to gain an exclusive write-lock on it; this fails
+if any other client has <em>any kind</em> of lock on that database. If the current
+client already has a read-lock as a result of calling <code class="codeph">Begin()</code>,
+then the lock is upgraded to an exclusive write-lock.</p> </li>
+<li id="GUID-73E720B6-DEFC-5A5B-9B0F-14B1C470A072"><a name="GUID-73E720B6-DEFC-5A5B-9B0F-14B1C470A072"><!-- --></a><p>calling <code class="codeph">Commit()</code> or <code class="codeph">Rollback()</code> after
+a read-lock has been acquired (but not a write-lock) releases the client's
+lock. The database is only considered to be unlocked when <em>all</em> such
+locks are removed by <em>all</em> clients, when it will report a <code class="codeph">RDbNotifier::EUnlock</code> database
+event to any change notifier.</p> </li>
+<li id="GUID-FD4EECEB-0B67-5490-841A-C57A3BC189E9"><a name="GUID-FD4EECEB-0B67-5490-841A-C57A3BC189E9"><!-- --></a><p>calling <code class="codeph">Commit()</code> or <code class="codeph">Rollback()</code> after
+a write-lock has been acquired releases the client's lock and reports a <code class="codeph">RDbNotifier::ECommit</code> or
+a <code class="codeph">RDbNotifier::ERollback</code> database event to any change notifier.</p> </li>
+<li id="GUID-6EF537DD-D7CA-52A4-9164-E78EC961AF0A"><a name="GUID-6EF537DD-D7CA-52A4-9164-E78EC961AF0A"><!-- --></a><p>automatic transactions
+are used if updates are made outside of explicit transactions; such updates
+can also fail if an exclusive lock cannot be acquired.</p> </li>
+</ul>
+<p>Sharing read-locks enables greater concurrency while providing some safe
+guard against inconsistent reads. However, there is the possibility of a deadlock
+occurring. If two clients want to update a database and both <code class="codeph">Begin()</code> a
+transaction before either of them starts an update, then one client's read-lock
+will prevent the other from upgrading to a write lock and vice versa. The
+only way out of this is to code the clients in such a way as to back out of
+such a deadlock situation, rather than retry forever without releasing the
+locks.</p>
+<p>To prevent a single transaction from containing both data modification
+and data definition statements, all affected cursors are invalidated when
+the definition of their underlying table is changed. Such a cursor reports
+a <code class="codeph">KErrDisconnected</code> error in this state and can only be closed
+and the rowset re-generated once the DDL (SQL schema update) statement has
+completed. Calling <code class="codeph">Reset()</code> on such a cursor has no effect.
+It is impossible to update rows while changing the schema.</p>
+<p>A client can change the database schema while other clients are using that
+database provided that they have no locks on it. However, those other clients
+may find that their rowsets are invalidated asynchronously.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FF28B015-DFC5-5656-9066-FBCCBA2818AF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:01 GMT -->
+</html>

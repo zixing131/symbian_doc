@@ -1,0 +1,93 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C585871E-BE82-49EF-A4B9-4340A7154264.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Limitations" /><meta name="abstract" content="" /><meta name="description" content="" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C585871E-BE82-49EF-A4B9-4340A7154264" /><meta name="DC.Language" content="en" /><title>Limitations </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C585871E-BE82-49EF-A4B9-4340A7154264">Limitations</h1><div><p></p>
+<p>Some APIs of the Standard C Library are not implemented because of the
+constraints or limitations of Symbian platform:</p>
+<ul>
+<li><p><code class="codeph">AF_LOCAL</code> sockets only support <code class="codeph">SO_SNDBUF</code> and <code class="codeph">SO_RCVBUF</code> in <code class="codeph">setsockopt</code> and <code class="codeph">SO_TYPE</code>, <code class="codeph">SO_SNDBUF</code> and <code class="codeph">SO_RCVBUF</code> in <code class="codeph">getsockopt</code>.
+No <code class="codeph">ioctl</code> commands are available.</p></li>
+<li><p><code class="codeph">AF_LOCAL</code> sockets do not support shutdown().</p></li>
+<li><p>The <code class="codeph">stdioserver</code> does not support per-process configurations.</p></li>
+<li><p>Signals cannot be directed at an individual thread.</p></li>
+<li><p><code class="codeph">kill(self)</code>/<code class="codeph">sigqueue(self)</code>/<code class="codeph">raise()</code> is
+not synchronous in the current implementation.</p></li>
+<li><p>Semantics of signal delivery is different from that of *nix OSes.</p></li>
+<li><p>The <code class="codeph">tm_tzname</code> in the <code class="codeph">struct tm</code> is
+not updated by localtime() and mktime().
+This is owing to a limitation of localisation resource files in these platforms.
+The field will always be set to "UTC".</p></li>
+<li><p>On S60 emulators started in <code class="codeph">textshell</code> mode, the time
+zone offset returns the wrong value. In GUI mode, the offset is set correctly.</p></li>
+<li><p>The <code class="codeph">tm_isdst</code> field in the struct tm (used in localtime() and mktime())
+is not updated properly on the S60 3rd Edition SDK and devices; the field
+is simply set to -1.</p></li>
+<li><p>mktime() and localtime() APIs
+are about 3 times slower on the S60 3rd Edition SDK and devices, because of
+lack of native support for more efficient code that is used for S60 3rd Edition,
+Feature Pack 1 and later SDKs.</p></li>
+<li><p>In text mode <code class="codeph">stdio</code>, fseek() to
+the return value of ftell() does not behave as expected.</p></li>
+<li><p>In text-mode, fread(), fwrite() and
+their siblings will take approximately twice the time compared to binary mode.
+This is because of extra code required to perform newline-translations in
+text-mode.</p></li>
+<li><p>P.I.P.S. applications built using the plug-in with this SDK, will not
+run on earlier versions of runtimes.</p></li>
+<li><p>stat() retrieves the modification time of a directory
+incorrectly, if it was set (by utime()) to an odd value.</p></li>
+<li><p>Owing to the difference in the Symbian platform model (when compared
+to UNIX -like OS), fork() and exec() functions
+are not supported.</p></li>
+<li><p>Since fork() and exec() are not
+supported, popen() is not complete. It will create a child
+process and open a pipe between a parent and a child process either in read
+or write mode. It does not copy the address space to a child.</p></li>
+<li><p>The following are the limitations with <code class="codeph">waitpid(pid_t waitpid(pid_t
+pid, int *stat_loc, int options);</code></p><ul>
+<li><p>On OpenC there is no process group Ids. So, passing pid as <code class="codeph">0</code> and
+less than <code class="codeph">-1</code> does not work as intended.</p></li>
+<li><p>On OpenC, support is provided only for options - <code class="codeph">WNOHANG</code>.
+Others are not supported.</p></li>
+<li><p>The macros which related to job control which work on the <code class="codeph">stat_loc</code> do
+not work:</p><ul>
+<li><p> <code class="codeph">WIFSIGNALED</code></p></li>
+<li><p><code class="codeph">WTERMSIG</code></p></li>
+<li><p><code class="codeph">WIFSTOPPED</code></p></li>
+<li><p><code class="codeph">WSTOPSIG</code></p></li>
+<li><p><code class="codeph">WIFCONTINUED</code>.</p></li>
+</ul></li>
+<li><p>On Symbian, the following additional macros that work on the <code class="codeph">stat_loc</code> are
+provided:</p><ul>
+<li><p><code class="codeph">WIFTERMINATED</code></p></li>
+<li><p><code class="codeph">WTERMINATESTATUS</code></p></li>
+<li><p><code class="codeph">WIFPANICED</code></p></li>
+<li><p><code class="codeph">WPANICCODE</code></p></li>
+</ul></li>
+</ul></li>
+<li><p>For <code class="codeph">int dup2(int oldfd, int newfd);</code>, the return value
+of <code class="codeph">dup2</code> can be different from the one the developer expected
+it to be (<code class="codeph">newfd</code>). So, the developer of <code class="codeph">dup2</code> should
+use the return value of <code class="codeph">dup2</code> as the new allocated fd rather
+than the one passed to <code class="codeph">dup2 (newfd)</code>. According to the standard, <code class="codeph">newfd</code> and
+return values are the same, if <code class="codeph">dup2</code> is successful.</p></li>
+<li><p>Some of the APIs of Open C assume that a cleanup stack is created and
+there is a top-level TRAP for the current thread. All the threads created
+using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B0E661BC-4058-3256-B9C3-5A4FD52F6DE5.html#GUID-6C840907-C3F7-34B7-97DB-CEDBA68EA277"><code class="apiname">RThread::Create()</code></a> should create them explicitly.</p></li>
+<li><p>In case of Open C, <code class="codeph">libc</code> will have its own console
+object maintained and all threads console I/O will be routed to the console.
+In case of a hybrid application, if the application creates one more console,
+then switching between these consoles will be a problem. The user may not
+be aware of this problem.</p></li>
+<li><p>In case of an emulator, the developer can configure the window size
+dynamically. But the console maintained by Open C <code class="codeph">libc</code> will
+remain the same. So, if the configuration is changed, data displayed on the
+console may not be aligned properly. </p></li>
+</ul>
+<p>More detailed information about the limitations can be found in the P.I.P.S.
+API reference documentation.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 15th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C585871E-BE82-49EF-A4B9-4340A7154264.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+</html>

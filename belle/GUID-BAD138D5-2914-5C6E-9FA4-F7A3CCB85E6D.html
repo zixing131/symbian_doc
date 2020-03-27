@@ -1,0 +1,111 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-BAD138D5-2914-5C6E-9FA4-F7A3CCB85E6D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:03 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="MTM Capabilities" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-44CF5471-564E-5790-935B-51193A4978D6" /><meta name="DC.Relation" scheme="URI" content="GUID-8B843382-D27A-5E36-8F60-304903F3AA41" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-BAD138D5-2914-5C6E-9FA4-F7A3CCB85E6D" /><meta name="DC.Language" content="en" /><title>MTM
+Capabilities </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-BAD138D5-2914-5C6E-9FA4-F7A3CCB85E6D">MTM
+Capabilities</h1><div>
+<p>This section provides guidelines to the MTM implementors for assigning
+the capability set for different types of MTMs. </p>
+<div id="GUID-4E471C88-ECAD-4146-8B68-F0AA19F9D726"><h3 class="section-title">Description</h3> <p>MTMs are implemented as DLLs. According
+to the Symbian platform security model a DLL can be loaded by a process only
+if the DLL has a capability set equal to or greater than the capability set
+of the process loading it. </p> <p>The characteristics of a plug-in module
+are described by its set of capabilities. The standard capabilities are characteristics,
+such as the maximum message body size, the maximum total size of a message,
+the character widths supported by a message type, presence or absence of support
+for attachments, presence or absence of support for the subject field, folders
+and so on. Capabilities are referenced by unique identifiers, which are managed
+by Symbian. </p> <p>The capability set is defined in the MMP files of the
+MTMs. The following sections list the capability set required by the Symbian
+platform for each type of MTM. </p> </div>
+<div id="GUID-73371E92-1175-45D5-827B-B83FEE2EA4D6"><h3 class="section-title">Server MTM</h3> <p>A Server MTM is always loaded by the
+Messaging Server. It is therefore necessary for the Server MTMs to have the
+following capability set assigned. </p> <p> <code class="codeph">ReadDeviceData WriteDeviceData
+ProtServ NetworkControl           NetworkServices LocalServices ReadUserData
+WriteUserData</code> </p> </div>
+<div id="GUID-61FBEBAA-B470-455F-9FC9-7D78225A1337"><h3 class="section-title">Client MTMs, UI MTMs and UI Data MTMs</h3> <p>These MTMs
+are used by modules both within and outside of the Messaging Framework. If
+a Client MTM is to provide all the supported Messaging functionality it must
+have at least the minimum capabilities listed below. </p> <p> <code class="codeph">ReadDeviceData
+WriteDeviceData NetworkServices LocalServices           ReadUserData WriteUserData</code> </p> <p>If
+a Client MTM does not need to provide the complete set of Messaging functionality
+then a subset of the capabilities mentioned above may be selected. For example,
+if a Client MTM communicates over a local connection, such as IR or Bluetooth,
+it needs the <code class="codeph">LocalServices</code> capability only and does not need
+the <code class="codeph">NetworkServices</code> capability. Refer to the Platform Security
+Engineering Guide to understand the requirements for each capability recommended
+above. </p> <p>Authors of Client MTMs that are loaded by the standard Messaging
+applications must give their MTMs the capabilities that those applications
+have, that is, the capabilities of Client MTMs are determined by the processes
+that load them. </p> <p>The capabilities that need to be selected for applications
+that use Client MTMs depends on the functionality that those applications
+provide. If the Client MTM does not have those capabilities, the application
+will not be able to load the MTM. It is up to the creator of the MTM to make
+sure that it is assigned enough capabilities to be loaded into applications
+that require that MTM. </p> </div>
+<div id="GUID-ED8C15BD-A2C9-564B-8339-36C6C9C508D1"><h3 class="section-title">Security capability
+specification</h3> <p>With the introduction of platform security, individual
+MTMs are required to specify the additional security capabilities that Messaging
+client applications require in order to send messages by that MTM. These capabilities
+must be set in the <a href="GUID-92D6CC11-C597-5D00-AAE5-866289B7462F.html">MTM
+resource file</a> that describes the MTM's properties. </p> <p>This is
+done using the resource structure <code class="codeph">MTM_SECURITY_CAPABILITY_SET</code>.
+This has a single array member capabilities that specifies the required capabilities:
+each value must be a capability as defined in <code class="codeph">TCapability</code>.
+For example, this resource specifies that the client must have the local services
+(for example, Bluetooth) capability: </p> <pre class="codeblock">
+RESOURCE MTM_SECURITY_CAPABILITY_SET 
+    {
+    capabilities = { ECapabilityLocalServices }; 
+    }</pre> <p>An <code class="codeph">MTM_SECURITY_CAPABILITY_SET</code> must
+be the third resource in the resource file (following the <code class="codeph">MTM_INFO_FILE</code> and <code class="codeph">MTM_CAPABILITIES</code> resources),
+even if the MTM requires no additional capabilities to be defined. </p> <p> <code class="codeph">MTM_CAPABILITIES</code> has
+nothing to do with platform security, but specifies flags used by <code class="codeph">SendAs</code>.
+If the MTM can support <code class="codeph">SendAs</code>, it should define the resource
+as: </p> <pre class="codeblock">
+RESOURCE MTM_CAPABILITIES 
+    {
+    send_capability=1; 
+    body_capability=1; 
+    }</pre> <p>If the MTM does not support SendAs, use the following: </p> <pre class="codeblock">
+RESOURCE MTM_CAPABILITIES 
+    {
+    }</pre> </div>
+<div id="GUID-19478D49-AFD6-4130-9B4D-6C531A36D9C4"><h3 class="section-title">Specifying the capability set</h3> <p>Developers are advised
+that keywords such as <code class="codeph">ReadDeviceData</code> are case sensitive,
+and care should be taken when specifying them in the MMP file. For example
+a server side MTM will have the capability set defined in the MMP file as
+follows: </p> <p> <code class="codeph">CAPABILITY ReadDeviceData WriteDeviceData ProtServ
+NetworkControl           NetworkServices LocalServices ReadUserData WriteUserData </code> </p> </div>
+<div id="GUID-D9D4A690-CB0D-4855-A4AE-E5BC46801DA8"><h3 class="section-title">Example</h3> <pre class="codeblock">// TXUT.MMP
+//
+// Copyright © 2000 Symbian Ltd.  All rights reserved.
+
+target          TXUT.dll
+targettype      dll
+uid      0x1000008d 0x10003C75
+VENDORID 0x70000001
+CAPABILITY   ReadDeviceData WriteDeviceData ProtServ NetworkControl NetworkServices LocalServices ReadUserData WriteUserData LocalServices ReaduserData WriteUserData
+
+source          txut.cpp txutdll.cpp
+
+userinclude     .
+systeminclude   \Epoc32\include
+
+library         euser.lib estor.lib msgs.lib efsrv.lib 
+library         centralrepository.lib  
+
+// v2 def files
+
+#if defined(WINS)
+    deffile .\txutWINS.def
+#else
+    deffile .\txutEABI.def    
+#endif
+
+nostrictdef</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 28th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-BAD138D5-2914-5C6E-9FA4-F7A3CCB85E6D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:03 GMT -->
+</html>

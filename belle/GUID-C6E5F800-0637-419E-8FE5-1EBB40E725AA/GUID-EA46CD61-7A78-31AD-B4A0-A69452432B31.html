@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EA46CD61-7A78-31AD-B4A0-A69452432B31.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:17:31 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxClass" />
+<meta name="DC.Title" content="OviNotificationInterface" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-EA46CD61-7A78-31AD-B4A0-A69452432B31" />
+<title>OviNotificationInterface</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-EA46CD61-7A78-31AD-B4A0-A69452432B31"><a name="GUID-EA46CD61-7A78-31AD-B4A0-A69452432B31"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">OviNotificationInterface Class Reference</h1>
+<div class="state state apiQualifier apiQualifier cxxClassDeclarationFile section include"><p>#include 
+            
+                    &lt;mw/cwrt/ovinotificationinterface.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>class OviNotificationInterface</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-D3C26CC9-CC5A-3E72-A95E-3624ADB1D5E1">getNotificationInformation</a>(const QString &amp;)</td></tr><tr class="bg"><td align="right" class="code">pure virtual void</td><td><a href="#GUID-6A67B611-BB31-3441-B68D-B03804A2D9AB">getVersion</a>()</td></tr><tr><td align="right" class="code">pure virtual bool</td><td><a href="#GUID-338934AF-5B85-3075-9A2B-CD9A88DECAA0">isAudioNotification</a>()</td></tr><tr class="bg"><td align="right" class="code">pure virtual bool</td><td><a href="#GUID-3793B5E7-ACDE-3758-B7B5-9AA198B0A636">isNotificationUi</a>()</td></tr><tr><td align="right" class="code">pure virtual bool</td><td><a href="#GUID-03311BDC-77E9-3C74-9E14-A68CB19C3465">isNotificationUiUpdate</a>()</td></tr><tr class="bg"><td align="right" class="code">pure virtual bool</td><td><a href="#GUID-F477A3C0-7F59-3D24-9D99-E44B95466B0A">isWakeUp</a>()</td></tr><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-F8C9A4FE-D530-3D5E-92D3-2B5AD7A89A01">markConsumed</a>(const QStringList &amp;)</td></tr><tr class="bg"><td align="right" class="code">pure virtual void</td><td><a href="#GUID-439C94FC-D3DC-346F-95B9-3FE5081F9906">registerApplication</a>(const QString &amp;)</td></tr><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-8DC0C7FB-8E6F-35E2-923D-F53C681BAD38">setAudioNotification</a>(bool)</td></tr><tr class="bg"><td align="right" class="code">pure virtual bool</td><td><a href="#GUID-85D834D0-C1EF-3907-AE0C-F3583AED1F15">setNotificationUi</a>(bool, const QString &amp;)</td></tr><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-D240B97E-8DAB-3754-B317-309E9CF0F0E7">setNotificationUiUpdate</a>(bool)</td></tr><tr class="bg"><td align="right" class="code">pure virtual void</td><td><a href="#GUID-B9338DBC-3469-32D1-8EDE-9D32EEDF7503">setWakeUp</a>(bool)</td></tr><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-CB00D3E1-6D1B-3075-9388-D3AA5A5C1C8B">unregisterApplication</a>()</td></tr></tbody></table></div><div class="section section apiDesc section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+<p class="p">Main class of the Ovi Notification service provider.</p>
+<p class="p">Code example of how Qt applications uses this API.</p>
+<div class="p">
+<pre class="pre codeblock">
+ // OviNotificationSession *iNotificationSession;
+
+ // Load service object
+ QPluginLoader* loader = new QPluginLoader(ONEPLUGIN);
+ iNotificationSession = static_cast&lt;OviNotificationSession*&gt;(loader-&gt;instance());
+
+ // Connect signals from session
+
+ // State enumerations is emitted from stateChanged(QObject*) signal.
+ connect(iNotificationSession,SIGNAL(stateChanged(QObject*)), SLOT(sessionStateChanged(QObject*)));
+
+ // Incoming notification objects is emitted from received(QObject*) signal.
+ connect(iNotificationSession,SIGNAL(received(QObject)), SLOT(receivedClb(QObject)));
+
+ // Register application. This is an asynchronous call.
+ // OviNotificationSession::stateChanged signal is emitted with state EStateOnline
+ // when application is successfully registered.
+ iNotificationSession-&gt;registerApplication(aApplicationId, aWakeup);
+ }
+
+ // When message is received , received(QObject) signal is emitted.
+ OviNotificationMessage* message = static_cast&lt;OviNotificationMessage*&gt;(obj);
+
+ message-&gt;from();
+ message-&gt;senderInformation();
+ message-&gt;timestamp();
+
+ }
+
+ </pre>
+</div>
+<p class="p">Client application should connect all signals from Ovi Notification service object to receive callbacks. See signals in <a class="xref" href="GUID-7F694E44-4C3C-3709-8DDE-656DFF688B10.html#GUID-7F694E44-4C3C-3709-8DDE-656DFF688B10" title="Ovi notification session class implementing OviNotificationInterface. This class provides the signals to be connected for receiving the right callbacks.">OviNotificationSession</a>. </p>
+</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-D3C26CC9-CC5A-3E72-A95E-3624ADB1D5E1"><a name="GUID-D3C26CC9-CC5A-3E72-A95E-3624ADB1D5E1"><!-- --></a>
+<a name="GUID-1E4893AF-7448-363A-81F7-88DD982E7CDE"><!-- --></a><h3 class="sectiontitle">getNotificationInformation ( const QString &amp; )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>getNotificationInformation</td><td>(</td><td>const QString &amp;</td><td><span class="parameter">aServiceId</span> = ""</td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Retrieve user information used by Notifications Enabler. Requested information is returned by emitting <a class="xref" href="GUID-7F694E44-4C3C-3709-8DDE-656DFF688B10.html#GUID-64ABA03D-B5CA-31BA-BBB5-0E5C689651B8">OviNotificationSession::notificationInformation(QObject* )</a> signal. The information contains the user account used by application. This value could be empty in case of the service is not available or the request has timedout. The signal stateChanged(QObject* ) with OviNotificationState::StateError OviNotificationState::EErrorInvalidServiceId is emitted if the passed ServiceId is invalid.</p>
+<div class="p">This function should be called when session state is OviNotificationState::EStateOnline. The stateChanged(QObject* ) signal would be emitted with OviNotificationState::StateError OviNotificationState::EErrorNotAllowed in the following cases<ol class="ol"><li class="li"><p class="p">If this function is called in state other than OviNotificationState::EStateOnline.</p>
+</li>
+<li class="li"><p class="p">If the function is trying to call before the previous request has not been processed by the Notifications Enabler.</p>
+</li>
+</ol>
+</div>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aServiceId</td><td>The identifier of the Notification Service  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-6A67B611-BB31-3441-B68D-B03804A2D9AB"><a name="GUID-6A67B611-BB31-3441-B68D-B03804A2D9AB"><!-- --></a>
+<h3 class="sectiontitle">getVersion (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>getVersion</td><td>(</td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Retrieve version information. Requested version information is returned in <a class="xref" href="GUID-7F694E44-4C3C-3709-8DDE-656DFF688B10.html#GUID-B0E9B1CC-4958-384F-8B4E-DC348F2494EC">OviNotificationSession::version()</a> signal. </p>
+</div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-338934AF-5B85-3075-9A2B-CD9A88DECAA0"><a name="GUID-338934AF-5B85-3075-9A2B-CD9A88DECAA0"><!-- --></a>
+<h3 class="sectiontitle">isAudioNotification (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>bool</td><td>isAudioNotification</td><td>(</td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Getter for the audio notification. This function should be called when session state is OviNotificationState::EStateOnline. If the function is called in any other state then stateChanged signal would be emitted with OviNotificationState::EErrorNotAllowed which indicates the values returned by this function are not valid.</p>
+<p class="p">Returns true if the audion notificaiton setting is true otherwise returns false. </p>
+</div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-3793B5E7-ACDE-3758-B7B5-9AA198B0A636"><a name="GUID-3793B5E7-ACDE-3758-B7B5-9AA198B0A636"><!-- --></a>
+<h3 class="sectiontitle">isNotificationUi (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>bool</td><td>isNotificationUi</td><td>(</td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Getter for the notification UI. This function should be called when session state is OviNotificationState::EStateOnline. If the function is called in any other state then stateChanged signal would be emitted with OviNotificationState::EErrorNotAllowed which indicates the values returned by this function are not valid. Returns true if the NotificationUi setting is true otherwise returns false. </p>
+</div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-03311BDC-77E9-3C74-9E14-A68CB19C3465"><a name="GUID-03311BDC-77E9-3C74-9E14-A68CB19C3465"><!-- --></a>
+<h3 class="sectiontitle">isNotificationUiUpdate (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>bool</td><td>isNotificationUiUpdate</td><td>(</td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Getter for the Notification Ui update value. This function should be called when session state is OviNotificationState::EStateOnline. If the function is called in any other state then stateChanged signal would be emitted with OviNotificationState::EErrorNotAllowed which indicates the values returned by this function are not valid.</p>
+<p class="p">Returns true if the NotificationUi update setting is true otherwise returns false. </p>
+</div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-F477A3C0-7F59-3D24-9D99-E44B95466B0A"><a name="GUID-F477A3C0-7F59-3D24-9D99-E44B95466B0A"><!-- --></a>
+<h3 class="sectiontitle">isWakeUp (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>bool</td><td>isWakeUp</td><td>(</td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Getter for the wakeup. This function should be called when session state is OviNotificationState::EStateOnline. If the function is called in any other state then stateChanged signal would be emitted with OviNotificationState::EErrorNotAllowed which indicates the values returned by this function are not valid.</p>
+<p class="p">Returns true if the wakeup setting is true otherwise returns false. </p>
+</div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-F8C9A4FE-D530-3D5E-92D3-2B5AD7A89A01"><a name="GUID-F8C9A4FE-D530-3D5E-92D3-2B5AD7A89A01"><!-- --></a>
+<a name="GUID-61617851-14A2-3BA7-A926-D1CF72353F09"><!-- --></a><h3 class="sectiontitle">markConsumed ( const QStringList &amp; )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>markConsumed</td><td>(</td><td>const QStringList &amp;</td><td><span class="parameter">aMessageIds</span></td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<div class="p">Informs stack that the notifications received by the application has been consumed. This is an asynchronous method. This function wmust be used only if the Notification Ui update is set as true else it will have no effect. This function should be called when session state is OviNotificationState::EStateOnline. The stateChanged(QObject* ) signal would be emitted with OviNotificationState::StateError OviNotificationState::EErrorNotAllowed in the following cases<ol class="ol"><li class="li"><p class="p">If this function is called in state other than OviNotificationState::EStateOnline.</p>
+</li>
+<li class="li"><p class="p">If the function is trying to set value before the previous value has not been saved in the Notifications Enabler.</p>
+</li>
+</ol>
+</div>
+<p class="p">For application using Notification Ui update flag alongwith Notification Ui flag, they must ensure that once they receive the notification and have processed it, they must call this API and pass the messageIds of the notifications which are processed, those notifications will be removed from the Notification Ui. In case Notification UI update flag is not set then the Notification Ui will remove the message after it has been delivered to the application, this API will have no effect. Stores the notificaiton Ui update settings in the stack.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aMessageIds</td><td>List of notification Ids which are processed by the application and wants to remove from NUI.  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-439C94FC-D3DC-346F-95B9-3FE5081F9906"><a name="GUID-439C94FC-D3DC-346F-95B9-3FE5081F9906"><!-- --></a>
+<a name="GUID-87CEB5B2-BBE1-3B06-8DE0-FA062021F0E8"><!-- --></a><h3 class="sectiontitle">registerApplication ( const QString &amp; )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>registerApplication</td><td>(</td><td>const QString &amp;</td><td><span class="parameter">aApplicationId</span></td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Registers Notifications Enabler application. This is an asynchronous method. It is mandatory to call this method before Ovi Notifications can be used. If registration is succesfull Notifications Enabler will open connection Notification Service if not open already. <a class="xref" href="GUID-7F694E44-4C3C-3709-8DDE-656DFF688B10.html#GUID-A8CBB053-5DCD-38F8-A2B5-2042BC31CE56">OviNotificationSession::stateChanged</a> signal is emitted with EStateConnecting and EStateOnline after succesfull registration. Otherwise one of the OviNotificationState::StateError errors is emited.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aApplicationId</td><td>Application's Identifier  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-8DC0C7FB-8E6F-35E2-923D-F53C681BAD38"><a name="GUID-8DC0C7FB-8E6F-35E2-923D-F53C681BAD38"><!-- --></a>
+<a name="GUID-A46FFA48-7DE5-3097-A2AE-E456B54D5C66"><!-- --></a><h3 class="sectiontitle">setAudioNotification ( bool )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>setAudioNotification</td><td>(</td><td>bool</td><td><span class="parameter">aAudio</span></td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<div class="p">Setter for the sound alert for the notification received by the application. This is an asynchronous method. This function should be called when session state is OviNotificationState::EStateOnline. The stateChanged(QObject* ) signal would be emitted with OviNotificationState::StateError OviNotificationState::EErrorNotAllowed in the following cases<ol class="ol"><li class="li"><p class="p">If this function is called in state other than OviNotificationState::EStateOnline.</p>
+</li>
+<li class="li"><p class="p">If the function is trying to set value before the previous value has not been saved in the Notifications Enabler.</p>
+</li>
+</ol>
+</div>
+<p class="p">If this flag is set and the application receives notifications which has alert flag in it then the user will hear the audio beep for the received notificaiton In case this flag is not set then no audio beep will be played even though the notification might have the audio flag set in it. Simialrly, if this flag is set but the received notification does not have the audio flag in it then also no beep will be played. Stores the audio notificaiton settings in the stack.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aAudio</td><td>If true will enable the audio notification feature else will disable this feature.  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-85D834D0-C1EF-3907-AE0C-F3583AED1F15"><a name="GUID-85D834D0-C1EF-3907-AE0C-F3583AED1F15"><!-- --></a>
+<a name="GUID-AE1FA509-A2FC-3743-9768-99BE9556B4DA"><!-- --></a><h3 class="sectiontitle">setNotificationUi ( bool, const QString &amp; )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>bool</td><td>setNotificationUi</td><td>(</td><td>bool</td><td><span class="parameter">aUseNotificationUi</span>,</td></tr><tr><td colspan="3"> </td><td>const QString &amp;</td><td><span class="parameter">aIcon</span> = ""</td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<div class="p">Setter for the Notification Ui This function should be called when session state is OviNotificationState::EStateOnline. The stateChanged(QObject* ) signal would be emitted with OviNotificationState::StateError OviNotificationState::EErrorNotAllowed in the following cases<ol class="ol"><li class="li"><p class="p">If this function is called in state other than OviNotificationState::EStateOnline.</p>
+</li>
+<li class="li"><p class="p">If the function is trying to set value before the previous value has not been saved in the Notifications Enabler.</p>
+</li>
+</ol>
+</div>
+<p class="p">
+<strong class="ph b">Note:</strong> setWakeUp must be set that setNotificationUi would affect </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aUseNotificationUi</td><td>If set to true then the Notification UI is shown in the events of new messages when the application is not running.  </td></tr><tr class="bg"><td class="parameter">aIcon</td><td>The icon data to be shown for this application in the notification ui. The icon format should be Base64 encoded image data read from the file, supported formats svg, png, img, bmp,jpg Returns true if the NotificationUi setting has been succesful else returns false in cases ofToo large Icon </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-D240B97E-8DAB-3754-B317-309E9CF0F0E7"><a name="GUID-D240B97E-8DAB-3754-B317-309E9CF0F0E7"><!-- --></a>
+<a name="GUID-E0492342-354F-39CA-9DC9-BA8078322DAE"><!-- --></a><h3 class="sectiontitle">setNotificationUiUpdate ( bool )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>setNotificationUiUpdate</td><td>(</td><td>bool</td><td><span class="parameter">aNotificationUiUpdate</span></td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<div class="p">Setter for the Notification UI update(syncing) for the notification received by the application. This is an asynchronous method. This function should be called when session state is OviNotificationState::EStateOnline. The stateChanged(QObject* ) signal would be emitted with OviNotificationState::StateError OviNotificationState::EErrorNotAllowed in the following cases<ol class="ol"><li class="li"><p class="p">If this function is called in state other than OviNotificationState::EStateOnline.</p>
+</li>
+<li class="li"><p class="p">If the function is trying to set value before the previous value has not been saved in the Notifications Enabler.</p>
+</li>
+</ol>
+</div>
+<p class="p">If this flag is set alongwith the Notification Ui flag then the stack will sync the notification status in Notification Ui and the application. For application using this flag alongwith Notification Ui flag, they must ensure that once they receive the notification and have processed it, they must call <a class="xref" href="GUID-EA46CD61-7A78-31AD-B4A0-A69452432B31.html#GUID-F8C9A4FE-D530-3D5E-92D3-2B5AD7A89A01">markConsumed()</a> API and pass the messageIds of the notifications which are processed, those notifications will be removed from the Notification Ui. In case this flag is not set then the Notification Ui will remove the message after it has been delivered to the application, there is no need to call <a class="xref" href="GUID-EA46CD61-7A78-31AD-B4A0-A69452432B31.html#GUID-F8C9A4FE-D530-3D5E-92D3-2B5AD7A89A01">markConsumed()</a>. Stores the notificaiton Ui update settings in the stack.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aNotificationUiUpdate</td><td>If true will enable the notification ui update feature else will disable this feature.  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-B9338DBC-3469-32D1-8EDE-9D32EEDF7503"><a name="GUID-B9338DBC-3469-32D1-8EDE-9D32EEDF7503"><!-- --></a>
+<a name="GUID-CA972B89-1515-3926-A3C6-1B5AE8FB7CD3"><!-- --></a><h3 class="sectiontitle">setWakeUp ( bool )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>setWakeUp</td><td>(</td><td>bool</td><td><span class="parameter">aWakeUp</span></td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<div class="p">Setter for the wakeup of the application. This is an asynchronous method. This function should be called when session state is OviNotificationState::EStateOnline. The stateChanged(QObject* ) signal would be emitted with OviNotificationState::StateError OviNotificationState::EErrorNotAllowed in the following cases<ol class="ol"><li class="li"><p class="p">If this function is called in state other than OviNotificationState::EStateOnline.</p>
+</li>
+<li class="li"><p class="p">If the function is trying to set value before the previous value has not been saved in the Notifications Enabler.</p>
+</li>
+</ol>
+</div>
+<p class="p">If this flag is set and the applicatin receives notifications while application is not running then -#if notificationUi is true - user will receive notification popup informing that this application has received notification,user needs to select the popup and it will lauch this application. -#if notification Ui is false - Application will directly launch. To receive the notification, application must call <a class="xref" href="GUID-EA46CD61-7A78-31AD-B4A0-A69452432B31.html#GUID-439C94FC-D3DC-346F-95B9-3FE5081F9906">registerApplication()</a> after launching. -#In case the application is running and notification arrives for the application it is directly delivered to the application. Stores the wakeup related settings in the stack.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aWakeUp</td><td>If true will enable the wakeup feature else will disable wakeup feature.  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-CB00D3E1-6D1B-3075-9388-D3AA5A5C1C8B"><a name="GUID-CB00D3E1-6D1B-3075-9388-D3AA5A5C1C8B"><!-- --></a>
+<h3 class="sectiontitle">unregisterApplication (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>unregisterApplication</td><td>(</td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<div class="p">Asynchronous call used to unregister application. Should be called when application wants to close and no longer wishes to receive the notifications from the from Ovi Notification service. Removes all application related information and stored settings. Like<ol class="ol"><li class="li"><p class="p">Wakeup</p>
+</li>
+<li class="li"><p class="p">NotificationUi</p>
+</li>
+</ol>
+</div>
+<p class="p">If application is already unregistered or is not registered at all, OviNotificationState::EErrorNotAllowed is emited in <a class="xref" href="GUID-7F694E44-4C3C-3709-8DDE-656DFF688B10.html#GUID-A8CBB053-5DCD-38F8-A2B5-2042BC31CE56">OviNotificationSession::stateChanged()</a> signal. </p>
+</div>
+</div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EA46CD61-7A78-31AD-B4A0-A69452432B31.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:17:31 GMT -->
+</html>

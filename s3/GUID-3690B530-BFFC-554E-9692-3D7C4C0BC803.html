@@ -1,0 +1,63 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3690B530-BFFC-554E-9692-3D7C4C0BC803.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Templated stream operators" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FBCBF8A0-7922-5881-A1C5-5DB41630E75A" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-3FAB9077-3EC3-5539-B391-D11456362513" /><meta name="DC.Relation" scheme="URI" content="GUID-6BF09365-09D7-5596-B802-1BE1757F51F6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3690B530-BFFC-554E-9692-3D7C4C0BC803" /><meta name="DC.Language" content="en" /><title>Templated stream operators </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3690B530-BFFC-554E-9692-3D7C4C0BC803">Templated stream operators</h1><div><p>There are two templated stream operators, <code class="codeph">operator&lt;&lt;</code> and <code class="codeph">operator&gt;&gt;</code> that can be used to externalise and internalise data of all types. They use a syntax that is familiar to users of C++ iostreams, or Java streams.</p> <p> An object can be externalised to a stream, using a write stream:</p> <pre class="codeblock">writeStream &lt;&lt; object;</pre> <p>and later, assuming the operation starts from the appropriate place on the stream, the data can be internalised again, using a read stream:</p> <pre class="codeblock">readStream &gt;&gt; object;</pre> <p>The implementation of the operators depends on the type of object on which they are called.</p> <div><h3 class="section-title">Implementation for a class defining ExternalizeL() &amp; InternalizeL()</h3> <p>For a class that defines and implements the <code class="codeph">ExternalizeL()</code> and <code class="codeph">InternalizeL()</code> functions, the Store framework:</p> <ul><li id="GUID-7000A711-4C8F-5522-9981-6975FD563D6B"><a name="GUID-7000A711-4C8F-5522-9981-6975FD563D6B"><!-- --></a><p>implements <code class="codeph">operator&lt;&lt;</code> by calling the <code class="codeph">ExternalizeL()</code> member function of that class.</p> </li> <li id="GUID-D62B7DE5-7179-56AB-A7BC-221459CA7E77"><a name="GUID-D62B7DE5-7179-56AB-A7BC-221459CA7E77"><!-- --></a><p>implements <code class="codeph">operator&gt;&gt;</code> by calling the <code class="codeph">InternalizeL()</code> member function of that class.</p> </li> </ul> </div> <div><h3 class="section-title">Implementation for standard types and classes</h3> <p>The Store framework provides the necessary implementation for the operators to externalise and internalise the following:</p> <ul><li id="GUID-7FC174ED-C934-5AEA-9149-ED8CB7A9B4C4"><a name="GUID-7FC174ED-C934-5AEA-9149-ED8CB7A9B4C4"><!-- --></a><p>The basic types: <code class="codeph">TInt8</code>, <code class="codeph">TInt16</code>, <code class="codeph">TInt32</code>, <code class="codeph">TInt64</code>, <code class="codeph">TUint8</code>, <code class="codeph">TUint16</code>, <code class="codeph">TUint32</code>, <code class="codeph">TReal32</code> and <code class="codeph">TReal64</code>.</p> </li> <li id="GUID-E03896E9-A375-55ED-A4A4-2BD9D39DACE2"><a name="GUID-E03896E9-A375-55ED-A4A4-2BD9D39DACE2"><!-- --></a><p>The graphics API classes: <code class="codeph">TPoint</code>, <code class="codeph">TSize</code> and <code class="codeph">TRect</code>.</p> </li> <li id="GUID-2ABB347E-A8FD-5D7B-8D83-D15A489DA2A1"><a name="GUID-2ABB347E-A8FD-5D7B-8D83-D15A489DA2A1"><!-- --></a><p>The UID Manipulation API class: <code class="codeph">TUid</code>.</p> </li> <li id="GUID-F49A0B41-09AB-5802-BECD-E4C855DAF809"><a name="GUID-F49A0B41-09AB-5802-BECD-E4C855DAF809"><!-- --></a><p>The Dynamic Buffers API classes: <code class="codeph">CBufFlat</code> and <code class="codeph">CBufSeg</code>.</p> </li> </ul> </div> <div><h3 class="section-title">Implementation for non-class types</h3> <p>For non-class types, for example enumerators, a <em>specialized</em> implementation of the operators must be defined and implemented for that specific non-class type. The definition of the operators must conform to the templated definitions.</p> <p>For example, for a class <code class="codeph">TSimple</code> that contains an enumeration of type <code class="codeph">TXxx</code> as a data member:</p> <pre class="codeblock">    enum  TXxx {EX1,EX2,EX3};</pre> <pre class="codeblock">    class TSimple
+          {
+    public :
+          void ExternalizeL(RWriteStream&amp; aStream) const;
+          void InternalizeL(RReadStream&amp; aStream);
+    public :
+          TXxx     iTheEnum;
+          ...
+          TUint    iUintValue;
+          ...
+          };</pre> <p>The <code class="codeph">iTheEnum</code> data member is externalised using <code class="codeph">operator&lt;&lt;</code> and internalised using <code class="codeph">operator&gt;&gt;</code>:</p> <pre class="codeblock">void TSimple::ExternalizeL(RWriteStream&amp; aStream) const
+          {
+          aStream &lt;&lt; iTheEnum;
+          ...
+          }</pre> <pre class="codeblock">void TSimple::InternalizeL(RReadStream&amp; aStream)
+          {
+          aStream &gt;&gt; iTheEnum;
+          ...
+          }</pre> <p>As <code class="codeph">TXxx</code> is a non-class type, the operators are implemented:</p> <pre class="codeblock">RWriteStream&amp; operator&lt;&lt;(RWriteStream&amp; aStream, const TXxx&amp; anXxx)
+          {
+          aStream.WriteInt8L(anXxx);
+          return aStream;
+          }</pre> <pre class="codeblock">RReadStream&amp;  operator&gt;&gt;(RReadStream&amp;  aStream, TXxx&amp; anXxx)
+          {
+          anXxx = TXxx(aStream.ReadInt8L());
+          return aStream;
+          }</pre> <p>The enumerator value is written to the stream using <code class="codeph">RWriteStream::WriteInt8L()</code>. Implicit here is the assumption that the enumeration can be represented by just 8 bits.</p> </div> <div><h3 class="section-title">Implementation for a class without ExternalizeL() &amp; InternalizeL()</h3> <p>The operators may be used on class types that do not define and implement <code class="codeph">InternalizeL()</code> and <code class="codeph">ExternalizeL()</code> functions. This is done by defining and implementing some extra global functions.</p> <p>In practice, it is much simpler to define and implement <code class="codeph">InternlizeL()</code> and <code class="codeph">ExternalizeL()</code> for a class, and all new classes should include these functions. However, there may be rare situations, for example, when porting classes, where it may be undesirable to define them.</p> <p>To support the use of the operators for such a class, for example, for the class <code class="codeph">TNonStore</code> defined as:</p> <pre class="codeblock">    class TNonStore
+          {
+    public :
+          void  SetBuffer(const TDesC&amp; aData);
+          TPtrC GetBuffer() const;
+    private :
+          TBuf&lt;32&gt; iBuffer;
+    public :
+          TInt     iIntValue;
+          TUint    iUintValue;
+          TReal    iRealValue;
+          };</pre> <ul><li id="GUID-BED64035-9CE4-5EEC-93FB-4D71A9E94F99"><a name="GUID-BED64035-9CE4-5EEC-93FB-4D71A9E94F99"><!-- --></a><p><em>implement</em> the following <code class="codeph">Externalization()</code> and <code class="codeph">Internalization()</code> <em>global</em> functions:</p> <pre class="codeblock">inline Externalize::Function Externalization(const TNonstore*)
+          {return Externalize::Function();}</pre> <pre class="codeblock">inline Internalize::Function Internalization(TNonstore*)
+          {return Internalize::Function();}</pre> </li> <li id="GUID-B7ADAB29-0E0A-50F1-AB60-907F142699F5"><a name="GUID-B7ADAB29-0E0A-50F1-AB60-907F142699F5"><!-- --></a><p><em>declare</em> the following <code class="codeph">ExternalizeL()</code> and <code class="codeph">InternalizeL()</code> <em>global</em> functions:</p> <pre class="codeblock">void ExternalizeL(const TNonstore&amp; aClass,RWriteStream&amp; aStream);</pre> <pre class="codeblock">void InternalizeL(TNonstore&amp; aClass,RReadStream&amp; aStream);</pre> </li> <li id="GUID-D34FEE7D-37C1-54D0-B9FB-0D9F86F09115"><a name="GUID-D34FEE7D-37C1-54D0-B9FB-0D9F86F09115"><!-- --></a><p><em>implement</em> the <code class="codeph">ExternalizeL()</code> and <code class="codeph">InternalizeL()</code> <em>global</em> functions to implement the streaming of <code class="codeph">TNonstore</code>'s components. For this example class:</p> <pre class="codeblock">    void ExternalizeL(const TNonStore&amp; aClass,RWriteStream&amp; aStream)
+          {
+          aStream.WriteInt32L(aClass.iIntValue);
+          aStream.WriteUint32L(aClass.iUintValue);
+          aStream.WriteReal64L(aClass.iRealValue);
+          aStream &lt;&lt; aClass.GetBuffer();
+          }
+
+    void InternalizeL(TNonStore&amp; aClass,RReadStream&amp; aStream)
+          {
+          aClass.iIntValue  = aStream.ReadInt32L();
+          aClass.iUintValue = aStream.ReadUint32L();
+          aClass.iRealValue = aStream.ReadReal64L();
+          TBuf&lt;32&gt; temp;
+          aStream &gt;&gt; temp;
+          aClass.SetBuffer(temp);
+          }</pre> </li> </ul> </div> </div></div></div><div class="footer"><p class="metadata">Last updated October 10th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3690B530-BFFC-554E-9692-3D7C4C0BC803.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:25 GMT -->
+</html>

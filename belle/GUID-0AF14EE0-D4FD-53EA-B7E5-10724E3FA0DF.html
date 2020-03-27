@@ -1,0 +1,42 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0AF14EE0-D4FD-53EA-B7E5-10724E3FA0DF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:12 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to resize an array" /><meta name="abstract" content="For fixed flat and fixed segmented arrays, it is possible to resize the array. If the array is shortened, then the trailing elements are deleted. If the array is extended, then new blank elements are created using the default constructor." /><meta name="description" content="For fixed flat and fixed segmented arrays, it is possible to resize the array. If the array is shortened, then the trailing elements are deleted. If the array is extended, then new blank elements are created using the default constructor." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Relation" scheme="URI" content="GUID-E3F403EE-717B-5EA6-BC4E-6840097CAC10" /><meta name="DC.Relation" scheme="URI" content="GUID-59DB0115-053A-5D23-8C40-E2428C096BBC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0AF14EE0-D4FD-53EA-B7E5-10724E3FA0DF" /><meta name="DC.Language" content="en" /><title>How
+to resize an array </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0AF14EE0-D4FD-53EA-B7E5-10724E3FA0DF">How
+to resize an array</h1><div><p>For fixed flat and fixed segmented arrays, it is possible to resize
+the array. If the array is shortened, then the trailing elements are deleted.
+If the array is extended, then new blank elements are created using the default
+constructor.</p>
+<p>In a <code class="codeph">CArrayFixFlat&lt;class T&gt;</code> or a <code class="codeph">CArrayFixSeg&lt;class T&gt;</code> array,
+the number of elements in an array can be changed, either decreased or increased,
+using the <code class="codeph">ResizeL()</code> function.</p>
+<p>In the following code fragment, <code class="codeph">ResizeL()</code> changes the
+size of an array so that it contains only one element. If the array originally
+had more than one element, then this call to <code class="codeph">ResizeL()</code> deletes
+all elements from position one onwards, leaving only the element at position
+zero.</p>
+<pre class="codeblock">CArrayFixFlat&lt;TElement&gt;* fixflat;
+fixflat = new (ELeave) CArrayFixFlat&lt;TElement&gt;(3);
+...
+fixflat-&gt;ResizeL(1);</pre>
+<p>Call <code class="codeph">ResizeL()</code> again to change the size of the array to
+contain a greater number of elements, in this case three. If the array originally
+had only one element (for example), this call to <code class="codeph">ResizeL()</code> constructs
+two new elements at positions one and two. In this example, the new elements
+inserted at positions one and two are <code class="codeph">TElement</code> type objects,
+constructed using the <code class="codeph">TElement</code> <em>default constructor</em>.
+It is therefore essential that a default constructor exists before using this
+function.</p>
+<pre class="codeblock">fixflat-&gt;ResizeL(3);</pre>
+<p>There is an overloaded variant of <code class="codeph">ResizeL()</code> which takes
+a reference to a <code class="codeph">TElement</code> object. A bit-wise copy of this
+referenced object supplies the new elements. In the following code fragment
+the two extra elements are bit-wise copies of the <code class="codeph">theElement</code> object.</p>
+<pre class="codeblock">_LIT(KTextXXX,"XXX");
+theElement.iData = KTextXXX;
+fixflat-&gt;ResizeL(5,theElement);</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 18th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0AF14EE0-D4FD-53EA-B7E5-10724E3FA0DF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:12 GMT -->
+</html>

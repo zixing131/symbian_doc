@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FF5CC3D5-5ACD-37BF-855B-EA99028CABDE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:14:39 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="fepbutils.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-FF5CC3D5-5ACD-37BF-855B-EA99028CABDE" />
+<title>fepbutils.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-FF5CC3D5-5ACD-37BF-855B-EA99028CABDE"><a name="GUID-FF5CC3D5-5ACD-37BF-855B-EA99028CABDE"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">fepbutils.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-3BE9309A-5F04-34A1-A643-0551FE35C235"><a name="GUID-3BE9309A-5F04-34A1-A643-0551FE35C235"><!-- --></a>
+<h3 class="sectiontitle">FEP_START_KEY_EVENT_HANDLER_L</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Macro to be called by a keyboard-based FEP at the start of its <a class="xref" href="GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-5679D517-2106-3530-9BAA-9D9AB7CF6D06">CCoeControl::OfferKeyEventL()</a>-overriding function.</p>
+<p class="p">It causes key up and key down events to be consumed so that the FEP only receives standard key events (of type EEventKey, see the TEventCode enumeration). It also causes key events that turn the FEP on or off to be consumed. If the FEP is simulating key events, or is off, no key events are consumed (so that all are passed on to the underlying application) and the macro returns with EKeyWasNotConsumed.</p>
+<p class="p">This should be the first thing called in the OfferKeyEventL() function. The FEP_END_KEY_EVENT_HANDLER_L macro should be used to return from the function.</p>
+<p class="p">
+</p><p class="p">See also: TEventCode </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-05EDAAF2-43DC-3A36-9519-10B3619F47A4"><a name="GUID-05EDAAF2-43DC-3A36-9519-10B3619F47A4"><!-- --></a>
+<h3 class="sectiontitle">FEP_END_KEY_EVENT_HANDLER_L</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Macro to be called by a keyboard-based FEP to return from its <a class="xref" href="GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-5679D517-2106-3530-9BAA-9D9AB7CF6D06">CCoeControl::OfferKeyEventL()</a>-overriding function.</p>
+<p class="p">It should be used instead of the return statement. It should only be used if the FEP_START_KEY_EVENT_HANDLER_L macro was used at the start of the function.</p>
+<p class="p">
+</p></div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-A56C7FE0-3328-3F75-8D85-65F9A37BE612"><a name="GUID-A56C7FE0-3328-3F75-8D85-65F9A37BE612"><!-- --></a>
+<h3 class="sectiontitle">FEP_START_KEY_EVENT_HANDLER_NO_DOWN_UP_FILTER_L</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Macro to be called by a keyboard-based FEP at the start of its <a class="xref" href="GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-5679D517-2106-3530-9BAA-9D9AB7CF6D06">CCoeControl::OfferKeyEventL()</a>-overriding function.</p>
+<p class="p">It causes events that turn the FEP on or off to be consumed. This variant of the macro ignores key up and key down events so that it should be used in preference to FEP_START_KEY_EVENT_HANDLER_L in the rare cases where the FEP wishes to handle EEventKeyDown or EEventKeyUp events. If the FEP is simulating key events, or is off, no key events are consumed and OfferKeyEventL() returns with EKeyWasNotConsumed.</p>
+<p class="p">This should be the first thing called in the OfferKeyEventL() function. The FEP_END_KEY_EVENT_HANDLER_NO_DOWN_UP_FILTER_L macro should be used to return from the function.</p>
+<p class="p">
+</p></div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-DDE5574D-8166-35BC-9345-A66BCD532781"><a name="GUID-DDE5574D-8166-35BC-9345-A66BCD532781"><!-- --></a>
+<h3 class="sectiontitle">FEP_END_KEY_EVENT_HANDLER_NO_DOWN_UP_FILTER_L</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Macro to be called by a keyboard-based FEP to return from its <a class="xref" href="GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-5679D517-2106-3530-9BAA-9D9AB7CF6D06">CCoeControl::OfferKeyEventL()</a>-overriding function.</p>
+<p class="p">It should be used instead of the return statement. This variant of the macro should only be used if the FEP_START_KEY_EVENT_HANDLER_NO_DOWN_UP_FILTER_L macro was used at the start of the function.</p>
+<p class="p">
+</p></div>
+</p></div>
+</div>
+</p></div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FF5CC3D5-5ACD-37BF-855B-EA99028CABDE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:14:40 GMT -->
+</html>

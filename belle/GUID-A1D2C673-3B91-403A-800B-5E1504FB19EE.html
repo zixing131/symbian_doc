@@ -1,0 +1,102 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A1D2C673-3B91-403A-800B-5E1504FB19EE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:36 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Capturing Still Images" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DE5CDAD-8D71-5384-9E98-5665D5A4C792" /><meta name="DC.Relation" scheme="URI" content="GUID-3E341F9F-2635-589B-A59A-B999FE7DF9BE" /><meta name="DC.Relation" scheme="URI" content="GUID-98499337-5CB4-5A9C-907A-95FF57775983" /><meta name="DC.Relation" scheme="URI" content="GUID-BDB622BF-1CFA-5F1C-81FB-5579C8599689" /><meta name="DC.Relation" scheme="URI" content="GUID-55A1A47A-A7DD-5B1A-88E1-4818CB65B782" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A1D2C673-3B91-403A-800B-5E1504FB19EE" /><title>Capturing Still Images </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A1D2C673-3B91-403A-800B-5E1504FB19EE">Capturing Still Images</h1><div>
+<p>To capture still images or to use the display as a viewfinder,
+build your application around the Symbian Ecam camera utility. To
+make use of the device camera to capture an image, the application
+needs to repeat the steps described in the illustration below.</p>
+<div class="figure" id="GUID-65212152-6862-4990-9869-CF643B9A5845"><img src="GUID-5FE10ECA-1FAB-4E4F-A1D9-67D379EE8CB3_d0e385909_href.png" /><p class="figure-title"><strong>Figure: </strong>The steps required to capture a still image</p></div>
+<p>Important implementation considerations include:</p>
+<ul>
+<li><p>The settings you can use in your application depend
+on what the camera hardware on the device supports.</p></li>
+<li><p>To capture images, use the methods of the CCamera and MCameraObserver2 classes
+to construct your application. <code class="codeph">MCameraObserver2</code> uses
+the advanced camera features of the CCamera::CCameraAdvancedSettings class. The <code class="codeph">CCamera</code> and <code class="codeph">MCameraObserver2</code> classes are defined in the <code class="codeph">ecam.h</code> header file.
+Add the following line to the <code class="codeph">.h</code> file, which is used
+to deploy the API:</p>
+<pre class="codeblock">#include &lt;ecam.h&gt;</pre>
+</li>
+<li><p>Make sure you have correct <a href="GUID-6971B0A2-F79B-4E05-8AF3-BB1FC1932A22.html">capabilities</a> information set for your application. You need at least the <code class="codeph">UserEnvironment</code> capability.</p></li>
+<li><p>Make sure <code class="codeph">ecam.lib</code> is accessible
+to your linker when compiling your application by including it in
+your <code class="codeph">mmp</code> file or by editing the project properties
+in your IDE, depending on your build environment.</p></li>
+</ul>
+<div id="GUID-7AE307AA-8E1E-4F6C-AFC7-4CED1341D785"><h3 class="section-title">To capture
+still images on a mobile device</h3>
+<ol>
+<li id="GUID-9E819F98-B4C6-4C0B-A723-F82494E8655B"><a name="GUID-9E819F98-B4C6-4C0B-A723-F82494E8655B"><!-- --></a><p>Initialize
+the onboard camera.</p>
+<ul>
+<li><p>Create a camera object using the <code class="codeph">CCamera::New2L()</code> method.</p></li>
+<li><p>Reserve the camera for your application using the <code class="codeph">CCamera::Reserve()</code> method. <code class="codeph">MCameraObserver2::HandleEvent</code> is called upon completion.</p></li>
+<li><p>Switch on the camera power using the <code class="codeph">CCamera::PowerOn()</code> method. <code class="codeph">MCameraObserver2::HandleEvent</code> is called
+upon completion.</p></li>
+<li><p>If needed, share the camera between multiple clients
+using the <code class="codeph">CCamera::NewDuplicate2L()</code> function. This
+function needs the handle of an existing camera object (use <code class="codeph">CCamera::Handle()</code>).</p></li>
+</ul>
+</li>
+<li id="GUID-1A42718C-0158-4BB6-B99F-48278369C3F3"><a name="GUID-1A42718C-0158-4BB6-B99F-48278369C3F3"><!-- --></a><p>Configure
+the camera settings.</p>
+<ul>
+<li><p>Before you adjust the settings, make sure the camera
+hardware supports the particular option. Use <code class="codeph">CCamera::CameraInfo()</code> to retrieve and <code class="codeph">TCameraInfo</code> to specify the camera
+information.</p><p>For example, to find out what image formats
+are supported by the onboard camera, use the <code class="codeph">TCameraInfo::iImageFormatsSupported</code> member variable.</p></li>
+<li><p>Specify the image format using the <code class="codeph">CCamera::PrepareImageCaptureL</code> method. For a list of possible formats, see <code class="codeph">CCamera::TFormat</code>.</p><p>Devices support image capture in EXIF JPEG format (<code class="codeph">CCamera::EFormatExif</code>), which is encoded with JPEG and requires
+no additional conversion.</p></li>
+<li><p>Specify the desired image size using the <code class="codeph">CCamera::EnumerateCaptureSizes()</code> method.</p></li>
+<li><p>Additionally, you can set, for example, the brightness,
+contrast, zoom level, flash mode, exposure and white balance of the
+image. For more information on the options, see the <code class="codeph">CCamera::CCameraAdvancedSettings</code> class. You can also use the settings directly under <code class="codeph">CCamera</code>.</p></li>
+</ul>
+<ul>
+<li><p>Before you can call <code class="codeph">CCamera::CaptureImage()</code>, allocate memory and set up image format, size and clipping rectangle
+using the <code class="codeph">CCamera::PrepareImageCaptureL()</code> method.
+This needs to be called only once for multiple captures.</p>
+</li>
+</ul>
+</li>
+<li id="GUID-A7ED7A90-1432-4905-A0A5-0CC725997127"><a name="GUID-A7ED7A90-1432-4905-A0A5-0CC725997127"><!-- --></a><p>Use
+the display of the device as a viewfinder by transferring image data
+from the camera to the display memory.</p>
+<ul>
+<li><p>Start the transfer of viewfinder data with direct
+screen access using the <code class="codeph">CCamera::StartViewFinderDirectL()</code> method.</p></li>
+<li><p>Transfer viewfinder data as a bitmap using the <code class="codeph">CCamera::StartViewFinderBitmapsL()</code> method.  <code class="codeph">MCameraObserver2::ViewFinderReady</code> is called upon completion.</p></li>
+<li><p>Set viewfinder mirroring on and flip the image horizontally
+using the <code class="codeph">CCamera::SetViewFinderMirrorL()</code> method.</p>
+</li>
+<li><p>Stop the transfer of viewfinder data to the screen
+using the <code class="codeph">CCamera::StopViewFinder()</code> method.</p>
+</li>
+</ul>
+</li>
+<li id="GUID-136AEB7B-B618-456E-A7AA-27105A50B9DE"><a name="GUID-136AEB7B-B618-456E-A7AA-27105A50B9DE"><!-- --></a><p>Capture
+one or multiple images using the <code class="codeph">CCamera::CaptureImage()</code> method. <code class="codeph">MCameraObserver2::ImageBufferReady()</code> is
+called upon completion.</p></li>
+<li id="GUID-9EF06D1B-EB64-4406-A97F-FE0C9DA1664F"><a name="GUID-9EF06D1B-EB64-4406-A97F-FE0C9DA1664F"><!-- --></a><p>To
+exit the application or to switch it to the background, switch off
+the camera power using the <code class="codeph">CCamera::PowerOff()</code> method
+and release the camera for other applications using the <code class="codeph">CCamera::Release()</code> method.</p></li>
+</ol>
+</div>
+<div id="GUID-6DC48744-EF5E-4234-8C48-7A9692338F76"><h3 class="section-title">Additional
+information on capturing still images</h3>
+<p>For reference examples, see: </p>
+<ul>
+<li><p><a href="GUID-55BF8452-F9FF-5CF3-9D74-3BC7F5447551.html">Camera Example: Capturing and controlling the images using Camera</a></p></li>
+<li><p><a href="http://www.developer.nokia.com/info/sw.nokia.com/id/9a3e1226-79db-4c8e-bd70-7d9d22aaa6eb/S60_Platform_Camera_Example.html" target="_blank">S60 Platform: Camera Example</a> on Nokia Developer.</p>
+</li>
+</ul>
+<p>For information on displaying images on the screen, see <a href="GUID-27220B08-B2E7-5106-9BCC-C86938D3E37D.html">Image Display Library
+Overview</a></p>
+</div>
+</div></div></div><div class="footer"><p class="metadata">Last updated June 30th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A1D2C673-3B91-403A-800B-5E1504FB19EE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:38 GMT -->
+</html>

@@ -1,0 +1,93 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-CB1E1921-9CF7-55B7-9F70-6AD61A961208.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using the Bearer Mobility APIs" /><meta name="abstract" content="This topic describes how sockets clients can use the bearer mobility APIs." /><meta name="description" content="This topic describes how sockets clients can use the bearer mobility APIs." /><meta name="DC.Relation" scheme="URI" content="GUID-EDC16636-B24E-598B-9084-EAE782A4A213" /><meta name="DC.Relation" scheme="URI" content="GUID-61E0CD76-A2E3-5066-84A8-146EECA8ADCD" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-2139B04C-6ED6-599B-A018-D92451B8353E" /><meta name="DC.Relation" scheme="URI" content="GUID-61E0CD76-A2E3-5066-84A8-146EECA8ADCD" /><meta name="DC.Relation" scheme="URI" content="GUID-E9E2783E-44A0-5BA6-BBF3-D13C8D67B53E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-CB1E1921-9CF7-55B7-9F70-6AD61A961208" /><meta name="DC.Language" content="en" /><title>Using the Bearer Mobility APIs </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-CB1E1921-9CF7-55B7-9F70-6AD61A961208">Using the Bearer Mobility APIs</h1><div><p>This topic describes how sockets clients can use the bearer mobility APIs. </p><div><h3 class="section-title">Required background</h3> <p>Before you start, you must understand what <a href="GUID-EDC16636-B24E-598B-9084-EAE782A4A213.html">Bearer Mobility</a> is. </p> </div> <div><h3 class="section-title">Introduction</h3> <p>The two Bearer Mobility APIs are <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D5F43DFB-5143-3563-8655-16E245A9735F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D5F43DFB-5143-3563-8655-16E245A9735F.html"><code class="apiname">RCommsMobilityApiExt</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6CA83252-4D0C-3B72-83ED-B5152B666C83.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6CA83252-4D0C-3B72-83ED-B5152B666C83.html"><code class="apiname">CActiveCommsMobilityApiExt</code></a>. Both APIs provide the same functionality. </p> <p> <code class="codeph">CActiveCommsMobilityApiExt</code> is an active object. We recommend that a Socket Server client uses this class if the client uses an active scheduler. </p> <p>If a socket server client does not use an active scheduler, the client must use the <code class="codeph">RCommsMobilityApiExt</code> class. A client that uses an active scheduler can also use this class, but the class is more complicated to use. </p> <p>The Bearer Mobility API requests the notification of a change to the bearer. <code class="codeph">CActiveCommsMobilityApiExt</code> completes requests through the active scheduler, and automatically issues new requests. The users of <code class="codeph">RCommsMobilityApiExt</code> must explicitly register for notification of changes, and must make explicit requestsfor notification after the completion of each request. </p> <p>These two APIs are known as <em>Extension</em> APIs. Extension APIs are used to extend an existing API without adding new function members to the API class. Instead, the Extension API adds a new class that contains the function members for the extended API. The Bearer Mobility APIs extend the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> API. The Bearer Mobility APIs are provided as an Extension API because the Bearer Mobility APIs are classified as PublishedPartner, while the host RConnection API is classified as PublishedAll. </p> <p>To use an Extension API, the client must use the existing API to connect to the server. The client passes the object for the server session to the constructor of the Extension API. The client can then use the Extension API with the same server session. </p> <p>An example of how to use an Extension API is provided in sample code in the next section. </p> <p>Once attached, the Extension API does not need to be detached before closing the RConnection session. </p> </div> <div><h3 class="section-title">Procedure</h3> <p>A client that wants to use Bearer Mobility must register for notifications. A client can register for notifications even if it is already sending data. The rest of this discussion uses the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6CA83252-4D0C-3B72-83ED-B5152B666C83.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6CA83252-4D0C-3B72-83ED-B5152B666C83.html"><code class="apiname">CActiveCommsMobilityApiExt</code></a> API. </p> <p>If a client uses the <code class="codeph">CActiveCommsMobilityApiExt</code> class to register for notifications, the client must implement the functionality of the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9A3979A9-F882-3053-B5B1-E0E125774271.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9A3979A9-F882-3053-B5B1-E0E125774271.html"><code class="apiname">MMobilityProtocolResp</code></a> class. For example: </p> <pre class="codeblock">class CBearerMobility : public MMobilityProtocolResp
+    {
+public:
+
+    // constructors and other functions (not shown)
+
+    ConnectAndProcessBearerChangesL();
+
+private:
+    // MMobilityProtocolResp
+    void PreferredCarrierAvailable(TAccessPointInfo aOldAP, TAccessPointInfo aNewAP, TBool aIsUpgrade, TBool aIsSeamless);
+    void NewCarrierActive(TAccessPointInfo aNewAP, TBool aIsSeamless);
+    void Error(TInt aError);
+
+    RConnection iConnection;
+    RSocketServ iSocketServ;
+    CActiveCommsMobilityApiExt* iMobilityExtension;
+    };</pre> <p>In the above example, the same class contains the reference to the <code class="codeph">CActiveCommsMobilityApiExt</code> Active Object used to control the requests, and contains the <code class="codeph">MMobilityProtocolResp</code> functions that receive the requests. The following example code shows how to connect the CActiveCommsMobilityApiExt Extension API to an RConnection session and initiate the request: </p> <pre class="codeblock">ConnectAndProcessBearerChangesL()
+   {
+   User::LeaveIfError(iSocketServ.Connect());
+   CleanupClosePushL(iSocketServ);
+   User::LeaveIfError(iConnection.Open(socketServ));
+   CleanupClosePushL(iConnection);
+
+   // ...possibly do more here to set the connection preferences (not shown)
+
+   // Start the connection using an Access Point (AP) which has a bearer priority list (SNAP)
+   // NOTE: The bearer priority list is dependent on the bearer implementation - for this example we use Comms Database
+   const TUInt KSNAPPref = 50;    // AP Record ID in Comms Database
+
+   TConnSnapPref snapPref(KSNAPPref);
+
+   User::LeaveIfError(iConnection.Start(snapPref));
+
+   iMobilityExtension = CActiveCommsMobilityApiExt::NewL(connection, *this); 
+   CActiveScheduler::Start();
+
+   // once the scheduler is stopped, close the connections
+   CleanupStack::PopAndDestroy(); //iConnection.Close();
+   CleanupStack::PopAndDestroy(); //iSocketServ.Close();
+   }
+</pre> <p>The client uses the MMobilityProtocolResp class to process the notification of Bearer Mobility events. The functions are: </p> <pre class="codeblock">MMobilityProtocolResp::PreferredCarrierAvailable(TAccessPointInfo aOldAP, TAccessPointInfo aNewAP, TBool aIsUpgrade, TBool aIsSeamless);</pre> <p>Comms mobility notification about a preferred bearer becoming available. </p> <div class="tablenoborder"><a name="GUID-597406DA-D0BA-5D41-B162-76CF56D90EB3"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-597406DA-D0BA-5D41-B162-76CF56D90EB3" frame="border" border="1" rules="all"><thead align="left"><tr class="title "><th class="cellrowborder" valign="top" id="d0e156300"> Parameter </th> <th class="cellrowborder" valign="top" id="d0e156303"> Description </th> </tr> </thead> <tbody><tr class=""><td class="cellrowborder" valign="top" headers="d0e156300 "><p> <code class="codeph"> TAccessPointInfo aOldAP</code> </p> </td> <td class="cellrowborder" valign="top" headers="d0e156303 "><p>Information on the current access point </p> </td> </tr> <tr class="bg "><td class="cellrowborder" valign="top" headers="d0e156300 "><p> <code class="codeph">TAccessPointInfo aNewAP</code> </p> </td> <td class="cellrowborder" valign="top" headers="d0e156303 "><p>Information on the new proposed access point </p> </td> </tr> <tr class=""><td class="cellrowborder" valign="top" headers="d0e156300 "><p> <code class="codeph">TBool aIsUpgrade</code> </p> </td> <td class="cellrowborder" valign="top" headers="d0e156303 "><p>ETrue if the new bearer is preferred over the current one; EFalse if the new bearer is preferred from the rest of the bearers because the current one is no longer available </p> </td> </tr> <tr class="bg "><td class="cellrowborder" valign="top" headers="d0e156300 "><p> <code class="codeph">TBool aIsSeamless</code> </p> </td> <td class="cellrowborder" valign="top" headers="d0e156303 "><p>Always set to EFalse. This parameter is reserved for future use. </p> </td> </tr> </tbody> </table></div> <pre class="codeblock">MMobilityProtocolResp::NewCarrierActive(TAccessPointInfo aNewAP, TBool aIsSeamless);</pre> <p>The Comms Stack calls this function in response to CActiveCommsMobilityApiExt::MigrateToPreferredCarrier when the migration is complete. </p> <div class="tablenoborder"><a name="GUID-C0EF15E4-7CAF-508D-A8A2-7C536A19B3CA"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-C0EF15E4-7CAF-508D-A8A2-7C536A19B3CA" frame="border" border="1" rules="all"><thead align="left"><tr class="title "><th class="cellrowborder" valign="top" id="d0e156384"> Parameter </th> <th class="cellrowborder" valign="top" id="d0e156387"> Description </th> </tr> </thead> <tbody><tr class=""><td class="cellrowborder" valign="top" headers="d0e156384 "><p> <code class="codeph"> TAccessPointInfo aNewAP</code> </p> </td> <td class="cellrowborder" valign="top" headers="d0e156387 "><p>Information on the new access point </p> </td> </tr> <tr class="bg "><td class="cellrowborder" valign="top" headers="d0e156384 "><p> <code class="codeph">TBool aIsSeamless</code> </p> </td> <td class="cellrowborder" valign="top" headers="d0e156387 "><p>Always set to EFalse. This parameter is reserved for future use. </p> </td> </tr> </tbody> </table></div> <pre class="codeblock">MMobilityProtocolResp::Error(TInt aError);</pre> <p>An error response for the previous request. The call to this function represents the completion of the request. </p> <div class="tablenoborder"><a name="GUID-548599E0-46BA-5029-9A6F-2856C27F0522"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-548599E0-46BA-5029-9A6F-2856C27F0522" frame="border" border="1" rules="all"><thead align="left"><tr class="title "><th class="cellrowborder" valign="top" id="d0e156438"> Parameter </th> <th class="cellrowborder" valign="top" id="d0e156441"> Description </th> </tr> </thead> <tbody><tr class=""><td class="cellrowborder" valign="top" headers="d0e156438 "><p> <code class="codeph">TInt aError</code> </p> </td> <td class="cellrowborder" valign="top" headers="d0e156441 "><p>The error code. </p> </td> </tr> </tbody> </table></div> <p>When a new bearer is available to the client, the Comms Stack calls <code class="codeph">PreferredCarrierAvailable</code>. </p> <p>In the simplest implementation, the client can always migrate. For example: </p> <pre class="codeblock">void CBearerMobility::PreferredCarrierAvailable(TAccessPointInfo aOldAP, TAccessPointInfo aNewAP, TBool aIsUpgrade, TBool aIsSeamless)
+    {
+    // Arrange for migration
+    iMobilityExtension-&gt;MigrateToPreferredCarrier();
+    }</pre> <p>The client can indefinitely before responding to the call from <code class="codeph">PreferredCarrierAvailable</code>. </p> <p>After the client responds with <code class="codeph">MigrateToPreferredCarrier()</code> the client must be ready for all its existing sockets to receive errors. When the client receives <code class="codeph">PreferredCarrierAvailable()</code> it does not receive any further <code class="codeph">PreferredCarrierAvailable()</code> requests until the bearer has been migrated or the client receives a call to the Error() function. </p> <p>In the normal case, the device calls the client's <code class="codeph">NewCarrierActive()</code> function when the new bearer is available. The client must then reconnect all the sockets. </p> <p>If the device calls the client's <code class="codeph">PreferredCarrierAvailable()</code> function and the client does not want to migrate, the client can reject the bearer by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6CA83252-4D0C-3B72-83ED-B5152B666C83.html#GUID-B19E6E04-5DA4-38D1-9D21-213806B1CB50"><code class="apiname">CActiveCommsMobilityApiExt::IgnorePreferredCarrier()</code></a>. This ends the request. </p> <p>If the client responds with <code class="codeph">MigrateToPreferredCarrier()</code> and then the client decides that the new bearer is inadequate, the client can reject the new bearer by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6CA83252-4D0C-3B72-83ED-B5152B666C83.html#GUID-38E6A4AA-D94A-3DD3-A271-713C10090022"><code class="apiname">CActiveCommsMobilityApiExt::NewCarrierRejected()</code></a>. In the normal case where the client was able to reconnect all sockets, the client calls <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6CA83252-4D0C-3B72-83ED-B5152B666C83.html#GUID-BCA429FB-BD4E-3C35-AB02-5151CFADAE5A"><code class="apiname">CActiveCommsMobilityApiExt::NewCarrierAccepted()</code></a>. An example <code class="codeph">NewCarrierActive</code> function: </p> <pre class="codeblock">void CBearerMobility::NewCarrierActive(TAccessPointInfo aNewAP, TBool aIsSeamless)
+   {
+   // Reconnect all sockets 
+
+   TInt aRet = ReconnectSockets();   // not shown - client must implement
+
+   if (aRet == KErrNone)
+      {
+      // Accept the new bearer
+      iMobilityExtension-&gt;NewCarrierAccepted();
+      }
+   else
+      {
+      // problem with the new bearer
+      iMobilityExtension-&gt;NewCarrierRejected();
+      }
+   }
+    </pre> <p>If the client calls <code class="codeph">NewCarrierAccepted()</code> then the Bearer Mobility request is complete. </p> <p>If the client calls <code class="codeph">NewCarrierRejected()</code> the client will be offered another bearer or will have the <code class="codeph">Error()</code> function called. </p> <p>The <code class="codeph">Error()</code> function allows error conditions to be captured and logged. It is called by the Comms Stack as a response to a Bearer mobility request when an error occurs. Once the <code class="codeph">Error()</code> function is called, the request is complete. Examples of error scenarios are: </p> <ul><li id="GUID-1D850C3D-D77B-5631-839D-67DB5D87408B"><a name="GUID-1D850C3D-D77B-5631-839D-67DB5D87408B"><!-- --></a><p>The client receives a call to <code class="codeph">Error()</code> after calling <code class="codeph">MigrateToPreferredCarrier()</code>. Potential reasons for this are: </p> <ul><li id="GUID-B068F269-1340-5449-980D-BF24C3139FA7"><a name="GUID-B068F269-1340-5449-980D-BF24C3139FA7"><!-- --></a><p>The preferred bearer becomes unavailable </p> </li> <li id="GUID-09A79C94-6E07-52F4-9106-305E6DDF174C"><a name="GUID-09A79C94-6E07-52F4-9106-305E6DDF174C"><!-- --></a><p>Another preferred bearer becomes available so the bearer offered is no longer the best bearer available </p> </li> </ul> <p>A possible reason for this error is that the client takes too long to respond to the <code class="codeph">PreferredCarrierAvailable()</code> function call. </p> </li> <li id="GUID-584A0282-6A4F-512D-A109-51399A380CD1"><a name="GUID-584A0282-6A4F-512D-A109-51399A380CD1"><!-- --></a><p>The client calls <code class="codeph">CActiveCommsMobilityApiExt::NewCarrierRejected()</code> and there are no other bearers available </p> </li> </ul> <p>An example <code class="codeph">Error()</code> function: </p> <pre class="codeblock">void CBearerMobility::Error(TInt aError)
+   {
+   // Most likely a cancel but check for any kind of error
+   if(aError == KErrCancel)
+      {
+      INFO_PRINTF1(_L("Mobility extension cancelled"));
+      }
+   else
+      {
+      // Some kind of unexpected error during mobility migration
+      INFO_PRINTF2(_L("Unexpected error (ordinarily KErrCancel) from mobility extension. error:%d"), aError);
+
+      // Make sure that the sockets are reconnected if the migration was attempted and then aborted
+      // (client to implement ReconnectSockets function)
+      TInt aRet = ReconnectSockets();
+
+      if (aRet != KErrNone)
+            {
+            INFO_PRINTF2(_L("Could not reconnect sockets from mobility extension. error:%d"), aRet);
+            // will need to retry reconnection at some stage
+            }
+      }
+   }</pre> </div> </div><h3>Related concepts</h3><ul><li><a href="GUID-EDC16636-B24E-598B-9084-EAE782A4A213.html">Bearer Mobility</a></li><li><a href="GUID-61E0CD76-A2E3-5066-84A8-146EECA8ADCD.html">Socket
+                Server</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated February 9th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-CB1E1921-9CF7-55B7-9F70-6AD61A961208.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:40 GMT -->
+</html>

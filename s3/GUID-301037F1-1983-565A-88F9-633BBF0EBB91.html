@@ -1,0 +1,161 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-301037F1-1983-565A-88F9-633BBF0EBB91.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:49 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="reference" /><meta name="DC.Title" content="posixsignals: POSIX Signal Example, Using P.I.P.S." /><meta name="abstract" content="This example demonstrates various signal use cases as supported in P.I.P.S." /><meta name="description" content="This example demonstrates various signal use cases as supported in P.I.P.S." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-3EB1C34E-584E-595D-A339-DE170A96AEBC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-301037F1-1983-565A-88F9-633BBF0EBB91" /><meta name="DC.Language" content="en" /><title>posixsignals: POSIX Signal Example, Using P.I.P.S. </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-301037F1-1983-565A-88F9-633BBF0EBB91">posixsignals: POSIX Signal Example, Using P.I.P.S.</h1><div><p>This example demonstrates various signal use cases as supported
+in P.I.P.S. </p>
+<div id="GUID-CB373350-FF46-4535-BF8E-69F1CB3BA96E"><h3 class="section-title">Purpose</h3> <p>The example demonstrates the following use cases: </p> <ol>
+<li id="GUID-2449E06E-4B58-567F-977E-B949483EB5C2"><a name="GUID-2449E06E-4B58-567F-977E-B949483EB5C2"><!-- --></a><p>Sending and
+handling a signal using the default handler </p> </li>
+<li id="GUID-7E468336-5849-5900-BE63-5AAE64061463"><a name="GUID-7E468336-5849-5900-BE63-5AAE64061463"><!-- --></a><p>Sending and
+handling a signal using a customized signal handler </p> </li>
+<li id="GUID-0BE58B0C-9D2A-5CAE-BF98-CF5169532B41"><a name="GUID-0BE58B0C-9D2A-5CAE-BF98-CF5169532B41"><!-- --></a><p>Ignoring an
+incoming signal </p> </li>
+<li id="GUID-585B9B29-DFA4-5530-8E4F-F2DC865C9D2C"><a name="GUID-585B9B29-DFA4-5530-8E4F-F2DC865C9D2C"><!-- --></a><p>Blocking and
+releasing a signal </p> </li>
+<li id="GUID-A486A7E3-31AB-5AAF-B24F-F908CE687121"><a name="GUID-A486A7E3-31AB-5AAF-B24F-F908CE687121"><!-- --></a><p>Waiting for
+a signal </p> </li>
+<li id="GUID-E4F52B24-EDA0-57A7-AA1C-7B93EF91F3C1"><a name="GUID-E4F52B24-EDA0-57A7-AA1C-7B93EF91F3C1"><!-- --></a><p>Generating and
+handling a <code class="codeph">SIGPIPE</code> signal </p> </li>
+<li id="GUID-3D92B198-4827-5817-B28C-C1AC0B28CD6F"><a name="GUID-3D92B198-4827-5817-B28C-C1AC0B28CD6F"><!-- --></a><p>Using a signal
+to gracefully terminate a process </p> </li>
+<li id="GUID-D7F62326-7148-528E-9189-D9180123724E"><a name="GUID-D7F62326-7148-528E-9189-D9180123724E"><!-- --></a><p>Using a signal
+to handle an asynchronous event </p> </li>
+</ol><p> </p><p>The example delivers 3 sub projects: </p> <ul>
+<li id="GUID-F8B3EA5D-58D5-535D-BF5A-5E4639EE78FB"><a name="GUID-F8B3EA5D-58D5-535D-BF5A-5E4639EE78FB"><!-- --></a><p> <strong>basicSignals:</strong> This project demonstrates basic signal use cases. It shows the first
+six use cases mentioned in the list above. The use cases are demonstrated
+through <code>basicsignals.exe</code>. </p> </li>
+<li id="GUID-145641DC-753A-53C4-8AFA-4F38D754A293"><a name="GUID-145641DC-753A-53C4-8AFA-4F38D754A293"><!-- --></a><p> <strong>sigtermSignal:</strong> This project demonstrates the graceful termination of a process
+using the <code class="codeph">SIGTERM</code> signal. The use case is demonstrated
+through <code>sigtermsignal.exe</code> and <code>raisesignal.exe</code>. </p> </li>
+<li id="GUID-899D801E-B669-560F-87AE-3C3AE095FB07"><a name="GUID-899D801E-B669-560F-87AE-3C3AE095FB07"><!-- --></a><p> <strong>asyncSignal:</strong> This project demonstrates asynchronous signal handling using the <code class="codeph">SIGUSR1</code> signal and the <code class="codeph">SIGUSR2</code> signal.
+The use case is demonstrated using <code>sigusr1.exe</code> and <code>sigusr2.exe</code>. </p> </li>
+</ul> </div>
+<div id="GUID-703F9106-A12C-4F0B-872B-F4A06FCEC1FC"><h3 class="section-title">Description</h3> <p>The use cases demonstrated in this example are described below.</p><p>Note: For clarity in the documentation for this example, signal
+names have been given in capitals whilst process names have been given
+in lower case.</p><p><strong>1. Sending and handling a signal using the
+default handler </strong> </p> <p>The default implementation of the signals
+supported in P.I.P.S. will either terminate a process or ignore a
+process. Signals are generated using the <code class="codeph">Kill()</code> method
+and they are handled as per the implementation in the default handler. </p> <p>To demonstrate this use case we use <code class="codeph">SIGCHLD</code> and <code class="codeph">SIGALRM</code> signals. <code class="codeph">SIGCHLD</code> by default gets
+ignored whenever it is raised, whereas <code class="codeph">SIGALRM</code> causes
+a process termination when raised. As a result the example terminates
+whenever <code class="codeph">SIGALRM</code> is raised, whereas an info message
+is printed when <code class="codeph">SIGCHLD</code> is raised. </p> <p><strong>2.
+Sending and handling a signal using a customized signal handler </strong> </p> <p>To override the default implementation of a signal a customized
+handler can be defined. This customized handler can be set either
+by using <code class="codeph">sigaction()</code> or <code class="codeph">signal()</code>. The <code class="codeph">sigaction()</code> method takes <code class="codeph">struct sigaction</code> as one of its parameters (the <code class="codeph">sa_handler</code> member
+of this structure is filled with the custom handler). Now whenever
+a signal is generated the custom handler is executed. </p> <p>For
+the demonstration of this particular use case, <code class="codeph">SIGCHLD</code> and <code class="codeph">SIGALRM</code> signals are used. These signals are
+assigned custom handler functions. The handlers for these signals
+contains a simple user message. Thus, whenever the signals are raised,
+the customized signal handlers get invoked instead of the default
+handlers. </p> <p><strong>3. Ignoring an incoming signal </strong> </p> <p>A
+signal can be ignored by setting <code class="codeph">SIG_IGN</code> in the <code class="codeph">sa_handler</code> member of <code class="codeph">struct sigaction</code>.
+The demonstration of this use case also uses <code class="codeph">SIGCHLD</code> and <code class="codeph">SIGALRM</code> signals, and as a result of setting <code class="codeph">SIG_IGN</code> in <code class="codeph">sa_handler</code> the signals are ignored
+when raised. </p> <p><strong>4. Blocking and releasing a signal </strong> </p> <p>A signal can be blocked by first adding it to the blocking set
+(a list of signals we want to block, when a signal is executing) by
+using the <code class="codeph">sigaddset()</code> method and then calling the<code class="codeph"> sigprocmask()</code> function. Once a signal is blocked it will
+always be ignored upon generation. The <code class="codeph">sigrelse()</code> method is used to unblock a signal. </p> <p>Demonstration of this
+use case involves the <code class="codeph">SIGUSR1</code> and <code class="codeph">SIGUSR2</code> signals. Both <code class="codeph">SIGUSR1 </code>and <code class="codeph">SIGUSR2</code> are user-defined signals. We first block the <code class="codeph">SIGUSR1</code> signal by adding it to the blocking set and making a call to the <code class="codeph">sigprocmask()</code> function. Now whenever <code class="codeph">SIGUSR1</code> is raised it will get ignored as it is blocked. <code class="codeph">SIGUSR1</code> will keep waiting in the pending queue until it is released. The
+release of <code class="codeph">SIGUSR1</code> happens in the <code class="codeph">SIGUSR2</code> signal handler. Once <code class="codeph">SIGUSR1</code> is released, it is
+removed from the pending queue and its handler function is called
+to handle it. </p> <p><strong>5. Waiting for a signal </strong> </p> <p>Before
+a process can wait on a particular signal, it has to add the signal
+to the mask set (which is a list of signals we want to block) and
+then call the <code class="codeph">sigprocmask()</code> method. The process then
+sets the timeout value using <code class="codeph">struct timespec</code>. Once
+this is done the process waits on a signal for a specified time period
+using the<code class="codeph">sigtimedwait()</code> method. If the signal is
+not received within the specified time period, an error message is
+generated. </p> <p>For the demonstration of this use case we are setting
+a timeout of 5 seconds. The <code class="codeph">SIGALRM</code> signal is raised
+by a call to <code class="codeph">alarm()</code> as and when the timer expires.
+There are two instances in the example where <code class="codeph">SIGALRM</code> signal is raised, one after a duration of 4 seconds and one after
+6 seconds. When <code class="codeph">SIGALRM</code> is raised after 4 seconds,
+it is well within the timeout limit (of 5 seconds) and hence the signal
+gets received but not handled. But when the alarm is raised after
+6 seconds, timeout happens and an error is generated. Now as the <code class="codeph">SIGALRM</code> signal was added to the mask set it never gets handled
+even though it is received. To handle the signal we need to move it
+from block state to unblock state, which we do using the <code class="codeph">sigprocmask()</code> method. Once the signal gets unblocked its custom handler gets called. </p> <p><strong>6. Generating and handling a <code class="codeph">SIGPIPE</code> signal </strong> </p> <p>The  <code class="codeph">SIGPIPE</code> signal is generated when writing
+to a broken pipe. To achieve this broken pipe condition the read end
+of the pipe (obtained using the <code class="codeph">pipe() </code> function
+call) is closed and then write to the pipe is done. The associated
+handler function is executed in response to the raised <code class="codeph">SIGPIPE</code> signal . </p> <p><strong>7. Using a signal to gracefully terminate a
+process </strong> </p> <p>Graceful termination of process can be achieved
+by using the <code class="codeph">SIGTERM </code>signal. In the handler function
+of the signal all the opened file descriptors need to be closed before
+exiting. </p> <p>This use case is demonstrated using the <code>sigtermSignal</code> project. The project consists of two processes:
+the <code>sigtermsignal</code> process and the <code>raisesignal </code> process. </p> <ul>
+<li id="GUID-A2CC3DF9-0334-5638-A5E7-7828F319F5D0"><a name="GUID-A2CC3DF9-0334-5638-A5E7-7828F319F5D0"><!-- --></a> <p>The <code>sigtermsignal</code> process first defines a custom handler for
+the <code class="codeph">SIGTERM</code> signal that carries out the closing of
+all the open file descriptors when the signal is raised. This is done
+in order to achieve the graceful termination of the process. The <code>sigtermsignal</code> process then opens a file and obtains names
+from user to be written in to it. It then simultaneously spawns a <code>raisesignal</code> process and starts reading from the file.
+When the <code>raisesignal</code> process sends a <code class="codeph">SIGTERM</code> signal to the <code>sigtermsignal</code> process, the <code>sigtermsignal</code> process closes all
+the open file descriptors and prepares to exit. </p> </li>
+<li id="GUID-05715C75-A100-563B-82D5-CAA4EFD44634"><a name="GUID-05715C75-A100-563B-82D5-CAA4EFD44634"><!-- --></a> <p>The <code>raisesignal</code> process sends the <code class="codeph">SIGTERM</code> signal to the <code>sigtermsignal</code> process. The custom
+handler of the <code class="codeph">SIGTERM</code> signal takes care of properly
+closing all opened file descriptors and then terminating the process.
+If the custom handler is not implemented, the default handler will
+get called, which will result in process termination without closing
+any opened file descriptors. </p> </li>
+</ul> <p><strong>8. Using a signal to handle an asynchronous event </strong> </p> <p> <code class="codeph">The SIGUSR1</code> and <code class="codeph">SIGUSR2</code> signals are used to demonstrate the handling of an asynchronous
+event. These signals are sent from one process to another. On reception
+of these signals, respective custom handlers are called and any necessary
+action is taken. The action taken is purely implementation dependent
+. </p> <p>This use case demonstration is performed using the <code>asyncSignal</code> project. The project consists of two processes:
+the <code>sigusr1</code> process and the <code>sigusr2</code> process, where the <code>sigusr1</code> process handles
+the <code class="codeph">SIGUSR1</code> signal and sends the <code class="codeph">SIGUSR2</code> signal to the <code>sigusr2</code> process. Whereas the<code> sigusr2</code> process handles the <code class="codeph">SIGUSR2</code> signal
+and sends the <code class="codeph">SIGUSR1</code> signal to the <code>sigusr1</code> process. </p> <ul>
+<li id="GUID-57116DD9-EB8E-57F0-9FFD-AA54F984F698"><a name="GUID-57116DD9-EB8E-57F0-9FFD-AA54F984F698"><!-- --></a><p>The <code>sigusr1 </code> process assigns a custom handler for the <code class="codeph">SIGUSR1</code> signal. It then opens a file in read and write mode
+and write some content into the open file. Once write operation is
+done the <code>sigusr1</code> process spawns <code>sigusr2</code> process and waits for <code class="codeph">SIGUSR1 </code> signal from <code>sigusr2</code> process. On receiving <code class="codeph">SIGUSR1</code> signal <code>sigusr1 </code> process starts reading from
+the file. Once reading from the file is done and its contents are
+displayed on the console, <code>sigusr1</code> process sends <code class="codeph">SIGUSR2</code> signal to <code>sigusr2</code> process.
+It then closes all its open file descriptor and prepares to exit. </p> </li>
+<li id="GUID-9F878182-23B1-570C-986C-3B4E7B26F444"><a name="GUID-9F878182-23B1-570C-986C-3B4E7B26F444"><!-- --></a> <p>The<code> sigusr2</code> process is spawned from <code>sigusr1</code> process and it assigns a custom handler for <code class="codeph">SIGUSR2</code> signal. It sends <code class="codeph">SIGUSR1</code> signal to <code>sigusr1</code> process in order to start file read and then waits for <code class="codeph">SIGUSR2 </code> signal from <code>sigusr1</code> process. When <code>sigusr2</code> process receives <code class="codeph">SIGUSR2</code> signal
+it prepares to exit. </p> </li>
+</ul> <p>Hence, the communication between the two processes happens
+through the <code class="codeph">SIGUSR1</code> and <code class="codeph">SIGUSR2</code> signals
+and asynchronous signal handling happens. </p> </div>
+<div id="GUID-E1661179-0268-4E49-A574-C7CC41D7A56B"><h3 class="section-title">Download</h3> <p>Click on the following link to download the example: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/zips/guid-5a633d12-547a-4439-9eca-104a655109ab.zip" target="_blank">BasicSignals.zip</a></p><p>Click on the following
+link to download the example: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/zips/guid-54523fba-51b5-436a-9403-99874fdc94c7%20.zip" target="_blank">SigtermSignal.zip</a></p><p>Click on the following
+link to download the example: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/zips/guid-7714a392-161f-4dc7-b8e6-311e42e1deb8%20.zip" target="_blank">AsyncSignal.zip</a></p><p></p><p>To view the BasicSignal
+example source click: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/guid-5a633d12-547a-4439-9eca-104a655109ab.html#guid-6013a680-57f9-415b-8851-c4fa63356636/guid-5a633d12-547a-4439-9eca-104a655109ab.html">browseBasicSignals</a></p><p>To view the SigtermSignal
+example source click: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/guid-54523fba-51b5-436a-9403-99874fdc94c7.html#guid-6013a680-57f9-415b-8851-c4fa63356636/guid-54523fba-51b5-436a-9403-99874fdc94c7.html">browseSigtermSignal</a></p><p>To view the AsyncSignal
+example source click: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/guid-7714a392-161f-4dc7-b8e6-311e42e1deb8.html#guid-6013a680-57f9-415b-8851-c4fa63356636/guid-7714a392-161f-4dc7-b8e6-311e42e1deb8.html">browseAsyncSignal</a></p> </div>
+<div id="GUID-38492A50-BF1B-4A33-8125-397D646ED8A7"><h3 class="section-title">Building
+and configuring</h3> <p>You can build the example from your IDE
+or the command line: </p> <ul>
+<li id="GUID-0D86ECCB-1501-52D9-A52E-A016AB6710A2"><a name="GUID-0D86ECCB-1501-52D9-A52E-A016AB6710A2"><!-- --></a><p> </p><p>If you
+use an IDE, import the <code>bld.inf</code> file of the example
+into your IDE, and use the build command of the IDE. </p></li>
+<li> <p>If you use the command line, open a command prompt, and set
+the current directory to the source code directory of the example.
+You can then build the example with the SBSv1 build tools using the
+following commands: </p><ul>
+<li><p><code>bldmake bldfiles</code></p></li>
+<li><p><code>abld build</code></p></li>
+</ul> <p></p> </li>
+</ul> <p> </p><div class="p">The example builds the following executables :<ul>
+<li><p><code>basicsignals.exe</code> : for basic signal use
+cases demonstration. </p></li>
+<li><p><code>sigtermsignal.exe</code> : for demonstrating
+graceful termination of process .</p></li>
+<li><p><code>raisesignal.exe</code> : for sending <code class="codeph">SIGTERM</code> signal.</p></li>
+<li><p><code>sigusr1.exe</code> : for demonstrating asynchronous
+event handling , sending <code class="codeph">SIGUSR2</code> signal and receiving <code class="codeph">SIGUSR1</code> signal. </p></li>
+<li><p><code>sigusr2.exe</code> : for sending <code class="codeph"></code><code class="codeph">SIGUSR1</code> signal and receiving <code class="codeph">SIGUSR2</code> signal.</p></li>
+</ul></div><p> in the <code>epoc32\release\winscw\&lt;udeb or urel&gt;\</code> folder. </p><p> </p></div>
+<div id="GUID-1CB8164D-030D-41CD-B146-3E4D14CB1A9B"><h3 class="section-title">Running
+the example</h3> <p><strong>NOTE : </strong> </p> <p> <code>basicsignals.exe</code> should be executed first for running the first six uses cases mentioned
+above. </p> <p> <code>sigtermsignal.exe</code> should be executed
+for running the seventh use case. </p> <p> <code>sigusr1.exe</code> should be executed for running the last use case. </p> <p>The <code>sigtermsignal</code> process internally spawns the<code> raisesignal</code> process for taking an input from the user and sending the <code class="codeph">SIGTERM</code> signal. You should not run the <code>raisesignal</code> process explicitly. You should only run <code>sigtermsignal.exe</code> as the <code>sigtermsignal</code> process takes proper care
+of launching the <code>raisesignal</code> process. </p> <p>The <code>sigusr1</code> process also internally spawns the <code>sigusr2</code> process. </p> <p>The <code>sigusr1</code> process sends the <code class="codeph">SIGUSR2</code> signal to the <code>sigusr2</code> process and receives the <code class="codeph">SIGUSR1</code> signal from it. </p> <p>The <code>sigusr2</code> process
+sends the <code class="codeph">SIGUSR1</code> signal to the <code>sigusr1</code> process and receives the <code class="codeph">SIGUSR2</code> signal from it. </p> <p>As the <code>sigusr1 </code>process spawns the <code>sigusr2</code> process, hence you should run <code>sigusr1.exe</code> only. </p> <p>In order to toggle between the processes use <code>Alt+ctrl+shift+T</code> and observe the behavior. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated July 6th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-301037F1-1983-565A-88F9-633BBF0EBB91.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:53 GMT -->
+</html>

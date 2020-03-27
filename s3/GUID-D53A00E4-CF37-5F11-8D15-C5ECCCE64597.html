@@ -1,0 +1,80 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D53A00E4-CF37-5F11-8D15-C5ECCCE64597.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:33 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Vibra API" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-DC011D9C-6C39-5BB9-A7CC-4447AB97A2D2" /><meta name="DC.Relation" scheme="URI" content="GUID-F2289115-B1F0-595D-AA1C-3E01F08911CA" /><meta name="DC.Relation" scheme="URI" content="GUID-25A005BF-731B-58DB-8EF7-AB7840DA563F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D53A00E4-CF37-5F11-8D15-C5ECCCE64597" /><meta name="DC.Language" content="en" /><title>Vibra
+API </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D53A00E4-CF37-5F11-8D15-C5ECCCE64597">Vibra
+API</h1><div><div><div>Vibra API provides the functionality to control the device
+vibra, which is accessed using the <code class="codeph">CHWRMVibra</code> instance. It
+also provides methods to retrieve the current settings of the vibration feature
+in the user profile and the current status of the vibra. It uses synchronous
+method calls which block the client application until a response is received
+from the plug-in. </div> <p>Vibra API also allows the client to request
+for tactile vibration feedback. </p> </div>
+<p>The API consists of <code class="codeph">CHWRMVibra</code>,<code class="codeph">MHWRMVibraObserver</code> and <code class="codeph">MHWRMVibraFeedbackObserver</code> classes. </p>
+<p>It provides the following fields: </p>
+<div class="tablenoborder"><a name="GUID-65DF6175-8150-5F3D-BF8F-D7D9E1105C1A"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-65DF6175-8150-5F3D-BF8F-D7D9E1105C1A" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e152243"><p> <strong>Fields</strong> </p> </th>
+<th class="cellrowborder" valign="top" id="d0e152251"><p> <strong>Values </strong> </p> </th>
+<th class="cellrowborder" valign="top" id="d0e152259"><p> <strong>Descriptions</strong> </p> </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e152243 "><p> <code class="codeph">KHWRMVibraMinIntensity</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152251 "><p>-100 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152259 "><p>Minimum allowed intensity setting for vibra. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e152243 "><p> <code class="codeph">KHWRMVibraMinPulseIntensity</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152251 "><p>1</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152259 "><p>Minimum allowed intensity setting for vibra pulse. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e152243 "><p> <code class="codeph">KHWRMVibraMaxIntensity</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152251 "><p>100</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152259 "><p>Maximum allowed intensity setting for vibra. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e152243 "><p> <code class="codeph">KHWRMVibraMaxDuration</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152251 "><p>(<code class="codeph">KMaxTInt</code>/1000)-1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152259 "><p>Maximum allowed duration value in milliseconds. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e152243 "><p> <code class="codeph">KHWRMVibraInfiniteDuration</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152251 "><p>0</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152259 "><p>Specifies that vibrating must continue for maximum vibrating time
+supported by device if vibrating is not explicitly stopped. </p> </td>
+</tr>
+</tbody>
+</table></div>
+<div id="GUID-60F7705E-24A1-4A36-8842-A53A380957B2"><h3 class="section-title"> Observer</h3> <p>A separate callback interface <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMVibra'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMVibra']]]</strong>MHWRMVibraObserver for status reporting is also
+used. The client creates an instance of <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMVibra'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMVibra']]]</strong>CHWRMVibra using <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMVibra'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMVibra']]]</strong>NewL(). If the client requires the status information,
+it must provide a callback pointer of the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMVibra'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMVibra']]]</strong>MHWRMVibraObserver implementing
+class for the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMVibra'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMVibra']]]</strong>NewL() method. </p> <div class="figure" id="GUID-95D74CC2-CEDD-569B-8B34-A47FDA4F8DE0"><img src="GUID-DC44DCFC-8549-5CDE-B6DA-F5FD73E2D9FC_d0e152419_href.jpg" /><p class="figure-title"><strong>Figure: </strong>              Vibra API Interfaces            </p></div> </div>
+<div id="GUID-B20AA3A6-94BB-4723-90F2-73B5192C7C78"><h3 class="section-title">Tactile vibration feedback</h3> <p>Tactile vibration is
+used in many touch screen devices to provide vibration feedback to the user
+through display surface. </p> <p>The clients can specify the intensity and
+duration of the feedback pulse, and receive notifications when the tactile
+feedback settings changes in the user profile through <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMVibra'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMVibra']]]</strong>MHWRMVibraFeedbackObserver class. </p> <p> <strong> Note</strong>: The tactile feedback functionality is only available to the clients configured
+at the firmware build time (Symbian platform licensees). </p> <div class="tablenoborder"><a name="GUID-D75949EB-BC44-4120-825B-8B905562777D"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-D75949EB-BC44-4120-825B-8B905562777D" frame="border" border="1" rules="all"><caption><strong>Table: </strong>Definitions</caption>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="21%"><p>Vibra frozen state </p> </td>
+<td class="cellrowborder" valign="top" width="79%"><p>Whenever vibra is released, its current state is stored as frozen
+state. On next reserve, the user can specify that the frozen state be restored. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="21%"><p>Vibra virtual state </p> </td>
+<td class="cellrowborder" valign="top" width="79%"><p>Reserves the specified resource. If reservation is not suspended,
+then actual vibra is also set to the same state. If reservation is suspended,
+actual vibra is not affected by any control methods.</p> </td>
+</tr>
+</tbody>
+</table></div></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 23rd, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D53A00E4-CF37-5F11-8D15-C5ECCCE64597.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+</html>

@@ -1,0 +1,44 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F3520C6E-1B3A-5CB2-95F8-AB430D4BA327.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to finalize a drive" /><meta name="abstract" content="This topic describes how to finalize a drive." /><meta name="description" content="This topic describes how to finalize a drive." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-BB9760B4-4F3F-5326-81FB-B644C82F0E65" /><meta name="DC.Relation" scheme="URI" content="GUID-198DCED1-F429-5C95-A51D-53AE416687E8" /><meta name="DC.Relation" scheme="URI" content="GUID-30B2AF3F-E120-5D47-AAA2-529555625B55" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F3520C6E-1B3A-5CB2-95F8-AB430D4BA327" /><meta name="DC.Language" content="en" /><title>How
+to finalize a drive </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-F3520C6E-1B3A-5CB2-95F8-AB430D4BA327">How
+to finalize a drive</h1><div><p>This topic describes how to finalize a drive.</p>
+<p>Finalising a drive moves it to a consistent state, which enables the safe
+removal of media or safe shut down of the device. There are two types of finalisation
+defined by TfinalizeDrvMode: </p>
+<ul>
+<li id="GUID-DA29B46D-4E2A-54B8-9D29-545830B1CB8F"><a name="GUID-DA29B46D-4E2A-54B8-9D29-545830B1CB8F"><!-- --></a><p> EFinal_RO - <em>Hard</em> finalisation.
+This flushes all caches and puts the volume into a consistent state. After
+finalisation, the volume becomes read-only until remounted. All read operations
+are accepted but all write operations fail. This mode is used: </p> <ul>
+<li id="GUID-851E514E-8275-51A9-84AA-784AE7ED69C5"><a name="GUID-851E514E-8275-51A9-84AA-784AE7ED69C5"><!-- --></a><p>in an eject media application
+- this application is launched by the user in order to safely remove the media </p> </li>
+<li id="GUID-FFCB8EDA-940C-5D4B-AB7E-EF23238A3898"><a name="GUID-FFCB8EDA-940C-5D4B-AB7E-EF23238A3898"><!-- --></a><p>when the device is shut
+down. </p> </li>
+</ul> </li>
+<li id="GUID-F0C8E51E-4188-53E9-BD33-694F703C5A4D"><a name="GUID-F0C8E51E-4188-53E9-BD33-694F703C5A4D"><!-- --></a><p> EFinal_RW - <em>soft</em> finalisation.
+This flushes all caches and puts the volume into a consistent state, after
+which all read and write operations are accepted but the first write access
+after finalisation renders the volume no longer finalized. </p> <p>This mode
+of finalisation can be used by an application to put the media into a consistent
+state after a period of device inactivity. This minimizes the risk of media
+corruption on its removal or sudden power loss. </p> </li>
+</ul>
+<p>finalize a drive by calling RFs::finalizeDrive() with
+the drive number and the type of finalisation mode required, EFinal_RW or EFinal_RO. The error code returned by <code class="codeph">finalizeDrive()</code> should
+be checked before proceeding as it is not possible to finalize the volume
+if it is corrupt or has filesystem objects open on it (files, directories,
+formats etc.). </p>
+<p>During drive finalisation, data is written to the media that indicates
+the drive is in a consistent state, after which no write operations are supposed
+to take place on the specified volume. </p>
+<p>From v9.4. the API RFs::finalizeDrives() has
+been changed so that it sends finalize drive requests to <em>all</em> the existing
+drives in the system, not just the local and internal drives. </p>
+<p>The user of RFs APIs must have the <code class="codeph">DiskAdmin</code> <a href="GUID-4BFEDD79-9502-526A-BA7B-97550A6F0601.html">security capability</a>. </p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F3520C6E-1B3A-5CB2-95F8-AB430D4BA327.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:02 GMT -->
+</html>

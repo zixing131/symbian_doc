@@ -1,0 +1,73 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-18EF9CFA-5080-5F89-89EC-C64897612D6B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to clean up non-CBase classes" /><meta name="abstract" content="" /><meta name="description" content="" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-61DEE78D-4E78-5367-BC8A-F99D3B4E9D5A" /><meta name="DC.Relation" scheme="URI" content="GUID-7366AE99-DE25-5DE0-BF9A-58E7742DA952" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-18EF9CFA-5080-5F89-89EC-C64897612D6B" /><meta name="DC.Language" content="en" /><title>How
+to clean up non-CBase classes </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-18EF9CFA-5080-5F89-89EC-C64897612D6B">How
+to clean up non-CBase classes</h1><div><p></p>
+<div id="GUID-DDB53FB1-7E70-45C6-93F8-76FBE03CA6FA"><h3 class="section-title">Cleanup for a TAny*</h3> <p>This example code shows cleanup
+for a <code class="codeph">TAny*</code>, in this case a <code class="codeph">TText</code>. </p> <pre class="codeblock">TText* buffer=(TText*) User::Alloc(100*sizeof(TText)); 
+// create a buffer 
+CleanupStack::PushL(buffer);
+// push it to the cleanup stack: treated as TAny*
+TPtr8 bufferPtr(buffer,100);  // create a pointer to the buffer
+...
+// use the buffer
+useBufferL(bufferPtr);
+...
+// destroy the buffer on the cleanup stack
+CleanupStack::PopAndDestroy();  
+</pre> </div>
+<div id="GUID-B2DF0D27-9520-4B7D-A8BC-1B4B1A80A714"><h3 class="section-title">Cleanup support for an R class</h3> <p>This example code
+shows how to provide cleanup stack support for an <code class="codeph">R</code> class.
+To do this, a <code class="codeph">TCleanupItem</code> object must be constructed with
+a pointer to the object to clean up, and a pointer to a function that provides
+cleanup for that object. The most effective way to do this is to define a <code class="codeph">TCleanupItem</code> cast
+operator in the class. </p> <pre class="codeblock">// TCleanupItem operator for objects of this class
+RExampleClass::operator TCleanupItem()
+ {
+ return TCleanupItem(Cleanup,this);
+ }</pre> <pre class="codeblock">...</pre> <pre class="codeblock">// cleanup function for use by cleanup stack
+static void RExampleClass::Cleanup(TAny *aPtr)
+ { 
+ // Invoke the Close member on the RExampleClass at aPtr
+ testConsole.Printf(_L("Doing cleanup.\n"));
+ (static_cast&lt;RExampleClass*&gt;(aPtr))-&gt;Close();
+ }
+
+// Show use
+void DoTheExampleL()
+ {
+ RExampleClass r;
+ r.Open();
+ // Because RExampleClass has an operator TCleanupItem()
+ // pushing it is OK
+ CleanupStack::PushL(r);
+
+ // ...use r
+ // possibly some operations that leave
+
+ // PopAndDestroy() invokes RExampleClass::Cleanup()
+ CleanupStack::PopAndDestroy();
+ }
+ </pre> <p><strong>Notes</strong> </p> <ul>
+<li id="GUID-E8C0A2EF-AD7D-55C9-9805-ADA6072C18F0"><a name="GUID-E8C0A2EF-AD7D-55C9-9805-ADA6072C18F0"><!-- --></a><p>The operator returns
+a <code class="codeph">TCleanupItem</code> object which is constructed from a pointer
+to the static member function which performs the class’s cleanup processing,
+and a pointer to the object to be cleaned up. </p> </li>
+<li id="GUID-83B10F9E-E07F-59BD-A1A4-62795F6EFF19"><a name="GUID-83B10F9E-E07F-59BD-A1A4-62795F6EFF19"><!-- --></a><p>The static member function
+which provides the class’s cleanup processing must cast the <code class="codeph">TAny*</code> pointer
+into a pointer of the class to be cleaned up. This allows the class member
+function to perform the cleanup </p> </li>
+<li id="GUID-61BAAE8E-C8B4-5034-B4D1-3E31F790B54C"><a name="GUID-61BAAE8E-C8B4-5034-B4D1-3E31F790B54C"><!-- --></a><p> <code class="codeph">CleanupStack::PopAndDestroy()</code> removes
+the item from the cleanupstack and invokes the cleanup function defined in
+the <code class="codeph">TCleanupItem</code> object. </p> </li>
+<li id="GUID-53F43DCE-9260-5A71-9D59-AABD7916AE9E"><a name="GUID-53F43DCE-9260-5A71-9D59-AABD7916AE9E"><!-- --></a><p>Remember that the <code class="codeph">TCleanupItem</code> does <em>not</em> go
+onto the cleanupstack. the <code class="codeph">TCleanupItem</code> is a container for
+the object that goes onto the cleanupstack. In this example, a pointer to
+the <code class="codeph">RExampleClass</code> is put on the cleanupstack. </p> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-18EF9CFA-5080-5F89-89EC-C64897612D6B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:55 GMT -->
+</html>

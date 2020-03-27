@@ -1,0 +1,92 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-BF1AAA0D-DF2F-4E1D-A0D2-F419BD32F97A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:53 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Creating registration resource files" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Relation" scheme="URI" content="GUID-0FB60233-993A-4BF2-9E8C-E03AD092359B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-BF1AAA0D-DF2F-4E1D-A0D2-F419BD32F97A" /><title>Creating registration resource files </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-BF1AAA0D-DF2F-4E1D-A0D2-F419BD32F97A">Creating registration resource files</h1><div>
+<p>You need to register your
+applications in order to make them visible to the application menu
+and to provide other information to the underlying system. To register,
+you need to provide a registration resource file, typically named <code class="parname">&lt;application_name&gt;_reg.rss</code>, that contains the non-localized
+information for your application. You also need to provide the <a href="GUID-9F90A2F0-9C76-4871-A766-D1AE0FC42C08.html">localizable registration
+information</a>. The registration resource file is compiled during
+the build process and included in the <code class="parname">pkg</code> file
+used to make the <code class="parname">sis</code> installation file.</p>
+<p>To create a registration resource file:</p>
+<ol>
+<li id="GUID-D97F1C74-A29A-4EF1-92C1-8FBAF2EE6F2F"><a name="GUID-D97F1C74-A29A-4EF1-92C1-8FBAF2EE6F2F"><!-- --></a><p>Determine
+the requirements of your application.</p></li>
+<li id="GUID-41830892-AA07-44F7-BCEE-4FACD88932FF"><a name="GUID-41830892-AA07-44F7-BCEE-4FACD88932FF"><!-- --></a><p>Create
+a text file with the name <code class="parname">&lt;application_name&gt;_reg.rss</code>.</p></li>
+<li id="GUID-7EE5ADE9-C5D4-43E0-BB94-977CB064CF2D"><a name="GUID-7EE5ADE9-C5D4-43E0-BB94-977CB064CF2D"><!-- --></a><p>Include
+the appropriate header files. Typically, you need to include the following
+files:</p>
+<ul>
+<li><p><code class="parname">appinfo.rh</code>, which is the resource
+header file that includes the data structure declaration for the resource
+statement used in the registration resource file.</p></li>
+<li><p>compiled resource header file for the resource file
+with the symbolic ID for the<a href="GUID-9F90A2F0-9C76-4871-A766-D1AE0FC42C08.html"> localizable registration
+information</a>.</p></li>
+<li><p>localization file, depending on you implementation
+of the registration resource file.</p></li>
+</ul>
+</li>
+<li id="GUID-42A15A31-6A2C-4937-9615-A128068E2F76"><a name="GUID-42A15A31-6A2C-4937-9615-A128068E2F76"><!-- --></a><p>Add
+a statement for the UID2 value for the registration resource file
+as follows:</p>
+<pre class="codeblock">UID2 KUidAppRegistrationResourceFile</pre>
+<p>UID2 always has the same value in registration resource files.</p>
+</li>
+<li id="GUID-4C96D57D-FBA2-4BF6-A1AF-715467663A27"><a name="GUID-4C96D57D-FBA2-4BF6-A1AF-715467663A27"><!-- --></a><p>Add
+a statement for the UID3 value
+of the application as follows:</p>
+<pre class="codeblock">UID3 &lt;uid3 value for application&gt;</pre>
+</li>
+<li id="GUID-6A8002EA-AFF5-4750-833C-81ED5F355C6C"><a name="GUID-6A8002EA-AFF5-4750-833C-81ED5F355C6C"><!-- --></a><p>Create
+a <code class="parname">APP_REGISTRATION_INFO</code> resource for your application.
+The definition for the registration code block is as follows:</p>
+<pre class="codeblock">
+RESOURCE  APP_REGISTRATION_INFO
+    {
+     app_file = ""; // name of application binary file (not including extension) - mandatory
+     attributes = 0;
+     localisable_resource_file = ""; // path (not including drive) and name of localisable resource file
+     localisable_resource_id = r_name36;
+     hidden = KAppNotHidden;
+     embeddability = KAppNotEmbeddable;
+     newfile = KAppDoesNotSupportNewFile;
+     launch = KAppLaunchInForeground;
+     group_name(KAppMaxGroupName) = "";
+     default_screen_number = 0;
+     datatype_list[]; // SUPPORTED DATATYPES
+     file_ownership_list[]; // FILE_OWNERSHIP_INFO
+     service_list[]; // SERVICE_INFO
+     opaque_data = 0;	// use for opaque data to send to non-native application launchers i.e. MIDlet id
+     }</pre>
+<p>where,</p>
+<ul>
+<li><p><code class="parname">app_file</code> indicates the name
+of the application executable binary file without the extension.</p>
+</li>
+<li><p><code class="parname">localisable_resource_file</code> indicates
+the path and name of the localizable resource file for the application.</p>
+</li>
+<li><p><code class="parname">localisable_resource_id</code> indicates
+the symbolic name of the resource for the <a href="GUID-9F90A2F0-9C76-4871-A766-D1AE0FC42C08.html">localizable registration
+resource</a>.</p></li>
+<li><p><code class="parname">newfile</code> indicates whether the
+application is document-based and supports the creation of new files.
+The default value is <code class="parname">KAppDoesNotSupportNewFile</code>.</p></li>
+<li><p><code class="parname">embeddability</code> indicates whether
+an application is embeddable.</p>
+<p>The default value is <code class="parname">KAppNotEmbeddable</code>.</p>
+</li>
+</ul>
+<p>The header file for the registration resource files is <code class="parname">appinfo.rh</code> and is located in the <code class="parname">./epoc32/include</code> folder.</p>
+</li>
+</ol>
+<p>For a commented example, see <a href="GUID-C99BA704-4E9F-482C-942F-1B4D7F385BD8.html">HelloWorldBasic_reg.rss</a>.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated July 5th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-BF1AAA0D-DF2F-4E1D-A0D2-F419BD32F97A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:53 GMT -->
+</html>

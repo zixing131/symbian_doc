@@ -1,0 +1,72 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6D8460DF-8B0F-5249-B236-92ABE0E67A14.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:36 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Memory Allocation Overview" /><meta name="abstract" content="Provides low-level functionality by which a Symbian platform process can access and manipulate memory areas." /><meta name="description" content="Provides low-level functionality by which a Symbian platform process can access and manipulate memory areas." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-6D8460DF-8B0F-5249-B236-92ABE0E67A14" /><meta name="DC.Language" content="en" /><title>Memory
+Allocation Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-6D8460DF-8B0F-5249-B236-92ABE0E67A14">Memory
+Allocation Overview</h1><div><p>Provides low-level functionality by which a Symbian platform process
+can access and manipulate memory areas.</p>
+<div id="GUID-B6FA381B-2A42-4D5A-9511-DC634E8AF6C2"><h3 class="section-title">Purpose</h3> <p>Most client programs do not
+need to use this functionality directly. They are used by programs that are
+explicitly concerned about sharing memory areas between threads within a process,
+or between processes. </p> </div>
+<div id="GUID-39581657-1B46-436B-A8F2-A3F7AB525DA4"><h3 class="section-title">Description</h3> <p>The API has two key concepts: chunk
+and heap. </p> <p><strong>Chunk</strong> </p> <p>A
+chunk defines a contiguous region of virtual addresses. It represents memory
+that is addressable by running code. A chunk is the fundamental way in which
+Symbian platform allocates memory and makes it available to running code. </p> <p>The
+range of addressable memory is also referred to as <em>reserved</em> memory. </p> <p>Physical
+addresses representing either memory storage like RAM, or memory-mapped I/O
+devices, are mapped into a subset of a chunk's reserved memory. Such memory
+is said to be <em>committed</em>. </p> <p>When a process is created, it contains
+at least two chunks: </p> <ul>
+<li id="GUID-143BBF82-BAA5-5548-83AC-54DF2067C058"><a name="GUID-143BBF82-BAA5-5548-83AC-54DF2067C058"><!-- --></a><p>a chunk that contains: </p> <ul>
+<li id="GUID-2A57D6BD-83FD-5C4B-B5AC-CA1BACDD5CB7"><a name="GUID-2A57D6BD-83FD-5C4B-B5AC-CA1BACDD5CB7"><!-- --></a><p>the process executable's <code class="codeph">.data</code> section
+(initialised global and writable static data) </p> </li>
+<li id="GUID-F6D7AB82-BEB5-5052-9723-B190F12A47ED"><a name="GUID-F6D7AB82-BEB5-5052-9723-B190F12A47ED"><!-- --></a><p>the process executable's <code class="codeph">.bss</code> section
+(zero filled data) </p> </li>
+<li id="GUID-DC6E22B6-9E12-5181-99DB-D6C2154C513A"><a name="GUID-DC6E22B6-9E12-5181-99DB-D6C2154C513A"><!-- --></a><p>user-side stack space
+for all threads that run in that process. </p> </li>
+</ul> </li>
+<li id="GUID-73016FAD-8F84-596C-B048-CD1E1B05AA8B"><a name="GUID-73016FAD-8F84-596C-B048-CD1E1B05AA8B"><!-- --></a><p>a chunk to contain the
+heap used by the main thread of the process. </p> </li>
+</ul> <p>If the process executable is loaded into RAM (i.e. it is not ROM
+resident), then there is another chunk to contain the code. </p> <p>On ARM
+processors up to and including those that support the ARMv5 architecture,
+the memory model used by Symbian platform is the <em>moving memory model</em>.
+To guarantee real-time behaviour using this model, each process is limited
+to a maximum of 16 chunks. This means that a program can create up to 14 additional
+chunks. Where the process executable is loaded into RAM, the chunk containing
+the code is effectively global and does not contribute to the 16 chunk per
+process limit. </p> <p>On ARM processors that support the ARMv6 architecture,
+the memory model used by Symbian platform is the <em>multiple memory model</em>.
+Using this model, there is no limit on the number of chunks per process. Where
+the process executable is loaded into RAM, the chunk containing the code is
+specific to the process. </p> <p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DA41F070-0E54-3F8A-B301-39A0C6AFAB38.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DA41F070-0E54-3F8A-B301-39A0C6AFAB38.html"><code class="apiname">TFindChunk</code></a> is used for
+finding a global chunk created by another process. </p> <p>The user-side interface
+to a chunk is provided by an instance of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-326A2F4D-0E99-31C0-A35D-E8BF45913F07.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-326A2F4D-0E99-31C0-A35D-E8BF45913F07.html"><code class="apiname">RChunk</code></a> class. </p> <p><strong>Heap</strong> </p> <p>A heap is used for explicit dynamic allocation of memory.
+Symbian platform defines C++'s <code class="codeph">new</code> operator to create objects
+on the current thread's heap. </p> <p>Heaps may be: </p> <ul>
+<li id="GUID-1ADAF0B8-BB72-5D07-BEA9-359DEFFC25E3"><a name="GUID-1ADAF0B8-BB72-5D07-BEA9-359DEFFC25E3"><!-- --></a><p>monitored for memory
+leaks: this happens automatically for GUI applications </p> </li>
+<li id="GUID-0F5F3E02-F1E1-56D0-9865-D3DFA440DCF0"><a name="GUID-0F5F3E02-F1E1-56D0-9865-D3DFA440DCF0"><!-- --></a><p>shared between threads
+within a process </p> </li>
+<li id="GUID-ED409A70-ECD3-5EE9-9245-42FDEF5CCA42"><a name="GUID-ED409A70-ECD3-5EE9-9245-42FDEF5CCA42"><!-- --></a><p>accessed and manipulated
+at the cell level </p> </li>
+</ul> <p>The heap interface is provided by the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9DB4A58C-6FC8-3292-A547-4C161BD188FC.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9DB4A58C-6FC8-3292-A547-4C161BD188FC.html"><code class="apiname">RAllocator</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C5475104-B67A-3722-B11D-DBB930423492.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C5475104-B67A-3722-B11D-DBB930423492.html"><code class="apiname">MAllocator</code></a> classes.
+This interface is abstract so that device manufacturers can implement heaps
+with different allocation algorithms. Symbian platform provides the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EFAFDD75-7E59-306A-882D-317F5564979E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EFAFDD75-7E59-306A-882D-317F5564979E.html"><code class="apiname">RHeap</code></a> class
+as a default heap implementation. In practice, there is no need to know about
+implementation details. </p> <p>When managing the current thread's heap, it
+is more convenient to use the equivalent functions provided by the System
+Static Functions API; this is the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html"><code class="apiname">User</code></a> class. For example, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-C035F07D-B6D9-3A21-A323-DAC89137280D"><code class="apiname">User::AllocL()</code></a>.
+The System Static Functions API also provides macros that conveniently wrap
+calls for monitoring heap usage for memory leaks. </p> </div>
+<div id="GUID-7A3524D6-AA39-49A2-9DBC-E3EAEA654A7B"><h3 class="section-title">See also</h3> <p> <a href="GUID-506642C2-A14F-55F2-9377-43DDB14F4053.html">Raw
+Memory Overview</a> </p> <p> <a href="GUID-FF8F5D97-7D37-5F6B-84A3-C064E2FD53E0.html">System
+Static Functions Overview</a> </p> <p> <a href="GUID-5D4B86D3-20C4-5D87-A6C1-225018D32347.html">Thread
+And Process Management Overview</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6D8460DF-8B0F-5249-B236-92ABE0E67A14.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:36 GMT -->
+</html>

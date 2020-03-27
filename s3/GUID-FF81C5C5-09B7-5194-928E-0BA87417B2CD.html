@@ -1,0 +1,51 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FF81C5C5-09B7-5194-928E-0BA87417B2CD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="What are Access Point Priorities?" /><meta name="abstract" content="This topic explains access point priorities and how the values are inherited." /><meta name="description" content="This topic explains access point priorities and how the values are inherited." /><meta name="DC.Relation" scheme="URI" content="GUID-CD57B3EB-B8FD-53CE-B319-FB6275BE391E" /><meta name="DC.Relation" scheme="URI" content="GUID-01979029-C009-5FD3-9925-2B7945FB96A6" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-B144EAB9-53AB-579B-9E12-B16518E4FC01" /><meta name="DC.Relation" scheme="URI" content="GUID-82438A0F-819C-5CDC-81DC-A8BFE3AA4A6A" /><meta name="DC.Relation" scheme="URI" content="GUID-7821C498-70A2-5D3C-989A-58CEBAE9162B" /><meta name="DC.Relation" scheme="URI" content="GUID-5F1E5D73-27B5-5C08-848D-361AC2F15B96" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FF81C5C5-09B7-5194-928E-0BA87417B2CD" /><meta name="DC.Language" content="en" /><title>What are Access Point Priorities? </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FF81C5C5-09B7-5194-928E-0BA87417B2CD">What are Access Point Priorities?</h1><div><p>This topic explains access point priorities and how the
+values are inherited. </p>
+<p>Contention management issues are resolved using the priorities
+associated with the Access Points. Priorities are assigned to Access
+Point Layers. If an incoming GPRS connection has a higher priority
+than an existing GRPS connection, the existing connection is stopped
+and the new connection is started. If the incoming GPRS connection
+has a lower priority than all existing GPRS connections the incoming
+GPRS connection is discarded. </p>
+<p>The Access Point priority is stored in the CommsDat AccessPointTable.
+You can specify a priority for access point using the CommsData config
+file in “cfg” format. The priority range is 1-KMaxTUint where 1 is
+high priority and KMaxTUint is low priority. If a priority is not
+assigned to an access point the default value is KMaxTUint is given.
+A zero priority value is not allowed. </p>
+<div><h3 class="section-title">Access Point Priority Inheritance Example</h3> <p>Access Point Priorities can be inherited between Access Point Layers.
+The current Access Point Layer priority is compared to the inherited
+Access Point priority, the highest priority is assigned to the Point
+Layer. This means that the priority of an Access point layer can be
+overridden by an inherited priority. </p> <p> <code class="codeph">CurrentPriority
+= max_priority{AccessPointPriority,           inherited_priority}</code> </p> <p>The following diagram contains three Access Point Layers.
+Each Access Point Layer has an associated priority. </p> <div class="figure" id="GUID-25A488E3-B1B8-58BB-835F-944D4480B5F9"><img src="GUID-B16E3A7D-FF14-559A-BF86-2A1A1A584CDC_d0e419850_href.png" /></div> <p>As a result of inheritance the following priorities are
+applied. </p> <p>For IP_MCPR1 the resultant priority is {3, KmaxTUint}
+= 3 </p> <p>For IPPROTO_MCPR1 the resultant priority is {3, 5} = 3 </p> <p>For PDP_MCPR1 the resultant priority is {4, 3} = 3 </p> </div>
+<div id="GUID-A503945A-73A2-4C89-9598-67501287B473"><h3 class="section-title">Changes in Access Point Priorities at Runtime</h3> <p>The following diagram outlines how priorities can change at runtime. </p> <div class="figure" id="GUID-9D3C98CE-9C35-5B89-AA55-28D4695814E7"><img src="GUID-46E27DAF-B72D-5A86-91BB-1B3C0788C6A5_d0e419875_href.png" /></div> <p>In this example: </p> <ul>
+<li id="GUID-8C8FEAA2-27E5-5A7D-9B88-CB33E494429F"><a name="GUID-8C8FEAA2-27E5-5A7D-9B88-CB33E494429F"><!-- --></a><p>Two stack configurations
+(SNAP1 and SNAP2) are defined in the CommsDat. The configurations
+have different settings for the IP layer but the same IPProto and
+PDP layers. </p> </li>
+<li id="GUID-09F5F8EF-C969-57E8-9E26-4F1AC95C707C"><a name="GUID-09F5F8EF-C969-57E8-9E26-4F1AC95C707C"><!-- --></a><p>An application
+is started on SNAP1. IP_CPR1 and IP_MCPR1 are created. </p> </li>
+<li id="GUID-D87C4F2D-07BD-5FAB-AEFE-17F0448B6439"><a name="GUID-D87C4F2D-07BD-5FAB-AEFE-17F0448B6439"><!-- --></a><p>A second application
+is started on SNAP2. IP_CPR2 and IP_MCPR2 are created. </p> </li>
+<li id="GUID-462FEA77-7CCB-5A12-817D-91FFF9239C05"><a name="GUID-462FEA77-7CCB-5A12-817D-91FFF9239C05"><!-- --></a><p>Current priorities
+for IPProto and PDP layer will be recalculated. On this example they
+do not change because priority 6 is the lowest priority in this stack. </p> </li>
+<li id="GUID-758ECDB2-148D-5E05-A3F0-E116AB169368"><a name="GUID-758ECDB2-148D-5E05-A3F0-E116AB169368"><!-- --></a><p>If first application
+stops its connection and second application continue to work, IP_CPR1
+is destroyed. IPPROTO_CPR1 and PDP_CPR1 priorities will be recalculated. </p> <p>IPPROTO_CPR1 priority = max_priority{5, 6} = 5 </p> <p>PDP_CPR1
+priority = max_priority{4, 5} = 4 </p> </li>
+</ul> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-CD57B3EB-B8FD-53CE-B319-FB6275BE391E.html">What
+is Contention?</a></li><li><a href="GUID-01979029-C009-5FD3-9925-2B7945FB96A6.html">Starting
+a Network Connection Tutorial</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 17th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FF81C5C5-09B7-5194-928E-0BA87417B2CD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:02 GMT -->
+</html>

@@ -1,0 +1,39 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-405F7AB8-0F0E-4171-95E6-3524D76917DE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:22 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Handling stylus pop-up menu events and commands" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-8C40E993-C9A0-423D-979D-7BB11CE091C1" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-FA9679A1-6FD7-4FB6-883A-D5719388A2B6" /><meta name="DC.Relation" scheme="URI" content="GUID-B8BCC4F0-7F55-4728-B7EA-3280CA822C91" /><meta name="DC.Relation" scheme="URI" content="GUID-8F04D882-B846-4A0D-B858-15FDA85758FA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-405F7AB8-0F0E-4171-95E6-3524D76917DE" /><meta name="DC.Language" content="en" /><title>Handling stylus pop-up menu events and commands </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-405F7AB8-0F0E-4171-95E6-3524D76917DE">Handling stylus pop-up menu events and commands</h1><div>
+<p>At the construction phase, <code class="codeph">CAknStylusPopUpMenu</code> is given a <code class="codeph">MEikMenuObserver</code> object, which is usually
+a pointer to the application’s UI (CAknAppUi) or another
+class that implements the interface. The stylus pop up menu will grab
+the stylus event when one of its items is tapped on and it will then
+report the item’s command ID to the menu observer. It is then up to
+the application to handle the command in the implementation of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-CDB32ABA-F567-395D-9A00-2AC518BD5F3B.html#GUID-5A200511-9E99-3E2F-8E1B-B4A724BD2704"><code class="apiname">MEikMenuObserver::HandleCommandL()</code></a>. </p>
+<div class="p">When an item is  tapped, the menu calls its observer's (<code class="codeph">iMenuObserver</code>) <code class="codeph">ProcessCommandL()</code> using:<pre class="codeblock">void ProcessCommandL(TInt aCommandId);</pre> where, <code class="codeph">aCommandID</code> parameter is the command number recorded in 
+the resource file. You can also add it using <code class="codeph">AddMenuItemL()</code> function as shown in the following code snippet:<pre class="codeblock">void AddMenuItemL( const TDesC&amp; aItem, const TInt aCommandId );</pre></div>
+<div class="p">The following code snippet illustrates how to handle the command:<pre class="codeblock">switch( aCommandId )
+		{
+		case StylusMenuCommand1:
+			break;
+		case StylusMenuCommand2:
+			break;
+		case StylusMenuCommand3:
+			break;
+		case StylusMenuCommand4:
+			break;
+		case KErrCancel:
+			break;
+		default:
+			break;
+		}
+</pre> </div>
+<p>Typically the observer is application's AppUi. It is then the observer's
+responsibility to handle the command appropriately. The observer is
+informed with <code class="codeph">KErrCancel</code> if the menu is closed without
+making a selection.</p>
+<p>Use the CAknStylusPopUpMenu::HandleControlEventL() method to handle events that occur when user selects a menu item.</p>
+<pre class="codeblock"></pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 23rd, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-405F7AB8-0F0E-4171-95E6-3524D76917DE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:22 GMT -->
+</html>

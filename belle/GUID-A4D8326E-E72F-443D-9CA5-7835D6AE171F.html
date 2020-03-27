@@ -1,0 +1,196 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A4D8326E-E72F-443D-9CA5-7835D6AE171F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:38 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Setting toolbar properties" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-8C40E993-C9A0-423D-979D-7BB11CE091C1" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-FA9679A1-6FD7-4FB6-883A-D5719388A2B6" /><meta name="DC.Relation" scheme="URI" content="GUID-B05B61B8-1217-441F-BAFA-C209C8F123C5" /><meta name="DC.Relation" scheme="URI" content="GUID-95CE2206-7AE0-48C0-97A7-4E2082F9F662" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A4D8326E-E72F-443D-9CA5-7835D6AE171F" /><meta name="DC.Language" content="en" /><title>Setting toolbar properties </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A4D8326E-E72F-443D-9CA5-7835D6AE171F">Setting toolbar properties</h1><div>
+<div id="GUID-5D2E887B-7646-4CC3-86FE-48D8DF300B92"><h3 class="section-title"><!--no section title--></h3> <p>Use the
+following methods and flags to set toolbar properties:</p> <ul>
+<li> <p>Vertical orientation: use the method CAknToolbar::SetOrientation() with the values <code class="codeph">EAknOrientationVertical</code> or <code class="codeph">EAknOrientationHorizontal</code> in TAknOrientation (floating toolbar).</p> </li>
+<li> <p>Semi-transparent outlook: use the <code class="codeph">KAknToolbarTransparent</code> flag.</p> </li>
+<li> <p>Flexible positioning: use the <code class="codeph">KAknToolbarFlexiblePosition</code> flag (floating toolbar).</p> </li>
+<li><p>To set the focus on the middle item by default, use the flag <code class="codeph">KAknToolbarMiddleItemFocused</code> (floating toolbar).</p></li>
+<li><p>To set the toolbar always focusing, use the flag <code class="codeph">KAknToolbarAlwaysFocusing</code> (floating toolbar). </p></li>
+<li><p>To set the focus on the last used item by default, use the
+flag <code class="codeph">KAknToolbarLastUsedItemFocused</code> flag (floating
+toolbar). </p></li>
+<li><p>To set the toolbar to use no softkeys but still have the focus,
+use the flag <code class="codeph">KAknToolbarWithoutCba</code> (floating toolbar). </p></li>
+<li><p>Small toolbar: use the flag <code class="codeph">KAknToolbarSmall</code> flag (floating toolbar). </p></li>
+<li><p>Fixed toolbar: use the flag <code class="codeph">KAknToolbarFixed</code>.</p></li>
+<li><p>Toolbar with no skin background: use the flag <code class="codeph">KAknToolbarNoBackground</code>.</p></li>
+</ul><p>Below is an example of a fixed toolbar with three buttons.
+One of the fixed toolbar buttons is a toolbar extension with three
+buttons.</p><pre class="codeblock">RESOURCE AVKON_TOOLBAR r_myapp_fixed_toolbar 
+    { 
+    flags = KAknToolbarFixed; 
+    items = 
+        { 
+        TBAR_CTRL 
+            { 
+            type = EAknCtToolbarExtension; 
+            id = ECmdExtExample; 
+
+            control = AVKON_TOOLBAR_EXTENSION 
+                { 
+                items = 
+                    { 
+                    TBAR_CTRL 
+                        { 
+                        type = EAknCtButton; 
+                        id = ECmdExtExample1; 
+                        control = AVKON_BUTTON 
+                            { 
+                            flags = 0; 
+                            states = 
+                                { 
+                                AVKON_BUTTON_STATE 
+                                    { 
+                                    txt = STRING_r_myapp_ext_example1_text; 
+                                    helptxt = STRING_r_myapp_ext_example1_help; 
+                                    } 
+                                }; 
+                            }; 
+                        }, 
+                    TBAR_CTRL 
+                        { 
+                        type = EAknCtButton; 
+                        id = ECmdExtExample2; 
+                        control = AVKON_BUTTON 
+                            { 
+                            flags = 0; 
+                            states = 
+                                { 
+                                AVKON_BUTTON_STATE 
+                                    { 
+                                    txt = STRING_r_myapp_ext_example2_text; 
+                                    helptxt = STRING_r_myapp_ext_example2_help; 
+                                    } 
+                                }; 
+                            }; 
+                        }, 
+                    TBAR_CTRL 
+                        { 
+                        type = EAknCtButton; 
+                        id = ECmdExtExample3; 
+                        control = AVKON_BUTTON 
+                            { 
+                            flags = 0; 
+                            states = 
+                                { 
+                                AVKON_BUTTON_STATE 
+                                    { 
+                                    txt = STRING_r_myapp_ext_example3_text; 
+                                    helptxt = STRING_r_myapp_ext_example3_help; 
+                                    } 
+                                }; 
+                            }; 
+                        } 
+                    }; 
+                }; 
+            }, 
+        TBAR_CTRL 
+            { 
+            type = EAknCtButton; 
+            id = ECmdExample1; 
+            control = AVKON_BUTTON 
+                { 
+                flags = 0; 
+                states = 
+                    { 
+                    AVKON_BUTTON_STATE 
+                        { 
+                        txt = STRING_r_myapp_example1_text; 
+                        helptxt = STRING_r_myapp_example1_help; 
+                        }  
+                    }; 
+                }; 
+            }, 
+        TBAR_CTRL 
+            { 
+            type = EAknCtButton; 
+            id = ECmdExample2; 
+            control = AVKON_BUTTON 
+                { 
+                flags = 0; 
+                states = 
+                    { 
+                    AVKON_BUTTON_STATE 
+                        { 
+                        txt = STRING_r_myapp_example2_text; 
+                        helptxt = STRING_r_myapp_example2_help; 
+                        }  
+                    }; 
+                }; 
+            } 
+        }; 
+    } 
+</pre><p>Example of a floating toolbar without CBA buttons: </p><pre class="codeblock">RESOURCE AVKON_TOOLBAR r_myapp_floating_toolbar 
+    { 
+    flags = KAknToolbarWithoutCba; 
+    items = 
+        { 
+        TBAR_CTRL 
+            { 
+            type = EAknCtButton; 
+            id = ECmdExample3; 
+            // A button with two states ("on" and "off") 
+            control = AVKON_BUTTON 
+                { 
+                flags = 0; 
+                states = 
+                    { 
+                    AVKON_BUTTON_STATE 
+                        { 
+                        txt = STRING_r_myapp_example3_off_text; 
+                        helptxt = STRING_r_myapp_example3_off_help; 
+                        }, 
+                    AVKON_BUTTON_STATE 
+                        { 
+                        flags = KAknButtonStateHasLatchedFrame; 
+                        txt = STRING_r_myapp_example3_on_text; 
+                        helptxt = STRING_r_myapp_example3_on_help; 
+                        }  
+                    }; 
+                }; 
+            }, 
+        TBAR_CTRL 
+            { 
+            type = EAknCtButton; 
+            id = ECmdExample4; 
+            control = AVKON_BUTTON 
+                { 
+                flags = 0; 
+                states = 
+                    { 
+                    AVKON_BUTTON_STATE 
+                        { 
+                        txt = STRING_r_myapp_example4_text; 
+                        helptxt = STRING_r_myapp_example4_help; 
+                        } 
+                    }; 
+                }; 
+            }, 
+        TBAR_CTRL 
+            { 
+            type = EAknCtButton; 
+            id = ECmdExample5; 
+            control = AVKON_BUTTON 
+                { 
+                flags = 0; 
+                states = 
+                    { 
+                    AVKON_BUTTON_STATE 
+                        { 
+                        txt = STRING_r_myapp_example5_text; 
+                        helptxt = STRING_r_myapp_example5_help; 
+                        } 
+                    }; 
+                }; 
+            } 
+        }; 
+    } 
+</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 27th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A4D8326E-E72F-443D-9CA5-7835D6AE171F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:38 GMT -->
+</html>

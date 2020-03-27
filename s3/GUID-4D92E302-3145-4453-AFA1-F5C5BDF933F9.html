@@ -1,0 +1,122 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-4D92E302-3145-4453-AFA1-F5C5BDF933F9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Compatibility Breaks" /><meta name="abstract" content="All binary and source compatibility breaks in Symbian^3 SDK are listed with supporting information on handling these breaks." /><meta name="description" content="All binary and source compatibility breaks in Symbian^3 SDK are listed with supporting information on handling these breaks." /><meta name="DC.Relation" scheme="URI" content="GUID-021E8B9C-4A1B-4C6D-B69E-4337A766C39A" /><meta name="DC.Relation" scheme="URI" content="GUID-E7A53792-5ABC-460C-87EA-36E8C6989A2C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4D92E302-3145-4453-AFA1-F5C5BDF933F9" /><meta name="DC.Language" content="en" /><title>Compatibility Breaks </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4D92E302-3145-4453-AFA1-F5C5BDF933F9">Compatibility Breaks</h1><div><p>All binary and source compatibility breaks in Symbian^3
+SDK are listed with supporting information on handling these breaks.</p>
+<p>The following table summarizes the binary and source compatibility
+breaks:</p>
+<div class="tablenoborder"><a name="GUID-1A133A2D-D803-4026-AF28-4A96DB25F42B-GENID-GUID-625EB42F-0FD1-449D-9BF1-C069A982D5C5"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-1A133A2D-D803-4026-AF28-4A96DB25F42B-GENID-GUID-625EB42F-0FD1-449D-9BF1-C069A982D5C5" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="17%" id="d0e4191">APIs/Header files/Libraries</th>
+<th class="cellrowborder" valign="top" width="83%" id="d0e4194">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="17%" headers="d0e4191 "><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-F948E0A6-DC1A-3FCD-A391-0FEE0F673D36"><code class="apiname">RSocket::SendTo()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-876863C1-E691-3C3F-9CFB-9597B577509E"><code class="apiname">RSocket::RecvFrom()</code></a></td>
+<td class="cellrowborder" valign="top" width="83%" headers="d0e4194 ">In earlier Symbian platform releases, if an application attempts <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-F948E0A6-DC1A-3FCD-A391-0FEE0F673D36"><code class="apiname">RSocket::SendTo()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-876863C1-E691-3C3F-9CFB-9597B577509E"><code class="apiname">RSocket::RecvFrom()</code></a> operations on a UDP socket when the connection is closed, the socket
+would start a new connection. This behavior has changed from Symbian^3
+onwards, and such an operation will return KErrTimedOut or KErrInet6NoRoute
+to indicate that the connection has been closed.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="17%" headers="d0e4191 ">Libc write()</td>
+<td class="cellrowborder" valign="top" width="83%" headers="d0e4194 ">Symbian^3 supports POSIX signals which allows standard C applications
+to handle interrupts (hardware and software signals/events). The existing
+standard C applications are not affected by this change, unless they
+are recompiled against the updated libraries. Once the applications
+are recompiled, they will receive a SIGPIPE signal when they try to
+write to a broken pipe. Unless this signal is handled or is ignored
+using signore() method, the application terminates. For more information
+on handling POSIX signals on Symbian platform, refer to <a href="GUID-41F33130-7968-5016-9ACE-9E9F906118DB.html">Using POSIX Signals</a>.</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="17%" headers="d0e4191 "><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-25D4B920-6158-3014-8E7D-4E1C5267C5EF.html#GUID-A521B983-4932-35AA-8741-F2B813754F27"><code class="apiname">CBitmapFont::OpenFont()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-039375D3-AFD9-3E31-9C1C-ACEDC10E27CE.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-039375D3-AFD9-3E31-9C1C-ACEDC10E27CE.html"><code class="apiname">COpenFont</code></a></td>
+<td class="cellrowborder" valign="top" width="83%" headers="d0e4194 ">The Flexible Memory Model in Symbian^3 does not provide access
+to the Open Font data in Font Bitmap Server global chunk. Rebuild
+the application binary on Symbian^3 to get access to the Open Font
+data.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="17%" headers="d0e4191 "><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-3491CE2A-A94D-34E0-B0DD-D476EE3334D7"><code class="apiname">RSocket::Open()</code></a></td>
+<td class="cellrowborder" valign="top" width="83%" headers="d0e4194 ">The overloaded <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-3491CE2A-A94D-34E0-B0DD-D476EE3334D7"><code class="apiname">RSocket::Open()</code></a> method that
+is meant for opening a socket without associating it with an <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> object explicitly is called the default connection
+scenario. This scenario is not supported from Sybmian^3 onwards, so
+all code depending on default connection scenario has to be migrated
+to explicit or implicit connection scenario. For more information
+on explicit and implicit connection scenarios, refer to <a href="GUID-722180B8-0032-5C3F-AEB2-A9B1261450D8.html">Starting a Socket
+Server connection: Tutorial</a>.</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="17%" headers="d0e4191 ">CRemoteGc::SetDrawMode() and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AEE5955-C530-35F1-A904-69183331B294.html#GUID-D8D35F8C-B5BB-338D-AD78-AF21BCD23D80"><code class="apiname">CWindowGc::SetDrawMode()</code></a></td>
+<td class="cellrowborder" valign="top" width="83%" headers="d0e4194 ">These two APIs will not support the following draw modes:<ul>
+<li><p>EDrawModeAND</p></li>
+<li><p>EDrawModeNOTAND</p></li>
+<li><p>EDrawModeANDNOT</p></li>
+<li><p>EDrawModeXOR</p></li>
+<li><p>EDrawModeOR</p></li>
+<li><p>EDrawModeNOTANDNOT</p></li>
+<li><p>EDrawModeNOTXOR</p></li>
+<li><p>EDrawModeNOTSCREEN</p></li>
+<li><p>EDrawModeNOTOR</p></li>
+<li><p>EDrawModeNOTPEN</p></li>
+<li><p>EDrawModeORNOT</p></li>
+<li><p>EDrawModeNOTORNOT</p></li>
+</ul>These two Graphics Context classes (CRemoteGc and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AEE5955-C530-35F1-A904-69183331B294.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AEE5955-C530-35F1-A904-69183331B294.html"><code class="apiname">CWindowGc</code></a>) will support EDrawModePEN and
+EDrawModeWriteAlpha only. To use any of the draw modes listed earlier,
+use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4A501086-7EFF-376D-8901-6D9B2EB4EFF2.html#GUID-6E1C396C-1450-3A96-8592-89D196C1FB37"><code class="apiname">CFbsBitGc::SetDrawMode()</code></a> and render their window
+content into an off-screen bitmap, and use CRemoteGc to draw the bitmap to the screen.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="17%" headers="d0e4191 "><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B3E9B015-1413-35A6-A316-D1C01C1001AD.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B3E9B015-1413-35A6-A316-D1C01C1001AD.html"><code class="apiname">CMMFDevSound</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-778D24B5-A68E-3C91-B66A-69007FBA4791.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-778D24B5-A68E-3C91-B66A-69007FBA4791.html"><code class="apiname">CMdaAudioPlayerUtility</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-29FB1DE6-D00C-3E6B-A8AA-476FAFD7F26C.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-29FB1DE6-D00C-3E6B-A8AA-476FAFD7F26C.html"><code class="apiname">CMdaAudioRecorderUtility</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-92BDB3AF-D9DB-35E2-AC6F-6435D3D1A4D8.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-92BDB3AF-D9DB-35E2-AC6F-6435D3D1A4D8.html"><code class="apiname">CMdaAudioInputStream</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B87C8F92-9737-3636-9800-BA267A1DCA6D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B87C8F92-9737-3636-9800-BA267A1DCA6D.html"><code class="apiname">CMdaAudioOutputStream</code></a>, and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D728A286-A202-3915-9643-8FD70646F78A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D728A286-A202-3915-9643-8FD70646F78A.html"><code class="apiname">CMdaAudioToneUtility</code></a>.</td>
+<td class="cellrowborder" valign="top" width="83%" headers="d0e4194 ">In earlier Symbian platform releases, an attempt to record
+or play an audio file without setting the volume and gain values (using
+SetVolume() and SetGain()) would result in silence. This behavior
+has changed from Symbian^3 onwards, where an audio file can be played
+or recorded without having to set the volume and gain values. With
+this change, all applications using these APIs must be rebuilt on
+Symbian^3.</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="17%" headers="d0e4191 "><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DAD09DCF-3123-38B4-99E9-91FB24B92138.html#GUID-F3F6A435-CB50-33C9-9F12-D2193A2B3164"><code class="apiname">CGraphicsContext::DrawTextExtended(classTDesC16const&amp;,
+classCGraphicsContext::TTextParametersconst*, classTPointconst&amp;,
+structCGraphicsContext::TDrawTextExtendedParamconst&amp;)</code></a></td>
+<td class="cellrowborder" valign="top" width="83%" headers="d0e4194 ">The ordinal position for this API has changed. Rebuild all
+the applications using this API.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="17%" headers="d0e4191 "><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-30479BE3-296E-3B4D-914D-B080ABD733E4.html#GUID-A61D694F-FDC7-369A-947C-7AD8A340768A"><code class="apiname">CWsScreenDevice::SetPalette()</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-30479BE3-296E-3B4D-914D-B080ABD733E4.html#GUID-41C7C9DB-BE16-3473-8B28-F452728C288E"><code class="apiname">CWsScreenDevice::PaletteAttributes()</code></a>, and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-30479BE3-296E-3B4D-914D-B080ABD733E4.html#GUID-C51950BE-3E3A-3CB7-B986-6C2BC6B11FCB"><code class="apiname">CWsScreenDevice::GetPalette()</code></a>.</td>
+<td class="cellrowborder" valign="top" width="83%" headers="d0e4194 ">These APIs are not supported. All calls to these APIs will
+return KErrNotSupported. If the existing applications using these
+APIs check for KErrNotSupported error, will continue to work without
+any change. All other applications must be modified and rebuilt.</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="17%" headers="d0e4191 "><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-24C7AE25-B44A-3B6F-AA05-EA90A8D36129.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-24C7AE25-B44A-3B6F-AA05-EA90A8D36129.html"><code class="apiname">CDirectScreenAccess</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E2092CF9-98E8-3206-91B2-36011AA6FB77.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E2092CF9-98E8-3206-91B2-36011AA6FB77.html"><code class="apiname">RDirectScreenAccess</code></a>, and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5A289A8A-1485-3AB9-94CF-177B83D4F450.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5A289A8A-1485-3AB9-94CF-177B83D4F450.html"><code class="apiname">MDirectScreenAccess</code></a>.</td>
+<td class="cellrowborder" valign="top" width="83%" headers="d0e4194 ">The usage of these Direct Screen Access (DSA) APIs has changed
+in Symbian^3 because of the ScreenPlay feature, which recommends using
+external surfaces instead of DSA to write to screen. Refer to <a href="GUID-3F0FCBB5-98D2-4355-96E3-2DA938DE1C16.html">DSA Migration Guide</a> for information on how to use these APIs in Symbian^3.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="17%" headers="d0e4191 "><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html#GUID-727651F2-4AC2-35D4-81CF-E6C89AE73CAE"><code class="apiname">RFs::Close()</code></a></td>
+<td class="cellrowborder" valign="top" width="83%" headers="d0e4194 "><p>This API did not exist in the S60 5th Edition and 3rd Edition
+releases, so all calls to this API in these releases were redirected
+to its implementation in the parent class, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-727D2B62-09A9-3CBC-AB6F-591E52EC68EB.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-727D2B62-09A9-3CBC-AB6F-591E52EC68EB.html"><code class="apiname">RHandleBase</code></a>. <code class="codeph">RFs::Close()</code> does exist in Symbian^3, but a Symbian^3
+application (not using features specific to Symbian^3) using this
+API will fail to work on the S60 5th Edition and 3rd Edition devices.</p><p>To avoid this compatibility issue, we recommend you the following:</p><ul>
+<li><p>For developers using Symbian^3 or a future Symbian release:
+Use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-727D2B62-09A9-3CBC-AB6F-591E52EC68EB.html#GUID-4B2775FD-AB61-3850-86C5-780CE8C97573"><code class="apiname">RHandleBase::Close()</code></a> instead of <code class="codeph">RFs::Close()</code> to deploy your applications on devices using S60 5th Edition and
+3rd Edition.</p></li>
+<li><p>For developers using S60 5th Edition and 3rd Edition: No change
+required, as calls to <code class="codeph">RFs::Close()</code> are redirected
+to <code class="codeph">RHandleBase::Close()</code> on all Symbian devices (including
+Symbian^3).</p></li>
+</ul></td>
+</tr>
+</tbody>
+</table></div></div></div></div><div class="footer"><p class="metadata">Last updated January 25th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-4D92E302-3145-4453-AFA1-F5C5BDF933F9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:55 GMT -->
+</html>

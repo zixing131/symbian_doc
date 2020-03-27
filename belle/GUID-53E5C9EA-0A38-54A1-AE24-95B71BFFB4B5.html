@@ -1,0 +1,182 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-53E5C9EA-0A38-54A1-AE24-95B71BFFB4B5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:59 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="CenRep Converter Tool Tutorial" /><meta name="abstract" content="This topic describes the Central Repository Converter (CenRepConv) tool. The CenRepConv tool is used to convert text files into binary files." /><meta name="description" content="This topic describes the Central Repository Converter (CenRepConv) tool. The CenRepConv tool is used to convert text files into binary files." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-50BA6AEB-E968-5CCA-8F5D-A65969263D90" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-53E5C9EA-0A38-54A1-AE24-95B71BFFB4B5" /><meta name="DC.Language" content="en" /><title>CenRep
+Converter Tool Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-53E5C9EA-0A38-54A1-AE24-95B71BFFB4B5">CenRep
+Converter Tool Tutorial</h1><div><p>This topic describes the Central Repository Converter (<code class="codeph">CenRepConv</code>)
+tool. The CenRepConv tool is used to convert text files into binary files. </p>
+<div id="GUID-D103CC8D-6871-46D1-B41E-85F5632324DC"><h3 class="section-title">Overview</h3> <p>The <code class="codeph">CenRepConv</code> is an
+emulator based tool. The <code class="codeph">CenRepConv</code> tool can be used to convert
+binary files to text files for debugging. The central repository initialisation
+files are used to register the repositories with central repository. The initialisation
+files can be either in text or binary format, although binary format is recommended
+for better efficiency. For example, the loading time of a repository with
+2000 settings on a H2 development board is 41ms for binary files and 485ms
+for text files. </p> <p>The tool uses the file extension to identify the fomats. <code class="codeph">TXT</code> is
+used for the text file extension and <code class="codeph">CRE</code> is used as the binary
+file extension </p> </div>
+<div id="GUID-89B11338-F42A-4704-9795-84A706DE12BB"><h3 class="section-title">Command line syntax</h3> <p>The syntax for text to binary
+conversion is: </p> <pre class="codeblock">CentRepConv  [-nowait]  [-o output_path]  [input_path\]&lt;repository_uid&gt;.txt</pre> <p>where, </p> <ul>
+<li id="GUID-3434EDE7-D5F9-5A0A-B67F-A37918304247"><a name="GUID-3434EDE7-D5F9-5A0A-B67F-A37918304247"><!-- --></a><p> <code class="codeph"> repository_uid</code> is
+the UID of repository in hexadecimal format, for example 00000001 </p> </li>
+<li id="GUID-DE6793EF-7069-55AD-AEF2-5EFED65BD209"><a name="GUID-DE6793EF-7069-55AD-AEF2-5EFED65BD209"><!-- --></a><p> <code class="codeph">output_path</code> –
+Optional, default is <code class="codeph">C:\</code>. Note that if the user specifies
+the output filename, then the extension must be .cre and the filename must
+match the &lt;repository_uid&gt; of the input file. </p> </li>
+<li id="GUID-AA6CB0CD-8931-588F-B27A-E7EC60576B5D"><a name="GUID-AA6CB0CD-8931-588F-B27A-E7EC60576B5D"><!-- --></a><p> <code class="codeph"> -nowait</code> option
+should be used when CentRepConv is invoked as part of an automated process
+such as from a build script. It instructs CentRepConv not to wait for user
+acknowledgement. Without this option the tool will wait for up to 30 seconds
+for acknowledgement </p> </li>
+</ul> <p>The syntax for bianary to text conversion is: </p> <pre class="codeblock">CentRepConv  [-nowait]  [-o output_path]  [input_path\]&lt;repository_uid&gt;.cre</pre> <p>where, </p> <ul>
+<li id="GUID-2EEC6C18-2CC6-530A-9B3F-6F86769D7E64"><a name="GUID-2EEC6C18-2CC6-530A-9B3F-6F86769D7E64"><!-- --></a><p> <code class="codeph"> repository_uid</code> is
+the UID of repository in hexadecimal format, for example 00000001 </p> </li>
+<li id="GUID-A8A8D7A7-64B3-5D06-A514-216CB0F7CA7D"><a name="GUID-A8A8D7A7-64B3-5D06-A514-216CB0F7CA7D"><!-- --></a><p> <code class="codeph"> input_path</code> is
+optional, default is <code class="codeph">C:\</code>. Note that location of path must
+be a Symbian path, not a path of the PC’s native OS. </p> </li>
+<li id="GUID-6F952102-D662-56AD-AF06-72FE7188DADF"><a name="GUID-6F952102-D662-56AD-AF06-72FE7188DADF"><!-- --></a><p> <code class="codeph"> output_path</code> is
+optional, default is <code class="codeph">C:\</code>. Note that if the user specifies
+the output filename, then the extension must be .txt and the filename must
+match the &lt;repository_uid&gt; of the input file. </p> </li>
+</ul> </div>
+<div id="GUID-E26646C2-2194-403C-ADAB-A8DBA5C3E88D"><h3 class="section-title">Integrating CenRepConv tool</h3> <p>This section describes
+how to automate text to binary conversion whislt building the ROM. The group
+folder must contain bld.inf file, extension makefile, script to invoke the
+cenRepConv tool and the initialisation text file. </p> <ol id="GUID-31B7B304-6B48-5DAA-A72B-62260048CA3F">
+<li id="GUID-D4D0CB8F-0FCE-52A8-87A6-435B9E44876C"><a name="GUID-D4D0CB8F-0FCE-52A8-87A6-435B9E44876C"><!-- --></a><p>The bld.inf file must
+contain: </p> <pre class="codeblock">PRJ_PLATFORMS
+DEFAULT
+
+PRJ_MMPFILES
+gnumakefile CreateBinaryRep.mk
+</pre> </li>
+<li id="GUID-FF85D695-8733-58D7-BACC-BCB185045392"><a name="GUID-FF85D695-8733-58D7-BACC-BCB185045392"><!-- --></a><p>The extension makefile
+is configured as: </p> <pre class="codeblock">do_nothing :
+    rem do_nothing
+
+MAKMAKE : do_nothing
+
+RESOURCE : do_nothing
+
+SAVESPACE : BLD
+
+BLD : do_nothing
+
+FREEZE : do_nothing
+
+LIB : do_nothing
+
+CLEANLIB : do_nothing
+
+FINAL : 
+    CreateBinaryRep.cmd build
+
+CLEAN : 
+    CreateBinaryRep.cmd clean
+
+RELEASABLES :
+    CreateBinaryRep.cmd releasables
+</pre> </li>
+<li id="GUID-1429DD28-07C3-5501-A644-B23ABEBD32E0"><a name="GUID-1429DD28-07C3-5501-A644-B23ABEBD32E0"><!-- --></a><p>The script file is used
+to move the text files to the emulators folder, invoke the CenRepConv tool
+and copy the binary folders into the central repository private folder. </p> <pre class="codeblock">@ECHO OFF
+SET RETURNCODE=0
+
+IF /I "%1"=="build" goto BUILD
+
+IF /I "%1"=="clean" goto CLEAN
+
+IF /I "%1"=="releasables" goto WHAT
+
+echo error: unknown option %1 &gt;&amp;2
+SET RETURNCODE=1
+goto END
+
+:WHAT
+echo %EPOCROOT%epoc32\release\winscw\udeb\Z\private\10202BE9\1027431B.cre
+goto END
+
+:CLEAN
+ERASE %EPOCROOT%epoc32\release\winscw\udeb\Z\private\10202BE9\1027431B.cre 2&gt;NUL
+goto END
+
+:BUILD
+ERASE %EPOCROOT%epoc32\winscw\c\1027431B.cre 2&gt;NUL
+ERASE %EPOCROOT%epoc32\release\winscw\udeb\z\private\10202BE9\1027431B.cre 2&gt;NUL
+COPY 1027431B.txt %EPOCROOT%epoc32\winscw\c
+CALL %EPOCROOT%epoc32\release\winscw\udeb\CentRepConv -nowait -o C:\1027431B.cre C:\1027431B.txt
+IF exist %EPOCROOT%epoc32\winscw\c\1027431B.cre goto BLDSUCCESS
+SET RETURNCODE=1
+ECHO error: build fail &gt;&amp;2
+goto END
+
+:BLDSUCCESS
+ERASE %EPOCROOT%epoc32\winscw\c\1027431B.txt
+MOVE %EPOCROOT%epoc32\winscw\c\1027431B.cre %EPOCROOT%epoc32\release\winscw\udeb\z\private\10202BE9\1027431B.cre
+goto END
+
+:END
+EXIT /B %RETURNCODE%
+</pre> </li>
+</ol> </div>
+<div id="GUID-CD798B16-86D7-48E1-B40F-907B251A33CD"><h3 class="section-title">Error codes</h3> <p>The following are the error codes that
+may occur during the text to binary conversion and vice versa. </p> <div class="tablenoborder"><a name="GUID-B1A7F8DE-37AA-519F-8A87-EDB3DF80F99A"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B1A7F8DE-37AA-519F-8A87-EDB3DF80F99A" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e450135">Error condition</th>
+<th class="cellrowborder" valign="top" id="d0e450138">Leave Code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e450135 "><p>Input file corrupted </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e450138 "><p> KErrCorrupt </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e450135 "><p>Input file is not a Direct File Store </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e450138 "><p> KErrCorrupt </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e450135 "><p>No input file specified </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e450138 "><p> KErrArgument </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e450135 "><p>Bad input file extension (not .txt or .cre) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e450138 "><p> KErrArgument </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e450135 "><p>Input filename is not a valid UID </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e450138 "><p> KErrArgument </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e450135 "><p>Output filename does not match input filename </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e450138 "><p> KErrArgument </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e450135 "><p>Extension of output filename does not match extension of input filename
+(if one is .txt and the other must be .cre) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e450138 "><p> KErrArgument </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e450135 "><p>Output directory is in read only drive </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e450138 "><p> KErrArgument </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e450135 "><p>Cannot access input file because it is in private data cage </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e450138 "><p> KErrAccessDenied </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e450135 "><p>Cannot write output file because it is in private data cage </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e450138 "><p> KErrAccessDenied </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e450135 "><p>Input file does not exist </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e450138 "><p> KErrAccessDenied </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 31st, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-53E5C9EA-0A38-54A1-AE24-95B71BFFB4B5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:59 GMT -->
+</html>

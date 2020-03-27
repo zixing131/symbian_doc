@@ -1,0 +1,102 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-EA107811-240C-5F95-922B-7C042FA00A87.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Reading a String Resource" /><meta name="DC.Relation" scheme="URI" content="GUID-3AF1F492-3D7D-5F8C-B1AE-16FBD8224775" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-D02B5AF1-B1C3-560D-9654-971A5CC1A904" /><meta name="DC.Relation" scheme="URI" content="GUID-C8BD333E-8384-534B-822B-F61B2F7C8B9F" /><meta name="DC.Relation" scheme="URI" content="GUID-85AA0FD4-3BD1-50A7-B241-AE3908ACCF30" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-EA107811-240C-5F95-922B-7C042FA00A87" /><meta name="DC.Language" content="en" /><title>Reading a String Resource  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-EA107811-240C-5F95-922B-7C042FA00A87">Reading a String Resource </h1><div><div><p>The simplest use of a resource file involves reading
+string resources and interpreting the source data. </p></div>
+<div id="GUID-FD651A99-73F0-4CDD-9B4F-7C3A1DE8C4BE"><h3 class="section-title">Context</h3><p>Resources are defined in terms of structs which are accessed
+and read by the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AA6DEF11-6F23-3523-A9F7-F15DF918E1BA.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AA6DEF11-6F23-3523-A9F7-F15DF918E1BA.html"><code class="apiname">RResourceFile</code></a> class, and interpreted
+by the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B375D32E-1F91-30FA-8605-A2E163111F9A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B375D32E-1F91-30FA-8605-A2E163111F9A.html"><code class="apiname">TResourceReader</code></a>. An application may also
+use resources from multiple files simultaneously. See <a href="GUID-98903A01-CD04-5345-84AE-2E440CE06E11.html">Resource File examples</a> for more information. </p><p>Consider a sample resource file where
+a struct of STRING is defined having a single member of type <code class="codeph">LTEXT</code>: </p><pre class="codeblock">// define structures
+STRUCT STRING
+    {
+    LTEXT text;
+    }
+// define resources
+RESOURCE STRING hello
+    {
+    text=Bonjour tout le monde!;
+    }
+</pre> </div>
+<h3>Steps</h3><ol id="GUID-F147E8CF-65D1-5025-BA85-E0D171DBEFFD"><a name="GUID-F147E8CF-65D1-5025-BA85-E0D171DBEFFD"><!-- --></a>
+<li id="GUID-0BAEB54B-5A6E-59F6-B14E-FAF0A3D15F27"><a name="GUID-0BAEB54B-5A6E-59F6-B14E-FAF0A3D15F27"><!-- --></a><p></p>
+Compile the resource file using the resource compiler (rcomp)
+to generate an <code>.rsc</code> file and an <code>.rsg</code> file. 
+<p>For information on resource compiler, see <strong>Symbian^3 Tools
+Guide &gt; Building</strong>. </p>
+<ol type="i" id="GUID-0B421705-A5CD-5FF7-BB95-C17559811267"><a name="GUID-0B421705-A5CD-5FF7-BB95-C17559811267"><!-- --></a>
+<li id="GUID-673E32C9-665C-5388-AE17-780A149F8837"><a name="GUID-673E32C9-665C-5388-AE17-780A149F8837"><!-- --></a><p></p>
+<code>.rsc</code> file contains the resource data;
+this is the resource file that must be referred to at run-time by
+the <code class="codeph">RResourceFile</code> class in the C++ code. 
+</li>
+<li id="GUID-AEE254EB-0716-5478-B1DF-F8ED8E4FF8E1"><a name="GUID-AEE254EB-0716-5478-B1DF-F8ED8E4FF8E1"><!-- --></a><p></p>
+<code>.rsg</code> file is a <em>generated    
+                 header</em> file that contains <code class="codeph">#define</code> statements for each resource defined in the source file. In the
+resource file generated here, the only resource is called <code class="codeph">hello</code> and the generated header file contains: 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">#define HELLO 1</pre> </div>
+Note that the name in the generated header file is converted
+to upper case. 
+</li>
+</ol>
+</li>
+<li id="GUID-3367B1DD-C2E9-5780-A77A-7F574D2EC541"><a name="GUID-3367B1DD-C2E9-5780-A77A-7F574D2EC541"><!-- --></a><p></p>
+<code class="codeph">#include</code> the <code>.rsg</code> file
+in the file containing the C++ code, to access the resource IDs generated
+by the resource compiler. For example, for a project refered as <code class="codeph">ReadText</code>, this might be: 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">#include ReadText.rsg</pre> </div>
+</li>
+<li id="GUID-ACC66DA2-4AC8-536B-9912-7CE632C0A8DF"><a name="GUID-ACC66DA2-4AC8-536B-9912-7CE632C0A8DF"><!-- --></a><p></p>
+Initialize the <code class="codeph">RResourceFile</code> object in the
+C++ program, specifying the name of the resource file: 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">    
+RResourceFile resourceFile;
+resourceFile.OpenL( fsSession,_L( Z:\\system\\data\\ReadText.rsc ) );</pre> </div>
+Note: To access the resource file contents, a session with the
+file server must be started using an instance of RFs class. 
+</li>
+<li id="GUID-CA53A8D1-E13E-50A8-96A7-B6B397B82DB3"><a name="GUID-CA53A8D1-E13E-50A8-96A7-B6B397B82DB3"><!-- --></a><p></p>
+Use one of the three functions (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AA6DEF11-6F23-3523-A9F7-F15DF918E1BA.html#GUID-9B16E6B8-84A4-37DF-BBB4-EC8B04FDB14C"><code class="apiname">RResourceFile::AllocReadLC()</code></a>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AA6DEF11-6F23-3523-A9F7-F15DF918E1BA.html#GUID-8CEE29E0-78F3-3DD6-B068-85C8E0403884"><code class="apiname">RResourceFile::AllocReadL()</code></a> or <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AA6DEF11-6F23-3523-A9F7-F15DF918E1BA.html#GUID-DF6DFFD5-E923-3C4E-87F0-BC4EE7C8B586"><code class="apiname">RResourceFile::ReadL()</code></a> to read a resource as shown in the following code fragment: 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">HBufC8* dataBuffer = resourceFile.AllocReadLC( HELLO );</pre> </div>
+</li>
+<li id="GUID-77F9A976-6E09-5158-B515-256F4B878CDB"><a name="GUID-77F9A976-6E09-5158-B515-256F4B878CDB"><!-- --></a><p></p>
+Interpret the resource data using a <code class="codeph">TResourceReader</code> object. This provides access to the text string through a pointer
+descriptor as shown in the following code fragment: 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">
+TResourceReader theReader;
+...
+theReader.SetBuffer( datafBuffer );
+TPtrC textdata = reader.ReadTPtrC();</pre> </div>
+</li>
+</ol>
+<div id="GUID-565451D8-6C9E-4F1C-BC15-BFA4F3DD6D1D"><h3 class="section-title">Results</h3><p>In this example, once the resource data is no longer needed,
+the heap descriptor, dataBuffer, can be removed from the cleanup stack
+and destroyed as shown in the code fragment: </p><pre class="codeblock">CleanupStack::PopAndDestroy();</pre><p>When all operations on the resource file are complete, the resource
+file can be closed using the RResourceFile::close() function as:  </p><pre class="codeblock">resourceFile.Close();</pre></div>
+<div><h3 class="section-title">Example</h3> <p>Consider a resource constructed
+from the following definition. </p> <pre class="codeblock">RESOURCE ARRAY anarray
+{
+items=
+    {
+    LBUF { txt="Esc"; },
+    LBUF { txt="Enter"; },
+    LBUF { txt="Tab"; },
+    LBUF { txt="Del"; },
+    LBUF { txt="Space"; }
+    };
+}</pre> <p>A <code class="codeph">TPtrC</code> representing the second
+item can be constructed using the <code class="codeph">ReadTPtrC()</code> function.
+The example simply takes the length of the text <code class="codeph">Enter</code>: </p> <pre class="codeblock">// open the resource file
+...
+HBufC8* res = resourceFile.AllocReadLC( ANARRAY );
+TResourceReader theReader;
+...
+TInt len;
+len = ( theReader.ReadTPtrC( 1,res ) ).Length(); // len == 5
+...</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-3AF1F492-3D7D-5F8C-B1AE-16FBD8224775.html">Resource
+files</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated July 7th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-EA107811-240C-5F95-922B-7C042FA00A87.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:00 GMT -->
+</html>

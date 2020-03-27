@@ -1,0 +1,85 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3F0FCBB5-98D2-4355-96E3-2DA938DE1C16.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:56 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="DSA Migration Guide" /><meta name="abstract" content="This migration guide explains the guidelines that applications that use direct screen access (DSA) must follow in order to run on ScreenPlay (NGA) devices." /><meta name="description" content="This migration guide explains the guidelines that applications that use direct screen access (DSA) must follow in order to run on ScreenPlay (NGA) devices." /><meta name="DC.Relation" scheme="URI" content="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C" /><meta name="DC.Relation" scheme="URI" content="GUID-484B51EC-2209-5492-8E9C-9D792AB0DF35" /><meta name="DC.Relation" scheme="URI" content="GUID-021E8B9C-4A1B-4C6D-B69E-4337A766C39A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3F0FCBB5-98D2-4355-96E3-2DA938DE1C16" /><meta name="DC.Language" content="en" /><title>DSA Migration Guide </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3F0FCBB5-98D2-4355-96E3-2DA938DE1C16">DSA Migration Guide</h1><div><p>This migration guide explains the guidelines that applications
+that use direct screen access (DSA) must follow in order to run on
+ScreenPlay (NGA) devices.</p>
+<p>Introduced in an earlier version of the Symbian platform, DSA enables
+applications that require high frame rates (such as video and games)
+to bypass the Window Server and write to the screen directly.  On
+ScreenPlay, Symbian recommends the use of EGL window surfaces in preference
+to DSA.</p>
+<p>Support for DSA is maintained for backward compatibility reasons.
+ However, whereas on some earlier devices, applications might work
+without fully conforming to the rules of DSA, these rules are now
+necessarily enforced.  Applications that follow the following guidelines
+should run correctly on a ScreenPlay device.</p>
+<div id="GUID-3725C49E-4804-4AF3-9797-1D052685893F"><h3 class="section-title">Always
+use a DSA session when using DSA</h3> <p>The main classes
+of the DSA framework are <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-24C7AE25-B44A-3B6F-AA05-EA90A8D36129.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-24C7AE25-B44A-3B6F-AA05-EA90A8D36129.html"><code class="apiname">CDirectScreenAccess</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E2092CF9-98E8-3206-91B2-36011AA6FB77.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E2092CF9-98E8-3206-91B2-36011AA6FB77.html"><code class="apiname">RDirectScreenAccess</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5A289A8A-1485-3AB9-94CF-177B83D4F450.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5A289A8A-1485-3AB9-94CF-177B83D4F450.html"><code class="apiname">MDirectScreenAccess</code></a>. Before drawing to the screen, the DSA application must create a
+DSA session; for example, by instantiating <code class="codeph">CDirectScreenAccess</code> and calling <code class="codeph">CDirectScreenAccess::StartL()</code>.  This
+rule applies regardless of whether the application accesses the DSA
+framebuffer using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4A501086-7EFF-376D-8901-6D9B2EB4EFF2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4A501086-7EFF-376D-8901-6D9B2EB4EFF2.html"><code class="apiname">CFbsBitGc</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B229156F-2344-3F46-8542-AC65882D80DE.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B229156F-2344-3F46-8542-AC65882D80DE.html"><code class="apiname">CFbsScreenDevice</code></a> or gains a pointer directly through HAL.</p><p>Applications that
+fail to create a DSA session will not work.  Applications that draw
+outside of an active period of DSA will not work.  This is because
+all DSA rendering is directed into a virtual framebuffer and the Operating
+System uses the DSA session to determine when that framebuffer should
+be made visible.</p><p>The following example demonstrates requesting
+direct screen access:</p><pre class="codeblock">voidCMyDSAEngine::StartDrawingL()
+    {
+    // Initialize DSA.
+    TRAPD(dsaError,iDSA-&gt;StartL());
+    if (dsaError==KErrNone)
+        {
+        // Get the graphics context for drawing.
+        iGc=iDSA-&gt;Gc();
+
+        // Get the region to draw to.
+        iRegion=iDSA-&gt;DrawingRegion();
+
+        // Set the clipping region to this region.
+        iGc-&gt;SetClippingRegion(iRegion); 
+
+        // Start generating timer events (the drawing is done in a timer callback).
+        iPeriodicTimer=CPeriodic::NewL(CActive::EPriorityStandard);
+        iPeriodicTimer-&gt;Start(0,KInterval,TCallBack(DrawNextFrame, this));
+        iDrawing=ETrue;
+        }
+    }
+</pre></div>
+<div id="GUID-ED2BEF42-7E4D-484F-8142-011271D7A584"><h3 class="section-title">Inform
+the Operating System after updating the DSA buffer</h3><p>Applications
+can access the screen by writing to the video hardware framebuffer
+or by using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B229156F-2344-3F46-8542-AC65882D80DE.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B229156F-2344-3F46-8542-AC65882D80DE.html"><code class="apiname">CFbsScreenDevice</code></a>.  Regardless which
+of these methods you use, the application must inform the OS that
+the framebuffer has been updated in order for the DSA drawing to be
+pushed to the display.</p><p>Applications that fail to declare modifications
+to the framebuffer will not see their content correctly appear on-screen.
+ This is because the OS uses event-driven updating to copy the contents
+of the DSA framebuffer into the display.</p><p>When writing to the
+video hardware frame buffer, force a screen update by creating a redraw
+event like this:</p><pre class="codeblock">TRawEventredraw;
+redraw.Set(TRawEvent::ERedraw);
+UserSvr::AddEvent(redraw);</pre><p>When using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B229156F-2344-3F46-8542-AC65882D80DE.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B229156F-2344-3F46-8542-AC65882D80DE.html"><code class="apiname">CFbsScreenDevice</code></a>, force a screen update by calling one of the following:</p><pre class="codeblock">void CFbsScreenDevice::Update();
+void CFbsScreenDevice::Update(constTRegion &amp;aRegion);
+</pre> </div>
+<div id="GUID-862F9788-B580-4D93-84B4-677D4B964BB9"><h3 class="section-title">Do
+not mix DSA and non-DSA rendering</h3><p>The application must not
+issue <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AEE5955-C530-35F1-A904-69183331B294.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AEE5955-C530-35F1-A904-69183331B294.html"><code class="apiname">CWindowGc</code></a> rendering to a window when DSA
+is active on that window.  If both types of rendering are required,
+the application must ensure that they only happen in distinct periods
+demarcated by the DSA session.</p><p>Applications that interleave
+periods of DSA rendering with periods of standard indirect (<a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AEE5955-C530-35F1-A904-69183331B294.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AEE5955-C530-35F1-A904-69183331B294.html"><code class="apiname">CWindowGc</code></a>) rendering, expecting to see each painted on
+top of the previous, will not work.  This is because the OS now uses
+two separate framebuffers; one for DSA rendering and one for indirect
+rendering.  Previous versions of the OS use a single
+framebuffer for both types of rendering.</p><p>Applications must be
+written to render the entire contents of their window using either
+DSA or indirect rendering at any one point of time.</p></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">The
+ScreenPlay Graphics Architecture</a></li><li><a href="GUID-484B51EC-2209-5492-8E9C-9D792AB0DF35.html">Graphics
+and Drawing</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated July 5th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3F0FCBB5-98D2-4355-96E3-2DA938DE1C16.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:56 GMT -->
+</html>

@@ -1,0 +1,63 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-13D2B45C-3A2A-497A-8D6A-87BE34D1DE69.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Implement the observer functions" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58CA15F8-D984-5D07-8C00-161FA16A8FD3" /><meta name="DC.Relation" scheme="URI" content="GUID-D468BDDD-FC61-5571-A4E2-334B6BB9C1E3" /><meta name="DC.Relation" scheme="URI" content="GUID-6167C2F2-BC5B-5B10-BD5D-7702BE4112F6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-13D2B45C-3A2A-497A-8D6A-87BE34D1DE69" /><meta name="DC.Language" content="en" /><title>Implement
+the observer functions </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-13D2B45C-3A2A-497A-8D6A-87BE34D1DE69">Implement
+the observer functions</h1><div>
+<div><h3 class="section-title">Context</h3><p>An application can register as an observer of a view by implementing
+the following observer interfaces. Observers can register with the View Server
+as activation observers, deactivation observers or as generic observers.</p><div class="tablenoborder"><a name="GUID-7159BD7C-6466-4CA8-9211-FD33273C9784"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-7159BD7C-6466-4CA8-9211-FD33273C9784" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e165079"><p>Interface</p></th>
+<th class="cellrowborder" valign="top" id="d0e165083"><p>Notification</p></th>
+<th class="cellrowborder" valign="top" id="d0e165087"><p>Method to override</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e165079 "><p><code class="codeph">MCoeViewActivationObserver </code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e165083 "><p>View activation notification for the specified view.</p></td>
+<td class="cellrowborder" valign="top" headers="d0e165087 "><div class="p"><pre class="codeblock">IMPORT_C void NotifyNextActivation(TVwsViewId&amp; aViewId,  MCoeViewActivationObserver&amp; aViewActivationObserver)
+</pre></div></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e165079 "><p><code class="codeph">MCoeViewActivationObserver </code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e165083 "><p>View activation notification for any view registered with view server.</p></td>
+<td class="cellrowborder" valign="top" headers="d0e165087 "><div class="p"><pre class="codeblock">IMPORT_C void NotifyNextActivation(MCoeViewActivationObserver&amp; aViewActivationObserver)
+</pre></div></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e165079 "><p><code class="codeph">MCoeViewDeactivationObserver </code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e165083 "><p>View deactivation notification for the specified view.</p></td>
+<td class="cellrowborder" valign="top" headers="d0e165087 "><div class="p"><pre class="codeblock">IMPORT_C void NotifyNextDeactivation (TVwsViewId&amp; aViewId, MCoeViewDeactivationObserver&amp; aViewDeactivationObserver)
+</pre></div></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e165079 "><p><code class="codeph">MCoeViewDeactivationObserver </code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e165083 "><p>View deactivation notification for any view registered with view
+server.</p></td>
+<td class="cellrowborder" valign="top" headers="d0e165087 "><div class="p"><pre class="codeblock">IMPORT_C void NotifyNextDeactivation (MCoeViewDeactivationObserver&amp; aViewDeactivationObserver)
+</pre></div></td>
+</tr>
+</tbody>
+</table></div><p>The following code snippet shows implementing the <code class="codeph">MCoeViewActivationObserver</code> observer
+interface class:</p><pre class="codeblock">/** 
+CMCoeViewActivationObserver  - implements the MCoeViewActivationObserver interface for notifications only
+*/
+CMCoeViewActivationObserver* CMCoeViewActivationObserver::NewL()    
+    {
+    CMCoeViewActivationObserver* self=new( ELeave ) CMCoeViewActivationObserver();
+    return self;
+    }
+void CMCoeViewActivationObserver::HandleViewActivation( const TVwsViewId&amp; aNewlyActivatedViewId,
+                                                        const TVwsViewId&amp; aViewIdToBeDeactivated )    
+    {_
+    LIT( Kmessage, "Notified MCoeViewActivationObserver::HandleViewActivation: Newly Active View: 0x%x - Deactivate 0x%x" )    
+    INFO_PRINTF2( Kmessage, aNewlyActivatedViewId.iViewUid.iUid, aViewIdToBeDeactivated.iViewUid.iUid );
+    }</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 13th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-13D2B45C-3A2A-497A-8D6A-87BE34D1DE69.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:00 GMT -->
+</html>

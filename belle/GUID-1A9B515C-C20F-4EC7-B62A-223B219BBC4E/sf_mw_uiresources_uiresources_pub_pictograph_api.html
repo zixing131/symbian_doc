@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_uiresources_uiresources_pub_pictograph_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:07 GMT -->
+<head><title>Pictograph API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i1045 i1048"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Pictograph API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.2</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Rendering_pictographs"><span class="tocnumber">2.1</span> <span class="toctext">Rendering pictographs</span></a></li>
+<li class="toclevel-2"><a href="#Limitations_of_the_API"><span class="tocnumber">2.2</span> <span class="toctext">Limitations of the API</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Provides pictograph rendering functionality.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>aknpictograph.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/uiresources/uiresources_pub/pictograph_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/uiresources/uiresources_pub/pictograph_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>The Pictograph API is an interface to render pictography. Using this API, the device user can be allowed to enter pictographs in different editors. All Symbian Platform UI components implement support for rendering pictographs.
+</p><p>The Pictograph API enables implementing support for pictograph rendering also in custom UI controls developed by third parties.
+</p>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.2 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknPictographInterface <td><span class="plainlinks"><code>/epoc32/include/mw/AknPictographInterface.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/AknPictographInterface.inl</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>MAknPictographAnimatorCallBack</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknPictographDrawerInterface.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknPictographDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknPictographDrawerInterface.h</code></span>
+</td></tr>
+<p>Class: <span class="plainlinks"><code>CAknPictographInterface</code> </span>
+Encapsulates access to the <span class="plainlinks"><code>MAknPictographDrawer</code> </span> interface. Instantiated by the user code.
+</p><p>Class: <span class="plainlinks"><code>MAknPictographDrawer</code> </span>
+An interface for the following operations:
+&#8226;	Querying the supported pictograph codes.
+&#8226;	Querying whether a given character is a supported pictograph.
+&#8226;	Querying whether a given text contains pictographs or not.
+&#8226;	Querying whether a given pictograph is animated or not.
+&#8226;	Querying a suitable pictograph height for a given font.
+&#8226;	Rendering pictographs in fixed positions.
+&#8226;	Rendering pictographs amongst text.
+&#8226;	Setting the drawing mode for single pictograph drawing.
+</p><p>Class: <span class="plainlinks"><code>MAknPictographAnimatorCallBack</code> </span>
+A callback which the user code must implement to support animations of the pictographs. It is invoked by the pictograph framework when the next frame of the animated pictographs should be updated. It should do the following:
+1.	Draw or clear the background of pictographs.
+2.	If the pictographs are amongst text, draw the text.
+3.	Draw the pictographs using the MAknPictographDrawer interface.
+</p><p>In many cases, it is sufficient to implement this simply by calling <span class="plainlinks"><code>CCoeControl::DrawNow</code> </span> for the appropriate control.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Rendering_pictographs"><h3> <span class="mw-headline">2.1 Rendering pictographs </span></h3>
+</a><p>A simple example is used to illustrate how to render pictographs in a UI control that handles rendering text by itself.
+</p><p>The user class is derived from <span class="plainlinks"><code>MAknPictographAnimatorCallBack</code> </span>.
+</p>
+<pre>   class CPictoContainer: public CCoeControl, public MaknPictographAnimatorCallBack
+   {
+   // ...
+   private: // from MAknPictographAnimatorCallBack
+   void DrawPictographArea();    
+   };
+</pre>
+<p><span class="plainlinks"><code>MAknPictographAnimatorCallBack::DrawPictographArea</code> </span> is implemented by the user code. In this case, it is done by calling DrawNow menthod to redraw the whole control. However, it can be optimized to draw only the regions necessary to update the pictographs.
+</p>
+<pre>   void CPictoContainer::DrawPictographArea()
+   {
+   DrawNow();
+   }
+</pre>
+<p><span class="plainlinks"><code>CAknPictographInterface</code> </span> is instantiated by the user code.
+</p>
+<pre>  // This returns NULL if pictograph feature is not supported.
+  // Remember NULL check always before accessing iPictographInterface.
+  iPictographInterface = CAknPictographInterface::NewL( *this, *this );
+</pre>
+<p>Drawing code uses the <span class="plainlinks"><code>MAknPictographDrawer</code> </span> to render text and the possible pictographs with it.
+</p>
+<pre>   void CPictoContainer::Draw( const TRect&amp; aRect ) const
+   {
+     // ...
+     gc.DrawText( text, adjustedBox, ascent, align, margin );
+     // remember NULL check always with pictograph interface
+     if ( iPictographInterface )
+       {
+       iPictographInterface-&gt;Interface()-&gt;DrawPictographsInText(
+           gc, *iFont, text, adjustedBox, ascent, align, margin );
+       }
+   }
+</pre>
+<p>The instance of Pictograph interface is deleted in the destructor.
+</p>
+<pre>   CPictoContainer::~CPictoContainer()
+   {
+   // ...
+   delete iPictographInterface;
+   }
+</pre>
+<a name="Limitations_of_the_API"><h3> <span class="mw-headline">2.2 Limitations of the API </span></h3>
+</a><p>The Pictograph feature is not enabled in Japanese SDK emulator environment because the actual pictograph bitmaps need to be licensed from operators separately. So the pictograph rendering can be verified only on hardware.
+</p>
+<div class="copy"><?php include ("copy.php"); ??></div></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_uiresources_uiresources_pub_pictograph_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:07 GMT -->
+</html>

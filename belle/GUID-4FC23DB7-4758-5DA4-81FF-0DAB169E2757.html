@@ -1,0 +1,307 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4FC23DB7-4758-5DA4-81FF-0DAB169E2757.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="SQL Schema Tips" /><meta name="abstract" content="This guide gives tips for using the database schema." /><meta name="description" content="This guide gives tips for using the database schema." /><meta name="DC.Relation" scheme="URI" content="GUID-22844C28-AB5B-5A6F-8863-7269464684B4" /><meta name="DC.Relation" scheme="URI" content="GUID-78773BCA-ADF6-53E6-AC80-5CB2AE1F8BCC" /><meta name="DC.Relation" scheme="URI" content="GUID-1F12E3F5-45B2-55EC-B021-00338277C608" /><meta name="DC.Relation" scheme="URI" content="GUID-43CA02E7-0101-5824-B91B-E15EE20C829A" /><meta name="DC.Relation" scheme="URI" content="GUID-49A3419F-D20A-5C5D-B2FF-51724EF37704" /><meta name="DC.Relation" scheme="URI" content="GUID-C2FAEBB2-4A1A-5BB0-9670-4801525CBC6A" /><meta name="DC.Relation" scheme="URI" content="GUID-B994E6F7-228A-5433-B87F-91857C5D93D6" /><meta name="DC.Relation" scheme="URI" content="GUID-2A2920E0-5D40-5358-BC0C-8572CEFE078C" /><meta name="DC.Relation" scheme="URI" content="GUID-126FCCCC-0E7D-59AE-959A-2F94A7319C4B" /><meta name="DC.Relation" scheme="URI" content="GUID-ACCCB148-DAF9-59EC-B585-8EF632B9BF04" /><meta name="DC.Relation" scheme="URI" content="GUID-B7E978C1-45CA-554C-8028-D901B97BA2E0" /><meta name="DC.Relation" scheme="URI" content="GUID-AF5A75D7-0687-546C-87B2-0B7DF7D33217" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-868D5B32-1CC4-506E-9C49-C86428B9A50F" /><meta name="DC.Relation" scheme="URI" content="GUID-C6D3827F-8F73-593E-A339-B510EEB9771F" /><meta name="DC.Relation" scheme="URI" content="GUID-831F9AA3-0209-53DC-96C4-04157F22870C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4FC23DB7-4758-5DA4-81FF-0DAB169E2757" /><meta name="DC.Language" content="en" /><title>SQL Schema Tips </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4FC23DB7-4758-5DA4-81FF-0DAB169E2757">SQL Schema Tips</h1><div><p>This guide gives tips for using the database schema. </p>
+<div id="GUID-37B02CC0-B591-542D-8B02-B6E2F3FF2097"><h3 class="section-title">Introduction</h3> <p>A schema is a way of organizing a number of related database
+objects such as tables. The schema contains at least one object but
+can contain as many as the total number of tables in the database.
+This section provides some handy tips for working with schemas in
+Symbian SQL. </p> <p>The following tips or techniques are discussed: </p> <ul>
+<li id="GUID-F50E880D-BE59-5915-BE5A-E752EA2D3868"><a name="GUID-F50E880D-BE59-5915-BE5A-E752EA2D3868"><!-- --></a><p> <a href="#GUID-296FB987-9E61-5925-9246-0468534D16A9">Handling SQL schema errors</a> </p> </li>
+<li id="GUID-A5C25843-9D8E-5F2F-96FD-61BA05B4FEC6"><a name="GUID-A5C25843-9D8E-5F2F-96FD-61BA05B4FEC6"><!-- --></a><p> <a href="#GUID-0D7324A8-8DAF-57B5-BCA1-C8BDD855773C">Designing tables for more efficient access</a> </p> </li>
+<li id="GUID-A300E8B2-A0F2-5EC1-AAE4-09909FA69E98"><a name="GUID-A300E8B2-A0F2-5EC1-AAE4-09909FA69E98"><!-- --></a><p> <a href="#GUID-DAF6BE02-7D38-5667-86B2-D12EB34BB6EC">Storing Large BLOBs Separately from the Database</a> </p> </li>
+<li id="GUID-C66BE626-F551-58E5-98C9-33090DF96272"><a name="GUID-C66BE626-F551-58E5-98C9-33090DF96272"><!-- --></a><p> <a href="#GUID-8F18A8B8-706F-5F53-88BC-249F9EB48110">Using INTEGER PRIMARY KEY</a> </p> </li>
+<li id="GUID-86442FBC-699C-5101-95CB-1BA5229DE63A"><a name="GUID-86442FBC-699C-5101-95CB-1BA5229DE63A"><!-- --></a><p> <a href="#GUID-BD8FE233-2AA5-5DF7-9A84-EEC5836669E8">Efficient Primary Key and Row ID values</a> </p> </li>
+<li id="GUID-8FEA56BD-19A7-59A2-8B26-01A3594D6FC7"><a name="GUID-8FEA56BD-19A7-59A2-8B26-01A3594D6FC7"><!-- --></a><p> <a href="#GUID-40CDE965-B261-5873-9F8B-7812EEC14AD7">Keep Schemas Small and Constant</a> </p> </li>
+</ul> </div>
+<div id="GUID-296FB987-9E61-5925-9246-0468534D16A9"><h3 class="section-title">Handling
+SQL schema errors</h3> <p>In order to translate a SQL statement
+into bytecode, <code class="codeph">Prepare()</code> needs to know the database
+schema. For any given SQL statement there are typically many different
+ways of implementing the statement in bytecode. The compiler (or a
+particular part of the compiler that is commonly referred to as the <em>optimizer</em>) tries to pick the most efficient implementation based
+on what is known about the content of the various tables and what
+indexes are available. The bytecode depends so much on the database
+schema that the slightest change to the schema can cause totally different
+bytecode to be generated for the same SQL statement. </p> <p>When <code class="codeph">Prepare()</code> runs, it uses the database schema as of the last
+time the database was accessed when preparing the bytecode. So if
+the database schema has been changed by another program, or if the
+schema is changed after <code class="codeph">Prepare()</code> completes but before <code class="codeph">Exec()</code> or <code class="codeph">Next()</code> is run, the schema of
+the database will not match the schema used to prepare the bytecode. </p> <p>To guard against any problems, the first few instructions of
+bytecode in a prepared statement read the current schema cookie for
+the database and check to see that it is the same as it was when <code class="codeph">Prepare()</code> was run. If the schema cookie has changed, then <code class="codeph">Exec()</code> and <code class="codeph">Next()</code> terminate with the error KSqlErrSchema. </p> <p>When this occurs, a new prepared
+statement should be created by calling <code class="codeph">Prepare()</code> again
+with the same SQL and the original prepared statement should be discarded. </p> <p>It is important to recognize that a KSqlErrSchema error can occur on any call to <code class="codeph">Exec()</code> or <code class="codeph">Next()</code>. A common programming error with is to omit the necessary
+error handling or to do it incorrectly. The error is, unfortunately,
+often overlooked during testing because the usual cause of an KSqlErrSchema error is an external program making a schema
+change at just the wrong moment, and external programs are not normally
+running during testing. </p> </div>
+<div id="GUID-0D7324A8-8DAF-57B5-BCA1-C8BDD855773C"><h3 class="section-title"> Designing
+tables for more efficient access</h3> <p>Put smaller and frequently
+accessed columns at the beginning of tables. SQLite stores a row of
+a table by gathering the data for all columns in that row and packing
+the data together in column order into as few bytes as possible. <em>Column order</em> means that the data for the first declared column
+of the table – the column that appears first in the CREATE TABLE statement
+– is packed into the bundle first. The data for the second column
+is packed into the bundle second. And so forth. </p> <p>SQLite goes
+to some trouble to use as few bytes as possible when storing data.
+A text string that is 5 bytes long, for example, is stored using just
+5 bytes. The '\00' terminator on the end is omitted. No padding bytes
+or overhead are added even if the column specifies a larger string
+such as VARCHAR(1000). </p> <p>Small integers (between -127 and +127)
+are stored as a single byte. As the magnitude of the integer increases,
+additional bytes of storage are added as necessary up to 8 bytes.
+Floating point numbers are normally stored as 8-byte IEEE floats,
+but if the floating point number can be represented as a smaller integer
+without loss of information, it is converted and stored that way to
+save space. BLOBs are also stored using the minimum number of bytes
+necessary. </p> <p>These efforts to save space both help to keep SQLite
+database files small and also improve performance since the smaller
+each record is the more information will fit in the same amount of
+space and the less disk I/O needs to occur. </p> <p>The downside of
+using compressed storage is that data in each column is an unpredictable
+size. So within each row, we do not know in advance where one column
+ends and the next column begins. To extract the data from the N-th
+column of a row, SQLite has to decode the data from the N-1 prior
+columns first. Thus, for example, if you have a query that reads just
+the fourth column of a table, the bytecode that implements the query
+has to read and discard the data from the first, second, and third
+columns in order to find where the data for the fourth column begins
+in order to read it out. </p> <p>For this reason, it is best to put
+smaller and more frequently accessed columns of a table early in the
+CREATE TABLE statement and put large CLOBs and BLOBs and infrequently
+accessed information toward the end. </p> </div>
+<div id="GUID-DAF6BE02-7D38-5667-86B2-D12EB34BB6EC"><h3 class="section-title">Storing
+Large BLOBs Separately from the Database</h3> <p>SQLite does not
+place arbitrary constraints on the size of BLOBs and CLOBs that it
+will store. The only real restriction is that the entire BLOB or CLOB
+must fit in memory all at once. But just because you can do this does
+not mean you should. </p> <p>Although SQLite is able to handle really
+big BLOBs, it is not optimized for that case. If performance and storage
+efficiency is a concern, you will be better served to store large
+BLOBs and CLOBs in separate disk files then store the name of the
+file in the database in place of the actual content. </p> <p>When
+SQLite encounters a large table row – e.g. because it contains one
+or more large BLOBs – it tries to store as much of the row as it can
+on a single page of the database. The tail of the row that will not
+fit on a single page is spilled into overflow pages. If more than
+one overflow page is required, then the overflow pages form a linked
+list. </p> <p>To store a 1MiB BLOB in a database with a 1KiB page
+size will require the BLOB to be broken into a list of over a thousand
+links, each of which gets stored separately. Whenever you want to
+read the BLOB out of the database, SQLite has to walk this thousand-member
+linked list in order to reassemble the BLOB again. This works and
+is reliable, but it is not especially efficient. </p> <p>Another problem
+with large BLOBs and CLOBs is that they can be neither read nor written
+incrementally. The entire BLOB or CLOB must be read or written all
+at once. So, for example, to append 10 bytes to the end of a 10MiB
+BLOB, one has to read the entire BLOB, append the 10 bytes, then write
+the new BLOB back out again. With a disk file, on the other hand,
+you can append 10 bytes quickly and efficiently without having to
+access the other 10 million bytes of the original file. </p> <p>If
+you absolutely need to store large BLOBs and CLOBs in your database
+(perhaps so that changes to these data elements will be atomic and
+durable) then at least consider storing the BLOBs and CLOBs in separate
+tables that contain only an INTEGER PRIMARY KEY and the content of
+the BLOB or CLOB. So, instead of writing your schema this way: </p> <pre class="codeblock">
+CREATE TABLE image(
+    imageId INTEGER PRIMARY KEY,
+    imageTitle TEXT,
+    imageWidth INTEGER,
+    imageHeight INTEGER,
+    imageRefCnt INTEGER,
+    imageBlob BLOB
+);
+</pre> <p>Factor out the large BLOB into a separate table so
+that your schema looks more like this: </p> <pre class="codeblock">
+CREATE TABLE image(
+    imageId INTEGER PRIMARY KEY,
+    imageTitle TEXT,
+    imageWidth INTEGER,
+    imageHeight INTEGER,
+    imageRefCnt INTEGER
+);
+
+CREATE TABLE imagedata(
+    imageId INTEGER PRIMARY KEY,
+    imageBlob BLOB
+);
+</pre> <p>Keeping all of the small columns in a separate table
+increases locality of reference and allows queries that do not use
+the large BLOB to run much faster. You can still write single queries
+that return both the smaller fields and the BLOB by using a simple
+(and very efficient) join on the INTEGER PRIMARY KEY. </p> </div>
+<div id="GUID-8F18A8B8-706F-5F53-88BC-249F9EB48110"><h3 class="section-title">Using
+INTEGER PRIMARY KEY</h3> <p>INTEGER PRIMARY KEY is a fast special
+case. Every row of every SQLite table has a signed 64-bit integer
+RowID. This RowID is the key for the b-tree that holds the table content.
+The RowID must be unique over all other rows in the same table. When
+you go to find, insert, or remove a row from a table in SQLite, the
+row is first located by search for its RowID. Searching by RowID is
+very fast. Everything in SQLite tables centres around RowIDs. </p> <p>In the CREATE TABLE statement that defines a table, if you declare
+a column to be of type INTEGER PRIMARY KEY, then that column becomes
+an alias for the RowID. It is generally a good idea to create such
+a column whenever it is practical. </p> <p>Looking up information
+by RowID or INTEGER PRIMARY KEY is usually about twice as fast as
+any other search method in SQLite. So for example, if we have an indexed
+table like this: </p> <pre class="codeblock">
+CREATE TABLE demo1(
+    id1 INTEGER PRIMARY KEY,
+    id2 INTEGER UNIQUE,
+    content BLOB
+);
+</pre> <p>Then queries against the INTEGER PRIMARY KEY, e.g.
+of the form: </p> <pre class="codeblock">
+SELECT content FROM demo1 WHERE id1=?;
+</pre> <p>will be about twice as fast as queries like this: </p> <pre class="codeblock">
+SELECT content FROM demo1 WHERE id2=?;
+</pre> <p>Note that the following two queries are identical
+in SQLite – not just equivalent but identical. They generate exactly
+the same bytecode: </p> <pre class="codeblock">
+SELECT content FROM demo1 WHERE id1=?;
+SELECT content FROM demo1 WHERE RowID=?;
+</pre> <p>But for stylistic and portability reasons, the first
+form of the query is preferred. </p> <p>Also observe that in order
+for the INTEGER PRIMARY KEY to truly be an alias for the RowID, the
+declared type must be exactly “INTEGER PRIMARY KEY”. </p> <p>Variations
+such as “INT PRIMARY KEY” or “UNSIGNED INTEGER PRIMARY KEY” or “SHORTINT
+PRIMARY KEY” become independent columns instead of aliases for the
+RowID. </p> <p>So be careful to always spell INTEGER PRIMARY KEY correctly
+in your CREATE TABLE statements. </p> </div>
+<div id="GUID-BD8FE233-2AA5-5DF7-9A84-EEC5836669E8"><h3 class="section-title"> Efficient
+Primary Key and Row ID values</h3> <p>Use small positive integers
+for INTEGER PRIMARY KEY or RowID. As explained in the section <a href="#GUID-8F18A8B8-706F-5F53-88BC-249F9EB48110">Using INTEGER PRIMARY KEY</a>, every table row has a key which
+is a signed 64-bit integer: the RowID or INTEGER PRIMARY KEY. This
+same RowID also occurs in every index entry and is used to refer the
+index entry back to the original table row. </p> <p>When writing the
+RowID to disk, SQLite encodes the 64-bit integer value using a Huffman
+code over a fixed probability distribution. The resulting encoding
+requires between 1 and 9 bytes of storage space, depending on the
+magnitude of the integer. Small, non-negative integers require less
+space than larger or negative integers. Table 3.1 shows the storage
+requirements: </p> <div class="tablenoborder"><a name="GUID-A50643C5-5D28-56C1-B1D9-6BFF1E9551B5"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-A50643C5-5D28-56C1-B1D9-6BFF1E9551B5" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e468166">RowID Magnitude</th>
+<th class="cellrowborder" valign="top" id="d0e468169">Bytes Of Storage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e468166 "><p>0 to 127 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e468169 "><p>1</p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e468166 "><p>128 to 16383 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e468169 "><p>2</p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e468166 "><p>16384 to 2097151 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e468169 "><p>3</p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e468166 "><p>2097152 to 268435455 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e468169 "><p>4</p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e468166 "><p>268435456 to 34359738367 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e468169 "><p>5</p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e468166 "><p>34359738368 to 4398046511103 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e468169 "><p>6</p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e468166 "><p>4398046511104 to 562949953421311 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e468169 "><p>7</p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e468166 "><p>562949953421312 to 72057594037927935 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e468169 "><p>8</p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e468166 "><p>Less than 0 or greater than 72057594037927935 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e468169 "><p>9</p> </td>
+</tr>
+</tbody>
+</table></div> <p> <strong>Table 3.1:</strong> Storage requirements for RowIDs of
+different magnitudes </p> <p>This chart makes it clear that the best
+way to keep reduce the number of bytes of disk space devoted to storing
+RowIDs is to keep RowIDs small non-negative integers. The database
+will continue to work fine with large or negative RowIDs, but the
+database files will take up more space. </p> <p>SQLite normally works
+by assigning RowIDs automatically. An automatically generated RowID
+will normally be the smallest positive integer that is not already
+used as a RowID in the same table. The first RowID assigned will be
+1, the second 2, and so forth. So the automatic RowID assignment algorithm
+begins by using 1-byte RowIDs, then moves to 2-byte RowIDs as the
+number of rows increased, then 3-byte RowIDs, and so forth. In other
+words, the automatic RowID assignment algorithm does a good job of
+selecting RowIDs that minimize storage requirements. </p> <p>If a
+table contains an INTEGER PRIMARY KEY column, that column becomes
+an alias for the RowID. If you then specify a particular RowID when
+doing an INSERT, the RowID you specify overrides the default choice
+made by SQLite itself. For example, if your table is this: </p> <pre class="codeblock">
+CREATE TABLE demo311(
+    id INTEGER PRIMARY KEY,
+    content VARCHAR(100)
+);
+</pre> <p>Then if you insert like this: </p> <pre class="codeblock">
+INSERT INTO demo311(id,content) VALUES(-17,'Hello');
+</pre> <p>The value -17 is used as the RowID which requires
+9 bytes of space in the disk file because it is negative. If instead
+of specifying the id value you had just left it blank: </p> <pre class="codeblock">
+INSERT INTO demo311(content) VALUES('Hello');
+</pre> <p>Or if you had specified a NULL as the INTEGER PRIMARY
+KEY value: </p> <pre class="codeblock">
+INSERT INTO demo311(id,content) VALUES(NULL,'Hello');
+</pre> <p>Then in either case, SQLite would have automatically
+selected a RowID value that was the smallest positive integer not
+already in use, thus minimizing the amount of disk space required. </p> <p>Therefore unless you have specific requirements to the contrary,
+it generally works best to let SQLite pick its own RowID and INTEGER
+PRIMARY KEY values. </p> </div>
+<div id="GUID-40CDE965-B261-5873-9F8B-7812EEC14AD7"><h3 class="section-title">Keep
+Schemas Small and Constant</h3> <p>SQLite stores the original text
+of all CREATE statements in a system table of the database. When a
+database session is opened or when the database schema is changed,
+SQLite has to read and parse all of these CREATE statements in order
+to reconstruct its internal symbol tables. </p> <p>The parser and
+symbol table builder inside SQLite are very fast, but they still take
+time which is proportional to the size of the schema. To minimize
+the computational overhead associated with parsing the schema: </p> <ul>
+<li id="GUID-36BDF092-298D-564D-9744-9C83836A2FB2"><a name="GUID-36BDF092-298D-564D-9744-9C83836A2FB2"><!-- --></a><p>Keep the number
+and size of CREATE statements in the schema to a minimum. </p> </li>
+<li id="GUID-DF3A6363-7C24-5727-AD27-58367EFFE1A4"><a name="GUID-DF3A6363-7C24-5727-AD27-58367EFFE1A4"><!-- --></a><p>Avoid unnecessary
+calls to RSqlDatabase::Open(). Reuse the same database
+session where possible. </p> </li>
+<li id="GUID-D1A62767-9CF7-5FBE-8F51-98EB154559C1"><a name="GUID-D1A62767-9CF7-5FBE-8F51-98EB154559C1"><!-- --></a><p>Avoid changing
+the database schema while other threads or processes might be using
+the database. </p> </li>
+</ul> <p>Whenever the schema is reparsed, all statements that were
+prepared using the old schema are invalidated. A call <code class="codeph">Next()</code> or <code class="codeph">Exec()</code> on a RSqlStatement object that was prepared prior to the schema reparse will return KSqlErrSchema to let you know that the cause of the error
+was a schema change. Thus any prepared statements that were cached
+will have to be discarded and re-prepared following a schema change.
+Refilling the prepared statement cache can be as computationally expensive
+as parsing the schema in the first place. </p> <p>Prepared statements
+can be invalidated for reasons other than schema changes including
+executing <code class="codeph">Attach()</code> or <code class="codeph">Detach()</code>.
+Avoid this if you have a large cache of prepared statements. The best
+strategy is to attach all associated databases as soon as a new database
+session is opened and before any statements are prepared. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-22844C28-AB5B-5A6F-8863-7269464684B4.html">SQL
+Overview</a></li><li><a href="GUID-78773BCA-ADF6-53E6-AC80-5CB2AE1F8BCC.html">SQL
+Server Guide</a></li><li><a href="GUID-1F12E3F5-45B2-55EC-B021-00338277C608.html">SQL
+DB Overview</a></li><li><a href="GUID-43CA02E7-0101-5824-B91B-E15EE20C829A.html">Avoid
+Transient Tables</a></li><li><a href="GUID-49A3419F-D20A-5C5D-B2FF-51724EF37704.html">Prevent
+Datafile Corruption</a></li><li><a href="GUID-C2FAEBB2-4A1A-5BB0-9670-4801525CBC6A.html">SQL
+Index Tips</a></li><li><a href="GUID-B994E6F7-228A-5433-B87F-91857C5D93D6.html">SQL
+Insertion Tips</a></li><li><a href="GUID-2A2920E0-5D40-5358-BC0C-8572CEFE078C.html">SQL
+Expressions</a></li><li><a href="GUID-126FCCCC-0E7D-59AE-959A-2F94A7319C4B.html">SQL
+Statement Tips</a></li><li><a href="GUID-ACCCB148-DAF9-59EC-B585-8EF632B9BF04.html">SQL
+Joins</a></li><li><a href="GUID-B7E978C1-45CA-554C-8028-D901B97BA2E0.html"> ANALYZE
+Command</a></li><li><a href="GUID-AF5A75D7-0687-546C-87B2-0B7DF7D33217.html"> SQL
+WHERE CLause Tips</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 11th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4FC23DB7-4758-5DA4-81FF-0DAB169E2757.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+</html>

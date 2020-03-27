@@ -1,0 +1,114 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-CE011029-0F2B-50D4-B793-A24C7ECFC21E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:36 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Loading a Symbian Platform Defined Table: Tutorial" /><meta name="abstract" content="This tutorial shows you how to load a Symbian platform defined table from the Comms Database. The topic also gives an example that shows you how to process the records in a table." /><meta name="description" content="This tutorial shows you how to load a Symbian platform defined table from the Comms Database. The topic also gives an example that shows you how to process the records in a table." /><meta name="DC.Relation" scheme="URI" content="GUID-1AFDDD6F-CB99-587D-A0B5-D3F5B27F7135" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-C3018CEE-865B-595A-A735-40E11665E50A" /><meta name="DC.Relation" scheme="URI" content="GUID-BD971173-E009-58DA-AF9C-F4AAFF77B138" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-CE011029-0F2B-50D4-B793-A24C7ECFC21E" /><meta name="DC.Language" content="en" /><title>Loading
+a Symbian Platform Defined Table: Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-CE011029-0F2B-50D4-B793-A24C7ECFC21E">Loading
+a Symbian Platform Defined Table: Tutorial</h1><div><p>This tutorial shows you how to load a Symbian platform defined
+table from the Comms Database. The topic also gives an example that shows
+you how to process the records in a table. </p>
+<div id="GUID-770B3F59-5FA6-58C6-A484-118DB7288D3B"><h3 class="section-title">Context</h3><p>This tutorial shows
+you how to load the <em>Connection Preferences</em> table. The principles that
+apply here also apply to the other Symbian platform defined tables. </p> <p>This
+tutorial shows you the main steps. </p> <p>This tutorial also shows how you
+can process the records in the table. The example code shows you how to sort
+the records in the table. </p> </div><div id="GUID-68076901-260F-5588-B05A-5B51412DEE43"><h3 class="section-title">Prerequisites</h3><p>Before you start,
+you must understand: </p> <ul>
+<li id="GUID-AA2573E6-E199-5E5B-B458-DC189FE982F0"><a name="GUID-AA2573E6-E199-5E5B-B458-DC189FE982F0"><!-- --></a><p>the general concept
+of the Comms Database </p> </li>
+<li id="GUID-43160B1C-200E-5326-9CE8-474A49A81C4E"><a name="GUID-43160B1C-200E-5326-9CE8-474A49A81C4E"><!-- --></a><p>the specific concept
+of fields, records, links and tables </p> </li>
+<li id="GUID-2CED5E8A-83C3-5CCE-B91D-9E773AFEBB2D"><a name="GUID-2CED5E8A-83C3-5CCE-B91D-9E773AFEBB2D"><!-- --></a><p>how to write and build
+application code to run on Symbian platform</p> </li>
+</ul> </div>
+<h3>Steps</h3><ol id="GUID-03C423B7-1C20-592A-9E8D-0D7D996E2A05"><a name="GUID-03C423B7-1C20-592A-9E8D-0D7D996E2A05"><!-- --></a>
+<li id="GUID-0DE3770C-9E39-5A43-88F3-5957F5627317"><a name="GUID-0DE3770C-9E39-5A43-88F3-5957F5627317"><!-- --></a><p>Make sure that you
+have created a session. </p>
+</li>
+<li id="GUID-3F0C9272-6A9E-52DF-9711-F44036BC87CE"><a name="GUID-3F0C9272-6A9E-52DF-9711-F44036BC87CE"><!-- --></a><p>Create the table
+object in the tool or application process. </p>
+
+You create a CMDBRecordSet <code class="codeph">&lt;T&gt;</code> object
+and specify CCDConnectionPrefsRecord as
+the template parameter. 
+
+Symbian platform defines the <code class="codeph">CCDConnectionPrefsRecord</code> class
+to represent a Connection Preferences record. The class is a schema for the
+record. The class defines the fields and links that make a Connection Preferences
+record. 
+Symbian platform defines <a href="GUID-6DAF85AD-E412-5823-81C2-FC1755A90A84.html#GUID-32E556BC-55C3-5FBD-9A60-9708139C20D6">unique
+numeric Id</a> s for Symbian platform defined tables. The symbol KCDTIdConnectionPrefsRecord defines the value
+of this Id for the Connection Preferences table. The Id allows the CommsDat
+API to retrieve the table from the Comms Database efficiently. 
+To work with other Symbian platform defined tables, use
+the correct class name and the correct unique numeric Id values. The <a href="GUID-58089281-9DD0-502D-8DFD-831E7BAA931E.html">Reference</a> section
+contains a list of all Symbian  defined tables. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">...
+
+// This code fragment assumes that a session with the Comms Database has been created.
+// iDb is a pointer to a CMDBSession object
+...
+
+// Use the standard "new (ELeave)" construction to create the object to 
+// represent the table. 
+//
+// Note:
+// 1. the template parameter CCDConnectionPrefsRecord defines 
+//    the "Connection Preferences" record type.
+// 2. the unique numeric Id KCDTIdConnectionPrefsRecord is passed as a parameter
+//    to the constructor.
+CMDBRecordSet&lt;CCDConnectionPrefsRecord&gt;* ptrConnPrefRecordSet = 
+   new (ELeave) CMDBRecordSet(KCDTIdConnectionPrefsRecord);
+...
+             </pre> </div>
+</li>
+<li id="GUID-A622B842-A502-573A-BCD0-E521AA5C7011"><a name="GUID-A622B842-A502-573A-BCD0-E521AA5C7011"><!-- --></a><p>Load the table from
+the Comms Database. </p>
+
+Use the <code class="codeph">LoadL()</code> function to load the table from the
+Comms Database. The function is called on the class that defines the table.
+The function is implemented in the base class MMetaDatabase.
+You pass a reference to the session object into the <code class="codeph">LoadL()</code> function. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">...
+ptrConnPrefRecordSet-&gt;LoadL(*iDb);
+// If the flow of the code reaches here, the table has been loaded.        
+...</pre> </div>
+</li>
+<li id="GUID-7A9CA79C-79FD-570A-9D48-82565878E422"><a name="GUID-7A9CA79C-79FD-570A-9D48-82565878E422"><!-- --></a><p>Process the records. </p>
+
+This step is optional. It is an example that shows how you can process
+the records in a table. The example also shows you how to retrieve the number
+of records in the table. 
+<div class="p"><p><strong>Example: </strong>The following code sorts the records into record Id order. The record
+Id is the part of the </p><a href="GUID-6DAF85AD-E412-5823-81C2-FC1755A90A84.html#GUID-32E556BC-55C3-5FBD-9A60-9708139C20D6">unique
+numeric Id</a> that identifies an instance of a record. </div>
+<div class="p"><p><strong>Example: </strong>A table uses an </p>RPointerArray <code class="codeph">&lt;T&gt;</code> to
+contain the records. <code class="codeph">RPointerArray</code> allows applications to
+customise the behaviour of the sort operation. </div>
+The code uses the TLinearOrder <code class="codeph">&lt;T&gt;</code> class. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">...
+// Customised sort function
+TInt SortRecordsById(const CMDBRecordBase&amp; aLeft, const CMDBRecordBase&amp; aRight)
+    {
+    return (aLeft.RecordId()) &lt; (aRight.RecordId()) ? -1 : 1;
+    }
+...
+
+// Total number of records in the table
+TInt totalcount = ptrConnPrefRecordSet-&gt;iRecords.Count();
+...
+
+// Sort the records. 
+// 1. Define a TLinearOrder&lt;T&gt; class for a Connection Preferences record and instantiate 
+//    the class.
+// 2. Invoke the sort operation.
+TLinearOrder&lt;CMDBRecordBase&gt; orderbyId(SortRecordsById); 
+ptrConnPrefRecordSet-&gt;iRecords.Sort(orderbyId); 
+...</pre> </div>
+</li>
+</ol>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-1AFDDD6F-CB99-587D-A0B5-D3F5B27F7135.html">Comms Database
+                concepts</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 23rd, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-CE011029-0F2B-50D4-B793-A24C7ECFC21E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:36 GMT -->
+</html>

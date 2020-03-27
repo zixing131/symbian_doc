@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 08:04:31 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2011"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2011"/>
+<meta name="DC.Type" content="cxxClass"/>
+<meta name="DC.Title" content="MIncrementalCollector"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4"/>
+<link rel="stylesheet" type="text/css" href="css/commonltr.css"/>
+<title>MIncrementalCollector</title>
+<meta name="keywords" content="api"/><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css"/><link href="css/html.css" rel="stylesheet" type="text/css"/><link href="css/style.css" rel="stylesheet" type="text/css"/><link href="css/nwg.css" rel="stylesheet" type="text/css"/><link href="css/eclipse.css" rel="stylesheet" type="text/css"/></head>
+<body id="GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4"><a name="GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+
+	<h1 class="sectiontitle">MIncrementalCollector Class Reference</h1>
+	
+	<div class="section include"><p>#include 
+            
+                    &lt;s32stor.h&gt;
+                </p></div>
+<div class="section linkagainst" id="GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4__linkagainst"><a name="GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4__linkagainst"><!-- --></a><p>Link against: eposprvtyp.lib</p></div>
+<div class="section signature"><table class="signature"><tr><td>class MIncrementalCollector</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">void</td><td><a href="#GUID-04952479-E112-37E5-B446-BD41EAE26FD9">Close</a>()</td></tr><tr class="bg"><td align="right" class="code">void</td><td><a href="#GUID-AF1A3C3D-C4A6-3889-B003-D4825EDCE306">NextL</a>(<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a> &amp;, <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a> &amp;)</td></tr><tr><td align="right" class="code">void</td><td><a href="#GUID-F073E850-3E46-30C8-9378-AAA7D9262DF2">NextL</a>(<a href="GUID-C7A094BD-846F-3ED2-8CCE-C0743DB3712A.html">TPckgBuf</a>&lt; <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a> &gt; &amp;, <a href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html">TRequestStatus</a> &amp;, <a href="GUID-C7A094BD-846F-3ED2-8CCE-C0743DB3712A.html">TPckgBuf</a>&lt; <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a> &gt; &amp;)</td></tr><tr class="bg"><td align="right" class="code">void</td><td><a href="#GUID-50E49BAF-C0B9-327B-8EC4-4CC543C73F24">Release</a>()</td></tr><tr><td align="right" class="code">void</td><td><a href="#GUID-BA966F23-92AE-320F-9D36-48CD4DCA7F4B">ResetL</a>(<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a> &amp;)</td></tr></tbody></table><table class="member-index"><thead><tr><th colspan="2">Protected Member Functions</th></tr></thead><tbody><tr><td align="right" class="code"/><td><a href="#GUID-6AB70216-BE43-3433-9EB3-33E7CCA0405C">MIncrementalCollector</a>()</td></tr></tbody></table></div><div class="section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+			<p>Interface for incrementally reclaiming or compacting space in a stream store. The interface allows these actions to be performed in small steps, so that applications can remain responsive while doing these potentially long-running tasks.</p>
+
+			<p>An instance of a class derived from this interface is returned by StreamStore::DoReclaimL() and DoCompactL(). Each step is carried out in response to a call of DoNextL() and the object is released on completion of the last step.</p>
+
+			<p>Notes:</p>
+
+			<p>One-step reclaim using <a href="GUID-30726D8E-E18D-3A3A-8EFB-CCA4F04C984D.html#GUID-17F4E384-FD76-30F0-9BFE-18DC4327811A">CStreamStore::ReclaimL()</a> is actually implemented in terms of the incremental collector.</p>
+
+			<p>A <a href="GUID-30726D8E-E18D-3A3A-8EFB-CCA4F04C984D.html#GUID-30726D8E-E18D-3A3A-8EFB-CCA4F04C984D">CStreamStore</a> implementation will only need to implement a collector class if it supports reclamation or compaction. </p>
+
+		</div>
+<h2 class="sectiontitle">Constructor &amp; Destructor Documentation</h2><div class="nested1" id="GUID-6AB70216-BE43-3433-9EB3-33E7CCA0405C"><a name="GUID-6AB70216-BE43-3433-9EB3-33E7CCA0405C"><!-- --></a>
+		<h3 class="sectiontitle">MIncrementalCollector (  )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>MIncrementalCollector</td><td>(</td><td>)</td><td>[protected, inline]</td></tr></table></div><div class="section apidesc">
+				<p>Protected constructor. Protecting the constructor ensures that this abstract class cannot be instantiated.</p>
+
+				<p>MIncrementalCollector(const MIncrementalCollector&amp;);</p>
+
+				<p>
+					<a href="GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4.html#GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4">MIncrementalCollector</a>&amp; operator=(const MIncrementalCollector&amp;);</p>
+
+				<p>Private copy constructor and copy assignment to prevent </p>
+
+			</div>
+</div>
+
+	</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="nested1" id="GUID-04952479-E112-37E5-B446-BD41EAE26FD9"><a name="GUID-04952479-E112-37E5-B446-BD41EAE26FD9"><!-- --></a>
+		<h3 class="sectiontitle">Close (  )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>Close</td><td>(</td><td>)</td><td>[inline]</td></tr></table></div><div class="section apidesc">
+				<p>Closes the collector after it is no longer required. The object should not be referenced after calling this function. The semantics for this function and <a href="GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4.html#GUID-50E49BAF-C0B9-327B-8EC4-4CC543C73F24">Release()</a> are effectively the same. </p>
+
+			</div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-AF1A3C3D-C4A6-3889-B003-D4825EDCE306"><a name="GUID-AF1A3C3D-C4A6-3889-B003-D4825EDCE306"><!-- --></a>
+		<a name="GUID-2C5A605D-98FB-3334-9FED-670E47D51E3C"><!----></a><h3 class="sectiontitle">NextL ( TInt &amp;, TInt &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>NextL</td><td>(</td><td><a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a> &amp;</td><td><span class="parameter">aStep</span>,</td></tr><tr><td colspan="3"> </td><td><a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a> &amp;</td><td><span class="parameter">aTotal</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">[inline]</td></tr></table></div><div class="section apidesc">
+				<p>Does the next step in the reclaim synchronously.</p>
+
+				<p>aStep contains a progress value, which decreases every time the function is called. aTotal contains the running total of free-space that remains in the store.</p>
+
+				<p/>
+
+				<p>See also: DoNextL() </p>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aStep</td><td>The progress value from either the last NextL() increment of from ResetL() if the reclamation/compaction was restarted. On return, contains the new progress value, which can be used in subsequent calls to NextL(). This will be equal to, or less than, the previous value a zero value indicates that the operation is complete.  </td></tr><tr class="bg"><td class="parameter">aTotal</td><td>On return, contains the total amount of free space in the store. This should increase every time the function is called.  </td></tr></table></div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-F073E850-3E46-30C8-9378-AAA7D9262DF2"><a name="GUID-F073E850-3E46-30C8-9378-AAA7D9262DF2"><!-- --></a>
+		<h3 class="sectiontitle">NextL ( TPckgBuf&lt; TInt &gt; &amp;, TRequestStatus &amp;, TPckgBuf&lt; TInt &gt; &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>NextL</td><td>(</td><td><a href="GUID-C7A094BD-846F-3ED2-8CCE-C0743DB3712A.html">TPckgBuf</a>&lt; <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a> &gt; &amp;</td><td><span class="parameter">aStep</span>,</td></tr><tr><td colspan="3"> </td><td><a href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html">TRequestStatus</a> &amp;</td><td><span class="parameter">aStatus</span>,</td></tr><tr><td colspan="3"> </td><td><a href="GUID-C7A094BD-846F-3ED2-8CCE-C0743DB3712A.html">TPckgBuf</a>&lt; <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a> &gt; &amp;</td><td><span class="parameter">aTotal</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">[inline]</td></tr></table></div><div class="section apidesc">
+				<p>Does the next step in the reclaim asynchronously.</p>
+
+				<p>aStep contains a progress value, which decreases every time the function is called. aTotal contains the running total of free-space that remains in the store. These parameters are asynchronous equivalents of the other <a href="GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4.html#GUID-AF1A3C3D-C4A6-3889-B003-D4825EDCE306">NextL()</a> overload.</p>
+
+				<p/>
+
+				<p>See also: DoNextL() </p>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aStep</td><td>The progress value from either the last NextL() increment of from ResetL() if the reclamation/compaction was restarted. On return, contains the new progress value, which can be used in subsequent calls to NextL(). This will be equal to, or less than, the previous value a zero value indicates that the operation is complete.  </td></tr><tr class="bg"><td class="parameter">aStatus</td><td>A status variable. KErrNone on successful completion, otherwise another of the system-wide error codes.  </td></tr><tr><td class="parameter">aTotal</td><td>On return, contains the total amount of free space in the store. This should increase every time the function is called.  </td></tr></table></div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-50E49BAF-C0B9-327B-8EC4-4CC543C73F24"><a name="GUID-50E49BAF-C0B9-327B-8EC4-4CC543C73F24"><!-- --></a>
+		<h3 class="sectiontitle">Release (  )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>Release</td><td>(</td><td>)</td><td>[inline]</td></tr></table></div><div class="section apidesc">
+				<p>Releases the collector after it is no longer required. The object should not be referenced after calling this function. The semantics for this function and <a href="GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4.html#GUID-04952479-E112-37E5-B446-BD41EAE26FD9">Close()</a> are effectively the same.</p>
+
+				<p/>
+
+				<p>See also: DoRelease() </p>
+
+			</div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-BA966F23-92AE-320F-9D36-48CD4DCA7F4B"><a name="GUID-BA966F23-92AE-320F-9D36-48CD4DCA7F4B"><!-- --></a>
+		<a name="GUID-048C5CA0-5A07-308D-8D57-F9B3BFAC2809"><!----></a><h3 class="sectiontitle">ResetL ( TInt &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>ResetL</td><td>(</td><td><a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a> &amp;</td><td><span class="parameter">aCount</span></td><td>)</td><td>[inline]</td></tr></table></div><div class="section apidesc">
+				<p>Resets the collector. This leaves the collector in a state ready to start or restart reclaiming/compacting. On return aCount contains a value that can be used to determine the progress of the operation the same value should be passed in to subsequent calls to <a href="GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4.html#GUID-AF1A3C3D-C4A6-3889-B003-D4825EDCE306">NextL()</a> until it reaches 0.</p>
+
+				<p/>
+
+				<p>See also: DoResetL() </p>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aCount</td><td>A progress count for the reclamation/compaction process.  </td></tr></table></div>
+</div>
+
+	</div>
+
+	
+	
+	
+	
+	
+	
+</div></div><div class="footer"><hr/><div class="copy">© Nokia 2011.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-945E28EC-B9FF-30B5-AAAC-B08B679C2EA4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 08:04:31 GMT -->
+</html>

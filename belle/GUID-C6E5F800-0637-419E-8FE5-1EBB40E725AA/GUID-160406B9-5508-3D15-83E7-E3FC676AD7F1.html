@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:21:52 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="semaphore.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1" />
+<title>semaphore.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1"><a name="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">semaphore.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-0198747D-3EBF-3333-9588-74A66D1EB1A9"><a name="GUID-0198747D-3EBF-3333-9588-74A66D1EB1A9"><!-- --></a>
+<h3 class="sectiontitle">SEM_FAILED</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+</p></div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-3B9C5113-E1FA-3F30-B3A9-665BCA277096"><a name="GUID-3B9C5113-E1FA-3F30-B3A9-665BCA277096"><!-- --></a>
+<h3 class="sectiontitle">Typedef sem_t</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef struct _sem_t *</td><td>sem_t</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">used in performing semaphore operations</p>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-EEA9C6DC-30BB-3968-97AE-E9CD99D700B9"><a name="GUID-EEA9C6DC-30BB-3968-97AE-E9CD99D700B9"><!-- --></a>
+<a name="GUID-08CFFD5F-34F1-33BE-8AB4-10B17DEDBC70"><!-- --></a><h3 class="sectiontitle">sem_init ( sem_t *, int, unsigned int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>sem_init</td><td>(</td><td>sem_t *</td><td><span class="parameter">sem</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">pshared</span>,</td></tr><tr><td colspan="3"> </td><td>unsigned int</td><td><span class="parameter">value</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-B1BF3167-B9F7-3F0F-AB61-2EC7056ECF36"><a name="GUID-B1BF3167-B9F7-3F0F-AB61-2EC7056ECF36"><!-- --></a>
+<a name="GUID-0E9CE83C-B227-3CBE-A506-885673F997A9"><!-- --></a><h3 class="sectiontitle">sem_destroy ( sem_t * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>sem_destroy</td><td>(</td><td>sem_t *</td><td><span class="parameter">sem</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The sem_destroy function destroys the unnamed semaphore pointed to by sem . After a successful call to sem_destroy , sem is unusable until re-initialized by another call to sem_init .</p>
+<div class="p">Examples: <pre class="pre codeblock">sem_t psem;   
+if (sem_init(&amp;psem;, 0, 1) &lt; 0) {
+        perror("sem_init");
+        return -1;
+}
+if (sem_destroy(&amp;psem;) == 0)
+        return -1;
+}</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html#GUID-EEA9C6DC-30BB-3968-97AE-E9CD99D700B9">sem_init()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">sem</td><td>pointer to sem_t object that needs to be destroyed  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>Upon successful completion, the function returns zero; otherwise, it returns -1 and set errno to indicate the error.0 if semaphore successfully destroyed, -1 on error, errno set to specific error EINVAL - The sem pointer is NULL or sem points to an invalid object EAGAIN - There are threads waiting on the semaphore. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-30C3CB37-DFC2-397B-BEAA-8EA48C739498"><a name="GUID-30C3CB37-DFC2-397B-BEAA-8EA48C739498"><!-- --></a>
+<a name="GUID-C219A73A-5854-352E-827B-318E00241D35"><!-- --></a><h3 class="sectiontitle">sem_trywait ( sem_t * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>sem_trywait</td><td>(</td><td>sem_t *</td><td><span class="parameter">sem</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+</p><p class="p">See also: <a class="xref" href="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html#GUID-98A178A1-8805-3890-8FF8-06B5889A0363">sem_getvalue()</a> <a class="xref" href="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html#GUID-91A13132-4574-366B-AB5A-E83CD6B554F5">sem_post()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">sem</td><td>pointer to sem_t object on which to wait  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>0 if calling thread was able to acquire the semaphore immediately, -1 on error or if acquiring the semaphore would block the calling thread and errno is set to EINVAL - The sem pointer is NULL or sem points to an invalid object EAGAIN - Acquiring the semaphore would block the calling thread. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-66A4A781-03F1-37FF-9F8E-63A0BBD89172"><a name="GUID-66A4A781-03F1-37FF-9F8E-63A0BBD89172"><!-- --></a>
+<a name="GUID-53971047-079F-3518-89BD-0EB0D7592227"><!-- --></a><h3 class="sectiontitle">sem_wait ( sem_t * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>sem_wait</td><td>(</td><td>sem_t *</td><td><span class="parameter">sem</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The sem_wait function decrements (locks) the semaphore pointed to by sem , but blocks if the value of sem is zero, until the value is non-zero and the value can be decremented.</p>
+<p class="p">The sem_trywait function decrements (locks) the semaphore pointed to by sem only if the value is non-zero. Otherwise, the semaphore is not decremented and an error is returned.</p>
+<div class="p">Examples: <pre class="pre codeblock">sem_t psem;   
+if (sem_init(&amp;psem;, 0, 1) &lt; 0) {
+        perror("sem_init");
+        return -1;
+   }
+ /* Lock Semaphore */
+if( sem_wait(psem) == -1 ) {
+  perror("sem_wait failed");
+  return -1;
+}
+else
+    printf ("Locked successfully
+");</pre>
+<pre class="pre codeblock">sem_t psem;   
+if (sem_init(&amp;psem;, 0, 1) &lt; 0) {
+        perror("sem_init");
+        return -1;
+   }
+ /* Lock Semaphore */
+if ( sem_trywait(psem) == 0)
+{   switch(errno)
+     {
+     case 0:
+        printf ("Locked successfully");
+        break;
+    case EAGAIN:
+        printf ("could not lock, try later.....");
+        break;
+    }
+}
+else
+    printf ("Sem_trywait failed");</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html#GUID-98A178A1-8805-3890-8FF8-06B5889A0363">sem_getvalue()</a> <a class="xref" href="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html#GUID-91A13132-4574-366B-AB5A-E83CD6B554F5">sem_post()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">sem</td><td>pointer to sem_t object on which to wait  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>Upon successful completion, the value 0 is returned; otherwise the value -1 is returned and the global variable errno is set to indicate the error.0 if calling thread was able to acquire the semaphore, -1 on error and errno set to EINVAL - The sem pointer is NULL or sem points to an invalid object </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-ECCE5C32-C035-3CE9-AC77-19C1183DAC5F"><a name="GUID-ECCE5C32-C035-3CE9-AC77-19C1183DAC5F"><!-- --></a>
+<a name="GUID-99BBE728-FA89-3E7F-BB9A-1DD84C8D489C"><!-- --></a><h3 class="sectiontitle">sem_timedwait ( sem_t *, const struct timespec * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>sem_timedwait</td><td>(</td><td>sem_t *</td><td><span class="parameter">sem</span>,</td></tr><tr><td colspan="3"> </td><td>const struct <a class="xref xref apiRelation" href="GUID-9DBB806F-D521-3A99-914D-A5EAF69C50E1.html">timespec</a> *</td><td><span class="parameter">abstime</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The sem_timedwait function decrements (locks) the semaphore pointed to by sem , but blocks if the value of sem is zero, until the value is non-zero or timeout occurs.</p>
+<div class="p">Examples: <pre class="pre codeblock">sem_t mysemp;
+struct timespec ts;
+int val, sts;
+#define TIMEOUT 3
+if ( sem_init (&amp;mysemp;, 0, 1) == -1 ) {
+      perror( "sem_init failed");
+      return -1;
+}
+       
+struct timeval now;
+gettimeofday(&amp;now;,NULL);
+ts.tv_sec=now.tv_sec + TIMEOUT;
+ts.tv_nsec=0;
+/* Lock Semaphore */
+if (sem_timedwait(&amp;mysemp;, &amp;ts;) == 0)
+{  
+    switch(errno)
+    {
+     case 0:
+        printf ("Locked successfully");
+        break;
+     case ETIMEDOUT:
+        printf ("could not lock, try later.....");
+        break;
+    }
+}
+else
+    printf ("Sem_timedwait failed 
+")
+fprintf(stderr,"Thread wakened up");</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html#GUID-98A178A1-8805-3890-8FF8-06B5889A0363">sem_getvalue()</a> <a class="xref" href="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html#GUID-91A13132-4574-366B-AB5A-E83CD6B554F5">sem_post()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">sem</td><td>pointer to sem_t object on which to wait  </td></tr><tr class="bg"><td class="parameter">abstime</td><td>pointer to timespec struct specifying the absolute time till which to wait  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>Upon successful completion, the value 0 is returned; otherwise the value -1 is returned and the global variable errno is set to indicate the error.0 if wait was successfull, -1 on error and errno set to: EINVAL - Either the sem or abstime pointer is NULL or points to an invalid object. ETIMEDOUT - The absolute time specified by abstime parameter occurred before the semaphore was signaled. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-91A13132-4574-366B-AB5A-E83CD6B554F5"><a name="GUID-91A13132-4574-366B-AB5A-E83CD6B554F5"><!-- --></a>
+<a name="GUID-30163EF6-E96B-3170-9938-FCB6A0F2342C"><!-- --></a><h3 class="sectiontitle">sem_post ( sem_t * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>sem_post</td><td>(</td><td>sem_t *</td><td><span class="parameter">sem</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The sem_post function increments (unlocks) the semaphore pointed to by sem . If there are threads blocked on the semaphore when sem_post is called, then the highest priority thread that has been blocked the longest on the semaphore will be allowed to return from sem_wait .</p>
+<div class="p">Examples: <pre class="pre codeblock">sem_t psem;   
+if (sem_init(&amp;psem;, 0, 1) &lt; 0) {
+        perror("sem_init");
+        return -1;
+   }
+if( sem_post(psem) == -1 ) {
+  perror( "sem_post failed");
+  return -1;
+ }</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html#GUID-98A178A1-8805-3890-8FF8-06B5889A0363">sem_getvalue()</a> <a class="xref" href="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html#GUID-30C3CB37-DFC2-397B-BEAA-8EA48C739498">sem_trywait()</a> <a class="xref" href="GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html#GUID-66A4A781-03F1-37FF-9F8E-63A0BBD89172">sem_wait()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">sem</td><td>pointer to sem_t object which should be signalled  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>If successful, the function returns zero; otherwise, it returns -1 and set errno to indicate the error.0 if post was successfull, -1 on error and errno set to: EINVAL - The sem pointer is NULL or sem points to an invalid object ERANGE - the semaphore count would exceed SEM_VALUE_MAX if signaled by this function(the semaphore count is left unchanged in this case) </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-98A178A1-8805-3890-8FF8-06B5889A0363"><a name="GUID-98A178A1-8805-3890-8FF8-06B5889A0363"><!-- --></a>
+<a name="GUID-BD7B6144-86C6-35BC-95A7-9DE84F81A839"><!-- --></a><h3 class="sectiontitle">sem_getvalue ( sem_t *, int * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>sem_getvalue</td><td>(</td><td>sem_t *</td><td><span class="parameter">sem</span>,</td></tr><tr><td colspan="3"> </td><td>int *</td><td><span class="parameter">sval</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+</div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></div></p></div></div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-160406B9-5508-3D15-83E7-E3FC676AD7F1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:21:53 GMT -->
+</html>

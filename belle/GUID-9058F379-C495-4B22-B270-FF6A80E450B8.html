@@ -1,0 +1,83 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9058F379-C495-4B22-B270-FF6A80E450B8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:13 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Device security mechanisms" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-2CA5C27E-A526-4B26-941B-85F0B32E1FFA" /><meta name="DC.Relation" scheme="URI" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Relation" scheme="URI" content="GUID-E3F3FA3D-FE16-429A-8BE0-35267C5DE72B" /><meta name="DC.Relation" scheme="URI" content="GUID-AB3D07E6-83C9-4948-A13F-75A65498F444" /><meta name="DC.Relation" scheme="URI" content="GUID-68BBBA98-BDF7-4562-8168-5E90C73ADCF8" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9058F379-C495-4B22-B270-FF6A80E450B8" /><title>Device security mechanisms </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-9058F379-C495-4B22-B270-FF6A80E450B8">Device security mechanisms</h1><div>
+<p>The list below contains some common device security mechanisms.</p>
+<div id="GUID-24AD1095-E039-46B5-A39A-1D814D697DA1"><h3 class="section-title">Device
+protection</h3>
+<p>Protection of the Symbian platform-based device against a physical
+attack (that is, when an attacker has physical access to the mobile
+device) is controlled by the device lock feature, which is not necessarily
+often used. Other external methods of protection, like a PIN code
+or Subscriber Identity Module (SIM) locking, tend to provide protection
+only when accessing a cellular network, leaving the information content
+vulnerable. Without cryptographic protection, it is possible to gain
+access to the device's information storage with hardware-based methods
+(for example, wiretapping connectors and direct reading of memory
+chips).</p>
+</div>
+<div id="GUID-BE16A5D1-B580-4ED6-82D7-16B33B8EEADF"><h3 class="section-title">Device
+authentication</h3>
+<p>Sometimes, for security reasons, an application needs to identify
+the mobile device it is running on, for example, to use specific ciphering
+keys or to apply copy protection. Identification can be done by checking
+the device's International Mobile Equipment Identity (IMEI) code,
+which is unique in each device used in cellular networks. To retrieve
+the IMEI code, you can use, for example the <code class="codeph">CTelephony::GetPhoneId</code> method. For more information, see <a href="GUID-5E10D5B7-C407-51E0-8C16-466A8BC89106.html">Phone Identification
+Tutorial</a>. There are different APIs for retrieving the IMEI
+code in different versions of SDKs. Refer to the SDK API or Symbian
+documentation for the proper method.</p>
+<p>Another way to get information about the running platform and
+the mobile device is to use the <code class="codeph">HAL:Get()</code> method
+defined in <code class="codeph">hal.h</code> header file. For more information
+and examples, see <a href="http://developer.symbian.org/wiki/index.php/Device_Product_ID,_Platform_ID_and_HAL_information" target="_blank">Device Product ID, Platform ID and HAL information</a> at the Symbian Foundation.</p>
+<p><strong>User authentication</strong></p>
+<p>When powering on the device, the user is authenticated in the <em>operating system level</em> with standard device authentication methods,
+such as a PIN code and security code requests. However, these features
+can be turned off by the user and are easily reset with special hardware.
+If an application needs to authenticate the user, it should be done
+in the <em>application level</em> by implementing a separate user name/password
+authentication mechanism.</p>
+</div>
+<div id="GUID-962E0183-0CBD-457D-B24C-C0BDB30A58A4"><h3 class="section-title">Mobile
+hardware</h3>
+<p>The Symbian platform attempts to ensure the integrity of data
+even in the presence of unreliable communication and a shortage of
+resources, such as memory, power, and storage.</p>
+<p>The user may detach removable storage media at any time, either
+intentionally or unintentionally. The platform has a built-in detach
+handling mechanism, but applications should still be prepared for
+a sudden loss of storage media to prevent data loss or corruption.
+To check the type of storage media (removable/fixed), use the <code class="codeph">RFs::Drive()</code> method. </p>
+<p>The device may shut down at any time, either by accident or
+because the battery runs out. Important data stored in nonpermanent
+memory should be written to permanent memory as early as possible.
+To query the battery level, use the <code class="codeph">HAL::Get(EPowerBatteryStatus)</code> method. </p>
+<p>Even though internal storage is not physically protected, you
+can secure memory cards with password protection. If the locking option
+is used (method <code class="codeph">RFs::LockDrive</code>), memory card contents
+are protected with a password and cannot be read in any other device
+without it. Password locking is an extended functionality of the Multimedia
+card (MMC), and may not be compatible with all hardware and software
+configurations.</p>
+</div>
+<div id="GUID-9058F379-C495-4B22-B270-FF6A80E450B9"><h3 class="section-title">Third-party
+solutions</h3>
+<p>A mobile device can be protected with third-party security applications. <em>Antivirus software</em> can detect and quarantine any viruses that
+try to access the device, as well as restore infected files. Antivirus
+software is usually used together with <em>firewalls</em> to observe
+and protect both incoming and outgoing data connections. This enables
+monitoring of important data and prevents it from being sent out of
+the device. Firewall and antivirus software can also be part of an <em>intrusion detection system</em> that notifies the user whenever a
+malicious attempt is detected.</p>
+<p>Furthermore, there are applications you can use to encrypt existing
+files, manage passwords, and store information and data securely (in
+vaults). You can even cipher information in applications and connection
+methods which do not initially support ciphering (for example, short
+message service [SMS]).</p>
+</div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 31st, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9058F379-C495-4B22-B270-FF6A80E450B8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:13 GMT -->
+</html>

@@ -1,0 +1,56 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-66BBA81D-2488-50B8-8822-43AAAA139DDE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:57 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Overview of random number generation" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-315452C2-A1E2-5888-A694-6D2DE73A3F5E" /><meta name="DC.Relation" scheme="URI" content="GUID-5B112A34-1CBA-5B28-A941-27847FC1D30A" /><meta name="DC.Relation" scheme="URI" content="GUID-1E1B040A-1C18-4F62-95F9-CE0ECE39C430" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-66BBA81D-2488-50B8-8822-43AAAA139DDE" /><meta name="DC.Language" content="en" /><title>Overview
+of random number generation </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-66BBA81D-2488-50B8-8822-43AAAA139DDE">Overview
+of random number generation</h1><div>
+<div id="GUID-B5BD3E1A-AFBB-5526-B5EA-8FA51A17E596"><h3 class="section-title">Overview</h3> <p>The
+purpose of the Random Number Generation API is the generation of cryptographically
+strong random numbers. </p> <p>Several cryptographic applications rely upon
+the randomness, unpredictability and irreproducibility of the random number
+generator, such as: </p> <ul>
+<li id="GUID-15685756-F94B-508C-A08C-8F0ECBC1A4AA"><a name="GUID-15685756-F94B-508C-A08C-8F0ECBC1A4AA"><!-- --></a><p>one-time pads </p> </li>
+<li id="GUID-7E3ED7CE-65C3-5E8B-9FF0-139763F3E54B"><a name="GUID-7E3ED7CE-65C3-5E8B-9FF0-139763F3E54B"><!-- --></a><p>key generation </p> </li>
+<li id="GUID-0C65E7E4-A3F5-5EC4-9851-4A4E3090607B"><a name="GUID-0C65E7E4-A3F5-5EC4-9851-4A4E3090607B"><!-- --></a><p>random nonces </p> </li>
+<li id="GUID-3C16304A-CDA0-5F50-9D6C-D76C2D6EA586"><a name="GUID-3C16304A-CDA0-5F50-9D6C-D76C2D6EA586"><!-- --></a><p>Initialization Vectors
+(IVs) </p> </li>
+<li id="GUID-59F195DE-94E7-56EE-9A7D-EAB5E401DF9A"><a name="GUID-59F195DE-94E7-56EE-9A7D-EAB5E401DF9A"><!-- --></a><p>salts to be hashed with
+passwords </p> </li>
+<li id="GUID-96B7B9D1-AB0D-5A54-9C7F-771008F354C1"><a name="GUID-96B7B9D1-AB0D-5A54-9C7F-771008F354C1"><!-- --></a><p>unique parameters in
+signing operations. </p> </li>
+</ul> <div class="p">The RNG uses the <a href="http://www.agner.org/random/" target="_blank">RANROT</a> algorithm
+seeded by random data available on the target hardware (for instance free
+running counters available on ARM processors). <div class="note"><p><strong class="note_title">Note: </strong>In order to be <strong>fully</strong> compliant
+with DSS (Digital Signature Standard), applications using the cryptography
+library must supply a <a href="../bib/2000/-dss.pdf" target="_blank">FIPS-186-2</a> CR
+1 compliant random number generator. The library provides a mechanism for
+using such a random number generator if required. </p></div></div> </div>
+<div id="GUID-9350FD0E-7F09-5D82-BB91-EC1C8D740DBD"><h3 class="section-title">The Random
+Number Generation API</h3> <p>The diagram below shows the main classes
+used in the RNG, which are implemented in <code>random.dll</code>.
+For information on each class see the Cryptography API Reference material. </p> <div class="figure" id="GUID-5326D881-8795-5803-8B82-EC02C0C40226"><img src="GUID-FD1BB5C6-A042-56C9-8F1F-B51BF9DF5389_d0e435528_href.png" /><p class="figure-title"><strong>Figure: </strong>              The inheritance hierarchy for the RRandomSession and
+CSystemRandom classes            </p></div><p><strong>How to use TRandom</strong> </p> <p> <code class="codeph">TRandom</code> is a
+cryptographically stong random number generator. Its declaration is: </p> <pre class="codeblock">class TRandom
+    {
+public:
+    IMPORT_C static void RandomL(TDes8&amp; aDestination);
+    };</pre><div class="note"><p><strong class="note_title">Note: </strong> The function </p><code class="codeph">TRandom::Random()</code> which
+panics rather than leaves when it cannot obtain a random number, is deprecated
+from v9.1 onwards. </div> <p> <code class="codeph">TRandom::RandomL()</code> generates
+random bytes by first connecting to the random number generation server (using <code class="codeph">RRandomSession</code>).
+If the attempt to connect fails, <code class="codeph">TRandom::RandomL()</code> leaves. </p> <p>The
+server fills <code class="codeph">aDestination</code> with randomly generated bytes up
+to its current length (not its maximum length). If this fails, <code class="codeph">TRandom::RandomL()</code> leaves.
+If <code class="codeph">aDestination</code> is 1024 or more bytes long, multiple calls
+are made to the server. Finally, <code class="codeph">TRandom</code> closes the session. </p> <p> <code class="codeph">TRandom</code> can
+be used like this: </p> <pre class="codeblock">HBufC8* rand = HBufC8::NewLC(5);
+TPtr8 pRand=rand-&gt;Des();
+pRand.SetLength(5);
+TRandom::RandomL(pRand);
+...
+CleanupStack::PopAndDestroy(rand);</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 19th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-66BBA81D-2488-50B8-8822-43AAAA139DDE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:00 GMT -->
+</html>

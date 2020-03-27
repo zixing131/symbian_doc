@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-202799EF-E78C-320F-83CB-FD51EC6D0AF3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:47:57 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2011"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2011"/>
+<meta name="DC.Type" content="cxxClass"/>
+<meta name="DC.Title" content="MSdpAttributeValueVisitor"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="GUID-202799EF-E78C-320F-83CB-FD51EC6D0AF3"/>
+<link rel="stylesheet" type="text/css" href="css/commonltr.css"/>
+<title>MSdpAttributeValueVisitor</title>
+<meta name="keywords" content="api"/><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css"/><link href="css/html.css" rel="stylesheet" type="text/css"/><link href="css/style.css" rel="stylesheet" type="text/css"/><link href="css/nwg.css" rel="stylesheet" type="text/css"/><link href="css/eclipse.css" rel="stylesheet" type="text/css"/></head>
+<body id="GUID-202799EF-E78C-320F-83CB-FD51EC6D0AF3"><a name="GUID-202799EF-E78C-320F-83CB-FD51EC6D0AF3"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+
+	<h1 class="sectiontitle">MSdpAttributeValueVisitor Class Reference</h1>
+	
+	<div class="section include"><p>#include 
+            
+                    &lt;btsdp.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>class MSdpAttributeValueVisitor</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-CCA99E54-C604-3152-B91B-4452EFE5D24C">EndListL</a>()</td></tr><tr class="bg"><td align="right" class="code">virtual IMPORT_C void</td><td><a href="#GUID-B9CDF923-F1A6-3757-B0F5-F2CE1E54E8F5">MSAVV_ExtensionInterfaceL</a>(<a href="GUID-530281E6-29FC-33F2-BC9B-610FBA389444.html">TUid</a>, void *&amp;)</td></tr><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-A4393FE6-B518-34A5-8C78-DFE3EA603AFA">StartListL</a>(<a href="GUID-12A0CF12-2430-3FB7-9856-BDC48652FD0E.html">CSdpAttrValueList</a> &amp;)</td></tr><tr class="bg"><td align="right" class="code">pure virtual void</td><td><a href="#GUID-B0BBC37C-1E2A-3585-B81B-F7081DFED4CD">VisitAttributeValueL</a>(<a href="GUID-5528763A-0A50-3029-BEAB-CEC3BA08ABF1.html">CSdpAttrValue</a> &amp;, <a href="GUID-1741EA55-2EDB-3A5E-9838-2DB8A3FECD7D.html">TSdpElementType</a>)</td></tr></tbody></table></div><div class="section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+			<p>Abstract interface that can be implemented to receive an enumeration of the values in an attribute list.</p>
+
+			<p>The class member functions are called by an <a href="GUID-5528763A-0A50-3029-BEAB-CEC3BA08ABF1.html#GUID-5528763A-0A50-3029-BEAB-CEC3BA08ABF1">CSdpAttrValue</a> (or one of its sub-classes) object when <a href="GUID-5528763A-0A50-3029-BEAB-CEC3BA08ABF1.html#GUID-DC0FEC61-6E6F-3FF0-8A5C-276830D41DEB">CSdpAttrValue::AcceptVisitorL()</a> is called.</p>
+
+			<p>Note that:</p>
+
+			<p>When AcceptVisitorL() is called on attributes that are not lists (not DEA or DES), only <a href="GUID-202799EF-E78C-320F-83CB-FD51EC6D0AF3.html#GUID-B0BBC37C-1E2A-3585-B81B-F7081DFED4CD">VisitAttributeValueL()</a> is called, passing the attribute value object itself (i.e. *this), and the value attribute type.</p>
+
+			<p>When AcceptVisitorL() is called on attributes that are lists (DEA or DES), <a href="GUID-202799EF-E78C-320F-83CB-FD51EC6D0AF3.html#GUID-B0BBC37C-1E2A-3585-B81B-F7081DFED4CD">VisitAttributeValueL()</a> is called for each member of the list</p>
+
+			<p>This implements the standard Visitor pattern.</p>
+
+			<p/>
+
+			<p>See also: <a href="GUID-5528763A-0A50-3029-BEAB-CEC3BA08ABF1.html#GUID-DC0FEC61-6E6F-3FF0-8A5C-276830D41DEB">CSdpAttrValue::AcceptVisitorL()</a> </p>
+
+		</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="nested1" id="GUID-CCA99E54-C604-3152-B91B-4452EFE5D24C"><a name="GUID-CCA99E54-C604-3152-B91B-4452EFE5D24C"><!-- --></a>
+		<h3 class="sectiontitle">EndListL (  )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>EndListL</td><td>(</td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section apidesc">
+				<p>Called to indicate the end of a list of attribute values. </p>
+
+			</div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-B9CDF923-F1A6-3757-B0F5-F2CE1E54E8F5"><a name="GUID-B9CDF923-F1A6-3757-B0F5-F2CE1E54E8F5"><!-- --></a>
+		<a name="GUID-ABCB3423-8CBB-3DC2-9816-3E66DD5165CE"><!----></a><h3 class="sectiontitle">MSAVV_ExtensionInterfaceL ( TUid, void *&amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>MSAVV_ExtensionInterfaceL</td><td>(</td><td><a href="GUID-530281E6-29FC-33F2-BC9B-610FBA389444.html">TUid</a></td><td><span class="parameter">aInterface</span>,</td></tr><tr><td colspan="3"> </td><td>void *&amp;</td><td><span class="parameter">aObject</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">[virtual]</td></tr></table></div><div class="section apidesc">
+				<p>Returns a null aObject if the extension is not implemented, or a pointer to another interface if it is. This virtual function allows the M- classes to be extended in future in a binary compatible way by providing a method that clients can override in future to allow extra callbacks to be made via aObject. </p>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aInterface</td><td>UID of the interface to return  </td></tr><tr class="bg"><td class="parameter">aObject</td><td>the container for another interface as specified by aInterface </td></tr></table></div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-A4393FE6-B518-34A5-8C78-DFE3EA603AFA"><a name="GUID-A4393FE6-B518-34A5-8C78-DFE3EA603AFA"><!-- --></a>
+		<a name="GUID-B0F28BDA-E47E-38F3-BC89-8EBCCC8AC2D4"><!----></a><h3 class="sectiontitle">StartListL ( CSdpAttrValueList &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>StartListL</td><td>(</td><td><a href="GUID-12A0CF12-2430-3FB7-9856-BDC48652FD0E.html">CSdpAttrValueList</a> &amp;</td><td><span class="parameter">aList</span></td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section apidesc">
+				<p>Called to indicate the start of a list of attribute values.</p>
+
+				<p>This call is followed by a call to <a href="GUID-202799EF-E78C-320F-83CB-FD51EC6D0AF3.html#GUID-B0BBC37C-1E2A-3585-B81B-F7081DFED4CD">VisitAttributeValueL()</a> for each attribute value in the list, and concluded by a call to EndList().</p>
+
+				<p/>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aList</td><td>Attribute value list  </td></tr></table></div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-B0BBC37C-1E2A-3585-B81B-F7081DFED4CD"><a name="GUID-B0BBC37C-1E2A-3585-B81B-F7081DFED4CD"><!-- --></a>
+		<a name="GUID-5720EB21-03A5-3E05-AEEC-CC47DDACE922"><!----></a><h3 class="sectiontitle">VisitAttributeValueL ( CSdpAttrValue &amp;, TSdpElementType )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>VisitAttributeValueL</td><td>(</td><td><a href="GUID-5528763A-0A50-3029-BEAB-CEC3BA08ABF1.html">CSdpAttrValue</a> &amp;</td><td><span class="parameter">aValue</span>,</td></tr><tr><td colspan="3"> </td><td><a href="GUID-1741EA55-2EDB-3A5E-9838-2DB8A3FECD7D.html">TSdpElementType</a></td><td><span class="parameter">aType</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">[pure virtual]</td></tr></table></div><div class="section apidesc">
+				<p>Called to pass an attribute value.</p>
+
+				<p/>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aValue</td><td>Attribute value  </td></tr><tr class="bg"><td class="parameter">aType</td><td>Value type  </td></tr></table></div>
+</div>
+
+	</div>
+
+	
+	
+	
+	
+</div></div><div class="footer"><hr/><div class="copy">© Nokia 2011.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-202799EF-E78C-320F-83CB-FD51EC6D0AF3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:47:57 GMT -->
+</html>

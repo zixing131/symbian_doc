@@ -1,0 +1,33 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FC639517-F138-5E84-B57A-6347F5A47B88.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:01:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Names and fullnames" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-A52E8853-9A8A-5B66-A2B0-F943B32AA5C6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FC639517-F138-5E84-B57A-6347F5A47B88" /><meta name="DC.Language" content="en" /><title>Names and fullnames </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FC639517-F138-5E84-B57A-6347F5A47B88">Names and fullnames</h1><div><p>A reference counting object can be identified by a <em>name</em>. A name consists of a string of characters whose length must not be greater than KMaxName, a symbol defined in e32std.h. </p> <p>A name can contain any character except: *, ? and :, i.e. the characters asterisk, question mark and single colon. The system static function <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-F3DA1084-412D-3EB7-AA1A-5B743FC93A93"><code class="apiname">User::ValidateName()</code></a> is available to do this. </p> <p>A reference counting object can also be identified by its <em>full name</em>. This is descriptive of the reference counting object's ownership hierarchy, i.e. it is a name that identifies the reference counting object in the context of its owning reference counting object. </p> <p>The full name is a concatenation of: </p> <ul><li id="GUID-96BE031B-69EA-59F8-A983-65F1AA1E3FCF"><a name="GUID-96BE031B-69EA-59F8-A983-65F1AA1E3FCF"><!-- --></a><p>the <em>name</em> of the owning reference counting object, </p> </li> <li id="GUID-A5AD0140-0048-5325-873C-9A759F918C18"><a name="GUID-A5AD0140-0048-5325-873C-9A759F918C18"><!-- --></a><p>a double colon <em>::</em> , </p> </li> <li id="GUID-EE78A739-423C-55BA-8257-48A1F226494E"><a name="GUID-EE78A739-423C-55BA-8257-48A1F226494E"><!-- --></a><p>the name of the reference counting object. </p> </li> </ul> <p>For example, given the three <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html"><code class="apiname">CObject</code></a> derived objects: <code class="codeph">x</code>, <code class="codeph">y</code> and <code class="codeph">z</code> with names: <code class="codeph">one</code>, <code class="codeph">two</code> and <code class="codeph">three</code> respectively, where <code class="codeph">x</code> is owned by <code class="codeph">y</code> and <code class="codeph">y</code>, in turn, is owned by <code class="codeph">z</code>: </p> <pre class="codeblock">_LIT(KTxtOne,"one");
+_LIT(KTxtTwo,"two");
+_LIT(KTxtThree,"three");
+
+class CSomeClass : public CObject
+    {
+    ...
+    };
+
+...
+CSomeClass* x;
+CSomeClass* y;
+CSomeClass* z;
+...
+x = new(ELeave) CSomeClass;
+y = new(ELeave) CSomeClass;
+z = new(ELeave) CSomeClass;
+...
+x-&gt;SetName(KTxtOne);
+y-&gt;SetName(KTxtTwo);
+z-&gt;SetName(KTxtThree);
+...
+x-&gt;SetOwner(y);
+y-&gt;SetOwner(z);
+...
+</pre> <ul><li id="GUID-AC8EAFEF-8F16-5074-B518-E3880F2851B3"><a name="GUID-AC8EAFEF-8F16-5074-B518-E3880F2851B3"><!-- --></a><p>the full name of <code class="codeph">x</code> is, <code class="codeph">three::two::one</code>. </p> </li> <li id="GUID-09BAC1B3-E6B8-59F6-868E-F6D5DE11450C"><a name="GUID-09BAC1B3-E6B8-59F6-868E-F6D5DE11450C"><!-- --></a><p>the full name of <code class="codeph">y</code> is, <code class="codeph">three::two</code>. </p> </li> <li id="GUID-D4AC3B84-53C8-5716-8CB7-6901100DE1D0"><a name="GUID-D4AC3B84-53C8-5716-8CB7-6901100DE1D0"><!-- --></a><p>the full name of <code class="codeph">z</code> is <code class="codeph">three</code>, the same as its name. </p> </li> </ul> <p>Names give reference counting objects an identity and are used when searching for a specific object or a group of related objects. </p> <p>See also: </p> <ul><li id="GUID-F24D4B6F-B263-5745-98B1-0DFB19C11819"><a name="GUID-F24D4B6F-B263-5745-98B1-0DFB19C11819"><!-- --></a><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-F3DA1084-412D-3EB7-AA1A-5B743FC93A93"><code class="apiname">User::ValidateName()</code></a> </p> </li> <li id="GUID-ACBFD5F0-10EB-5010-A1CA-8F9CDAE31231"><a name="GUID-ACBFD5F0-10EB-5010-A1CA-8F9CDAE31231"><!-- --></a><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8EC6F10D-25D3-33BD-9B6F-53A96BFBF788.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8EC6F10D-25D3-33BD-9B6F-53A96BFBF788.html"><code class="apiname">TFindHandleBase</code></a> </p> </li> </ul> </div></div></div><div class="footer"><p class="metadata">Last updated October 10th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FC639517-F138-5E84-B57A-6347F5A47B88.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:01:02 GMT -->
+</html>

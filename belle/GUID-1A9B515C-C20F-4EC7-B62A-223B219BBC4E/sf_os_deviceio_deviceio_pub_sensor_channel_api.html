@@ -1,0 +1,733 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_os_deviceio_deviceio_pub_sensor_channel_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:12 GMT -->
+<head><title>Sensor Channel API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i1121 i1126 i1128"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Sensor Channel API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.2</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.3</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Finding.2C_opening_and_closing_a_channel"><span class="tocnumber">2.1</span> <span class="toctext">Finding, opening and closing a channel</span></a></li>
+<li class="toclevel-2"><a href="#Listening_for_channel_data"><span class="tocnumber">2.2</span> <span class="toctext">Listening for channel data</span></a></li>
+<li class="toclevel-2"><a href="#Listening_for_channel_changes"><span class="tocnumber">2.3</span> <span class="toctext">Listening for channel changes</span></a></li>
+<li class="toclevel-2"><a href="#Retrieving_channel_properties"><span class="tocnumber">2.4</span> <span class="toctext">Retrieving channel properties</span></a></li>
+<li class="toclevel-2"><a href="#Setting_channel_properties"><span class="tocnumber">2.5</span> <span class="toctext">Setting channel properties</span></a></li>
+<li class="toclevel-2"><a href="#Retrieving_values_of_array_properties"><span class="tocnumber">2.6</span> <span class="toctext">Retrieving values of array properties</span></a></li>
+<li class="toclevel-2"><a href="#Scaling_channel_data"><span class="tocnumber">2.7</span> <span class="toctext">Scaling channel data</span></a></li>
+<li class="toclevel-2"><a href="#Listening_for_channel_property_changes"><span class="tocnumber">2.8</span> <span class="toctext">Listening for channel property changes</span></a></li>
+<li class="toclevel-2"><a href="#Listening_for_channel_data_with_conditions"><span class="tocnumber">2.9</span> <span class="toctext">Listening for channel data with conditions</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.10</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.11</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.1</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The Sensor API provides clients with the access to the data provided by various sensors of a device.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>SensrvClient.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/os/deviceio/deviceio_pub/sensor_channel_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/os/deviceio/deviceio_pub/sensor_channel_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>The Sensor API consist of the following two parts: 
+</p>
+<ul><li>Sensor channel API - defines the basic functionality of and utilities of sensor API. 
+</li><li>Sensor definitions API - defines the features of different sensors.
+</li></ul>
+<p>The Sensor API is a library API providing methods to listen for data provided by sensor
+channels. Sensor channels may also support condition listening to get notified
+when some limit is met for a channel. Sensor channels are configured with
+properties such as data rate.
+</p><p>Sensor channel measures the acceleration of the device. As shown in the following diagram, three-dimensional
+Cartesian coordinate system is used to illustrate direction of the acceleration. The x- and y- axes define a plane where z-axis direction is perpendicular to the xy plane. When a phone is moving along an axis, the
+acceleration is positive if movement is towards the positive direction and negative
+if movement is toward the negative direction. For example, when a phone is moving along x-axis
+to the direction of -x, the acceleration is negative.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Sensor_API_coordinate_system.png" title="Three-dimensional Cartesian coordinate system with z-axis pointing away from the phone display."><img alt="Three-dimensional Cartesian coordinate system with z-axis pointing away from the phone display." border="0" height="255" src="images/SPB_10_1_Sensor_API_coordinate_system.png" width="255" /></a></div>
+<div style="text-align:center"><i>Three-dimensional Cartesian coordinate system with z-axis pointing away from the phone display.</i></div>
+<p>As shown in the following diagram, there are six basic orientations for a phone. In display up and display down orientation, the gravitation is along the y-axis. In phone left side up and phone right side up orientation, the gravitation is along the x-axis. In display upwards and display downwards orientation, the gravitation is along the z-axis.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Sensor_API_orientation.png" title="Six basic orientations of a phone"><img alt="Six basic orientations of a phone" border="0" height="180" src="images/SPB_10_1_Sensor_API_orientation.png" width="580" /></a></div>
+<div style="text-align:center"><i>Six basic orientations of a phone</i></div>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.2 Use Cases </span></h3>
+</a><p>Sensor channel data listening related use cases
+</p>
+<ul><li>Finding, opening and closing a channel
+</li><li>Listening for channel data 
+</li><li>Listening for channel changes 
+</li></ul>
+<p>Sensor channel properties related use cases:
+</p>
+<ul><li>Retrieving channel properties
+</li><li>Setting channel properties
+</li><li>Retrieving values of array properties 
+</li><li>Scaling channel data 
+</li><li>Listening for channel property changes
+</li></ul>
+<p>Sensor channel conditions related use cases:
+</p>
+<ul><li>Listening for channel data with conditions
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.3 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CSensrvChannel <td><span class="plainlinks"><code>/epoc32/include/sensrvchannel.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CSensrvChannelCondition</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/sensrvchannelcondition.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSensrvChannelConditionSet</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/sensrvchannelconditionset.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSensrvChannelFinder</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/sensrvchannelfinder.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MSensrvChannelConditionListener</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/sensrvchannelconditionlistener.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MSensrvChannelListener</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/sensrvchannellistener.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MSensrvDataListener</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/sensrvdatalistener.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MSensrvPropertyListener</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/sensrvpropertylistener.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TSensrvChannelInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/sensrvchannelinfo.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TSensrvProperty</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/sensrvproperty.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/sensrvtypes.h</code></span>
+</td></tr>
+<p>The channel finder <span class="plainlinks"><code>CSensrvChannelFinder</code> </span> provides interfaces
+to search and find sensor channels that the system provides. Clients can
+listen if new channels are installed to the system through the <span class="plainlinks"><code>MSensrvChannelListener</code> </span> callback
+interface.
+</p><p>The Sensor channel <span class="plainlinks"><code>CSensrvChannel</code> </span> provides methods to open
+and control a sensor channel. The class provides operations to:
+</p>
+<ul><li> Start and stop channel data listening. Operation for getting the new
+</li></ul>
+<p>data is also provided. New data availability is informed through the <span class="plainlinks"><code>MSensrvDataListener</code> </span> callback
+interface.
+</p>
+<ul><li> Start and stop channel condition listening. The condition reached is informed through the <span class="plainlinks"><code>MSensrvChannelConditionListener</code> </span> callback interface. Conditions are encapsulated to the <span class="plainlinks"><code>CSensrvChannelConditionSet</code> </span> and <span class="plainlinks"><code>CSensrvChannelCondition</code> </span> classes.
+</li><li> Set and retrieve channel properties. Property changes can be listened for through the <span class="plainlinks"><code>MSensrvPropertyListener</code> </span> callback interface.
+</li></ul>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Sensor_API_class_structure.png" title="Sensor API class structure"><img alt="Sensor API class structure" border="0" height="903" src="images/SPB_10_1_Sensor_API_class_structure.png" width="1226" /></a></div>
+<div style="text-align:center"><i>Sensor API class structure</i></div>
+<p>Clients create an instance of C classes using the standard <code>NewL</code> two
+phase construction. If a callback interface is required, the client must implement
+the appropriate M class and provide its pointer when required.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>To use a sensor channel, a client must find a channel and open it. The <span class="plainlinks"><code>CSensrvChannelFinder</code> </span> class
+provides functionality to find channels. The <span class="plainlinks"><code>CSensrvChannel</code> </span> class
+provides functionality to open and control channels.
+</p><p>The supported sensor channels are declared in the sensor definitions API.
+The number of implemented channels may vary between products. For each channel
+a channel type ID constant and a short description is provided. Double tapping
+channel declaration is shown below as an example. There are two types of channels:
+raw data channels and event channels. Raw data channels provide data continuously
+and event channels provide data when an appropriate event occurs. The data type
+describes what type of data the channel provides.
+</p>
+<pre>    /**
+    * - Name:          Double tapping event channel type
+    * - Type:          Event
+    * - Datatype:      TSensrvTappingData
+    * - Description:   Double tapping events
+    */
+    const TSensrvChannelTypeId KSensrvChannelTypeIdAccelerometerDoubleTappingData = 0x10205081;
+</pre>
+<p>Channel data types are declared in each sensors header file. A channel data
+type is the type of an object which a sensor channel provides. Double tapping
+channel data type declaration is shown as follows.
+</p>
+<pre>    class TSensrvTappingData
+        {
+    public:
+        /**
+        * Channel data type ID number
+        */
+        static const TSensrvChannelDataTypeId KDataTypeId = 0x1020507F;
+
+        /**
+        * Channel data type enumerations
+        */
+        enum TSensrvAccelerometerAxisDataIndexes
+              {
+              iTimeStamp = 0,
+              iDirection
+              };
+            };
+
+    public:
+        /**
+        * - Item name:   Sampling time.
+        * - Item Index:  0
+        * - Conditions:  None
+        * - Description: Timestamp for a sample.
+        */
+        TTime iTimeStamp;
+
+        /**
+        * - Item name:   Tapping direction bitmask
+        * - Item Index:  1
+        * - Conditions:  Binary
+        * - Description: Direction bitmask of the tapping event.
+        *                See constant definitions above.
+        */
+        TUint32 iDirection;
+        };
+</pre>
+<p>The channel data type ID, for example <span class="plainlinks"><code>TSensrvTappingData::KDataTypeId</code> </span>, 
+is a unique ID for each data type to be able to separate data types from each
+other. The data type ID is used in <span class="plainlinks"><code>TSensrvChannelInfo</code> </span> to define
+data type used in a channel.
+</p><p>The channel data type index, for example <span class="plainlinks"><code>TSensrvTappingData::iDirection</code> </span>, 
+is used to point to an attribute inside a data type. Attributes of the <span class="plainlinks"><code>TSensrvTappingData</code> </span> class
+are <span class="plainlinks"><code><font color="darkred">iTimeStamp</font></code> </span> and <span class="plainlinks"><code><font color="darkred">iDirection</font></code> </span>. The channel data
+type index is used in:
+</p>
+<ul><li> properties ( <span class="plainlinks"><code>TSensrvProperty</code> </span>) if a property scope is a channel item.
+</li><li> conditions ( <span class="plainlinks"><code>CSensrvChannelCondition</code> </span>) to identify which attribute is used as a condition. 
+</li></ul>
+<p>Channel properties are declared in the <i>sensrvgeneralproperties.h</i> and
+sensor specific files. General properties for all channel types are declared
+in the <i>sensrvgeneralproperties.h</i> file. Accelerometer specific properties
+are declared in the <i>sensrvaccelerometersensor.h</i> file. For each property,
+a property ID constant and a short description are provided. The property type
+specifies the type of the value the property contains. It can be <span class="plainlinks"><code>TInt</code> </span>, <span class="plainlinks"><code>TReal</code> </span> or <span class="plainlinks"><code>TBuf</code> </span>.
+The property scope can be defined for:
+</p>
+<ul><li> a channel
+</li><li> a specific attribute inside channel data
+</li><li> a sensor related to a channel.
+</li></ul>
+<p>A mandatory section specifies if the property is required for all channels. The capability section specifies the required capabilities to change value of
+the property. The Accuracy property is shown below as an example.
+</p>
+<pre>    /**
+    * - Name:         Accuracy of the channel data
+    * - Type:         TReal
+    * - Scope:        Channel item property
+    * - Mandatory:    No
+    * - Capability:   None
+    * - Description:  Returns the accuracy of this channel of the sensor as a
+    *                 percentage of reading (=data value).
+    */
+    const TSensrvPropertyId KSensrvPropIdChannelAccuracy = 0x000000008;
+</pre>
+<p>Example content of the Accuracy property is shown below. Properties defined 
+are channel data item specific. The item index defines the data item
+which the property is related to. If the property is a sensor or channel property,
+the item index is <span class="plainlinks"><code>KSensrvItemIndexNone</code> </span>. 
+</p>
+<pre>    iPropertyId   = KSensrvPropIdChannelAccuracy
+    iItemIndex    = KSensrvItemIndexNone
+    iArrayIndex   = ESensrvSingleProperty
+    iRealValue    = 10.0
+    iReadOnly     = ETrue
+    iRealValueMax = n/a
+    iRealValueMin = n/a
+    iPropertyType = ESensrvRealProperty
+    iSecurityInfo = n/a
+</pre>
+<a name="Finding.2C_opening_and_closing_a_channel"><h3> <span class="mw-headline">2.1 Finding, opening and closing a channel </span></h3>
+</a><p>The following example shows how to find, open and close a double tapping
+channel. An instance of <span class="plainlinks"><code>CSensrvChannelFinder</code> </span> is created to
+be able to find channels. The found channels are stored into the <span class="plainlinks"><code>RSensrvChannelInfoList</code> </span> type
+of object. All double tapping channels provided by the device are queried
+by setting the channel type as <span class="plainlinks"><code>KSensrvChannelTypeIdAccelerometerDoubleTappingData</code> </span> to
+the <span class="plainlinks"><code>TSensrvChannelInfo</code> </span> object which is used as search criteria.
+After calling the <code>FindChannelsL()</code> method, <span class="plainlinks"><code><font color="darkred">channelInfoList</font></code> </span> contains
+all the found double tapping channels. If there are several found channels, 
+the client can select the correct one by examining the content of channel
+information objects inside <code>channelInfoList</code>.
+</p><p>To construct the <code>CSensrvChannel</code> object properly, a channel
+information object from <code>channelInfoList</code> must be used as a
+parameter in the <code>NewL()</code> constructor. After successful construction,
+the channel can be opened using the <code>OpenChannelL()</code> method.
+For an opened channel, the client can set and retrieve channel properties, add channel
+conditions and listen for sensor data. When the channel is not needed anymore,
+it must be closed using the <code>CloseChannel()</code> method.
+</p>
+<pre>    //Construct a channel finder.
+    CSensrvChannelFinder* channelFinder;
+    channelFinder = CSensrvChannelFinder::NewL();
+    CleanupStack::PushL( channelFinder );
+
+    //List of found channels.
+    RSensrvChannelInfoList channelInfoList;
+    CleanupClosePushL( channelInfoList );
+
+    //Create and fill channel search criteria.
+    //In this example double tapping channel is searched.
+    TSensrvChannelInfo channelInfo;
+    channelInfo.iChannelType = KSensrvChannelTypeIdAccelerometerDoubleTappingData;
+
+    //Find the double tapping channel
+    channelFinder-&gt;FindChannelsL( channelInfoList, channelInfo );
+
+    if( channelInfoList.Count() != 1 )
+        {
+        //The device doesn't support double tapping channel or
+        //there are several double tapping channels.
+        }
+    else
+        {
+        //double tapping channel found
+        }
+
+    //Open the double tapping channel.
+    //When the channel object is created the channel info object
+    //must be an object returned by CSensrvChannelFinder::FindChannelsL().
+    CSensrvChannel* sensorChannel;
+    sensorChannel = CSensrvChannel::NewL( channelInfoList( 0 ) );
+    CleanupStack::PushL( sensorChannel );
+    sensorChannel-&gt;OpenChannelL();
+
+    //
+    //Double tapping channel is now open.
+    //
+
+    //Close the double tapping channel.
+    sensorChannel-&gt;CloseChannel();
+
+    CleanupStack::PopAndDestroy( sensorChannel );
+    CleanupStack::PopAndDestroy( &amp;channelInfoList ); //Close() is being called on "channelInfoList"
+    CleanupStack::PopAndDestroy( channelFinder );
+</pre>
+<a name="Listening_for_channel_data"><h3> <span class="mw-headline">2.2 Listening for channel data </span></h3>
+</a><p>The channel must be opened before starting to listen for channel data. The
+following example shows how to start listening to a double tapping channel
+and receive data from it. Channel data is received into the receiving buffer
+and it can be read using the <span class="plainlinks"><code><font color="darkred">GetData()</font></code> </span> method. When new data
+is available in the receiving buffer, a <code>DataReceived()</code> notification
+is delivered through the data listener callback interface-<span class="plainlinks"><code>MSensrvDataListener</code> </span>.
+</p><p>In case of double tapping channel, the desired count and maximum count
+parameters are set to one to get a <span class="plainlinks"><code><font color="darkred">DataReceived()</font></code> </span> notification
+per one double tapping. The buffering period is set to zero to get the <span class="plainlinks"><code><font color="darkred">DataReceived()</font></code> </span> notification
+only when double tapping is done. Channel data can be read from the receiving
+buffer using the <code>GetData()</code> method. The receiving buffer is
+allocated from the heap in the client's thread and its size is the channel data
+item size multiplied by the maximum number of data items. There are two receiving
+buffers for one client. For example, if the channel data item size
+is 20 bytes and the maximum count is 10, the memory consumption is 400 bytes (20bytes*10*2=400 bytes). On the other hand, small desired data count increases the 
+interprocess communication. The client needs to provide a pointer to the data
+listener for the channel to be able to receive <code>DataReceived()</code> notifications.
+</p>
+<pre>    iSensorChannel-&gt;StartDataListeningL( this, //this object is data listener for this channel
+                                         1, //aDesiredCount is one, i.e. each double tapping is notified separately
+                                         1, //aMaximumCount is one, i.e. object count in receiving data buffer is one
+                                         0 );//buffering period is not used
+</pre>
+<p>To implement data listener the client needs to inherit from the <span class="plainlinks"><code>MSensrvDataListener</code> </span> interface
+class and implement declared pure virtual methods. When a new data is available
+in the sensor channel and data listening is started, the <code>DataReceived()</code> method
+is called by the Sensor API. The following example shows how to handle double
+tapping data received notifications. First the channel type of the received
+data is checked, and then data object is got with the <code>GetData()</code> method.
+The <code>aCount</code> parameter tells the number of data objects in
+the channels receiving buffer and it can be zero if the buffering period is
+used when data listening is started. The <code>aDataLost</code> parameter
+tells the number of the lost data objects, for exmaple, in heavy load situations.
+</p>
+<pre>    void CTestClass::DataReceived( CSensrvChannel&amp; aChannel,
+                               TInt aCount,
+                               TInt aDataLost )
+    {
+
+    if ( aChannel.GetChannelInfo().iChannelType == KSensrvChannelTypeIdAccelerometerDoubleTappingData )
+        {
+        TSensrvTappingData tappingData;
+        TPckg&lt;TSensrvTappingData&gt; tappingPackage( tappingData );
+
+        aChannel.GetData( tappingPackage );
+        }
+
+    }
+</pre>
+<p>When data listening is not needed anymore it must be stopped with the <span class="plainlinks"><code><font color="darkred">StopDataListening()</font></code> </span> method.
+</p>
+<a name="Listening_for_channel_changes"><h3> <span class="mw-headline">2.3 Listening for channel changes </span></h3>
+</a><p>The channel finder <span class="plainlinks"><code>CSensrvChannelFinder</code> </span> provides functionality
+to listen for channel changes, such as when new channels are installed to the system or old channels are
+removed. Listening is started and stopped with the <code>SetChannelListenerL()</code> method.
+When a channel change occurs, a <code>ChannelChangeDetected()</code> notification
+is delivered through the channel listener callback interface <span class="plainlinks"><code>MSensrvChannelListener</code> </span>.
+</p><p>There is one restriction on the <code>ChannelChangeDetected()</code> notification:
+If a sensor changes the existing channel registration, there must be an open
+channel to that sensor to prevent sensor driver unloading. In practise, this
+means that at least one channel from this sensor must have a client to keep
+the channel open and sensor driver loaded. If the sensor driver is unloaded
+while new channels become available, it cannot notify new channels until some
+existing channel opening causes the sensor driver to be reloaded.
+</p>
+<a name="Retrieving_channel_properties"><h3> <span class="mw-headline">2.4 Retrieving channel properties </span></h3>
+</a><p>The channel must be opened before its properties can be accessed. The channel
+properties are capsulated to the <span class="plainlinks"><code>TSensrvProperty</code> </span> class and
+can be queried with the <code>GetPropertyL()</code> method. The following
+example shows how to check accuracy of the channel. <code>GetPropertyL()</code> leaves
+if the channel does not support the Accuracy property. Leave also occurs if
+the Accuracy property is defined as the channel item property.  This means that the item index
+must point to valid a channel item index, for example, <span class="plainlinks"><code>TSensrvAccelerometerAxisData::iAxisX</code> </span>.
+</p>
+<pre>    TSensrvProperty property;
+    TReal propertyValue( 0 );
+
+    iSensorChannel-&gt;GetPropertyL( KSensrvPropIdChannelAccuracy,
+                                  KSensrvItemIndexNone,
+                                  property );
+
+    // KSensrvPropIdDataType is specified as TReal of type in sensrvgeneralproperties.h.
+    // Type of the property can also be checked at runtime with PropertyType() method.
+    if( property.PropertyType() == ESensrvRealProperty )
+        {
+        property.GetValue( propertyValue );
+        }
+</pre>
+<a name="Setting_channel_properties"><h3> <span class="mw-headline">2.5 Setting channel properties </span></h3>
+</a><p>The channel must be opened before its properties can be accessed. Channel properties
+can be changed with the <code>SetProperty()</code> method. In the following
+example, the x-axis of accelerometer channel is deactivated. The axis active
+property <span class="plainlinks"><code>KSensrvPropIdAxisActive</code> </span> with the item index is first
+got with the <code>GetPropertyL()</code> method. If the axis is active
+it is deactivated by setting a new value to the previously got property. Updated
+property is set with the <code>SetProperty()</code> method.
+</p>
+<pre>    TSensrvProperty property;
+    TInt err( KErrNone );
+    TInt axisActive( 0 );
+
+    iSensorChannel-&gt;GetPropertyL( KSensrvPropIdAxisActive,
+                                  TSensrvAccelerometerAxisData::Index::iAxisX,
+                                  property );
+
+    property.GetValue( axisActive );
+
+    if( 1 == axisActive )
+        {
+        property.SetValue( 0 );//Other value than one means that sensor axis is deactivated.
+        err = iSensorChannel-&gt;SetProperty( property );
+        if( KErrNone == err )
+            {
+            //Accelerometer x-axis was succesfully deactivated
+            }
+        }
+    else
+        {
+        //Accelerometer x-axis is allready deactive
+        }
+</pre>
+<a name="Retrieving_values_of_array_properties"><h3> <span class="mw-headline">2.6 Retrieving values of array properties </span></h3>
+</a><p>A property that defines multiple discrete values inside one property ID
+is called an array property. Array properties can be identified with array
+index, which can be queried using the <code>GetArrayIndex()</code> method.
+For array properties, the array index is not the <span class="plainlinks"><code>ESensrvSingleProperty</code> </span>.
+An example of array property is illustrated in the <span class="plainlinks"><code>KSensrvPropIdDataRate</code> </span> property
+declared in the <i>sensorgeneralproperties.h</i> file.
+</p><p>The following example shows how to get the current data rate of the channel. The data rate is declared as an array property. First, read the <span class="plainlinks"><code>KSensrvPropIdDataRate</code> </span> property
+using the <code>GetPropertyL()</code> method. If the property is
+an array property, the result of the <code>GetPropertyL()</code> call is
+a property with the <span class="plainlinks"><code>ESensrvArrayPropertyInfo</code> </span> array index, otherwise
+the array information index is <span class="plainlinks"><code>ESensrvSingleProperty</code> </span>. In
+case of an array property, the value of the current data rate is in the <span class="plainlinks"><code>KSensrvPropIdDataRate</code> </span> property, whose array index is same as the array property's value.
+</p>
+<pre>    TSensrvProperty property;
+    TInt err( KErrNone );
+    TInt datarate( 0 );
+
+    iSensorChannel-&gt;GetPropertyL( KSensrvPropIdDataRate,
+                                  KSensrvItemIndexNone,
+                                  property );
+
+    if( ESensrvArrayPropertyInfo == property.GetArrayIndex() )
+        {
+        //Current data rate in use is in KSensrvPropIdDataRate property
+        //which array index is declared in array propertys value.
+        TInt arrayIndex( 0 );
+        property.GetValue( arrayIndex );
+
+        iSensorChannel-&gt;GetPropertyL( KSensrvPropIdDataRate,
+                                      KSensrvItemIndexNone,
+                                      arrayIndex,
+                                      property );
+
+        property.GetValue( datarate );
+        }
+    else
+        {
+        //KSensrvPropIdDataRate is a single property and current data rate can be read diretly from it.
+        property.GetValue( datarate );
+        }
+</pre>
+<a name="Scaling_channel_data"><h3> <span class="mw-headline">2.7 Scaling channel data </span></h3>
+</a><p>The value of the channel data item can represent the actual value of the measured
+quantity. The channel data item can also represent the relative value which is scaled
+to between maximum and minimum value of the measured quantity. The <span class="plainlinks"><code>KSensrvPropIdChannelDataFormat</code> </span> property
+defines if channel data items are in the scaled format. For scaled data items, 
+the <span class="plainlinks"><code>KSensrvPropIdScaledRange</code> </span> property defines the range of the
+data item value, and the <span class="plainlinks"><code>KSensrvPropIdMeasureRange</code> </span> property
+defines the range for the measured quantity.
+</p><p>The following example reads the maximum value of measure range for data
+items <span class="plainlinks"><code><font color="darkred">(KSensrvPropIdScaledRange)</font></code> </span> and the maximum value of
+the measured quantity <span class="plainlinks"><code><font color="darkred">(KSensrvPropIdMeasureRange)</font></code> </span>. The example
+has considered that the <span class="plainlinks"><code>KSensrvPropIdMeasureRange</code> </span> property
+can be defined as an array property.
+</p>
+<pre>    TSensrvProperty property;
+    TInt  channelDataFormat( ESensrvFormatAbsolute );
+    TInt  channelDataScaledRange( 1 );
+    TReal channelDataMeasureRangeMaxValue( 1 );
+
+    //Read channel data format
+    iSensorChannel-&gt;GetPropertyL( KSensrvPropIdChannelDataFormat, KSensrvItemIndexNone, property );
+    property.GetValue( channelDataFormat );
+
+    if( ESensrvFormatScaled == channelDataFormat )
+        {
+        //Read data item scaled range
+        iSensorChannel-&gt;GetPropertyL( KSensrvPropIdScaledRange, KSensrvItemIndexNone, property );
+        property.GetMaxValue( channelDataScaledRange );
+
+        //Read data item measure range
+        iSensorChannel-&gt;GetPropertyL( KSensrvPropIdMeasureRange, KSensrvItemIndexNone, property );
+
+        if( ESensrvArrayPropertyInfo == property.GetArrayIndex() )
+            {
+            TInt arrayIndex( 0 );
+            property.GetValue( arrayIndex );//Value points to array index currently in use
+            iSensorChannel-&gt;GetPropertyL( KSensrvPropIdMeasureRange,
+                                          KSensrvItemIndexNone,
+                                          arrayIndex,
+                                          property );
+            }
+        else
+            {
+            //Single property
+            }
+        property.GetMaxValue( channelDataMeasureRangeMaxValue );
+        }
+    else
+        {
+        //No scaling needed.
+        //Value of the data item represents actual value of the measured quantity.
+        }
+</pre>
+<p>The scaled channel data item value can be converted to absolute value by dividing
+the channel data item value with the maximum value of scaled range of the
+channel and multiplying it with the maximum value of the measured quantity.
+For example, the accelerometer channel provides the following properties:
+</p>
+<ul><li> <span class="plainlinks"><code>KSensrvPropIdChannelDataFormat</code> </span> with the <span class="plainlinks"><code>ESensrvFormatScaled</code> </span> value.
+</li><li> <span class="plainlinks"><code>KSensrvPropIdScaledRange</code> </span> with the maximum value of 127
+</li></ul>
+<ul><li> <span class="plainlinks"><code>KSensrvPropIdMeasureRange</code> </span> with the maximum value of 2 g
+</li><li> <span class="plainlinks"><code>KSensrvPropIdChannelUnit</code> </span> with the <span class="plainlinks"><code>ESensrvUnitGravityConstant</code> </span> value
+</li></ul>
+<p>In the above example, the accelerometer channel data item value 64 means 1,01g
+absolute value (64 / 127 * 2g = 1.01g). The value of the channel data item can
+also be scaled and the scaling factor is published in the <span class="plainlinks"><code>KSensrvPropIdChannelScale</code> </span> property.
+</p>
+<a name="Listening_for_channel_property_changes"><h3> <span class="mw-headline">2.8 Listening for channel property changes </span></h3>
+</a><p>The channel must be opened before listening for channel property changes. 
+The client can use the property listener to get notifications about changed
+properties. If the client itself changes a property value, no notification
+is received. Property change listening is started and stopped with the <code>SetPropertyListenerL()</code> method.
+When property changes occurs, a <code>PropertyChanged()</code> notification
+is delivered through the property listener callback interface <span class="plainlinks"><code>MSensrvPropertyListener</code> </span>.
+</p>
+<a name="Listening_for_channel_data_with_conditions"><h3> <span class="mw-headline">2.9 Listening for channel data with conditions </span></h3>
+</a><p>The channel must be opened before listening for channel data with conditions.
+The following example shows how to start listening to double taps coming from
+the x-axis direction. When the condition is met, a <code>ConditionMet()</code> notification
+is delivered throught the data listener callback interface <span class="plainlinks"><code>MSensrvChannelConditionListener</code> </span>.
+</p><p>The direction from tapping data ( <span class="plainlinks"><code>TSensrvTappingData</code> </span>) is used
+as a condition in this example. The direction value is set to the x-axis plus
+and minus to get notifications from double tap in both x-axis directions. A
+condition set is created for a container for one or more conditions. A condition
+is created to hold a channel condition item, see detailed comments from the
+example below. The condition is added to the condition set and the condition
+set is added to the channel. The client has ownership to this condition set
+and it must ensure that the condition set object is valid until the condition
+set is removed from the channel or the channel is destroyed. After the condition
+set is added to the channel, the condition listening is started with the <code>StartConditionListeningL()</code> method. The client needs to provide a pointer to the condition listener for the channel
+to be able to receive the <code>ConditionMet()</code> notification.
+</p>
+<pre>    CSensrvChannelCondition* condition = NULL;
+
+    // The condition for double tapping channel is set so that
+    // double tap to X-axis triggers condition met notification
+    TSensrvTappingData doubleTappingCondition;
+    TPckgC&lt;TSensrvTappingData&gt; doubleTappingConditionPckg( doubleTappingCondition );
+    doubleTappingCondition.iTimeStamp = 0;
+    doubleTappingCondition.iDirection = KSensrvAccelerometerDirectionXplus | KSensrvAccelerometerDirectionXminus;
+
+    // In this example logical operator to be used in the condition set
+    // does not have any effect because only one condition is added
+    // to the condition set
+    iConditionSet = CSensrvChannelConditionSet::NewL( ESensrvOrConditionSet );
+
+    // The binary condition (ESensrvBinaryCondition) is used because double tapping
+    // channel provides bitmask values.
+    // Binary and (ESensrvOperatorBinaryAnd) operator is used because operator
+    // checks if a bitmask data value got from double tapping channel has set at least
+    // one of the bits set in the condition value.
+    // In other words double tapping direction can be positive or negative.
+    // Item index (3rd parameter) defines which attribute in data item is used for condition evaluation.
+    // TSensrvTappingData::Index::iDirection means that iDirection is used
+    // for condition from TSensrvTappingData class.
+    // Last parameter (doubleTappingConditionPckg) contains value for
+    // condition evaluation encapsulated in the package descriptor.
+    condition = CSensrvChannelCondition::NewLC( ESensrvBinaryCondition,
+                                                ESensrvOperatorBinaryAnd,
+                                                TSensrvTappingData::Index::iDirection,
+                                                doubleTappingConditionPckg );
+
+    //Add the condition to condition set
+    iConditionSet-&gt;AddChannelConditionL( condition );
+
+    //Don't delete the condition because the ownership is transferred to the condition set
+    CleanupStack::Pop( condition );
+
+    // Add the condition set for the double tapping channel
+    iDoubleTappingConditionChannel-&gt;AddConditionL( *iConditionSet );
+
+    // Start condition listening
+    //  aObjectCount is one, i.e. each double tapping condition is notified separately
+    //  buffering period is not used, i.e. it is set to zero
+    iDoubleTappingConditionChannel-&gt;StartConditionListeningL( iDataListener2,
+                                                              1,
+                                                              0 );
+</pre>
+<p>To implement condition listener, the client needs to inherit from the <span class="plainlinks"><code>MSensrvChannelConditionListener</code> </span> interface
+class and implement declared pure virtual methods. When a channel condition
+set is met and condition listening is started, the <code>ConditionMet()</code> method
+is called by the Sensor Channel API. The following example shows how to handle
+condition met notification for double tapping channel. First the channel type
+of the received data and correct data buffer size is checked. The received
+data object is encapsulated in the package descriptor, and the channel data value
+which meets the condition is copied to a new package buffer. If the client wants
+to use the same condition set after notification, the client must add the
+condition set again to the channel object.
+</p>
+<pre>    void CTestClass::ConditionMet( CSensrvChannel&amp; aChannel,
+                               CSensrvChannelConditionSet&amp; aChannelConditionSet,
+                               TDesC8&amp; aValue )
+    {
+
+    if( aChannel.GetChannelInfo().iChannelType == KSensrvChannelTypeIdAccelerometerDoubleTappingData )
+        {
+        if ( sizeof(TSensrvTappingData) == aValue.Size() )
+            {
+            TPckgBuf&lt;TSensrvTappingData&gt; dataBuf;
+            dataBuf.Copy( aValue );
+
+            //dataBuf() contains channel data value which meets the condition
+
+            //Use the same condition set again
+            if( iDoubleTappingConditionChannel )
+                {
+                // Add the condition set for the double tapping channel.
+                // Condition listening is not stopped therefore 
+                // only the new condition set needs to be added.
+                iDoubleTappingConditionChannel-&gt;AddConditionL( *iConditionSet );
+                }
+            }
+        else
+            {
+            //Size of the aValue is unexpected
+            }
+        }
+    else
+        {
+        //The condition is not met for double tapping channel
+        }
+
+    }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.10 Error handling </span></h3>
+</a><p>The leave mechanism and return values are used to indicate errors. Use practices such as stack cleanup
+and the <span class="plainlinks"><code>TRAP</code> </span> harness to handle errors. Listener callback interfaces ( <span class="plainlinks"><code>MSensrvDataListener</code> </span>, <span class="plainlinks"><code>MSensrvPropertyListener</code> </span>, <span class="plainlinks"><code>MSensrvChannelConditionListener</code> </span> and <span class="plainlinks"><code>MSensrvChannelListener</code> </span>) offer a callback method to inform errors during listening.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.11 Memory and Performance Considerations </span></h3>
+</a><p>The Sensor Channel API memory consumption cdepends on the channel's data rate
+and/or size of the data in the receiving buffer. High data rate with a small
+data receiving buffer causes increased interprocess communications. On the
+other hand, a big data receiving buffer reserves more memory.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.1 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Definitions</b>
+</caption>
+<tr>
+<td> <b> Definition</b></td><td> <b> Description</b>
+</td></tr>
+<tr>
+<td> Channel</td><td> Abstraction of a sensor. Data from one physical sensor may be mapped to several channels.
+</td></tr>
+<tr>
+<td> Channel condition</td><td> A value-operator pair targeting a single value inside a data item, indicated by an index. A condition is met when the channel data value comparison with the condition value using condition operator is true. The conditions are gathered in condition sets. There are two condition types: single limit conditions and range conditions. Range conditions are actually made up from two separate conditions representing lower and upper limits of the range.
+</td></tr>
+<tr>
+<td> Channel item property</td><td> A single property inside channel data item.
+</td></tr>
+<tr>
+<td> Channel property</td><td> A single channel property.
+</td></tr>
+<tr>
+<td> Data Item</td><td> A discrete data package that contains sensor data or an event parsed from sensor data and possibly some related values, such as timestamp. Each channel provides single type of data items only.
+</td></tr>
+<tr>
+<td> Property</td><td> Properties are configuration values of sensors and channels. Changing a property affects all clients listening to affected channel(s).
+</td></tr>
+<tr>
+<td> Sensor</td><td> Physical sensor. Single sensor can provide multiple channels, such as raw data channel and event channels, or multiple sensor readings can be incorporated into a single channel.
+</td></tr>
+<tr>
+<td> Sensor property</td><td> These properties affect all channels which draw data from one physical sensor.
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_os_deviceio_deviceio_pub_sensor_channel_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:16 GMT -->
+</html>

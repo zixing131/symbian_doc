@@ -1,0 +1,93 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A26BD9E-5B8E-4E6D-904E-B8354B14E111.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:57 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Constructing views in the view architecture" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Relation" scheme="URI" content="GUID-E50EC0B4-A434-4C30-A1A9-1A976185FF28" /><meta name="DC.Relation" scheme="URI" content="GUID-68B999C2-0993-4804-9624-42C3D88BE5C7" /><meta name="DC.Relation" scheme="URI" content="GUID-95C188D0-EDB2-46D0-ACDE-19AAD524C9F4" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1A26BD9E-5B8E-4E6D-904E-B8354B14E111" /><title>Constructing views in the view architecture </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1A26BD9E-5B8E-4E6D-904E-B8354B14E111">Constructing views in the view architecture</h1><div>
+<p>The call on the first phase constructor method of the view occurs
+in <a href="GUID-FD2CDEB8-0784-4BE5-A775-170F57D71BBC.html">UI controller</a>. The view serves as the top-level window under the UI controller.</p>
+<p>The following are the methods that you need to derive for the
+view derived from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a> :</p>
+<ul>
+<li><p>Default constructor, which cannot contain code that
+leaves. A common implementation is:</p>
+<pre class="codeblock">
+CMyAppView* CMyAppView::NewL( const TRect&amp; aRect )
+    {
+    CMyAppView* self = CMyAppView::NewLC( aRect );
+    CleanupStack::Pop( self );
+    return self;
+    }
+
+CMyAppView* CMyAppView::NewLC( const TRect&amp; aRect )
+    {
+    CMyAppView* self = new ( ELeave ) CMyAppView;
+    CleanupStack::PushL( self );
+    self-&gt;ConstructL( aRect );
+    return self;
+    }
+
+CMyAppView::CMyAppView()
+    {
+    // No implementation required
+    }</pre>
+<p>The declarations for <code class="parname">CMyAppView::NewL()</code> and <code class="parname">CMyAppView::NewLC()</code> in the class header
+file needs to be public to support the construction method required.</p>
+<p>In this approach, <code class="parname">CMyAppView::NewL()</code> is
+called from the UI controller. It creates a view object by calling <code class="parname">CMyAppView::NewLC()</code> to create the object (and leave if
+it cannot), pushes a pointer to the clean-up stack in case the second
+phase construction method leaves, and then calls the second phase
+construction method of the object. When it returns to <code class="parname">CMyAppView::NewL()</code>, the pointer pushed to the cleanup stack is removed.  For more information,
+see <strong>Symbian C++ API specifications</strong>.</p>
+</li>
+<li><p>Symbian second phase constructor with code that might
+leave. A common implementation is:</p>
+<pre class="codeblock">
+void CMyAppView::ConstructL( const TRect&amp; aRect )
+    {
+    // Create a window for this application view
+    CreateWindowL();
+
+     //add construction for other controls if required
+
+	   // Set the windows size
+    SetRect( aRect );
+
+    // Activate the window, which makes it ready to be drawn
+    ActivateL();
+    }</pre>
+<p><code class="parname">CMyAppView</code> is a private class providing
+the second phase construction that accepts the rectangle the view
+is drawn to.</p>
+<p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-03CC715F-11D8-39B1-875D-F4589BC9681E"><code class="apiname">CCoeControl::CreateWindowL()</code></a> creates a window
+for the control. Note that this window is a child of the UI controller.
+This method makes the control a <a href="GUID-352850A9-227F-45DB-8DCD-C6268954B4ED.html">window-owning control</a>. While, the use of window-owning controls is discouraged to prevent
+the taxing of run-time resources, this is the top-level window for
+the UI controller.</p>
+<p>While this is a simple control that does not contain other controls,
+other controls could be added to the control between <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-03CC715F-11D8-39B1-875D-F4589BC9681E"><code class="apiname">CCoeControl::CreateWindowL()</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-AC806401-86C7-308A-9D18-39085CB8D877"><code class="apiname">CCoeControl::SetRect(aRect)</code></a>. For more information,
+see <a href="GUID-57CA8A13-05C6-4AFE-9804-E2EA2453143A.html">Compound controls in the view architecture</a>.</p>
+<p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-AC806401-86C7-308A-9D18-39085CB8D877"><code class="apiname">CCoeControl::SetRect(aRect)</code></a> sets the window
+size according to the requirements of the mobile device. The top-level
+control rectangle is set to the area that the framework provides for
+the application. Calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-AC806401-86C7-308A-9D18-39085CB8D877"><code class="apiname">CCoeControl::SetRect(aRect)</code></a> calls the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-9D6A2C52-DCE0-3490-BDA1-323406B7FBCF"><code class="apiname">CCoeControl::SizeChanged()</code></a> method,
+where the control should set the position and size for any child controls
+and thus adjust the control layout to the UI.</p>
+<p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C79D0B6F-C2D7-3F22-A62B-88762092E869"><code class="apiname">CCoeControl::ActivateL()</code></a> sets the control
+as ready to be drawn.</p>
+</li>
+</ul>
+<p>If required for your application, you may need to implement
+other methods for your control. For top-level windows, you would need
+to implement <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-9D6A2C52-DCE0-3490-BDA1-323406B7FBCF"><code class="apiname">CCoeControl::SizeChanged()</code></a> to respond
+to changes to the size and position of the contents of this control.
+This is called by the Symbian platform when a change occurs. A typical
+implementation for a compound control is:</p>
+<pre class="codeblock">void CMyAppView::SizeChanged()
+    {
+    // Control resize code
+    iControl-&gt;SetExtent( const TPoint &amp;aPosition, const TSize &amp;aSize);
+    }</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 31st, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A26BD9E-5B8E-4E6D-904E-B8354B14E111.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:57 GMT -->
+</html>

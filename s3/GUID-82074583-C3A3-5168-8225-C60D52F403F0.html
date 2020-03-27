@@ -1,0 +1,132 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-82074583-C3A3-5168-8225-C60D52F403F0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:45 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using RArray&lt;class T&gt;" /><meta name="abstract" content="This document covers the important issues involved in using an RArray." /><meta name="description" content="This document covers the important issues involved in using an RArray." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Relation" scheme="URI" content="GUID-E3F403EE-717B-5EA6-BC4E-6840097CAC10" /><meta name="DC.Relation" scheme="URI" content="GUID-59DB0115-053A-5D23-8C40-E2428C096BBC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-82074583-C3A3-5168-8225-C60D52F403F0" /><meta name="DC.Language" content="en" /><title>Using
+RArray&lt;class T&gt; </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-82074583-C3A3-5168-8225-C60D52F403F0">Using
+RArray&lt;class T&gt;</h1><div><p>This document covers the important issues involved in using an
+RArray.</p>
+<div id="GUID-A36E4483-1962-5672-9665-32CD941222A8"><h3 class="section-title">Freeing all
+memory before the array goes out of scope</h3> <p>By convention, class
+names starting with the letter <code class="codeph">R</code> do not allocate memory on
+the heap. <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FAEBF321-6B08-3041-A01F-B1E7282D0707.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FAEBF321-6B08-3041-A01F-B1E7282D0707.html"><code class="apiname">RArray</code></a> <code class="codeph">&lt;class T&gt;</code> is an <em>exception</em> and
+this should be remembered when using the class. </p> <p>If an array is declared
+on the program stack, then its <code class="codeph">Close()</code> or <code class="codeph">Reset()</code> member
+function must be called to ensure that allocated memory is freed. </p> <p>Similarly,
+if <code class="codeph">RArray&lt;class T&gt;</code> is a data member of another class,
+then the destructor of that class must call <code class="codeph">Close()</code> or <code class="codeph">Reset()</code>. </p> </div>
+<div id="GUID-B3466F0B-3A94-502D-897D-D83D76CF9EE8"><h3 class="section-title">Packaging the
+algorithm for ordering array objects</h3> <p>A <code class="codeph">RArray&lt;class
+T&gt;</code> array allows its contained objects to be ordered. The array provides
+the behaviour for inserting and sorting instances of the template class <code class="codeph">T</code>.
+To help with this, the template class <code class="codeph">T</code> must provide an algorithm
+for deciding how two class <code class="codeph">T</code> objects are ordered. This algorithm
+is implemented by a function which must be wrapped in a <code class="codeph">TLinearOrder&lt;class
+T&gt;</code> package. </p> <p>The function implementing the algorithm can be
+a static member of the class <code class="codeph">T</code> but need not necessarily be
+so. </p> <p>Here, we aim to build an array of <code class="codeph">TMyTest</code> objects
+ordered in a way which makes sense for the <code class="codeph">TMyTest</code> class. </p> <pre class="codeblock">class TMyTest
+ { 
+public :
+ TMyTest(TInt anAint,TInt aBint);
+ static TInt Compare(const TMyTest&amp; aFirst, const TMyTest&amp; Second);
+public:
+ TInt a;
+ TInt b;
+ };</pre> <p>In this example , the algorithm is implemented by a static
+function called <code class="codeph">Compare()</code>. It takes const references to two <code class="codeph">TMyTest</code> objects
+and returns zero if the objects are equal, a negative value if <code class="codeph">aFirst</code> is
+less than <code class="codeph">aSecond</code> and a positive value if <code class="codeph">aFirst</code> is
+greater than <code class="codeph">aSecond</code>. </p> <pre class="codeblock">TInt TMyTest::Compare(const TMyTest&amp; aFirst,const TMyTest&amp; aSecond)
+ {
+ if (aFirst.b &lt; aSecond.b)
+  return -1;
+ if (aFirst.b &gt; aSecond.b)
+  return 1;
+ return 0;
+ }</pre> <p>Construct three <code class="codeph">TMyTest</code> objects and then
+construct an array object for an array of <code class="codeph">TMyTest</code> objects;
+the array has default granularity. </p> <pre class="codeblock">TMyTest one(1,1);
+TMyTest two(2,2);
+TMyTest three(3,3);
+...
+RArray&lt;TMyTest&gt; x;</pre> <p>There are at least three ways of proceeding,
+some of which are more efficient than others. </p> <ul>
+<li id="GUID-DF5A7FF9-C75A-5A65-8236-700E73F5B451"><a name="GUID-DF5A7FF9-C75A-5A65-8236-700E73F5B451"><!-- --></a><p>Explicitly build a <code class="codeph">TLinearOrder&lt;TMyTest&gt;</code> and
+pass this as a parameter to <code class="codeph">InsertInOrder()</code>. </p> </li>
+</ul> <pre class="codeblock">...
+TLinearOrder&lt;TMyTest&gt; order(TMyTest::Compare);
+...
+x.InsertInOrder(one,order);
+...</pre> <ul>
+<li id="GUID-DB2CF898-C7EE-5366-B0EB-85576DB47C85"><a name="GUID-DB2CF898-C7EE-5366-B0EB-85576DB47C85"><!-- --></a><p>Construct a temporary <code class="codeph">TLinearOrder&lt;TMyTest&gt;</code> on
+the call to <code class="codeph">InsertInOrder()</code>. </p> </li>
+</ul> <pre class="codeblock">...
+x.InsertInOrder(one,TLinearOrder&lt;TMyTest&gt;(TMyTest::Compare));
+...</pre> <ul>
+<li id="GUID-FC47BB50-FE67-572E-8119-6646312B0ABF"><a name="GUID-FC47BB50-FE67-572E-8119-6646312B0ABF"><!-- --></a><p>Implicitly construct
+a temporary <code class="codeph">TLinearOrder&lt;TMyTest&gt;</code> on the call to <code class="codeph">InsertOrder()</code>. </p> </li>
+</ul> <pre class="codeblock">...
+x.InsertInOrder(one,TMyTest::Compare);
+...</pre> <p>This applies to all member functions of <code class="codeph">RArray&lt;class
+          T&gt;</code> which take a <code class="codeph">TLinearOrder&lt;class T&gt;</code> argument. </p> </div>
+<div id="GUID-749DF0B3-7548-55DF-B769-EDFE830B66A6"><h3 class="section-title">Packaging the
+algorithm for matching array objects</h3> <p>One of the <code class="codeph">Find()</code> member
+functions of <code class="codeph">RArray&lt;class T&gt;</code> takes a <code class="codeph">TIdentityRelation&lt;class
+          T&gt;</code> as an argument. This packages a function which implements
+an algorithm for deciding whether two class <code class="codeph">T</code> objects match. </p> <p>The
+packaging technique is the same as for the previous section. As an example,
+we can extend the class <code class="codeph">TMyTest</code> used in <a href="#GUID-B3466F0B-3A94-502D-897D-D83D76CF9EE8">Packaging the algorithm for ordering array objects</a> by adding another
+static function called <code class="codeph">Match()</code>. </p> <pre class="codeblock">class TMyTest
+ { 
+public :
+ TMyTest(TInt anAint,TInt aBint);
+ static TInt Compare(const TMyTest&amp; aFirst, const TMyTest&amp; Second);
+ static TBool Match(const TMyTest&amp; aFirst, const TMyTest&amp; Second);
+public:
+ TInt a;
+ TInt b;
+ };</pre> <p>A typical implementation for <code class="codeph">Match()</code> might
+be: </p> <pre class="codeblock">TBool TMyTest::Match(const TMyTest&amp; aFirst,const TMyTest&amp; aSecond)
+ {
+ if ((aFirst.a == aSecond.a) &amp;&amp; (aFirst.b == aSecond.b))
+  return ETrue;
+ return EFalse;
+ }</pre> <p>So, given an array: </p> <pre class="codeblock">RArray&lt;TMyTest&gt; x;RArray&lt;TMyTest&gt; x;</pre> <p>populated with a number <code class="codeph">TMyTest</code> objects, we can package<code class="codeph">TMyTest</code>'s
+matching function in at least three ways. </p> <ul>
+<li id="GUID-47125BDD-30B7-549F-BFF8-368F0CE5E9DB"><a name="GUID-47125BDD-30B7-549F-BFF8-368F0CE5E9DB"><!-- --></a><p>Explicitly build a <code class="codeph">TIdentityRelation&lt;TMyTest&gt;</code> and
+pass this as a parameter to <code class="codeph">Find()</code>; for example: </p> </li>
+</ul> <pre class="codeblock">...
+TIdentityRelation&lt;TMyTest&gt; matcher(TMyTest::Match);
+...
+TMyTest hunter(9,9);
+TInt index = x.Find(hunter,order);
+if (index == KErrNotFound)
+ {
+ ...
+ }
+...</pre> <ul>
+<li id="GUID-9D164434-FFF7-5113-84C8-69E3E83FEAFB"><a name="GUID-9D164434-FFF7-5113-84C8-69E3E83FEAFB"><!-- --></a><p>Construct a temporary <code class="codeph">TIdentityRelation&lt;TMyTest&gt;</code> on
+the call to <code class="codeph">Find()</code>. </p> </li>
+</ul> <pre class="codeblock">...
+TMyTest hunter(9,9);
+TInt index = x.Find(hunter,TIdentityRelation&lt;TMyTest&gt;(TMyTest::Match));
+if (index == KErrNotFound)
+ {
+ ...
+ }
+...</pre> <ul>
+<li id="GUID-244AEE08-0F77-5171-9697-A4CCDB00435D"><a name="GUID-244AEE08-0F77-5171-9697-A4CCDB00435D"><!-- --></a><p>Implicitly construct
+a temporary <code class="codeph">TIdentityRelation&lt;TMyTest&gt;</code> on the call to <code class="codeph">Find()</code>. </p> </li>
+</ul> <pre class="codeblock">...
+TMyTest hunter(9,9);
+TInt index = x.Find(hunter,TMyTest::Match);
+if (index == KErrNotFound)
+ {
+ ...
+ }
+...</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 18th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-82074583-C3A3-5168-8225-C60D52F403F0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:45 GMT -->
+</html>

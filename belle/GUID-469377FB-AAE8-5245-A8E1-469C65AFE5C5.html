@@ -1,0 +1,36 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-469377FB-AAE8-5245-A8E1-469C65AFE5C5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:05 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Stepping Frames" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DE5CDAD-8D71-5384-9E98-5665D5A4C792" /><meta name="DC.Relation" scheme="URI" content="GUID-3E341F9F-2635-589B-A59A-B999FE7DF9BE" /><meta name="DC.Relation" scheme="URI" content="GUID-DDE1A8A9-1D67-53BF-8A65-340F139AD4AB" /><meta name="DC.Relation" scheme="URI" content="GUID-0EE3180B-4814-517E-A6DD-748136C17D55" /><meta name="DC.Relation" scheme="URI" content="GUID-F370A917-6963-58F6-8876-160A1DC42040" /><meta name="DC.Relation" scheme="URI" content="GUID-3F0856D9-7B58-5519-9B26-97F1A035E21D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-469377FB-AAE8-5245-A8E1-469C65AFE5C5" /><meta name="DC.Language" content="en" /><title>Stepping Frames </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-469377FB-AAE8-5245-A8E1-469C65AFE5C5">Stepping Frames</h1><div><p>This tutorial describes how to watch frames in a video clip. </p> <div><h3 class="section-title">Purpose</h3> <p>The purpose of this tutorial is to show you how to step forward and backward through video frames. </p> <p><strong>Required Background</strong> </p> <p>The <a href="GUID-2DC80BA9-7AA2-5CD3-9105-1DE28CE196C1.html">Video Client Overview</a> introduces the video client utilities. </p> <p><strong>Introduction</strong> </p> <p>Frame step allows you to step the current video playback position forward or backward by a number of frames. This feature is provided by the CVideoPlayerUtility::StepFrameL() method and is only available when playback is paused. </p> <p> <strong>Note:</strong> This functionality is dependent on the capabilities of the underlying play-controller implementation and the characteristics of the video clip. </p> </div> <div><h3 class="section-title">Using Frame Step </h3> <p>The following tasks are covered in this tutorial: </p> <ul><li id="GUID-BE65641A-E30E-5C22-8C20-4642A385992E"><a name="GUID-BE65641A-E30E-5C22-8C20-4642A385992E"><!-- --></a><p><a href="#GUID-F212F1A1-0ABA-599D-AC32-89D396BB6AD0">Step Frames Forward and Backward </a> </p> </li> </ul> <p id="GUID-F212F1A1-0ABA-599D-AC32-89D396BB6AD0"><a name="GUID-F212F1A1-0ABA-599D-AC32-89D396BB6AD0"><!-- --></a><strong>Basic Procedure</strong> </p> <p>The high level steps to step frames forward and backward are shown here: </p> <ol id="GUID-910FA4E1-4DE2-5D17-BDC3-F6FD2CBE0707"><li id="GUID-D1A02942-66BB-5EB5-A6F6-29B75CC81C06"><a name="GUID-D1A02942-66BB-5EB5-A6F6-29B75CC81C06"><!-- --></a><p>Create a new video player utility object. </p> </li> <li id="GUID-0ED6D9F6-A985-5968-82F8-F7E551531201"><a name="GUID-0ED6D9F6-A985-5968-82F8-F7E551531201"><!-- --></a><p>Open a video clip to play. </p> </li> <li id="GUID-6D417E89-E0EE-575B-A36D-B1A838283558"><a name="GUID-6D417E89-E0EE-575B-A36D-B1A838283558"><!-- --></a><p>Use CVideoPlayerUtility::GetPlayRateCapabilitiesL() to check frame step is supported. This returns KErrNotSupported if frame step is not supported. </p> </li> <li id="GUID-42F37141-25D8-5D62-80BE-0D5D4DD61834"><a name="GUID-42F37141-25D8-5D62-80BE-0D5D4DD61834"><!-- --></a><p>Call the CVideoPlayerUtility::Prepare() method. </p> </li> <li id="GUID-1A6B9052-812F-528E-8D76-16049EBD0591"><a name="GUID-1A6B9052-812F-528E-8D76-16049EBD0591"><!-- --></a><p>Call CVideoPlayerUtility::Play() to start playback. </p> </li> <li id="GUID-4D3D4426-EDB4-5F1F-A6C3-1657E1F7562E"><a name="GUID-4D3D4426-EDB4-5F1F-A6C3-1657E1F7562E"><!-- --></a><p>Pause playback using CVideoPlayerUtility::PauseL(). </p> </li> <li id="GUID-6C90DF54-997B-5D82-BD9C-94546975883A"><a name="GUID-6C90DF54-997B-5D82-BD9C-94546975883A"><!-- --></a><p>To step forward through the video frames use CVideoPlayerUtility::StepFrameL() and set aStep to a positive TInt value. </p> </li> <li id="GUID-F2AA5F17-0657-5C9C-B7E7-C1A6CEC8156E"><a name="GUID-F2AA5F17-0657-5C9C-B7E7-C1A6CEC8156E"><!-- --></a><p>To step backward through the video frames use CVideoPlayerUtility::StepFrameL() and set aStep to a negative TInt value. </p> </li> <li id="GUID-36FD8645-3000-5E92-B316-B8462FD0B53D"><a name="GUID-36FD8645-3000-5E92-B316-B8462FD0B53D"><!-- --></a><p>Call CVideoPlayerUtility::Stop() to halt video playback. </p> </li> </ol> <p><strong>Example</strong> </p> <pre class="codeblock">// Create new video player utility object (iVideoPlayer)
+// Open the video clip
+// Call Prepare()
+// Call Play()
+
+iVideoPlayer-&gt;GetPlayRateCapabilitiesL(iVideoPlayRateCapabilities);
+// Return the current playback rate capabilities
+
+// Check that engine has forward capability.
+if( iVideoPlayRateCapabilities.iStepForward)
+{
+iVideoPlayer-&gt;StepFrameL(10); // Steps to 10th frame from current.
+}
+else
+{
+// Forward is not supported.
+}
+
+// If user wants to rewind. Check that engine has rewind capability.
+if( iVideoPlayRateCapabilities.iStepBackward)
+{
+iVideoPlayer-&gt;StepFrameL(-5); // Steps to 5th frame backward.
+}
+else
+{
+// Rewind is not supported.
+}
+
+// Call Stop() </pre> </div> <div><h3 class="section-title">See Also</h3> <p><a href="GUID-172F46C1-6066-57FA-A815-5AC23ACE159D.html">Creating and Preparing a Video Player</a> </p> <p><a href="GUID-F9896E96-1076-552D-AE54-8F9DABED867F.html">Configuring the Video Player</a> </p> <p><a href="GUID-733B9695-0C7C-5637-9025-6CE3BAA1A23E.html"> Enabling/Disabling Audio or Video Playback Separately</a> </p> <p><a href="GUID-FE7DE542-3FD4-56D2-B281-C670EF1C4FEB.html">Scaling Automatically</a> </p> <p><a href="GUID-5F4510C9-5B16-593A-A225-37606800915B.html">Controlling Video Playback</a> </p> <p><a href="GUID-70B3881F-9532-5F1D-B210-99A15DB93FC2.html">Fast Forwarding and Rewinding</a> </p> <p><a href="GUID-F13C7D36-E4AB-57F1-87A1-EB83AA2258DF.html">Controlling the Video Controller Plugin</a> </p> </div> </div></div></div><div class="footer"><p class="metadata">Last updated October 9th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-469377FB-AAE8-5245-A8E1-469C65AFE5C5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:05 GMT -->
+</html>

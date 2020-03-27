@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_os_deviceio_deviceio_pub_accessory_monitoring_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:10 GMT -->
+<head><title>accessory monitoring api Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i1121 i1126 i1127"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>accessory monitoring api Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Retrieving_the_accessory_information"><span class="tocnumber">2.1</span> <span class="toctext">Retrieving the accessory information</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Retrieving_all_connected_accessories"><span class="tocnumber">2.1.1</span> <span class="toctext">Retrieving all connected accessories</span></a></li>
+<li class="toclevel-3"><a href="#Retrieving_accessory_capabilities"><span class="tocnumber">2.1.2</span> <span class="toctext">Retrieving accessory capabilities</span></a></li>
+<li class="toclevel-3"><a href="#Retrieving_the_capability_value_for_an_accessory"><span class="tocnumber">2.1.3</span> <span class="toctext">Retrieving the capability value for an accessory</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Listening_for_accessory_connection_or_disconnection_notifications"><span class="tocnumber">2.2</span> <span class="toctext">Listening for accessory connection or disconnection notifications</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Listening_for_all_accessory_connection_or_disconnection_notifications"><span class="tocnumber">2.2.1</span> <span class="toctext">Listening for all accessory connection or disconnection notifications</span></a></li>
+<li class="toclevel-3"><a href="#Listening_for_accessory_type_connection_or_disconnection_notifications"><span class="tocnumber">2.2.2</span> <span class="toctext">Listening for accessory type connection or disconnection notifications</span></a></li>
+<li class="toclevel-3"><a href="#Listening_for_a_specific_accessory.27s_connection_or_disconnection_notifications"><span class="tocnumber">2.2.3</span> <span class="toctext">Listening for a specific accessory's connection or disconnection notifications</span></a></li>
+<li class="toclevel-3"><a href="#Handling_connected_or_disconnected_notifications"><span class="tocnumber">2.2.4</span> <span class="toctext">Handling connected or disconnected notifications</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.3</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.4</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>API for monitoring accessory information
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>accmonitor.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/os/deviceio/deviceio_pub/accessory_monitoring_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/os/deviceio/deviceio_pub/accessory_monitoring_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>This API is intended to be used by clients that need to
+access information about connected accessories or clients that need notifications
+about accessories that connect or disconnect to the device. The API provides stand-alone implementation units that
+are used by clients.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>The Accessory Monitoring API is introduced in Symbian OS, S60 5.0.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+<ul><li> Retrieving connected accessories.
+</li><li> Retrieving accessory capabilities.
+</li><li> Retrieving capability values.
+</li><li> Listening for all accessory notifications.
+</li><li> Listening for accessory type notifications.
+</li><li> Listening for specific accessory notifications.
+</li><li> Handling connected or disconnected notifications.
+</li></ul>
+</a><a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAccMonitor <td><span class="plainlinks"><code>/epoc32/include/AccMonitor.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAccMonitorInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/AccMonitorInfo.h</code></span>, <span class="plainlinks"><code>/epoc32/include/AccMonitorInfo.inl</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAccMonitorObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/AccMonitor.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/AccMonitorCapabilities.h</code></span>
+</td></tr>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_AccMonitorComponent.png" title="API class structure"><img alt="API class structure" border="0" height="589" src="images/SPB_10_1_AccMonitorComponent.png" width="967" /></a></div>
+<div style="text-align:center"><i>API class structure</i></div>
+<p>The <span class="plainlinks"><code>CAccessoryMonitor</code> </span> class in Accessory Monitoring API
+provides functions for retrieving connected accessory information and listening for the
+accessory connection notifications. The client must implement the <span class="plainlinks"><code>MAccessoryMonitorObserver</code> </span> class
+to receive accessory connection or disconnection notifications. Information about
+one accessory is wrapped to instances of class <span class="plainlinks"><code>CAccMonitorInfo</code> </span>.
+Accessory capability definitions for Accessory Monitoring API are declared
+in the <i>accmonitorcapabilities.h</i> file.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>The Accessory Monitoring API can be used in:
+</p>
+<ul><li> Retrieving the accessory information
+</li><li> Listening for accessory connection or disconnection notifications
+</li></ul>
+<p>Accessory information from Accessory Monitoring API is presented as instances
+of the <span class="plainlinks"><code>CAccMonitorInfo</code> </span> class. This class contains accessory
+capabilities and these capabilities describe the features of one accessory.
+Some capabilities can be defined more precisely by defining values to these
+capabilities. These values can be asked from the Accessory Monitoring API.
+</p><p>Accessory connection or disconnection notifications can be listened for using the <code>StartListeningL()</code> method.
+Connection notifications on client side are received from the <span class="plainlinks"><code>MAccMonitorObserver</code> </span> class.
+The client must implement the pure virtual functions from this class. Connection
+notifications are received through the <code>ConnectedL()</code> method
+and disconnection notifications are received through the <code>DisconnectedL()</code> method.
+</p>
+<a name="Retrieving_the_accessory_information"><h3> <span class="mw-headline">2.1 Retrieving the accessory information </span></h3>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_GetAccessories.png" title="Retrieving the accessory information"><img alt="Retrieving the accessory information" border="0" height="488" src="images/SPB_10_1_GetAccessories.png" width="455" /></a></div>
+<div style="text-align:center"><i>Retrieving the accessory information</i></div>
+<a name="Retrieving_all_connected_accessories"><h4> <span class="mw-headline">2.1.1 Retrieving all connected accessories </span></h4>
+</a><p>Clients create an instance of the <span class="plainlinks"><code>CAccMonitor</code> </span> class
+and calls the <code>GetConnectedAccessoriesL()</code> method. This method
+returns all connected accessories in an array that contains instances of the <span class="plainlinks"><code>CAccMonitorInfo</code> </span> class.
+The following example shows how to retrieve accessory's information from the array&#214;
+</p>
+<pre>CAccMonitor* accMonitor = CAccMonitor::NewLC();
+RConnectedAccessories connectedAccessories;
+CleanupClosePushL( connectedAccessories );
+accMonitor-&gt;GetConnectedAccessoriesL( connectedAccessories );
+count = connectedAccessories.Count();
+for( TInt i = 0; i != count; i++ )
+   {
+   if( connectedAccessories( i )-&gt;AccDeviceType() == KAccMonHeadset );
+	 		{
+       _LIT( KHeadsetText, "A headset is connected" );
+       RDebug::Printf( KHeadsetText );
+			}
+   }
+CleanupStack::PopAndDestroy( &amp;connectedAccessories );
+CleanupStack::PopAndDestroy( accMonitor );
+</pre>
+<a name="Retrieving_accessory_capabilities"><h4> <span class="mw-headline">2.1.2 Retrieving accessory capabilities </span></h4>
+</a><p>Clients retrieve the capabilities information from an instance of <span class="plainlinks"><code>CAccMonitorInfo</code> </span> All the accessories capabilities are owned by this instance. Use <code>AccCapabilityAtIndex()</code> to retrieve one capability as shown in the following example:
+</p>
+<pre>// Connected accessories are retrieved as shown in the previous example.
+const TInt lastConnectedAccessory( 0 );
+// The accessory that was connected last is first in the array
+cAccMonitorInfo* accInfo
+		= cAccMonitorInfo::NewL( connectedAccessories( lastConnectedAccessory ) );
+for( TInt i = 0; i != accInfo-&gt;Count(); i++ )
+   {
+   if( accInfo-&gt;AccCapabilityAtIndex( i ) == KAccMonStereoAudio )
+       {
+       // Some accessory has stereo audio capability
+			_LIT( StereoText, "Stereo audio can be played to some accessory" );
+			RDebug::Printf( StereoText );
+       }
+   }
+delete accInfo;
+</pre>
+<a name="Retrieving_the_capability_value_for_an_accessory"><h4> <span class="mw-headline">2.1.3 Retrieving the capability value for an accessory </span></h4>
+</a><p>Clients can retrieve a value for a capability using the <span class="plainlinks"><code>CAccMonitor</code> </span> class's <code>GetCapabilityValueL()</code> method. 
+</p>
+<pre>// Connected accessories and their capabilities are retieved in previous examples
+TAccMonitorCapability capability( KAccMonVideoOut );
+TInt value( 0 );
+accMonitor-&gt;GetCapabilityValueL( accInfo, capability, value );
+// Capability value is retuned to value variable
+</pre>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_HasCapabilityValue.png" title="Retrieving capability value for an accessory"><img alt="Retrieving capability value for an accessory" border="0" height="553" src="images/SPB_10_1_HasCapabilityValue.png" width="398" /></a></div>
+<div style="text-align:center"><i>Retrieving capability value for an accessory</i></div>
+<a name="Listening_for_accessory_connection_or_disconnection_notifications"><h3> <span class="mw-headline">2.2 Listening for accessory connection or disconnection notifications </span></h3>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_NotifyClient.png" title="Listening for accessory connections or disconnection notifications"><img alt="Listening for accessory connections or disconnection notifications" border="0" height="495" src="images/SPB_10_1_NotifyClient.png" width="678" /></a></div>
+<div style="text-align:center"><i>Listening for accessory connections or disconnection notifications</i></div>
+<a name="Listening_for_all_accessory_connection_or_disconnection_notifications"><h4> <span class="mw-headline">2.2.1 Listening for all accessory connection or disconnection notifications </span></h4>
+<p>Clients start to listen for all accessory connection disconnection notifications
+with the <code>StartObservingL( aObserver )</code> method. Accessory Monitoring
+API notifies its clients with the <code>ConnectedL()</code> method when
+an accessory is connected. When an accessory is disconnected, the clients are
+notified with the <code>DisconnectedL</code> method.
+</p>
+<pre>CAccMonitor* accMonitor = CAccMonitor::NewLC()
+TBool isObserving = accMonitor-&gt;IsObserving();
+if( isObserving )
+	{
+  accMonitor-&gt;StartObserverL( this );
+  }
+CleanupStack::PopAndDestroy( accMonitor );
+</pre>
+</a><a name="Listening_for_accessory_type_connection_or_disconnection_notifications"><h4> <span class="mw-headline">2.2.2 Listening for accessory type connection or disconnection notifications </span></h4>
+<p>Clients can start listening for specific types of accessory connection or disconnection
+notifications with the <code>StartObservingL( aObserver, aCapabilityArray )</code> method. The accessory type that needs to be listened can be defined
+with accessory capabilities. These capabilities are given as a parameter to
+the function in an array. For example if the client wants to listen for headset
+connection or disconnection notifications, the headset capability needs to be
+appended to an array and this array is given as a parameter to the <span class="plainlinks"><code><font color="darkred">StartObservingL()</font></code> </span> function.
+</p><p>The Accessory Monitoring API notifies its clients with the <code>Connected</code> method
+when the monitored accessory is connected. When the monitored accessory is disconnected
+the clients are notified with the <span class="plainlinks"><code><font color="darkred">Disconnected()</font></code> </span> method.
+The following example starts to listen to headset connection or disconnection notifications:
+</p>
+<pre>CAccMonitor* accMonitor = CAccMonitor::NewLC();
+RAccMonCapabilityArray capabilityArray;
+CleanupClosePushL( capabilityArray );
+capabilityArray.Append( KAccMonHeadset );
+TBool isObserving = accMonitor-&gt;IsObserving();
+if( isObserving )
+	{
+  accMonitor-&gt;StartObserverL( this, capabilityArray );
+	}
+CleanupStack::PopAndDestroy( &amp;capabilityArray );
+CleanupStack::PopAndDestroy( accMonitor );
+</pre>
+</a><a name="Listening_for_a_specific_accessory.27s_connection_or_disconnection_notifications"><h4> <span class="mw-headline">2.2.3 Listening for a specific accessory's connection or disconnection notifications </span></h4>
+<p>Clients start to listen for a specific accessory's connection or disconnection
+notifications through the <code>StartObservingL( aObserver, aAccMonitorInfo )</code> method. An instance of <span class="plainlinks"><code></code></span></p></a>CAccMonitorInfo  of the
+accessory that needs to be monitored is given as parameter to the <code>StartObservingL()</code> method.  This means that this accessory must have been connected to the terminal 
+to get the information of this accessory. The Accessory Monitoring API notifies
+its clients using the <code>ConnectedL()</code> method when the monitored
+accessory is connected. When the monitored accessory is disconnected, clients
+are notified with the <code>DisconnectedL()</code> method. The following example
+starts to listen for connection or disconnection notifications from a specific
+accessory that is connected:
+
+<pre>CAccMonitor* accMonitor = CAccMonitor::NewLC();
+RConnectedAccessories array;
+CleanupClosePushL( array );
+accMonitor-&gt;GetConnectedAccessoryL( array );
+if( isObserving )
+	{
+  for( TInt i = 0; count != i; i++ )
+		{
+		if( array( i )-&gt;AccDeviceType() == KAccMonHeadset
+		&amp;&amp; array( i )-&gt;AccPhysicalConnection() == KAccMonWired )
+			{
+			// Start observing just that wired headset that is connected
+			accMonitor-&gt;StartObserverL( this, array( i ) );
+			break;
+			}
+		}
+  	}
+CleanupStack::PopAndDestroy( &amp;array );
+CleanupStack::PopAndDestroy( accMonitor );
+</pre>
+<a name="Handling_connected_or_disconnected_notifications"><h4> <span class="mw-headline">2.2.4 Handling connected or disconnected notifications </span></h4>
+<p>The Accessory Monitoring API calls the <code>ConnectedL()</code> method
+that the client implements to retrieve information about the connected accessory. The information is delivered
+in the <span class="plainlinks"><code><font color="darkred">aAccessoryInfo</font></code> </span> parameter. The content of this pointer
+must be copied to an instance of the <span class="plainlinks"><code></code></span></p></a>CAccMonitorInfo  class
+using the <code>CopyL()</code> method because the original pointer is
+destroyed by the Accessory Monitoring API after the <code>ConnectedL()</code> method is run.
+
+<pre>void CMyAccMonitorTest::ConnectedL( CAccMonitorInfo* aAccessoryInfo )
+    {
+    //Reserve memory for the accessory information instance
+		iAccessoryInfo = CAccMonitorInfo::NewL();
+	  // Notification about the connected accessory. aAccessoryInfo must
+    // be copied because the original pointer is deleted after connected method
+    iAccessoryInfo-&gt;CopyL( aAccessoryInfo );
+    }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.3 Error handling </span></h3>
+<p>When a leave occurs in the active object's <code>RunL()</code> method, the <code>AccMonitorObserverError()</code> method is called by the Accessory Monitoring API. This method must be implemented by the client, otherwise the standard
+Symbian error handling mechanism is used.
+</p>
+</a><a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.4 Memory and Performance Considerations </span></h3>
+<p>No significant memory overhead. ROM consumption is 4KB.
+</p>
+</a><a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<tr bgcolor="gray">
+<th></th><th>
+</th></tr>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> OS</td><td> Operating System
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> Definition
+</td><td> Description
+</td></tr>
+<tr>
+<td> Accessory</td><td> A peripheral that is connected to the device.
+</td></tr>
+<tr>
+<td> Accessory capability</td><td> A feature or a quality that an accessory has, for example the stereo audio capability means that the accessory has capability for handling stereo audio.
+</td></tr>
+<tr>
+<td> Accessory type</td><td> Accessory that is defined with different features. For example a mono headset is an accessory that has headset capability and mono audio capability.
+</td></tr>
+<tr>
+<td> Capability value</td><td> A value that the accessory capability can have.
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></a></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_os_deviceio_deviceio_pub_accessory_monitoring_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:12 GMT -->
+</html>

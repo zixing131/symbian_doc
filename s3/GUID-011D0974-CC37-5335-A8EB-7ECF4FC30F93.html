@@ -1,0 +1,38 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-011D0974-CC37-5335-A8EB-7ECF4FC30F93.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:46 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Cleanup for heap arrays" /><meta name="abstract" content="C++ arrays are allocated on the heap and require their own particular cleanup." /><meta name="description" content="C++ arrays are allocated on the heap and require their own particular cleanup." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-61DEE78D-4E78-5367-BC8A-F99D3B4E9D5A" /><meta name="DC.Relation" scheme="URI" content="GUID-7366AE99-DE25-5DE0-BF9A-58E7742DA952" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-011D0974-CC37-5335-A8EB-7ECF4FC30F93" /><meta name="DC.Language" content="en" /><title>Cleanup
+for heap arrays </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-011D0974-CC37-5335-A8EB-7ECF4FC30F93">Cleanup
+for heap arrays</h1><div><p>C++ arrays are allocated on the heap and require their own particular
+cleanup.</p>
+<p>C++ arrays are allocated on the heap using <code class="codeph">operator new[]</code>.
+The cleanup rules for such arrays are as follows:</p>
+<ul>
+<li id="GUID-41AA28AA-1D48-5B50-9065-A283CCAAD83F"><a name="GUID-41AA28AA-1D48-5B50-9065-A283CCAAD83F"><!-- --></a><p>if it is not necessary
+to protect against leaves, such as when the array is a class member, or no
+leaves can occur in the lifetime of the array, then always delete the array
+using <code class="codeph">operator delete[]</code> (not <code class="codeph">operator delete</code>).</p> </li>
+<li id="GUID-B4EA79E7-EEDC-531D-90DB-7041F3650356"><a name="GUID-B4EA79E7-EEDC-531D-90DB-7041F3650356"><!-- --></a><p>if it is necessary to
+protect against leaves, push the array to the cleanup stack using the utility
+template function <code class="codeph">CleanupArrayDeletePushL()</code>. This ensures
+that if a leave occurs, the array is deleted correctly using <code class="codeph">operator
+delete[]</code>.</p> <p>Arrays should <em>not</em> be pushed to the cleanup
+stack using the standard <code class="codeph">CleanupStack::PushL()</code>, as this will
+result in <code class="codeph">operator delete</code> rather than <code class="codeph">operator delete[]</code> being
+used for cleanup.</p> </li>
+</ul>
+<p><strong>Note on compiler behaviour</strong> </p>
+<p>Of the compilers used with Symbian platform, Metrowerks CodeWarrior is
+the most sensitive to the rules for array deletion. If an array is deleted
+with a simple <code class="codeph">delete</code> rather than <code class="codeph">delete[]</code>,
+then a USER 42 panic (invalid heap cell) can occur. </p>
+<p>This panic in fact occurs for arrays in which the class has either a constructor
+or a destructor. For such arrays, CodeWarrior reserves space at the start
+of the array storage to hold the number of elements in the array: this means
+the first heap cell is not the start of a deletable object. GCC and MSVC C++
+only reserve such extra space if the class has a destructor.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-011D0974-CC37-5335-A8EB-7ECF4FC30F93.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:46 GMT -->
+</html>

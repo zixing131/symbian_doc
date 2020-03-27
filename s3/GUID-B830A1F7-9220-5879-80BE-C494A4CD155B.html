@@ -1,0 +1,24 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B830A1F7-9220-5879-80BE-C494A4CD155B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Handling General Events" /><meta name="DC.Relation" scheme="URI" content="GUID-7AC3477E-09C1-519A-9079-DA969B9FC4D7" /><meta name="DC.Relation" scheme="URI" content="GUID-B7FF0B9C-3A17-5AAA-A986-7BA4F44DBD41" /><meta name="DC.Relation" scheme="URI" content="GUID-A51D3749-442A-54E8-8EB5-BF907694CD8C" /><meta name="DC.Relation" scheme="URI" content="GUID-E1E11C95-3400-548B-AEEE-577DA8FB9ECB" /><meta name="DC.Relation" scheme="URI" content="GUID-930A3ABD-84FB-5D76-938C-79383273DAE6" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-08427065-B8E5-5194-B095-3B5213836BED" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B830A1F7-9220-5879-80BE-C494A4CD155B" /><meta name="DC.Language" content="en" /><title>Handling General Events </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B830A1F7-9220-5879-80BE-C494A4CD155B">Handling General Events</h1><div><p>When a Window Server event is received, the active scheduler calls the <code class="codeph">RunL()</code> function to handle the event. Use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html#GUID-06AA86EE-4494-3990-935A-62B9E995DAC2"><code class="apiname">RWsSession::GetEvent()</code></a> to get the event, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html"><code class="apiname">TWsEvent</code></a>. An event object always has an event type, a TEventCode, accessed through <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html#GUID-8FA62E05-3FE8-39B0-81ED-5FBF2D941739"><code class="apiname">TWsEvent::Type()</code></a>, and other data that is useful in handling specific types of event. </p> <p> <strong>Variant</strong>: <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay</a> and <a href="GUID-F64E6551-670E-5E12-8103-DE504D3EC94F.html">non-ScreenPlay</a>. <strong>Target audience</strong>: Application developers. </p> <p>The following example uses a switch statement to execute some function when the associated event type is received. </p> <pre class="codeblock">/*  Called by active scheduler when an event occurs
+Processes events according to their type */
+void CExampleWsClient::RunL()
+    {
+    // Get the event from the Window Server session iWs
+    iWs.GetEvent(iWsEvent);
+    // Get the event type: types are defined in TEventCode
+    TInt eventType=iWsEvent.Type();/ Process event
+    switch (eventType)
+    {
+    /* Window-group related event types */
+
+    ...
+
+    }</pre> </div><h3>Related concepts</h3><ul><li><a href="GUID-7AC3477E-09C1-519A-9079-DA969B9FC4D7.html">General Events</a></li><li><a href="GUID-B7FF0B9C-3A17-5AAA-A986-7BA4F44DBD41.html">Declaring a
+                Window Server Event-Handling Class</a></li><li><a href="GUID-A51D3749-442A-54E8-8EB5-BF907694CD8C.html">Processing Window-Group
+                Events</a></li><li><a href="GUID-E1E11C95-3400-548B-AEEE-577DA8FB9ECB.html">Processing Window Events</a></li><li><a href="GUID-930A3ABD-84FB-5D76-938C-79383273DAE6.html">Processing System Events</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 8th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B830A1F7-9220-5879-80BE-C494A4CD155B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:01 GMT -->
+</html>

@@ -1,0 +1,57 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3FD5C609-3727-53B6-900F-ACBE59F62E4A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:43 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Storing Downloaded Email Messages" /><meta name="abstract" content="This tutorial explains how to store incoming email messages." /><meta name="description" content="This tutorial explains how to store incoming email messages." /><meta name="DC.Relation" scheme="URI" content="GUID-62166BC9-D0BC-5070-BC57-2A1F4948BAFE" /><meta name="DC.Relation" scheme="URI" content="GUID-2C8653F9-8873-59E8-9FD2-4215F6877ABC" /><meta name="DC.Relation" scheme="URI" content="GUID-D73AD200-BE4D-50BF-BCF9-14627DE530B7" /><meta name="DC.Relation" scheme="URI" content="GUID-BB35DBCC-FE56-547F-BADA-9EF854691ADC" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-DD27A452-8B0F-5C6D-A2E6-FC21145468B6" /><meta name="DC.Relation" scheme="URI" content="GUID-179099DA-1CD9-5912-B41B-363C132C7A86" /><meta name="DC.Relation" scheme="URI" content="GUID-6FE94423-9563-5F31-95EB-504479144B05" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3FD5C609-3727-53B6-900F-ACBE59F62E4A" /><meta name="DC.Language" content="en" /><title>Storing
+Downloaded Email Messages </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3FD5C609-3727-53B6-900F-ACBE59F62E4A">Storing
+Downloaded Email Messages</h1><div><p>This tutorial explains how to store incoming email messages.</p>
+<div><h3 class="section-title">Introduction</h3> <p>You can store and restore the incoming
+email message using the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html"><code class="apiname">TDesC8</code></a> or <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html"><code class="apiname">TDesC16</code></a> function.
+Ensure that you follow these guidelines while using these functions: </p> <ul>
+<li id="GUID-DC272C83-2B74-5A28-A903-1D3385F6E52B"><a name="GUID-DC272C83-2B74-5A28-A903-1D3385F6E52B"><!-- --></a><p>If you want to store
+the downloaded email message data as 16 bit, then storing is slow as the downloaded
+message in 8 bit should be converted to 16 bit before it is stored. However,
+reading and displaying is fast as the email message data is in 16 bit. </p> </li>
+<li id="GUID-50565679-0520-5CE4-9414-888ED2C80C78"><a name="GUID-50565679-0520-5CE4-9414-888ED2C80C78"><!-- --></a><p>If you want to store
+the downloaded email message data as 8-bit, then reading and displaying it
+is slow as the 8 bit email message data should be converted to 16 bit before
+it is displayed. However, storing is fast. </p> </li>
+</ul> </div>
+<div><h3 class="section-title">Procedure</h3> <ol id="GUID-C6687B65-351F-5E3F-85CC-7F3BA5058BC6">
+<li id="GUID-4BDBAD7C-275B-5D41-A6CC-3DDE93892DF2"><a name="GUID-4BDBAD7C-275B-5D41-A6CC-3DDE93892DF2"><!-- --></a><p>For the MTM to use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A4CAFB0-262A-3721-B91B-07F2C3B64B5F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A4CAFB0-262A-3721-B91B-07F2C3B64B5F.html"><code class="apiname">CMsvPlainBodyText</code></a> for
+storing downloaded email messages, get the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A4CAFB0-262A-3721-B91B-07F2C3B64B5F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A4CAFB0-262A-3721-B91B-07F2C3B64B5F.html"><code class="apiname">CMsvPlainBodyText</code></a> object
+using the InitialisePlainBodyTextForWriteL() method of CMsvStore. </p> </li>
+<li id="GUID-F43981C5-C9B3-5108-AA8A-A2BBF2745DF3"><a name="GUID-F43981C5-C9B3-5108-AA8A-A2BBF2745DF3"><!-- --></a><p>Set CMsvStore to
+the ID of the email message that needs to be stored, and open it in the write
+mode. </p> </li>
+<li id="GUID-FE93A682-CF5C-584F-AA86-B089E6F9581C"><a name="GUID-FE93A682-CF5C-584F-AA86-B089E6F9581C"><!-- --></a><p>Use any of the following <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A4CAFB0-262A-3721-B91B-07F2C3B64B5F.html#GUID-D1CC07ED-0108-348B-88F4-C89CAB093FE4"><code class="apiname">CMsvPlainBodyText::StoreChunkL()</code></a> methods
+to store incoming data: </p> <ol type="a" id="GUID-A6AB4C6B-FFB3-5DBE-BC42-F4F12004C7C1">
+<li id="GUID-535BC8A3-3AFB-564C-A53B-322330B0AF86"><a name="GUID-535BC8A3-3AFB-564C-A53B-322330B0AF86"><!-- --></a><p> <code class="codeph">const</code> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html"><code class="apiname">TDesC8</code></a> <code class="codeph"> 
+                    &amp;aChunk, </code> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html"><code class="apiname">TRequestStatus</code></a> <code class="codeph"> &amp;aStatus
+                     </code> </p> </li>
+<li id="GUID-33DC423A-A302-5FDC-A0F3-B7F89D226C37"><a name="GUID-33DC423A-A302-5FDC-A0F3-B7F89D226C37"><!-- --></a><p> <code class="codeph">const</code> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html"><code class="apiname">TDesC8</code></a> <code class="codeph">&amp;aChunk</code> </p> </li>
+<li id="GUID-0478F9EA-B31D-54E6-9CE4-5EC9C7711F86"><a name="GUID-0478F9EA-B31D-54E6-9CE4-5EC9C7711F86"><!-- --></a><p> <code class="codeph">const</code> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html"><code class="apiname">TDesC16</code></a> <code class="codeph"> 
+                    &amp;aChunk, </code> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html"><code class="apiname">TRequestStatus</code></a> <code class="codeph"> &amp;aStatus
+                     </code> </p> </li>
+<li id="GUID-F7175033-3CC1-501A-B795-9FFB1875BE7A"><a name="GUID-F7175033-3CC1-501A-B795-9FFB1875BE7A"><!-- --></a><p> <code class="codeph">const</code> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html"><code class="apiname">TDesC16</code></a> <code class="codeph">&amp;aChunk</code> </p> </li>
+</ol> </li>
+<li id="GUID-6BBBDB91-BC15-584B-82A2-ED08D7E2EBD3"><a name="GUID-6BBBDB91-BC15-584B-82A2-ED08D7E2EBD3"><!-- --></a><p>After the entire email
+message has been received from the external server, the MTM must call the CommitL() method
+of <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A4CAFB0-262A-3721-B91B-07F2C3B64B5F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A4CAFB0-262A-3721-B91B-07F2C3B64B5F.html"><code class="apiname">CMsvPlainBodyText</code></a> to complete the store operation. </p> </li>
+</ol> <div class="note"><p><strong class="note_title">Note: </strong> The email server MTM can store the email message that is received
+from the external server either as 8 or 16 bit. When the MTM calls the 16
+bit version of the </p><code class="codeph">StoreChunkL()</code> function, and based on the
+charset information, it must convert the data to Unicode.</div><p>If the
+8 bit version of the<code class="codeph">StoreChunkL()</code> function is used for storing,
+and if the MTM wants the email message to be stored as 16 bit (this is indicated
+by the <code class="codeph">TBoolaIs8Bit</code> parameter of <code class="codeph">InitialisePlainBodyTextForWriteL()</code>), <code class="codeph">CMsvPlainBodyText</code> converts
+and stores the email message in 16 bit based on the charset information provided
+while initialising <code class="codeph">CMsvPlainBodyText</code>.</p></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-62166BC9-D0BC-5070-BC57-2A1F4948BAFE.html">Restoring
+Email Messages</a></li><li><a href="GUID-2C8653F9-8873-59E8-9FD2-4215F6877ABC.html">Chunk Method
+to Process Emails</a></li><li><a href="GUID-D73AD200-BE4D-50BF-BCF9-14627DE530B7.html">Imap4Example:
+An Email manager using IMAP4 and SMTP</a></li><li><a href="GUID-BB35DBCC-FE56-547F-BADA-9EF854691ADC.html">Pop3Example:
+An Email manager using POP3 and SMTP</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 21st, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3FD5C609-3727-53B6-900F-ACBE59F62E4A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:43 GMT -->
+</html>

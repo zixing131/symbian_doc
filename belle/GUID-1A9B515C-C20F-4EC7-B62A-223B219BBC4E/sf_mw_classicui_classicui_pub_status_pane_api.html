@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_status_pane_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:30 GMT -->
+<head><title>Status Pane API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i512"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Status Pane API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">2</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">2.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">2.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The status pane displays status information of the current application
+and state, as well as general information about the device status, e.g. the
+signal strength and battery charging. It occupies the top part of the screen.
+The status pane contains more sub panes. Status pane contents controls provide
+an API to change the content of the title, context and navigation panes.
+</p><p>The status pane contains the following sub-panes:
+</p>
+<ul><li> Title pane
+</li><li> Context pane
+</li><li> Navigation pane
+</li><li> Signal pane
+</li><li> Battery pane/universal indicator pane
+</li></ul>
+<p>Every application has its own status pane instance. Status pane and status
+pane contents controls are created by the application UI framework when an
+application is constructed. The status pane layout is read from AVKON resources.
+The layout resource contains also information about the control that is put
+inside the sub panes.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>eikcoctl.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/status_pane_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/status_pane_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Status Pane API provides support for accessing the application's status
+pane. Status pane contents controls are AVKON controls. Status pane contents
+controls are dependent of Symbian OS and AVKON UI services. The controls are
+inside the status pane framework.
+</p><p>The status pane is divided in local application owned and global status
+pane server owned panes. Applications have direct API to the application owned
+panes.
+</p><p>The status pane exists outside the current application's client area. Each
+pane is a window owning control. This allows the panes to be tiled together,
+even though they belong to different processes. A container control is used
+to host the status control for each pane.
+</p><p>Application owned panes are:
+</p>
+<ul><li> the title pane.
+</li><li> the context pane.
+</li><li> the navigation pane.
+</li></ul>
+<p>Status pane server owned panes are:
+</p>
+<ul><li> the signal pane.
+</li><li> the battery pane.
+</li><li> the indicator pane.
+</li><li> the Idle layout context pane.
+</li></ul>
+<p>The whole status pane layout and behavior is controlled by the <span class="plainlinks"><code>CEikStatusPaneBase</code> </span> class.
+The status pane base class contains a status pane container to every pane.
+Every container owns one status pane control.
+</p><p>For details on Application owned panes see the following documentations:
+</p>
+<ul><li> <a href="sf_mw_classicui_classicui_pub_title_pane_api.html" title="sf_mw_classicui_classicui_pub_title_pane_api.html">Title Pane API</a>
+</li><li> <a href="sf_mw_classicui_classicui_pub_context_pane_api.html" title="sf_mw_classicui_classicui_pub_context_pane_api.html">Context Pane API</a>
+</li><li> <a href="sf_mw_classicui_classicui_pub_navigation_pane_api.html" title="sf_mw_classicui_classicui_pub_navigation_pane_api.html">Navigation Pane API</a>
+</li></ul>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Status Pane API is an SDK API and part of S60 release 3.x.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of the Status Pane API are:
+</p>
+<ul><li> Defining status pane in resource file
+</li><li> Accessing status pane control
+</li><li> Accessing a control inside status pane's sub pane
+</li><li> Modifying status pane visibility
+</li><li> Changing status pane layout
+</li><li> Observing status pane events
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CEikAppStatusPaneModel <td><span class="plainlinks"><code>/epoc32/include/mw/eikspmod.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CEikStatusPane</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspane.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikStatusPaneBase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspane.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikStatusPaneBase::TPaneCapabilities</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspane.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikStatusPaneBase::TSetRectAndVisibility</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspane.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikStatusPaneLayout</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspmod.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikStatusPaneLayoutTree</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspmod.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikStatusPaneModelBase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspmod.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikStatusPaneModelBase::CIdLayoutPair</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspmod.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikStatusPaneModelBase::TLayoutChecker</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspmod.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikStatusPaneSetInit</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspmod.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MEikStatusPaneLayoutTreeVisitor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspmod.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MEikStatusPaneObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspane.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEikStatusPaneInit</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikspmod.h</code></span>
+</td></tr>
+<p>This diagram shows the relationships between the client application ( <span class="plainlinks"><code>CEikAppUi</code> </span>),
+the UIKON server ( <span class="plainlinks"><code>CEikServAppUi</code> </span>), the status pane classes
+( <span class="plainlinks"><code>CEikStatusPaneBase</code> </span>, <span class="plainlinks"><code>CEikStatusPane</code> </span> and <span class="plainlinks"><code>CEikServStatusPane</code> </span>)
+and the resource structure representations (the model classes).
+</p><p>Each UI owns an instance of the status pane (through the application UI
+factory mechanism) that contains the pane model and contents relevant to it.
+There are common base classes for the status pane and its model, used by the
+client applications and the server. Each status pane owns a set of <span class="plainlinks"><code>CEikStatusPaneContainer</code> </span> controls,
+which hold the status pane indicator controls.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_StatusPane_UML.png" title="UML diagram of Status Pane API"><img alt="UML diagram of Status Pane API" border="0" height="316" src="images/SPB_10_1_StatusPane_UML.png" width="537" /></a></div>
+<div style="text-align:center"><i>UML diagram of Status Pane API</i></div>
+<a name="Glossary"><h2> <span class="mw-headline">2 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">2.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Status Pane API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> AVKON</td><td> S60 extensions and modifications to Uikon and other parts of the Symbian
+<p>OS application framework.
+</p>
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">2.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Status Pane API definitions</b>
+</caption>
+<tr>
+<td> Status pane</td><td> The status pane displays status information of the current
+<p>application and state, as well as general information about the device status,
+e.g. the signal strength and battery charging.
+</p>
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_status_pane_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:31 GMT -->
+</html>

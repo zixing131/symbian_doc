@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1E33919C-669C-3209-A46E-FDF36D0ABB77.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:14:27 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="cbnfparser.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-1E33919C-669C-3209-A46E-FDF36D0ABB77" />
+<title>cbnfparser.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-1E33919C-669C-3209-A46E-FDF36D0ABB77"><a name="GUID-1E33919C-669C-3209-A46E-FDF36D0ABB77"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">cbnfparser.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxEnumeration nested1" id="GUID-C6429999-6906-315C-A9CC-8782A588728B"><a name="GUID-C6429999-6906-315C-A9CC-8782A588728B"><!-- --></a>
+<h3 class="sectiontitle">Enum TParserNodeTypes</h3>
+<div class="body refbody apiDetail apiValueDetail cxxEnumerationDetail section enumerationdetail"><div class="section section apiDesc section apidesc">
+<p class="p">Defines types of node in a BNF tree (<a class="xref" href="GUID-9A8ED3CF-5DDF-330B-9534-3FD5ED30B137.html#GUID-9A8ED3CF-5DDF-330B-9534-3FD5ED30B137">CBNFParser</a>).</p>
+<p class="p">Except for ERoot, EIncomplete, EReference, and ELastParserNodeType, the types define different types of rule that the input stream must meet to satisfy the grammar. </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxEnumerators section enumerators"><table class="enumerators"><thead><tr><th>Enumerator</th><th>Value</th><th>Description</th></tr></thead><tr><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-0D4A8B6D-B459-3719-BB76-932EDC293E47"><span class="enumerator">ERoot</span></a></td><td></td><td>
+<p class="p">Root node. </p>
+</td></tr><tr class="bg"><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-4AC5A1E3-018C-3789-83A7-FFFB77794196"><span class="enumerator">EIncomplete</span></a></td><td></td><td>
+<p class="p">Incomplete node. </p>
+</td></tr><tr><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-F6843A52-E204-3C72-9D4C-DD7219CE5CDF"><span class="enumerator">EExact</span></a></td><td></td><td>
+<p class="p">Exact rule: match exactly with the provided string. </p>
+</td></tr><tr class="bg"><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-C6290A8D-F816-3270-B682-C2FFD231FC25"><span class="enumerator">ERange</span></a></td><td></td><td>
+<p class="p">Range rule: next character must be in the specified range.</p>
+<p class="p">The start of the range is specified by a <a class="xref" href="GUID-1FC220D3-7AF1-3F59-882C-8A70023D395C.html#GUID-433FFDD0-9E4D-3EBC-A4DA-D763664DB8D7">CBNFNode::KRangeStart()</a> attribute; the end by a <a class="xref" href="GUID-1FC220D3-7AF1-3F59-882C-8A70023D395C.html#GUID-C04FE3B3-0E87-34C4-B6B7-0272E05283DD">CBNFNode::KRangeEnd()</a> attribute. </p>
+</td></tr><tr><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-FD925E90-3EE1-3666-A3D3-9E1D7A182B3C"><span class="enumerator">ESelect</span></a></td><td></td><td>
+<p class="p">Select rule: next character must exist in the selected string.</p>
+<p class="p">If the select string starts with ^, it is a NOT Select. </p>
+</td></tr><tr class="bg"><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-38F8DD3F-DC39-31C1-A2A6-DC916E74E300"><span class="enumerator">EAnd</span></a></td><td></td><td>
+<p class="p">And rule: match all of the given sub-rules.</p>
+<p class="p">Sub-rules are defined by the child nodes of the AND rule node. </p>
+</td></tr><tr><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-A446980C-F763-383D-BE89-59F37821F3D9"><span class="enumerator">EOr</span></a></td><td></td><td>
+<p class="p">Or rule: match one of the given sub-rules.</p>
+<p class="p">Sub-rules are defined by the child nodes of the OR rule node. </p>
+</td></tr><tr class="bg"><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-418D4E53-AAB7-3AF6-8C77-AC9AB17CEB30"><span class="enumerator">ENMore</span></a></td><td></td><td>
+<p class="p">NMore rule: match a single subrule N or more times.</p>
+<p class="p">A minimum is specified by a <a class="xref" href="GUID-1FC220D3-7AF1-3F59-882C-8A70023D395C.html#GUID-C9F19B34-690F-3E0F-BF3C-8DBC1B596FA0">CBNFNode::KNMoreMinimum()</a> attribute; a maximum by a <a class="xref" href="GUID-1FC220D3-7AF1-3F59-882C-8A70023D395C.html#GUID-0F1813DE-5C89-3B80-BA5A-B3D2A8C99EEE">CBNFNode::KNMoreMaximum()</a> attribute; an exact figure by a <a class="xref" href="GUID-1FC220D3-7AF1-3F59-882C-8A70023D395C.html#GUID-79ADC4A5-874A-3637-B6EC-6B8512E87EAB">CBNFNode::KNMoreCount()</a> attribute. </p>
+</td></tr><tr><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-CD73174D-0C3B-3A7A-943B-A1C31031C2B8"><span class="enumerator">EOptional</span></a></td><td></td><td>
+<p class="p">Optional rule: match a single sub-rule 0/1 times.</p>
+<p class="p">A sub-rule is defined by the child node of the Optional rule node. </p>
+</td></tr><tr class="bg"><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-E3B1998C-D0EA-3C14-8C00-E636571B7375"><span class="enumerator">EWithout</span></a></td><td></td><td>
+<p class="p">Without rule: match the first sub-rule but not the second.</p>
+<p class="p">Sub-rules are defined by the child nodes of the Without rule node. </p>
+</td></tr><tr><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-95DC778C-8486-3BF2-9F92-34AB684375EE"><span class="enumerator">EReference</span></a></td><td></td><td>
+<p class="p">Reference rule: match the referred to rule.</p>
+<p class="p">The target rule name is identified by a <a class="xref" href="GUID-1FC220D3-7AF1-3F59-882C-8A70023D395C.html#GUID-19817D50-0540-363A-84BE-75F210BE96BE">CBNFNode::KReference()</a> attribute. </p>
+</td></tr><tr class="bg"><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-4B39009B-D0F2-3D10-818A-8529B973FF39"><span class="enumerator">ELastParserNodeType</span></a></td><td></td><td>
+<p class="p">Indicates final node type. </p>
+</td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxEnumeration nested1" id="GUID-BA0965E0-D439-3692-A3D6-4D94C4FA198A"><a name="GUID-BA0965E0-D439-3692-A3D6-4D94C4FA198A"><!-- --></a>
+<h3 class="sectiontitle">Enum TParseState</h3>
+<div class="body refbody apiDetail apiValueDetail cxxEnumerationDetail section enumerationdetail"><div class="section section apiDesc section apidesc">
+<p class="p">
+<a class="xref" href="GUID-9A8ED3CF-5DDF-330B-9534-3FD5ED30B137.html#GUID-9A8ED3CF-5DDF-330B-9534-3FD5ED30B137">CBNFParser</a> parser states. </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxEnumerators section enumerators"><table class="enumerators"><thead><tr><th>Enumerator</th><th>Value</th><th>Description</th></tr></thead><tr><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-FA1EF948-9197-34BB-BCD7-A9C0F215F06D"><span class="enumerator">EStopped</span></a></td><td></td><td>
+<p class="p">Parser has stopped. </p>
+</td></tr><tr class="bg"><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-5DC87A99-1993-34BE-A1AA-84FF98B2ED24"><span class="enumerator">EActive</span></a></td><td></td><td>
+<p class="p">Rarser is running. </p>
+</td></tr><tr><td class="ph ph apiDefItem apiDefItem cxxEnumerator"><a name="GUID-EA7DDCD5-DCFD-3F61-BEA3-BA229C1C614C"><span class="enumerator">EPaused</span></a></td><td></td><td>
+<p class="p">Parser has paused: e.g. waiting for further input to continue. </p>
+</td></tr></table></div>
+</div>
+</div>
+</p></div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1E33919C-669C-3209-A46E-FDF36D0ABB77.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:14:28 GMT -->
+</html>

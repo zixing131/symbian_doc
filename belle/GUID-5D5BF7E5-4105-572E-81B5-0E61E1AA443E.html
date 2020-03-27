@@ -1,0 +1,58 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5D5BF7E5-4105-572E-81B5-0E61E1AA443E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Writing a Server MTM" /><meta name="DC.Relation" scheme="URI" content="GUID-59217FA7-3078-53CA-88B3-78D6FB788271" /><meta name="DC.Relation" scheme="URI" content="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-DD27A452-8B0F-5C6D-A2E6-FC21145468B6" /><meta name="DC.Relation" scheme="URI" content="GUID-7FCDAC24-BFEF-590B-B569-04AA262EBF06" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5D5BF7E5-4105-572E-81B5-0E61E1AA443E" /><meta name="DC.Language" content="en" /><title>Writing a Server MTM  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5D5BF7E5-4105-572E-81B5-0E61E1AA443E">Writing a Server MTM </h1><div><div><p>This section explains the initial set up steps to be
+performed to write a Server MTM. It does not explain the implementation
+of all <a href="GUID-963C0F50-A44A-518E-8DB0-42BEBEFD10A2.html">Server
+MTM functionality</a>.</p></div>
+<div id="GUID-EA37C628-72B1-4D33-9568-10CAEB0D3B63"><h3 class="section-title">Context</h3><p>Server
+MTM functions usually start an operation to perform a task asynchronously.
+The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D088273D-FAFE-30F6-8D0A-3A62D3DE62FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D088273D-FAFE-30F6-8D0A-3A62D3DE62FD.html"><code class="apiname">CBaseServerMtm</code></a> Server MTM class passes its
+own iStatus member to the operation. Note that
+there is no base class for server-side operations, as there is on
+the client side. Server MTMs therefore implement their own operation
+classes derived directly from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">CActive</code></a>. They are,
+however, usually designed to return progress in a similar way to a
+client-side operation. </p> </div>
+<h3>Steps</h3><ol id="GUID-C7A5F589-CDA2-5996-8FB4-08B7D1E175BA"><a name="GUID-C7A5F589-CDA2-5996-8FB4-08B7D1E175BA"><!-- --></a>
+<li id="GUID-AB47DC3C-49D1-546E-A53E-E76074D606D4"><a name="GUID-AB47DC3C-49D1-546E-A53E-E76074D606D4"><!-- --></a><p></p>
+Derive a class from the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D088273D-FAFE-30F6-8D0A-3A62D3DE62FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D088273D-FAFE-30F6-8D0A-3A62D3DE62FD.html"><code class="apiname">CBaseServerMtm</code></a> class. 
+</li>
+<li id="GUID-D47A078C-ECDB-5035-8ED7-60A218B315AB"><a name="GUID-D47A078C-ECDB-5035-8ED7-60A218B315AB"><!-- --></a><p></p>
+Register it using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0D5D7FAC-4F14-3046-92FB-873B8350FF4C.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0D5D7FAC-4F14-3046-92FB-873B8350FF4C.html"><code class="apiname">CRegisteredMtmDll</code></a> parameter. 
+</li>
+<li id="GUID-BB5C73F0-E399-5430-AF36-C4711CD179A9"><a name="GUID-BB5C73F0-E399-5430-AF36-C4711CD179A9"><!-- --></a><p></p>
+Create the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">CActive</code></a> -based classes for performing
+the different operations that are required for your Messaging protocol. 
+</li>
+</ol>
+<div><h3 class="section-title">Server MTM example</h3><pre class="codeblock">//
+//  CTextServerMtm: The Server-side MTM implementation
+//
+  
+CTextServerMtm* CTextServerMtm::NewL(CRegisteredMtmDll&amp; aRegisteredMtmDll, CMsvServerEntry* aInitialEntry)
+// Exported factory function
+    {
+    CleanupStack::PushL(aInitialEntry);
+    CTextServerMtm* self=new (ELeave) CTextServerMtm(aRegisteredMtmDll, aInitialEntry);
+    CleanupStack::Pop();
+
+    CleanupStack::PushL(self);
+    self-&gt;ConstructL();
+    CleanupStack::Pop();
+    return self;
+    }
+
+CTextServerMtm::CTextServerMtm(CRegisteredMtmDll&amp; aRegisteredMtmDll, CMsvServerEntry* aInitialEntry)
+    :  CBaseServerMtm(aRegisteredMtmDll, aInitialEntry), 
+        iCurrentOperation(ETxtOpIdle), 
+        iServiceEntryId(aInitialEntry-&gt;Entry().Id())
+    {
+    }</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-59217FA7-3078-53CA-88B3-78D6FB788271.html">MTM
+overview</a></li><li><a href="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC.html">Server
+MTM</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 17th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5D5BF7E5-4105-572E-81B5-0E61E1AA443E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:09 GMT -->
+</html>

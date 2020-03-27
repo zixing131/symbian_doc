@@ -1,0 +1,723 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_app_messaging_msg_pub_mms_client_mtm_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:28 GMT -->
+<head><title>MMS Client MTM API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i128 i233 i235"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>MMS Client MTM API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a>
+<ul>
+<li class="toclevel-3"><a href="#MMS_messages"><span class="tocnumber">1.1.1</span> <span class="toctext">MMS messages</span></a></li>
+<li class="toclevel-3"><a href="#MTMs"><span class="tocnumber">1.1.2</span> <span class="toctext">MTMs</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.2</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.3</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Constructing_MMS_Client_MTM"><span class="tocnumber">2.1</span> <span class="toctext">Constructing MMS Client MTM</span></a></li>
+<li class="toclevel-2"><a href="#Creating_an_MMS_message_entry"><span class="tocnumber">2.2</span> <span class="toctext">Creating an MMS message entry</span></a></li>
+<li class="toclevel-2"><a href="#Adding_and_amending_attributes_of_an_MMS_message"><span class="tocnumber">2.3</span> <span class="toctext">Adding and amending attributes of an MMS message</span></a></li>
+<li class="toclevel-2"><a href="#Adding_body_text_to_an_MMS_message"><span class="tocnumber">2.4</span> <span class="toctext">Adding body text to an MMS message</span></a></li>
+<li class="toclevel-2"><a href="#Adding_attachments_to_an_MMS_message"><span class="tocnumber">2.5</span> <span class="toctext">Adding attachments to an MMS message</span></a></li>
+<li class="toclevel-2"><a href="#Validating_an_MMS_message"><span class="tocnumber">2.6</span> <span class="toctext">Validating an MMS message</span></a></li>
+<li class="toclevel-2"><a href="#Sending_an_MMS_message"><span class="tocnumber">2.7</span> <span class="toctext">Sending an MMS message</span></a></li>
+<li class="toclevel-2"><a href="#Querying_a_received_MMS_message"><span class="tocnumber">2.8</span> <span class="toctext">Querying a received MMS message</span></a></li>
+<li class="toclevel-2"><a href="#Responding_to_.28replying.2Fforwarding.29_a_received_message"><span class="tocnumber">2.9</span> <span class="toctext">Responding to (replying/forwarding) a received message</span></a></li>
+<li class="toclevel-2"><a href="#Cleaning_up_of_resources"><span class="tocnumber">2.10</span> <span class="toctext">Cleaning up of resources</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.11</span> <span class="toctext">Error handling</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#References"><span class="tocnumber">4</span> <span class="toctext">References</span></a></li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The MMS Client MTM API provides functions to create, send multimedia messages, and retrieve and manipulate multimedia message entries in Message Server.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>mmscli.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/app/messaging/msg_pub/mms_client_mtm_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/app/messaging/msg_pub/mms_client_mtm_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>MMS Client MTM API is used to access Message Server and message entries.
+MMS Client MTM forms part of the MMS MTM module (a plug-in to the messaging
+architecture). It implements a class derived from <span class="plainlinks"><code>CBaseMtm</code> </span> and
+provides functionality to create and send MMS messages, retrieve messages
+from the message store and view or change their attributes, forward or reply
+to messages and so on.
+</p><p>Note that MTMs are often platform-specific. So, while the base class, <span class="plainlinks"><code>CBaseMtm</code> </span>,
+is common to all Symbian platforms, MMS Client MTM described here is Symbian-specific.
+</p><p>Before using MMS Client MTM API, it is recommeded to check if the lightweight APIs, Send As ( <span class="plainlinks"><code>RSendAs</code> </span> and <span class="plainlinks"><code>RSendAsMessage</code> </span>) or Send UI ( <span class="plainlinks"><code>CSendUI</code> </span>), are suitable.
+</p>
+<a name="MMS_messages"><h4> <span class="mw-headline">1.1.1 MMS messages </span></h4>
+</a><p>MMS messaging provide a means of sending multimedia objects (such as images,
+sounds and videos) between devices. The multimedia objects are sent as attachments
+to a message and the required presentation of the message (in a message viewer)
+is defined by SMIL. (SMIL is a markup language. More information can be found
+at <a class="external free" href="http://www.w3.org/AudioVideo/" rel="nofollow" title="http://www.w3.org/AudioVideo/">http://www.w3.org/AudioVideo/</a>)
+</p>
+<a name="MTMs"><h4> <span class="mw-headline">1.1.2 MTMs </span></h4>
+</a><p>Messaging architecture from the Symbian platform is a powerful and extensible multi-protocol
+messaging framework. It allows the creation of plug-in modules to support
+individual messaging protocols such as SMS, email, and MMS. The set of components
+that make up such a plug-in module is called a Message Type Module (MTM).
+All interaction with lower-level communication protocols is performed by MTM.
+The components that comprise a module are Client MTM, UI MTM, UI Data MTM
+and Server MTM. The following diagram illustrates the MTM architecture:
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_MMS_Cient_MTM_architecture.gif" title="Messaging architecture"><img alt="Messaging architecture" border="0" height="322" src="images/SPB_10_1_MMS_Cient_MTM_architecture.gif" width="618" /></a></div>
+<div style="text-align:center"><i>Messaging architecture</i></div>
+<p>Different devices on Symbian platform may support different protocols and the support for any given protocol may differ between Symbian platforms. The plug-in architecture makes the support mechanisum easy in Messaging.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.2 Use Cases </span></h3>
+</a><p>The following are the most important use cases of MMS Client API:
+</p>
+<ul><li> <a href="#Constructing_the_MMS_Client_MTM" title="">Constructing the MMS Client MTM</a>
+</li><li> <a href="#Creating_an_MMS_message_entry" title="">Creating an MMS message entry</a>
+</li><li> <a href="#Adding_and_amending_attributes_of_an_MMS_message" title="">Adding and amending attributes of an MMS message</a>
+</li><li> <a href="#Adding_body_text_to_an_MMS_message" title="">Adding body text to an MMS message</a>
+</li><li> <a href="#Adding_attachments_to_an_MMS_message" title="">Adding attachments to an MMS message</a>
+</li><li> <a href="#Validating_an_MMS_message" title="">Validating an MMS message</a>
+</li><li> <a href="#Sending_an_MMS_message" title="">Sending an MMS message</a>
+</li><li> <a href="#Querying_a_received_MMS_message" title="">Querying a received MMS message</a>
+</li><li> <a href="#Responding_to_.28replying.2Fforwarding.29_a_received_message" title="">Responding to (replying/forwarding) a received message</a>
+</li><li> <a href="#Cleaning_up_of_resources" title="">Cleaning up of resources</a>
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.3 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CMmsClientMtm <td><span class="plainlinks"><code>/epoc32/include/app/mmsclient.h</code></span>, <span class="plainlinks"><code>/epoc32/include/app/mmsclient.inl</code></span>
+</td>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/app/mmsconst.h</code></span>, <span class="plainlinks"><code>/epoc32/include/app/mmserrors.h</code></span>
+</td></tr>
+<p>MMS Client MTM is one module of MMS MTM. The main class of MMS Client MTM API is <span class="plainlinks"><code>CMmsClientMtm</code> </span>.
+It is derived from <span class="plainlinks"><code>CBaseMtm</code> </span> and is the MMS MTM's implementation
+of Client MTM.
+</p><p>An overview of the MTM architecture is given in the [MMS_Client_MTM_API_Specification.topic1 MTMs] section
+of this document. Further information can be found in the SDK documentation.
+</p><p>The following class diagram shows the MMS Client MTM API:
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_MMS_Client_MTM_classDiagram.png" title="MMS Client MTM class diagram"><img alt="MMS Client MTM class diagram" border="0" height="184" src="images/SPB_10_1_MMS_Client_MTM_classDiagram.png" width="300" /></a></div>
+<div style="text-align:center"><i>MMS Client MTM class diagram</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>The messaging architecture relies on the client-server framework. This
+means that a session (an instance of <span class="plainlinks"><code>CMsvSession</code> </span>) is required
+as a channel of communication between the client thread (Client MTM) and the
+Message Server thread. This session must exist before Client MTM can be constructed
+and its functionality used.
+</p><p>The most important use cases are described in the sections below. Note
+that these use cases do not constitute an exhaustive list of the MMS Client
+MTM's functionality. <span class="plainlinks"><code>CMmsClientMtm</code> </span> contains numerous functions
+documented in the header file <code>mmsclient.h</code>.
+</p><p>Capabilities required to use MMS Client MTM API are <code>ReadUserData</code>, <code>ReadDeviceData</code> and <code>NetworkServices</code>.
+</p><p>A prerequisite of using MMS Client MTM is a good understanding
+of the key messaging concepts.
+</p>
+<a name="Constructing_MMS_Client_MTM"><h3> <span class="mw-headline">2.1 Constructing MMS Client MTM </span></h3>
+</a><p>The first step for using MMS Client MTM API is creating a session with
+Message Server. To do this, a class which implements the mixin <span class="plainlinks"><code>MMsvSessionObserver</code> </span> is
+required. An example of such a class is shown below.
+</p>
+<pre>class CMtmExample : public CActive, public MMsvSessionObserver
+    {
+    ...
+private: // from MMsvSessionObserver
+    void HandleSessionEventL(TMsvSessionEvent aEvent, TAny* aArg1, TAny* aArg2, TAny* aArg3);
+    ...
+private:
+    CMsvOperation*      iOp;
+    CMsvSession*        iSession; // Session to the messaging server
+    CClientMtmRegistry* iMtmReg;
+    CMmsClientMtm*      iMmsMtm;
+    TMsvId              iNewMessageId;
+    };
+</pre>
+<p>A session with the Message Server can be created either synchronously (using <span class="plainlinks"><code>CMsvSession::OpenSyncL</code> </span>)
+or asynchronously (using <span class="plainlinks"><code>CMsvSession::OpenAsyncL()</code> </span>). In each
+case, an instance of the <span class="plainlinks"><code>MMSvSessionObserver</code> </span> derived class
+is passed, by reference to the function. It is recommended to use the asynchronous implementation
+to ensure responsiveness of the device.
+</p>
+<pre>void CMtmExample::ConstructL()
+    {
+    CActiveScheduler::Add(this);
+    // Create CMsvSession
+    // New session is opened asynchronously
+    iSession = CMsvSession::OpenAsyncL(*this);
+     }
+</pre>
+<p>For asynchronous connections, notification of success is through a call
+to the implemented <code>HandleSessionEventL()</code> function, with the
+argument <code>aEvent = EMsvServerReady</code> being passed through. Once
+this notification has been received (or the synchronous function has returned),
+other messaging objects can be created.
+</p>
+<pre>void CMtmExample::HandleSessionEventL(TMsvSessionEvent aEvent, TAny* /*aArg1*/, TAny* /*aArg2*/, TAny* /*aArg3*/)
+    {
+    switch (aEvent)
+        {
+        // This event tells us that the session has been opened
+        case EMsvServerReady:
+            CompleteConstructL();
+            break;
+        ...
+        }
+    }
+</pre>
+<p>Accessing MMS Client MTM is done through the Client MTM registry ( <span class="plainlinks"><code>CClientMtmRegistry</code> </span>).
+This holds details of all registered client MTMs available on the device.
+The registry is constructed with a handle to the session. MMS Client MTM can
+then be created through a call to <span class="plainlinks"><code>CClientMtmRegistry::NewMtmL()</code> </span>,
+passing through <span class="plainlinks"><code>KUidMsgTypeMultiMedia</code> </span>(defined in <code>mmsconst.h</code>)
+as the MTM UID. <code>NewMtmL()</code> returns a <span class="plainlinks"><code>CBaseMtm</code> </span> pointer
+which needs to be cast into the correct type, that is <span class="plainlinks"><code>CMmsClientMtm</code> </span>.
+</p>
+<pre>void CMtmsExampleEngine::CompleteConstructL()
+    {
+    // Construct the Client MTM registry
+    iMtmReg = CClientMtmRegistry::NewL(*iSession);
+    // Obtain MMS Client MTM from the MTM registry
+    iMmsMtm = static_cast&lt;CMmsClientMtm*&gt;(iMtmReg-&gt;NewMtmL(KUidMsgTypeMultimedia));
+    }
+</pre>
+<p>MMS Client MTM can now be used to access Message Server and create, manipulate,
+and send multimedia messages.
+</p>
+<a name="Creating_an_MMS_message_entry"><h3> <span class="mw-headline">2.2 Creating an MMS message entry </span></h3>
+</a><p>Once the MMS Client MTM instance has been constructed (see <a href="#Constructing_MMS_Client_MTM" title=""> Constructing MMS Client MTM</a>), it can be used to create an MMS entry in Message Server.
+There is more than one way to create an MMS message entry but the most obvious
+way is to use <span class="plainlinks"><code>CMmsClientMtm::CreateMessageL()</code> </span>. This function
+creates an empty message entry as the child of the current context. (The context
+is the entry on which the MTM actions are performed.) The entry is
+created with its visible flag set to false and its in-preparation flag set
+to true since at this stage it is empty.
+</p><p>As the entry is created as a child to the current context, it is important
+to first set the context appropriately before <code>CreateMessageL()</code> is
+called. It is usual to create new messages in the drafts folder. To set the
+context, <code>SwitchCurrentEntryL()</code> is called with the parent
+folder ID (<code>KMsvDraftEntryId</code>) passed through. <span class="plainlinks"><code>CMmsClientMtm::CreateMessageL()</code> </span> is
+then called with the required service ID as a parameter. The service ID can
+be retrieved by calling <code>DefaultServiceL()</code> on the MTM. After
+successfully creating the new message entry, <code>CreateMessageL()</code> then
+sets the new entry as the current context.
+</p>
+<pre>TBool CMtmsExampleEngine::CreateNewMessageL()
+    {
+    // Set context to the parent folder (Drafts folder)
+    iMmsMtm-&gt;SwitchCurrentEntryL(KMsvDraftEntryId);
+    iMmsMtm-&gt;CreateMessageL(iMmsMtm-&gt;DefaultServiceL())
+    ...
+</pre>
+<p>At this stage, the created message is empty. To be useful,
+the intended message recipient(s) of the message must be set. For MMS entries,
+it is also useful to give the message a subject attribute.
+</p><p><span class="plainlinks"><code>CMmsClientMtm::AddAddresseeL()</code> </span> has a number of overloads
+that can be used to set the To, Cc, and Bcc fields of an MMS entry. <span class="plainlinks"><code>CMMsClientMtmL::SetSubjectL()</code> </span> takes
+a descriptor (<code>TDesC&amp;</code>) and is used to set the subject.
+</p>
+<pre>    // Set the recipients (_LIT used only for demonstration purposes)
+    // "To" recipient.
+    _LIT(KSamsNumber, "07738123456");
+    _LIT(KSamsAlias, "Sam");
+    // Cc recipient
+    _LIT(KPetesNumber, "07812654321");
+    iMmsMtm-&gt;AddAddresseeL(EMsvRecipientTo, KSamsNumber, KSamsAlias); // To field, alias set
+    iMmsMtm-&gt;AddAddresseeL(EMsvRecipientCc, KPetesNumber); // Cc field, no alias
+    // Set a message subject
+    _LIT(KMessageSubject, "MMS Example");
+    iMmsMtm-&gt;SetSubjectL(KMessageSubject);
+</pre>
+<p>The next step is to add some text and multimedia object to
+the message. How this is done is shown in <a href="#Adding_attachments_to_an_MMS_message" title="">Adding an attachment to an MMS message</a>.
+</p><p>Here, the message is just saved to the drafts folder. To indicate that
+the message entry is no longer being amended, <span class="plainlinks"><code>TMsvEntry::SetInPreparation()</code> </span> can
+be set to <code>|EFalse</code> while <span class="plainlinks"><code>TMsvEntry::SetVisible()</code> </span> is
+set to <code>ETrue</code> to ensure the message is displayed in the Messaging
+application. Changes to the entry should be committed using <span class="plainlinks"><code>CMsvEntry::ChangeL()</code> </span> and
+the message saved using <span class="plainlinks"><code>CMmsClientMtm::SaveMessageL()</code> </span>.
+</p><p><code>SetInPreparation()</code> and <code>SetVisible()</code> need
+to be called on the <span class="plainlinks"><code>TMsvEntry</code> </span> that represents the message
+in Message Server. To access this, <code>Entry()</code> is called on Client
+MTM and then <code>Entry()</code> is called on the returned <span class="plainlinks"><code>CMsvEntry</code> </span>.
+</p>
+<pre>    TMsvEntry ent = iMmsMtm-&gt;Entry().Entry();
+    // Set InPreparation to false
+    ent.SetInPreparation(EFalse);
+    ent.SetVisible(ETrue);            // Mark as visible, so this the message can be seen in Drafts
+    iMmsMtm-&gt;Entry().ChangeL(ent);    // Commit changes
+    //Save the changes
+    iMmsMtm-&gt;SaveMessageL();
+</pre>
+<a name="Adding_and_amending_attributes_of_an_MMS_message"><h3> <span class="mw-headline">2.3 Adding and amending attributes of an MMS message </span></h3>
+</a><p>There are a number of attributes on a message entry than can be set or
+amended. These attributes are properties of the message header but can be
+set through Client MTM and include the expiry date on the message, the delivery
+time, and priority. As long as the context of the MTM is set to the appropriate
+message, setting the values for the properties is simply a case of calling
+the correct function. The functions are detailed in the Client MTM header
+file (<code>mmsclient.h</code>) and enumeration values required by some of the functions
+can be found in <code>mmsconst.h</code>.
+</p><p>An example showing the message priority being set to high is shown below.
+</p>
+<pre>iMmsMtm-&gt;SetMessagePriority(EMmsPriorityHigh);
+//Save the changes
+iMmsMtm-&gt;SaveMessageL();
+</pre>
+<a name="Adding_body_text_to_an_MMS_message"><h3> <span class="mw-headline">2.4 Adding body text to an MMS message </span></h3>
+</a><p>Although <span class="plainlinks"><code>CMmsClientMtm</code> </span> has a <code>Body()</code> function
+defined, it should not be used. Body text for an MMS message is treated as
+a message attachment and therefore should be set using <span class="plainlinks"><code>CMmsClientMtm::CreateTextAttachmentL()</code> </span>.
+See <a href="#Adding_attachments_to_an_MMS_message" title="">Adding attachments to an MMS message</a> for
+further information.
+</p>
+<a name="Adding_attachments_to_an_MMS_message"><h3> <span class="mw-headline">2.5 Adding attachments to an MMS message </span></h3>
+</a><p>All MMS message data (text, images, sounds, and so on) should be sent as
+attachments to the message with the required presentation being defined by
+a SMIL file (also sent as an attachment). Note, although <span class="plainlinks"><code>CMmsClientMtm</code> </span> has
+a <code>Body()</code> function defined, it should not be used - the message
+body text is treated as an attachment. Therefore, text should be added using <span class="plainlinks"><code>CMmsClientMtm::CreateTextAttachmentL()</code> </span>.
+</p>
+<pre>virtual void CMmsClientMtm::CreateTextAttachmentL(
+    CMsvStore&amp;  aStore,
+    TMsvAttachmentId &amp;  aAttachmentId,
+    const TDesC&amp;  aText,
+    const TDesC&amp;  aFile,
+    TBool  aConvertParagraphSeparator = ETrue);
+</pre>
+<p>The function requires that the message store for the message entry has
+been opened ready for editing. A pointer to the open store is then passed
+as a parameter. The text required for the message is passed as a descriptor
+( <code>aText</code>) and a suggestion for a suitable file name is also
+needed (SMIL references this filename). If required, the unicode paragraph
+separator (character <code>0x2029</code>) can be replaced with a line
+feed (character <code>0x000a</code>). On completion, <code>aAttachmentId</code> is
+set.
+</p><p>To use <code>CreateTextAttachmentL()</code>, the message entry's store
+must first be opened.
+</p>
+<pre>// Open the entry's store - assume message context set correctly
+CMsvStore* store = iMmsMtm-&gt;Entry().EditStoreL();
+CleanupStack::PushL(store);
+// Add the text attachment. _LIT used for demonstration purposes
+_LIT(KMMSText, "Thought you'd like to see where I'm staying");
+_LIT(KMMSTextFilename, "hello.txt");
+iMmsMtm-&gt;CreateTextAttachmentL(*store, attachId, KMMSText, KMMSTextFilename);
+// Add more attachments or save the message
+// Remember to do the appropriate clean up at the end
+...
+</pre>
+<p>For multimedia attachments, <span class="plainlinks"><code>CMmsClientMtm::CreateAttachment2L()</code> </span> is
+used.
+</p>
+<pre>virtual void CreateAttachment2L(
+    CMsvStore&amp; aStore,
+    RFile&amp; aFile,
+    TDesC8&amp; aMimeType,
+    CMsvMimeHeaders&amp; aMimeHeaders,
+    CMsvAttachment* aAttachmentInfo,
+    TMsvAttachmentId&amp; aAttaId);
+</pre>
+<p>The function creates an attachment entry and copies the file specified
+as a parameter ( <code>aFile</code> to an open message store (<code>aStore</code>).
+The attachment should be passed as a handle to an open file. The MIME type,
+for example <code>image/jpeg</code> for a JPEG image, is passed as a
+descriptor. A MIME header ( <span class="plainlinks"><code>CMsvMimeHeaders</code> </span>) for the attachment
+is created. A reference to the header is passed to the function so it can
+be updated. A <span class="plainlinks"><code>CMsvAttachment</code> </span> object is created with the parameter <span class="plainlinks"><code>CMsvAttachment::EMsvFile</code> </span> to
+represent the attachment. This is also updated by the <code>CreateAttachment2L()</code> function.
+</p>
+<pre>// Continuation of code above which set a text attachment
+// Add an image attachment
+// Set the filename for the image
+#define KDirPictures	PathInfo::ImagesPath()
+#define KPhoneRootPath	PathInfo::PhoneMemoryRootPath()
+_LIT(KFileName, "mmsexample.jpg");
+TFileName attachmentFile(KPhoneRootPath);
+attachmentFile.Append(KDirPictures);
+attachmentFile.Append(KFileName);
+// Open the attachment file
+RFile attachment;
+TInt error = attachment.Open(CCoeEnv::Static()-&gt;FsSession(), attachmentFile, EFileShareReadersOnly | EFileRead);
+CleanupClosePushL(attachment);
+// Check that the attachment file exists.
+if(error != KErrNone)
+    {
+    _LIT(KFileNotFound, "Attachment file not found!");
+    attachment.Close();
+    CleanupStack::PopAndDestroy(attachment);
+    CleanupStack::PopAndDestroy(store);
+    return EFalse;
+    	}
+else
+    {
+    // Mime header
+    CMsvMimeHeaders* mimeHeaders = CMsvMimeHeaders::NewL();
+    CleanupStack::PushL(mimeHeaders);
+    mimeHeaders-&gt;SetSuggestedFilenameL(KFileName);
+    // Represents a single attachment and information about the attachment
+    CMsvAttachment* attaInfo = CMsvAttachment::NewL(CMsvAttachment::EMsvFile);
+    CleanupStack::PushL(attaInfo);
+    // Mime Type
+    _LIT8(KMimeType, "image/jpeg");
+    TBufC8&lt;10&gt; mimeType(KMimeType);
+    // Attachment file must be in a public folder (e.g. c:\Data\images)
+    iMmsMtm-&gt;CreateAttachment2L(
+        *store,
+        attachment,
+        mimeType,
+        *mimeHeaders,
+        attaInfo,
+        attachId );
+    CleanupStack::Pop(attaInfo); // attaInfo
+    CleanupStack::PopAndDestroy(mimeHeaders); // mimeHeaders
+    // If a SMIL file is attached for presentation layout purposes
+    // then it should be done here before the
+    // the changes are committed
+    // Commit the changes and perform the appropriate cleanup
+    store-&gt;CommitL();
+    attachment.Close();
+    	CleanupStack::PopAndDestroy(attachment);
+    	CleanupStack::PopAndDestroy(store);
+    // Save the changes
+    iMmsMtm-&gt;SaveMessageL();
+    }
+</pre>
+<p>This example shows how to attach some text and an image to an MMS message.
+However, the layout of the message is left to the receiving device. To dictate
+how the message should be presented to the recipient, a SMIL file is needed.
+An example file is shown below.
+</p>
+<pre>&lt;smil xmlns="http://www.w3.org/2000/SMIL20/CR/Language"&gt;
+     &lt;head&gt;
+         &lt;layout&gt;
+             &lt;root-layout width="160" height="140"/&gt;
+             &lt;region id="Image" width="160" height="120" left="0" top="0"/&gt;
+             &lt;region id = "Text" width="160" height="20" left="100" top="120"/&gt;
+         &lt;/layout&gt;
+     &lt;/head&gt;
+     &lt;body&gt;
+         &lt;par dur="10s"&gt;
+             &lt;img src="mmsexample.jpg" region="Image" /&gt;
+             &lt;text src="hello.txt" region="Text" /&gt;
+         &lt;/par&gt;
+     &lt;/body&gt;
+ &lt;/smil&gt;
+</pre>
+<p>This file indicates that the image should be displayed before the text
+in the message.
+</p><p>The SMIL file should be added as an attachment in the same way that the
+image was added, that is using <span class="plainlinks"><code>CMmsClientMtm::CreateAttachment2L()</code> </span>.
+In this case, the MIME type should be set to <code>KMmsApplicationSmil</code>(defined
+in <code>mmsconst.h</code>). The SMIL attachment should then be set as the root
+attachment using <span class="plainlinks"><code>CMmsClientMtm::SetMessageRootL()</code> </span> and passing
+through the ID ( <span class="plainlinks"><code>TMsvAttachmentId</code> </span>) of the SMIL attachment
+set by the <code>Createattachment2L()</code> function.
+</p>
+<pre>iMmsMtm-&gt;SetMessageRootL(smilAttachId);
+</pre>
+<p>Note that after setting the root, the changes to the store should be committed
+and the message saved.
+</p>
+<a name="Validating_an_MMS_message"><h3> <span class="mw-headline">2.6 Validating an MMS message </span></h3>
+</a><p>Before sending an MMS message, it is advisable to validate it to ensure
+the added data is compliant with the message type. The base class ( <span class="plainlinks"><code>CBaseMtm</code> </span>)
+defines the function <code>ValidateMessage()</code> and this is implemented
+by each MTM to provide type-specific validation. The function takes a <span class="plainlinks"><code>TMsvPartList</code> </span> parameter
+which is a bit-set (flags for this bit-set are defined in <code>Mmtdef.h</code>)
+indicating the parts to be checked. Not all flags are supported by MMS MTM.
+Supported flags are <code>KMsvMessagePartRecipient</code>, <code>KMsvMessagePartOriginator</code> and <code>KMsvMessagePartAttachments</code>. The return value of <code>ValidateMessage()</code> is also a <span class="plainlinks"><code>TMsvPartList</code> </span> bit-set that indicates which parts of the message were invalid.
+</p>
+<pre>TBool CMtmsExampleEngine::ValidateMMS()
+    {
+    // Context should be set to appropriate message
+    TMsvPartList msgCheckParts = KMsvMessagePartRecipient | KMsvMessagePartOriginator | KMsvMessagePartAttachments;
+    TMsvPartList msgFailParts = iMmsMtm-&gt;ValidateMessage(msgCheckParts);
+    return msgFailParts == KMsvMessagePartNone;
+    }
+</pre>
+<a name="Sending_an_MMS_message"><h3> <span class="mw-headline">2.7 Sending an MMS message </span></h3>
+</a><p>Assuming that the MMS message has been created and validated, sending a
+message using MMS Client MTM is using its <span class="plainlinks"><code><font color="darkred">SendL()</font></code> </span> function.
+The important point to realize is that the ID of the message entry that should
+be sent must be set as the context of the MTM. If required, a time can be
+set for the sending of the message. The <code>SendL()</code> function
+is asynchronous and returns a <span class="plainlinks"><code>CMsvOperation</code> </span> pointer. This
+can be used to obtain progress information about the operation before the
+active object completes (that is, before the <code>RunL()</code> method is called).
+</p>
+<pre>void CMtmsExampleEngine::SendMMSL()
+    {
+    iOp = iMmsMtm-&gt;SendL(iStatus);
+    SetActive();
+    }
+</pre>
+<p>There is also an overload of <span class="plainlinks"><code>CMmsClientMtm::SendL()</code> </span> that
+enables the sending of multiple messages with one operation. An array of message
+IDs ( <span class="plainlinks"><code>TMsvId</code> </span> s) is created as a <span class="plainlinks"><code>CMsvEntrySelection</code> </span> object
+and this is passed as a parameter to the <code>SendL()</code> function.
+The function is asynchronous and returns a <span class="plainlinks"><code>CMsvOperation</code> </span> pointer
+to allow progress monitoring.
+</p>
+<a name="Querying_a_received_MMS_message"><h3> <span class="mw-headline">2.8 Querying a received MMS message </span></h3>
+</a><p>MMS Client MTM can be used to retrieve information from received MMS messages.
+Functions, such as <code>Sender()</code>, <code>MessageReceiveTime()</code>, <code>NumberOfPreviousSenders()</code> are
+available to use. In each case, the important point is that the context of
+the MTM is set correctly using the ID of the message.
+</p><p>The example below shows an incoming message, caught by <span class="plainlinks"><code>MMsvSessionObserver::HandleSessionEventL()</code> </span>.
+The message ID ( <code>TmsvId iNewMessageId</code>) is
+stored as the entry is created in Inbox and then, once the message has been
+stored ( <code>aEvent == EMsvEntriesChanged</code>), the MTM context is
+set and the message loaded. Information about the message can then be queried,
+for example the sender.
+</p>
+<pre>void CMtmsExampleEngine::HandleSessionEventL(TMsvSessionEvent aEvent, TAny* aArg1, TAny* aArg2, TAny* aArg3)
+    {
+    switch (aEvent)
+        {
+        ...
+        case EMsvEntriesCreated:
+            if(*(static_cast&lt;TMsvId*&gt;(aArg2)) == KMsvGlobalInBoxIndexEntryId)
+                {
+                CMsvEntrySelection* entries = static_cast&lt;CMsvEntrySelection*&gt;(aArg1);
+                iNewMessageId = entries-&gt;At(0);
+                }
+            break;
+        case EMsvEntriesChanged:
+            if(*(static_cast&lt;TMsvId*&gt;(aArg2)) == KMsvGlobalInBoxIndexEntryId)
+                {
+                CMsvEntrySelection* entries = static_cast&lt;CMsvEntrySelection*&gt;(aArg1);
+                if(iNewMessageId == entries-&gt;At(0))
+                    {
+                    iMmsMtm-&gt;SwitchCurrentEntryL(iNewMessageId);
+                    iMmsMtm-&gt;LoadMessageL();
+                    TPtrC sender = iMmsMtm-&gt;Sender();
+                    // Use the sender information
+                    ...
+                    }
+                 }
+            break;
+        ...
+        }
+    }
+</pre>
+<p>Further information about the general messaging concepts that are needed
+to understand this example can be found in the SDK documentation and at <a class="external text" href="http://forum.nokia.com/" rel="nofollow" title="http://forum.nokia.com">Forum Nokia</a>.
+</p><p>It is important to note that an MMS entry does not have a message body
+as the message text is sent as an attachment and therefore the Client MTM's <code>Body()</code> function
+should not be used. However, further information about the message text and
+attachments can be obtained through the message entry's store. The general
+procedure is to use <span class="plainlinks"><code>CMsvStore::AttachmentManagerL()</code> </span>. The
+example below shows how the message text could be retrieved.
+</p>
+<pre>CMsvEntry* entry = iSession-&gt;GetEntryL(iNewMessageId);
+CleanupStack::PushL(entry);
+CMsvStore* store = entry-&gt;ReadStoreL();
+if(store!= NULL)
+    {
+    CleanupStack::PushL(store);
+    MMsvAttachmentManager&amp; attManager = store-&gt;AttachmentManagerL();
+    _LIT8(KMimeBuf, "text/plain");
+    TBuf8&lt;10&gt;mimeBuf(KMimeBuf);
+    // Cycle through the attachments
+    for(TInt i=0; i&lt;attManager.AttachmentCount(); i++)
+        {
+        CMsvAttachment* attachment = attManager.GetAttachmentInfoL(i);
+        CleanupStack::PushL(attachment);
+        // Test to see if we have a text file
+        if(mimeBuf.CompareF(attachment-&gt;MimeType())== 0)
+            {
+            RFile file = attManager.GetAttachmentFileL(i);
+            // The file can then be read using the normal file functionality
+            // After reading, the file should be closed
+            ...
+            }
+        CleanupStack::PopandDestroy(attachment);
+        }
+    Cleanupstack::PopAndDestroy(store);
+    }
+CleanupStack::PopAndDestroy(entry);
+</pre>
+<p>This aspect of message querying falls outside the scope of MMS Client MTM
+and therefore is not covered in detail here but is included for completeness.
+</p>
+<a name="Responding_to_.28replying.2Fforwarding.29_a_received_message"><h3> <span class="mw-headline">2.9 Responding to (replying/forwarding) a received message </span></h3>
+</a><p>An obvious requirement of a messaging client is to be able to reply to
+or forward received messages. MMS Client MTM provides <span class="plainlinks"><code>CMmsClientMtm::ReplyL()</code> </span> and <span class="plainlinks"><code>CMmsClientMtm::ForwardL()</code> </span> for
+this purpose. Both functions are asynchronous and return a <span class="plainlinks"><code>CMsvOperation</code> </span> pointer
+to allow the monitoring of the progress of the function and ultimately to
+provide the ID (<code>TMsvId</code>) of the newly created message.
+</p><p>To use the functions, the message to be replied to or forwarded must be set
+as the context. The functions take as parameters the ID ( <span class="plainlinks"><code>TMsvId</code> </span>)
+of the folder in which the new message should be created, a list ( <span class="plainlinks"><code>TMsvPartList</code> </span>)
+of the elements of the original message that should be copied to the new message,
+and a <span class="plainlinks"><code>TRequestStatus</code> </span> reference. Note that not all elements
+of <span class="plainlinks"><code>TMsvPartList</code> </span> are supported, see <code>mmsclient.h</code> for
+further information. An example of using <span class="plainlinks"><code>CClientMtm::ReplyL()</code> </span> is
+shown here but <span class="plainlinks"><code>CMmsClientMtm::ForwardL()</code> </span> can be used similarly.
+</p>
+<pre>void CMtmsExampleEngine::ReplyL()
+    {
+    iMmsMtm-&gt;SwitchCurrentEntryL(iMessageToReplyTo);
+    iMmsMtm-&gt;LoadMessageL();
+    // Add the description of the received message to the new (reply) message
+    // Note the Recipient address is automatically set to the sender
+    // KMsvMessagePartRecipient is only needed for reply to all
+    TMsvPartList msgCheckParts = KMsvMessagePartDescription;
+    iOp = iMmsMtm-&gt;ReplyL(KMsvDraftEntryId,msgCheckParts,iStatus);
+    SetActive();
+    }
+</pre>
+<p>On completion ( <code>RunL()</code> being called), the ID of the newly
+created message is retrieved using <span class="plainlinks"><code>CMsvOperation::Progress()</code> </span>.
+A package buffer is used to transfer this information. If the creation of
+the reply or forward message was not successful, the ID will be set to <span class="plainlinks"><code>KMsvNullIndexEntryId</code> </span>.
+Once the operation has completed, the message can be modified and saved, or
+sent, using the usual functions.
+</p>
+<pre>void CMtmsExampleEngine::RunL()
+    {
+    if(iStatus.Int() == KErrNone)
+        {
+        // Retrieve the id of the created message
+        // Id is returned in a package buffer
+        TPckgBuf&lt;TMsvId&gt; pkg;
+        pkg.Copy( iOp-&gt;ProgressL());
+        TMsvId indexEntry = pkg();
+        if(indexEntry != KMsvNullIndexEntryId)
+            {
+            // Set the context to the new message
+            iMmsMtm-&gt;SwitchCurrentEntryL(indexEntry);
+            iMmsMtm-&gt;LoadMessageL();
+            // Here add further recipients, subject, attachments
+            // to the message
+            ...
+            // Commit the changes and save the Message
+            TMsvEntry ent = iMmsMtm-&gt;Entry().Entry();
+            ent.SetReadOnly(EFalse);
+            // Set InPreparation to false
+            ent.SetInPreparation(EFalse);
+            ent.SetVisible(ETrue);            // mark as visible
+            iMmsMtm-&gt;Entry().ChangeL(ent);    // Commit changes
+            //Save the changes
+            iMmsMtm-&gt;SaveMessageL();
+            }
+        }
+    }
+</pre>
+<a name="Cleaning_up_of_resources"><h3> <span class="mw-headline">2.10 Cleaning up of resources </span></h3>
+</a><p>Once all of the required operations have been carried out, the appropriate
+destruction of resources should be carried out. Obviously the resources used
+are application specific, but in general at least Client MTM, the MTM
+registry and the session are required. They should be deleted in the reverse order in which
+they were created.
+</p>
+<pre>CMtmsExampleEngine::~CMtmsExampleEngine()
+    {
+    // For this particular example cleanup
+    Cancel();         // Active Object
+    delete iOp;
+    // For general use of the MMS Client MTM
+    delete iMmsMtm;   // CMmsClientMtm
+    delete iMtmReg;   // CClientMtmRegistry
+    delete iSession;  // CMsvSession
+    }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.11 Error handling </span></h3>
+</a><p>The leave mechanism of the Symbian platform is used to handle error conditions on
+method calls. In addition, messaging defines a series of panics; these are
+explained in Symbian OS reference &#187; System panic reference &#187; MSGS.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>MMS Client MTM API abbreviations</b>
+</caption>
+<tr>
+<td> ID
+</td><td> Identifier
+</td></tr>
+<tr>
+<td> API</td><td> Application Programming Interface.
+</td></tr>
+<tr>
+<td> MIME</td><td> Multipurpose Internet Mail Extensions.
+</td></tr>
+<tr>
+<td> MMS</td><td> Multimedia Messaging Service. Protocol defined by 3GPP. Messaging for
+<p>text, images, audio.
+</p>
+</td></tr>
+<tr>
+<td> MTM</td><td> Message Type Module. A group of components that together provide message
+<p>handling for a particular protocol.
+</p>
+</td></tr>
+<tr>
+<td> SDK</td><td> Software Development Kit.
+</td></tr>
+<tr>
+<td> SMIL</td><td> Synchronized Multimedia Integration Language. A markup language designed
+<p>to present multiple media files together.
+</p>
+</td></tr>
+<tr>
+<td> SMS</td><td> Short Message System. A protocol, defined within the GSM standard,
+<p>which allows point-to-point transmission of short messages. 'Short' means
+140 bytes, or 160 characters with the special 7-bit SMS character set. Can
+also be used to transmit up to 31k of binary or text data by concatenating
+messages.
+</p>
+</td></tr>
+<tr>
+<td> UI</td><td> User Interface.
+</td></tr></table>
+</a><a name="References"><h2> <span class="mw-headline">4 References </span></h2>
+<table border="1" cellspacing="0">
+<caption> <b>References</b>
+</caption>
+<tr>
+<td> Name
+</td><td> Location
+</td></tr>
+<tr>
+<td> Synchronized Media Integration Language (SMIL)</td><td> </td></tr></table></a><a class="external free" href="http://www.w3.org/AudioVideo/" rel="nofollow" title="http://www.w3.org/AudioVideo/">http://www.w3.org/AudioVideo/</a>
+
+<tr>
+<td> SDK documentation</td><td> <a class="external free" href="http://www.symbian.com/" rel="nofollow" title="http://www.symbian.com">http://www.symbian.com</a>
+</td></tr>
+<tr>
+<td> Forum Nokia</td><td> <a class="external free" href="http://www.forum.nokia.com/" rel="nofollow" title="http://www.forum.nokia.com/">http://www.forum.nokia.com/</a>
+</td></tr>
+<div class="copy"><?php include ("copy.html"); ??></div></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_app_messaging_msg_pub_mms_client_mtm_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:32 GMT -->
+</html>

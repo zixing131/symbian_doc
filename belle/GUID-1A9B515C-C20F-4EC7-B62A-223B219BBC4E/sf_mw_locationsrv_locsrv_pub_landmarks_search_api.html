@@ -1,0 +1,791 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_locationsrv_locsrv_pub_landmarks_search_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:01 GMT -->
+<head><title>Landmarks Search API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i770 i774"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Landmarks Search API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Main_classes"><span class="tocnumber">1.4.1</span> <span class="toctext">Main classes</span></a></li>
+<li class="toclevel-3"><a href="#Criterion_classes"><span class="tocnumber">1.4.2</span> <span class="toctext">Criterion classes</span></a></li>
+<li class="toclevel-3"><a href="#Result_classes"><span class="tocnumber">1.4.3</span> <span class="toctext">Result classes</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Searching_landmarks"><span class="tocnumber">2.1</span> <span class="toctext">Searching landmarks</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Configuring_search"><span class="tocnumber">2.1.1</span> <span class="toctext">Configuring search</span></a></li>
+<li class="toclevel-3"><a href="#Specifying_search_criteria"><span class="tocnumber">2.1.2</span> <span class="toctext">Specifying search criteria</span></a></li>
+<li class="toclevel-3"><a href="#Executing_search"><span class="tocnumber">2.1.3</span> <span class="toctext">Executing search</span></a></li>
+<li class="toclevel-3"><a href="#Retrieving_displayable_results"><span class="tocnumber">2.1.4</span> <span class="toctext">Retrieving displayable results</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Searching_categories"><span class="tocnumber">2.2</span> <span class="toctext">Searching categories</span></a></li>
+<li class="toclevel-2"><a href="#Search_multiple_databases"><span class="tocnumber">2.3</span> <span class="toctext">Search multiple databases</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.4</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.5</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Security_issues"><span class="tocnumber">2.6</span> <span class="toctext">Security issues</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.1</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The Landmarks Search API extends <a href="sf_mw_locationsrv_locsrv_pub_landmarks_api.html" title="sf_mw_locationsrv_locsrv_pub_landmarks_api.html">Landmarks API</a> to enable searching for landmarks or landmark categories that match certain criteria. For example, a client can search for all the landmarks
+under the category "Restaurants" in a landmark database. Landmarks Search
+API is used mainly by end-user applications.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>eposlmmultidbsearch.lib, eposlmsearchlib.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/locationsrv/locsrv_pub/landmarks_search_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/locationsrv/locsrv_pub/landmarks_search_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>This API is Library API and provides with method calls. The Landmarks Search API loads its implementation at run time
+but the implementation consists only of local objects.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>The Landmarks Search API is introduced in Symbian OS, S60 3.0.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+<ul><li> Searching landmarks
+</li><li> Searching categories
+</li><li> Searching multiple databases
+</li></ul>
+</a><a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CPosLandmarkSearch <td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLandmarkSearch.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CPosLmAreaCriteria</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmAreaCriteria.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmCatNameCriteria</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmCatNameCriteria.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmCategoryCriteria</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmCategoryCriteria.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmCompositeCriteria</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmCompositeCriteria.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmDisplayData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmDisplayData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmDisplayItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmDisplayItem.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmIdListCriteria</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmIdListCriteria.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmMultiDbSearch</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmMultiDbSearch.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmNearestCriteria</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmNearestCriteria.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmSearchCriteria</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmSearchCriteria.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CPosLmTextCriteria</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmTextCriteria.h</code></span>
+</td></tr>
+<a name="Main_classes"><h4> <span class="mw-headline">1.4.1 Main classes </span></h4>
+</a><p>The Landmarks Search API allows searching in a single database or in multiple
+databases by means of <span class="plainlinks"><code>CPosLandmarkSearch</code> </span> and <span class="plainlinks"><code>CPosLmMultiDbSearch</code> </span> respectively.
+</p><p><span class="plainlinks"><code>CPosLandmarkSearch</code> </span> is mainly used to start searches
+and to obtain the search matches. Clients must specify the landmark database
+to search when <span class="plainlinks"><code>CPosLandmarkSearch</code> </span> is instantiated. <span class="plainlinks"><code>CPosLandmarkSearch</code> </span> returns
+a <span class="plainlinks"><code>CPosLmOperation</code> </span> instance, which is used to execute the
+search operation incrementally or all at once (see the <a href="sf_mw_locationsrv_locsrv_pub_landmarks_api.html" title="sf_mw_locationsrv_locsrv_pub_landmarks_api.html">Landmarks API</a> specification). If the
+operation is run incrementally, the client can check the operation progress
+between the incremental steps. <span class="plainlinks"><code>CPosLmItemIterator</code> </span> with
+the IDs of the search matches can be obtained from <span class="plainlinks"><code>CPosLandmarkSearch</code> </span>.
+</p><p><span class="plainlinks"><code>CPosLmMultiDbSearch</code> </span> is used to search for landmarks
+and landmark categories in several landmark databases. The client specifies
+the URIs of the landmark databases to be searched. <span class="plainlinks"><code>CPosLmMultiDbSearch</code> </span> returns
+a <span class="plainlinks"><code>CPosLmOperation</code> </span> instance, which is used to execute the
+search operation incrementally or all at once. If the operation is run incrementally,
+the client can check the operation progress between the incremental steps. <span class="plainlinks"><code>CPosLmItemIterator</code> </span> with
+the IDs of the search matches can be obtained from <span class="plainlinks"><code>CPosLmMultiDbSearch</code> </span>.
+</p><p><span class="plainlinks"><code>CPosLandmarkDatabase</code> </span>, <span class="plainlinks"><code>CPosLmItemIterator</code> </span> and <span class="plainlinks"><code>CPosLmOperation</code> </span> are
+parts of Landmarks API and they are described in the <a href="sf_mw_locationsrv_locsrv_pub_landmarks_api.html" title="sf_mw_locationsrv_locsrv_pub_landmarks_api.html">Landmarks API</a> specification.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_Search_API_Class_Structure.png" title="Landmarks API classes"><img alt="Landmarks API classes" border="0" height="588" src="images/SPB_10_1_Landmarks_Search_API_Class_Structure.png" width="826" /></a></div>
+<div style="text-align:center"><i>Landmarks API classes</i></div>
+<a name="Criterion_classes"><h4> <span class="mw-headline">1.4.2 Criterion classes </span></h4>
+</a><p><span class="plainlinks"><code>CPosLmSearchCriteria</code> </span> is a base class for search criterion
+classes in the Landmarks Search API. Criterion classes are used to specify what
+criteria a landmark must fulfill in order to be a search match. There are
+several search criterion classes in the Landmarks Search API.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_Search_API_Criteria_Class_Structure.png" title="Search criterion classes"><img alt="Search criterion classes" border="0" height="506" src="images/SPB_10_1_Landmarks_Search_API_Criteria_Class_Structure.png" width="807" /></a></div>
+<div style="text-align:center"><i>Search criterion classes</i></div>
+<table border="1" cellspacing="0">
+<tr bgcolor="gray">
+<th> Criterion class</th><th> Description
+</th></tr>
+<tr>
+<td> <span class="plainlinks"><code>CPosLmCategoryCriteria</code> </span></td><td> Used for searching landmarks, which contain a certain category, or landmarks, which do not contain any categories.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>CPosLmTextCriteria</code> </span></td><td> Used for searching landmarks, which contain a certain text.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>CPosLmAreaCriteria</code> </span></td><td> Used for searching landmarks, which reside in a certain area.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>CPosLmNearestCriteria</code> </span></td><td> Used for finding landmarks, which are closest to a certain coordinate.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>CPosLmCompositeCriteria</code> </span></td><td> Used for searching landmarks by combining multiple search criteria.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>CPosLmIdListCriteria</code> </span></td><td> Used if the client only wants to search a subset of the landmarks in a database.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>CPosLmCatNameCriteria</code> </span></td><td> Used for searching landmark categories with a certain name.
+</td></tr></table>
+<a name="Result_classes"><h4> <span class="mw-headline">1.4.3 Result classes </span></h4>
+</a><p>When using the landmark item iterator to retrieve search matches, the matches
+will not be sorted until the search operation has completed. If the client
+needs a sorted list of the matches before the search has completed, e.g. it
+wants to show matches in a sorted list as they are found to the application
+user, the display data feature should be used instead.
+</p><p>Before a search is started, the client specifies <span class="plainlinks"><code>CPosLmDisplayData</code> </span> to
+be used in the search. When the search is executing, the matching categories
+or landmarks are read from the database and added to <span class="plainlinks"><code>CPosLmDisplayData</code> </span>. <span class="plainlinks"><code>CPosLmDisplayItem</code> </span> holds
+the matching <span class="plainlinks"><code>CPosLandmark</code> </span> or <span class="plainlinks"><code>CPosLandmarkCategory</code> </span> together
+with the index of the database where the match was found. The database index
+is only used when searching in several databases.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_Search_API_Result_Class_Structure.png" title="Result classes"><img alt="Result classes" border="0" height="615" src="images/SPB_10_1_Landmarks_Search_API_Result_Class_Structure.png" width="767" /></a></div>
+<div style="text-align:center"><i>Result classes</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Searching_landmarks"><h3> <span class="mw-headline">2.1 Searching landmarks </span></h3>
+</a><p>The client uses <code>CPosLandmarkSearch</code> to search landmarks in a landmarks database.
+To create a <span class="plainlinks"><code>CPosLandmarkSearch</code> </span> instance, the client must
+specify a database to search in. A handle to an open database ( <span class="plainlinks"><code>CPosLandmarkDatabase</code> </span> instance)
+is passed to <span class="plainlinks"><code>CPosLandmarkSearch::NewL()</code> </span>.
+</p>
+<a name="Configuring_search"><h4> <span class="mw-headline">2.1.1 Configuring search </span></h4>
+</a><p><span class="plainlinks"><code>CPosLandmarkSearch</code> </span> can be configured by setting certain
+parameters described below.
+</p><p><b> Maximum number of matches</b>
+</p><p>The client can set a maximum number of matches by calling <span class="plainlinks"><code>CPosLandmarkSearch::SetMaxNumOfMatches()</code> </span>.
+The search operation stops if the maximum number of matches is reached.
+</p><p>If the client does not set a maximum, the search returns all the matches
+in the database. The client can also set this explicitly by passing <span class="plainlinks"><code>KPosLmMaxNumOfMatchesUnlimited</code> </span> to <span class="plainlinks"><code>CPosLandmarkSearch::SetMaxNumOfMatches()</code> </span>.
+</p><p><b> Search previous matches only</b>
+</p><p>If the <span class="plainlinks"><code>CPosLandmarkSearch</code> </span> instance has just finished
+a search, the client can specify that only these matches should be considered
+in the next search. This is specified by passing a boolean value to <span class="plainlinks"><code>CPosLandmarkSearch::StartLandmarkSearchL()</code> </span> when
+the search is started. In that way, the client can refine its search, for
+instance, if there are too many matches.
+</p><p>Searching previous matches is useful if there are too many matches and
+the application user wants to narrow down the search before listing all matches.
+</p><p>It is also possible to use <span class="plainlinks"><code>CPosLmIdListCriteria</code> </span> to search
+previous matches that are not immediate previous matches (see [Landmarks_Search_API_Specification.topicSearchCriteria Search criteria]).
+</p><p><b> Sort preference</b>
+</p><p>The client can specify that the matching landmarks or landmark categories
+should be sorted.
+</p><p>One of <span class="plainlinks"><code>CPosLandmarkSearch::StartLandmarkSearchL()</code> </span> method
+overloads takes <span class="plainlinks"><code>TPosLmSortPref</code> </span> as parameter. In TPosLmSortPref,
+the client can specify whether the landmarks should be sorted by name in ascending
+or descending order.
+</p>
+<a name="Specifying_search_criteria"><h4> <span class="mw-headline">2.1.2 Specifying search criteria </span></h4>
+</a><p>In order to specify what landmarks to search for, a client uses criterion
+classes. The criteria are passed to <span class="plainlinks"><code>CPosLandmarkSearch::StartLandmarkSearchL()</code> </span> when
+the search is started. In this section, each criterion class is explained.
+</p><p><b> Landmarks by category</b>
+</p><p><span class="plainlinks"><code>CPosLmCategoryCriteria</code> </span> is used to search for landmarks,
+which belong to a certain category. The category is specified in one of the
+following ways:
+</p>
+<ul><li> By category ID: A category in a landmark database is identified by an ID, which is unique within the database.
+</li><li> By global category: There is a globally defined list of categories, which can be used in multiple databases. The client can specify one of these by global ID.
+</li><li> By category name: The client can specify the name of the category. The name search is case sensitive. Wild card patterns are not supported. If no category is specified, the search operation retrieves uncategorized landmarks.
+</li></ul>
+<p>The predefined global landmark categories are listed in <a href="sf_mw_locationsrv_locsrv_pub_landmarks_api.html" title="sf_mw_locationsrv_locsrv_pub_landmarks_api.html">Landmarks API</a> Specification.
+</p><p><b> Matching text pattern</b>
+</p><p><span class="plainlinks"><code>CPosLmTextCriteria</code> </span> is used to search for landmarks,
+which contain a certain text. The criterion is defined by providing a text
+to search for and the position fields and text attributes to search in each
+landmark. For example, the user can search for "Chinese" in the landmark description
+and landmark name attributes.
+</p><p>The search is case insensitive.
+</p><p>If no position fields or landmark attributes to search are specified, all
+the position fields and landmark attributes are searched in each landmark.
+</p><p>Wild card characters are supported in the search string: "?" matches any
+single character and "*" matches zero or more consecutive characters.
+</p><p><b> Landmarks within an area</b>
+</p><p><span class="plainlinks"><code>CPosLmAreaCriteria</code> </span> is used to search for landmarks,
+which reside in a certain area. The search area is defined by providing two
+latitude and two longitude values that specify the borders of the area.
+</p><p>Note that this search does not consider landmark coverage radius (coverage
+radius is defined in <a href="sf_mw_locationsrv_locsrv_pub_landmarks_api.html" title="sf_mw_locationsrv_locsrv_pub_landmarks_api.html">Landmarks API</a>).
+</p><p>The area borders must fulfill the following rules:
+</p>
+<ul><li> -90 &lt;= South Latitude &lt;= North Latitude &lt;= +90
+</li><li> -180 &lt;= West Longitude &lt; +180
+</li><li> -180 &lt;= East Longitude &lt;= +180
+</li></ul>
+<p>The east border longitude can be less than the west border longitude. This
+defines an area, which crosses the 180 meridian.
+</p><p>If the east and west border longitudes are equal, only landmarks that lie
+on the specified longitude are returned. Similarly, if the north and south
+border latitudes are equal, only landmarks that lie on the specified latitude
+are returned.
+</p><p>If west longitude is set to -180 and east longitude is set to +180, all
+longitudes are included in the search.
+</p><p><b> Nearest landmarks</b>
+</p><p><span class="plainlinks"><code>CPosLmNearestCriteria</code> </span> is used to find the landmarks,
+which are closest to a certain coordinate. By default, the matches returned
+in the search are sorted in an ascending distance order.
+</p><p>Since this operation returns all the landmarks in the database by default,
+it is recommended to combine the nearest criteria with a limit on the number
+of matches. The match limit is set by calling <span class="plainlinks"><code>CPosLandmarkSearch::SetMaxNumOfMatches()</code> </span>.
+</p><p>It is often a good idea to specify a maximum distance to narrow down the
+search. This is done by calling <span class="plainlinks"><code>CPosLmNearestCriteria::SetMaxDistance()</code> </span>.
+</p><p>By default, the coverage radius of the landmarks is not considered in the
+search; that is, the distance to the landmark center point is used. The client
+can change this behavior by calling <span class="plainlinks"><code>CPosLmNearestCriteria::SetUseCoverageRadius()</code> </span>.
+If ETrue is passed to this function, coverage radius is considered; that is,
+the effective distance is the distance to the landmark center point minus
+the coverage radius. If the search coordinate lies within a landmark's coverage
+area, the effective distance is zero.
+</p><p><b> Composite criterion</b>
+</p><p><span class="plainlinks"><code>CPosLmCompositeCriteria</code> </span> is used to search for landmarks
+by combining multiple search criteria. For instance, to search for all restaurants
+in the area, this class can be used to combine <span class="plainlinks"><code>CPosLmAreaCriteria</code> </span> and <span class="plainlinks"><code>CPosLmCategoryCriteria</code> </span>.
+</p><p>The client combines the criteria by passing each criterion instance to <span class="plainlinks"><code>CPosLmCompositeCriteria::AddArgument()</code> </span>.
+</p><p>If <span class="plainlinks"><code>CPosLmNearestCriteria</code> </span> is used and no sort preference
+is specified, the result will be sorted by distance. If more than one <span class="plainlinks"><code>CPosLmNearestCriteria</code> </span> are
+combined using <span class="plainlinks"><code>CPosLmCompositeCriteria</code> </span>, the sort order
+will be undefined unless a sort preference is specified.
+</p><p>Note the following:
+</p>
+<ul><li> It is not allowed to use nested composite criterion.
+</li><li> ECompositionOR - is supported only when all the contained criteria are <span class="plainlinks"><code>CPosLmTextCriteria</code> </span>. It is not supported for other criteria.
+</li></ul>
+<p><b> ID list</b>
+</p><p><span class="plainlinks"><code>CPosLmIdListCriteria</code> </span> is used if the client only wants
+to search a subset of the landmarks in a database. The client passes a list
+of landmark IDs to specify which landmarks to include in the search.
+</p><p>This criterion must be combined with other search criteria using <span class="plainlinks"><code>CPosLmCompositeCriteria</code> </span>(see<i> Composite</i>
+criterion<i> above).</i>
+</p><p>For example, if this criterion is combined with <span class="plainlinks"><code>CPosLmTextCriteria</code> </span>,
+the search operation searches the landmarks specified in the ID list criterion
+and returns those that match the given text string.
+</p><p>Note that Only one ID list criterion is allowed in a composite criterion.
+</p>
+<a name="Executing_search"><h4> <span class="mw-headline">2.1.3 Executing search </span></h4>
+</a><p>A search for landmarks is started by calling <span class="plainlinks"><code>CPosLandmarkSearch::StartLandmarkSearchL()</code> </span>.
+</p><p>This function returns a <span class="plainlinks"><code>CPosLmOperation</code> </span> instance, which
+is used to execute the search operation. The operation can either be executed
+all at once or in incremental steps. An active object can be used to incrementally
+run the search in the background. <span class="plainlinks"><code>CPosLmOperation::ExecuteL()</code> </span> runs
+the operation all at once and <span class="plainlinks"><code>CPosLmOperation::NextStep()</code> </span> runs
+the operation incrementally. When the search is complete, the client must
+delete the <span class="plainlinks"><code>CPosLmOperation</code> </span> object.
+</p><p>Instead of calling <span class="plainlinks"><code>CPosLmOperation::ExecuteL()</code> </span>, the
+client can call the global function <code>ExecuteAndDeleteLD()</code>, which also deletes the operation object.
+</p>
+<pre>ExecuteAndDeleteLD( search-&gt;StartLandmarkSearchL( criteria ) );
+</pre>
+<p>If the search is run incrementally, the client is informed of the search
+progress. The client passes a TReal32 variable to <span class="plainlinks"><code>CPosLmOperation::NextStep()</code> </span> which
+contains the progress when NextStep() completes.
+</p><p>Progress is a floating point number in the interval (0.0, 1.0). 0.0 indicates
+that the operation has not started and 1.0 indicates that the operation has
+completed.
+</p><p>The client also passes <code>TRequestStatus</code> to <span class="plainlinks"><code>CPosLmOperation::NextStep()</code> </span>.
+The request status is set to <span class="plainlinks"><code>KPosLmOperationNotComplete</code> </span> if
+the step has completed, but more steps are needed before the operation is
+complete. The request status is <code>KErrNone</code> if the operation
+has finished successfully. The status is set to an error code if the operation
+has failed.
+</p><p>The IDs of the matches from the search can be retrieved by calling <span class="plainlinks"><code>CPosLandmarkSearch::MatchIteratorL()</code> </span>.
+It is possible to call it also during a search to retrieve any matches encountered
+so far, but it is not guaranteed that the matches are sorted. However, the
+matches in the iterator are always sorted, also during a search, if a display
+data is set to <span class="plainlinks"><code>CPosLandmarkSearch</code> </span> before the search is
+started.
+</p><p>The sequence diagram below shows how client searches landmarks by text
+criterion and reads matches from database.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_Search_API_Search_Sequence.png" title="Search landmarks sequence diagram"><img alt="Search landmarks sequence diagram" border="0" height="839" src="images/SPB_10_1_Landmarks_Search_API_Search_Sequence.png" width="840" /></a></div>
+<div style="text-align:center"><i>Search landmarks sequence diagram</i></div>
+<p>The following code example shows how to perform a search synchronously
+(not incrementally) in a landmark database.
+</p>
+<pre>// Create a search object and provide the CPosLandmarkDatabase object.
+CPosLandmarkSearch* search = CPosLandmarkSearch::NewL( *database );
+CleanupStack::PushL( search );
+
+// Create the search criterion
+_LIT( KSearchString, "flowers" );
+CPosLmTextCriteria* crit = CPosLmTextCriteria::NewLC();
+crit-&gt;SetTextL( KSearchString );
+
+// Start the search and execute it at once.
+ExecuteAndDeleteLD( search-&gt;StartLandmarkSearchL( *crit ) );
+
+CleanupStack::PopAndDestroy( crit );
+
+// Retrieve an iterator to access the matching landmarks.
+CPosLmItemIterator* iter = search-&gt;MatchIteratorL();
+CleanupStack::PushL( iter );
+
+// Iterate the search matches.
+TPosLmItemId lmID;
+while ( ( lmID = iter-&gt;NextL() ) != KPosLmNullItemId )
+    {
+    CPosLandmark* lm = database-&gt;ReadLandmarkLC( lmID );
+
+    // Do something with the landmark information
+
+    CleanupStack::PopAndDestroy( lm );
+    }
+
+CleanupStack::PopAndDestroy( iter );
+CleanupStack::PopAndDestroy( search );
+</pre>
+<p>The following example shows how to use composite criterion to search for
+restaurants, which contain the text "thai".
+</p>
+<pre>// Create the composite criterion
+CPosLmCompositeCriteria* compCrit = CPosLmCompositeCriteria::NewLC(
+    CPosLmCompositeCriteria::ECompositionAND );
+
+// Create the category search criterion and add it to composite
+_LIT( KCategoryName, "restaurant" );
+CPosLmCategoryCriteria* catCrit = CPosLmCategoryCriteria::NewLC();
+catCrit-&gt;SetCategoryNameL( KCategoryName );
+
+User::LeaveIfError( compCrit-&gt;AddArgument( catCrit ) );
+// Ownership of the category criterion has been passed to the composite
+CleanupStack::Pop( catCrit );
+
+// Create the text search criterion and add it to composite
+_LIT( KSearchString, "thai" );
+CPosLmTextCriteria* textCrit = CPosLmTextCriteria::NewLC();
+textCrit-&gt;SetTextL( KSearchString );
+
+User::LeaveIfError( compCrit-&gt;AddArgument( textCrit ) );
+// Ownership of the text criterion has been passed to the composite
+CleanupStack::Pop( textCrit );
+
+// Start the search
+ExecuteAndDeleteLD( search-&gt;StartLandmarkSearchL( *compCrit ) );
+CleanupStack::PopAndDestroy( compCrit );
+
+// Retrieve matches
+</pre>
+<p>The following example shows how to use composite criterion to search for
+landmark which start from latter "A" or " A" (space + A)", Example result
+for this type of search can be 'Apple' and ' My Apple'.
+</p>
+<pre>// Create the composite criterion
+CPosLmCompositeCriteria* compCrit = CPosLmCompositeCriteria::NewLC(
+    CPosLmCompositeCriteria::ECompositionOR );
+
+// Create the Text criterion and add it to composite
+_LIT( KFirstTextPattern, "A" );
+CPosLmTextCriteria* criteria1 = CPosLmTextCriteria::NewLC();
+criteria1-&gt;SetTextL(KFirstTextPattern);
+criteria1-&gt;SetAttributesToSearch(CPosLandmark::ELandmarkName);
+User::LeaveIfError( compCrit-&gt;AddArgument( criteria1 ) );
+
+// Ownership of the text criterion has been passed to the composite
+CleanupStack::Pop(criteria1);
+
+// Create the text search criterion and add it to composite
+_LIT( KSecondTextPattern, " A" );
+CPosLmTextCriteria* textCrit = CPosLmTextCriteria::NewLC();
+textCrit-&gt;SetTextL( KSecondTextPattern );
+textCrit-&gt;SetAttributesToSearch(CPosLandmark::ELandmarkName);
+User::LeaveIfError( compCrit-&gt;AddArgument( textCrit ) );
+// Ownership of the text criterion has been passed to the composite
+CleanupStack::Pop( textCrit );
+
+// Start the search
+ExecuteAndDeleteLD( search-&gt;StartLandmarkSearchL( *compCrit ) );
+CleanupStack::PopAndDestroy( compCrit );
+
+// Retrieve matches
+</pre>
+<a name="Retrieving_displayable_results"><h4> <span class="mw-headline">2.1.4 Retrieving displayable results </span></h4>
+</a><p>The client can specify a displayable data collection that will be populated
+with the matching landmarks or landmark categories during the search. This
+is done by creating a <span class="plainlinks"><code>CPosLmDisplayData</code> </span> instance and passing
+it to <span class="plainlinks"><code>CPosLandmarkSearch::SetDisplayData()</code> </span>. The display
+data object will be reset each time a new search is started.
+</p><p>The client can specify that only partial landmark data will be read from
+the database by calling <span class="plainlinks"><code>CPosLmDisplayData::SetPartialReadParametersL()</code> </span>.
+If the client does not set partial read parameters, full landmark data will
+be read. The client can also set this explicitly by calling <span class="plainlinks"><code>CPosLmDisplayData::UnsetPartialReadParametersL()</code> </span>.
+</p><p>When searching for categories, full category data is always read from the
+database.
+</p><p>The client can unset a previously set display data by calling <span class="plainlinks"><code>CPosLandmarkSearch::UnsetDisplayData()</code> </span>.
+</p><p>If display data has been set before the search is started, all matches
+from the search can be retrieved by calling <span class="plainlinks"><code>CPosLmDisplayData::DisplayItem()</code> </span> for
+all the indexes in the interval (0, <span class="plainlinks"><code>CPosLmDisplayData::Count()</code> </span>-
+1). By calling <span class="plainlinks"><code>CPosLmDisplayItem::Landmark()</code> </span> or <span class="plainlinks"><code>CPosLmDisplayItem::Category()</code> </span>,
+the client gets access to the match.
+</p><p>During a search, <span class="plainlinks"><code>CPosLmDisplayData::NewItemIndex()</code> </span> can
+be called repeatedly to get the index of each new match found and <span class="plainlinks"><code>CPosLmDisplayData::DisplayItem()</code> </span> can
+be called for each new index. The matches in the display data are always sorted,
+even during a search.
+</p><p>The following sequence diagram shows how to perform a search synchronously
+(not incrementally) in a landmark database using display data.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_Search_API_Single_Display_Sequence.png" title="Using display data sequence diagram"><img alt="Using display data sequence diagram" border="0" height="790" src="images/SPB_10_1_Landmarks_Search_API_Single_Display_Sequence.png" width="797" /></a></div>
+<div style="text-align:center"><i>Using display data sequence diagram</i></div>
+<p>The following example shows how to search a landmark database incrementally.
+The client also requests to sort the matches. The implementation is encapsulated
+in active object class <span class="plainlinks"><code>CSearchHandler</code> </span>.
+</p>
+<pre>class CSearchHandler : public CActive
+    {
+    public: // constructor and destructor
+
+        static CSearchHandler* NewL(CPosLandmarkDatabase* aDb);
+        virtual ~CSearchHandler();
+
+    public:
+
+        void StartLandmarkSearchL(CPosLmSearchCriteria* aCriteria);
+        void StartCategorySearchL(CPosLmSearchCriteria* aCriteria);
+
+        void NextSearchStep();
+        void CleanupSearch();
+
+    public: // from CActive
+
+        void RunL();
+        void DoCancel();
+        TInt RunError(TInt aError);
+
+    private:
+
+        CSearchHandler(CPosLandmarkDatabase* aDb);
+        void ConstructL();
+
+    private:
+        CPosLandmarkDatabase* iDb;
+        CPosLandmarkSearch* iSearch;
+        CPosLmDisplayData* iDisplayData;
+        CPosLmOperation* iSearchOperation;
+        TReal32 iProgress;
+        TBool iIsSearchingForLandmarks;
+    };
+
+CSearchHandler::CSearchHandler( CPosLandmarkDatabase* aDb )
+: CActive( EPriorityNormal ), iDb( aDb )
+    {
+    }
+
+void CSearchHandler::ConstructL()
+    {
+    iSearch = CPosLandmarkSearch::NewL( *iDb );
+
+    iDisplayData = CPosLmDisplayData::NewL();
+    iSearch-&gt;SetDisplayData( *iDisplayData );
+    }
+
+CSearchHandler* CSearchHandler::NewL( CPosLandmarkDatabase* aDb )
+    {
+    CSearchHandler* self = new (ELeave) CSearchHandler( aDb );
+    CleanupStack::PushL( self );
+    self-&gt;ConstructL();
+    CleanupStack::Pop();
+    return self;
+    }
+
+CSearchHandler::~CSearchHandler()
+    {
+    Cancel();
+    iSearch-&gt;UnsetDisplayData();
+    delete iDisplayData;
+    delete iSearch;
+    }
+
+void CSearchHandler::StartLandmarkSearchL( CPosLmSearchCriteria* aCriteria )
+    {
+    TPosLmSortPref sp( CPosLandmark::ELandmarkName, TPosLmSortPref::EAscending );
+    iSearchOperation = iSearch-&gt;StartLandmarkSearchL( *aCriteria, sp );
+    iIsSearchingForLandmarks = ETrue;
+
+    // Perform the first step in the incremental search operation.
+    NextSearchStep();
+    }
+
+void CSearchHandler::StartCategorySearchL( CPosLmSearchCriteria* aCriteria )
+    {
+    iSearch-&gt;StartCategorySearchL( *aCriteria,
+    CPosLmCategoryManager::ECategorySortOrderNameAscending );
+    iIsSearchingForLandmarks = EFalse;
+
+    // Perform the first step in the incremental search operation.
+    NextSearchStep();
+    }
+
+void CSearchHandler::NextSearchStep()
+    {
+    iSearchOperation-&gt;NextStep( iStatus, iProgress );
+    SetActive();
+    }
+
+void CSearchHandler::CleanupSearch()
+    {
+    // Delete the search operation. This will cancel the operation if it is not
+    // already complete.
+    delete iSearchOperation;
+    iSearchOperation = NULL;
+    }
+
+void CSearchHandler::RunL()
+    {
+    // Get all new matches since last step.
+    TInt newItemIndex = iDisplayData-&gt;NewItemIndex();
+    while ( newItemIndex != KPosLmNoNewItems )
+        {
+        CPosLmDisplayItem&amp; item = iDisplayData-&gt;DisplayItem( newItemIndex );
+        if (iIsSearchingForLandmarks)
+            {
+            const CPosLandmark&amp; lm = item.Landmark();
+            // Do something with the landmark information
+            }
+        else
+            {
+            const CPosLandmarkCategory&amp; category = item.Category();
+            // Do something with the landmark category information
+            }
+
+        newItemIndex = iDisplayData-&gt;NewItemIndex();
+        }
+
+    if ( iStatus == KPosLmOperationNotComplete )
+        {
+        // The search operation has not completed.
+        // Use value iProgress to show progress bar to the application user.
+
+        // Perform the next search step
+        NextSearchStep();
+        }
+    else
+        { // The search operation has completed.
+        User::LeaveIfError( iStatus.Int() );
+
+        CleanupSearch();
+        }
+    }
+
+void CSearchHandler::DoCancel()
+    {
+    CleanupSearch();
+    }
+
+TInt CSearchHandler::RunError( TInt /*aError*/ )
+    {
+    // Notify the application developer of error and cleanup.
+    CleanupSearch();
+    return KErrNone;
+    }
+</pre>
+<a name="Searching_categories"><h3> <span class="mw-headline">2.2 Searching categories </span></h3>
+</a><p>A search for landmark categories is started by calling <span class="plainlinks"><code>CPosLandmarkSearch::StartCategorySearchL()</code> </span>. All the other steps are similar to those for searching landmarks with a few exceptions.
+</p><p>Searching for categories supports only one search criterion, <span class="plainlinks"><code>CPosLmCatNameCriteria</code> </span>:
+search for landmark categories with a certain name. Wild card characters in
+the search string are supported: "?" matches any single character and "*"
+matches zero or more consecutive characters. The search is case insensitive.
+</p><p><span class="plainlinks"><code>CPosLandmarkSearch::StartCategorySearchL()</code> </span> takes <span class="plainlinks"><code>CPosLandmarkCategory::TCategorySortPref</code> </span> as
+parameter. It can be set to no sorting, ascending by category name or descending
+by category name.
+</p><p>Similarly to searching landmarks searching categories also supports limiting
+maximum amount of results and searching within previous results only.
+</p><p>Following code example shows how a client can search for categories, which
+contain word "food" (in order to find categories such as "Food and beverages" or 
+"Chinese food".).
+</p>
+<pre>// Create a search object and provide the CPosLandmarkDatabase object.
+CPosCategorySearch* search = CPosCategorySearch::NewL( *database );
+CleanupStack::PushL( search );
+
+// Create the search criterion
+_LIT( KSearchString, "*food*" ); // using wildcards
+CPosLmCatNameCriteria* crit = CPosLmCatNameCriteria::NewLC();
+crit-&gt;SetTextL( KSearchString );
+
+// Start the search and execute it at once.
+ExecuteAndDeleteLD( search-&gt;StartLandmarkSearchL( *crit ) );
+
+CleanupStack::PopAndDestroy( crit );
+
+// Retrieve an iterator to access the matching landmarks.
+CPosLmItemIterator* iter = search-&gt;MatchIteratorL();
+CleanupStack::PushL( iter );
+
+// Iterate the search matches.
+TPosLmItemId categoryID;
+while ( ( categoryID = iter-&gt;NextL() ) != KPosLmNullItemId )
+    {
+    CPosLandmarkCategory* category = database-&gt;ReadCategoryLC( categoryID );
+
+    // Do something with the category information
+
+    CleanupStack::PopAndDestroy( category );
+    }
+
+CleanupStack::PopAndDestroy( iter );
+CleanupStack::PopAndDestroy( search );
+</pre>
+<a name="Search_multiple_databases"><h3> <span class="mw-headline">2.3 Search multiple databases </span></h3>
+</a><p>Searching for landmarks or landmark categories in multiple landmark databases is similar to searching in one database.
+</p><p>The client creates a <span class="plainlinks"><code>CPosLmMultiDbSearch</code> </span> instance by passing an array containing the URIs of the landmark databases to search to <span class="plainlinks"><code>CPosLmMultiDbSearch::NewL()</code> </span>. The client can also change which databases to search by calling <span class="plainlinks"><code>CPosLmMultiDbSearch::SetDatabasesToSearchL()</code> </span>.
+</p><p>However, there are some restrictions on the criterion classes and some
+extra functionality needed to handle several databases:
+</p><p><b>Configuring search</b>
+</p>
+<ul><li> Setting a maximum number of matches limits the number of matches per database.
+</li><li> If the client specifies to search only the previous matches and has changed which databases to search, new databases that is not a part of the previous search generates no matches.
+</li></ul>
+<p><b>Search criteria</b>
+</p>
+<ul><li> Search by category ID in <span class="plainlinks"><code>CPosLmCategoryCriteria</code> </span> is not allowed since an ID is only valid in one landmark database.
+</li><li> Search with <span class="plainlinks"><code>CPosLmIdListCriteria</code> </span> is not allowed because an ID is only valid in one landmark database.
+</li></ul>
+<p><b>Error checking</b>
+</p>
+<ul><li> If an error occurs when executing a search operation, the search in the database where the error occurs will be terminated and the search will then continue in the remaining databases. This means that <span class="plainlinks"><code>CPosLmOperation::ExecuteL()</code> </span> never leaves and <span class="plainlinks"><code>CPosLmOperation::NextStep()</code> </span> does not complete with an error code (The only exception is when the client has an outstanding request when canceling the search, in which case the complete code is <code>KErrCancel</code>). Instead, <span class="plainlinks"><code>CPosLmMultiDbSearch</code> </span> must be checked for any errors encountered during the search.
+</li><li> The client can check the number of errors encountered during the search by calling <span class="plainlinks"><code>CPosLmMultiDbSearch::NumOfSearchErrors()</code> </span>. Each error can be fetched by calling <span class="plainlinks"><code>CPosLmMultiDbSearch::GetSearchError()</code> </span> and passing the index of the error.
+</li></ul>
+<p><b>Retrieving results</b>
+</p>
+<ul><li> IDs of the matches from the search can be retrieved per database therefore the client must specify the index of the database.
+</li><li> The display data contains matches from all databases. Each display item contains the index of the database where the match is found.
+</li></ul>
+<p><b>Releasing resources</b>
+</p>
+<ul><li> The Landmarks subsystem uses ECom plug-ins, which provide the implementation for accessing landmark databases. ECom allocates resources that are not released when the plug-in is unloaded. These must be explicitly released by the client at shutdown. This is done by calling the global method <code>ReleaseLandmarkResources()</code> which has the same effect as <span class="plainlinks"><code>REComSession::FinalClose()</code> </span>. The most common way to release landmark resources is to call <code>ReleaseLandmarkResources</code>) last thing in the client's destructor. If this is not performed, the client may receive an ALLOC panic.
+</li></ul>
+<p>This example shows how to perform a search synchronously (not incrementally)
+in multiple landmark databases.
+</p>
+<pre>void SearchInDatabasesL( const CDesCArray&amp; aDatabaseURIs )
+{
+// Create a multi search object and provide a list of database URIs.
+CPosLmMultiDbSearch* search = CPosLmMultiDbSearch::NewL( aDatabaseURIs );
+CleanupStack::PushL( search );
+
+// Create a display data object.
+CPosLmDisplayData* displayData = CPosLmDisplayData::NewL();
+CleanupStack::PushL( displayData );
+
+// Set the display data to the search object.
+search-&gt;SetDisplayData( *displayData );
+
+// Create the search criterion
+_LIT( KSearchString, "flowers" );
+CPosLmTextCriteria* crit = CPosLmTextCriteria::NewLC();
+crit-&gt;SetTextL( KSearchString );
+
+// Start the search and execute it all at once.
+ExecuteAndDeleteLD( search-&gt;StartLandmarkSearchL( *crit ) );
+CleanupStack::PopAndDestroy( crit );
+
+// Check if any errors occurs.
+TUint numOfErrors = search-&gt;NumOfSearchErrors();
+for ( TUint i = 0; i &lt; numOfErrors; i++ )
+    {
+    CPosLmMultiDbSearch::TSearchError searchError;
+    search-&gt;GetSearchError( i, searchError );
+    // Handle errors.
+    }
+
+// Iterate the search matches.
+for ( TInt i = 0; i &lt; displayData-&gt;Count(); i++ )
+    {
+    const CPosLandmark&amp; lm = displayData-&gt;DisplayItem( i ).Landmark();
+    // Do something with the landmark information
+    }
+
+// Unset display data collection so that it is not reset by next search
+search-&gt;UnsetDisplayData();
+
+CleanupStack::PopAndDestroy( displayData );
+CleanupStack::PopAndDestroy( search );
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.4 Error handling </span></h3>
+</a><p>The Landmarks Search API uses the standard Symbian error reporting mechanism. In case of a serious error, panics are used, otherwise, errors are reported through return codes or leaves.
+</p><p>The Landmarks Search API uses the same panic code category as the Landmarks API. The panic codes are documented in the <a href="sf_mw_locationsrv_locsrv_pub_landmarks_api.html" title="sf_mw_locationsrv_locsrv_pub_landmarks_api.html">Landmarks API</a> specification.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.5 Memory and Performance Considerations </span></h3>
+</a><p>If there are several matches (more than 1000) in a search, a large amount
+of memory is needed to store the matches. Therefore, it is recommended 
+to set a maximum number of matches before starting the search. However,note that it is the first found matches that are retrieved. For example, if the maximum number of matches is set when searching in the sorted order, the result
+can be no match even if its name is in the beginning of the sorted order.
+</p>
+<a name="Security_issues"><h3> <span class="mw-headline">2.6 Security issues </span></h3>
+</a><p>Landmarks are considered as important user data and this applies some access
+limitations to client applications. For example, in order to be able to read
+landmarks from landmark database, clients must have the <code>ReadUserData</code> capability.
+The <code>NetworkServices</code> capability is required to access network-based databases.
+Whenever special capabilities are needed to utilize a class or method, they
+are listed in appropriate class and method descriptions.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.1 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> Landmark</td><td> A landmark is a named object that contains a location. The location can be defined by various attributes, for example WGS84 coordinates or a textual address.
+</td></tr>
+<tr>
+<td> Landmark attribute</td><td> An attribute of a landmark, such as an landmark name, position, landmark description or coverage area. For more information, see the </td></tr></table></a><a href="sf_mw_locationsrv_locsrv_pub_landmarks_api.html" title="sf_mw_locationsrv_locsrv_pub_landmarks_api.html">Landmarks API</a> specification.
+
+<tr>
+<td> Landmark category</td><td> A landmark can be categorized by assigning a landmark category to it. A typical landmark category is "Restaurant".
+</td></tr>
+<tr>
+<td> Landmark database</td><td> Persistent storage of a collection of landmarks and landmark categories.
+</td></tr>
+<tr>
+<td> Position fields</td><td> Generic position fields defined in Location Acquisition API (see <b class="new">Location Acquisition API</b>)such as the street name, country, building name.
+</td></tr>
+<div class="copy"><?php include ("copy.html"); ??></div></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_locationsrv_locsrv_pub_landmarks_search_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:06 GMT -->
+</html>

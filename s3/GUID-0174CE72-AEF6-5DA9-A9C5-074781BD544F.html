@@ -1,0 +1,50 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-0174CE72-AEF6-5DA9-A9C5-074781BD544F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:04:28 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Window Server Sessions" /><meta name="abstract" content="Each application uses a Window Server session to communicate with the Window Server." /><meta name="description" content="Each application uses a Window Server session to communicate with the Window Server." /><meta name="DC.Relation" scheme="URI" content="GUID-890F06C6-DE32-5EB1-BF0F-D41794F47AE1" /><meta name="DC.Relation" scheme="URI" content="GUID-1F9A47CE-7F4C-52BD-8823-25D5D1BEF42F" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-1F9A47CE-7F4C-52BD-8823-25D5D1BEF42F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0174CE72-AEF6-5DA9-A9C5-074781BD544F" /><meta name="DC.Language" content="en" /><title>Window
+Server Sessions </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0174CE72-AEF6-5DA9-A9C5-074781BD544F">Window
+Server Sessions</h1><div><p>Each application uses a Window Server session to communicate with
+the Window Server. </p>
+<p>Through the session, the application may control and interrogate </p>
+<ul>
+<li id="GUID-81DEE250-87BC-5C47-91E5-B8E480884111"><a name="GUID-81DEE250-87BC-5C47-91E5-B8E480884111"><!-- --></a><p>its own windows </p> </li>
+<li id="GUID-7F8F429D-AD79-5634-A815-CE7DB12F2866"><a name="GUID-7F8F429D-AD79-5634-A815-CE7DB12F2866"><!-- --></a><p>which events it wishes
+to receive </p> </li>
+<li id="GUID-E86BCF17-F124-5CE5-B07B-704BBD020F97"><a name="GUID-E86BCF17-F124-5CE5-B07B-704BBD020F97"><!-- --></a><p>all other window groups
+connected to the Window Server </p> </li>
+</ul>
+<p>The Window Server session provides a low-level interface for application
+programs’ use, using asynchronous services. To support an application framework,
+these services should be made higher-level, and the asynchronous services
+should be encapsulated into active objects. This function is performed by
+the UI control framework. The control framework is the basis for the GUI.
+Each event is then handled by the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CActive'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CActive']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">CActive::RunL()</code></a> member
+function of an active object. </p>
+<p>The <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CActive'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CActive']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">RWsSession</code></a> class represents a <em>session</em> from
+the client to the Window Server. Through an <code class="codeph">RWsSession</code>, the
+client program controls all its own windows, issues asynchronous requests
+for up to three types of event, and may in addition control certain system-wide
+Window Server behavior. </p>
+<p>The <code class="codeph">RWsSession</code> is a client-server session derived from <code class="codeph">RSessionBase</code>.
+In a typical application, an <code class="codeph">RWsSession</code> owns a single <em>window
+group</em>, but the Window Server architecture allows more than one window
+group per session. An application owns several windows. See <a href="GUID-D68E0A64-0E8A-5C52-9C5B-93BA3B80C200.html">Window
+Groups and Applications</a>. </p>
+<p>The Window Server session delivers events to the application via three
+event streams. A typical application handles each stream using an active object.
+See <a href="GUID-08427065-B8E5-5194-B095-3B5213836BED.html">Window Server Client-Side
+Events</a>. </p>
+<p>The application draws to its windows using a <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CActive'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CActive']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">CWindowGc</code></a>.
+Draw functions are buffered in a client-side buffer in order to minimize client/server
+context switches. This buffer is flushed in certain circumstances by the Window
+Server and can also be flushed explicitly by the application. The <code class="codeph">Flush()</code> and <code class="codeph">SetAutoFlush()</code> functions
+are part of the <code class="codeph">RWsSession</code> API. The <code class="codeph">RWsBuffer</code> is
+privately owned by an <code class="codeph">RWsSession</code> and is not as such part
+of the API. See <a href="GUID-E5CDDA05-CD86-5C44-B9DA-3249D9C14396.html">Client-Side
+Buffer</a> </p>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-890F06C6-DE32-5EB1-BF0F-D41794F47AE1.html">Active objects</a></li><li><a href="GUID-1F9A47CE-7F4C-52BD-8823-25D5D1BEF42F.html">Window Server
+Client-Side Library                 Concepts</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 21st, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-0174CE72-AEF6-5DA9-A9C5-074781BD544F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:04:28 GMT -->
+</html>

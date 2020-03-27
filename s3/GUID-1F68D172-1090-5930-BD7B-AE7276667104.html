@@ -1,0 +1,24 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1F68D172-1090-5930-BD7B-AE7276667104.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:14 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to create streams" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FBCBF8A0-7922-5881-A1C5-5DB41630E75A" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-3FAB9077-3EC3-5539-B391-D11456362513" /><meta name="DC.Relation" scheme="URI" content="GUID-D7211372-9411-5A18-88F0-615F4983A2E0" /><meta name="DC.Relation" scheme="URI" content="GUID-5B6BF7FA-21D2-5A63-8217-6D36F6B8C033" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1F68D172-1090-5930-BD7B-AE7276667104" /><meta name="DC.Language" content="en" /><title>How to create streams </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1F68D172-1090-5930-BD7B-AE7276667104">How to create streams</h1><div><div><h3 class="section-title">Write streams</h3> <p>The following code fragment shows how a write stream is created. A write stream is represented by an instance of the <code class="codeph">RStoreWriteStream</code> class and an object of this type can be created on the program stack.</p> <p>Use the <code class="codeph">CreateL()</code> or <code class="codeph">CreateLC()</code> member function of <code class="codeph">RStoreWriteStream</code> to create a new stream in a store and return its stream ID.</p> <pre class="codeblock">...
+RStoreWriteStream outstream;
+TStreamId id = outstream.CreateLC(*store);
+...
+CleanupStack::PopAndDestroy();
+...</pre> <p><code class="codeph">store</code> is a pointer to an already opened stream store.</p> <p>Some stores allow their existing streams to be modified, for example, by overwriting or appending. To open an existing stream for overwriting, use <code class="codeph">OpenL()</code> or <code class="codeph">OpenLC()</code> and identify both the store and the stream:</p> <pre class="codeblock">...
+RStoreWriteStream outstream;
+TStreamId id;
+...
+outstream.CreateLC(*store,id);
+...
+CleanupStack::PopAndDestroy();
+...</pre> <p>In this code fragment, the id of the stream must be known before calling <code class="codeph">CreateLC()</code>.</p> <p>Note that not all store types support the modification of existing streams. An attempt to open an existing stream for modification for these store types will <em>fail</em>. A direct file store is an example of a store which does <em>not</em> support the modification of existing streams. </p> </div> <div><h3 class="section-title">Read streams</h3> <p>The following code fragment shows how a read stream is created. A read stream is represented by an instance of the <code class="codeph">RStoreReadStream</code> class and an object of this type can be created on the program stack.</p> <p>Use the <code class="codeph">OpenL()</code> or <code class="codeph">OpenLC()</code> member function of <code class="codeph">RStoreReadStream</code> to open a stream for reading.</p> <pre class="codeblock">RStoreReadStream instream;
+TStream id;
+...
+instream.OpenLC(*store,id);
+...</pre> <p><code class="codeph">store</code> is a pointer to an already opened stream store.</p> <p><code class="codeph">id</code> identifies the stream to be opened.</p> </div> </div></div></div><div class="footer"><p class="metadata">Last updated October 10th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1F68D172-1090-5930-BD7B-AE7276667104.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:14 GMT -->
+</html>

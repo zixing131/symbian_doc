@@ -1,0 +1,350 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D043376C-29D2-5196-96F4-15E99CFB5639.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:06 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="RSubConnection API Tutorial" /><meta name="abstract" content="How to use an RSubConnection." /><meta name="description" content="How to use an RSubConnection." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-B144EAB9-53AB-579B-9E12-B16518E4FC01" /><meta name="DC.Relation" scheme="URI" content="GUID-B5E17404-4D2D-5EE3-B30B-DFDC5E0739FF" /><meta name="DC.Relation" scheme="URI" content="GUID-9A20701F-5744-5F5F-BB0C-AB58EFB7D087" /><meta name="DC.Relation" scheme="URI" content="GUID-550ED2C7-C2F1-5D48-AC5A-C652EB51FCA8" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D043376C-29D2-5196-96F4-15E99CFB5639" /><meta name="DC.Language" content="en" /><title> RSubConnection API Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D043376C-29D2-5196-96F4-15E99CFB5639"> RSubConnection API Tutorial</h1><div><p>How to use an <code class="codeph">RSubConnection</code>. </p>
+<div id="GUID-254081A7-16C0-45C5-B964-4B47D6EB4590"><h3 class="section-title">Procedure</h3> <ol id="GUID-C81387B5-9ED3-59ED-A5DC-C6FE807B2E1C">
+<li id="GUID-46077726-D57D-5A89-A022-D1EDD45FFE3C"><a name="GUID-46077726-D57D-5A89-A022-D1EDD45FFE3C"><!-- --></a><p>Use the <code class="codeph">Open()</code> method to open an <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html"><code class="apiname">RSubConnection</code></a> object on an ESOCK session. </p> <p>The <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> must already be active. A sub-connection type is passed as a parameter
+to this method. It is then attached to the default sub-connection
+that is the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a>, or creates a sub-connection.
+When an application calls the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html"><code class="apiname">RSubConnection</code></a> API,
+a system wide error code is returned. When it is successful, it returns <code class="codeph">KErrNone</code>. </p> </li>
+<li id="GUID-32926A01-B170-5413-8FAC-0022F80EE1D1"><a name="GUID-32926A01-B170-5413-8FAC-0022F80EE1D1"><!-- --></a><p>Use the <code class="codeph">Add()</code> method to move the socket from the default sub-connection
+to the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html"><code class="apiname">RSubConnection</code></a>. </p> </li>
+<li id="GUID-BD4E28EF-3DAA-5DC5-8F68-2889C4B826B9"><a name="GUID-BD4E28EF-3DAA-5DC5-8F68-2889C4B826B9"><!-- --></a><p>The <code class="codeph">Remove()</code> method returns the socket to the default sub-connection. </p> </li>
+<li id="GUID-49044666-971D-59E6-8FBB-3AD1410726B7"><a name="GUID-49044666-971D-59E6-8FBB-3AD1410726B7"><!-- --></a><p>Use the <code class="codeph">GetParameters()</code> and <code class="codeph">SetParameters()</code> methods
+are to retrieve and set bundles of properties on the sub-connection. </p> </li>
+<li id="GUID-FC5ABE8D-AA9C-502B-8E9F-BC8F2ECB2D1F"><a name="GUID-FC5ABE8D-AA9C-502B-8E9F-BC8F2ECB2D1F"><!-- --></a><p>The <code class="codeph">GetParameters()</code> returns <code class="codeph">KErrNotReady</code> if
+properties are not negotiated. </p> </li>
+<li id="GUID-1B1C7EE8-2B94-5BC9-9797-9D560C5F8E39"><a name="GUID-1B1C7EE8-2B94-5BC9-9797-9D560C5F8E39"><!-- --></a><p>The <code class="codeph">SetParameters()</code> method, like the <code class="codeph">Add()</code> and <code class="codeph">Remove()</code> methods returns an error code indicating the success
+or failure of the request to perform the action. </p> </li>
+<li id="GUID-CB745754-DF5D-5392-BA7C-79CB5DA2F708"><a name="GUID-CB745754-DF5D-5392-BA7C-79CB5DA2F708"><!-- --></a><p>When the properties
+are negotiated either the <code class="codeph">CSubConGenEventParamsGranted</code> or <code class="codeph">CSubConGenEventParamsRejected</code> event is notified
+for each family within the parameter bundle. </p> </li>
+<li id="GUID-4D290B37-0C6D-5794-A8C7-3CCDF872FCA8"><a name="GUID-4D290B37-0C6D-5794-A8C7-3CCDF872FCA8"><!-- --></a><p>Use the <code class="codeph">EventNotification()</code> methods to asynchronously register for
+event notifications. </p> <p>The methods support filtering of events
+in two different ways, through a Boolean flag to receive notification
+of generic or all events, and through an array of <code class="codeph">TEventFilter</code>. </p> </li>
+<li id="GUID-9728A1AA-E0AC-589D-A251-B46CB369F90E"><a name="GUID-9728A1AA-E0AC-589D-A251-B46CB369F90E"><!-- --></a><p>Use <code class="codeph">CancelEventNotification()</code> method cancel the registration
+for event notifications. </p> </li>
+</ol> </div>
+<div><h3 class="section-title">Connecting to the default SubConnection example</h3> <p>In the following example, the application connects to the default
+sub-connection to set the properties. When it has set properties on
+the default sub-connection, the application tries to connect a socket
+over the default sub-connection. </p> <pre class="codeblock">RSocketServ ss;
+RConnection conn;
+RSubConnection subconn;
+RSocket sock;
+TRequestStatus status;
+
+// Connect to ESOCK
+ss.Connect();
+
+// Open a Connection
+conn.Open(ss, KAfInet);
+
+// Start the connection
+conn.Start(status);
+User::WaitForRequest(status);
+
+// Attach to the default sub-connection
+subconn.Open(ss, RSubConnection::EAttachToDefault, conn);
+
+// Set Properties of the default sub-connection
+subconn.SetParameters(…);
+
+// Open a TCP socket on the connection (this is the same as using the default sub-connection)
+sock.Open(ss, KAfInet, KSockStream, KProtocolInetTcp, conn);
+
+_LIT(KRasAddr,"10.159.24.13");
+const TInt KEchoPort = 7;
+
+TInetAddr destAddr;
+destAddr.Input(KRasAddr);
+destAddr.SetPort(KEchoPort);
+
+// Request the Socket to connect to the destination over the default sub-connection
+sock.Connect(destAddr, status);
+</pre> </div>
+<div id="GUID-D707232A-A1B5-4F8F-98D4-D6EBC253DF94"><h3 class="section-title">Creating
+a sub-connection - Socket connected over the           SubConnection
+example</h3> <p>The following example shows how an application
+can use a sub-connection through an <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html"><code class="apiname">RSubConnection</code></a> instance. It attaches an <code class="codeph">RSocket</code> to the sub-connection. </p> <pre class="codeblock">RSocketServ ss;
+RConnection conn;
+RSubConnection subconn;
+RSocket sock;
+TRequestStatus status;
+
+// Connect to ESOCK
+ss.Connect();
+
+// Open an Connection
+conn.Open(ss, KAfInet);
+
+// Start the connection
+conn.Start(status);
+User::WaitForRequest(status);
+
+// Create a new sub-connection
+subconn.Open(ss, RSubConnection::ECreateNew, conn);
+
+// Set Properties of the sub-connection
+subconn.SetParameters(…);
+
+// Open a TCP socket on the sub-connection
+sock.Open(ss, KAfInet, KSockStream, KProtocolInetTcp, subconn);
+
+_LIT(KRasAddr,"10.159.24.13");
+const TInt KEchoPort = 7;
+
+TInetAddr destAddr;
+destAddr.Input(KRasAddr);
+destAddr.SetPort(KEchoPort);
+
+// Request the Socket to connect to the destination over the sub-connection
+sock.Connect(destAddr, status);
+</pre> </div>
+<div id="GUID-0766B25A-8073-47E7-A86E-4D172D050064"><h3 class="section-title">Creating
+a new sub-connection - Adding an already connected           socket
+example</h3> <p>The following example shows how an application
+can use a sub-connection through an <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html"><code class="apiname">RSubConnection</code></a> instance. It attaches a connected <code class="codeph">RSocket</code> to the
+sub-connection. </p> <pre class="codeblock">RSocketServ ss;
+RConnection conn;
+RSubConnection subconn;
+RSocket sock;
+TRequestStatus status;
+
+// Connect to ESOCK
+ss.Connect();
+
+// Open a Connection
+conn.Open(ss, KAfInet);
+
+// Start the connection
+conn.Start(status);
+User::WaitForRequest(status);
+
+// Open a TCP socket on the connection
+sock.Open(ss, KAfInet, KSockStream, KProtocolInetTcp, conn);
+
+_LIT(KRasAddr,"10.159.24.13");
+const TInt KEchoPort = 7;
+
+TInetAddr destAddr;
+destAddr.Input(KRasAddr);
+destAddr.SetPort(KEchoPort);
+
+// Connect the Socket to the destination over the connection (default sub-connection)
+sock.Connect(destAddr, status);
+
+// Create a new sub-connection
+subconn.Open(ss, RSubConnection::ECreateNew, conn);
+
+// Set Properties of the sub-connection
+subconn.SetParameters(…);
+
+// Move the connected socket onto the new sub-connection
+TRequestStatus status;
+subconn.Add(sock, status);
+
+// Wait for socket to added
+User::WaitForRequest(status);
+</pre> </div>
+<div id="GUID-BC00A713-123E-401D-9E99-BE52C920D71B"><h3 class="section-title">Creating
+and setting properties for a SubConnection           example</h3> <p>The following example shows how an application creates and sets
+the QoS properties. It assigns the properties to a sub-connection. </p> <pre class="codeblock">// Create the container for all sub connection parameters
+RSubConParameterBundle subconParams;
+CleanupClosePushL(subconParams);
+
+// Create a container for QoS sub connection parameters (Param bundle takes ownership)
+CSubConParameterFamily* qosFamily = CSubConParameterFamily::NewL(subconParams,
+    KSubConQoSFamily);
+
+// Create the requested generic parameter set for QoS (Qos family takes ownership)
+CSubConQosGenericParamSet* reqGenericParams = CSubConQosGenericParamSet::NewL(*qosFamily,                               
+    CSubConParameterFamily::ERequested);
+
+// Set the requested Generic Parameters
+reqGenericParams-&gt;SetDownlinkBandwidth(128);
+reqGenericParams-&gt;SetUplinkBandwidth(64);
+
+// Create the acceptable generic parameter set for QoS (Qos family takes ownership)
+CSubConQosGenericParamSet* accGenericParams = CSubConQosGenericParamSet::NewL(*qosFamily,                               
+    CSubConParameterFamily::EAcceptable);
+
+// Set the acceptable Generic Parameters
+accGenericParams-&gt;SetDownlinkBandwidth(48);
+accGenericParams-&gt;SetUplinkBandwidth(32);
+
+// Create a requested technology specific parameter set for QoS (Qos family takes ownership)
+CSubConQosR99ParamSet* reqRel99Params = CSubConQosR99ParamSet::NewL(*qosFamily,
+    CSubConParameterFamily::ERequested);
+
+// Set the requested Technology Specific Params
+reqRel99Params-&gt;SetMaxSDUSize(1024);
+
+// Create a acceptable technology specific parameter set for QoS (Qos family takes ownership)
+CSubConQosR99ParamSet* accRel99Params = CSubConQosR99ParamSet::NewL(*qosFamily,
+    CSubConParameterFamily::EAcceptable);
+
+// Set the acceptable Technology Specific Params
+accRel99Params-&gt;SetMaxSDUSize(512);
+
+// Now open the sub-connection as normal…
+………
+………
+// Create a new sub-connection
+subconn.Open(ss, RSubConnection::ECreateNew, conn);
+
+// Set Properties of the sub-connection
+subconn.SetParameters(subconParams);
+
+// Destroy parameters
+CleanupStack::PopAndDestroy();         // subconParams
+
+// Open a TCP socket on the sub-connection
+sock.Open(ss, KAfInet, KSockStream, KProtocolInetTcp, subconn);
+
+_LIT(KRasAddr,"10.159.24.13");
+const TInt KEchoPort = 7;
+
+TInetAddr destAddr;
+destAddr.Input(KRasAddr);
+destAddr.SetPort(KEchoPort);
+
+// Connect the Socket to the destination over the sub-connection
+sock.Connect(destAddr, status);
+User::WaitForRequest(status);
+
+// Fetch the granted qos
+RSubConParameterBundle grantedParams;
+subconn.GetParameters(grantedParams);
+</pre> </div>
+<div id="GUID-781F3343-94E7-4BF5-8840-0CDFFB0B99B2"><h3 class="section-title">Registering
+for events example</h3> <p>The following example shows how an application
+can register events that occur on a sub-connection. In this example
+the application registers for notification of all events. </p> <pre class="codeblock">// Create the container for all sub connection parameters
+RSubConParameterBundle subconParams;
+CleanupClosePushL(subconParams);
+
+………
+………
+// Create and initialise parameters sets as above
+………
+………
+
+// Create a new sub-connection
+subconn.Open(ss, RSubConnection::ECreateNew, conn);
+
+TNotificationEventBuf eventBuffer;
+TRequestStatus eventStatus;
+subconn.EventNotification(eventBuffer, EFalse, eventStatus);
+
+// Set Properties of the sub-connection
+subconn.SetParameters(subconParams);
+
+// Destroy parameters
+CleanupStack::PopAndDestroy();         // subconParams
+
+// Open and connect a TCP socket on the sub-connection
+sock.Open(ss, KAfInet, KSockStream, KProtocolInetTcp, subconn);
+sock.Connect(destAddr, status);
+User::WaitForRequest(status);
+
+// Negotiation may not occur until a socket is assigned to the sub-connection
+// First event should be cSubConGenEventDataClientJoining
+User::WaitForRequest(eventStatus);
+
+// Next we’d expect a CSubconGenEventParamsGranted/ CSubconGenEventParamsRejected
+subconn.EventNotification(eventBuffer, EFalse, eventStatus);
+User::WaitForRequest(eventStatus);
+</pre> <p><strong>Registering for events – Using filters</strong> </p> <p>The following example code shows how to register for specific
+events using filters. In this example the application registers for
+notification when sub-connection parameters are granted or rejected.
+Each TEventFilter contains events of the factory
+UID and mask of event IDs. </p> <pre class="codeblock">// Create the container for all sub connection parameters
+RSubConParameterBundle subconParams;
+CleanupClosePushL(subconParams);
+
+………
+………
+// Create and initialise parameters sets as above
+………
+………
+
+// Create a new sub-connection
+subconn.Open(ss, RSubConnection::ECreateNew, conn);
+
+// Create event filter
+TEventFilter filter;
+filter.iEventGroupUid = KSubConnGenericEventsImplUid;
+filter.iEventMask = KSubConGenericEventParamsRejected | KSubConGenericEventParamsGranted;
+
+// Register for event
+TNotificationEventBuf eventBuffer;
+TRequestStatus eventStatus;
+subconn.EventNotification(eventBuffer, &amp;filter, 1, eventStatus);
+
+// Set Properties of the sub-connection
+subconn.SetParameters(subconParams);
+
+// Destroy parameters
+CleanupStack::PopAndDestroy();         // subconParams
+
+// Open and connect a TCP socket on the sub-connection
+sock.Open(ss, KAfInet, KSockStream, KProtocolInetTcp, subconn);
+sock.Connect(destAddr, status);
+User::WaitForRequest(status);
+
+// Event should be CSubconGenEventParamsGranted/CSubconGenEventParamsRejected
+User::WaitForRequest(eventStatus);
+</pre> </div>
+<div id="GUID-6FDFB388-B265-4A7B-9752-AC75DF6C3995"><h3 class="section-title">Extracting
+information from received events example</h3> <p>The following
+example code shows how to extract the information contained within
+an event notification when it is received. </p> <pre class="codeblock">// Create the container for all sub connection parameters
+RSubConParameterBundle subconParams;
+CleanupClosePushL(subconParams);
+
+………
+………
+// Create and initialise parameters sets as above
+………
+………
+
+// Create a new sub-connection
+subconn.Open(ss, RSubConnection::ECreateNew, conn);
+
+// Create filter, register for events, and set parameters as above
+……
+subconn.EventNotification(eventBuffer, &amp;filter, 1, eventStatus);
+……
+
+// Open and connect a TCP socket on the sub-connection
+……
+
+// Receive the event notification
+User::WaitForRequest(eventStatus);
+
+CSubConNotificationEvent* event;
+event = CSubConNotificationEvent::NewL(eventBuffer);
+CleanupStack::PushL (event);
+
+if (event-&gt;GroupId() == KSubConnGenericEventsImplUid
+    &amp;&amp; event-&gt;Id() == CSubConGenEventParamsRejected)
+    {
+    CSubConGenEventParamsRejected* rejectedEvent =
+        static_cast&lt; CSubConGenEventParamsRejected*&gt;(event);
+
+    TInt error = rejectedEvent-&gt;Error();
+    ……
+    // Do something with the error
+    ……
+    }
+
+CleanupStack::PopAndDestroy (event);
+</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 8th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D043376C-29D2-5196-96F4-15E99CFB5639.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:06 GMT -->
+</html>

@@ -1,0 +1,57 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DF4D7DFF-ECA9-40CF-9F3B-4BBC3F8162E4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:51 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Converting between UTC and local time" /><meta name="DC.Relation" scheme="URI" content="GUID-237E0861-EC1B-41DA-BDB0-1DEB50620CC8" /><meta name="DC.Relation" scheme="URI" content="GUID-F2487AEE-966E-472E-9162-E0400C9A8234" /><meta name="DC.Relation" scheme="URI" content="GUID-7A16B6E1-16F7-41EC-ABCC-4A2BEBD66FFF" /><meta name="DC.Relation" scheme="URI" content="GUID-043A9408-1A97-4122-9364-965ECC08B40F" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-4FCF605D-52D9-5B2D-80CF-80C940F680CA" /><meta name="DC.Relation" scheme="URI" content="GUID-F0C71D6E-CAF1-49CC-A697-FC1A810DF1D5" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-DF4D7DFF-ECA9-40CF-9F3B-4BBC3F8162E4" /><meta name="DC.Language" content="en" /><title>Converting
+between UTC and local time </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-DF4D7DFF-ECA9-40CF-9F3B-4BBC3F8162E4">Converting
+between UTC and local time</h1><div>
+<div id="GUID-9CB60EE8-93DA-473B-AF76-5DBFAEED0E09"><h3 class="section-title">Time zone ID</h3>
+<p>Each time zone is uniquely identified by its time zone ID which is
+a numeric reference or a name. The <code class="codeph">CTzId</code> class encapsulates
+a time zone identifier. A time zone ID is created using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0B5453C5-76A2-31B2-A32C-2CDC1F3367CE.html#GUID-72A203C7-593F-34E3-9D7A-646D8A1E85D3"><code class="apiname">CTzId::NewL()</code></a> factory
+method, for example: </p><pre class="codeblock">_LIT8( KAsiaHongKong,"Asia/Hong_Kong" ); //A valid time zone name
+CTzId* zoneId = CTzId::NewL( KAsiaHongKong );</pre><p>The time zone’s
+numeric ID or name can be retrieved using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0B5453C5-76A2-31B2-A32C-2CDC1F3367CE.html#GUID-5165FA78-3EB8-3099-BA0A-EA727BF75AED"><code class="apiname">CTzId::TimeZoneNumericID()</code></a> or <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0B5453C5-76A2-31B2-A32C-2CDC1F3367CE.html#GUID-A9F74527-2885-326E-9516-FDE2AE8A0425"><code class="apiname">CTzId::TimeZoneNameID()</code></a> respectively.
+ </p><p><code class="codeph">operator==()</code> and <code class="codeph">operator!=()</code> can
+be used to check if the time zone ID matches or differs from another time
+zone ID.  </p></div>
+<div id="GUID-4A2ED95F-8697-47FF-A89A-0871449ADFEE"><h3 class="section-title">Converting
+between UTC and local time</h3><p>You can convert between times expressed
+in UTC and local time using either the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-37A4A4ED-FFF8-3C98-B028-EA1947EA7BEF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-37A4A4ED-FFF8-3C98-B028-EA1947EA7BEF.html"><code class="apiname">CTzConverter</code></a> or <code class="codeph">RTz</code> class.
+ </p><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-37A4A4ED-FFF8-3C98-B028-EA1947EA7BEF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-37A4A4ED-FFF8-3C98-B028-EA1947EA7BEF.html"><code class="apiname">CTzConverter</code></a> does the conversion on the client
+side by caching rules which it gets from the time zone server. This class
+should be used for conversion between UTC and local time for the system time
+zone, for performance reasons.   </p><p>If the conversion involves foreign
+time zones, the <code class="codeph">RTz</code> class can be used instead.  </p><p> The
+following types of time conversion are possible:  </p><ul>
+<li id="GUID-0B4E9E64-99DB-4BF2-A0FF-E62508F8E54A"><a name="GUID-0B4E9E64-99DB-4BF2-A0FF-E62508F8E54A"><!-- --></a><p><a href="GUID-237E0861-EC1B-41DA-BDB0-1DEB50620CC8.html">UTC
+to local time in any time zone</a></p></li>
+<li id="GUID-B90DEC70-F232-43CD-AC8B-6D3D64090E2A"><a name="GUID-B90DEC70-F232-43CD-AC8B-6D3D64090E2A"><!-- --></a><p><a href="GUID-F2487AEE-966E-472E-9162-E0400C9A8234.html">UTC
+to local time in the system time zone</a></p></li>
+<li id="GUID-2CC49848-516F-4345-91A4-8DE97566E297"><a name="GUID-2CC49848-516F-4345-91A4-8DE97566E297"><!-- --></a><p><a href="GUID-7A16B6E1-16F7-41EC-ABCC-4A2BEBD66FFF.html">Local
+time in the system time zone to UTC</a> </p></li>
+<li id="GUID-474CB987-56DB-4596-AC9F-7333A8619A0F"><a name="GUID-474CB987-56DB-4596-AC9F-7333A8619A0F"><!-- --></a><p><a href="GUID-043A9408-1A97-4122-9364-965ECC08B40F.html">Local
+time in any time zone to UTC</a></p></li>
+</ul></div>
+<div id="GUID-9B7F2465-48B5-40E5-A459-FFE839DEF58C"><h3 class="section-title">Setting the
+local time </h3><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-052221AD-916E-3E47-9510-AC0495A19A70.html#GUID-ED5486E0-392F-37C5-992F-16421560C49B"><code class="apiname">RTz::SetHomeTime()</code></a> sets the local
+time in the system time zone:</p><pre class="codeblock">_LIT8( KMyTime, "20050105:103000.00" ); // Local time to set (5th January 2005 10:30 hrs).
+TTime myTime( KMyTime ); //Create the time as a TTime object
+TInt errCode = myTZoneServer.SetHomeTime( myTime );</pre><p>The <code class="codeph">WriteDeviceData</code> capability
+is needed to set the system time.  </p></div>
+<div id="GUID-12459F4B-EEF2-44DB-BB85-A180DA3FBD47"><h3 class="section-title">Automatic UTC
+offset</h3><p>Whenever DST begins or ends, the UTC offset needs to be updated
+accordingly. This can be done automatically by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-052221AD-916E-3E47-9510-AC0495A19A70.html#GUID-7CF53489-5FF4-3665-8660-263433D8F090"><code class="apiname">RTz::SetAutoUpdateBehaviorL()</code></a>.
+This function takes a value from the <code class="codeph">TTzAutoDSTUpdateModes</code> enum.
+When set to TTzAutoDSTUpdateModes::ETZAutoDSTUpdateOn(),
+the UTC offset is automatically updated for changes to DST. </p></div>
+<div id="GUID-BF084ED0-7E7C-4A5B-8BEF-9F809F1F1DC0"><h3 class="section-title">See also</h3><p><a href="GUID-A0E21681-F1EF-4E79-965A-040AC7D72A01.html">Time zone conversion overview</a></p><p><a href="GUID-71DCEB48-8E8C-59A0-A99F-23245FF2DF13.html">timezoneconversion: Using
+the time zone server</a></p></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-237E0861-EC1B-41DA-BDB0-1DEB50620CC8.html">Converting
+from UTC to local time in a non-system time zone</a></li><li class="ulchildlink"><a href="GUID-F2487AEE-966E-472E-9162-E0400C9A8234.html">Converting
+from UTC to local time in the system time zone</a></li><li class="ulchildlink"><a href="GUID-7A16B6E1-16F7-41EC-ABCC-4A2BEBD66FFF.html">Converting
+from local time for the system time zone to UTC</a></li><li class="ulchildlink"><a href="GUID-043A9408-1A97-4122-9364-965ECC08B40F.html">Converting
+from any local time to UTC</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated March 18th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DF4D7DFF-ECA9-40CF-9F3B-4BBC3F8162E4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:51 GMT -->
+</html>

@@ -1,0 +1,45 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-BC32CC7C-99BA-59E8-A268-42F411CF336F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:49 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Array Keys Overview" /><meta name="abstract" content="The document provides an overview of array keys." /><meta name="description" content="The document provides an overview of array keys." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-BC32CC7C-99BA-59E8-A268-42F411CF336F" /><meta name="DC.Language" content="en" /><title>Array
+Keys Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-BC32CC7C-99BA-59E8-A268-42F411CF336F">Array
+Keys Overview</h1><div><p>The document provides an overview of array keys.</p>
+<div id="GUID-E936A40A-CE40-400A-A534-B06F0339871D"><h3 class="section-title">Purpose</h3> <p>Defines a property of an array element
+by which a heap based array can sorted and searched.</p> </div>
+<div id="GUID-5550159B-8E50-4FF4-A7D4-EAB1E325CF8F"><h3 class="section-title">Architectural relationships</h3> <p>Keys are declared by
+client programs, and used in conjunction with the heap based array classes
+defined by the Dynamic Arrays API.</p> <p>Keys are also used by the low-level
+sorting functions supplied by the System Static Functions API.</p> </div>
+<div id="GUID-9A7E535D-A289-4B43-B04E-B9F76E66242D"><h3 class="section-title">Description</h3> <p>The API has four key concepts: abstract
+key base, fixed-length element array key, variable-length element array key,
+packed array key, and array element swap operation base. </p> <p><strong>General
+properties</strong> </p> <p>A key specifies a data member within a type. It allows
+the caller to manipulate an array of elements of this type. The Symbian platform
+array classes have member functions for sorting, finding, and inserting elements
+by key.</p> <p>Concrete classes are defined for each of the basic Symbian
+platform array types, fixed length, variable length, and packed.</p> <p><strong>Abstract key base</strong> </p> <p>The abstract key base defines the characteristics
+of a key and defines the basic behaviour of keys. The most important properties
+of a key are:</p> <ul>
+<li id="GUID-77B18DD9-C54C-59E2-94D5-4ECF30615D5A"><a name="GUID-77B18DD9-C54C-59E2-94D5-4ECF30615D5A"><!-- --></a><p>location: defines which
+data member of the array element type should be used for sorting, etc.</p> </li>
+<li id="GUID-9B2CEF3B-026E-5A3E-A9E7-629BFC2D8A21"><a name="GUID-9B2CEF3B-026E-5A3E-A9E7-629BFC2D8A21"><!-- --></a><p>type: whether the data
+member is a descriptor, text (NULL terminated string), or a number.</p> </li>
+</ul> <p>The abstract key base interface is provided by <code class="codeph">TKey</code>.</p> <p><strong>Fixed-length array key</strong> </p> <p>The fixed-length element array key
+specifies the key to be used with fixed-length element (<code class="codeph">CArrayFix</code> -based)
+arrays.</p> <p>The abstract key base interface is provided by <code class="codeph">TKeyArrayFix</code>.</p> <p><strong>Variable-length array key</strong> </p> <p>The variable-length element array
+key specifies the key to be used with variable-length element (<code class="codeph">CArrayVar</code> -based)
+arrays, and for sorting packed (<code class="codeph">CArrayPakFlat</code> -based) arrays.</p> <p>The
+variable length array key interface is provided by <code class="codeph">TKeyArrayVar</code>.<code class="codeph"> </code> </p> <p><strong>Packed array key</strong> </p> <p>The packed array key specifies the key to
+be used for searching and inserting elements by key with packed (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4D6E6B46-32B5-34AD-BD8A-84BF6B2B7C81.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4D6E6B46-32B5-34AD-BD8A-84BF6B2B7C81.html"><code class="apiname">CArrayPakFlat</code></a> -based)
+arrays.</p> <p>The packed array key interface is provided by <code class="codeph">TKeyArrayPak</code>.</p> <p><strong>Array element swap operation base</strong> </p> <p>If a client uses the sort
+function provided by the System Static Functions API, instead of sorting through
+the Symbian platform array classes, it must define a class able to swap elements. </p> <p>The
+array element swap operation base interface is provided by <code class="codeph">TSwap</code>.</p> </div>
+<div id="GUID-8A098367-CCDF-4E35-86C6-13F5824B8153"><h3 class="section-title">See also</h3> <p><a href="GUID-56EE13F0-CAEE-5E1C-99CD-2FEC8C3BCA6B.html">Dynamic
+Arrays Overview</a> </p> <p><a href="GUID-FF8F5D97-7D37-5F6B-84A3-C064E2FD53E0.html">System
+Static Functions Overview</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 18th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-BC32CC7C-99BA-59E8-A268-42F411CF336F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:49 GMT -->
+</html>

@@ -1,0 +1,577 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-626D2500-7E0E-5A93-9202-03C13EA8C0C7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:36:08 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Category: E32USER-CBase" /><meta name="DC.Relation" scheme="URI" content="GUID-C0498002-7CD9-4B2D-B1F9-FB0908C4C1A5" /><meta name="DC.Relation" scheme="URI" content="GUID-A294084E-B5BB-54C6-A622-49F20E8C927B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-626D2500-7E0E-5A93-9202-03C13EA8C0C7" /><meta name="DC.Language" content="en" /><title>Category: E32USER-CBase </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-626D2500-7E0E-5A93-9202-03C13EA8C0C7">Category: E32USER-CBase</h1><div>
+<p>Panics with this category are raised in user side code by member
+functions of <code class="codeph">CBase</code> derived classes that reside in
+the <code>euser.dll</code> file. Typically, they are caused
+by passing bad or contradictory values to class constructors or member
+functions. </p>
+<p>The thread causing the panic is terminated. </p>
+<div class="tablenoborder"><a name="GUID-7FE7A949-7ED1-53D1-B73A-FE15766EB777"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-7FE7A949-7ED1-53D1-B73A-FE15766EB777" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">1</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B469B031-B138-3D92-B5AB-0E043447F932.html#GUID-3E4CEED6-014F-38E4-A7B4-DDE0158362F4"><code class="apiname">CAsyncCallBack::Set()</code></a> function, if this active object is already active when the function
+is called. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">2</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <em>This panic is raised in debug builds only.</em> </p> <p>This panic is raised by the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-619AF4A9-4DAF-3FA4-A704-717DB30B5389.html#GUID-A7955FDB-B030-392F-B5D8-13F7EEDF4337"><code class="apiname">CAsyncOneShot::Call()</code></a> function, if the active object has not already been added to the
+active scheduler. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">3</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised during construction of a dynamic buffer
+(a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html"><code class="apiname">CBufFlat</code></a> or a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html"><code class="apiname">CBufSeg</code></a>) when
+the value of the granularity passed to the constructors is negative. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">4</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when reading from a dynamic buffer
+(a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html"><code class="apiname">CBufFlat</code></a> or a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html"><code class="apiname">CBufSeg</code></a>) using
+the <code class="codeph">Read()</code> member function. It is caused by attempting
+to read beyond the end of the buffer. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">5</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when writing to a dynamic buffer (a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html"><code class="apiname">CBufFlat</code></a> or a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html"><code class="apiname">CBufSeg</code></a>) using the <code class="codeph">Write()</code> member function. It is caused by attempting to write
+beyond the end of the buffer. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">6</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when reading from a dynamic buffer
+(a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html"><code class="apiname">CBufFlat</code></a> or a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html"><code class="apiname">CBufSeg</code></a>) using
+the <code class="codeph">Read()</code> member function. It is caused by specifying
+a negative length for the amount of data to be read </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">7</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when writing to a dynamic buffer (a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html"><code class="apiname">CBufFlat</code></a> or a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html"><code class="apiname">CBufSeg</code></a>) using the <code class="codeph">Write()</code> member function. It is caused by specifying a negative
+length for the amount of data to be written. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">8</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when inserting data into a dynamic
+buffer (a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html"><code class="apiname">CBufFlat</code></a> or a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html"><code class="apiname">CBufSeg</code></a>) using the <code class="codeph">InsertL()</code> member function or when inserting
+an uninitialized region into the dynamic buffer using the <code class="codeph">ExpandL()</code> member function. It is caused by passing a negative
+length value to these functions. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">9</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when inserting data into a dynamic
+buffer (a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html"><code class="apiname">CBufFlat</code></a> or a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html"><code class="apiname">CBufSeg</code></a>) using the <code class="codeph">InsertL()</code> member function. It is caused
+when the variant of <code class="codeph">InsertL()</code> which takes a pointer
+to <code class="codeph">TAny</code>, is passed a NULL pointer value. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">10</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when specifying the minimum amount
+of space which a flat dynamic buffer (a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html"><code class="apiname">CBufFlat</code></a>) should occupy using the <code class="codeph">SetReserveL()</code> member function.
+It is caused when the size value passed to the function is negative. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">11</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when specifying the minimum amount
+of space which a flat dynamic buffer (a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html"><code class="apiname">CBufFlat</code></a>) should occupy using the <code class="codeph">SetReserveL()</code> member function.
+It is caused when the size value passed to the function is less than
+the current size of the buffer. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">12</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Delete()</code>, <code class="codeph">Ptr()</code>, <code class="codeph">BackPtr()</code> member functions of a
+flat dynamic buffer (a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html"><code class="apiname">CBufFlat</code></a> ) ; the panic can
+also be raised by <code class="codeph">InsertL()</code> and <code class="codeph">ExpandL()</code>. It is caused when the position value passed to these functions
+is either negative or represents a position beyond the end of the
+current buffer. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">13</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Delete()</code> member
+function of a flat dynamic buffer (a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F915EF7D-7C06-3902-AB84-C8E89ABE7F18.html"><code class="apiname">CBufFlat</code></a> )
+. It is caused when the combination of position and length values
+passed to the function implies an attempt to delete data beyond the
+end of the flat buffer. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">14</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Delete()</code>, <code class="codeph">Ptr()</code>, <code class="codeph">BackPtr()</code> member functions of a
+segmented dynamic buffer (a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html"><code class="apiname">CBufSeg</code></a> ) ; the panic
+can also be raised by <code class="codeph">InsertL()</code> and <code class="codeph">ExpandL()</code>. It is caused when the position value passed to these functions
+is either negative or represents a position beyond the end of the
+current buffer. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">15</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Delete()</code> member
+function of a segmented dynamic buffer (a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html"><code class="apiname">CBufSeg</code></a> ) . It is caused when the combination of position and length values
+passed to the function implies an attempt to delete data beyond the
+end of the segmented buffer. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">16</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <em>This panic is raised in debug builds only.</em> </p> <p>This panic is raised by the <code class="codeph">InsertL()</code>, <code class="codeph">Delete()</code>, <code class="codeph">Ptr()</code> and <code class="codeph">BackPtr()</code> member functions as implemented for segmented buffers (<a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-74CD841C-49EE-3512-9C05-2A05924A63A7.html"><code class="apiname">CBufSeg</code></a>) , when the offset within a segment, where data
+is to be inserted or removed, is greater than the buffer granularity. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">17</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the constructors of arrays of fixed
+length objects as represented, for example, by the classes <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html"><code class="apiname">CArrayFixFlat</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EE7C55C7-9CB2-3EE8-869C-8283B6723D5C.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EE7C55C7-9CB2-3EE8-869C-8283B6723D5C.html"><code class="apiname">CArrayFixSeg</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E9669326-3E63-3E66-BC99-F6BF08F26BA4.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E9669326-3E63-3E66-BC99-F6BF08F26BA4.html"><code class="apiname">CArrayFixFlat&lt;TAny&gt;</code></a>. It is caused when the record length
+is either negative or zero. </p> <p>The record length is either explicitly
+specified as in the case of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E9669326-3E63-3E66-BC99-F6BF08F26BA4.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E9669326-3E63-3E66-BC99-F6BF08F26BA4.html"><code class="apiname">CArrayFixFlat&lt;TAny&gt;</code></a> class or is implied by the length of the template class as in the
+case of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html"><code class="apiname">CArrayFixFlat</code></a> class. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">18</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the constructors of arrays of fixed
+length objects as represented, for example, by the classes: <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html"><code class="apiname">CArrayFixFlat</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EE7C55C7-9CB2-3EE8-869C-8283B6723D5C.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EE7C55C7-9CB2-3EE8-869C-8283B6723D5C.html"><code class="apiname">CArrayFixSeg</code></a>. It is
+caused when the granularity passed to the constructors is either negative
+or zero. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">19</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the constructors of arrays of variable
+length objects as represented, for example, by the classes: <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BC7EAFE-FC9C-3E86-BFDC-FDE9FE086D53.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BC7EAFE-FC9C-3E86-BFDC-FDE9FE086D53.html"><code class="apiname">CArrayVarFlat</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-35439B46-B078-3B9F-9199-CC8F8DD4C1DB.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-35439B46-B078-3B9F-9199-CC8F8DD4C1DB.html"><code class="apiname">CArrayVarSeg</code></a>. It is
+caused when the granularity passed to the constructors is either negative
+or zero. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">20</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the constructors of packed arrays
+as represented, for example, by the class <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D6E6B46-32B5-34AD-BD8A-84BF6B2B7C81.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D6E6B46-32B5-34AD-BD8A-84BF6B2B7C81.html"><code class="apiname">CArrayPakFlat</code></a>. It is caused when the granularity passed to the constructors is
+either negative or zero. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">21</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by any operation which accesses an
+element of an array by explicit reference to an index number, for
+example, the <code class="codeph">Delete()</code>, <code class="codeph">InsertL()</code> and <code class="codeph">At()</code> member functions or the operator <code class="codeph">Operator[]</code>. It is caused by specifying an index value which
+is either negative or is greater than or equal to the number of objects
+currently within the array. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">22</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when deleting contiguous elements from
+an array of fixed length objects (derived from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0159EFA-B76E-3C59-8B35-42CC93DAF0FF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0159EFA-B76E-3C59-8B35-42CC93DAF0FF.html"><code class="apiname">CArrayFixBase</code></a>) using the <code class="codeph">Delete()</code> member function. It is caused
+by specifying the number of contiguous elements as a zero or negative
+value. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">23</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when inserting contiguous elements
+into an array of fixed length objects (derived from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0159EFA-B76E-3C59-8B35-42CC93DAF0FF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0159EFA-B76E-3C59-8B35-42CC93DAF0FF.html"><code class="apiname">CArrayFixBase</code></a>) using the <code class="codeph">InsertL()</code> member function. It is caused
+by specifying the number of contiguous elements as a zero or negative
+value. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">24</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when resizing an array of fixed length
+objects (derived from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0159EFA-B76E-3C59-8B35-42CC93DAF0FF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0159EFA-B76E-3C59-8B35-42CC93DAF0FF.html"><code class="apiname">CArrayFixBase</code></a>) using the <code class="codeph">ResizeL()</code> member function. It is caused by specifying the
+number of contiguous elements as a zero or negative value. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">25</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when deleting contiguous elements from
+an array of variable length objects (derived from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1BA1D5FF-BE4A-3EA5-9784-ADEA1B81EF39.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1BA1D5FF-BE4A-3EA5-9784-ADEA1B81EF39.html"><code class="apiname">CArrayVarBase</code></a>) using the <code class="codeph">Delete()</code> member function. It is caused
+by specifying the number of contiguous elements as a zero or negative
+value. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">26</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when deleting contiguous elements from
+a packed array (derived from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-800D79F0-D735-3AC5-BDFD-F1E7B8C37B99.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-800D79F0-D735-3AC5-BDFD-F1E7B8C37B99.html"><code class="apiname">CArrayPakBase</code></a>) using
+the <code class="codeph">Delete()</code> member function. It is caused by specifying
+the number of contiguous elements as a zero or negative value. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">27</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when reserving space in flat arrays
+of fixed length objects, (the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html"><code class="apiname">CArrayFixFlat</code></a>,<a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E9669326-3E63-3E66-BC99-F6BF08F26BA4.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E9669326-3E63-3E66-BC99-F6BF08F26BA4.html"><code class="apiname">CArrayFixFlat&lt;TAny&gt;</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FCE7D958-96AA-346D-8D22-0EF24B9DB7CC.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FCE7D958-96AA-346D-8D22-0EF24B9DB7CC.html"><code class="apiname">CArrayPtrFlat</code></a> classes ) using the <code class="codeph">SetReserveL()</code> member function.
+It is caused by specifying the number of elements, for which space
+is to be reserved, as less than the current number of elements in
+the array. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">28</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when inserting or appending replicated
+elements to the arrays of fixed length objects <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html"><code class="apiname">CArrayFixFlat</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EE7C55C7-9CB2-3EE8-869C-8283B6723D5C.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EE7C55C7-9CB2-3EE8-869C-8283B6723D5C.html"><code class="apiname">CArrayFixSeg</code></a> using the <code class="codeph">InsertL()</code> or <code class="codeph">AppendL()</code> functions. It is caused by specifying
+the number of replicas as negative or zero. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">29</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when deleting elements from a fixed
+length, variable length or packed array (derived from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0159EFA-B76E-3C59-8B35-42CC93DAF0FF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0159EFA-B76E-3C59-8B35-42CC93DAF0FF.html"><code class="apiname">CArrayFixBase</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1BA1D5FF-BE4A-3EA5-9784-ADEA1B81EF39.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1BA1D5FF-BE4A-3EA5-9784-ADEA1B81EF39.html"><code class="apiname">CArrayVarBase</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-800D79F0-D735-3AC5-BDFD-F1E7B8C37B99.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-800D79F0-D735-3AC5-BDFD-F1E7B8C37B99.html"><code class="apiname">CArrayPakBase</code></a>) using the <code class="codeph">Delete()</code> function. It is caused when
+the specification of the position of the first element to be deleted
+and the number of contiguous elements to be deleted refers to elements
+which are outside the bounds of the array. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">30</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when inserting into, appending onto,
+expanding or extending a variable length array or a packed array (i.e.
+arrays derived from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C2430ABF-D276-3F70-A18B-7059F3099BF1.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C2430ABF-D276-3F70-A18B-7059F3099BF1.html"><code class="apiname">CArrayVar</code></a> or <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-899495E6-C20E-3614-A3A9-C49A7916E5E7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-899495E6-C20E-3614-A3A9-C49A7916E5E7.html"><code class="apiname">CArrayPak</code></a>) using the <code class="codeph">InsertL()</code>, <code class="codeph">AppendL()</code>, <code class="codeph">ExpandL()</code> or <code class="codeph">ExtendL()</code> functions
+respectively. It is caused by specifying the length of the element
+as a negative value. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">33</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the destructor of a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html"><code class="apiname">CObject</code></a>. It is caused, if an attempt is made to delete the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html"><code class="apiname">CObject</code></a> when the reference count is not zero. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">34</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Close()</code> member
+function of a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html"><code class="apiname">CObject</code></a>. It is caused, if the reference
+count is negative. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">35</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Remove()</code> member
+function of an object container, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE901A59-C714-356A-9490-C4E9C9F186DB.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE901A59-C714-356A-9490-C4E9C9F186DB.html"><code class="apiname">CObjectCon</code></a>.
+It is caused when the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html"><code class="apiname">CObject</code></a> to be removed from
+the container is not contained by the container. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">36</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Remove()</code> member
+function of a container index, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-72761B3C-ECB6-34B2-87ED-C972E479357A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-72761B3C-ECB6-34B2-87ED-C972E479357A.html"><code class="apiname">CObjectConIx</code></a>.
+It is caused when the object container, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE901A59-C714-356A-9490-C4E9C9F186DB.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE901A59-C714-356A-9490-C4E9C9F186DB.html"><code class="apiname">CObjectCon</code></a>, to be removed from the index is not contained by the index. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">37</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Remove()</code> member
+function of an object index, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-70824EE4-9E01-3AC0-9318-4B521A1FDD5E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-70824EE4-9E01-3AC0-9318-4B521A1FDD5E.html"><code class="apiname">CObjectIx</code></a>. It is
+caused when the handle passed to the <code class="codeph">Remove()</code> function
+does not represent a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html"><code class="apiname">CObject</code></a> known to the object
+index. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">38</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">At()</code>, <code class="codeph">FindByName()</code> and <code class="codeph">FindByFullName()</code> member
+functions of an object container, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE901A59-C714-356A-9490-C4E9C9F186DB.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE901A59-C714-356A-9490-C4E9C9F186DB.html"><code class="apiname">CObjectCon</code></a>.
+It is caused when the unique ID as derived from the handle is not
+the same as the unique ID held by the object container. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">39</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">At()</code> member
+function of an object container, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE901A59-C714-356A-9490-C4E9C9F186DB.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE901A59-C714-356A-9490-C4E9C9F186DB.html"><code class="apiname">CObjectCon</code></a>.
+It is caused when the index represented by the handle is outside the
+permitted range. In effect, the handle is bad. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">40</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the destructor of an active object,
+a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">CActive</code></a>. It is caused by an attempt to delete
+the active object while it still has a request outstanding. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">41</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Add()</code> member
+function of an active scheduler, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html"><code class="apiname">CActiveScheduler</code></a>. It is caused by an attempt to add an active object to the active
+scheduler when it has already been added to the active scheduler </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">42</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">SetActive()</code> member function of an active object, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">CActive</code></a>. It is caused by an attempt to flag the active object as active
+when it is already active, i.e. a request is still outstanding. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">43</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Install()</code> member
+function of an active scheduler, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html"><code class="apiname">CActiveScheduler</code></a>. It is caused by attempting to install this active scheduler as
+the current active scheduler when there is already a current active
+scheduler; i.e. an active scheduler has already been installed. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">44</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Start()</code>, <code class="codeph">Stop()</code> and <code class="codeph">Add()</code> member functions of an
+active scheduler, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html"><code class="apiname">CActiveScheduler</code></a>. It is raised
+when the thread has no attached active scheduler </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">45</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Stop()</code> member
+function of an active scheduler, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html"><code class="apiname">CActiveScheduler</code></a>. Calling <code class="codeph">Stop()</code> terminates the wait loop started
+by the most recent call to <code class="codeph">Start()</code>. The panic is
+caused by a call to <code class="codeph">Stop()</code> which is not matched by
+a corresponding call to <code class="codeph">Start()</code>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">46</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by an active scheduler, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html"><code class="apiname">CActiveScheduler</code></a>. It is caused by a stray signal. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">47</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Error()</code> virtual
+member function of an active scheduler, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html"><code class="apiname">CActiveScheduler</code></a>. This function is called when an active object’s <code class="codeph">RunL()</code> function leaves. Applications always replace the <code class="codeph">Error()</code> function in a class derived from <code class="codeph">CActiveScheduler</code>; the default behaviour provided by <code class="codeph">CActiveScheduler</code> raises this panic. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">48</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Add()</code> member
+function of an active scheduler, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html"><code class="apiname">CActiveScheduler</code></a>, when a NULL pointer is passed to the function. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">49</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">SetActive()</code> and <code class="codeph">Deque()</code> member functions of an active object,
+a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">CActive</code></a>. It is raised if the active object has
+not been added to the active scheduler. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">50</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">SetPriority()</code> member function of an active object, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">CActive</code></a>. It is caused by an attempt to change the priority of the active
+object while it is active, i.e. while a request is outstanding). </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">51</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">At()</code>, <code class="codeph">After()</code> and <code class="codeph">Lock()</code> member functions of
+the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html"><code class="apiname">CTimer</code></a> active object. It is caused by an attempt
+to request a timer event when the <code class="codeph">CTimer</code> active object
+has not been added to the active scheduler. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">52</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Start()</code> member
+function of the periodic timer active object, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3CECC9FC-58C1-3117-AAF2-FDF88341F56F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3CECC9FC-58C1-3117-AAF2-FDF88341F56F.html"><code class="apiname">CPeriodic</code></a>, when a negative time interval is passed to the function. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">53</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Start()</code> member
+function of the periodic timer active object, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3CECC9FC-58C1-3117-AAF2-FDF88341F56F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3CECC9FC-58C1-3117-AAF2-FDF88341F56F.html"><code class="apiname">CPeriodic</code></a>, when a negative delay time interval is passed to the function. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">54</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">RunL()</code> member
+function of the CServer active object base class
+responsible for handling asynchronous requests from a client thread
+when the client passes a negative function code in RMessage. The only negative values permitted are RMessage::EConnect and RMessage::EDisConnect. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">55</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Start()</code> member
+function of the CServer active object base class
+responsible for handling asynchronous requests from a client thread.
+It is caused by the server having no name. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">56</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">New()</code> and <code class="codeph">NewL()</code> member functions of <code class="codeph">CBitMapAllocator</code> when a negative or zero size is passed to them. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">57</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">Free(TInt aPos)</code> member function of <code class="codeph">CBitMapAllocator</code> when a position
+value is passed which is out of bounds. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">58</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">IsFree(TInt aPos)</code> member function of <code class="codeph">CBitMapAllocator</code> when a position
+value is passed which is out of bounds. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">59</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">AllocFromTopFrom(TInt
+                aPos)</code> member function of <code class="codeph">CBitMapAllocator</code> when a position value is passed which is out of bounds. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">62</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the <code class="codeph">AllocAt()</code> member
+function of <code class="codeph">CBitMapAllocator</code> when the implied position
+has already been allocated. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">63</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised as a result of a call to the <code class="codeph">Pop()</code> and <code class="codeph">PopAndDestroy()</code> static member
+functions of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0DD554D7-B9B1-3FD3-898F-4D855144FCEA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0DD554D7-B9B1-3FD3-898F-4D855144FCEA.html"><code class="apiname">CleanupStack</code></a> class. The panic
+occurs when TRAPs have been nested and an attempt is made to pop too
+many items from the cleanup stack for the current nest level. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">64</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised as a result of a call to the <code class="codeph">Pop()</code> and <code class="codeph">PopAndDestroy()</code> static member
+functions of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0DD554D7-B9B1-3FD3-898F-4D855144FCEA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0DD554D7-B9B1-3FD3-898F-4D855144FCEA.html"><code class="apiname">CleanupStack</code></a> class. The panic
+occurs when attempt is made to pop more items from the cleanup stack
+than are on the cleanup stack. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">65</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>The panic is raised as a result of a call to the <code class="codeph">Pop()</code> and <code class="codeph">PopAndDestroy()</code> static member
+functions of the <code class="codeph">CleanupStack</code> class. The panic occurs
+when an attempt is made to pop more items from the cleanup stack than
+are on the cleanup stack. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">66</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised if an attempt is being made to insert
+a cleanup item into a position on the cleanup stack reserved for marking
+the current TRAP nest level. In practice this error
+occurs if the call to <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0DD554D7-B9B1-3FD3-898F-4D855144FCEA.html#GUID-91B57C35-E399-3191-AF15-D622822F32CA"><code class="apiname">CleanupStack::PushL()</code></a> happens
+when there has been no call to <code class="codeph">TRAP()</code>. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">67</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when building a <code class="codeph">TCleanupStackItem</code> which is to be added to the cleanup stack. The building of the <code class="codeph">TCleanupStackItem</code> needs a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CD0A798E-7E42-3689-8E86-F5FD43C758FC.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CD0A798E-7E42-3689-8E86-F5FD43C758FC.html"><code class="apiname">TCleanupItem</code></a> and this has been constructed with a NULL cleanup operation (a TCleanupOperation). </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">68</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised if there are no free slots available
+on the cleanup stack to insert a cleanup item </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">69</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised if no trap handler has been installed.
+In practice, this occurs if <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-17AC7BAD-1C03-3729-BCC6-F5B28B32E99D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-17AC7BAD-1C03-3729-BCC6-F5B28B32E99D.html"><code class="apiname">CTrapCleanup</code></a> <code class="codeph">::New()</code> has not been called before using the cleanup stack. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">70</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised as a result of a call to the versions
+of the <code class="codeph">Pop()</code> and <code class="codeph">PopAndDestroy()</code> static member functions of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0DD554D7-B9B1-3FD3-898F-4D855144FCEA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0DD554D7-B9B1-3FD3-898F-4D855144FCEA.html"><code class="apiname">CleanupStack</code></a> class
+which take an explicit count of the items to be popped. The panic
+is caused by passing a negative value for the number of items to be
+popped. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">71</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when TRAP s have
+been nested and an attempt is made to exit from a TRAP nest level before all the cleanup items belonging to that level
+have been popped off the cleanup stack. </p> <p>There must be the
+same number of items on the cleanup stack on entering a TRAP harness as there is on exiting. In other words, anything that is
+pushed onto the cleanup stack inside a TRAP harness
+must be popped off before leaving the harness. </p> <p>For example,
+the following code avoids this panic when <code class="codeph">FooLC()</code> does not leave, by explicitly popping <code class="codeph">pointer</code> before
+the end of the harness: </p> <pre class="codeblock">TRAPD(error, pointer = FooLC(); CleanupStack::Pop(pointer));</pre> <p>See also <a href="GUID-3AD20E0C-F364-533F-9FBC-227478CA9982.html">How to use TRAP</a>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">72</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the constructor of the circular
+buffer base class, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FA17C8AD-BF8C-3FD4-98AE-43AF55A9D318.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FA17C8AD-BF8C-3FD4-98AE-43AF55A9D318.html"><code class="apiname">CCirBufBase</code></a>, when the size
+value passed is zero or negative. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">73</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by a call to the <code class="codeph">SetLengthL()</code> member function of of the circular buffer base class, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FA17C8AD-BF8C-3FD4-98AE-43AF55A9D318.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FA17C8AD-BF8C-3FD4-98AE-43AF55A9D318.html"><code class="apiname">CCirBufBase</code></a>, by passing a length value which is zero or
+negative. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">74</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by a call to the <code class="codeph">Add()</code> member function of a circular buffer, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1D73835F-4361-3216-8EFC-669364E3F5E7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1D73835F-4361-3216-8EFC-669364E3F5E7.html"><code class="apiname">CCirBuf</code></a> when the pointer to the item to be added is NULL. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">75</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by a call to the <code class="codeph">Add()</code> member function of a circular buffer, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1D73835F-4361-3216-8EFC-669364E3F5E7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1D73835F-4361-3216-8EFC-669364E3F5E7.html"><code class="apiname">CCirBuf</code></a> when the number of items to be added is zero or negative </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">76</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by a call to the <code class="codeph">Remove()</code> member function of a circular buffer, a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1D73835F-4361-3216-8EFC-669364E3F5E7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1D73835F-4361-3216-8EFC-669364E3F5E7.html"><code class="apiname">CCirBuf</code></a> when the number of items to be removed is zero or negative. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">89</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Introduced in 6.0: This panic is raised by call to the <code class="codeph">Replace()</code> member function of <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B4C76104-EA1B-3FC3-A31E-86A976598171.html"><code class="apiname">CActiveScheduler</code></a> when the replacement active scheduler is the same as the existing
+active scheduler. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">90</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Introduced in 6.0: The panic is raised as a result of a
+call to the <code class="codeph">Pop()</code> and <code class="codeph">PopAndDestroy()</code> static member functions of the <code class="codeph">CleanupStack</code> class.
+The panic occurs when an the item to be popped is not the expected
+item. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">91</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4F74C605-1F32-33C6-82A3-60259E6C73B3.html#GUID-F1EDF50B-E91B-3141-9CE1-F76458A97022"><code class="apiname">CActiveSchedulerWait::Start()</code></a> when the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4F74C605-1F32-33C6-82A3-60259E6C73B3.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4F74C605-1F32-33C6-82A3-60259E6C73B3.html"><code class="apiname">CActiveSchedulerWait</code></a> object has already
+been started. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">92</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4F74C605-1F32-33C6-82A3-60259E6C73B3.html#GUID-57ED10CA-FAD8-3060-AAF8-19D0EB75C65F"><code class="apiname">CActiveSchedulerWait::AsyncStop()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4F74C605-1F32-33C6-82A3-60259E6C73B3.html#GUID-FFD199F4-C703-3645-8948-C1DEC39049F3"><code class="apiname">CActiveSchedulerWait::CanStopNow()</code></a> when the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4F74C605-1F32-33C6-82A3-60259E6C73B3.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4F74C605-1F32-33C6-82A3-60259E6C73B3.html"><code class="apiname">CActiveSchedulerWait</code></a> object has not been started. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">93</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised during construction of a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-619AF4A9-4DAF-3FA4-A704-717DB30B5389.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-619AF4A9-4DAF-3FA4-A704-717DB30B5389.html"><code class="apiname">CAsyncOneShot</code></a> if the attempt to open a handle to the current thread fails. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">94</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Not used. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph"> 95 </code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised on calls to the default implementations
+of functions: <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-49DDDDAC-B256-3B43-B059-EE369EAEA2BB"><code class="apiname">CPolicyServer::CustomSecurityCheckL()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-93C9B0EE-8B94-3A95-BBA7-5B1C8BED6E28"><code class="apiname">CPolicyServer::CustomFailureActionL()</code></a>. </p> <p>The class <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html"><code class="apiname">CPolicyServer</code></a> is intended to be
+derived from, and these functions in particular need to be re-implemented
+in a derived class. This panic is a symptom of a failure to provide
+a derived class. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">96</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <em>This panic is raised in debug builds only.</em> </p> <p>It is raised by the protected <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html"><code class="apiname">CPolicyServer</code></a> constructor, if the first element pointed to by the <code class="codeph">iRanges</code> member of the TPolicy <code class="codeph">aPolicy</code> parameter does not have a value of 0; i.e. if <code class="codeph">aPolicy</code>'s TPolicy::iRanges <code class="codeph">[0]</code> is not
+0. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">97</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <em>This panic is raised in debug builds only.</em> </p> <p>It is raised by the protected <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html"><code class="apiname">CPolicyServer</code></a> constructor, if the value of each element of the <code class="codeph">iRanges</code> member of the TPolicy <code class="codeph">aPolicy</code> parameter is not greater than the value of the previous element. </p> <p>See also TPolicy::iRanges. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">98</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <em>This panic is raised in debug builds only.</em> </p> <p>It is raised by the protected <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html"><code class="apiname">CPolicyServer</code></a> constructor, if the value of every element in the <code class="codeph">iElementsIndex</code> member of the TPolicy <code class="codeph">aPolicy</code> parameter is not valid. </p> <p>Elements of <code class="codeph">iElementsIndex</code> are invalid if their values are either: </p> <ul>
+<li id="GUID-6C625EBA-BC2C-5654-B403-BE86CC5A7F08"><a name="GUID-6C625EBA-BC2C-5654-B403-BE86CC5A7F08"><!-- --></a><p>less than <code class="codeph">ESpecialCaseHardLimit</code> </p> </li>
+</ul> <p>or </p> <ul>
+<li id="GUID-D966E095-FBE8-5230-BA6E-333F18B26B23"><a name="GUID-D966E095-FBE8-5230-BA6E-333F18B26B23"><!-- --></a><p>greater than <code class="codeph">ESpecialCaseLimit</code> </p> </li>
+</ul> <p>See also TPolicy::iElementsIndex and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-B7556395-6CD8-364B-8F78-A491E1451096"><code class="apiname">CPolicyServer::TSpecialCase</code></a>. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">99</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <em>This panic is raised in debug builds only.</em> </p> <p>It is raised by the protected <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html"><code class="apiname">CPolicyServer</code></a> constructor, if the value of the <code class="codeph">iOnConnect</code> member
+of the TPolicy <code class="codeph">aPolicy</code> parameter
+is not valid. </p> <p>The <code class="codeph">iOnConnect</code> member is invalid
+if its value is either: </p> <ul>
+<li id="GUID-F412D905-2879-51AD-81A4-0AA02988A66D"><a name="GUID-F412D905-2879-51AD-81A4-0AA02988A66D"><!-- --></a><p>less than <code class="codeph">ESpecialCaseHardLimit</code> </p> </li>
+</ul> <p>or </p> <ul>
+<li id="GUID-201F2F27-E4A2-56CB-BF17-3101A8B37A5A"><a name="GUID-201F2F27-E4A2-56CB-BF17-3101A8B37A5A"><!-- --></a><p>greater than <code class="codeph">ESpecialCaseLimit</code> </p> </li>
+</ul> <p>See also TPolicy::iOnConnect and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-B7556395-6CD8-364B-8F78-A491E1451096"><code class="apiname">CPolicyServer::TSpecialCase</code></a>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">100</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised if <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-98256A10-3563-3643-A3C6-E258AAB133D2"><code class="apiname">CPolicyServer::iPolicy</code></a> is found to be invalid for some unknown reason. </p> <p>If you run
+the server in debug mode, it is likely that the server will panic
+with one of the panic codes in the range 96 to 99 inclusive. These
+are described above. </p> <p>See <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html"><code class="apiname">CPolicyServer</code></a> for
+information about what constitutes a valid policy. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">101</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when the value returned by the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-49DDDDAC-B256-3B43-B059-EE369EAEA2BB"><code class="apiname">CPolicyServer::CustomSecurityCheckL()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-93C9B0EE-8B94-3A95-BBA7-5B1C8BED6E28"><code class="apiname">CPolicyServer::CustomFailureActionL()</code></a> functions is invalid. </p> <p>The <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-06A06698-B3C4-3CC7-82EF-AE41E4ACBB30"><code class="apiname">CPolicyServer::TCustomResult</code></a> enum defines the valid set of return values. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">102</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <em>This panic is raised in debug builds only.</em> </p> <p>It is raised by the protected <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5BDFF5B1-DC1F-393A-879B-9D8DE080B4E2.html"><code class="apiname">CPolicyServer</code></a> constructor, if the value of the <code class="codeph">iRangeCount</code> member
+of the TPolicy <code class="codeph">aPolicy</code> parameter
+is not greater than 0. A value of 0 implies that no policies have
+been passed to the policy server. It is a requirement that at least
+one policy be passed to the policy server. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">103</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>This panic is raised by the policy server framework if a
+message fails a policy check, whether custom or not. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">104</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <em>This panic is raised in debug builds only.</em> </p> <p>It is raised by a number of <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-70824EE4-9E01-3AC0-9318-4B521A1FDD5E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-70824EE4-9E01-3AC0-9318-4B521A1FDD5E.html"><code class="apiname">CObjectIx</code></a> member
+functions if the object's data becomes inconsistent. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">105</code> </p></td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when a local or global semaphore is
+created using the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AED27A76-3645-3A04-B80D-10473D9C5A27.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AED27A76-3645-3A04-B80D-10473D9C5A27.html"><code class="apiname">RSemaphore </code></a>member functions: CreateLocal() and CreateGlobal(), and
+the value for the initial semaphore count is negative.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">106</code> </p></td>
+<td class="cellrowborder" valign="top"><p>This panic is raised when a semaphore is signaled using
+the Signal(TInt aCount) member function and the
+count value is negative.</p></td>
+</tr>
+</tbody>
+</table></div></div></div></div><div class="footer"><p class="metadata">Last updated May 6th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-626D2500-7E0E-5A93-9202-03C13EA8C0C7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:36:08 GMT -->
+</html>

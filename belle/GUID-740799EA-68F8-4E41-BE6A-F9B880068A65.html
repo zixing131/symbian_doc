@@ -1,0 +1,77 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-740799EA-68F8-4E41-BE6A-F9B880068A65.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Handling Callback Methods" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Relation" scheme="URI" content="GUID-3C2FDE3A-2CED-43A6-AD7E-A0A3A1FC74B9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-740799EA-68F8-4E41-BE6A-F9B880068A65" /><meta name="DC.Language" content="en" /><title>Handling Callback Methods </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-740799EA-68F8-4E41-BE6A-F9B880068A65">Handling Callback Methods</h1><div>
+<div id="GUID-43B38E8C-3B0D-4CFE-BEA7-19D269DB291A-GENID-GUID-B4969F90-5521-47F1-A0B7-6C05B0B4E485"><h3 class="section-title">Context</h3> <p>When an application is registered to listen to the LLCP-link status, <code class="codeph">CLlcpProvider</code> calls the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C3F0E73B-9725-3979-AB93-382066E3A684.html#GUID-6856B8C3-D16C-317A-ADAB-0EC94B86E701"><code class="apiname">MLlcpLinkListener::LlcpRemoteFound()</code></a> method when two NFC-enabled devices with LLCP support are placed
+together and the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C3F0E73B-9725-3979-AB93-382066E3A684.html#GUID-D8F35523-D937-3F38-AB0E-DF5CF5D51AB0"><code class="apiname">MLlcpLinkListener::LlcpRemoteLost()</code></a> method when the devices are separated. When the <code class="codeph">MLlcpLinkListener::LlcpRemoteFound()</code> method is called, the data transfer is possible between the local
+and the remote devices. </p> </div>
+<h3>Steps</h3><ul id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-B4969F90-5521-47F1-A0B7-6C05B0B4E485"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-B4969F90-5521-47F1-A0B7-6C05B0B4E485"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-B4969F90-5521-47F1-A0B7-6C05B0B4E485"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-B4969F90-5521-47F1-A0B7-6C05B0B4E485"><!-- --></a><p>Create a
+connection-object between the local and remote devices to send the
+"Hello World!" ASCII text. </p>
+<ol type="i" id="GUID-26FFE852-82E2-4F65-8B46-43E7855DE202-GENID-GUID-B4969F90-5521-47F1-A0B7-6C05B0B4E485"><a name="GUID-26FFE852-82E2-4F65-8B46-43E7855DE202-GENID-GUID-B4969F90-5521-47F1-A0B7-6C05B0B4E485"><!-- --></a>
+<li id="GUID-9EB76840-8AFB-49DA-B09D-32727C3260E7-GENID-GUID-B4969F90-5521-47F1-A0B7-6C05B0B4E485"><a name="GUID-9EB76840-8AFB-49DA-B09D-32727C3260E7-GENID-GUID-B4969F90-5521-47F1-A0B7-6C05B0B4E485"><!-- --></a><p>The following
+code snippet illustrates how <code class="codeph">CMyOwnLlcpApplication::LlcpRemoteFound</code> is implemented:</p>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">// CMyOwnLlcpApplication::LlcpRemoteFound()
+// From MLlcpLinkListener
+// -----------------------------------------------------------------------------
+//
+void CMyOwnLlcpApplication::LlcpRemoteFound()
+    {
+    TInt error = KErrNone;
+    MLlcpConnOrientedTransporter* conn = NULL;
+    
+    // Notify the UI
+    iLLcpEventUpdater-&gt;DrawLlcpRemoteFound();
+    
+    if ( !iLocalConnection )
+        {
+        // Create the  MLlcpConnOrientedTransporter object.
+        TRAP( error, conn = iLlcp-&gt;CreateConnOrientedTransporterL( KInterestingSsap ) );
+        
+        if ( error == KErrNone )
+            {
+            // Create a wrapper for the connection. 
+            TRAP( error, iLocalConnection = COwnLlcpConnection::NewL( conn ) );
+            
+            if ( error != KErrNone )
+                {
+                delete conn;
+                }
+            }
+        }
+    }
+// -----------------------------------------------------------------------------
+// End of CMyOwnLlcpApplication::LlcpRemoteFound()
+
+</pre></div>
+<p><strong>Note</strong>: <code class="codeph">CLlcpProvider</code> does not deallocate
+any memory block related to the <code class="codeph">MLlcpConnOrientedTransporter</code> object. Clients can remove the <code class="codeph">MLlcpConnOrientedTransporter </code> object at any time. </p>
+</li>
+<li id="GUID-4573D22D-C34D-4F07-876D-34514F445519-GENID-GUID-B4969F90-5521-47F1-A0B7-6C05B0B4E485"><a name="GUID-4573D22D-C34D-4F07-876D-34514F445519-GENID-GUID-B4969F90-5521-47F1-A0B7-6C05B0B4E485"><!-- --></a><p>The following
+code snippet illustrates how the <code class="codeph">CMyOwnLlcpApplication::LlcpRemoteLost</code> method is implemented. When this method is called, the data transfer
+between the local and the remote devices stops, and all existing <code class="codeph">MLlcpConnOrientedTransporter</code> objects are removed.</p>
+<div class="p"><p><strong>Example: </strong><pre class="codeblock">// CMyOwnLlcpApplication::LlcpRemoteLost()
+// From MLlcpLinkListener
+// -----------------------------------------------------------------------------
+//
+void CMyOwnLlcpApplication::LlcpRemoteLost()
+    {    
+    Cleanup();
+    
+    // Notify the UI.
+    iLLcpEventUpdater-&gt;DrawLlcpRemoteLost();
+    }
+// -----------------------------------------------------------------------------
+// End of CMyOwnLlcpApplication::LlcpRemoteLost()
+
+</pre></p></div>
+</li>
+</ol>
+</li>
+</ul>
+</div></div></div><div class="footer"><p class="metadata">Last updated September 29th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-740799EA-68F8-4E41-BE6A-F9B880068A65.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:02 GMT -->
+</html>

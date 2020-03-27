@@ -1,0 +1,54 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-4F2F254A-1A81-507A-B364-BE4088D3B3AE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:18 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use literal descriptors" /><meta name="abstract" content="Explains how to generate constant literal descriptors." /><meta name="description" content="Explains how to generate constant literal descriptors." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Relation" scheme="URI" content="GUID-7CB11EAD-260E-551A-85F1-FEAC975FE722" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4F2F254A-1A81-507A-B364-BE4088D3B3AE" /><meta name="DC.Language" content="en" /><title>How to
+use literal descriptors </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4F2F254A-1A81-507A-B364-BE4088D3B3AE">How to
+use literal descriptors</h1><div><p>Explains how to generate constant literal descriptors.</p>
+<p>Generate a constant literal as follows:</p>
+<pre class="codeblock">_LIT(name, string);</pre>
+<p>where <code class="codeph">name</code> is a C++ variable name and <code class="codeph">string</code> is
+the literal text enclosed in a pair of double quotes. </p>
+<p>All the code fragments use the build independent form but they are equally
+valid if replaced by the explicit 16 bit variant or the explicit 8 bit variant.</p>
+<p>As <code class="codeph">name</code> represents a constant variable, it is conventional
+for the variable name to start with a capital <code class="codeph">K</code>, for example:</p>
+<pre class="codeblock">_LIT(KTxtMatchString,"Hello");</pre>
+<p>This generates the constant literal descriptor:</p>
+<pre class="codeblock">const static TLitC&lt;5&gt; KTxtMatchString;</pre>
+<p>and this is initialised to contain the string <code class="codeph">Hello</code>. Developers
+never need to code a <code class="codeph">TLitC</code> class explicitly; it is always
+be constructed through the macro.</p>
+<p>This constant literal descriptor can be passed directly to functions which
+are prototyped to take a <code class="codeph">const TDesC&amp;</code> type:</p>
+<pre class="codeblock">TBufC&lt;32&gt; x;
+...
+x.Match(KTxtMatchString);
+...</pre>
+<p>The literal descriptor classes: <code class="codeph">TLitC16</code>, <code class="codeph">TLitC8</code>, <code class="codeph">TLitC16</code>,
+also provide a conversion operator so that they can be passed to functions
+which take a <code class="codeph">const         TRefByValue&lt;const TDesC&gt;</code> type.
+This means that they can be passed to functions such as <code class="codeph">TDes::Format()</code>:</p>
+<pre class="codeblock">_LIT(KFormat1,"Length is %d");
+...
+TBuf&lt;256&gt; x;
+...
+x.Format(KFormat1,8);
+...</pre>
+<p>The <code class="codeph">&amp;</code> and the <code class="codeph">()</code> operators acting
+on a constant literal return a <code class="codeph">const TDesC*</code> and a <code class="codeph">const
+        TDesC&amp;</code> type respectively:</p>
+<pre class="codeblock">...
+_LIT(KTxtMatchString,"Hello");
+_LIT(KFormat2,"Text is %S");
+...</pre>
+<pre class="codeblock">TInt length;
+length = KTxtMatchString().Length();
+...
+TBuf&lt;256&gt; x;
+x.Format(KFormat2,&amp;KTxtMatchString);
+...</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 17th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-4F2F254A-1A81-507A-B364-BE4088D3B3AE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:18 GMT -->
+</html>

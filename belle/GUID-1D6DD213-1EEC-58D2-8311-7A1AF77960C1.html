@@ -1,0 +1,39 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1D6DD213-1EEC-58D2-8311-7A1AF77960C1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:42 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to issue requests" /><meta name="abstract" content="This document describes how an active object issues a request for a service." /><meta name="description" content="This document describes how an active object issues a request for a service." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-B507490F-6BD3-5DF5-97E4-EFDFEA2B4EDD" /><meta name="DC.Relation" scheme="URI" content="GUID-C2608BF5-CDA7-530A-B67A-0414C7FA585D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1D6DD213-1EEC-58D2-8311-7A1AF77960C1" /><meta name="DC.Language" content="en" /><title>How
+to issue requests </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1D6DD213-1EEC-58D2-8311-7A1AF77960C1">How
+to issue requests</h1><div><p>This document describes how an active object issues a request for
+a service.</p>
+<p>Once the active object has been constructed, a request can be issued. In
+the following code fragment, the active object provides the function <code class="codeph">IssueRequest()</code> to
+invoke the encapsulated service function.</p>
+<pre class="codeblock">void CExampleActiveObject::IssueRequest()
+    {
+        // Request the service
+    iServiceProvider-&gt; RequestTheService(iStatus);
+        // Indicate request has been issued
+    SetActive();
+    }</pre>
+<ul>
+<li id="GUID-8359DED4-C349-51AF-8771-111716DC49B3"><a name="GUID-8359DED4-C349-51AF-8771-111716DC49B3"><!-- --></a><p>Pass the <code class="codeph">TRequestStatus</code> object,
+provided by the active objects's <code class="codeph">CActive</code> base class, to the
+service function. As part of its processing, the service function sets this
+to <code class="codeph">KRequestPending</code>, indicating that the request has been
+issued but is not yet complete.</p> </li>
+<li id="GUID-E3652D72-749D-577D-8ED3-9FCEDCB2CCA9"><a name="GUID-E3652D72-749D-577D-8ED3-9FCEDCB2CCA9"><!-- --></a><p>Set the base class's
+active request flag, using the function <code class="codeph">SetActive()</code>, to indicate
+that the active object is currently active. The flag is reset by the active
+scheduler before handling a completed request, or by the active object base
+class as part of the cancellation protocol.</p> </li>
+</ul>
+<div id="GUID-213A1B18-AD81-478A-BC14-F8030F9AF095"><h3 class="section-title">Completing a request</h3> <p>At some point, the service
+provider's processing completes and it calls <code class="codeph">RThread::RequestComplete()</code> passing
+the request status object and the service provider's return code, a value
+other than <code class="codeph">KRequestPending</code>. This results in the active object's <code class="codeph">iStatus</code> member
+being set to the return code value and a signal that the request is complete.</p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1D6DD213-1EEC-58D2-8311-7A1AF77960C1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:42 GMT -->
+</html>

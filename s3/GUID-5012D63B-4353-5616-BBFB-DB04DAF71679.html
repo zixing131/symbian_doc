@@ -1,0 +1,50 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5012D63B-4353-5616-BBFB-DB04DAF71679.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:46 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="XmlExample: Using the XML framework to parse an XML file" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-82AF5F49-EE25-54C7-AEE9-D1F41BD5190F" /><meta name="DC.Relation" scheme="URI" content="GUID-A25E730C-F34D-5464-BE78-650B3DEA4A88" /><meta name="DC.Relation" scheme="URI" content="GUID-AF28D930-6BD1-5DC5-9BE5-7512241E90CD" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5012D63B-4353-5616-BBFB-DB04DAF71679" /><meta name="DC.Language" content="en" /><title>XmlExample: Using the XML framework to parse an XML file </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5012D63B-4353-5616-BBFB-DB04DAF71679">XmlExample: Using the XML framework to parse an XML file</h1><div>
+<div id="GUID-7860D226-83AD-501E-9431-6A61A9AC2996"><h3 class="section-title">Download</h3> <p>Click on the following link to download the example: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/zips/guid-3eef58b5-bcd4-4f1e-a864-71273651c3bb.zip" target="_blank">XmlExample.zip</a></p><p>Click:<a href="guid-6013a680-57f9-415b-8851-c4fa63356636/guid-3eef58b5-bcd4-4f1e-a864-71273651c3bb.html#guid-6013a680-57f9-415b-8851-c4fa63356636/guid-3eef58b5-bcd4-4f1e-a864-71273651c3bb.html">browse</a> to view the example code. </p> </div>
+<div id="GUID-8E9C9A4C-288F-4B0B-B880-853895EA252A"><h3 class="section-title">Introduction</h3> <p>This example application demonstrates the usage of the XML framework
+API to parse XML and WBXML files. </p> <p>The overview contains the
+following sections: </p> <ul>
+<li id="GUID-01C9B600-A55E-55D8-AA35-057464345A45"><a name="GUID-01C9B600-A55E-55D8-AA35-057464345A45"><!-- --></a><p> <a href="#GUID-3A5027A1-BEE9-5EB4-8670-7E729CF9260F">Description</a> </p> </li>
+<li id="GUID-656E68A4-BAF3-505B-AC9A-96C6A9107E1B"><a name="GUID-656E68A4-BAF3-505B-AC9A-96C6A9107E1B"><!-- --></a><p> <a href="#GUID-5dfd0234-44cf-4252-a980-5b73aaa61e35">Class summary</a> </p> </li>
+<li id="GUID-F8CEA6F8-D4AB-5E32-9EC1-9FACED6F34B5"><a name="GUID-F8CEA6F8-D4AB-5E32-9EC1-9FACED6F34B5"><!-- --></a><p> <a href="#GUID-E9F975CA-A59F-5484-83FD-7F17F0A03807">Build</a> </p> </li>
+</ul> </div>
+<div id="GUID-3A5027A1-BEE9-5EB4-8670-7E729CF9260F"><h3 class="section-title">Description</h3> <p>The example application demonstrates, how to use the XML framework
+to parse XML and WBXML files. It takes a valid XML file with a DTD
+(Document Type Declaration) definining its structure, and a WBXML
+(WAP Binary XML format) file as input. You can generate a WBXML file
+from an XML file using any freeware converters. The application's <code>bld.inf</code> file specifies the target path to which all the
+three files (XML, DTD, WBXML) need to be exported. </p> <p>The application
+implements all the pure virtual functions of the Xml::MContentHandler class, which is a client interface to the XML framework. These functions
+inform the client application about the XML element being parsed,
+its content, parser errors if any and so on. </p> <p>The XML and WBXML
+files are parsed using an object of the Xml::CParser class. The parser object is configured to report namespace mappings
+to the client application, using the function <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EE37CB28-DAB4-30A9-B46E-8AE4664B28DE.html#GUID-5F2688CC-16B3-3F0D-B6CA-CE59FE7939BD"><code class="apiname">Xml::CParser::EnableFeature()</code></a>. </p> <p>The application first opens a file session using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html"><code class="apiname">RFs</code></a> to read the XML and WBXML files. Then, the Xml::ParseL() function is called to start parsing the files.
+The application parses the XML file followed by the WBXML file. While
+these files are being parsed, status messages are printed to the console
+by the callback functions as and when they are invoked. </p> <p>For
+demonstration purposes, the XML file is parsed twice, once by the Xml::CParser object created using the MIME type and again
+by the <code class="codeph">CParser</code> object created using match data criteria.
+The match data criteria are specified using an object of the Xml::CMatchData class, which is passed to the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EE37CB28-DAB4-30A9-B46E-8AE4664B28DE.html#GUID-9E9D8DBA-A396-3F62-8B59-C4556FD5A80E"><code class="apiname">Xml::CParser::NewLC()</code></a> function while creating the parser
+object. This will return a <code class="codeph">CParser</code> object that matches
+the specified MIME type, variant and so on. </p> </div>
+<div id="GUID-5DFD0234-44CF-4252-A980-5B73AAA61E35"><h3 class="section-title">Class
+summary</h3><ul>
+<li><p>Xml::MContentHandler</p></li>
+<li><p>Xml::RDocumentParameters</p></li>
+<li><p>Xml::RAttributeArray</p></li>
+<li><p>Xml::CMatchData</p></li>
+</ul></div>
+<div id="GUID-E9F975CA-A59F-5484-83FD-7F17F0A03807"><h3 class="section-title">Build</h3> <p>The Symbian platform build process describes how to build an
+application. </p> <p>The <code class="codeph">XmlExample</code> builds an executable
+called <code>xmlexample.exe</code> in the standard location
+(<code>\epoc32\release\winscw\&lt;build_variant&gt;</code> for
+CodeWarrior). After launching the executable, depending on the emulator
+you are using, you may need to task away from the application launcher/shell
+screen to view the console. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 30th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5012D63B-4353-5616-BBFB-DB04DAF71679.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:47 GMT -->
+</html>

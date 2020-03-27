@@ -1,0 +1,144 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2CE8544C-470C-5693-8ED6-27B01DD9548B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to parse a pathname" /><meta name="abstract" content="This topic describes how to parse a path name for the individual components" /><meta name="description" content="This topic describes how to parse a path name for the individual components" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-BB9760B4-4F3F-5326-81FB-B644C82F0E65" /><meta name="DC.Relation" scheme="URI" content="GUID-198DCED1-F429-5C95-A51D-53AE416687E8" /><meta name="DC.Relation" scheme="URI" content="GUID-ECF9E432-EA93-5284-B0E6-A1211289CBD8" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-2CE8544C-470C-5693-8ED6-27B01DD9548B" /><meta name="DC.Language" content="en" /><title>How
+to parse a pathname </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-2CE8544C-470C-5693-8ED6-27B01DD9548B">How
+to parse a pathname</h1><div><p>This topic describes how to parse a path name for
+the individual components</p>
+<div id="GUID-ACFF7E09-21DC-46BE-A79E-811CD22C0B86"><h3 class="section-title">Retrieving individual components</h3> <p>The following
+code fragment shows how the individual components are extracted using the <code class="codeph">TParseBase</code> functions:</p> <pre class="codeblock">_LIT(KPath,"c:\\wrd\\meeting.wrd");
+...
+TParse p;
+p.Set(KPath,NULL,NULL);
+p.Name();       // gives "meeting"
+p.NameAndExt(); // gives "meeting.wrd"
+...</pre> </div>
+<div id="GUID-CC0F6F19-B61F-43BE-88F4-169A06BCA01C"><h3 class="section-title">Component masking</h3> <p><code class="codeph">TParse</code> can be
+used to select components from different file and path specifications. The <code class="codeph">Set()</code> function
+takes three arguments. They are each parsed into four components: drive, path,
+filename and extension.</p> <p>The example below sets up the <code class="codeph">TParse</code> object
+so that it can be used to yield useful information.</p> <pre class="codeblock">_LIT(KSpec,"A:file1");
+_LIT(KRelated,"C:\\path1\\related.xxx");
+TParse fp;
+fp.Set(KSpec,&amp;KRelated,NULL);</pre> <div class="tablenoborder"><a name="GUID-31958460-AEB8-5876-806B-08982A62FE97"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-31958460-AEB8-5876-806B-08982A62FE97" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>drive</p> </td>
+<td class="cellrowborder" valign="top"><p>path</p> </td>
+<td class="cellrowborder" valign="top"><p>filename</p> </td>
+<td class="cellrowborder" valign="top"><p>extension</p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>file specification</p> </td>
+<td class="cellrowborder" valign="top"><p><code>A:</code> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p><code>file1</code> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>related name</p> </td>
+<td class="cellrowborder" valign="top"><p><code>C:</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>\path1\</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>related</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>.xxx</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>default name</p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>result</p> </td>
+<td class="cellrowborder" valign="top"><p><code>A:</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>\path1\</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>file1</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>.xxx</code> </p> </td>
+</tr>
+</tbody>
+</table></div> <p>The resulting <code class="codeph">fp.fullname</code> will be <code class="codeph">A:\path1\file1.xxx.</code> All
+the components that are specified in the file specification (drive and filename)
+are put into the result; any missing components (path and extension) are taken
+from the related file specification which has next order of precedence; nothing
+is specified in the default.</p> <p>The second example shows how wildcards
+are allowed in the filename and extension.</p> <pre class="codeblock">    TParse fp;
+    _LIT(KSpec,"A:file1");
+    _LIT(KDefault,"C:\\path1\\*.*");
+    fp.Set(KSpec,NULL,&amp;KDefault);</pre> <div class="tablenoborder"><a name="GUID-9CEADC99-16FE-50FD-B401-AB595B91D48C"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-9CEADC99-16FE-50FD-B401-AB595B91D48C" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> </p> </td>
+<td class="cellrowborder" valign="top"><p>drive</p> </td>
+<td class="cellrowborder" valign="top"><p>path</p> </td>
+<td class="cellrowborder" valign="top"><p>filename</p> </td>
+<td class="cellrowborder" valign="top"><p>extension</p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>file specification</p> </td>
+<td class="cellrowborder" valign="top"><p><code>A:</code> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p><code>file1</code> </p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>related filename</p> </td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>default filename</p> </td>
+<td class="cellrowborder" valign="top"><p><code>C:</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>\path1\</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>*</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>.*</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>result</p> </td>
+<td class="cellrowborder" valign="top"><p><code>A:</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>\path1\</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>file1</code> </p> </td>
+<td class="cellrowborder" valign="top"><p><code>.*</code> </p> </td>
+</tr>
+</tbody>
+</table></div> <p>The resulting <code class="codeph">fp.fullname</code> will be <code class="codeph">A:\path1\file1.*</code> </p> <p><strong>Parsing with reference to the session default directory</strong> </p> <p><code class="codeph">TParse</code> operations
+occur without reference to the file server. Two <code class="codeph">RFs::Parse()</code> functions
+perform a <code class="codeph">TParse::Set()</code> using the session path as the <code class="codeph">aDefault</code> argument :
+one of these variants specifies an <code class="codeph">aRelated</code>, the other does
+not. Use these <code class="codeph">RFs::Parse()</code> functions to parse filenames
+with reference to the session path.</p> </div>
+<div id="GUID-A63EEB1D-B5D7-4225-8EF3-328EF25F5C5B"><h3 class="section-title">Wildcard characters</h3> <p>The <code class="codeph">?</code> and <code class="codeph">*</code> wildcard
+characters are supported to indicate a single character, and any sequence
+of characters. Both wildcard characters can be used any number of times in
+any part of any component of the file specification, except the drive. Although
+there is no intention that these will ever change, they are defined as the
+constants <code class="codeph">KMatchOne</code> and <code class="codeph">KMatchAny</code>.</p> </div>
+<div id="GUID-50525BCE-995E-4265-B821-4BA6FC704019"><h3 class="section-title">Illegal paths</h3> <p>The following restrictions apply
+to path components. If any are violated, <code class="codeph">TParse</code> will return <code class="codeph">KErrBadName</code>: </p> <ul>
+<li id="GUID-A1BF9F97-F77C-54D1-AF22-EDB4E06699B6"><a name="GUID-A1BF9F97-F77C-54D1-AF22-EDB4E06699B6"><!-- --></a><p>a path component which
+is followed by a trailing backslash must also be preceded by a backslash.
+For example, the following code will return an error because <code>DIR\</code> is
+neither a directory nor a file.</p> </li>
+</ul> <pre class="codeblock">_LIT(KText,"DIR\\");
+...
+TInt r=parse.Set(KText,NULL,NULL);</pre> <ul>
+<li id="GUID-8B2C6A24-A7AD-5210-8B33-F4E4C328BA57"><a name="GUID-8B2C6A24-A7AD-5210-8B33-F4E4C328BA57"><!-- --></a><p>the length of any component
+(and the total path length) must not exceed 256 characters</p> </li>
+<li id="GUID-A10B9251-BF06-5FB3-A74F-E2E9F2B9A0EE"><a name="GUID-A10B9251-BF06-5FB3-A74F-E2E9F2B9A0EE"><!-- --></a><p>spaces between the drive
+and the first directory in the path are illegal, although there may be spaces
+between other path components, for instance between the path or drive and
+filename, or within path components. The following code will return an error:</p> </li>
+</ul> <pre class="codeblock">_LIT(KBadText,"C: \\DIR\\");
+...
+r=parse.Set(KBadText,NULL,NULL);</pre> <ul>
+<li id="GUID-83462E03-77BF-5692-90AF-729ACE4B7C8E"><a name="GUID-83462E03-77BF-5692-90AF-729ACE4B7C8E"><!-- --></a><p>when using <code class="codeph">TParse::SetNoWild()</code> no
+wildcard character may be present in the filename or extension.</p> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2CE8544C-470C-5693-8ED6-27B01DD9548B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:02 GMT -->
+</html>

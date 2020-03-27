@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-414015F7-2A3A-3427-A70D-E7C873725473.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:18:46 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="gbase64.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-414015F7-2A3A-3427-A70D-E7C873725473" />
+<title>gbase64.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-414015F7-2A3A-3427-A70D-E7C873725473"><a name="GUID-414015F7-2A3A-3427-A70D-E7C873725473"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">gbase64.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-5D42C48E-1EB1-3AFA-9B95-6DCEC04769F7"><a name="GUID-5D42C48E-1EB1-3AFA-9B95-6DCEC04769F7"><!-- --></a>
+<h3 class="sectiontitle">__G_BASE64_H__</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+</p></div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-9DEBDAD3-895F-38B9-B8F5-098D3B644161"><a name="GUID-9DEBDAD3-895F-38B9-B8F5-098D3B644161"><!-- --></a>
+<a name="GUID-6CB1B8A6-A92D-35D9-AD66-7723B2CEFE06"><!-- --></a><h3 class="sectiontitle">g_base64_encode_step ( const guchar *, gsize, gboolean, gchar *, gint *, gint * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>G_BEGIN_DECLS IMPORT_C <a class="xref xref apiRelation" href="GUID-974B763E-BB26-30E2-9DA4-88AE33C6129C.html">gsize</a></td><td>g_base64_encode_step</td><td>(</td><td>const <a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">guchar</a> *</td><td><span class="parameter">in</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-974B763E-BB26-30E2-9DA4-88AE33C6129C.html">gsize</a></td><td><span class="parameter">len</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gboolean</a></td><td><span class="parameter">break_lines</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gchar</a> *</td><td><span class="parameter">out</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gint</a> *</td><td><span class="parameter">state</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gint</a> *</td><td><span class="parameter">save</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">g_base64_encode_step: : the binary data to encode : the length of  : whether to break long lines : pointer to destination buffer : Saved state between steps, initialize to 0 : Saved state between steps, initialize to 0</p>
+<p class="p">Incrementally encode a sequence of binary data into its Base-64 stringified representation. By calling this function multiple times you can convert data in chunks to avoid having to have the full encoded data in memory.</p>
+<p class="p">When all of the data has been converted you must call <a class="xref" href="GUID-414015F7-2A3A-3427-A70D-E7C873725473.html#GUID-E0E93A72-C1E6-3C3C-B9CC-8D0CC1A9CECC">g_base64_encode_close()</a> to flush the saved state.</p>
+<p class="p">The output buffer must be large enough to fit all the data that will be written to it. Due to the way base64 encodes you will need at least: ( / 3 + 1) * 4 + 4 bytes (+ 4 may be needed in case of non-zero state). If you enable line-breaking you will need at least: (( / 3 + 1) * 4 + 4) / 72 + 1 bytes of extra space.</p>
+<p class="p">is typically used when putting base64-encoded data in emails. It breaks the lines at 72 columns instead of putting all of the text on the same line. This avoids problems with long lines in the email system.</p>
+<p class="p">Return value: The number of bytes of output that was written</p>
+<p class="p">Since: 2.12 </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-E0E93A72-C1E6-3C3C-B9CC-8D0CC1A9CECC"><a name="GUID-E0E93A72-C1E6-3C3C-B9CC-8D0CC1A9CECC"><!-- --></a>
+<a name="GUID-3795D82F-1A92-3C42-B078-EC6C4175CDE6"><!-- --></a><h3 class="sectiontitle">g_base64_encode_close ( gboolean, gchar *, gint *, gint * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C <a class="xref xref apiRelation" href="GUID-974B763E-BB26-30E2-9DA4-88AE33C6129C.html">gsize</a></td><td>g_base64_encode_close</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gboolean</a></td><td><span class="parameter">break_lines</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gchar</a> *</td><td><span class="parameter">out</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gint</a> *</td><td><span class="parameter">state</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gint</a> *</td><td><span class="parameter">save</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">g_base64_encode_close: : whether to break long lines : pointer to destination buffer : Saved state from <a class="xref" href="GUID-414015F7-2A3A-3427-A70D-E7C873725473.html#GUID-9DEBDAD3-895F-38B9-B8F5-098D3B644161">g_base64_encode_step()</a> : Saved state from <a class="xref" href="GUID-414015F7-2A3A-3427-A70D-E7C873725473.html#GUID-9DEBDAD3-895F-38B9-B8F5-098D3B644161">g_base64_encode_step()</a></p>
+<p class="p">Flush the status from a sequence of calls to <a class="xref" href="GUID-414015F7-2A3A-3427-A70D-E7C873725473.html#GUID-9DEBDAD3-895F-38B9-B8F5-098D3B644161">g_base64_encode_step()</a>.</p>
+<p class="p">Return value: The number of bytes of output that was written</p>
+<p class="p">Since: 2.12 </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-9AF2839F-EED0-32CD-A18A-30785FAE3A2D"><a name="GUID-9AF2839F-EED0-32CD-A18A-30785FAE3A2D"><!-- --></a>
+<a name="GUID-6DF77E11-0824-35CB-A4A9-E3A26803E2FE"><!-- --></a><h3 class="sectiontitle">g_base64_encode ( const guchar *, gsize )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C <a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gchar</a> *</td><td>g_base64_encode</td><td>(</td><td>const <a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">guchar</a> *</td><td><span class="parameter">data</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-974B763E-BB26-30E2-9DA4-88AE33C6129C.html">gsize</a></td><td><span class="parameter">len</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">g_base64_encode: : the binary data to encode : the length of </p>
+<p class="p">Encode a sequence of binary data into its Base-64 stringified representation.</p>
+<p class="p">Return value: a newly allocated, zero-terminated Base-64 encoded string representing . The returned string must be freed with <a class="xref" href="GUID-BD71956A-0B91-338A-A9D9-7D578D3BDD04.html#GUID-48B0C657-B32D-3E4F-B805-885F1E51F0AA">g_free()</a>.</p>
+<p class="p">Since: 2.12 </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-6E7968C1-2F27-3C6A-AA1A-B79BD125FC40"><a name="GUID-6E7968C1-2F27-3C6A-AA1A-B79BD125FC40"><!-- --></a>
+<a name="GUID-83DA0F47-8C48-3DA2-BA80-7EB4DCCE93FF"><!-- --></a><h3 class="sectiontitle">g_base64_decode_step ( const gchar *, gsize, guchar *, gint *, guint * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C <a class="xref xref apiRelation" href="GUID-974B763E-BB26-30E2-9DA4-88AE33C6129C.html">gsize</a></td><td>g_base64_decode_step</td><td>(</td><td>const <a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gchar</a> *</td><td><span class="parameter">in</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-974B763E-BB26-30E2-9DA4-88AE33C6129C.html">gsize</a></td><td><span class="parameter">len</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">guchar</a> *</td><td><span class="parameter">out</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gint</a> *</td><td><span class="parameter">state</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">guint</a> *</td><td><span class="parameter">save</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">g_base64_decode_step: : binary input data : max length of  data to decode : output buffer : Saved state between steps, initialize to 0 : Saved state between steps, initialize to 0</p>
+<p class="p">Incrementally decode a sequence of binary data from its Base-64 stringified representation. By calling this function multiple times you can convert data in chunks to avoid having to have the full encoded data in memory.</p>
+<p class="p">The output buffer must be large enough to fit all the data that will be written to it. Since base64 encodes 3 bytes in 4 chars you need at least: ( / 4) * 3 + 3 bytes (+ 3 may be needed in case of non-zero state).</p>
+<p class="p">Return value: The number of bytes of output that was written</p>
+<p class="p">Since: 2.12 </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-0EBDDC07-52A3-396D-BF09-1372DC9E965B"><a name="GUID-0EBDDC07-52A3-396D-BF09-1372DC9E965B"><!-- --></a>
+<a name="GUID-EF9F1C24-83B0-3462-988A-C469ED521D5B"><!-- --></a><h3 class="sectiontitle">g_base64_decode ( const gchar *, gsize * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C <a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">guchar</a> *</td><td>g_base64_decode</td><td>(</td><td>const <a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gchar</a> *</td><td><span class="parameter">text</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-974B763E-BB26-30E2-9DA4-88AE33C6129C.html">gsize</a> *</td><td><span class="parameter">out_len</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">g_base64_decode: : zero-terminated string with base64 text to decode : The length of the decoded data is written here</p>
+<p class="p">Decode a sequence of Base-64 encoded text into binary data</p>
+<p class="p">Return value: a newly allocated buffer containing the binary data that  represents. The returned buffer must be freed with <a class="xref" href="GUID-BD71956A-0B91-338A-A9D9-7D578D3BDD04.html#GUID-48B0C657-B32D-3E4F-B805-885F1E51F0AA">g_free()</a>.</p>
+<p class="p">Since: 2.12 </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-BA12B71A-89F0-35C8-8F00-C5164A33D541"><a name="GUID-BA12B71A-89F0-35C8-8F00-C5164A33D541"><!-- --></a>
+<a name="GUID-24D1B465-900B-35F2-A96E-61F0CA7D457F"><!-- --></a><h3 class="sectiontitle">g_base64_decode_inplace ( gchar *, gsize * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C <a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">guchar</a> *</td><td>g_base64_decode_inplace</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gchar</a> *</td><td><span class="parameter">text</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-974B763E-BB26-30E2-9DA4-88AE33C6129C.html">gsize</a> *</td><td><span class="parameter">out_len</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">g_base64_decode_inplace: : zero-terminated string with base64 text to decode : The length of the decoded data is written here</p>
+<p class="p">Decode a sequence of Base-64 encoded text into binary data by overwriting the input data.</p>
+<p class="p">Return value: The binary data that  responds. This pointer is the same as the input .</p>
+<p class="p">Since: 2.20 </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+</div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></div></div></div></p></div></div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-414015F7-2A3A-3427-A70D-E7C873725473.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:18:47 GMT -->
+</html>

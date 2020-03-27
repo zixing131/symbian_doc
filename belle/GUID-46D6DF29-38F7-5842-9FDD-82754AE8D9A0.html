@@ -1,0 +1,126 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-46D6DF29-38F7-5842-9FDD-82754AE8D9A0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:47 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Human-Readable File Formats Reference" /><meta name="abstract" content="This section provides details of the fields in the various certificate store human-readable files." /><meta name="description" content="This section provides details of the fields in the various certificate store human-readable files." /><meta name="DC.Relation" scheme="URI" content="GUID-B1B3C5E6-9F38-5A55-A30E-4C7591B446CC" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-315452C2-A1E2-5888-A694-6D2DE73A3F5E" /><meta name="DC.Relation" scheme="URI" content="GUID-A40376B6-8B2B-551A-B72F-CFCADBC84BE7" /><meta name="DC.Relation" scheme="URI" content="GUID-4B03733F-D84D-5A28-B772-2E256D86ABC7" /><meta name="DC.Relation" scheme="URI" content="GUID-6BD23C4F-CBF7-584D-81D9-EB8D14DC3081" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-46D6DF29-38F7-5842-9FDD-82754AE8D9A0" /><meta name="DC.Language" content="en" /><title>Human-Readable
+File Formats Reference </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-46D6DF29-38F7-5842-9FDD-82754AE8D9A0">Human-Readable
+File Formats Reference</h1><div><p>This section provides details of the fields in the various certificate
+store human-readable files. </p>
+<div id="GUID-83AA7A83-E51B-5BFA-9BB2-A0CED031B8B0"><h3 class="section-title">File Certificate
+Store Field Details</h3> <p>The following table provide details of the
+file certificate store fields: </p> <div class="tablenoborder"><a name="GUID-83651A7D-D70E-55D1-96CC-97E3239F7B9C"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-83651A7D-D70E-55D1-96CC-97E3239F7B9C" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Name</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Description</strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">StartEntry</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Specifies the certificate label. This label is in UTF-8 format and
+limited to 64 characters. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">Deletable</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>The value of this field indicates whether the certificate can be
+deleted. <code class="codeph">True</code> indicates that the certificate can be deleted. <code class="codeph">False</code> indicates
+that the certificate must be protected from deletion. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">Format</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Specifies the certificate format. This is usually set to <code class="codeph">EX509Certificate</code>. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">CertificateOwnerType</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Indicates the type of certificate owner. This field has the following
+legal values: <code class="codeph">ECACertificate</code>, <code class="codeph">EUserCertificate</code> and <code class="codeph">EPeerCertificate</code>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph"> SubjectKeyId</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Both these fields are used to build certificate chains by looking
+for certificates with <code class="codeph">SubjectKeyId</code> values that match the <code class="codeph">IssuerKeyId</code> value
+of the first certificate in the chain. While the <code class="codeph">SubjectKeyId</code> enables
+identification of certificates containing a public key (in this case, the
+issuer key), the <code class="codeph">IssuerKeyId</code> is the unique value that identifies
+the issued certificate. </p> <p>These fields are optional. If omitted, their
+values are considered equivalent to auto. For x509 certificates, it is recommended
+that these fields be omitted or set to auto. For other certificate types,
+specify an octet string value. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph"> IssuerKeyId</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph"> StartApplicationList</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Indicates the start and end of the application list. An application
+list specifies the applications associated with a certificate. Applications
+can be specified by UID or by name (in which case they are looked up in <code class="codeph">certclients.dat</code>). </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph"> EndApplicationList</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">Trusted</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>The value of this field is usually set to <code class="codeph">True</code>.
+If set to <code class="codeph">False</code>, the certificate does not act as a trust
+anchor and its capabilities are not used. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">DataFileName</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Specifies the name of the file from which the certificate is to
+be read. </p> <p>If the certificate format is not x509, the contents are treated
+as a raw block of data. If the format is x509, the file can be either of the
+following: </p> <ul>
+<li id="GUID-39DE0AA4-A147-51CD-B39F-044DC67BF272"><a name="GUID-39DE0AA4-A147-51CD-B39F-044DC67BF272"><!-- --></a><p>A Privacy Enhanced Mail
+(PEM) encoded certificate in a UTF-8 file with or without a UTF-8 Byte Order
+Marker (BOM) </p> </li>
+<li id="GUID-176D7B07-879F-5D3F-86A5-EF18B9A450FB"><a name="GUID-176D7B07-879F-5D3F-86A5-EF18B9A450FB"><!-- --></a><p>A binary file containing
+a Distinguished Encoding Rules (DER) encoded certificate. </p> </li>
+</ul> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-C30DFFCA-DFFB-5F1F-8306-659B8429EBFC"><h3 class="section-title">SWI Certificate
+Store Field Details</h3> <p>The following table provides information on
+the SWI certificate store fields. Because the SWI certificate store is a superset
+of the file certificate store, the following table lists only fields specific
+to the SWI certificate store. </p> <div class="tablenoborder"><a name="GUID-E7CC3963-A5B0-52EE-B855-13DA11EB0FCD"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-E7CC3963-A5B0-52EE-B855-13DA11EB0FCD" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Name</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Description</strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">CapabilitySet</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Defines a list of capabilities allowed in applications that have
+the certificate as their trust anchor. Standard capability names or numeric
+bit numbers can be specified. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">Mandatory</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>The value of this field is usually be set to <code class="codeph">False</code> so
+that it enables the installation of any package not signed by a certificate
+that resolves to a SWI certificate. A <code class="codeph">True</code> value prevents
+normal installation of packages. </p> <p> <strong>Note:</strong> If the certificate
+store is deployed in a device that does not support the feature of updating
+ROM files without using SIS stubs, the certificate gets interpreted as <code class="codeph">Mandatory</code>.
+This prevents all normal applications from installing. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">SystemUpgrade</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>The value of this field must usually be set to <code class="codeph">False</code> to
+enable normal installation of applications. A <code class="codeph">True</code> value
+of this field indicates that any application signed by a certificate which
+resolves to this certificate is treated as a System Upgrade, and consequently,
+a lot of security checks are disabled for that application. </p> <p> <strong>Note:</strong> The
+field is set to <code class="codeph">True</code> only when the certificate store is deployed
+in a device that supports the feature of updating ROM files without using
+SIS stubs. </p> </td>
+</tr>
+</tbody>
+</table></div> <p> <strong>Important: </strong> A SWI certificate store does not have a <code class="codeph">Deletable</code> field
+because all the SWI certificates are protected from deletion. </p> </div>
+</div><h3>Related reference</h3><ul><li><a href="GUID-B1B3C5E6-9F38-5A55-A30E-4C7591B446CC.html">Certificate
+Store Human-Readable File Formats</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 2nd, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-46D6DF29-38F7-5842-9FDD-82754AE8D9A0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:47 GMT -->
+</html>

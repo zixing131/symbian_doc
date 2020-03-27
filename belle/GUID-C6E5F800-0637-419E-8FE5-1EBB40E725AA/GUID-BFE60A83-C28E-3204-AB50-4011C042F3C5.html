@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:19:40 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="dirent.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5" />
+<title>dirent.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5"><a name="GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">dirent.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-38650F07-178C-3298-AFDE-8CD0D338B34B"><a name="GUID-38650F07-178C-3298-AFDE-8CD0D338B34B"><!-- --></a>
+<h3 class="sectiontitle">d_ino</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+</p></div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-0EB91135-28DC-3850-BE91-97BA9F19FF59"><a name="GUID-0EB91135-28DC-3850-BE91-97BA9F19FF59"><!-- --></a>
+<h3 class="sectiontitle">Typedef DIR</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef void *</td><td>DIR</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">defines DIR data type through typedef. A type representing a directory stream.</p>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-FD3A8F83-1F38-36C1-9570-9553320B4F58"><a name="GUID-FD3A8F83-1F38-36C1-9570-9553320B4F58"><!-- --></a>
+<a name="GUID-408980F0-4241-3033-8BEF-F261B9448150"><!-- --></a><h3 class="sectiontitle">opendir ( const char * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C <a class="xref xref apiRelation" href="GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5.html">DIR</a> *</td><td>opendir</td><td>(</td><td>const char *</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The opendir function opens the directory named by _path , associates a directory stream with it and returns a pointer to be used to identify the directory stream in subsequent operations. The pointer NULL is returned if filename cannot be accessed, or if it cannot malloc enough memory to hold the whole thing.</p>
+<p class="p">The readdir function returns a pointer to the next directory entry. It returns NULL upon reaching the end of the directory or detecting an invalid seekdir operation.</p>
+<p class="p">The readdir_r function provides the same functionality as readdir , but the caller must provide a directory entry buffer to store the results in. If the read succeeds, result is pointed at the entry ; upon reaching the end of the directory result is set to NULL . The readdir_r function returns 0 on success or an error number to indicate failure.</p>
+<p class="p">The telldir function returns the current location associated with the named directory stream . Values returned by telldir are good only for the lifetime of the DIR pointer, dirp , from which they are derived. If the directory is closed and then reopened, prior values returned by telldir will no longer be valid.</p>
+<p class="p">The seekdir function sets the position of the next readdir operation on the directory stream . The new position reverts to the one associated with the directory stream when the telldir operation was performed.</p>
+<p class="p">The rewinddir function resets the position of the named directory stream to the beginning of the directory.</p>
+<p class="p">The closedir function closes the named directory stream and frees the structure associated with the dirp pointer, returning 0 on success. On failure, -1 is returned and the global variable errno is set to indicate the error.</p>
+<p class="p">The dirfd function returns the integer file descriptor associated with the named directory stream , see open .</p>
+<div class="p">
+<pre class="pre codeblock"> Sample code which searches a directory for entry name is: len = strlen(name);
+dirp = opendir(".");
+while ((dp = readdir(dirp)) != NULL)
+        if (dp-&gt;d_namlen == len &amp;&amp; !strcmp(dp-&gt;d_name, name)) {
+                (void)closedir(dirp);
+                return FOUND;
+        }
+(void)closedir(dirp);
+return NOT_FOUND;</pre>
+</div>
+<div class="p">Examples: <pre class="pre codeblock">/* Detailed description: This test code demonstrates usage of opendir system call, open directory name test.
+ Preconditions: Expects Test directory to be present in the current working directory.
+*/
+ #include &lt;sys/types.h&gt;
+ #include &lt;dirent.h&gt;
+int main()
+{
+  DIR *DirHandle;
+  if(!(DirHandle = opendir("Test") ) ) 
+  {
+     printf("Failed to open directory Test\n");
+     return -1;
+  }
+  printf("Directory Test opened \n");
+  return 0;
+}</pre>
+<pre class="pre codeblock">Output 
+Directory Test opened</pre>
+</div>
+<p class="p">Limitations:</p>
+<p class="p">The filename parameter of the <a class="xref" href="GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5.html#GUID-FD3A8F83-1F38-36C1-9570-9553320B4F58">opendir()</a> function should not exceed 256 characters in length.</p>
+<p class="p">
+</p><p class="p">See also: close() <a class="xref" href="GUID-1E1E8FB2-DEC1-3D52-B3B7-B339F4F689E8.html#GUID-F89B4BED-1EE5-3279-AFCC-CFAE30C250D4">lseek()</a> open() read()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter"></td><td>Note: This description also covers the following functions - readdir() readdir_r() telldir() seekdir() rewinddir() closedir() dirfd() </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>closedir function returns 0 on success or -1 on failure.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-6768CF59-4557-300E-8262-92E46E373309"><a name="GUID-6768CF59-4557-300E-8262-92E46E373309"><!-- --></a>
+<a name="GUID-36981A13-BE1F-3A0E-A79C-7719F6CDA60D"><!-- --></a><h3 class="sectiontitle">readdir ( DIR * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C struct <a class="xref xref apiRelation" href="GUID-8F1FB5EA-5FBF-3BA7-A812-EFF0AF37A63E.html">dirent</a> *</td><td>readdir</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5.html">DIR</a> *</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+</p><p class="p">See also: close() <a class="xref" href="GUID-1E1E8FB2-DEC1-3D52-B3B7-B339F4F689E8.html#GUID-F89B4BED-1EE5-3279-AFCC-CFAE30C250D4">lseek()</a> open() read()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter"></td><td>Refer to opendir() for the documentation  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-2FCAF76E-0807-3413-BC14-DEE0CA7309EC"><a name="GUID-2FCAF76E-0807-3413-BC14-DEE0CA7309EC"><!-- --></a>
+<a name="GUID-5F0BD409-0460-3886-A0D3-5F6117D82481"><!-- --></a><h3 class="sectiontitle">rewinddir ( DIR * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>rewinddir</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5.html">DIR</a> *</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+</p><p class="p">See also: close() <a class="xref" href="GUID-1E1E8FB2-DEC1-3D52-B3B7-B339F4F689E8.html#GUID-F89B4BED-1EE5-3279-AFCC-CFAE30C250D4">lseek()</a> open() read()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter"></td><td>Refer to opendir() for the documentation  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-5E103C6C-1D2D-37F3-B294-886F6B4E23C4"><a name="GUID-5E103C6C-1D2D-37F3-B294-886F6B4E23C4"><!-- --></a>
+<a name="GUID-E6497ADD-6F4E-3795-AB4C-DB9347DAB22F"><!-- --></a><h3 class="sectiontitle">alphasort ( const void *, const void * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>alphasort</td><td>(</td><td>const void *</td><td><span class="parameter">,</span></td></tr><tr><td colspan="3"> </td><td>const void *</td><td><span class="parameter"></span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+</p><p class="p">See also: directory() <a class="xref" href="GUID-57422517-4727-32A9-83ED-4C8A8EDDB19B.html#GUID-258D9E64-58E4-3C3E-97FE-9B6A36F1D499">malloc()</a> <a class="xref" href="GUID-57422517-4727-32A9-83ED-4C8A8EDDB19B.html#GUID-E0FF8917-56A7-3C66-BCA4-D56B8B8AA608">qsort()</a> dir()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr class="bg"><td class="parameter"></td><td>Refer to scandir() for the documentation  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-E62C349E-29E2-3142-9264-4B54F25984CA"><a name="GUID-E62C349E-29E2-3142-9264-4B54F25984CA"><!-- --></a>
+<a name="GUID-7F849F6C-F833-389B-9E89-0DCE700750A9"><!-- --></a><h3 class="sectiontitle">scandir ( const char *, struct dirent ***, int(*)(struct dirent *), int(*)(const void *, const void *) )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>scandir</td><td>(</td><td>const char *</td><td><span class="parameter">,</span></td></tr><tr><td colspan="3"> </td><td>struct <a class="xref xref apiRelation" href="GUID-8F1FB5EA-5FBF-3BA7-A812-EFF0AF37A63E.html">dirent</a> ***</td><td><span class="parameter">,</span></td></tr><tr><td colspan="3"> </td><td>int(*)(struct <a class="xref xref apiRelation" href="GUID-8F1FB5EA-5FBF-3BA7-A812-EFF0AF37A63E.html">dirent</a> *)</td><td><span class="parameter">,</span></td></tr><tr><td colspan="3"> </td><td>int(*)(const void *, const void *)</td><td><span class="parameter"></span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The scandir function reads the directory dirname and builds an array of pointers to directory entries using malloc It returns the number of entries in the array. A pointer to the array of directory entries is stored in the location referenced by namelist.</p>
+<p class="p">The select argument is a pointer to a user supplied subroutine which is called by scandir to select which entries are to be included in the array. The select routine is passed a pointer to a directory entry and should return a non-zero value if the directory entry is to be included in the array. If select is null, then all the directory entries will be included.</p>
+<p class="p">The compar argument is a pointer to a user supplied subroutine which is passed to qsort to sort the completed array. If this pointer is null, the array is not sorted.</p>
+<p class="p">The alphasort function is a routine which can be used for the compar argument to sort the array alphabetically.</p>
+<p class="p">The memory allocated for the array can be deallocated with free , by freeing each pointer in the array and then the array itself.</p>
+<div class="p">Examples: <pre class="pre codeblock">//Illustrates how to use scandir API.
+#include &lt;dirent.h&gt;
+Void  scandirTest()
+    {
+       struct dirent **namelist;
+       int n;
+       // Function call to get the dir entries into the namelist.
+       n = scandir("\home\manjus\GETTEXT", &amp;namelist;, 0, 0);
+      
+       if(n &gt; 0) // if scandir is successful it retuns the number of entries greater than 0
+       {
+             // print all the entries in the directory.
+        while(n--)
+        {
+                printf("dir name @ pos %d is %s",n,namelist[n]-&gt;d_name);
+        }
+       }
+     }</pre>
+ Diagnostics: Returns -1 if the directory cannot be opened for reading or if malloc cannot allocate enough memory to hold all the data structures.</div>
+<p class="p">Limitations:</p>
+<p class="p">The dirname parameter in <a class="xref" href="GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5.html#GUID-E62C349E-29E2-3142-9264-4B54F25984CA">scandir()</a> should not exceed 256 characters in length.</p>
+<p class="p">
+</p><p class="p">See also: directory() <a class="xref" href="GUID-57422517-4727-32A9-83ED-4C8A8EDDB19B.html#GUID-258D9E64-58E4-3C3E-97FE-9B6A36F1D499">malloc()</a> <a class="xref" href="GUID-57422517-4727-32A9-83ED-4C8A8EDDB19B.html#GUID-E0FF8917-56A7-3C66-BCA4-D56B8B8AA608">qsort()</a> dir()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr class="bg"><td class="parameter"></td><td>Note: This description also covers the following functions - alphasort() </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-36F4F07D-9CDF-34DC-8B53-4AC9AB5678B0"><a name="GUID-36F4F07D-9CDF-34DC-8B53-4AC9AB5678B0"><!-- --></a>
+<a name="GUID-78C192D1-8A65-34FA-A0D0-46439E866EFD"><!-- --></a><h3 class="sectiontitle">seekdir ( DIR *, long )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>seekdir</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5.html">DIR</a> *</td><td><span class="parameter">,</span></td></tr><tr><td colspan="3"> </td><td>long</td><td><span class="parameter"></span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+</p><p class="p">See also: close() <a class="xref" href="GUID-1E1E8FB2-DEC1-3D52-B3B7-B339F4F689E8.html#GUID-F89B4BED-1EE5-3279-AFCC-CFAE30C250D4">lseek()</a> open() read()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr class="bg"><td class="parameter"></td><td>Refer to opendir() for the documentation  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-D4951CAE-FAEA-348C-B7BB-40280432E1C4"><a name="GUID-D4951CAE-FAEA-348C-B7BB-40280432E1C4"><!-- --></a>
+<a name="GUID-1E1B02AD-2764-3A02-AE72-75FDED2C19F9"><!-- --></a><h3 class="sectiontitle">telldir ( DIR * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C long</td><td>telldir</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5.html">DIR</a> *</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+</p><p class="p">See also: close() <a class="xref" href="GUID-1E1E8FB2-DEC1-3D52-B3B7-B339F4F689E8.html#GUID-F89B4BED-1EE5-3279-AFCC-CFAE30C250D4">lseek()</a> open() read()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter"></td><td>Refer to opendir() for the documentation  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-B6E80ABE-721F-3225-AC6A-323F6A020468"><a name="GUID-B6E80ABE-721F-3225-AC6A-323F6A020468"><!-- --></a>
+<a name="GUID-D88D88DA-8E2A-39FD-8EA9-5B950E97CA7A"><!-- --></a><h3 class="sectiontitle">closedir ( DIR * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>closedir</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5.html">DIR</a> *</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+</p><p class="p">See also: close() <a class="xref" href="GUID-1E1E8FB2-DEC1-3D52-B3B7-B339F4F689E8.html#GUID-F89B4BED-1EE5-3279-AFCC-CFAE30C250D4">lseek()</a> open() read()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter"></td><td>Refer to opendir() for the documentation  </td></tr></table></div>
+</div>
+</div>
+</div></p></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BFE60A83-C28E-3204-AB50-4011C042F3C5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:19:40 GMT -->
+</html>

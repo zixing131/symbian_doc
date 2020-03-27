@@ -1,0 +1,34 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-675652EB-BCFC-4A73-8C98-6E47583683B1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Getting correctly formatted date and time" /><meta name="abstract" content="Date and time should be formatted according to current locale/UI language." /><meta name="description" content="Date and time should be formatted according to current locale/UI language." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-9F54E3BC-E902-4DB8-A653-0A10A76DAA0C" /><meta name="DC.Relation" scheme="URI" content="GUID-3C151C7A-3EEC-4EDE-9C19-44A93175D626" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-675652EB-BCFC-4A73-8C98-6E47583683B1" /><meta name="DC.Language" content="en" /><title>Getting correctly formatted date and time </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-675652EB-BCFC-4A73-8C98-6E47583683B1">Getting correctly formatted date and time</h1><div><p>Date and time should be formatted according to current
+locale/UI language.</p>
+<p>This can be done using <code class="codeph">Qt.formatDate</code> and <code class="codeph">Qt.formatTime</code>.</p>
+<pre class="codeblock">string Qt::formatDate ( datetime date, variant format ) 
+string Qt::formatTime ( datetime time, variant format )</pre>
+<p><strong>Example:</strong></p>
+<pre class="codeblock">property string date1: Qt.formatDate(new Date)  // current date&amp;time
+    property string date2: Qt.formatDate(new Date, Qt.DefaultLocaleLongDate)
+    property string time: Qt.formatTime(new Date)
+
+    Text {
+        text: qsTr("short date: %1").arg(date1)
+    }
+    Text {
+        text: qsTr("long date: %1").arg(date2)
+    }
+    Text {
+        text: qsTr("time: %1").arg(time)
+    }
+</pre>
+<p>If format, like in this case, is not specified, it's fetched from
+locale. On the Symbian platform, these are mapped to <code class="codeph">ShortDateFormatSpec</code>, <code class="codeph">LongDateFormatSpec</code> (in case of <code class="codeph">Qt.DefaultLocaleLongDate</code>) and <code class="codeph">TimeFormatSpec</code>.</p>
+<p>Current values defined in locale are not best possible ones, so
+those need to be modified to get correct results.</p>
+<p>Check also how locale data changes from control panel should be
+reacted upon. For more information, see <a href="http://doc.qt.nokia.com/4.7-snapshot/qml-qt.html#http://doc.qt.nokia.com/4.7-snapshot/qml-qt.html">QML Qt Element</a>.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-675652EB-BCFC-4A73-8C98-6E47583683B1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+</html>

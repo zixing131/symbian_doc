@@ -1,0 +1,77 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E96D8052-0CB2-53A6-915F-133D3058DCF9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:03 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="MTM Registration" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-44CF5471-564E-5790-935B-51193A4978D6" /><meta name="DC.Relation" scheme="URI" content="GUID-8B843382-D27A-5E36-8F60-304903F3AA41" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E96D8052-0CB2-53A6-915F-133D3058DCF9" /><meta name="DC.Language" content="en" /><title>MTM Registration </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E96D8052-0CB2-53A6-915F-133D3058DCF9">MTM Registration</h1><div>
+<p>Any MTM that is used by a client application must be registered
+with the Message Server. The registration information about all the
+MTMs installed on a device is contained in a dedicated file managed
+by the Message Server called the MTM Registry. Registry classes use
+this registration data to allow MTM components to be identified and
+instantiated. For example, the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A0682D04-9084-3DC3-AA18-5B81A78A1DA8.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A0682D04-9084-3DC3-AA18-5B81A78A1DA8.html"><code class="apiname">CClientMtmRegistry</code></a> class has a member function to create a Client-side MTM object. </p>
+<div id="GUID-BC64579D-D224-4147-8E1F-196A4989AC40"><h3 class="section-title">MTM registries</h3> <p>Registration of an MTM on
+the device is managed by four registries—three transient registries
+within each client process (Client MTM, UI MTM and UI Data MTM) and
+one permanent registry on the server-side (Server MTM). The server-side
+registry owns and maintains a streamed copy of the registration data
+for all MTM components on the device. </p><p>When a new client-side
+registry is created by a client process, the server-side registry
+initializes the client registry by setting the available and relevant
+types (UI, UI Data, Client) of MTMs. This initialization takes place
+through the Message Server and the session object which is owned by
+the process that instantiated the new registry object. </p> <p> <strong>Note:</strong> Updating the client-side registries during run-time is done through
+the same process. The MTM installation control panel is a client-side
+process that uses a session object to talk to the server. Registration
+data representing new MTM DLLs is passed to the Message Server and
+onto the server-side registry. The server-side registry then updates
+its cached data before notifying all current client processes about
+the newly available MTM DLL. </p> <p>The Messaging Server uses a registry
+to instantiate Server MTMs, and deletes the MTM objects when there
+no client requests. The server-side registry classes monitor the use
+of MTM component DLLs and maintain a reference count of the objects
+instantiated from each DLL. When that reference count falls to zero,
+the DLL that provides the MTM is unloaded. However, this is not done
+immediately, but only after the time specified in <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EEC5813B-4C9F-323B-BCD6-1BB1A08D0B8C.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EEC5813B-4C9F-323B-BCD6-1BB1A08D0B8C.html"><code class="apiname">TTimeIntervalMicroSeconds32</code></a> <code class="codeph">           aTimeoutMicroSeconds32</code>. This increases
+the efficiency in cases where the DLL is required again shortly. </p> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A0682D04-9084-3DC3-AA18-5B81A78A1DA8.html#GUID-3010EA8F-DCC4-34AD-ADD8-83B789B10638"><code class="apiname">CClientMtmRegistry::NewMtmL(TUid)</code></a> function
+is used to create a Client MTM object for a protocol with a specified
+UID. The following steps illustrate how a Client MTM is identified
+and initialised: </p> <ol id="GUID-A4C4A3AE-395F-586C-BFAB-D1B0E30CFC8C">
+<li id="GUID-D9CD05E2-620B-501A-9C0D-8C24BE47F997"><a name="GUID-D9CD05E2-620B-501A-9C0D-8C24BE47F997"><!-- --></a><p>A Messaging
+client application calls the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A0682D04-9084-3DC3-AA18-5B81A78A1DA8.html#GUID-76DA50D4-BA2E-3B06-8D80-A0619337C233"><code class="apiname">CClientMtmRegistry::NewMtmL()</code></a> function, passing the UID of the MTM component that it wants. </p> </li>
+<li id="GUID-7A27FC2C-1CA6-53F0-B2EE-D1814E455BF1"><a name="GUID-7A27FC2C-1CA6-53F0-B2EE-D1814E455BF1"><!-- --></a><p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A0682D04-9084-3DC3-AA18-5B81A78A1DA8.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A0682D04-9084-3DC3-AA18-5B81A78A1DA8.html"><code class="apiname">CClientMtmRegistry</code></a> class searches the registry for a record
+for the required MTM component, and obtains the library name from
+it, and the ordinal number of the library's exported factory function
+that can create an MTM object. </p> </li>
+<li id="GUID-4A89BA96-B946-5EC6-B285-9797A41E967A"><a name="GUID-4A89BA96-B946-5EC6-B285-9797A41E967A"><!-- --></a><p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A0682D04-9084-3DC3-AA18-5B81A78A1DA8.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A0682D04-9084-3DC3-AA18-5B81A78A1DA8.html"><code class="apiname">CClientMtmRegistry</code></a> class loads the DLL and calls the factory
+function, passing the new object back to the caller. </p> </li>
+</ol> <p>A similar process is used for UI and UI Data MTMs. After
+a client application has obtained an MTM object from the registry,
+it is responsible for that object and must delete it when it is no
+longer needed. </p> </div>
+<div id="GUID-EBBDB3ED-B5BD-580C-8869-BA35DBA64F1F"><h3 class="section-title">Example</h3> <p>The following example explains the steps to create a Client MTM
+registry. </p> <p>When a Messaging client application is created to
+send and receive messages, a Client registry must be created. For
+detailed instructions, see the <a href="GUID-BB35DBCC-FE56-547F-BADA-9EF854691ADC.html">POP3 and IMAP4</a> example programs. </p> <p>Use the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A0682D04-9084-3DC3-AA18-5B81A78A1DA8.html#GUID-DBD7038B-A0E2-3791-A4C9-3A22FFCA146A"><code class="apiname">CClientMtmRegistry::NewL()</code></a> function with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EEC5813B-4C9F-323B-BCD6-1BB1A08D0B8C.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EEC5813B-4C9F-323B-BCD6-1BB1A08D0B8C.html"><code class="apiname">TTimeIntervalMicroSeconds32</code></a> <code class="codeph">           aTimeoutMicroSeconds32</code> to create a Client MTM
+object for a protocol with a specified UID. The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EEC5813B-4C9F-323B-BCD6-1BB1A08D0B8C.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EEC5813B-4C9F-323B-BCD6-1BB1A08D0B8C.html"><code class="apiname">TTimeIntervalMicroSeconds32</code></a> <code class="codeph">           aTimeoutMicroSeconds32</code> parameter represents
+a microsecond time interval stored in 32 bit, which is used to wait
+before unloading MTM DLLs. </p> <pre class="codeblock">void CImap4Example::CreateClientRegistryL()
+    {
+    // Create a message server session
+    iSession=CMsvSession::OpenSyncL(*this);
+    CleanupStack::PushL(iSession);
+
+    // Create a client MTM registry
+                // Time interval to unload a unused MTM DLL
+    iClientRegistry=CClientMtmRegistry::NewL(*iSession,KMsvDefaultTimeoutMicroSeconds32);
+                // IMAP4 email account   
+                if (iClientRegistry != NULL &amp;&amp; iClientRegistry-&gt;IsPresent(KUidMsgTypeIMAP4))
+        {
+        CleanupStack::PushL(iClientRegistry);
+        }    
+    }</pre> <p>For more details on how a Messaging client application
+gets an instance of the client MTM registry and creates Client MTM
+objects for the specified UID, see <a href="GUID-BB35DBCC-FE56-547F-BADA-9EF854691ADC.html">POP/IMAP Example</a>. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 27th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E96D8052-0CB2-53A6-915F-133D3058DCF9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:03 GMT -->
+</html>

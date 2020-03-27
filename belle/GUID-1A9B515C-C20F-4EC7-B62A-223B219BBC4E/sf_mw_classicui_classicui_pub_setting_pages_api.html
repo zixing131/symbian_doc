@@ -1,0 +1,1450 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_setting_pages_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:35 GMT -->
+<head><title>Setting Pages API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i509"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Setting Pages API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Creating_setting_lists_and_items"><span class="tocnumber">2.1</span> <span class="toctext">Creating setting lists and items</span></a></li>
+<li class="toclevel-2"><a href="#Creating_and_using_different_setting_items"><span class="tocnumber">2.2</span> <span class="toctext">Creating and using different setting items</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Binary_switch_setting_item"><span class="tocnumber">2.2.1</span> <span class="toctext">Binary switch setting item</span></a></li>
+<li class="toclevel-3"><a href="#Text_setting_item"><span class="tocnumber">2.2.2</span> <span class="toctext">Text setting item</span></a></li>
+<li class="toclevel-3"><a href="#Enumerated_text_setting_item"><span class="tocnumber">2.2.3</span> <span class="toctext">Enumerated text setting item</span></a></li>
+<li class="toclevel-3"><a href="#Alphanumeric_password_setting_item"><span class="tocnumber">2.2.4</span> <span class="toctext">Alphanumeric password setting item</span></a></li>
+<li class="toclevel-3"><a href="#Numeric_password_setting_item"><span class="tocnumber">2.2.5</span> <span class="toctext">Numeric password setting item</span></a></li>
+<li class="toclevel-3"><a href="#Slider_setting_item"><span class="tocnumber">2.2.6</span> <span class="toctext">Slider setting item</span></a></li>
+<li class="toclevel-3"><a href="#Volume_setting_item"><span class="tocnumber">2.2.7</span> <span class="toctext">Volume setting item</span></a></li>
+<li class="toclevel-3"><a href="#Time_setting_item"><span class="tocnumber">2.2.8</span> <span class="toctext">Time setting item</span></a></li>
+<li class="toclevel-3"><a href="#Time_offset_setting_item"><span class="tocnumber">2.2.9</span> <span class="toctext">Time offset setting item</span></a></li>
+<li class="toclevel-3"><a href="#Date_setting_item"><span class="tocnumber">2.2.10</span> <span class="toctext">Date setting item</span></a></li>
+<li class="toclevel-3"><a href="#IP_address_setting_item"><span class="tocnumber">2.2.11</span> <span class="toctext">IP address setting item</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Manipulating_setting_items"><span class="tocnumber">2.3</span> <span class="toctext">Manipulating setting items</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Editing_items_from_code"><span class="tocnumber">2.3.1</span> <span class="toctext">Editing items from code</span></a></li>
+<li class="toclevel-3"><a href="#Hiding_Setting_Items"><span class="tocnumber">2.3.2</span> <span class="toctext">Hiding Setting Items</span></a></li>
+<li class="toclevel-3"><a href="#Defining_compulsory_indicator"><span class="tocnumber">2.3.3</span> <span class="toctext">Defining compulsory indicator</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Defining_custom_setting_items"><span class="tocnumber">2.4</span> <span class="toctext">Defining custom setting items</span></a></li>
+<li class="toclevel-2"><a href="#Loading_and_storing_setting_list_and_items"><span class="tocnumber">2.5</span> <span class="toctext">Loading and storing setting list and items</span></a></li>
+<li class="toclevel-2"><a href="#Opening_setting_pages_from_code"><span class="tocnumber">2.6</span> <span class="toctext">Opening setting pages from code</span></a></li>
+<li class="toclevel-2"><a href="#Observing_setting_pages"><span class="tocnumber">2.7</span> <span class="toctext">Observing setting pages</span></a></li>
+<li class="toclevel-2"><a href="#Handling_layout_changes"><span class="tocnumber">2.8</span> <span class="toctext">Handling layout changes</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.9</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.10</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Setting pages provide a uniform way to present application settings to
+users on the S60 platform. This document describes the creation, use, and
+manipulation of setting lists, setting items and setting pages.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>avkon.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/setting_pages_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/setting_pages_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Setting pages are usually opened from setting items that are in a list
+form (setting list). Individual application settings are contained in the
+list as setting items. A setting item is composed of two parts: a label describing
+the name of the setting, and some form of control that allows the user to
+view and change the associated application resource. There are several different
+types of setting items to accommodate different types of application setting
+management needs. Some of these types allow the user to alter the setting
+value in place, embedded in the list view; however setting items include separate
+setting pages for this task.
+</p><p>The main benefit of using setting lists for managing application settings
+is that the setting items are directly bound to variables. Any changes to
+application settings performed through setting items are immediately reflected
+in the state of the application and vice versa. This property greatly reduces
+the complexity of applying changes, and thus allows the application designer
+to concentrate his or her effort on the actual functionality of the application.
+</p><p>Because the number of available settings in an application is constant
+in one build, setting lists can be easily constructed using only a resource
+file. The associated resource structures used to create setting lists, setting
+items, and setting pages are described in this document.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Setting Pages API is an SDK API and was first published in S60 release
+0.9.
+</p><p>This API is valid for all platforms running on Symbian OS 9.1 or later.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+<ul><li> Creating setting lists and items
+</li><li> Creating and using different setting items
+</li><li> Binary switch setting item
+</li><li> Text setting item
+</li><li> Enumerated text setting item
+</li><li> Alphanumeric password setting item
+</li><li> Numeric password setting item
+</li><li> Slider setting item
+</li><li> Volume setting item
+</li><li> Time setting item
+</li><li> Time offset setting item
+</li><li> Date setting item
+</li><li> IP address setting item
+</li></ul>
+<ul><li> Manipulating setting items
+</li><li> Editing items from code
+</li><li> Hiding setting items
+</li><li> Defining compulsory indicator
+</li></ul>
+<ul><li> Defining custom setting items
+</li><li> Loading and storing setting list and items
+</li><li> Opening setting pages from code
+</li><li> Observing setting pages
+</li><li> Handling layout changes
+</li></ul>
+</a><a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknAlphaPasswordSettingPage <td><span class="plainlinks"><code>/epoc32/include/mw/aknpasswordsettingpage.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAknBigSettingItemBase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknBinaryPopupSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknCheckBoxSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/akncheckboxsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDateSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknmfnesettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknDurationSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknmfnesettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknEdwinSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/akntextsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknEnumeratedItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknEnumeratedItemBase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknEnumeratedTextPopupSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknEnumeratedTextSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknIntegerEdwinSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknIntegerSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknIntegerSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/akntextsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknIpFieldSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknIpFieldSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknmfnesettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknMfneSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknmfnesettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknNumericPasswordSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknpasswordsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknPasswordSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknPasswordSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknpasswordsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknRadioButtonSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknradiobuttonsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSettingItemArray</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSettingItemList</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSliderSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknSliderSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknslidersettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknTextSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknTextSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/akntextsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknTimeOffsetSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknTimeOffsetSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknmfnesettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknTimeOrDateSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknTimeSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknmfnesettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknVolumeSettingItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingitemlist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknVolumeSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknvolumesettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSelectableItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/akncheckboxsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSelectionItemList</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/akncheckboxsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSettingpageSplitInputHelper</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknSettingPageObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>SAknConfirmationResource</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknpasswordsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TAknDesCArrayDecorator</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknDesCArrayDecorator.h</code></span>
+</td></tr>
+<p>In order to use setting pages in an application, the application must contain
+a class derived from the abstract base class <span class="plainlinks"><code>CAknSettingItemList</code> </span>.
+An instance of this class then provides the actual setting list control to
+be used. It owns a list of setting items. <span class="plainlinks"><code>CAknSettingItem</code> </span> provides
+the base class for concrete setting items in the list. Each setting item also
+refers to a setting page, where the user can change the setting. <span class="plainlinks"><code>CAknSettingPage</code> </span> provides
+the base class for concrete setting pages.
+</p><p>Concrete setting items are implemented by the following classes:
+</p>
+<ul><li> Alphanumeric password: <span class="plainlinks"><code>CAknPasswordSettingItem</code> </span>
+</li><li> Binary switch: <span class="plainlinks"><code>CAknBinaryPopupSettingItem</code> </span>
+</li><li> Date: <span class="plainlinks"><code>CAknTimeOrDateSettingItem</code> </span>
+</li><li> Enumerated text: <span class="plainlinks"><code>CAknEnumeratedTextPopupSettingItem</code> </span>
+</li><li> IP address: <span class="plainlinks"><code>CAknIpFieldSettingItem</code> </span>
+</li><li> Numeric password: <span class="plainlinks"><code>CAknPasswordSettingItem</code> </span>
+</li><li> Slider: <span class="plainlinks"><code>CAknSliderSettingItem</code> </span>
+</li><li> Text: <span class="plainlinks"><code>CAknTextSettingItem</code> </span>
+</li><li> Time: <span class="plainlinks"><code>CAknTimeOrDateSettingItem</code> </span>
+</li><li> Time offset: <span class="plainlinks"><code>CAknTimeOffsetSettingItem</code> </span>
+</li><li> Volume: <span class="plainlinks"><code>CAknVolumeSettingItem</code> </span>
+</li></ul>
+<p>There is a special base class, <span class="plainlinks"><code>CAknBigSettingItemBase</code> </span>,
+which can be used for opening another view of settings list.
+</p><p>Concrete setting pages are implemented by the following classes:
+</p>
+<ul><li> Check box: <span class="plainlinks"><code>CAknCheckBoxSettingPage</code> </span>
+</li><li> Date: <span class="plainlinks"><code>CAknDateSettingPage</code> </span>
+</li><li> Duration: <span class="plainlinks"><code>CAknDurationSettingPage</code> </span>
+</li><li> Edwin: <span class="plainlinks"><code>CAknEdwinSettingPage</code> </span>
+</li><li> IP address: <span class="plainlinks"><code>CAknIpFieldSettingPage</code> </span>
+</li><li> Password: <span class="plainlinks"><code>CAknPasswordSettingPage</code> </span>
+</li><li> Radio button: <span class="plainlinks"><code>CAknRadioButtonSettingPage</code> </span>
+</li><li> Slider: <span class="plainlinks"><code>CAknSliderSettingPage</code> </span>
+</li><li> Time: <span class="plainlinks"><code>CAknTimeSettingPage</code> </span>
+</li><li> Time offset: <span class="plainlinks"><code>CAknTimeOffsetSettingPage</code> </span>
+</li><li> Volume: <span class="plainlinks"><code>CAknVolumeSettingPage</code> </span>
+</li></ul>
+<p>As it can be seen from the lists above, there is no concrete setting item
+for the check box, the duration and the radio button setting pages. Either
+custom setting item has to be implemented for them (derived from the base
+class <span class="plainlinks"><code>CAknSettingItem</code> </span>, see [Setting_Pages_API_Specification.topic3.4 Defining custom setting items] for more details), or lower level normal list
+has to be used for the list of settings and these setting pages have to be
+opened from it.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_SettingPages_Classes.png" title="Setting Pages API"><img alt="Setting Pages API" border="0" height="261" src="images/SPB_10_1_SettingPages_Classes.png" width="466" /></a></div>
+<div style="text-align:center"><i>Setting Pages API</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ConcreteSettingItemClasses.png" title="Concrete setting item classes"><img alt="Concrete setting item classes" border="0" height="303" src="images/SPB_10_1_ConcreteSettingItemClasses.png" width="606" /></a></div>
+<div style="text-align:center"><i>Concrete setting item classes</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ConcreteSettingPageClasses.png" title="Concrete setting page classes"><img alt="Concrete setting page classes" border="0" height="354" src="images/SPB_10_1_ConcreteSettingPageClasses.png" width="530" /></a></div>
+<div style="text-align:center"><i>Concrete setting page classes</i></div>
+<p><span class="plainlinks"><code>CAknListBoxSettingPage</code> </span> is an intermediate setting page
+class to encapsulate common list box setting page code. Concrete derived setting
+pages are <span class="plainlinks"><code>CAknCheckBoxSettingPage</code> </span>, <span class="plainlinks"><code>CAknPopupSettingPage</code> </span> and <span class="plainlinks"><code>CAknRadioButtonSettingPage</code> </span>. <span class="plainlinks"><code>CAknPopupSettingPage</code> </span> is the more generic of the list-style setting
+pages. It can be used as is or derived classes may be constructed from this.
+</p><p><span class="plainlinks"><code>CAknMfneSettingPage</code> </span> is an intermediate setting page class
+to encapsulate common MFNE setting page code. Concrete derived setting pages
+are <span class="plainlinks"><code>CAknDateSettingPage</code> </span>, <span class="plainlinks"><code>CAknTimeSettingPage</code> </span>, <span class="plainlinks"><code>CAknDurationSettingPage</code> </span>, <span class="plainlinks"><code>CAknTimeOffsetSettingPage</code> </span> and <span class="plainlinks"><code>CAknIpFieldSettingPage</code> </span>.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Creating_setting_lists_and_items"><h3> <span class="mw-headline">2.1 Creating setting lists and items </span></h3>
+</a><p>In order to use setting lists in an application, the application must contain
+a class derived from the abstract base class <span class="plainlinks"><code>CAknSettingItemList</code> </span>.
+An instance of this class then provides the actual setting list control to
+be used. This derived class is required to override and implement the method
+used to create the setting items. Minimal declaration of this derived setting
+list class is presented in the following code sample:
+</p>
+<pre>class CMySettingList : public CAknSettingItemList
+    {
+    public:
+</pre>
+<pre>        void ConstructL();
+        CAknSettingItem* CreateSettingItemL( TInt aIdentifier );
+</pre>
+<pre>    private:
+</pre>
+<pre>        TBool iFlag;
+    };
+</pre>
+<p>The declaration of the class <span class="plainlinks"><code>CMySettingList</code> </span> provides one
+data member <span class="plainlinks"><code><font color="darkred">iFlag</font></code> </span>, which contains the binary value of the
+only setting item - the binary switch - in our example setting list.
+</p><p>The construction requires initialization of the base class with the resource
+of type <span class="plainlinks"><code>AVKON_SETTING_ITEM_LIST</code> </span>. This resource will be described
+later with concrete examples.
+</p>
+<pre>void CMySettingList::ConstructL()
+    {
+    CAknSettingItemList::ConstructFromResourceL( R_MY_SETTING_LIST_RESOURCE );
+    }
+</pre>
+<p>Note that <span class="plainlinks"><code>CAknSettingItemList::ConstructFromResourceL</code> </span> creates
+a window if none has been defined!
+</p><p>The construction of <span class="plainlinks"><code>CMySettingList</code> </span> in the application
+UI's <span class="plainlinks"><code>ConstructL</code> </span> would then look like:
+</p>
+<pre>void CMyAppUi::ConstructL()
+    {
+    BaseConstructL( EAknEnableSkin );
+    iSettingView = new (ELeave) CMySettingList;
+    // Destructor will delete iSettingView.
+    iSettingView-&gt;SetMopParent(this);
+    iSettingView-&gt;ConstructL();
+    AddToStackL(iSettingView);
+    iSettingView-&gt;MakeVisible(ETrue);
+    iSettingView-&gt;SetRect(ClientRect());
+    iSettingView-&gt;ActivateL();
+    }
+</pre>
+<p>The implementation of the method <span class="plainlinks"><code>CreateSettingItemL</code> </span> is
+presented in the following code sample:
+</p>
+<pre>CAknSettingItem* CMySettingList::CreateSettingItemL( TInt aIdentifier )
+    {
+    CAknSettingItem* settingItem = NULL;
+</pre>
+<pre>    switch (aIdentifier)
+        {
+        case EMySettingItemBinary:
+            settingItem =
+                new (ELeave) CAknBinaryPopupSettingItem(aIdentifier, iFlag);
+            break;
+        }
+</pre>
+<pre>    return settingItem;
+    }
+</pre>
+<p>This method reveals a common pattern used with setting lists: the <span class="plainlinks"><code>CreateSettingItemL</code> </span> contains
+a switch-case block with a case statement block for each setting item. This
+case block typically contains only one statement - the instantiation of the
+respective setting item object. Also, this instantiation follows the same
+pattern for each setting item. The constructor of the specific setting item
+class takes two parameters: the setting item identifier as passed to the <span class="plainlinks"><code>CreateSettingItemL</code> </span> method
+and a reference to the associated variable.
+</p><p>The example setting list class described in this chapter has one shortcoming
+- it does not follow the Model-View-Controller (MVC) design pattern. In the
+MVC design pattern, the view, the model, and the controller should be separated,
+and in the example, all of these components are implemented in one class.
+In a real-world application it is useful to have a separate class for the
+settings data, and pass an instance of this class to the derived setting list
+class. Doing so also ensures the proper separation of the user interface and
+the application engine.
+</p><p>The setting lists are created from resource definitions. The main resource
+structure used is <span class="plainlinks"><code>AVKON_SETTING_ITEM_LIST</code> </span>, defined in<i> avkon.rh</i> as
+follows:
+</p>
+<pre>STRUCT AVKON_SETTING_ITEM_LIST
+    {
+    WORD flags = 0; // Allowed values: EAknSettingItemListNumberedStyle
+    LTEXT title = "";
+    WORD initial_number = 1;
+    STRUCT items();
+    }
+</pre>
+<table border="1" cellspacing="0">
+<caption> <b>Setting item list resource structure</b>
+</caption>
+<tr>
+<td> <b> Field</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>Flags</code> </span></td><td> Specifies the numbering style applied to the setting list. With no
+<p>flags specified, the setting list is not numbered and the flag <span class="plainlinks"><code>EAknSettingItemNumberedStyle</code> </span> enables
+numbering. In conjunction with this, flag <span class="plainlinks"><code>EAknSettingItemIncludeHiddenInOrdinal</code> </span> also
+enables numbering of hidden setting items on the list.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>Title</code> </span></td><td> This field is not used.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>Items</code> </span></td><td> An array of all setting items contained in this setting list. The setting
+<p>items are declared using the <span class="plainlinks"><code>AVKON_SETTING_ITEM</code> </span> resource
+structure.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">initial_number</font></code> </span></td><td> Specifies the number of the first item in the setting list. The default
+<p>value is 1.
+</p>
+</td></tr></table>
+<pre>STRUCT AVKON_SETTING_ITEM
+    {
+    WORD identifier = 0;
+    LTEXT name = "";
+    LLINK setting_page_resource = 0;
+    WORD type = 0xffff;
+    LLINK setting_editor_resource = 0;
+    LLINK associated_resource = 0;
+    LTEXT empty_item_text = "";
+    LTEXT compulsory_ind_string = "";
+    LLINK reserved = 0;  // Added for extensions
+    }
+</pre>
+<table border="1" cellspacing="0">
+<caption> <b>Setting item resource structure</b>
+</caption>
+<tr>
+<td> <b> Field</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">identifier</font></code> </span></td><td> Specifies an identifier to the setting item. This code is passed to
+<p>the <span class="plainlinks"><code>CreateSettingItemL</code> </span> method as an <span class="plainlinks"><code><font color="darkred">aIdentifier</font></code> </span> argument.
+These values are typically defined in an enumeration in the project's HRH
+file.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">setting_page_resource</font></code> </span></td><td> Reference to a resource defining the setting page associated with this
+<p>setting item. The setting page resource is declared using the <span class="plainlinks"><code>AVKON_SETTING_PAGE</code> </span> resource
+structure.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>Name</code> </span></td><td> Specifies the title of the item.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">compulsory_ind_string</font></code> </span></td><td> Specifies the compulsory indicator string for the setting item (see
+<p>Figure 27).
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">associated_resource</font></code> </span></td><td> Reference to an associated resource. The interpretation of this field
+<p>depends on the setting item. For example, it is used to specify the pop-up
+list containing the choices associated with the enumerated text setting item.
+</p>
+</td></tr></table>
+<p>The identifier and <span class="plainlinks"><code><font color="darkred">setting_page_resource</font></code> </span> fields are mandatory
+in the <span class="plainlinks"><code>AVKON_SETTING_ITEM</code> </span> structure; others are optional.
+</p><p>The setting page associated with a setting item is specified with the <span class="plainlinks"><code>AVKON_SETTING_PAGE</code> </span> resource
+structure.
+</p>
+<pre>STRUCT AVKON_SETTING_PAGE
+    {
+    WORD number = EAknSettingPageNoOrdinalDisplayed;
+    LTEXT label;
+    LTEXT hint_text;
+    LLINK softkey_resource = 0;
+    LLINK menubar = 0;
+    WORD type=0xffff;
+    LLINK editor_resource_id = 0;
+    LLINK invalid_contents_softkey_resource = 0;
+    LLINK extension = 0;
+    }
+</pre>
+<p>The most important fields in this structure are summarized below.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Setting page resource structure</b>
+</caption>
+<tr>
+<td> <b> Field</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>Type</code> </span></td><td> Specifies the type of control used to edit the setting item.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">editor_resource_id</font></code> </span></td><td> Reference to the editor control resource.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>Label</code> </span></td><td> Specifies the title of the setting page.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">hint_text</font></code> </span></td><td> Specifies the hint text displayed in the navigation pane.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">number</font></code> </span></td><td> Specifies the number of the setting item. This number is displayed
+<p>in the top left corner of the setting page. The default for this field is
+the special value <span class="plainlinks"><code>EAknSettingPageNoOrdinalDisplayed</code> </span>, which
+specifies that the number is not displayed.
+</p>
+</td></tr></table>
+<p>Even though the default resources here for the menu bar and the soft keys
+(CBA) are zero, there are defaults provided in the class implementation: the
+menubar resource is <span class="plainlinks"><code>R_AVKON_MENUPANE_EMPTY</code> </span>, the softkeys
+resource is <span class="plainlinks"><code>R_AVKON_SOFTKEYS_OK_CANCEL</code> </span>.
+</p>
+<a name="Creating_and_using_different_setting_items"><h3> <span class="mw-headline">2.2 Creating and using different setting items </span></h3>
+</a><p>There are different setting items available on the S60 platform. These
+items, associated resource structures and classes are described in the following
+sections.
+</p>
+<a name="Binary_switch_setting_item"><h4> <span class="mw-headline">2.2.1 Binary switch setting item </span></h4>
+</a><p>The binary switch is the simplest of the setting items: it allows the setting
+to be either on or off. Due to its simplicity it is not necessary to open
+a setting page to change the value of it: if the Selection key is pressed,
+then the value is changed. However, the binary switch setting item has a separate
+setting page; the binary value can be changed from there too. The value of
+the binary switch setting item is backed up with a Boolean variable of type <span class="plainlinks"><code>TBool</code> </span> in
+the application setting data.
+</p><p>The setting item class used with the binary switch type is <span class="plainlinks"><code>CAknBinaryPopupSettingItem</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_MessageReception.png" title="Message reception"><img alt="Message reception" border="0" height="60" src="images/SPB_10_1_MessageReception.png" width="243" /></a></div>
+<div style="text-align:center"><i>Message reception</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_MessageReception2.png" title="Binary switch setting item and binary switch setting page"><img alt="Binary switch setting item and binary switch setting page" border="0" height="323" src="images/SPB_10_1_MessageReception2.png" width="243" /></a></div>
+<div style="text-align:center"><i>Binary switch setting item and binary switch setting page</i></div>
+<p>Here is an example of a binary switch resource definition:
+</p>
+<pre>RESOURCE AVKON_SETTING_ITEM_LIST r_setting_list_setting_binary
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Setting list";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemBinary;
+            setting_page_resource = r_binary_setting_page;
+            associated_resource = r_popup_setting_binary_texts;
+            name = "Message reception";
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_POPUP_SETTING_TEXTS r_popup_setting_binary_texts
+    {
+    flags = 0;
+    setting_texts_resource = r_on_off_texts;
+    popped_up_texts_resource = r_popped_up_on_off_texts;
+    }
+</pre>
+<pre>RESOURCE ARRAY r_on_off_texts
+    {
+    items =
+        {
+        AVKON_ENUMERATED_TEXT { value = 1; text = "On"; },
+        AVKON_ENUMERATED_TEXT { value = 0; text = "Off"; }
+        };
+    }
+</pre>
+<pre>RESOURCE ARRAY r_popped_up_on_off_texts
+    {
+    items =
+        {
+        LBUF { txt = "Enabled"; },
+        LBUF { txt = "Disabled"; }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_SETTING_PAGE r_binary_setting_page
+    {
+    number = 0;
+    label = "Message reception";
+    type = EAknCtPopupSettingList;
+    editor_resource_id = r_binary_popup_setting_list;
+    }
+</pre>
+<pre>RESOURCE POPUP_SETTING_LIST r_binary_popup_setting_list
+    {
+    flags= 0;
+    }
+</pre>
+<p>The corresponding <span class="plainlinks"><code>CreateSettingItemL</code> </span> must construct the
+item:
+</p>
+<pre>CAknSettingItem* CMySettingList::CreateSettingItemL( TInt aIdentifier )
+    {
+    CAknSettingItem* settingItem = NULL;
+</pre>
+<pre>    switch (aIdentifier)
+        {
+        case EMySettingItemBinary:
+            settingItem =
+                new (ELeave) CAknBinaryPopupSettingItem(aIdentifier, iFlag);
+            break;
+        }
+</pre>
+<pre>    return settingItem;
+    }
+</pre>
+<a name="Text_setting_item"><h4> <span class="mw-headline">2.2.2 Text setting item </span></h4>
+</a><p>The text setting item allows users to enter text as the value of the setting.
+The value of the setting is stored in a user-specified descriptor. The setting
+item class used with the text editor type is <span class="plainlinks"><code>CAknTextSettingItem</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_TextSettingItem.png" title="Text setting item"><img alt="Text setting item" border="0" height="60" src="images/SPB_10_1_TextSettingItem.png" width="243" /></a></div>
+<div style="text-align:center"><i>Text setting item</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_TextSettingItem2.png" title="Text setting item and text setting page"><img alt="Text setting item and text setting page" border="0" height="323" src="images/SPB_10_1_TextSettingItem2.png" width="243" /></a></div>
+<div style="text-align:center"><i>Text setting item and text setting page</i></div>
+<p>Here is an example of a text editor setting item resource definition:
+</p>
+<pre>RESOURCE AVKON_SETTING_ITEM_LIST r_setting_list_setting_text
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Setting list";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemText;
+            setting_page_resource = r_text_setting_page;
+            name = "Company name";
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_SETTING_PAGE r_text_setting_page
+    {
+    number = 1;
+    label = "Company name";
+    type = EEikCtEdwin;
+    editor_resource_id = r_settinglist_edwin;
+    }
+</pre>
+<pre>RESOURCE EDWIN r_settinglist_edwin
+    {
+    maxlength = 30;
+    }
+</pre>
+<p>The corresponding <span class="plainlinks"><code>CreateSettingItemL</code> </span> must construct the
+item:
+</p>
+<pre>        &#8230;
+        case EMySettingItemText:
+            settingItem =
+                new (ELeave) CAknTextSettingItem(aIdentifier, iTextBuf);
+            // where iTextBuf is TBuf&lt;KMyAppMaxSettingTextSize&gt;
+            break;
+</pre>
+<p>About proper initialization of the EDWIN resource, see <a href="sf_mw_classicui_classicui_pub_editors_api.html" title="sf_mw_classicui_classicui_pub_editors_api.html">Editors API</a> for more information.
+</p>
+<a name="Enumerated_text_setting_item"><h4> <span class="mw-headline">2.2.3 Enumerated text setting item </span></h4>
+</a><p>The enumerated text setting item gives users a list of options to select
+from. It is also possible to enter a text value to the setting item other
+than the ones listed; this can be done by selecting "Other" from the pop-up
+list. This option is available only if <span class="plainlinks"><code>EAknPopupSettingListFlagAllowsUserDefinedEntry</code> </span> flag
+is set in <span class="plainlinks"><code>POPUP_SETTING_LIST</code> </span> resource (also there is a <span class="plainlinks"><code>SetAllowsUserDefinedEntry</code> </span> method).
+Thus, there are actually three different views for the enumerated text setting
+item: the setting item contained in the setting list, the setting page showing
+the available choices, and the text editor page for entering free-formed text,
+which allows inputting of non-predefined values. The setting value is stored
+in the descriptor supplied on construction of the setting item.
+</p><p>The setting item class used with enumerated text type is <span class="plainlinks"><code>CAknEnumeratedTextPopupSettingItem</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_EnumeratedTextSettingItem.png" title="Enumerated text setting item"><img alt="Enumerated text setting item" border="0" height="60" src="images/SPB_10_1_EnumeratedTextSettingItem.png" width="243" /></a></div>
+<div style="text-align:center"><i>Enumerated text setting item</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_EnumeratedTextSettingItem2.png" title="Enumerated text setting item and enumerated text setting page"><img alt="Enumerated text setting item and enumerated text setting page" border="0" height="323" src="images/SPB_10_1_EnumeratedTextSettingItem2.png" width="243" /></a></div>
+<div style="text-align:center"><i>Enumerated text setting item and enumerated text setting page</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_EnumeratedTextSettingItem3.png" title="Enumerated text's user defined text editor"><img alt="Enumerated text's user defined text editor" border="0" height="323" src="images/SPB_10_1_EnumeratedTextSettingItem3.png" width="243" /></a></div>
+<div style="text-align:center"><i>Enumerated text's user defined text editor</i></div>
+<p>Here is an example of an enumerated text setting item resource definition:
+</p>
+<pre>RESOURCE AVKON_SETTING_ITEM_LIST r_setting_list_setting_enumtext
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Setting list";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemEnumText;
+            setting_page_resource = r_enumtext_setting_page;
+            associated_resource = r_popup_setting_list;
+            name = "My favourite color";
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_SETTING_PAGE r_enumtext_setting_page
+    {
+    number = 1;
+    label = "My favourite color";
+    type = EAknCtPopupSettingList;
+    editor_resource_id = r_popup_setting_list_new_entry
+    }
+</pre>
+<pre>RESOURCE AVKON_POPUP_SETTING_TEXTS r_popup_setting_list
+    {
+    setting_texts_resource = r_settinglist_page_list;
+    }
+</pre>
+<pre>RESOURCE ARRAY r_settinglist_page_list
+    {
+    items =
+        {
+        AVKON_ENUMERATED_TEXT {value = 0; text = "Red";},
+        AVKON_ENUMERATED_TEXT {value = 1; text = "Green";},
+        AVKON_ENUMERATED_TEXT {value = 2; text = "Blue";}
+        };
+    }
+</pre>
+<pre>RESOURCE POPUP_SETTING_LIST r_popup_setting_list_new_entry
+    {
+    flags = EAknPopupSettingListFlagAllowsUserDefinedEntry;
+    }
+</pre>
+<p>The corresponding <span class="plainlinks"><code>CreateSettingItemL</code> </span> must construct the
+item:
+</p>
+<pre>        &#8230;
+        case EMySettingItemEnumText:
+            settingItem = new (ELeave) CAknEnumeratedTextPopupSettingItem
+                                       (aIdentifier, iSelectedItemIndex);
+            break;
+</pre>
+<a name="Alphanumeric_password_setting_item"><h4> <span class="mw-headline">2.2.4 Alphanumeric password setting item </span></h4>
+</a><p>The password setting item allows the input of secret data. Password setting
+items can be either alphanumeric (for passwords) or numeric (see [Setting_Pages_API_Specification.topic3.2.5 Numeric password setting item]). The setting value is stored in the descriptor
+supplied on construction of the setting item.
+</p><p>The setting item class used with password type is <span class="plainlinks"><code>CAknPasswordSettingItem</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_AlphanumericPasswordSettingItem.png" title="Alphanumeric password setting item"><img alt="Alphanumeric password setting item" border="0" height="60" src="images/SPB_10_1_AlphanumericPasswordSettingItem.png" width="243" /></a></div>
+<div style="text-align:center"><i>Alphanumeric password setting item</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_AlphanumericPasswordSettingItem2.png" title="Alphanumeric password setting item and password setting page"><img alt="Alphanumeric password setting item and password setting page" border="0" height="323" src="images/SPB_10_1_AlphanumericPasswordSettingItem2.png" width="243" /></a></div>
+<div style="text-align:center"><i>Alphanumeric password setting item and password setting page</i></div>
+<p>Here is an example of an alphanumeric password setting item resource definition:
+</p>
+<pre>RESOURCE AVKON_SETTING_ITEM_LIST r_setting_list_setting_pw
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Setting list";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemPassAlph;
+            setting_page_resource = r_alpha_password_setting_page;
+            name = "Password";
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_SETTING_PAGE r_alpha_password_setting_page
+    {
+    number = 1;
+    label = "Enter Password";
+    type = EEikCtSecretEd;
+    editor_resource_id = r_settinglist_alpha_password;
+    }
+</pre>
+<pre>RESOURCE SECRETED r_settinglist_alpha_password
+    {
+    num_letters = 8;
+    }
+</pre>
+<p>The corresponding <span class="plainlinks"><code>CreateSettingItemL</code> </span> must construct the
+item:
+</p>
+<pre>        &#8230;
+        case EMySettingItemPassAlph:
+            settingItem = new (ELeave) CSettingAppPasswordSettingItem
+                                       (aIdentifier,
+                                       CAknPasswordSettingItem::EAlpha,
+                                       iPwd );
+            // where iPwd is TBuf&lt;KMyAppMaxPasswordTextSize&gt;
+            break;
+</pre>
+<a name="Numeric_password_setting_item"><h4> <span class="mw-headline">2.2.5 Numeric password setting item </span></h4>
+</a><p>The password setting item allows the input of secret data. Password setting
+items can be either alphanumeric (see [Setting_Pages_API_Specification.topic3.2.4 Alphanumeric password setting item]) or numeric (for PIN codes). The setting value
+is stored in the descriptor supplied on construction of the setting item.
+</p><p>The setting item class used with password type is <span class="plainlinks"><code>CAknPasswordSettingItem</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_NumericPasswordSettingItem.png" title="Numeric password setting item"><img alt="Numeric password setting item" border="0" height="60" src="images/SPB_10_1_NumericPasswordSettingItem.png" width="243" /></a></div>
+<div style="text-align:center"><i>Numeric password setting item</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_NumericPasswordSettingItem2.png" title="Numeric password setting item and password setting page"><img alt="Numeric password setting item and password setting page" border="0" height="323" src="images/SPB_10_1_NumericPasswordSettingItem2.png" width="243" /></a></div>
+<div style="text-align:center"><i>Numeric password setting item and password setting page</i></div>
+<p>Here is an example of a numeric password setting item resource definition:
+</p>
+<pre>RESOURCE AVKON_SETTING_ITEM_LIST r_setting_list_setting_pin
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Setting list";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemPassNumber;
+            setting_page_resource = r_numeric_password_setting_page;
+            name = "PIN code";
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_SETTING_PAGE r_numeric_password_setting_page
+    {
+    number = 1;
+    label = "Enter PIN code";
+    type = EAknCtNumericSecretEditor;
+    editor_resource_id = r_settinglist_numeric_password;
+    }
+</pre>
+<pre>RESOURCE NUMSECRETED r_settinglist_numeric_password
+    {
+    num_code_chars = 4;
+    }
+</pre>
+<p>The corresponding <span class="plainlinks"><code>CreateSettingItemL</code> </span> must construct the
+item:
+</p>
+<pre>        &#8230;
+        case EMySettingItemPassNumber:
+            settingItem = new (ELeave) CSettingAppPasswordSettingItem
+                                       (aIdentifier,
+                                       CAknPasswordSettingItem::ENumeric,
+                                       iPin );
+            // where iPin is TBuf&lt;KMyAppMaxPasswordTextSize&gt;
+            break;
+</pre>
+<a name="Slider_setting_item"><h4> <span class="mw-headline">2.2.6 Slider setting item </span></h4>
+</a><p>The slider setting item allows users to specify an integer value. The integer
+value has a minimum and maximum value and the control visualization is done
+using a slider control. The slider setting item value is stored to the supplied
+integer variable of type <span class="plainlinks"><code>TInt</code> </span>.
+</p><p>The setting item class used with slider type is <span class="plainlinks"><code>CAknSliderSettingItem</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_SliderSettingItem.png" title="Slider setting item"><img alt="Slider setting item" border="0" height="60" src="images/SPB_10_1_SliderSettingItem.png" width="243" /></a></div>
+<div style="text-align:center"><i>Slider setting item</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_SliderSettingItem2.png" title="Slider setting item and slider setting page"><img alt="Slider setting item and slider setting page" border="0" height="323" src="images/SPB_10_1_SliderSettingItem2.png" width="243" /></a></div>
+<div style="text-align:center"><i>Slider setting item and slider setting page</i></div>
+<p>Here is an example of a slider setting item resource definition:
+</p>
+<pre>RESOURCE AVKON_SETTING_ITEM_LIST r_setting_list_setting_slider
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Setting page";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemSlider;
+            setting_page_resource = r_slider_setting_page;
+            name = "Brightness";
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_SETTING_PAGE r_slider_setting_page
+    {
+    number = 1;
+    label = "Brightness";
+    type = EAknCtSlider;
+    editor_resource_id = r_settinglist_slider;
+    }
+</pre>
+<pre>RESOURCE SLIDER r_settinglist_slider
+    {
+    layout = EAknSettingsItemSliderLayout;
+    minvalue = 0;
+    maxvalue = 100;
+    step = 5;
+    valuetype = EAknSliderValueDecimal;
+    minlabel = "Dark";
+    maxlabel = "Bright";
+    }
+</pre>
+<p>The corresponding <span class="plainlinks"><code>CreateSettingItemL</code> </span> must construct the
+item:
+</p>
+<pre>        &#8230;
+        case EMySettingItemSlider:
+            settingItem = new (ELeave) CAknSliderSettingItem
+                                       (aIdentifier, iSliderValue);
+            break;
+</pre>
+<a name="Volume_setting_item"><h4> <span class="mw-headline">2.2.7 Volume setting item </span></h4>
+</a><p>The volume setting item is similar to the slider setting item because it
+stores its value in an integer variable. However, the range of the volume
+control is fixed between 1 and 10. In addition, there is no layout control
+for the setting page.
+</p><p>The setting item class used with volume control type is <span class="plainlinks"><code>CAknVolumeSettingItem</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_VolumeSettingItem.png" title="Volume setting item"><img alt="Volume setting item" border="0" height="60" src="images/SPB_10_1_VolumeSettingItem.png" width="243" /></a></div>
+<div style="text-align:center"><i>Volume setting item</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_VolumeSettingItem2.png" title="Volume setting item and volume setting page"><img alt="Volume setting item and volume setting page" border="0" height="323" src="images/SPB_10_1_VolumeSettingItem2.png" width="243" /></a></div>
+<div style="text-align:center"><i>Volume setting item and volume setting page</i></div>
+<p>Here is an example of a volume control setting item resource definition:
+</p>
+<pre>RESOURCE AVKON_SETTING_ITEM_LIST r_setting_list_setting_volume
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Setting list";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemVolume;
+            setting_page_resource = r_volume_setting_page;
+            name = "Volume";
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_SETTING_PAGE r_volume_setting_page
+    {
+    number = 1;
+    label = "Volume";
+    type = EAknCtVolumeControl;
+    editor_resource_id = r_settinglist_volume;
+    }
+</pre>
+<pre>RESOURCE VOLUME r_settinglist_volume
+    {
+    flags = ESettingsVolumeControl;
+    value = 1;
+    }
+</pre>
+<p>The corresponding <span class="plainlinks"><code>CreateSettingItemL</code> </span> must construct the
+item:
+</p>
+<pre>        &#8230;
+        case EMySettingItemVolume:
+            settingItem = new (ELeave) CAknVolumeSettingItem
+                                       (aIdentifier, iVolume);
+            break;
+</pre>
+<a name="Time_setting_item"><h4> <span class="mw-headline">2.2.8 Time setting item </span></h4>
+</a><p>The time setting item is used with settings with a time value. The associated
+variable type with this setting item is <span class="plainlinks"><code>TTime</code> </span>. The setting
+item class used with time and date setting items is <span class="plainlinks"><code>CAknTimeOrDateSettingItem</code> </span>.
+The exact type (time or date) is specified by the second argument of the constructor.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_TimeSettingItem.png" title="Time setting item"><img alt="Time setting item" border="0" height="60" src="images/SPB_10_1_TimeSettingItem.png" width="243" /></a></div>
+<div style="text-align:center"><i>Time setting item</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_TimeSettingItem2.png" title="Time setting item and time setting page"><img alt="Time setting item and time setting page" border="0" height="323" src="images/SPB_10_1_TimeSettingItem2.png" width="243" /></a></div>
+<div style="text-align:center"><i>Time setting item and time setting page</i></div>
+<p>Here is an example of a time setting item resource definition:
+</p>
+<pre>RESOURCE AVKON_SETTING_ITEM_LIST r_setting_list_setting_time
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Setting list";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemTime;
+            setting_page_resource = r_time_setting_page;
+            name = "Current time";
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_SETTING_PAGE r_time_setting_page
+    {
+    number = 1;
+    label = "Enter current time";
+    type = EEikCtTimeEditor;
+    editor_resource_id = r_settinglist_time_editor;
+    }
+</pre>
+<pre>RESOURCE TIME_EDITOR r_settinglist_time_editor
+    {
+    minTime = TIME
+        {
+        second = 0;
+        minute = 0;
+        hour = 0;
+        };
+    maxTime = TIME
+        {
+        second = 59;
+        minute = 59;
+        hour = 23;
+        };
+    }
+</pre>
+<p>The corresponding <span class="plainlinks"><code>CreateSettingItemL</code> </span> must construct the
+item:
+</p>
+<pre>        &#8230;
+    case EMySettingItemTime:
+        settingItem = new (ELeave) CAknTimeOrDateSettingItem
+                                   (aIdentifier,
+                                   CAknTimeOrDateSettingItem::ETime,
+                                   iTime);
+        break;
+</pre>
+<a name="Time_offset_setting_item"><h4> <span class="mw-headline">2.2.9 Time offset setting item </span></h4>
+</a><p>The time offset setting item is used with settings with a time interval
+value. The associated variable type with this setting item is <span class="plainlinks"><code>TTimeIntervalSeconds</code> </span>.
+The setting item class used with time offset setting item is <span class="plainlinks"><code>CAknTimeOffsetSettingItem</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_TimeOffsetSettingItem.png" title="Time offset setting item"><img alt="Time offset setting item" border="0" height="60" src="images/SPB_10_1_TimeOffsetSettingItem.png" width="243" /></a></div>
+<div style="text-align:center"><i>Time offset setting item</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_TimeOffsetSettingItem2.png" title="Time offset setting item and time offset setting page"><img alt="Time offset setting item and time offset setting page" border="0" height="323" src="images/SPB_10_1_TimeOffsetSettingItem2.png" width="243" /></a></div>
+<div style="text-align:center"><i>Time offset setting item and time offset setting page</i></div>
+<p>Here is an example of a time offset setting item resource definition:
+</p>
+<pre>RESOURCE AVKON_SETTING_ITEM_LIST r_setting_list_setting_time_offset
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Setting list";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemTimeOffset;
+            setting_page_resource = r_timeoffset_setting_page;
+            name = "Time offset";
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_SETTING_PAGE r_timeoffset_setting_page
+    {
+    number = 1;
+    label = "Enter time offset";
+    type = EEikCtTimeOffsetEditor;
+    editor_resource_id = r_settinglist_timeoffset_editor;
+    }
+</pre>
+<pre>RESOURCE TIME_OFFSET_EDITOR r_settinglist_timeoffset_editor
+    {
+    minTimeOffset = TIME_OFFSET { seconds = -43200; };
+    maxTimeOffset = TIME_OFFSET { seconds = 43200; };
+    flags = EEikTimeWithoutSecondsField | EEikTimeZoneOffsetFormat;
+    }
+</pre>
+<p>The corresponding <span class="plainlinks"><code>CreateSettingItemL</code> </span> must construct the
+item:
+</p>
+<pre>      &#8230;
+    case EMySettingItemTimeOffset:
+        settingItem = new (ELeave) CAknTimeOffsetSettingItem
+                                   (aIdentifier,
+                                   iTimeOffset);
+        break;
+</pre>
+<a name="Date_setting_item"><h4> <span class="mw-headline">2.2.10 Date setting item </span></h4>
+</a><p>The date setting item is similar to the time setting item, with the obvious
+exception that it accepts date values.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_DateSettingItem.png" title="Date setting item"><img alt="Date setting item" border="0" height="60" src="images/SPB_10_1_DateSettingItem.png" width="243" /></a></div>
+<div style="text-align:center"><i>Date setting item</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_DateSettingItem2.png" title="Date setting item and date setting page"><img alt="Date setting item and date setting page" border="0" height="323" src="images/SPB_10_1_DateSettingItem2.png" width="243" /></a></div>
+<div style="text-align:center"><i>Date setting item and date setting page</i></div>
+<p>Here is an example of a time setting item resource definition:
+</p>
+<pre>RESOURCE AVKON_SETTING_ITEM_LIST r_setting_list_setting_date
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Setting list";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemDate;
+            setting_page_resource = r_date_setting_page;
+            name = "Current date";
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_SETTING_PAGE r_date_setting_page
+    {
+    label = "Enter current date";
+    type = EEikCtDateEditor;
+    editor_resource_id = r_settinglist_date;
+    }
+</pre>
+<pre>RESOURCE DATE_EDITOR r_settinglist_date
+    {
+    minDate = DATE { year = 1980; };
+    maxDate = DATE { year = 2060; };
+    flags = 0;
+    }
+</pre>
+<p>The corresponding <span class="plainlinks"><code>CreateSettingItemL</code> </span> must construct the
+item:
+</p>
+<pre>        &#8230;
+    case EMySettingItemDate:
+        settingItem = new (ELeave) CAknTimeOrDateSettingItem
+                                   (aIdentifier,
+                                   CAknTimeOrDateSettingItem::EDate,
+                                   iDate);
+        break;
+</pre>
+<a name="IP_address_setting_item"><h4> <span class="mw-headline">2.2.11 IP address setting item </span></h4>
+</a><p>The IP address setting item allows users to manipulate IP address settings.
+The variable type associated with this setting item is <span class="plainlinks"><code>TInetAddr</code> </span>.
+</p><p>The setting item class used with the IP address type is <span class="plainlinks"><code>CAknIpFieldSettingItem</code> </span>.
+Note that IPv6 is not supported by the class.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_IPAddressSettingItem.png" title="IP address setting item"><img alt="IP address setting item" border="0" height="60" src="images/SPB_10_1_IPAddressSettingItem.png" width="243" /></a></div>
+<div style="text-align:center"><i>IP address setting item</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_IPAddressSettingItem2.png" title="IP address setting item and IP address setting page"><img alt="IP address setting item and IP address setting page" border="0" height="323" src="images/SPB_10_1_IPAddressSettingItem2.png" width="243" /></a></div>
+<div style="text-align:center"><i>IP address setting item and IP address setting page</i></div>
+<p>Here is an example of an IP address setting item resource definition:
+</p>
+<pre>RESOURCE AVKON_SETTING_ITEM_LIST r_setting_list_setting_ip
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Setting list";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemIpAddress;
+            setting_page_resource = r_ip_address_setting_page;
+            name = "Server address";
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AVKON_SETTING_PAGE r_ip_address_setting_page
+    {
+    label = "Enter server address";
+    type = EAknCtIpFieldEditor;
+    editor_resource_id = r_settinglist_ip_editor;
+    }
+</pre>
+<pre>RESOURCE IP_FIELD_EDITOR r_settinglist_ip_editor
+    {
+    min_field_values = IP_FIELD
+        {
+        first_field = 0;
+        second_field = 0;
+        third_field = 0;
+        fourth_field = 0;
+        };
+    max_field_values = IP_FIELD
+        {
+        first_field = 128; // Something different than 255
+        second_field = 255;
+        third_field = 255;
+        fourth_field = 255;
+        };
+    flags = 0;
+    }
+</pre>
+<p>The corresponding <span class="plainlinks"><code>CreateSettingItemL</code> </span> must construct the
+item:
+</p>
+<pre>        &#8230;
+    case EMySettingItemIpAddress:
+        settingItem = new (ELeave) CAknIpFieldSettingItem
+                                   (aIdentifier, iIpAddress);
+        // iIpAddress has the type TInetAddr
+        break;
+</pre>
+<a name="Manipulating_setting_items"><h3> <span class="mw-headline">2.3 Manipulating setting items </span></h3>
+</a><p>The setting items have a few properties that can be manipulated at runtime.
+</p>
+<a name="Editing_items_from_code"><h4> <span class="mw-headline">2.3.1 Editing items from code </span></h4>
+</a><p>When the OK key is pressed, an item is changed or the corresponding setting
+page is opened. This behavior can be done from code by calling <span class="plainlinks"><code>EditItemL</code> </span> with
+the item's index:
+</p>
+<pre>void CMyAppUi::HandleCommandL(TInt aCommand)
+    {
+    switch ( aCommand )
+        {
+        case EMyCmdEditItem:
+             // Edit the first item with index 0
+             iMySettingList-&gt;EditItemL(0, ETrue);
+             break;
+        }
+    }
+</pre>
+<a name="Hiding_Setting_Items"><h4> <span class="mw-headline">2.3.2 Hiding Setting Items </span></h4>
+</a><p>Setting items can be hidden. When a setting item is hidden, it is not shown
+on the setting list. This allows the application designer to choose which
+items are applicable at a given time depending on the values of other setting
+items or application context. Hiding setting items is done by calling the <span class="plainlinks"><code>SetHidden</code> </span> method
+on the setting item.
+</p><p>Hiding setting items may affect the numbering of other items in the setting
+list, depending on the presence of the <span class="plainlinks"><code>EAknSettingItemIncludeHiddenInOrdinal</code> </span> flag
+in the flags field of the setting list resource definition.
+</p>
+<a name="Defining_compulsory_indicator"><h4> <span class="mw-headline">2.3.3 Defining compulsory indicator </span></h4>
+</a><p>Setting items can be marked as compulsory. The compulsory marking is shown
+to the left of the setting item name in the setting list. This indicator can
+be altered by setting the <span class="plainlinks"><code><font color="darkred">compulsory_ind_string</font></code> </span> field of
+the corresponding <span class="plainlinks"><code>AVKON_SETTING_ITEM</code> </span> resource or calling
+the <span class="plainlinks"><code>SetCompulsoryIndTextL</code> </span> method from code. It can be specified
+as an arbitrary text.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_CompulsoryItemIndicator.png" title="Compulsory item indicator"><img alt="Compulsory item indicator" border="0" height="323" src="images/SPB_10_1_CompulsoryItemIndicator.png" width="243" /></a></div>
+<div style="text-align:center"><i>Compulsory item indicator</i></div>
+<p>In the following example two items are specified in resource with different
+compulsory indicator strings.
+</p>
+<pre>        &#8230;
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemDateSettingId;
+            name = &quot;Current date&quot;;
+            setting_page_resource = r_date_setting_page;
+            compulsory_ind_string = &quot;*&quot;;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EMySettingItemTimeSettingId;
+            name = &quot;Current time&quot;;
+            setting_page_resource = r_time_setting_page;
+            compulsory_ind_string = &quot;M&quot;;
+            },
+            &#8230;
+</pre>
+<a name="Defining_custom_setting_items"><h3> <span class="mw-headline">2.4 Defining custom setting items </span></h3>
+</a><p>There is no concrete setting item for example for the check box setting
+page. The following example illustrates how to define a custom check box setting
+item derived from the base class <span class="plainlinks"><code>CAknSettingItem</code> </span>. The corresponding
+setting page resource must have the type <span class="plainlinks"><code>EAknSetListBox</code> </span>.
+</p>
+<pre>class CMyCheckBoxSettingItem : public CAknSettingItem
+    {
+    public:
+        CMyCheckBoxSettingItem( TInt aIdentifier );
+        ~CMyCheckBoxSettingItem();
+    protected:
+        void EditItemL( TBool aCalledFromMenu );
+    private:
+        CSelectionItemList* iSelectionList;
+    };
+</pre>
+<pre>CMyCheckBoxSettingItem::CMyCheckBoxSettingItem( TInt aIdentifier )
+:   CAknSettingItem( aIdentifier )
+    {
+    }
+</pre>
+<pre>CMyCheckBoxSettingItem::~CMyCheckBoxSettingItem()
+    {
+    if (iSelectionList)
+        {
+        iSelectionList-&gt;ResetAndDestroy();
+        delete iSelectionList;
+        }
+    }
+</pre>
+<pre>void CMyCheckBoxSettingItem::EditItemL( TBool /*aCalledFromMenu*/ )
+    {
+    if ( iSelectionList )
+        {
+        iSelectionList-&gt;ResetAndDestroy();
+        delete iSelectionList;
+        iSelectionList = 0;
+        }
+    iSelectionList = new (ELeave) CSelectionItemList( 2 );
+</pre>
+<pre>    for ( TInt ii=0; ii &lt; KNumberItems; ii++ )
+        {
+        TBuf&lt;80&gt; text;
+        text.Format( _L("checkline %d"), ii );
+        CSelectableItem* selectionItem =
+            new (ELeave) CSelectableItem( text, EFalse );
+        CleanupStack::PushL( selectionItem );
+        selectionItem-&gt;ConstructL();
+        iSelectionList-&gt;AppendL( selectionItem );
+        CleanupStack::Pop( selectionItem );
+        }
+</pre>
+<pre>    CAknCheckBoxSettingPage* settPage =
+        new (ELeave) CAknCheckBoxSettingPage
+                   ( SettingPageResourceId(), iSelectionList );
+    CleanupStack::PushL( settPage );
+    SetSettingPage( settPage );
+    SettingPage()-&gt;SetSettingPageObserver( this );
+    SetUpStandardSettingPageL();
+    CleanupStack::Pop( settPage );
+    TBool accepted = SettingPage()-&gt;ExecuteLD
+        ( CAknSettingPage::EUpdateWhenChanged );
+    // ExecuteLD destroys the setting page, so set it to zero:
+    SetSettingPage( 0 );
+</pre>
+<pre>    if ( accepted )
+        {
+        TBuf&lt;40&gt; text;
+        for ( TInt jj=0; jj &lt; KNumberItems; jj++)
+            {
+            if ( (*iSelectionList)(jj)-&gt;SelectionStatus() )
+                {
+                TBuf&lt;4&gt; newtext;
+                newtext.Format( _L("%d,"), jj );
+                text.Append( newtext );
+                }
+            }
+</pre>
+<pre>        User::InfoPrint( text );
+        }
+    }
+</pre>
+<a name="Loading_and_storing_setting_list_and_items"><h3> <span class="mw-headline">2.5 Loading and storing setting list and items </span></h3>
+</a><p><span class="plainlinks"><code>CAknSettingItemList</code> </span> implements two methods for loading
+the storing all the items in the list: <span class="plainlinks"><code>LoadSettingsL</code> </span> and <span class="plainlinks"><code>StoreSettingsL</code> </span>.
+They call <span class="plainlinks"><code>LoadL</code> </span> or <span class="plainlinks"><code>StoreL</code> </span> respectively on
+each item in the list. Derived classes of the setting item should override <span class="plainlinks"><code>LoadL</code> </span> or <span class="plainlinks"><code>StoreL</code> </span> if
+they want to do additional operation when an item is loaded or saved. In the
+following example <span class="plainlinks"><code>CMySettingItem</code> </span> is derived from <span class="plainlinks"><code>CAknTextSettingItem</code> </span>:
+</p>
+<pre>void CMySettingItem::LoadL()
+    {
+    // Fetch the text from e.g. a database.
+    CAknTextSettingItem::LoadL();
+    }
+</pre>
+<pre>void CMySettingItem::StoreL()
+    {
+    CAknTextSettingItem::StoreL();
+    // Store the text e.g. in a database.
+    }
+</pre>
+<a name="Opening_setting_pages_from_code"><h3> <span class="mw-headline">2.6 Opening setting pages from code </span></h3>
+</a><p>The example code in [Setting_Pages_API_Specification.topic3.4 Defining custom setting items] also
+illustrates how to open a check box setting page from the setting item's overridden <span class="plainlinks"><code>EditItemL</code> </span> method.
+</p>
+<a name="Observing_setting_pages"><h3> <span class="mw-headline">2.7 Observing setting pages </span></h3>
+</a><p>Setting pages can be observed with the help of the <span class="plainlinks"><code>MAknSettingPageObserver</code> </span> observer
+interface. The observer is notified about events like the setting changed,
+the setting page cancelled or accepted.
+</p><p>It is important to note that the setting page does not maintain a list
+of observers - it maintains only one observer reference!
+</p>
+<a name="Handling_layout_changes"><h3> <span class="mw-headline">2.8 Handling layout changes </span></h3>
+</a><p>In order that derived concrete classes of <span class="plainlinks"><code>CAknSettingItemList</code> </span> handle
+layout changes properly:
+</p>
+<ul><li> The application UI or view has to set the rectangle to the concrete settings
+</li></ul>
+<p>list when <span class="plainlinks"><code>HandleResourceChangeL</code> </span> is called.
+</p>
+<ul><li> The concrete settings list has to implement <span class="plainlinks"><code><font color="darkred">SizeChanged()</font></code> </span> as
+</li></ul>
+<p>shown below.
+</p>
+<pre>void CMyAppUi::HandleResourceChangeL( TInt aType )
+    {
+    CAknAppUi::HandleResourceChangeL( aType );
+    if ( iMySettingsList-&gt;IsVisible() )
+        {
+        iMySettingsList-&gt;SetRect( ClientRect() );
+        }
+    }
+</pre>
+<pre>void CMySettingsList::SizeChanged()
+    {
+    if ( ListBox() )
+        {
+        ListBox()-&gt;SetRect( Rect() );
+        }
+    }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.9 Error handling </span></h3>
+</a><p>Setting Pages API uses standard Symbian OS error reporting mechanism and
+standard error codes.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.10 Memory and Performance Considerations </span></h3>
+</a><p>Memory consumption of Setting Pages depends on the number of the contained
+controls.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Setting Pages API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> CBA</td><td> Command Button Area
+</td></tr>
+<tr>
+<td> IP</td><td> Internet Protocol. IP version 4 addresses are composed of four integer
+<p>values ranging from 0 to 255 delimited with dots. IPv6 increases the address
+size from 32 bits to 128 bits.
+</p>
+</td></tr>
+<tr>
+<td> MFNE</td><td> Multi-Field Number Editor
+</td></tr>
+<tr>
+<td> MVC</td><td> Model-View-Controller design pattern.
+</td></tr>
+<tr>
+<td> OS</td><td> Operating System
+</td></tr>
+<tr>
+<td> SDK</td><td> Software Development Kit
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_setting_pages_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:28 GMT -->
+</html>

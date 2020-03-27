@@ -1,0 +1,35 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9D871368-ADB9-5588-A1F3-39A432F4F32E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:50 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Command Line Parsing" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-D02B5AF1-B1C3-560D-9654-971A5CC1A904" /><meta name="DC.Relation" scheme="URI" content="GUID-C8BD333E-8384-534B-822B-F61B2F7C8B9F" /><meta name="DC.Relation" scheme="URI" content="GUID-F61D1710-2D52-5B9B-A25F-6DFA606DAC0F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9D871368-ADB9-5588-A1F3-39A432F4F32E" /><meta name="DC.Language" content="en" /><title>Command
+Line Parsing  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-9D871368-ADB9-5588-A1F3-39A432F4F32E">Command
+Line Parsing </h1><div>
+<p>Command Line Parsing provides access to arguments passed on the command-line. </p>
+<p>Conventional C and C++ programs receive their arguments from <code class="codeph">main(
+        int argc, char* argv[] )</code>. On the Symbian platform,
+programs are invoked through an <code class="codeph">E32Main()</code> function taking
+no arguments. Most Symbian programs are launched through a graphical shell
+rather than through a command-line. The common exceptions are <code>.exe</code> s
+on the PC platform, which can be run from a Windows command prompt. </p>
+<p>For <code>.exe</code> programs, control is received through the <code class="codeph">E32Main()</code> function,
+which does not supply arguments. Instead, access to arguments is provided
+by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-CE114EA5-A084-39A5-9F48-14344AB5BDBA.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-CE114EA5-A084-39A5-9F48-14344AB5BDBA.html"><code class="apiname">CCommandLineArguments</code></a>. This class is not intended primarily
+for code running on a Symbian phone. Its main use is in parsing the arguments
+of WINC command-line utilities. </p>
+<p>For a program that is launched as a new process, the arguments are available
+as part of the process command line and may be obtained in full using code
+as the following: </p>
+<pre class="codeblock">TInt argLen = User::CommandLineLength();
+HBufC16* hBuf = HBufC::NewL( argLen );
+TPtr tPtr = hBuf-&gt;Des();
+User::CommandLine( tPtr );</pre>
+<p>However, the arguments are in a raw form. For convenience, the <code class="codeph">CCommandLineArguments</code> class
+provides functions to access the program name as argument 0, and each command-line
+argument as argument 1, 2 etc. Arguments beginning with a quote may contain
+blanks and doubled quotes. Arguments not beginning with a quote are terminated
+by a blank. </p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 28th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9D871368-ADB9-5588-A1F3-39A432F4F32E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:50 GMT -->
+</html>

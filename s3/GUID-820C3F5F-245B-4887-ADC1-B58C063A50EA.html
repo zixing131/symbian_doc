@@ -1,0 +1,276 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-820C3F5F-245B-4887-ADC1-B58C063A50EA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:07 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Optimizing Non-Native Orientation Windows in Symbian^3" /><meta name="abstract" content="This topic describes a hardware-dependent performance optimization that is relevant for application developers working on Symbian^3 devices on which rotation at the compositor level is expensive. The optimization is not relevant for device hardware that does not suffer from the cost of compositor level rotation." /><meta name="description" content="This topic describes a hardware-dependent performance optimization that is relevant for application developers working on Symbian^3 devices on which rotation at the compositor level is expensive. The optimization is not relevant for device hardware that does not suffer from the cost of compositor level rotation." /><meta name="DC.Relation" scheme="URI" content="GUID-894AB487-C127-532D-852B-37CB0DEA1440" /><meta name="DC.Relation" scheme="URI" content="GUID-D252E75C-C8CA-5C51-8DA3-95B937A1295C" /><meta name="DC.Relation" scheme="URI" content="GUID-DC8BFEF5-DA50-52DA-8CE2-5729A4A005F6" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-8C6D4350-A38D-57A1-8C8D-C777EA7E8A3E" /><meta name="DC.Relation" scheme="URI" content="GUID-D252E75C-C8CA-5C51-8DA3-95B937A1295C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-820C3F5F-245B-4887-ADC1-B58C063A50EA" /><meta name="DC.Language" content="en" /><title>Optimizing Non-Native Orientation Windows in Symbian^3 </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-820C3F5F-245B-4887-ADC1-B58C063A50EA">Optimizing Non-Native Orientation Windows in Symbian^3</h1><div><p>This topic describes a hardware-dependent performance optimization
+that is relevant for application developers working on Symbian^3 devices
+on which rotation at the compositor level is expensive. The optimization
+is not relevant for device hardware that does not suffer from the
+cost of compositor level rotation. </p>
+<p>This topic follows on from the introduction to native and non-native
+window orientation in <a href="GUID-894AB487-C127-532D-852B-37CB0DEA1440.html">Symbian-Specific
+Behavior</a>. </p>
+<p><strong>Note</strong>. For the sake of clarity this topic assumes the device
+display panel has a native orientation of portrait. Therefore a landscape <code class="codeph">RWindow</code> and <code class="codeph">eglWindowSurface</code> are considered
+to be in non-native orientation. See <a href="#829D4E3E-D590-43F7-9BC4-7DD3A3EE7CCD">Modifications for Khronos rendering: handling different screen sizes
+and rotation</a> at the end of the topic for further information.</p>
+<p></p>
+<p><strong>Which applications will benefit from the optimization?</strong></p>
+<p>The potential candidates for using <code class="codeph">FixNativeOrientation</code> windows are application developers who wish to use a full-screen <code class="codeph">eglWindowSurface</code> in landscape orientation. A typical use
+case is a game that can only operate in landscape. For some devices
+this scenario causes a rotation cost in the compositor, resulting
+in a reduced frame rate and possibly an increase in graphics memory
+usage.</p>
+<p>If you are working on such a device and you have a use case where
+you wish to avoid the performance overhead and maintain as fast a
+frame rate as possible then you can use the <code class="codeph">FixNativeOrientation()</code> function described in this topic.</p>
+<p><strong>The effect of the optimization</strong></p>
+<p>When an application creates an <code class="codeph">RWindow</code> in landscape
+orientation, by default the associated <code class="codeph">eglWindowSurface</code> is also in landscape. In this situation the orientation of the <code class="codeph">eglWindowSurface</code> is not the same as the native orientation
+of the display panel. As a result the compositor may suffer a rotation
+cost when rendering output to the display panel.</p>
+<p>Calling <code class="codeph">FixNativeOrientation()</code> when you create
+the <code class="codeph">RWindow</code> addresses this problem by allowing the
+application to use a landscape <code class="codeph">RWindow</code> along with
+a portrait <code class="codeph">eglWindowSurface</code>. The <code class="codeph">eglWindowSurface</code> remains in the same orientation as the display panel and the expensive
+compositor rotation is avoided.</p>
+<p> The diagram shows the result of a successful call to <code class="codeph">FixNativeOrientation()</code>.</p>
+<div class="p"><div class="figure" id="GUID-11CC00E2-44DF-4249-AAF5-07252E247AC2"><img src="GUID-7FC7BE7E-5EFB-46E8-8F18-46CC8ED197F8_d0e258358_href.png" /><p class="figure-title"><strong>Figure: </strong>Effect of calling FixNativeOrientation()</p></div>Only the orientation of the <code class="codeph">eglWindowSurface</code> changes as a result of the call. The compositor still presents a
+landscape orientation and there is no difference in the way the Window
+Server interacts with the landscape <code class="codeph">RWindow</code>. The
+abstract view of the application content also remains in landscape
+orientation and pointer events are sent to the application accordingly.</div>
+<p>As a result of calling <code class="codeph">FixNativeOrientation()</code> it
+is necessary for the application to carry out geometric operations
+to compensate for the mismatch between the orientation of the application
+content and the orientation of the <code class="codeph">eglWindowSurface</code>. Geometric rotation and translation are required when carrying out
+OpenVG or OpenGL ES rendering from the application to the <code class="codeph">eglWindowSurface</code>. The calculations will vary depending on
+which of the Khronos APIs are used. On devices where this optimization
+is required, the cost of these geometric operations is very small
+in comparison to the cost of rotation by the compositor that has been
+avoided.</p>
+<p><strong>When to use a FixNativeOrientation() window</strong></p>
+<ul>
+<li><p>You are writing a client application using a full-screen <code class="codeph">eglWindowSurface</code> in non-native orientation (assumed to be
+landscape in this topic). The window will be positioned at the origin
+and never resized.</p></li>
+<li><p>The device hardware suffers from expensive compositor rotation
+and the performance requirements of your application mean you need
+to avoid this cost.</p></li>
+</ul>
+<p><strong>How to setup the RWindow</strong></p>
+<div class="p">Client applications wishing to use the optimization should perform
+the following: <ol>
+<li id="GUID-93FE500D-D5CF-4A07-8161-B48633CA8AF2"><a name="GUID-93FE500D-D5CF-4A07-8161-B48633CA8AF2"><!-- --></a><p>Have a <code class="codeph">CWsScreenDevice</code> active and set up in the landscape orientation. </p></li>
+<li id="GUID-BB4FE3C4-BB4E-43DB-B956-D2AA71DAEDA1"><a name="GUID-BB4FE3C4-BB4E-43DB-B956-D2AA71DAEDA1"><!-- --></a><p>Create an <code class="codeph">RWindow</code> with a landscape, full screen, origin based, window.</p></li>
+<li id="GUID-B9643107-62B3-4897-A65E-3B81D0D3307F"><a name="GUID-B9643107-62B3-4897-A65E-3B81D0D3307F"><!-- --></a><p>Immediately
+call <code class="codeph">RWindow::FixNativeOrientation()</code> to activate
+the orientation independent behaviour.</p></li>
+<li id="GUID-27784E98-E2C7-4D79-B23B-B6C7F6482D14"><a name="GUID-27784E98-E2C7-4D79-B23B-B6C7F6482D14"><!-- --></a><p>Activate the
+window .</p></li>
+<li id="GUID-0AA734A7-9520-49E5-8FB8-04FB2232F724"><a name="GUID-0AA734A7-9520-49E5-8FB8-04FB2232F724"><!-- --></a><p>Create an <code class="codeph">eglWindowSurface</code> with the window. </p></li>
+</ol><strong>Note</strong>. There a number of important constraints on the use
+of this API. See the list of <a href="#9E321A26-C2CB-483B-BA0E-F576A4468E97">constraints</a> below.</div>
+<p></p>
+<p><strong>Handling FixNativeOrientation() error codes</strong></p>
+<p>It is important to check the error return code from <code class="codeph">FixNativeOrientation()</code>. Only proceed to use the window if the return code is <code class="codeph">KErrNone</code>.</p>
+<p>If the function returns <code class="codeph">KErrNotSupported</code>, the
+feature is not supported. As the optimization is not available, you
+should close the window and create your window again as normal without
+calling <code class="codeph">FixNativeOrientation()</code>.</p>
+<p>In the case of any other return code such as <code class="codeph">KErrNoMemory</code>, you should abort window creation. Typically your context would
+be the <code class="codeph">ConstructL()</code> of a <code class="codeph">CCoeControl</code>, so you would call <code class="codeph">User::Leave(KErrNoMemory)</code>.</p>
+<p><strong>Effect of FixNativeOrientation() on pointer event handling</strong></p>
+<p>For an application that you have written to run in landscape (i.e.
+non-native) orientation no new actions are required to handle pointer
+events as a result of calling <code class="codeph">RWindow::FixNativeOrientation()</code>. Pointer events are sent to the application as before, in the landscape
+orientation.</p>
+<p>When the device is in landscape, the application uses a <code class="codeph">CWsScreenDevice</code> to find out from the Window Server that
+the screen has a landscape aspect ratio. Normally, an application
+wishing to create a full screen window would create a window with
+a landscape aspect ratio. Assuming a landscape screen size of 640
+x 360 the size of the window would be defined by <code class="codeph">TRect(0,0,640,360)</code>. This stays the same for <code class="codeph">FixNativeOrientation</code> windows.</p>
+<p><strong>Modifications required for Khronos rendering</strong></p>
+<p>Creating an <code class="codeph">eglWindowSurface</code> on a landscape full-screen <code class="codeph">FixNativeOrientation</code> window results in a portrait sized
+surface. Assuming a screen size of 640 x 360 the <code class="codeph">RWindow</code> has extent <code class="codeph">TRect(0,0,640,360)</code> and the <code class="codeph">eglWindowSurface</code> has size 360, 640. </p>
+<p>Khronos rendering  into the surface using OpenVG or OpenGL ES will
+reach the screen in a native orientation (portrait). As a result a
+translate and counter-rotation is required to put non-native (landscape)
+rendering into the native (portrait) surface. </p>
+<p>Here is an example for OpenVG rendering:</p>
+<pre class="codeblock">vgSeti(VG_MATRIX_MODE, VG_MATRIX_PATH_USER_TO_SURFACE);
+vgLoadIdentity();
+if (iFixNativeOrientationEnabled &amp;&amp; iLandscapeRendering)
+        {
+        vgRotate(-90.0f);
+        vgTranslate(0.0f, -640.0f);
+        }
+</pre>
+<p>See <a href="#829D4E3E-D590-43F7-9BC4-7DD3A3EE7CCD">Modifications for Khronos rendering: handling different screen sizes
+and rotation</a> for a more flexible example.</p>
+<p><strong id="9E321A26-C2CB-483B-BA0E-F576A4468E97"><a name="9E321A26-C2CB-483B-BA0E-F576A4468E97"><!-- --></a>Constraints on the
+use of FixNativeOrientation() windows</strong></p>
+<div class="p"> There are a number of constraints on the use of the function:<ol>
+<li id="GUID-E0E9831A-3555-4C21-A613-C4BAA0440513"><a name="GUID-E0E9831A-3555-4C21-A613-C4BAA0440513"><!-- --></a><p>The <code class="codeph">RWindow</code> on which you call <code class="codeph">FixNativeOrientation()</code> must be full-screen.  For a screen size of 640 x 360 the window
+must be 640 x 360.</p></li>
+<li id="GUID-F0117168-2C4E-4188-84FD-35E0D9F8CBB8"><a name="GUID-F0117168-2C4E-4188-84FD-35E0D9F8CBB8"><!-- --></a><p>The <code class="codeph">RWindow</code> must be positioned at the origin. The position of
+the window must be at (0,0) in screen co-ordinates. Non-origin position
+windows are not supported.</p></li>
+<li id="GUID-3CF3963F-FE04-4843-84FC-9849378AC41B"><a name="GUID-3CF3963F-FE04-4843-84FC-9849378AC41B"><!-- --></a><p>Resizing of
+the <code class="codeph">eglWindowSurface</code> is not supported. <code class="codeph">FixNativeOrientation()</code> does not allow an <code class="codeph">eglWindowSurface</code> to be resized
+after it has been created.</p></li>
+<li id="GUID-18B53C25-8DB3-4716-9861-B4E3A701CF1E"><a name="GUID-18B53C25-8DB3-4716-9861-B4E3A701CF1E"><!-- --></a><p>Call <code class="codeph">FixNativeOrientation()</code> immediately after setting the extent
+of the <code class="codeph">RWindow</code> and before activating it.</p></li>
+<li id="GUID-C56F7FE0-9A2D-409E-A1C4-1922AB30A36C"><a name="GUID-C56F7FE0-9A2D-409E-A1C4-1922AB30A36C"><!-- --></a><p>Ensure the application's <code class="codeph">CWsScreenDevice</code> is not destroyed during the lifetime of
+the <code class="codeph">RWindow</code> on which you call <code class="codeph">FixNativeOrientation()</code>. The client will be panicked by the Window Server if this constraint
+is violated.</p></li>
+<li id="GUID-875CD0D4-BF60-4AC7-82C1-014E0F4D9E1F"><a name="GUID-875CD0D4-BF60-4AC7-82C1-014E0F4D9E1F"><!-- --></a><p>On some devices,
+the optimization benefits of <code class="codeph">FixNativeOrientation()</code> are not achieved if an external display is plugged in to the device.</p></li>
+<li id="GUID-C2511093-1EF0-4D78-9081-9B71AE041C9C"><a name="GUID-C2511093-1EF0-4D78-9081-9B71AE041C9C"><!-- --></a><p><code class="codeph">FixNativeOrientation()</code> returns <code class="codeph">KErrNotSupported</code> in an emulator environment.</p></li>
+</ol><strong>Example</strong></div>
+<p>The following code example illustrates the steps involved in creating
+a <code class="codeph">FixNativeOrientation()</code> window. The example assumes
+the native orientation of the display panel is portrait.</p>
+<pre class="codeblock">void CExampleApp::ConstructL()
+    {
+    RWsSession wsSession;
+    User::LeaveIfError(wsSession.Connect());
+
+    RGroupWindow groupWin = RWindowGroup(wsSession);
+    User::LeaveIfError(groupWin.Construct(0x111, ETrue));
+    groupWin.EnableScreenChangeEvents();
+
+    // You must have a valid screen device before calling 
+    // FixNativeOrientation().
+    CWsScreenDevice* scrdev = new(ELeave) CWsScreenDevice(wsSession);
+    User::LeaveIfError(scrdev-&gt;Construct(0));
+
+    // If the device is in landscape, the application's screen device
+    // should be in landscape too.
+    const TSize screenSize = scrdev-&gt;SizeInPixels();
+
+    // Attempt to create the RWindow with FixNativeOrientation enabled.
+    TRAPD(err, ConstructWindowL(ETrue));
+    switch (err)
+        {
+        case KErrNone:
+            break;
+        case KErrNotSupported:
+
+            // The feature is not supported, so delete and recreate
+            // the window without using FixNativeOrientation().
+            delete iWindow;
+            iWindow = NULL;
+            ConstructWindowL(EFalse);
+            break;
+        default:
+            User::Leave(err);
+        }
+        
+    // Create an eglWindowSurface with the window.
+    InitEgl();
+    }
+
+void CExampleApp::ConstructWindowL(TBool aFixNativeOrientation)
+    {
+    iWindow = new (ELeave) RWindow(wsSession);
+    RWindow&amp; window = *iWindow;
+    window.Construct(iGroupWin1, 0x100);
+
+    // Set the window to the current screen size. If the screen device
+    // tells us we are in landscape, proceed to create a window with
+    // landscape dimensions.
+    window.SetExtent(TPoint(0, 0), screenSize);
+    
+    if (aFixNativeOrientation)
+        {
+
+        // Call RWindow::FixNativeOrientation() immediately after setting
+        // the extent of the window.
+        TInt err = window.FixNativeOrientation();
+
+        // Handle the error code returned by FixNativeOrientation.
+        switch (err)
+            {
+            case KErrNone:
+                iFixNativeOrientationEnabled = ETrue;
+                break;
+            case KErrNotSupported:
+            default:
+                iFixNativeOrientationEnabled = EFalse;
+                User::Leave(err);
+            }
+        }
+    
+    // Activate the window.
+    window.Activate();
+    wsSession.Flush();
+    }</pre>
+<p><strong>Modifications for Khronos rendering: handling different screen
+sizes and rotations</strong></p>
+<div class="p" id="829D4E3E-D590-43F7-9BC4-7DD3A3EE7CCD"><a name="829D4E3E-D590-43F7-9BC4-7DD3A3EE7CCD"><!-- --></a>The basic example of
+Khronos rendering <a href="#78B81BBE-8111-46DE-A011-809FBBD987A8">above</a> makes the following constrained assumptions:<ol>
+<li id="GUID-5D1D29CB-B6AB-400F-9508-6E66873C5F5C"><a name="GUID-5D1D29CB-B6AB-400F-9508-6E66873C5F5C"><!-- --></a><p>The native orientation
+of all device display panels is portrait with dimensions of 360 x
+640 pixels.</p></li>
+<li id="GUID-0ED25016-29F0-41BF-B26E-D98CD675705D"><a name="GUID-0ED25016-29F0-41BF-B26E-D98CD675705D"><!-- --></a><p>The only orientations
+available are 0 degrees and 90 degrees.</p></li>
+</ol>The following code example illustrates the steps you can take
+to ensure that your application will work on devices that do not meet
+these constraints:<pre class="codeblock">// An example that handles different screen dimensions and rotations.
+vgSeti(VG_MATRIX_MODE, VG_MATRIX_PATH_USER_TO_SURFACE);
+vgLoadIdentity();
+
+// When FixNativeOrientation() is used, the application is responsible for
+// rotating non-native rendering into surface.
+if (iFixNativeOrientationEnabled)
+    {
+    switch(iOrientation)
+        {
+        case CFbsBitGc::EGraphicsOrientationNormal:
+            break;
+        case CFbsBitGc::EGraphicsOrientationRotated90:  
+            vgTranslate(0.0f, surfaceHeight);
+            vgRotate(-90.0f);
+            break;
+        case CFbsBitGc::EGraphicsOrientationRotated180:
+            vgTranslate(surfaceWidth , surfaceHeight);
+            vgRotate(180.0f);
+            break;
+        case CFbsBitGc::EGraphicsOrientationRotated270:
+            vgTranslate(surfaceWidth, 0.0f);
+            vgRotate(90.0f);
+            break;
+        }
+    }</pre></div>
+<p>The following code shows how to obtain the size of the surface
+used in the transform above:</p>
+<pre class="codeblock">// Example of how to obtain surface dimensions for rotation transform.
+EGLint surfaceWidth = 0;
+EGLint surfaceHeight = 0;
+eglQuerySurface(iEglDisplay, iEglSurface, EGL_WIDTH, &amp;surfaceWidth);
+eglQuerySurface(iEglDisplay, iEglSurface, EGL_HEIGHT, &amp;surfaceHeight);
+</pre>
+<p>The rotation can be obtained from <code class="codeph">TPixelsAndRotation</code> as obtained from the screen device when handling the screen change
+event:</p>
+<pre class="codeblock">void ExampleApp::HandleScreenDeviceChanged()
+    {
+    ...
+    // Ask for the orientation and size of this new screen mode.
+    TPixelsAndRotation pixelsAndRotation;
+    Screen()-&gt;GetScreenModeSizeAndRotation(screenMode, pixelsAndRotation);
+    const TSize screenSize = pixelsAndRotation.iPixelSize;
+    const CFbsBitGc::TGraphicsOrientation rotation = pixelsAndRotation.iRotation;
+
+    // Provide the vg renderer with current rotation.
+    iVgRenderer-&gt;SetOrientation(rotation);
+    ...
+    }
+</pre>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-894AB487-C127-532D-852B-37CB0DEA1440.html">Symbian-Specific
+Behavior</a></li><li><a href="GUID-D252E75C-C8CA-5C51-8DA3-95B937A1295C.html">EGL
+Interface Component</a></li><li><a href="GUID-DC8BFEF5-DA50-52DA-8CE2-5729A4A005F6.html">EGL
+Collection Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated March 28th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-820C3F5F-245B-4887-ADC1-B58C063A50EA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:07 GMT -->
+</html>

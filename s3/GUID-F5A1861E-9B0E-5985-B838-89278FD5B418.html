@@ -1,0 +1,76 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-F5A1861E-9B0E-5985-B838-89278FD5B418.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to create a simple beaming application" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-227B6970-A536-470F-B5A1-A1871F65D7F3" /><meta name="DC.Relation" scheme="URI" content="GUID-7883F1FE-C12F-5E65-A1AD-AA3DCDC29868" /><meta name="DC.Relation" scheme="URI" content="GUID-D9BB06D6-8192-5559-A93B-7F50DF88A840" /><meta name="DC.Relation" scheme="URI" content="GUID-A9253CCA-8380-5147-B573-1D0FCDD15579" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F5A1861E-9B0E-5985-B838-89278FD5B418" /><meta name="DC.Language" content="en" /><title>How to create a simple beaming application  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-F5A1861E-9B0E-5985-B838-89278FD5B418">How to create a simple beaming application </h1><div><div><h3 class="section-title">Primary — SEND</h3> <pre class="codeblock">RSocketServ   ss;
+TProtocolDesc pInfo;
+TInt          ret;
+
+ss.Connect();
+
+_LIT8(KTinyTP,"IrTinyTP");
+ret=ss.FindProtocol(KTinyTP,protoInfo);
+// IrTinyTP is the reliable transport layer of IRDA
+if (ret!=KErrNone)
+ {
+ // Error - protocol not loaded - prob. wrong ESOCK.INI
+ // or protocol has locked serial port.
+ }
+RHostResolver hr1;
+ret=hr1.Open(ss,pInfo.iAddrFamily,pInfo.iSockType);
+TNameEntry log;
+THostName name;
+ret=hr1.GetByName(name,log);
+if (ret!=KErrNone)
+ {
+ // No devices discovered - may be none present
+ }
+RSocket sender;
+sender.Open(ss,pInfo.iAddrFamily,pInfo.iSockType,pInfo.iProtocol);
+log().iAddr.SetPort(KBeamPortNumber);
+TRequestStatus stat;
+sender.Connect(log().iAddr,stat);
+User::WaitForRequest(stat);
+TBuf&lt;100&gt; b;
+b.FillZ();
+sender.Write(b,stat);
+User::WaitForRequest(stat);
+sender.Read(b,stat);
+User::WaitForRequest(stat)
+
+etc...</pre> </div> <div><h3 class="section-title">Secondary — RECEIVE</h3> <pre class="codeblock">RSocketServ   ss;
+TProtocolDesc pInfo;
+TInt          ret
+
+ss.Connect();
+
+_LIT8(KTinyTP,"IrTinyTP");
+ret=ss.FindProtocol(KTinyTP,pInfo);
+// IrTinyTP is the reliable transport layer of IRDA
+if (ret!=KErrNone) 
+ {
+ // Error - protocol not loaded: prob. wrong ESOCK.INI
+ // or another protocol holds serial port
+ }
+RSocket listener;
+sock.Open(ss,pInfo.iAddrFamily,pInfo.iSockType,pInfo.iProtocol);
+TSockAddr a;
+a.SetPort(KBeamPortNumber);
+listener.Bind(a);
+listener.Listen(1); 
+RSocket acceptor;
+acceptor.Open(ss); // Create a null socket to hold the connection
+TRequestStatus stat;
+listener.Accept(acceptor,stat);
+User::WaitForRequest(stat);  // con now holds the connected socket
+TBuf&lt;100&gt; b;
+b.FillZ();
+acceptor.Read(b,stat); // Reading from accepted socket.
+User::WaitForRequest(stat);
+acceptor.Write(b,stat);
+User::WaitForRequest(stat);
+
+etc...</pre> </div> </div></div></div><div class="footer"><p class="metadata">Last updated October 9th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-F5A1861E-9B0E-5985-B838-89278FD5B418.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:01 GMT -->
+</html>

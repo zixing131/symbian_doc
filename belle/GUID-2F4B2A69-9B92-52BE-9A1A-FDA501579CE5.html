@@ -1,0 +1,177 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2F4B2A69-9B92-52BE-9A1A-FDA501579CE5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:58 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using Message Queue" /><meta name="abstract" content="This topic explains the operations that can be performed using message queue." /><meta name="description" content="This topic explains the operations that can be performed using message queue." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-806298E8-3196-5A1B-A392-7D5A903C3F57" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-2F4B2A69-9B92-52BE-9A1A-FDA501579CE5" /><meta name="DC.Language" content="en" /><title>Using
+Message Queue </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-2F4B2A69-9B92-52BE-9A1A-FDA501579CE5">Using
+Message Queue</h1><div><p>This topic explains the operations that can be performed using
+message queue.</p>
+<ul>
+<li id="GUID-47D01156-47CE-5E19-9B0D-222E05851555"><a name="GUID-47D01156-47CE-5E19-9B0D-222E05851555"><!-- --></a><p><a href="#GUID-D08DB507-7AFD-5ADD-B785-03BF01BE758D">Creating &amp; opening a queue</a> </p> </li>
+<li id="GUID-4CFC9AD9-5303-597D-A339-26064DDA459F"><a name="GUID-4CFC9AD9-5303-597D-A339-26064DDA459F"><!-- --></a><p><a href="#GUID-2C05D532-9353-5E83-A8D8-1EACB9D44662">Sending data to the queue</a> </p> </li>
+<li id="GUID-D7A7CB34-16CF-545C-927D-99AF3011C6E7"><a name="GUID-D7A7CB34-16CF-545C-927D-99AF3011C6E7"><!-- --></a><p><a href="#GUID-683F69D9-CC59-5F8C-A65B-E69D98737A96">Receiving a message from the queue</a> </p> </li>
+<li id="GUID-3A517EE0-2B17-5EEF-BFEE-FF98FD1BE9BF"><a name="GUID-3A517EE0-2B17-5EEF-BFEE-FF98FD1BE9BF"><!-- --></a><p><a href="#GUID-1647018E-85C2-58DC-A97A-F90580D9D4E2">Waiting for messages or space</a> </p> </li>
+<li id="GUID-5379B30A-4E56-5C7E-A7E3-44C8E5592946"><a name="GUID-5379B30A-4E56-5C7E-A7E3-44C8E5592946"><!-- --></a><p><a href="#GUID-A5EABF21-FB2C-5B91-9007-40B4FBE04269">Querying a Queue’s Size</a> </p> </li>
+<li id="GUID-6FD43EA9-4E52-5F60-AD10-314964015F9E"><a name="GUID-6FD43EA9-4E52-5F60-AD10-314964015F9E"><!-- --></a><p><a href="#GUID-72033282-9E2F-5E8E-8D78-1B8F6DF42D82">An example of a type specific queue</a> </p> </li>
+</ul>
+<div id="GUID-D08DB507-7AFD-5ADD-B785-03BF01BE758D"><h3 class="section-title">Creating &amp;
+opening a queue</h3> <p>A global queue is created by calling <code class="codeph">CreateGlobal()</code> on
+a handle object, while a local queue is created by calling <code class="codeph">CreateLocal()</code>.</p> <p>A
+global queue is opened by calling <code class="codeph">OpenGlobal()</code> on a handle
+object, passing a queue name.</p> <p>All the memory used by the queue is allocated
+when the queue is created, so it is possible for the call that creates a queue
+to fail with out of memory. The queue is deleted when the last open handle
+on it is closed.</p> <p><strong> Creating
+a global named queue</strong> </p> <pre class="codeblock">_LIT(KGLobalName, "GlobalMessageQueue");
+const TInt KNumberOfSlots = 5;
+const TInt KMessageLength = 16;
+RMsgQueueBase queue;
+TInt ret = queue.CreateGlobal(KGLobalName, KNumberOfSlots, KMessageLength, EOwnerProcess);
+        </pre> <p>This code fragment creates a global named message
+queue called <code class="codeph">GlobalMessageQueue</code> with 5 slots, each capable
+of holding a message of size 16 bytes. Note that we have explicitly used <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html"><code class="apiname">RMsgQueueBase</code></a>. <em>In
+practice</em>, you would use the template class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5195B8D1-851E-3BEE-A72D-1841C0937300.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5195B8D1-851E-3BEE-A72D-1841C0937300.html"><code class="apiname">RMsgQueue</code></a>.
+For example:</p> <pre class="codeblock">class TMyClass
+    {
+public:
+    TInt iA;
+    TInt iB;
+    TInt iC;
+    TInt iD;
+    }
+
+_LIT(KGLobalName, "GlobalMessageQueue");
+const TInt KNumberOfSlots = 5;
+RMsgQueue&lt;TMyClass&gt; queue;
+TInt ret = queue.CreateGlobal(KGLobalName, KNumberOfSlots, EOwnerProcess);
+        </pre> <p>The length of the message is the length of the templated
+class, which in this example is also 16.</p> <p><strong>Creating a local message queue</strong> </p> <pre class="codeblock">const TInt KNumberOfSlots = 2;
+RMsgQueueBase queue;
+TInt ret = queue.CreateLocal(KNumberOfSlots, RMsgQueueBase::KMaxLength);
+        </pre> <p>This creates a local queue with 2 message slots that
+have the maximum possible message size. <em>In practice</em>, you would use
+the template class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5195B8D1-851E-3BEE-A72D-1841C0937300.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5195B8D1-851E-3BEE-A72D-1841C0937300.html"><code class="apiname">RMsgQueue</code></a> rather than the base class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html"><code class="apiname">RMsgQueueBase</code></a>.</p> <p><strong>Opening a named global queue</strong> </p> <pre class="codeblock">_LIT(KGLobalName, "GlobalMessageQueue");
+RMsgQueueBase queue;
+TInt messageSize = 0;
+TInt ret = queue.OpenGlobal(KGLobalName1);
+If (ret == KErrNone)
+    {
+    messageSize = queue.MessageSize();
+    }
+        </pre> <p>This opens the global named message queue called <code class="codeph">GlobalMessageQueue</code>.
+The message size used within this queue is queried by calling <code class="codeph">MessageSize()</code>.
+If the queue does not exist <code class="codeph">OpenGlobal()</code> returns <code class="codeph">KErrNotFound</code>.</p> <p>Note
+that using an illegal message size when writing to, or reading from, a queue
+is a programming error. <em>In practice</em>, you would use the templated class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5195B8D1-851E-3BEE-A72D-1841C0937300.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5195B8D1-851E-3BEE-A72D-1841C0937300.html"><code class="apiname">RMsgQueue</code></a> rather
+than the base class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html"><code class="apiname">RMsgQueueBase</code></a> to avoid this problem.</p> </div>
+<div id="GUID-2C05D532-9353-5E83-A8D8-1EACB9D44662"><h3 class="section-title">Sending a message
+to the queue</h3> <p>A message is sent to a message queue by calling <code class="codeph">Send()</code> or <code class="codeph">SendBlocking()</code> on
+the message queue handle. <code class="codeph">Send()</code> returns the error code KErrOverflow if
+the queue is full, <code class="codeph">SendBlocking()</code> waits until there is space
+in the queue.</p> <p>The following example creates a global named queue, and
+sends 2 integer to values to it. The first call to <code class="codeph">Send()</code> returns
+an error if the queue is full, the call to <code class="codeph">SendBlocking()</code> waits
+until there is space in the queue. Although the example code uses the base
+class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html"><code class="apiname">RMsgQueueBase</code></a>, <em>in practice</em> you would use the
+templated class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5195B8D1-851E-3BEE-A72D-1841C0937300.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5195B8D1-851E-3BEE-A72D-1841C0937300.html"><code class="apiname">RMsgQueue</code></a>, to avoid the risk of passing
+an invalid length, message size, or an invalid data pointer.</p> <pre class="codeblock">_LIT(KGLobalName, "GlobalMessageQueue");
+RMsgQueueBase mqueue;
+
+TInt ret = mqueue.CreateGlobal(KGLobalName1, 1, sizeof (TInt));
+if (ret == KErrNone)
+    {
+    TInt src = 45;
+    ret = mqueue.Send(&amp;src, sizeof (TInt));
+    TBool full = (ret == KErrOverflow);
+
+    //blocking send
+    src = 32;
+    mqueue.SendBlocking(&amp;src, sizeof(TInt));
+    mqueue.Close();
+    }
+        </pre> </div>
+<div id="GUID-683F69D9-CC59-5F8C-A65B-E69D98737A96"><h3 class="section-title">Receiving a
+message from the queue</h3> <p>A message is received from a message queue
+by calling <code class="codeph">Receive()</code> or <code class="codeph">ReceiveBlocking()</code> on
+the message queue handle. <code class="codeph">Receive()</code> returns the error code KErrUnderflow if
+the queue is empty, <code class="codeph">ReceiveBlocking()</code> waits until there is
+data in the queue.</p> <p>The following example opens a global named queue
+and receives 2 integer values from it. The first call to <code class="codeph">Receive()</code> returns
+an error if the queue is empty, the call to <code class="codeph">ReceiveBlocking()</code> waits
+until there is data available in the queue. Note also that using the base
+class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html"><code class="apiname">RMsgQueueBase</code></a> rather than the templated class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5195B8D1-851E-3BEE-A72D-1841C0937300.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5195B8D1-851E-3BEE-A72D-1841C0937300.html"><code class="apiname">RMsgQueue</code></a> risks
+raising panics if the length specified is not the same as the message size
+specified when the queue was originally created, or if the pointer to the
+receive buffer is not a valid address.</p> <pre class="codeblock">_LIT(KGLobalName, "GlobalMessageQueue");
+RMsgQueueBase mqueue;
+
+TInt ret = mqueue.OpenGlobal(KGLobalName1);
+if (ret == KErrNone)
+    {
+    TInt data;
+    ret = mqueue.Receive(&amp;data, sizeof (TInt));
+    TBool empty = (ret == KErrUnderflow);
+
+    //blocking receive
+    mqueue.ReceiveBlocking(&amp;data, sizeof(TInt));
+    mqueue.Close();
+    }
+        </pre> </div>
+<div id="GUID-1647018E-85C2-58DC-A97A-F90580D9D4E2"><h3 class="section-title"> Waiting for
+messages or space</h3> <p>It is possible to be notified:</p> <ul>
+<li id="GUID-C67C5535-12C4-5AA6-9E84-947CF4FABCA9"><a name="GUID-C67C5535-12C4-5AA6-9E84-947CF4FABCA9"><!-- --></a><p>when a queue has messages,
+by calling <code class="codeph">NotifyDataAvailable()</code> on the base class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html"><code class="apiname">RMsgQueueBase</code></a> </p> </li>
+<li id="GUID-307D0C2E-CF65-5572-8BE9-9F9A63B331FC"><a name="GUID-307D0C2E-CF65-5572-8BE9-9F9A63B331FC"><!-- --></a><p>when a queue has space
+for more messages, by calling <code class="codeph">NotifySpaceAvailable()</code> on the
+base class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html"><code class="apiname">RMsgQueueBase</code></a>.</p> </li>
+</ul> <p>Note that the calling <code class="codeph">NotifyDataAvailable()</code> when
+such a request is still outstanding or calling <code class="codeph">NotifySpaceAvailable()</code> when
+such a request is already outstanding, results in the calling thread being
+panicked</p> <p>Notification requests can be cancelled by calling <code class="codeph">CancelDataAvailable()</code> or <code class="codeph">CancelDataAvailable()</code> respectively.</p> <pre class="codeblock">TRequestStatus stat;
+mqueue.NotifyDataAvailable(stat);
+mqueue.CancelDataAvailable();
+User::WaitForRequest(stat);
+        </pre> </div>
+<div id="GUID-A5EABF21-FB2C-5B91-9007-40B4FBE04269"><h3 class="section-title">Querying a
+Queue’s Size</h3> <p>The size of the message slot can be queried by calling <code class="codeph">MessageSize()</code> on
+the handle. This is useful when a queue is opened, as the calling thread is
+panicked if the size is out of range on a <code class="codeph">Send()</code> or if the
+size is not exact on a <code class="codeph">Receive().</code> </p> </div>
+<div id="GUID-72033282-9E2F-5E8E-8D78-1B8F6DF42D82"><h3 class="section-title">An example
+of a type specific queue</h3> <p>The size of the message is the size of
+the type, and has the same restrictions as the base class, namely it must
+be greater than 0, a multiple of 4 bytes and not greater than <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DCEE7F5-9EA3-3546-8779-7299318176E2.html#GUID-2E514C07-6917-3DDD-A2E6-CD09A9CD2A6D"><code class="apiname">RMsgQueueBase::KMaxLength</code></a>.</p> <pre class="codeblock">class TTemplateTestData
+    {
+public:
+    TTemplateTestData();
+    TTemplateTestData(TInt a, TUint b, TUint8 c, TBool d, TInt e);
+
+public:
+    TInt first;
+    TUint second;
+    TUint8 third;
+    TBool fourth;
+    TInt fifth;
+    };
+
+    {
+    ....
+    RMsgQueue&lt;TTemplateTestData&gt; templateQueue;
+
+    TTemplateTestData ch(1,2,3,ETrue,4);
+    TTemplateTestData ch2;
+    TTemplateTestData ch3;
+
+    templateQueue.CreateLocal(12); 
+    templateQueue.Send(ch);
+    templateQueue.Receive(ch2);
+    ....
+    templateQueue.Close();
+    ...
+    }
+        </pre> <p>Note, the size of the type (i.e. the size of the message)
+must be a multiple of 4 bytes.</p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2F4B2A69-9B92-52BE-9A1A-FDA501579CE5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:58 GMT -->
+</html>

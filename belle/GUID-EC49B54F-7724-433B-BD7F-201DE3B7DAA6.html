@@ -1,0 +1,98 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-EC49B54F-7724-433B-BD7F-201DE3B7DAA6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Resource file structure" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Relation" scheme="URI" content="GUID-0FB60233-993A-4BF2-9E8C-E03AD092359B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-EC49B54F-7724-433B-BD7F-201DE3B7DAA6" /><title>Resource file structure </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-EC49B54F-7724-433B-BD7F-201DE3B7DAA6">Resource file structure</h1><div>
+<p><a href="GUID-5F749184-C804-41FC-BA81-038783BDC967.html">Resource</a> files may consist of comments, C++ pre-processor statements, and
+structure statements indicated by predefined keywords.</p>
+<p>For a commented example of a resource file, see <a href="GUID-411ACFE6-0324-4330-ABCD-97A925759A3C.html">Resource management example: HelloWorldBasic</a>.</p>
+<p>A resource file has the following structure:</p>
+<div id="GUID-727A33A2-4324-4834-88B2-0D461C2A1732"><h3 class="section-title">Comments</h3>
+<p>You can use either C (<code class="parname">/* */</code>) or C++ (<code class="parname">//</code>) style comments.</p>
+</div>
+<div id="GUID-D8ED42A3-6BB7-4A7E-A0AB-3932D4366AAE"><h3 class="section-title">NAME
+statements</h3>
+<p>The first non-comment statement in a resource must be the <code class="parname">NAME</code> statement. The syntax is as follows:</p>
+<pre class="codeblock">NAME name</pre>
+<p>where <code class="parname">name</code> is a 4 letter ID that is unique
+in the application. This ID is used to differentiate and access resource
+files when an application uses multiple resource files.</p>
+</div>
+<div id="GUID-F27B120A-3B53-4B8A-828C-302B95E6E520"><h3 class="section-title">C++ pre-processor
+statements</h3>
+<p>The resource compiler supports a set of pre-processor statements,
+including:</p>
+<ul>
+<li><p><code class="parname">#define</code></p></li>
+<li><p><code class="parname">#include</code></p></li>
+<li><p><code class="parname">#ifdef</code></p></li>
+<li><p><code class="parname">#ifndef</code></p></li>
+<li><p><code class="parname">#if</code></p></li>
+<li><p><code class="parname">#else</code></p></li>
+<li><p><code class="parname">#endif</code></p></li>
+</ul>
+<p>Typically, resource files contain <code class="parname">#includes</code> statements for the following files:</p>
+<ul>
+<li><p><code class="parname">appinfo.rh</code></p></li>
+<li><p><code class="parname">avkon.rh</code></p></li>
+<li><p><code class="parname">avkon.rsg</code></p></li>
+<li><p><code class="parname">eikon.rh</code></p></li>
+</ul>
+<p>These files are located under the <code class="parname">/Epoc32/include</code> folder. They contain the structure declarations for commonly used
+data structures in the Symbian platform.</p>
+</div>
+<div id="GUID-9D5B35E3-21F3-4E22-B03B-8C9E6E1027C9"><h3 class="section-title">RESOURCE
+statements syntax</h3>
+<p>The RESOURCE keyword is used to declare a resource in a resource
+file. The syntax is as follows:</p>
+<pre class="codeblock">RESOURCE &lt;STRUCT_NAME&gt; | &lt;resource_name&gt; |
+{
+&lt;resource-initialiser-list&gt;
+}</pre>
+<p>where:</p>
+<ul>
+<li><p><code class="parname">&lt;STRUCT_NAME&gt;</code> is the name
+of a declared data structure in an included resource header file.</p>
+<p><code class="parname">&lt;STRUCT_NAME&gt;</code> must be in upper case.</p>
+</li>
+<li><p><code class="parname">resource_name</code> identifies the
+resource .</p><p><code class="parname">resource_name</code> must be
+in lower case.</p></li>
+<li><p><code class="parname">resource-initialiser-list</code> contains
+the values the members of the structure should be initialized with
+when the default values should not be used.</p></li>
+</ul>
+<p><code class="parname">RESOURCE</code> statements may include resources
+defined within other resource statements in the resource file. For
+example:</p>
+<pre class="codeblock">RESOURCE EIK_APP_INFO
+    {
+    menubar = r_name;
+    }</pre>
+<p>uses a resource declared in a later statement to define its
+menu bar.</p>
+<p>Resource statements may also included nested resource structures.
+For example:</p>
+<pre class="codeblock">RESOURCE MENU_PANE r_name2
+    {
+    items =
+        {
+         MENU_TITLE 
+             {
+	             menu_pane = r_name3;
+	             }
+         };
+    }</pre>
+<p>For more information on the <code class="parname">MENU_PANE</code> resource
+see, <a href="GUID-E849C798-07A0-47B3-BDBF-203325062FBD.html">Menu bar
+resource statements</a>.</p>
+<p>For more on resource statements, see:</p>
+<ul>
+<li><p><a href="GUID-23A60DE7-B72D-41BD-9F1E-882D31A7E3C7.html">Required resource file statements</a></p></li>
+<li><p><a href="GUID-2C74E932-B1CA-434B-AF96-66D52D689620.html">Optional resource file statements</a></p></li>
+</ul>
+</div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 31st, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-EC49B54F-7724-433B-BD7F-201DE3B7DAA6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:34 GMT -->
+</html>

@@ -1,0 +1,276 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-87CD8C58-F6B9-5D6B-9D7B-862979DE3B6F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Notification Request Tutorial" /><meta name="abstract" content="This tutorial describes how to receive notification of the events with the telephony API for applications." /><meta name="description" content="This tutorial describes how to receive notification of the events with the telephony API for applications." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-34E7AAF2-EC62-5BF6-B9E7-C7D346BCDF93" /><meta name="DC.Relation" scheme="URI" content="GUID-0F647342-E069-5444-9370-58520375543A" /><meta name="DC.Relation" scheme="URI" content="GUID-7C197DC1-43CA-5146-B81D-36B685A1D0C9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-87CD8C58-F6B9-5D6B-9D7B-862979DE3B6F" /><meta name="DC.Language" content="en" /><title>Notification
+Request Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-87CD8C58-F6B9-5D6B-9D7B-862979DE3B6F">Notification
+Request Tutorial</h1><div><p>This tutorial describes how to receive notification of the events
+with the telephony API for applications. </p>
+<div id="GUID-1EA31B19-BBB0-5723-9896-66666FEABC1D"><h3 class="section-title">Context</h3><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony</code></a> can
+notify the client applications about the status changes to the events like: </p> <ul>
+<li id="GUID-180B5C84-9ECB-55FE-8B9E-E84ED56C32A3"><a name="GUID-180B5C84-9ECB-55FE-8B9E-E84ED56C32A3"><!-- --></a><p>to detect inbound calls </p> </li>
+<li id="GUID-8305981A-F9B6-52EC-97F1-CF74C0238315"><a name="GUID-8305981A-F9B6-52EC-97F1-CF74C0238315"><!-- --></a><p>to detect the phone
+charger connection </p> </li>
+<li id="GUID-F0140C6D-2A85-587B-91BB-C432918518AF"><a name="GUID-F0140C6D-2A85-587B-91BB-C432918518AF"><!-- --></a><p>battery charge information </p> </li>
+</ul> <p>The client applications can get the notification of the events that
+contain a <strong>notification event</strong>, an <strong>information class</strong> and a <strong>cancellation
+code</strong>. For example, the <a href="GUID-0DA6722B-0700-5612-884A-F3B7733E5252.html">Voice
+Line Status</a> event describes that the client applications can receive
+the notification when it changes. The event description contains: </p> <div class="tablenoborder"><a name="GUID-603AF473-FC6E-52FE-A2B7-CA4211A0D9BF"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-603AF473-FC6E-52FE-A2B7-CA4211A0D9BF" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e74026">Item</th>
+<th class="cellrowborder" valign="top" id="d0e74029">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e74026 "><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::EVoiceLineStatusChange</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e74029 "><p>notification event </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e74026 "><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::TCallStatus</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e74029 "><p>information class </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e74026 "><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::EVoiceLineStatusChangeCancel</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e74029 "><p>cancellation code </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<h3>Steps</h3><ol id="GUID-0A66184A-7434-5CA1-B4A6-D07BB52AB6A9"><a name="GUID-0A66184A-7434-5CA1-B4A6-D07BB52AB6A9"><!-- --></a>
+<li id="GUID-78BA430F-A345-52AC-833A-FE170FEAF79A"><a name="GUID-78BA430F-A345-52AC-833A-FE170FEAF79A"><!-- --></a><p></p>
+create an instance of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony</code></a>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">CTelephony* telephonyApi = CTelephony::NewL();
+CleanupStack::PushL( telephonyApi );</pre> </div>
+</li>
+<li id="GUID-570A8873-7F1E-5569-9791-9F530FE03520"><a name="GUID-570A8873-7F1E-5569-9791-9F530FE03520"><!-- --></a><p></p>
+create an instance of the class, passing it the pointer to <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony</code></a>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">CNotifyExample *exampleObject = new CNotifyExample( telephonyApi );
+CleanupStack::PushL( exampleObject );</pre> </div>
+</li>
+<li id="GUID-CC391D40-F006-5874-95EF-36683EE2180B"><a name="GUID-CC391D40-F006-5874-95EF-36683EE2180B"><!-- --></a><p></p>
+call the object's <code class="codeph">RequestNotification</code> method to start
+the request. This calls <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::NotifyChange()</code></a>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">exampleObject-&gt;RequestNotification();</pre> </div>
+pass the notification event and an empty instance of the information
+class. This method starts an asynchronous operation that completes when the
+requested notification event occurs 
+The new status will have been written into the <code class="codeph">TCallStatus</code> object
+that was given to <code class="codeph">NotifyChange()</code>
+</li>
+<li id="GUID-34EEDBDE-BA17-5261-8B22-222AAA95D3E2"><a name="GUID-34EEDBDE-BA17-5261-8B22-222AAA95D3E2"><!-- --></a><p></p>
+you can see all the notification events in <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::TNotificationEvent</code></a>.
+This also shows which information class is associated with each event 
+</li>
+<li id="GUID-BC613CF8-E088-55CF-A721-420B6ADC70FD"><a name="GUID-BC613CF8-E088-55CF-A721-420B6ADC70FD"><!-- --></a><p></p>
+you can cancel a request for notification any time before the operation
+finished. Do this by passing <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::CancelAsync()</code></a> the
+cancellation code 
+<div class="p"><div class="note"><p><strong class="note_title">Note: </strong> You should not request notification before the  previous notification
+request is either completed or cancelled. The notification request is started
+after the active object is created, so there could not be a request. If you
+are &lt;bold&gt;not&lt;/bold&gt; sure that previous requests for that object have
+completed, call the</p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-0BEA3D01-369A-3ED4-A8DB-22D3B1A11C97"><code class="apiname">CActive::Cancel</code></a> method before issuing
+a new request:<pre class="codeblock">exampleObject-&gt;Cancel();exampleObject-&gt;RequestNotification();</pre> 
+This will cancel any previous requests.</div></div>
+</li>
+</ol>
+<div id="GUID-6366AAAA-6C55-517C-B702-420730097399"><h3 class="section-title">Voice line
+status example</h3> <p>Here is an active object that detects a change in
+voice line status. It doesn't do much when the voice line status changes;
+it simply stores the new status values and then starts the next asynchronous
+operation. </p> <p>This is a basic <a href="GUID-890F06C6-DE32-5EB1-BF0F-D41794F47AE1.html">Active
+Object</a>. You will need to know about active objects in order to use <code class="codeph">CTelephony</code>'s
+notification abilities. </p> <pre class="codeblock">
+ /*
+   Example CTelephony Notification
+
+   This class uses the CTelephony API to get notification when a
+   phone's voice line status changes.
+
+   This class is an active object.  You will need to have knowledge of
+   active objects in order to understand this class.  All active
+   object are derived from CActive.
+
+   This program can be easily modified to get notification when other
+   events occur.
+
+   See CTelephony::TNotificationEvent for a list of
+   events.
+
+   */
+
+#include &lt;e32base.h&gt;
+#include &lt;Etel3rdParty.h&gt;
+
+class CNotifyExample : public CActive
+{
+
+ public:
+    // Constructor/Destructor
+    CNotifyExample( CTelephony* aTelephony );
+
+    // Request voice line status change notification
+    void RequestNotification();
+
+ private:
+    /*
+    These are the pure virtual methods from CActive that
+    MUST be implemented by all active objects
+    */
+    void RunL();
+    void DoCancel();
+
+ private:
+    /*
+    A reference to a CTelephony, obtained with CTelephony::NewL()
+    or NewLC()
+    */
+    CTelephony* iTelephony;
+
+    /*
+    When the voice line status changes (and hence the asynchronous
+    operation completes) the new voice line status is written into
+    iLineStatus. Until this point, iLineStatus is not valid.
+
+    If you change this class to get notification of other events,
+    then change this class. CTelephony::TNotificationEvent lists
+    the classes associated with each event.
+    */
+    CTelephony::TCallStatusV1 iLineStatus;
+    CTelephony::TCallStatusV1Pckg iLineStatusPckg;
+};
+
+
+
+
+/*
+   Default constructor.  Pass it a reference to a CTelephony, created
+   with CTelephony::NewL() or NewLC()
+   */
+CNotifyExample::CNotifyExample(CTelephony* aTelephony): CActive( EPriorityStandard ), iTelephony( aTelephony ), iLineStatusPckg( iLineStatus )
+    {
+        //default constructor
+        iLineStatus.iStatus = CTelephony::EStatusUnknown;
+    }
+
+
+
+/*
+   This method requests notification by calling
+   CTelephony::NotifyChange() to initialise an asynchronous operation.
+   Then it immediately calls CActive::SetActive to start the
+   operation.  The operation completes when the notification event
+   occurs.
+
+   In this case, we tell CTelephony to wait for the
+   CTelephony::EVoiceLineStatusChange notification event, hence the
+   event occurs when the voice line status changes.
+
+   For other events, change the notification event in the call to
+   CTelephony::NotifyChange().  The CTelephony::TNotificationEvent
+   description  all the notification events.
+   It also list the information class to
+   pass to CTelephony::NotifyChange().  The TCallStatus
+   class is associated with CTelephony::EVoiceLineStatusChange.
+   */
+void CNotifyExample::RequestNotification()
+    {
+
+    /*
+    Panic if this object is already performing an asynchronous
+    operation
+          */
+    _LIT( KNotifyExamplePanic, "CNotifyExample" );
+    __ASSERT_ALWAYS( !IsActive(), User::Panic( KNotifyExamplePanic, 1 ));
+    
+    iTelephony-&gt;NotifyChange( iStatus, CTelephony::EVoiceLineStatusChange, iLineStatusPckg );
+    SetActive();
+    }
+
+
+/*
+   The active object's RunL method is called when the asynchronous
+   event completes.  In this case, RunL is called when the voice line
+   status changes.  When this occurs, the new voice line status is
+   written to the iLineStatus.  iLineStatus was passed to
+   CTelephony::NotifyChange() when the asynchronous operation was
+   started.
+
+   This is where you put your code to respond to your chosen
+   notification event.
+
+   In all active objects, iStatus indicates whether the asynchronous
+   operation succeeded, failed, or is still in progress.  KErrNone
+   indicates success, and hence the value in iStatus is valid.
+   */
+void CNotifyExample::RunL()
+    {
+    if( iStatus==KErrNone )
+        {
+        /*
+        Insert code to respond to the change of voice line status
+        here.  A typical use to answer a call if the voice line
+        status is 'ringing' (EStatusRinging)
+
+        Remember that you must implement a RunError() method if
+        your code in RunL can leave.
+        */
+            if( iLineStatus.iStatus == CTelephony::EStatusRinging ); // Answer call by calling 'AnswerIncomingCall()'
+            {
+            /* Request the next notification */
+            iTelephony-&gt;NotifyChange( iStatus, CTelephony::ESignalStrengthChange, iLineStatusPckg );
+            SetActive();
+            }
+        }
+    }
+
+/*
+   Like all active objects, you must supply a DoCancel() method to
+   cancel the asynchronous operation.  This must cancel a CTelephony
+   notification operation with CTelephony::CancelAsync.  Give the method
+   the appropriate 'cancellation event' from those in 'TCancellationRequest'
+
+   In this case, we are cancelling the "voice line status Change" event,
+   and so we need to supply the EVoiceLineStatusChange cancellation code.
+   If you change this class to respond to a different notification
+   event, remember to change the call to CTelephony::CancelAsync.
+   */
+
+void CNotifyExample::DoCancel()
+    {
+        iTelephony-&gt;CancelAsync( CTelephony::EVoiceLineStatusChangeCancel );
+    }  </pre> </div>
+<div id="GUID-CD5428AA-DCE8-5BEA-AEC4-7A159853EF76"><h3 class="section-title">Next actions</h3><p><strong>Receive notification of other events </strong> </p> <p>The previous examples
+detect changes in voice line status. You can adapt this example for other
+events as follows: </p> <ul>
+<li id="GUID-BC170E42-C666-5882-AA89-13804DC9B28E"><a name="GUID-BC170E42-C666-5882-AA89-13804DC9B28E"><!-- --></a><p>In the <code class="codeph">RequestNotification()</code> method,
+pass <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::NotifyChange()</code></a> the <strong>notification
+event</strong> you want to detect, listed in <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::TNotificationEvent</code></a>.
+Each event has an <strong>information class</strong> associated with it, which stores
+the new information after it has changed. Pass <code class="codeph">NotifyChange()</code> an
+instance of the information class, too: </p> <pre class="codeblock">CNotifyExample::RequestNotification()
+    {
+    _LIT( KNotifyExamplePanic, "CNotifyExample" );
+    __ASSERT_ALWAYS( !IsActive(), User::Panic( KNotifyExamplePanic, 1 ));
+        
+    iTelephony-&gt;NotifyChange( iStatus, 
+                              ---Insert notification event---
+                              ---Insert packaged information class instance--- );
+    SetActive();
+    }</pre> <p>You will need to declare the information class instance
+in the <code class="codeph">CNotifyExample</code>'s declaration. </p> </li>
+<li id="GUID-FE3772D6-9624-528F-BDDD-0B474466CB0E"><a name="GUID-FE3772D6-9624-528F-BDDD-0B474466CB0E"><!-- --></a><p>Change the code in <code class="codeph">CNotifyExample::RunL</code> that
+handles the event. </p> </li>
+<li id="GUID-F104AF0D-D6AC-5052-9A96-010B49D5C600"><a name="GUID-F104AF0D-D6AC-5052-9A96-010B49D5C600"><!-- --></a><p>Change the <code class="codeph">DoCancel</code> method
+to cancel the correct event. Insert the correct <strong>cancellation code</strong> from
+those in <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::TCancellationRequest</code></a>: </p> <pre class="codeblock">CNotifyExample::DoCancel()
+    {
+    iTelephony-&gt;CancelAsync(---Insert cancellation code--- );
+    }</pre> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 7th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-87CD8C58-F6B9-5D6B-9D7B-862979DE3B6F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:01 GMT -->
+</html>

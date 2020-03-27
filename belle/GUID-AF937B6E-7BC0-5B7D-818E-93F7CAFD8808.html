@@ -1,0 +1,159 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AF937B6E-7BC0-5B7D-818E-93F7CAFD8808.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:27 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Parsing an XML document using Content Handler" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-82AF5F49-EE25-54C7-AEE9-D1F41BD5190F" /><meta name="DC.Relation" scheme="URI" content="GUID-A25E730C-F34D-5464-BE78-650B3DEA4A88" /><meta name="DC.Relation" scheme="URI" content="GUID-AF28D930-6BD1-5DC5-9BE5-7512241E90CD" /><meta name="DC.Relation" scheme="URI" content="GUID-4A9255D1-42A4-57FA-A4B4-42C552964047" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-AF937B6E-7BC0-5B7D-818E-93F7CAFD8808" /><meta name="DC.Language" content="en" /><title>Parsing an XML document using Content Handler </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-AF937B6E-7BC0-5B7D-818E-93F7CAFD8808">Parsing an XML document using Content Handler</h1><div>
+<p>This section explains how to parse an XML document by implementing
+the content handler functionality of the parser framework. </p>
+<p> MContentHandler class defines the interface
+required by a client of the XML framework. It allows a client to be
+placed in a chain with other clients such as a Parser or a Validator,
+and therefore allows the flow of information within chain. It provides
+callbacks similar to that of the SAX 2.0 interface. </p>
+<div id="GUID-808EDE72-A59A-4BDE-A64B-56B17A8C14CD"><h3 class="section-title">Introduction</h3> <p>Consider a scenario when an
+application with numerous settings require the settings being saved,
+so that when the application is restarted after a shutdown, the settings
+are available. This can be achieved (while ensuring the cross-platform
+compatibility) by saving the setting in an XML file, which the application
+parses on start-up. The application responds to the XML statements
+by implementing the MContentHandler interface.
+Since the parser detects tags and their content, it calls the associated
+content handler functions to respond with the required behaviour. </p> <p>The callback functions which an implementation of MContentHandler must provide are depicted in the table. These correspond to functions
+defined in the <code class="codeph">ContentHandler</code> interface of the <a href="http://www.saxproject.org/" target="_blank">SAX specification</a>. The last parameter of each function is an error code. If no error
+has taken place, then the KErrNone null error code
+is returned by the framework. </p> <p> </p> <div class="tablenoborder"><a name="GUID-BF14F3DB-7880-5299-874C-3B56554C8080"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-BF14F3DB-7880-5299-874C-3B56554C8080" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e510964">MContentHandler callback</th>
+<th class="cellrowborder" valign="top" id="d0e510967">SAX specification function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">OnStartDocumentL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> <code class="codeph">startDocument() </code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">OnEndDocumentL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> <code class="codeph">endDocument() </code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">OnStartElementL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> <code class="codeph">startElement()</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">OnEndElementL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> <code class="codeph">endElement() </code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">OnContentL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> <code class="codeph">characters()</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">OnStartPrefixMappingL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> <code class="codeph">startPrefixMapping()</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">OnEndPrefixMappingL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> <code class="codeph"> endPrefixMapping()</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">OnIgnorableWhiteSpaceL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> <code class="codeph"> ignorableWhitespace()</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">OnSkippedEntityL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> <code class="codeph">skippedEntity()</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">OnProcessingInstructionL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> <code class="codeph">processingInstruction()</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">OnError()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e510964 "><p> <code class="codeph">GetExtendedInterface()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e510967 "><p> </p> </td>
+</tr>
+</tbody>
+</table></div> <p>The following table lists the classes that are parameter
+of functions that must be implemented: </p> <div class="tablenoborder"><a name="GUID-B34320E0-B8B1-5992-94AE-DA6D587D84F1"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B34320E0-B8B1-5992-94AE-DA6D587D84F1" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e511213">Class</th>
+<th class="cellrowborder" valign="top" id="d0e511216">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e511213 "><p> RDocumentParameters </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e511216 "><p>Contains the character set which the document uses. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e511213 "><p> RAttributeArray </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e511216 "><p>Consists of an array of RAttribute objects.
+The array holds the name (as an RTagInfo object),
+value and type of each attribute of the element. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e511213 "><p> RTagInfo </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e511216 "><p>Contains information about an XML tag, its namespace URI
+and prefix, and its local name. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-948C5BEE-0E05-525A-B601-909A1818FDA0"><h3 class="section-title">Procedure</h3> <p>Follow the steps given below to understand how to parse an XML
+document by implementing the content handler functionality: </p> <ol id="GUID-9404AB58-0C3C-5CE9-A4BE-D15861B145E8">
+<li id="GUID-D4F71FA7-3DC7-5CB7-89D6-459E4F35D43E"><a name="GUID-D4F71FA7-3DC7-5CB7-89D6-459E4F35D43E"><!-- --></a><p>Implement the <code class="codeph">MContentHandler</code> interface. </p> <p>The following code snippet
+illustrates how to implement <code class="codeph">MContentHandler</code>: </p> <pre class="codeblock">class CMyContentHandler : public CBase, public MContentHandler
+{
+public:
+    // A callback to indicate the start of the document. 
+    void CXmlExample::OnStartDocumentL( const RDocumentParameters&amp;, TInt )
+    {
+    iConsole-&gt;Printf( KOnStartDoc );
+    iConsole-&gt;Printf( KPressAKey );
+    iConsole-&gt;Getch();
+
+    iNumElements = 0;
+    iNumSkippedEntities = 0;
+    iNumPrefixMappings = 0;
+    iNumPrefixUnmappings = 0;
+    }
+    
+// A callback to indicate an element has been parsed.     
+void CXmlExample::OnStartElementL( const RTagInfo&amp;, const RAttributeArray&amp;, TInt )
+    {
+    iConsole-&gt;Printf( KOnStartEle );
+
+    if( iLeaveOnStartElement )
+        {    
+        if( iNumElements++ == 0 )
+                  {
+                  iConsole-&gt;Printf( KOnStartErr, KExpectedLeaveCode );
+            User::After( 1 );
+                  User::Leave( KExpectedLeaveCode );
+                  }
+
+           iNumElements++;
+        }
+    }
+  
+// implementations of the other callbacks
+// ...
+
+}</pre> </li>
+<li id="GUID-A6BB0985-37A3-526D-B678-266A55F57862"><a name="GUID-A6BB0985-37A3-526D-B678-266A55F57862"><!-- --></a><p>Instantiate
+the <code class="codeph">ContentHandler</code> object in the client application
+code and pass it to the constructor method of a parser object. </p> <pre class="codeblock">...
+CMyContentHandler* ch = CMyContentHandler::NewL();
+CParser* parser = CParser::NewLC( KXmlMimeType,ch );
+parser-&gt;ParseL( myXMLdata ); // this will result in callbacks to ch
+...</pre> </li>
+</ol> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 8th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AF937B6E-7BC0-5B7D-818E-93F7CAFD8808.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:27 GMT -->
+</html>

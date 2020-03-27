@@ -1,0 +1,111 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-130C21D7-0A39-5A54-8545-C82B2ED4398C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Simultaneous Call Tutorial" /><meta name="abstract" content="This tutorial describes how to handle two call with the telephony API for applications." /><meta name="description" content="This tutorial describes how to handle two call with the telephony API for applications." /><meta name="DC.Relation" scheme="URI" content="GUID-6ABEF478-F3DB-524E-A500-9431B42C6665" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-34E7AAF2-EC62-5BF6-B9E7-C7D346BCDF93" /><meta name="DC.Relation" scheme="URI" content="GUID-0F647342-E069-5444-9370-58520375543A" /><meta name="DC.Relation" scheme="URI" content="GUID-7C197DC1-43CA-5146-B81D-36B685A1D0C9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-130C21D7-0A39-5A54-8545-C82B2ED4398C" /><meta name="DC.Language" content="en" /><title>Simultaneous
+Call Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-130C21D7-0A39-5A54-8545-C82B2ED4398C">Simultaneous
+Call Tutorial</h1><div><p>This tutorial describes how to handle two call with the telephony
+API for applications. </p>
+<div id="GUID-02566DCB-EFC4-4C74-A9FD-98417AC0AF9D"><h3 class="section-title">Context</h3><p>This state diagram shows how to dial or answer one or two calls
+at a time. </p> <div class="figure" id="GUID-3603A3BF-5E3F-5945-B762-42411EF4B497"><img src="GUID-7E6634DC-7F07-5687-AFEE-D5BD268B8E1D_d0e74344_href.png" /><p class="figure-title"><strong>Figure: </strong>              Simultaneous Call State Diagram            </p></div> <p>The boxes are states. The enumeration value in each box is the status
+of the voice line. <a href="GUID-0DA6722B-0700-5612-884A-F3B7733E5252.html">Voice
+line status</a> describes these states and their meaning. The arrows show
+events that trigger a change of state. In these events, a word in <strong>bold</strong> indicates
+a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony</code></a> method that you can call. </p> </div>
+<h3>Steps</h3><ol id="GUID-20511421-E888-5AA6-8C8A-8B03AF9532EA"><a name="GUID-20511421-E888-5AA6-8C8A-8B03AF9532EA"><!-- --></a>
+<li id="GUID-207F7101-D6BC-54B3-A6FD-BE4FA0C44CE4"><a name="GUID-207F7101-D6BC-54B3-A6FD-BE4FA0C44CE4"><!-- --></a><p></p>
+<ol type="i" id="GUID-3C223BD1-B3D3-54BF-9CE2-4CF0397C26A6"><a name="GUID-3C223BD1-B3D3-54BF-9CE2-4CF0397C26A6"><!-- --></a>
+<li id="GUID-D333CDDA-E565-5009-BB68-364FDFAEE537"><a name="GUID-D333CDDA-E565-5009-BB68-364FDFAEE537"><!-- --></a><p></p>
+check the <a href="GUID-0DA6722B-0700-5612-884A-F3B7733E5252.html">Voice
+line status</a> for other calls 
+<ul>
+<li id="GUID-6E5035AE-AA11-5D46-A6FA-FCFF600C3964"><a name="GUID-6E5035AE-AA11-5D46-A6FA-FCFF600C3964"><!-- --></a><p>if the line is <em>Idle</em> (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-52E51C0C-8C27-311D-8B6B-223F899DB2C9"><code class="apiname">CTelephony::EStatusIdle</code></a>)
+then no calls are in progress </p> </li>
+<li id="GUID-0B35A0D6-2BB1-54ED-A562-653031ECBE91"><a name="GUID-0B35A0D6-2BB1-54ED-A562-653031ECBE91"><!-- --></a><p>if the line is <em>on
+hold</em> (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-7F347F6A-0B02-34BC-B082-3449EA63A148"><code class="apiname">CTelephony::EStatusHold</code></a>) then there is another
+call in progress, but it is on hold and you can still dial or answer a second
+call. Now go to point four below </p> </li>
+<li id="GUID-A939F59B-59A4-56CE-8949-5DE28588EE57"><a name="GUID-A939F59B-59A4-56CE-8949-5DE28588EE57"><!-- --></a><p>if another call is active,
+you must wait until it completes before you can dial or receive a call. </p> </li>
+</ul>
+</li>
+<li id="GUID-DEF3414F-6836-57E2-96A9-6E824696F29A"><a name="GUID-DEF3414F-6836-57E2-96A9-6E824696F29A"><!-- --></a><p></p>
+<a href="GUID-05759C1B-6731-52A1-8EC0-2570E01FC7BC.html"> Dial a call</a>  
+while no calls are in progress, the line's status is <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-52E51C0C-8C27-311D-8B6B-223F899DB2C9"><code class="apiname">CTelephony::EStatusIdle</code></a>.
+To dial a call, use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-E7A25EB6-B7FD-31DF-9A03-F100F93D7138"><code class="apiname">CTelephony::DialNewCall()</code></a>. If dialling
+was successful and the remote party answers the call then the line's status
+will become <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-641B7EAB-56C6-3E9C-A53C-EE382925E1CE"><code class="apiname">CTelephony::EStatusConnected</code></a>. 
+</li>
+<li id="GUID-1D1F2233-367B-57E7-B4A5-A36CD4C53C8C"><a name="GUID-1D1F2233-367B-57E7-B4A5-A36CD4C53C8C"><!-- --></a><p></p>
+<a href="GUID-D6334249-E61D-55E7-9D0E-95231DC3621F.html">Answer a call</a>  
+while no calls are in progress, the line's status is <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-52E51C0C-8C27-311D-8B6B-223F899DB2C9"><code class="apiname">CTelephony::EStatusIdle</code></a>.
+When a remote party calls your phone, the voice line's status will change
+to <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-7632FB7B-0272-39CB-B71A-C3C09EEB5E88"><code class="apiname">CTelephony::EStatusRinging</code></a>. 
+When the status is <code class="codeph">CTelephony::EStatusRinging</code>, use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-6D12DBA4-8902-3649-B144-47C91F16C4B3"><code class="apiname">CTelephony::AnswerIncomingCall()</code></a> to
+answer the call. The status will change to <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-641B7EAB-56C6-3E9C-A53C-EE382925E1CE"><code class="apiname">CTelephony::EStatusConnected</code></a> and
+the phone user can talk to the remote party. 
+</li>
+<li id="GUID-A96B6019-65E1-5D10-9639-0F2D65E8FAE1"><a name="GUID-A96B6019-65E1-5D10-9639-0F2D65E8FAE1"><!-- --></a><p></p>
+<a href="GUID-91082AAB-DC8D-5AEA-A6C1-DD89932244FB.html">Terminate the
+call</a>
+</li>
+<li id="GUID-C60ABD8F-C3D0-51F6-9A31-C1A9CDA27B24"><a name="GUID-C60ABD8F-C3D0-51F6-9A31-C1A9CDA27B24"><!-- --></a><p></p>
+detect <a href="GUID-42B10CBF-D45A-580F-A639-E2495FF3B4F3.html">Remote
+Termination</a> of a call 
+</li>
+<li id="GUID-EF4ECB49-F37F-54C7-96C8-9105D54AEA43"><a name="GUID-EF4ECB49-F37F-54C7-96C8-9105D54AEA43"><!-- --></a><p></p>
+<a href="GUID-1907CF0B-2F4B-50F6-B676-7B7059B7FF74.html">Hold a Call</a>
+</li>
+<li id="GUID-BB6D7BB5-4BEF-5D4D-B763-2EA7E8828D0F"><a name="GUID-BB6D7BB5-4BEF-5D4D-B763-2EA7E8828D0F"><!-- --></a><p></p>
+<a href="GUID-FFBD95C6-0B12-5FD7-BA69-89BBFB97F0A1.html">Resume a call</a>
+</li>
+<li id="GUID-75078A44-B3EE-50CB-A746-C79D78228398"><a name="GUID-75078A44-B3EE-50CB-A746-C79D78228398"><!-- --></a><p></p>
+<a href="GUID-9C5A86D2-E602-55AE-B54B-8511E70CD23D.html">Send DTMF tones
+down the line</a>
+</li>
+<li id="GUID-4B8ED301-CAA2-5629-A697-73E6E0122F5E"><a name="GUID-4B8ED301-CAA2-5629-A697-73E6E0122F5E"><!-- --></a><p></p>
+<a href="GUID-0DA6722B-0700-5612-884A-F3B7733E5252.html">Line and call
+information</a>
+</li>
+<li id="GUID-8CB212E7-2B55-580E-9DD4-D5A1694B94FA"><a name="GUID-8CB212E7-2B55-580E-9DD4-D5A1694B94FA"><!-- --></a><p></p>
+<a href="GUID-D6334249-E61D-55E7-9D0E-95231DC3621F.html#GUID-19AC29A6-3A34-57E8-A0BE-8242CF60BF86">Answer
+a second call</a>  
+at some point, a remote party might try to ring your phone. It is answered
+in the same way as the first 
+The voice line state will change to <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-7632FB7B-0272-39CB-B71A-C3C09EEB5E88"><code class="apiname">CTelephony::EStatusRinging</code></a>.
+You can receive notification when this occurs; see <a href="GUID-D6334249-E61D-55E7-9D0E-95231DC3621F.html">Detect
+an incoming call</a>. Before answering the second call, you must put the
+original call on hold. This is shown in the diagram above. 
+</li>
+<li id="GUID-E4B328AF-66D5-5E21-BF74-7057D58694E6"><a name="GUID-E4B328AF-66D5-5E21-BF74-7057D58694E6"><!-- --></a><p></p>
+<a href="GUID-05759C1B-6731-52A1-8EC0-2570E01FC7BC.html#GUID-8A1C0CE1-31F8-5B78-9FDC-D2BF46B2924F">Dial
+a second call</a>  
+you can also dial a second call in the same way as the first. Once again,
+you must put your original call on hold before dialling the second call 
+</li>
+<li id="GUID-B8904540-FBA9-5351-B298-11681E3C9AA9"><a name="GUID-B8904540-FBA9-5351-B298-11681E3C9AA9"><!-- --></a><p></p>
+a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-86D48DF2-1AA1-337A-A270-6703FF29C958"><code class="apiname">CTelephony::TCallId</code></a> will be given to you when you
+successfully connect a second call. You will also have a <code class="codeph">CTelephony::TCallId</code> from
+the first call. Now you will be the owner of two calls: at any one time, one
+will always be active and one will always be on hold. 
+Now you can: 
+<ul>
+<li id="GUID-B1B06B62-725A-5ACC-92AB-169F8C83EF2F"><a name="GUID-B1B06B62-725A-5ACC-92AB-169F8C83EF2F"><!-- --></a><p> <a href="GUID-91082AAB-DC8D-5AEA-A6C1-DD89932244FB.html">Terminate
+either call</a>. If you terminate the <strong>active</strong> call then you will
+be left with a call on hold. If you terminate the <strong>on-hold</strong> call then
+you will be left with an active call. </p> </li>
+<li id="GUID-590E8FC0-A09F-5CE5-BAE4-958439E35968"><a name="GUID-590E8FC0-A09F-5CE5-BAE4-958439E35968"><!-- --></a><p> <a href="GUID-42B10CBF-D45A-580F-A639-E2495FF3B4F3.html">Detect
+remote party terminating either call</a>. Once again, if the <strong>active</strong> call
+ends then you will be left with a call on hold and vice versa. </p> </li>
+<li id="GUID-1638D67F-33E6-50EA-A122-FA54D08E6213"><a name="GUID-1638D67F-33E6-50EA-A122-FA54D08E6213"><!-- --></a><p> <a href="GUID-E2D4973C-FE93-5DE7-B04E-19B7701621C3.html">Swap
+held and active calls</a>. </p> </li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</div><h3>Related tasks</h3><ul><li><a href="GUID-6ABEF478-F3DB-524E-A500-9431B42C6665.html">Single Call
+                Tutorial</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 7th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-130C21D7-0A39-5A54-8545-C82B2ED4398C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:02 GMT -->
+</html>

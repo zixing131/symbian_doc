@@ -1,0 +1,68 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-42F0F282-58D6-4878-B53D-EAEEF86A3D7D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Parsing Delimited Data" /><meta name="abstract" content="This tutorial describes the steps to parse delimited data. The data in the URI that is delimited into segments can be parsed using the TDelimitedXxxxParser8 classes." /><meta name="description" content="This tutorial describes the steps to parse delimited data. The data in the URI that is delimited into segments can be parsed using the TDelimitedXxxxParser8 classes." /><meta name="DC.Relation" scheme="URI" content="GUID-795B41AF-FBEA-56CE-AE20-EF17BE754723" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-94215E49-605B-51BA-B215-10BDA1A0C013" /><meta name="DC.Relation" scheme="URI" content="GUID-A602E35E-69BE-5F8C-A7E6-4B98E67BF382" /><meta name="DC.Relation" scheme="URI" content="GUID-96837414-3041-5E1E-A2E9-C18EECCF86D9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-42F0F282-58D6-4878-B53D-EAEEF86A3D7D" /><meta name="DC.Language" content="en" /><title>Parsing
+Delimited Data </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-42F0F282-58D6-4878-B53D-EAEEF86A3D7D">Parsing
+Delimited Data</h1><div><p>This tutorial describes the steps to parse delimited data. The
+data in the URI that is delimited into segments can be parsed using the <code class="codeph">TDelimitedXxxxParser8</code> classes. </p>
+<div><h3 class="section-title">Context</h3> <p><code class="codeph">TDelimitedXxxxParser8</code> classes provide
+functionalities to parse delimited data, extract the current segment and parse
+the string for the next segment. </p><p>Use the class derived from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B647B6DA-5FF1-3C11-9ACD-E4A5E70F3596.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B647B6DA-5FF1-3C11-9ACD-E4A5E70F3596.html"><code class="apiname">TDelimitedParserBase8</code></a> for
+implementing the function provided by <code class="codeph">TDelimitedXxxxParser8</code>. </p><p>The
+following three classes are used to parse the respective URI components: </p>
+</div><div><h3 class="section-title">Prerequisites</h3> <div class="p">Parse the delimited data using the following functionalities
+of <code class="codeph">TDelimitedXxxxParser8</code>: <ul>
+<li><p>Set the delimiter (before parsing the data) to a specific character
+using <code class="codeph">SetDelimiter()</code>. For example:</p><pre class="codeblock">//set the delimiter character to '/'
+SetDelimiter(TChar('/'));</pre></li>
+<li><p>Parse the data into segments from left to right using<code class="codeph"> Parse()</code>. </p></li>
+<li><p>Parse the data into segments from right to left using <code class="codeph">ParseReverse()</code>.</p><div class="note"><p><strong class="note_title">Note: </strong> Parse
+the data into segments before calling any of the functions described in the
+following steps.</p></div></li>
+<li><p>Parse to the next segment using <code class="codeph">Inc()</code>. </p></li>
+<li><p>Get the descriptor reference with the data using <code class="codeph">Des()</code>. </p></li>
+<li><p>Get the current segment and parse the data to the next segment using <code class="codeph">GetNext()</code>. </p></li>
+<li><p>Get the current segment using <code class="codeph">Peek()</code>. </p></li>
+<li><p>Get the remaining data from (and including) the current segment using <code class="codeph">Remainder()</code>. </p></li>
+</ul></div> </div>
+<h3>Steps</h3><ul>
+<li id="GUID-7DE23814-1B2C-4B07-84EB-53D80D3EBBFE"><a name="GUID-7DE23814-1B2C-4B07-84EB-53D80D3EBBFE"><!-- --></a><p></p>
+<p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CD78AD53-FD6C-397A-9930-12E8EDCF6040.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CD78AD53-FD6C-397A-9930-12E8EDCF6040.html"><code class="apiname">TDelimitedPathParser8</code></a> for parsing path into directories
+separated by '/'. For example: <code>/doc_source/guide/N10047/index.html</code>.</p>
+</li>
+<li id="GUID-7DDA81B9-31D4-4DFA-A08D-5E42F10F4145"><a name="GUID-7DDA81B9-31D4-4DFA-A08D-5E42F10F4145"><!-- --></a><p></p>
+<p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F55AF53B-662F-3682-9B6D-A3D14AED0D58.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F55AF53B-662F-3682-9B6D-A3D14AED0D58.html"><code class="apiname">TDelimitedPathSegmentParser8</code></a> for parsing parameters
+that are separated by ';' For example: <code class="codeph">postd=pp22;isub=1411@foo.com;user=phone</code>. </p>
+</li>
+<li id="GUID-84D83684-E711-4728-99A9-ED1EDD826F80"><a name="GUID-84D83684-E711-4728-99A9-ED1EDD826F80"><!-- --></a><p></p>
+<p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F76F2546-D3AC-341B-BED8-D3C88EA2C018.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F76F2546-D3AC-341B-BED8-D3C88EA2C018.html"><code class="apiname">TDelimitedQueryParser8</code></a> for parsing the query string
+(after a '?') into name/value pairs that is separated by '&amp;'. For example: <code class="codeph">sortcol=4&amp;table=1&amp;up=0&amp;view=details</code></p>
+<p>The following table shows the delimiter to be used to separate each
+of the URI components:</p><div class="tablenoborder"><a name="GUID-9A8DAC25-B8B8-42D1-94E8-39DAEFA16DBF"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-9A8DAC25-B8B8-42D1-94E8-39DAEFA16DBF" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p><strong>URI Component</strong></p></td>
+<td class="cellrowborder" valign="top"><p><strong>Delimiter</strong></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Path </p></td>
+<td class="cellrowborder" valign="top"><p>/</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Path segment </p></td>
+<td class="cellrowborder" valign="top"><p>;</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Query </p></td>
+<td class="cellrowborder" valign="top"><p>&amp;</p></td>
+</tr>
+</tbody>
+</table></div>
+</li>
+</ul>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-795B41AF-FBEA-56CE-AE20-EF17BE754723.html">HTTP Utilities
+Library Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 6th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-42F0F282-58D6-4878-B53D-EAEEF86A3D7D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:25 GMT -->
+</html>

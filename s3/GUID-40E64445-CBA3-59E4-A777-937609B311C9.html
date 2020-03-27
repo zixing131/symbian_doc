@@ -1,0 +1,43 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-40E64445-CBA3-59E4-A777-937609B311C9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:32 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Contacts Model Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-0522B178-0FD5-4416-B7FE-390749F7A13D" /><meta name="DC.Relation" scheme="URI" content="GUID-3AF6CE70-DDBE-53F3-ABB6-7E78A300F14B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-40E64445-CBA3-59E4-A777-937609B311C9" /><meta name="DC.Language" content="en" /><title>Contacts
+Model Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-40E64445-CBA3-59E4-A777-937609B311C9">Contacts
+Model Overview</h1><div>
+<div id="GUID-C4F81B43-D09B-45AE-A616-B77398345918"><h3 class="section-title">Purpose</h3> <p>The purpose of this document is to give
+guidelines on how to use the Contacts Model API most efficiently for a range
+of typical operations. The Contacts Model is an engine component that provides
+access to contact information stored on a device. Just like a real-world address
+book it stores and organises names, telephone numbers, addresses and other
+details of individuals and companies. It can be used to add, delete and edit
+data as well as providing information to clients, and sorting and searching
+contacts. </p> </div>
+<div id="GUID-FE10E5CD-4F10-400D-AFDC-A00DDC22F6C7"><h3 class="section-title">Architectural Relationships</h3> <p>The Contacts Model
+is primarily used by messaging, telephony, synchronisation and vCard viewer
+clients on a device. </p> <div class="figure" id="GUID-79192704-415D-530B-8FEB-F73A5C93D0C2"><img src="GUID-5B6634EA-EB78-504E-BC5D-ABA67EEA06DF_d0e146745_href.png" /><p class="figure-title"><strong>Figure: </strong>              CONTACTS MODEL CLIENTS            </p></div> </div>
+<div id="GUID-DF37BEEF-CF1D-42B4-A5E2-B3C8F69B33BD"><h3 class="section-title">Description</h3> <p>The <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A6C7B3B-1E44-3731-956D-590A1122FF6E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A6C7B3B-1E44-3731-956D-590A1122FF6E.html"><code class="apiname">CContactDatabase</code></a> class
+allows clients access to the contact data stored on the device and has the
+following functionality: </p> <p><strong>Contact database management </strong> </p> <p>More than one Contact Database
+can exist on a phone, but a default Contact Database is used if no other is
+specified. Clients can open, close, alter and delete the Contact Database.
+Extra databases can be added as required. The Contact Database can be moved
+between drives, and can be compressed in order to save space. </p> <p><strong>Contact items management </strong> </p> <p>Contact Items are made up of Contact
+Fields and can be added to and removed from the database. Items in the database
+can be opened, read, sorted and deleted. An item must be opened before it
+can be edited. Editing an item often means altering data in one or more fields,
+such as name or telephone number. To provide different sorting views Contact
+Items can be grouped in categories such as ‘colleagues’ or ‘family’. </p> <p><strong>Searching the database </strong> </p> <p>Searching <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A6C7B3B-1E44-3731-956D-590A1122FF6E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A6C7B3B-1E44-3731-956D-590A1122FF6E.html"><code class="apiname">CContactDatabase</code></a> implements
+searching and sorting and also provides separate phone number matching functions.
+These provide a fast way of indexing and looking up phone numbers, for example,
+for looking up caller IDs on incoming calls. </p> <p><strong>Speed dial functionality </strong> </p> <p>The database owns speed dial information.
+This is a mapping between a single digit integer and a telephone number. There
+may be up to nine speed dial telephone numbers. If a Contact Item is deleted,
+its speed dial mapping is removed. </p> <p><strong>Notification of changes </strong> </p> <p>The database needs to be informed
+of data changes made to it. Sometimes a UI-level application may need to respond
+to updates made by other clients. The Contacts Model provides an observer
+to transmit this information between <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A6C7B3B-1E44-3731-956D-590A1122FF6E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6A6C7B3B-1E44-3731-956D-590A1122FF6E.html"><code class="apiname">CContactDatabase</code></a> instances. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated February 26th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-40E64445-CBA3-59E4-A777-937609B311C9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:32 GMT -->
+</html>

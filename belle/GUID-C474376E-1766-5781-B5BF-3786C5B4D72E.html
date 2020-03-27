@@ -1,0 +1,40 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C474376E-1766-5781-B5BF-3786C5B4D72E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Performing Scalar Queries" /><meta name="abstract" content="This tutorial describes the way in which you can execute scalar queries." /><meta name="description" content="This tutorial describes the way in which you can execute scalar queries." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-868D5B32-1CC4-506E-9C49-C86428B9A50F" /><meta name="DC.Relation" scheme="URI" content="GUID-582CAA4A-1240-5138-983D-D9C6EEAF5566" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C474376E-1766-5781-B5BF-3786C5B4D72E" /><meta name="DC.Language" content="en" /><title>Performing
+Scalar Queries </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C474376E-1766-5781-B5BF-3786C5B4D72E">Performing
+Scalar Queries</h1><div><p>This tutorial describes the way in which you can execute scalar
+queries. </p>
+<div id="GUID-AD7CD3A2-6B59-43F4-8DA0-CFDDC45FB180"><h3 class="section-title">Introduction</h3> <p>A
+scalar query is a <code class="codeph">SELECT</code> statement which refers to several
+data fields and returns a single result, for example, a <code class="codeph">COUNT</code> query
+on a database column. This gives the number of records in the database. Symbian
+platform provides a class TSqlScalarFullSelectQuery, for
+making scalar queries. This is more efficient than the RSqlStatement class. </p> </div>
+<div id="GUID-746D0C94-4F0A-4BDC-8E24-C970B0E9848A"><h3 class="section-title">Basic procedure</h3> <p>The
+high level steps to perform scalar queries are shown here: </p> <ol id="GUID-55223195-5C72-5F61-A0E7-96B6EE3274F3">
+<li id="GUID-DCD1126E-F922-5D1F-84AE-DCEAD36005F4"><a name="GUID-DCD1126E-F922-5D1F-84AE-DCEAD36005F4"><!-- --></a><p>Declare the necessary
+variables. </p> </li>
+<li id="GUID-7218837C-3E0A-5B66-8814-234CB1DC5739"><a name="GUID-7218837C-3E0A-5B66-8814-234CB1DC5739"><!-- --></a><p>Execute the query string. </p> </li>
+</ol> </div>
+<div id="GUID-5850F2FF-0B04-4D56-BD4C-14019B0A5C10"><h3 class="section-title">Detailed steps</h3> <p>To
+make a scalar query, do the following: </p> <p><strong>Declare
+the necessary variables</strong> </p> <ol id="GUID-9B0B542F-F123-5933-8C54-A376EBD6C97F">
+<li id="GUID-6252DA75-22E2-5AB7-8F80-6C0EC52EEFD1"><a name="GUID-6252DA75-22E2-5AB7-8F80-6C0EC52EEFD1"><!-- --></a><p>Instantiate an object
+of the database class. </p> <pre class="codeblock">RSqlDatabase myDatabase;</pre> </li>
+<li id="GUID-95BB8C0A-4BCB-5F2F-AB02-4F30F9077CAB"><a name="GUID-95BB8C0A-4BCB-5F2F-AB02-4F30F9077CAB"><!-- --></a><p>Declare a literal to
+hold the query string </p> <pre class="codeblock">_LIT(kQueryString,"SELECT COUNT (*) FROM myTable");</pre> </li>
+<li id="GUID-2821B159-D8F7-5F8B-80D5-90A8EABE7D22"><a name="GUID-2821B159-D8F7-5F8B-80D5-90A8EABE7D22"><!-- --></a><p>Instantiate an object
+of the TSqlScalarFullSelectQuery class. This class has
+a peculiar feature of instantiating an instance of it with a parameter that
+refers to the database to be queried. The class supplies a number of functions
+taking <code class="codeph">SELECT</code> statements as parameters. </p> <pre class="codeblock">TSqlScalarFullSelectQuery myFullSelectQuery(myDatabase);</pre> </li>
+</ol> <p><strong> Execute
+the query</strong> </p><p>Execute the query</p><pre class="codeblock">TInt recCount = myFullSelectQuery.SelectIntL(kQueryString));</pre> </div>
+<div id="GUID-00FF5330-86C2-4A26-8409-7D204746E92D"><h3 class="section-title">See also</h3> <p><a href="GUID-C60DAE3D-7FB9-5619-9E5D-476A430705AF.html">Querying a Database</a> </p> <p> <a href="GUID-CCB9C61B-FB28-5CD9-A366-4A9584097897.html">Inserting a Row into a Table</a> </p> <p><a href="GUID-B61EA8C5-0966-51DE-AC73-01DD34C7D3CC.html">Deleting Rows from a Table</a> </p> <p> <a href="GUID-72511204-FC90-54AA-9E2E-833318020318.html">Reading to a Buffer</a> </p> <p> <a href="GUID-3CCA6503-54DA-5558-85DC-93A22A81F565.html"> Reading to Memory </a> </p> <p> <a href="GUID-183280EE-0C57-54FE-8ABB-E1CC3BDE525B.html">Reading to a Data Stream</a> </p> <p> <a href="GUID-B9A3B17E-BDEB-5F66-968C-080335A721AC.html">Writing to a Data Stream</a> </p> <p>Performing
+Scalar Queries - This document </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C474376E-1766-5781-B5BF-3786C5B4D72E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+</html>

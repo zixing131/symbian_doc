@@ -1,0 +1,55 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E203A23A-119B-43C2-BCDB-8AA490F8345B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:20 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Send the Message" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-63816E09-46C7-503A-ADA0-E350C7ACF3C4" /><meta name="DC.Relation" scheme="URI" content="GUID-F7598A84-9736-5310-AAA4-5BCC4BE46C16" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E203A23A-119B-43C2-BCDB-8AA490F8345B" /><meta name="DC.Language" content="en" /><title>Send
+ the Message </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E203A23A-119B-43C2-BCDB-8AA490F8345B">Send
+ the Message</h1><div>
+<div><h3 class="section-title">Context</h3> <p>The client application can request to send the created
+message in two ways unconfirmed and confirmed. </p> <ul>
+<li><p>For a confirmed send request, the SendAs server uses the UI MTM of
+the message type to confirm that the message can be sent. Typically the UI
+MTM queries the user, who can accept or refuse to send it. If the send is
+refused by the user, the send request completes with the error <code class="codeph">KErrPermissionDenied</code>.
+The message remains in the Drafts folder, and can still be accessed through
+the SendAs API.</p></li>
+<li><p>For an unconfirmed send, the client must have the security capabilities
+required by the MTM to send messages (SMS and email, for example, require
+Network Services). The call leaves if the client does not have the required
+capabilities. </p></li>
+</ul><p>For an unconfirmed send, or a confirmed send that has been accepted
+by the user, the message is copied to the Outbox. The MTM for the message
+type is then used to send the message. The message is no longer accessible
+through the SendAs APIs, and the client application cannot modify or delete
+it. </p><p>The outcome of a successful or unsuccessful send is dependent on
+the MTMs for the message type. For instance, a successfully sent message may
+be moved to the Sent folder (for example, SMS) or deleted (for example, OBEX),
+while an unsuccessfully sent message may remain in the Outbox and can be rescheduled
+depending on the send error (for example, SMS). </p></div>
+<h3>Steps</h3><ul>
+<li id="GUID-DE07D42C-FF5C-47E1-985B-0CE2006204A2"><a name="GUID-DE07D42C-FF5C-47E1-985B-0CE2006204A2"><!-- --></a><p>Send the message using the synchronous methods or the asynchronous
+methods.</p>
+<p>The synchronous methods, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-8C95AFCB-0A37-3D1D-AA9A-489FCEEA0959"><code class="apiname">RSendAsMessage::SendMessageAndCloseL()</code></a> and
+ <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-E61E15A0-E835-3A23-94B7-D65F7198D27E"><code class="apiname">RSendAsMessage::SendMessageConfirmedAndCloseL()</code></a>, send
+the message in the background and close the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html"><code class="apiname">RSendAsMessage</code></a> handle. </p><p>The
+asynchronous methods, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-28EE1E22-8892-388C-990D-BC0E1F18D88E"><code class="apiname"> RSendAsMessage::SendMessage()</code></a> and
+ <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-447A2EE3-3C73-31E9-90BA-F54E211FBBED"><code class="apiname">RSendAsMessage::SendMessageConfirmed()</code></a>, require further
+processing: </p><ul>
+<li><p>Any send errors are reported through the <code class="codeph">TRequestStatus</code> object.</p></li>
+<li><p>The send can be cancelled using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-4A46E558-5AFD-3616-9C81-A5017A6DF449"><code class="apiname">RSendAsMessage::Cancel()</code></a> method.</p></li>
+<li><p>Progress information can be obtained using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-5F2DC8AA-35E8-3F76-8386-0FC684DFDE6D"><code class="apiname">RSendAsMessage::ProgressL()</code></a>.
+This populates a progress information object <code class="codeph">TSendAsProgres</code>s.
+The client can use this to display a progress bar. </p></li>
+<li><p>Once the send request has completed, the client application must close
+the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html"><code class="apiname">RSendAsMessage</code></a> object to release server-side resources.</p></li>
+</ul>
+</li>
+<li id="GUID-21C7C5B6-86BA-46B7-97BB-05BBDF0B9E31"><a name="GUID-21C7C5B6-86BA-46B7-97BB-05BBDF0B9E31"><!-- --></a><p>Save the message.</p>
+<p>The message can also be saved to the message store (if one is provided
+by the MTM) without being sent using the following method:</p><pre class="codeblock">IMPORT_C void SaveMessageAndCloseL();</pre>
+</li>
+</ul>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 13th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E203A23A-119B-43C2-BCDB-8AA490F8345B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:20 GMT -->
+</html>

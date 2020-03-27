@@ -1,0 +1,55 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-03BBEA31-3266-5B1C-9017-4EE7EA4AF1A8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:50:49 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Creating and Signing an Installation File" /><meta name="DC.Relation" scheme="URI" content="GUID-AA555CC1-5CFF-5609-9191-8970F32BA255" /><meta name="DC.Relation" scheme="URI" content="GUID-4BDC9F63-83A1-53A5-91A0-B092AA821755" /><meta name="DC.Relation" scheme="URI" content="GUID-B20EE8A3-D7B2-5872-AF43-001A88C1A46E" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-0AF47934-0A16-51A2-9254-992D7C6B322B" /><meta name="DC.Relation" scheme="URI" content="GUID-8E160B29-18C4-574B-9259-9A8E958CDA91" /><meta name="DC.Relation" scheme="URI" content="GUID-ED2D5BEA-AD2A-51CE-8CBC-8B5E33DD6356" /><meta name="DC.Relation" scheme="URI" content="GUID-A4C26317-9F76-587E-A4B6-D94892ACF11B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-03BBEA31-3266-5B1C-9017-4EE7EA4AF1A8" /><meta name="DC.Language" content="en" /><title>Creating
+and Signing an Installation File </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-03BBEA31-3266-5B1C-9017-4EE7EA4AF1A8">Creating
+and Signing an Installation File</h1><div>
+<div id="GUID-5557F583-12E2-45DB-9079-AB90B16B7A30"><h3 class="section-title">Introduction</h3> <p>A Software Installation (SIS) file
+can be generated as an unsigned file, a self-signed or signed file. Self-signed
+and unsigned packages are considered to be <em>unknown</em>, and are installed
+by the Software Installer, depending on the security policy of the Symbian
+device. </p> <p>If the <code>SIS</code> file is signed, the Software
+Installer validates the certificate chains and based on verification, installs
+the <code>SIS</code> file or aborts the installation. </p> </div>
+<div id="GUID-2A351D9D-1FAB-471A-9236-2282ADEF8589"><h3 class="section-title">Procedure</h3> <ol id="GUID-F956C034-BA59-5811-9043-BF0D77F10677">
+<li id="GUID-9842671A-A9BE-5CC1-A957-D2AA09B2B6D0"><a name="GUID-9842671A-A9BE-5CC1-A957-D2AA09B2B6D0"><!-- --></a><p>Create a private key-public
+key pair and certificate request using the <a href="GUID-557BF1DA-B6E8-521B-89F0-15C84E3BCB1A.html">MakeKeys</a> tool.
+For details, see <a href="GUID-D45A4AE9-4169-4466-B02B-629B15C3E9AA.html">MaKeKeys
+Tutorial</a>. </p> </li>
+<li id="GUID-030DB6CF-22B6-529A-9915-38A4AD2A8A92"><a name="GUID-030DB6CF-22B6-529A-9915-38A4AD2A8A92"><!-- --></a><p>Submit the certificate
+request to a Certificate Authority (CA) and receive an authenticated digital
+certificate. </p> </li>
+<li id="GUID-F8CDA8A6-4FD1-5F96-9D50-E2B7323504B5"><a name="GUID-F8CDA8A6-4FD1-5F96-9D50-E2B7323504B5"><!-- --></a><p>Create a package (PKG)
+file containing all the elements required to create the installation file.
+For details see <a href="GUID-43B4B4E7-413E-5D18-811C-4B9E38CDEB69.html">PKG
+File Format</a> . </p> </li>
+<li id="GUID-80F3E1E2-7E61-53B7-948F-651BA163469E"><a name="GUID-80F3E1E2-7E61-53B7-948F-651BA163469E"><!-- --></a><p>Run <a href="GUID-4BDC9F63-83A1-53A5-91A0-B092AA821755.html">MakeSIS</a> at
+the command prompt to create an unsigned SIS file. Specify the PKG file as
+input argument, as shown in the following example: </p> <div class="p"><pre class="codeblock">makesis mypackage.pkg</pre> </div> <p> <code class="codeph">MakeSIS</code> generates an unsigned SIS file. </p> </li>
+<li id="GUID-C1190F84-8E02-5C57-90BE-3C3CCB0AAE04"><a name="GUID-C1190F84-8E02-5C57-90BE-3C3CCB0AAE04"><!-- --></a><p>Run <a href="GUID-B20EE8A3-D7B2-5872-AF43-001A88C1A46E.html">SignSIS</a> at
+the command prompt to sign the unsigned SIS file. Specify the unsigned SIS
+file as input, and public key certificate and private key as arguments, as
+shown in the following example: </p> <div class="p"><pre class="codeblock">signsis trustedchain.pem eecertkey.key mypackage.sis</pre> </div> <p>Based on the certificate provided as input, <code class="codeph">SignSiS</code> generates
+a signed SIS file. For details, see <a href="GUID-AFBD4ED6-9588-531C-8EDF-566DB1D03088.html">Signing</a> </p> </li>
+</ol><div class="note"><p><strong class="note_title">Note: </strong> As an alternative to step 4 and 5, run the </p><a href="GUID-AA555CC1-5CFF-5609-9191-8970F32BA255.html">CreateSIS</a> tool
+at the command prompt to generate and sign the installation file. Specify
+the trusted certificate-key pairs as arguments, as shown in the following
+example: <pre class="codeblock">createsis create -cert trustedchain.pem -key eecertkey.key mypackage.pkg
+</pre></div><p>The process of creating an installation file can be
+understood using the following illustration:</p><div class="figure" id="GUID-DB0D2E8C-E8B6-46C8-8CF4-1970EA1B3A03"><img src="GUID-B46C54AD-268C-58A0-B244-134C4D8BDFE1_d0e18827_href.png" /></div> </div>
+<div id="GUID-E62CAB18-EAC0-4C55-94D6-D5A0C64BE4F7"><h3 class="section-title">Notes</h3> <p>While creating a SIS file using the <strong>CreateSIS</strong> tool,
+if you do not specify the key or certificate on the command line the <code class="codeph">create</code> method
+generates a key and a matching self-signed certificate, and uses it to sign
+the resulting SIS file. </p> <p>The generated certificate and key is dumped
+into the current working directory as <code>cert-gen.cer</code> and <code>key-gen.key</code> files.
+If <code>key-gen.key</code> exists, the certificate and key filenames
+are indexed incrementally. That is, <code>cert-genx.cer</code> and <code>key-genx.key</code>,
+where <em>x</em> is the incremental index. </p> <p> <strong> Note:</strong> The passphrase
+encryption is not an option. It must be provided with the <code class="codeph">-pass</code> option.
+If this option is not specified, <strong>CreateSIS</strong> prompts for the passphrase
+during key generation. </p> </div>
+</div><h3>Related reference</h3><ul><li><a href="GUID-AA555CC1-5CFF-5609-9191-8970F32BA255.html">CreateSIS</a></li><li><a href="GUID-4BDC9F63-83A1-53A5-91A0-B092AA821755.html">MakeSIS</a></li><li><a href="GUID-B20EE8A3-D7B2-5872-AF43-001A88C1A46E.html">SignSIS</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated February 8th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-03BBEA31-3266-5B1C-9017-4EE7EA4AF1A8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:50:50 GMT -->
+</html>

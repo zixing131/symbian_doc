@@ -1,0 +1,1295 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_grids_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:10:10 GMT -->
+<head><title>Grids API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i482"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Grids API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+<li class="toclevel-2"><a href="#Grid_architecture"><span class="tocnumber">1.5</span> <span class="toctext">Grid architecture</span></a></li>
+<li class="toclevel-2"><a href="#Grid_types"><span class="tocnumber">1.6</span> <span class="toctext">Grid types</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Menu_grid"><span class="tocnumber">1.6.1</span> <span class="toctext">Menu grid</span></a></li>
+<li class="toclevel-3"><a href="#Selection_grid"><span class="tocnumber">1.6.2</span> <span class="toctext">Selection grid</span></a></li>
+<li class="toclevel-3"><a href="#Markable_grid"><span class="tocnumber">1.6.3</span> <span class="toctext">Markable grid</span></a></li>
+<li class="toclevel-3"><a href="#Color_selection_grid"><span class="tocnumber">1.6.4</span> <span class="toctext">Color selection grid</span></a></li>
+<li class="toclevel-3"><a href="#GMS_style_grid"><span class="tocnumber">1.6.5</span> <span class="toctext">GMS style grid</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Grid_format_and_layout"><span class="tocnumber">1.7</span> <span class="toctext">Grid format and layout</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Grid_layout"><span class="tocnumber">1.7.1</span> <span class="toctext">Grid layout</span></a></li>
+<li class="toclevel-3"><a href="#Cell_structure"><span class="tocnumber">1.7.2</span> <span class="toctext">Cell structure</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Defining_a_grid_in_resource_file"><span class="tocnumber">2.1</span> <span class="toctext">Defining a grid in resource file</span></a></li>
+<li class="toclevel-2"><a href="#Setting_up_the_grid_cell_structure"><span class="tocnumber">2.2</span> <span class="toctext">Setting up the grid cell structure</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Setting_up_sub-cell_that_contains_graphics"><span class="tocnumber">2.2.1</span> <span class="toctext">Setting up sub-cell that contains graphics</span></a></li>
+<li class="toclevel-3"><a href="#Setting_up_sub-cell_that_contains_text"><span class="tocnumber">2.2.2</span> <span class="toctext">Setting up sub-cell that contains text</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Creating_a_selection_grid_from_resource"><span class="tocnumber">2.3</span> <span class="toctext">Creating a selection grid from resource</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_selection_grid_with_icons_runtime"><span class="tocnumber">2.4</span> <span class="toctext">Creating a selection grid with icons runtime</span></a></li>
+<li class="toclevel-2"><a href="#Getting_the_selected_cell_of_a_selection_grid"><span class="tocnumber">2.5</span> <span class="toctext">Getting the selected cell of a selection grid</span></a></li>
+<li class="toclevel-2"><a href="#Selecting_a_cell_in_a_grid"><span class="tocnumber">2.6</span> <span class="toctext">Selecting a cell in a grid</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_markable_grid_with_icons_runtime"><span class="tocnumber">2.7</span> <span class="toctext">Creating a markable grid with icons runtime</span></a></li>
+<li class="toclevel-2"><a href="#Mark_and_unmark_an_item_in_a_markable_grid"><span class="tocnumber">2.8</span> <span class="toctext">Mark and unmark an item in a markable grid</span></a></li>
+<li class="toclevel-2"><a href="#Getting_the_marked_items_of_a_markable_grid"><span class="tocnumber">2.9</span> <span class="toctext">Getting the marked items of a markable grid</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_color_selection_grid"><span class="tocnumber">2.10</span> <span class="toctext">Creating a color selection grid</span></a></li>
+<li class="toclevel-2"><a href="#Adding_a_cell_to_grid"><span class="tocnumber">2.11</span> <span class="toctext">Adding a cell to grid</span></a></li>
+<li class="toclevel-2"><a href="#Removing_a_cell_from_grid"><span class="tocnumber">2.12</span> <span class="toctext">Removing a cell from grid</span></a></li>
+<li class="toclevel-2"><a href="#Getting_the_number_of_cells_of_grid"><span class="tocnumber">2.13</span> <span class="toctext">Getting the number of cells of grid</span></a></li>
+<li class="toclevel-2"><a href="#Offering_key_events_to_grid"><span class="tocnumber">2.14</span> <span class="toctext">Offering key events to grid</span></a></li>
+<li class="toclevel-2"><a href="#Handling_resource_events"><span class="tocnumber">2.15</span> <span class="toctext">Handling resource events</span></a></li>
+<li class="toclevel-2"><a href="#Creating_animated_highlight"><span class="tocnumber">2.16</span> <span class="toctext">Creating animated highlight</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.17</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.18</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Grids are used extensively on the S60 platform to represent a compact view
+of the data structure using graphics and/or text. This document introduces
+readers to grid use on the S60 platform.
+</p><p>Items from the data structure are represented by cells in the grid view.
+A cell can be further divided into sub-cells, which contain graphics or text.
+Depending on the screen size, cell size, and number of items in the data structure,
+all or some of the cells are visible concurrently. Grid controls provide users
+with a mechanism to navigate between the cells. Grids are also scrollable,
+thus enabling access to all items in the data structure.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Markable_Grid.png" title="This example shows a markable grid"><img alt="This example shows a markable grid" border="0" height="283" src="images/SPB_10_1_Markable_Grid.png" width="214" /></a></div>
+<div style="text-align:center"><i>This example shows a markable grid</i></div>
+<p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>avkon.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/grids_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/grids_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Like other user interface components on the S60 platform, grids follow
+the Model-View-Controller (MVC) design pattern.
+</p><p>Using listboxes is another common way to represent a set of items on the
+S60 platform. While grids share a great deal of functionality with listboxes,
+the fundamental difference is that a grid may contain more than one item per
+line, thus providing a more compact view over the data. This compactness comes
+at a cost: the amount of information per item in a grid is more limited than
+in a listbox. Therefore grids are more suitable for displaying easily distinguishable
+items, such as applications or available commands in one application, or items
+that are naturally represented as a grid, such as a monthly calendar view.
+</p><p>There are many different types of grids available on the S60 platform.
+These types are designed to fulfill the requirements of different kinds of
+data structures and use cases related to representing a set of items in a
+compact way.
+</p><p>This document covers the menu grid, the selection grid, and the markable
+grid. The menu grid provides users with a collection of available actions
+and allows them to proceed with one. The selection grid provides a view where
+users can navigate between items and then select one or more. The markable
+grid allows users to navigate and select items, and then execute a command
+to each of them. Code samples throughout this document demonstrate how to
+create the different types of grids.
+</p><p>In addition to having different types of grids, the grid layout itself
+can be altered. The number of visible rows and columns can be altered, along
+with the presentation and composition of cells. These options are explained
+thoroughly with code samples.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Grids API is an SDK API and part of S60 since release 0.9.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of Grids API are:
+</p>
+<ul><li> Defining a grid in resource file
+</li><li> Setting up the grid cell structure
+</li><li> Setting up sub-cell that contains graphics
+</li><li> Setting up sub-cell that contains text
+</li><li> Creating a selection grid from resource
+</li><li> Creating a selection grid with icons runtime
+</li><li> Getting the selected cell of a selection grid
+</li><li> Selecting a cell in a grid
+</li><li> Creating a menu grid
+</li><li> Creating a markable grid with icons runtime
+</li><li> Mark and unmark an item in a markable grid
+</li><li> Getting the marked items of a markable grid
+</li><li> Creating a color selection grid
+</li><li> Adding a cell to grid
+</li><li> Removing a cell from grid
+</li><li> Getting the number of cells of grid
+</li><li> Offering key events to grid
+</li><li> Handling resource events
+</li><li> Creating animated highlight
+</li></ul>
+<p>API class structure
+</p><p>This diagram shows the general structure of Grids API.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_GridsAPI_ClassDiagram.png" title="The general class diagram of Grids API"><img alt="The general class diagram of Grids API" border="0" height="171" src="images/SPB_10_1_GridsAPI_ClassDiagram.png" width="432" /></a></div>
+<div style="text-align:center"><i>The general class diagram of Grids API</i></div>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknColourSelectionGrid <td><span class="plainlinks"><code>/epoc32/include/mw/AknColourSelectionGrid.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAknGMSPopupGrid</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknGMSStyleGrid.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknGMSStyleGrid</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknGMSStyleGrid.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknGMSStyleGridView</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknGMSStyleGrid.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknGrid</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknGrid.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknGridM</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknGridM.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknGridView</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknGridView.h</code></span>
+</td></tr>
+<a name="Grid_architecture"><h3> <span class="mw-headline">1.5 Grid architecture </span></h3>
+</a><p>Grid controls and listboxes have a great deal in common, thus it is natural
+that the base class for the grid controls ( <span class="plainlinks"><code>CAknGrid</code> </span>) inherits
+the base class for listboxes <span class="plainlinks"><code>CEikListBox</code> </span>. For details in
+listboxes, please see the Lists API documentation. Because
+grid controls follow the MVC design pattern, the grid control architecture
+is divided into three classes: class <span class="plainlinks"><code>CAknGrid</code> </span> implements
+the controller, class <span class="plainlinks"><code>CAknGridView</code> </span> implements the view, and
+class <span class="plainlinks"><code>CAknGridM</code> </span> implements the model component of the grid
+control.
+</p><p>The model class <span class="plainlinks"><code>CAknGridM</code> </span> is an abstract class specifying
+the interface to the data. The model does not contain any information about
+the visual presentation of the data in grid control. It should be noted that
+the model class is a C-type class, so, for example, multiple inheritance of
+the grid control model is more limited than in the case of listboxes.
+</p><p>The view class <span class="plainlinks"><code>CAknGridView</code> </span> is responsible for the visual
+appearance of the grid control. It handles rendering of cells and the cursor.
+It also performs the mapping of data items to their grid cells.
+</p><p>The controller class <span class="plainlinks"><code>CAknGrid</code> </span> acts as the actual user
+interface component, communicating with both the model and the view components.
+</p>
+<a name="Grid_types"><h3> <span class="mw-headline">1.6 Grid types </span></h3>
+</a><p>Grids are divided into the following types based on their functionality.
+</p>
+<a name="Menu_grid"><h4> <span class="mw-headline">1.6.1 Menu grid </span></h4>
+</a><p>The menu grid is a grid control embedded in a pop-up dialog. It can be
+used to provide users with a list of alternatives for performing a desired
+operation. Only one item can be selected, and after selection the grid control
+is destroyed along with the dialog.
+</p><p>Control of the grid is delegated to the pop-up dialog, and its use is similar
+to other dialogs on the S60 platform.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Menu_Grid.png" title="Menu grid"><img alt="Menu grid" border="0" height="227" src="images/SPB_10_1_Menu_Grid.png" width="196" /></a></div>
+<div style="text-align:center"><i>Menu grid</i></div>
+<a name="Selection_grid"><h4> <span class="mw-headline">1.6.2 Selection grid </span></h4>
+</a><p>The selection grid allows users to select one of the available items. It
+is typically used as a navigational component of the user interface, thus
+serving a purpose similar to that of selection lists.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Selection_Grid.png" title="Selection grid"><img alt="Selection grid" border="0" height="236" src="images/SPB_10_1_Selection_Grid.png" width="201" /></a></div>
+<div style="text-align:center"><i>Selection grid</i></div>
+<a name="Markable_grid"><h4> <span class="mw-headline">1.6.3 Markable grid </span></h4>
+</a><p>The markable grid allows users to select multiple items in the grid. Typically
+it is used to perform one operation to each one of the selected items (for
+example, to delete messages from a folder in a messaging application).
+</p><p>The grid control for the markable grid automatically handles setting and
+resetting the marker field in the data structure.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Markable_Grid_2.png" title="Markable grid"><img alt="Markable grid" border="0" height="244" src="images/SPB_10_1_Markable_Grid_2.png" width="211" /></a></div>
+<div style="text-align:center"><i>Markable grid</i></div>
+<a name="Color_selection_grid"><h4> <span class="mw-headline">1.6.4 Color selection grid </span></h4>
+</a><p>Color selection grid can be used when an application offers to user the
+possibility to choose a color in a dialog. There is also a possibility to
+select nothing.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ColorSelection_Grid.png" title="Color selection grid"><img alt="Color selection grid" border="0" height="269" src="images/SPB_10_1_ColorSelection_Grid.png" width="198" /></a></div>
+<div style="text-align:center"><i>Color selection grid</i></div>
+<a name="GMS_style_grid"><h4> <span class="mw-headline">1.6.5 GMS style grid </span></h4>
+</a><p>This type of grid can be used to create a  photoalbum-like picture grid.
+This is a markable grid with two columns displaying a bitmap. The grid is
+implemented by the class <span class="plainlinks"><code>CAknGMSStyleGrid</code> </span>.
+</p>
+<a name="Grid_format_and_layout"><h3> <span class="mw-headline">1.7 Grid format and layout </span></h3>
+</a><p>The grid format is defined much the same way as for listboxes. There are,
+however, additional formatting options due to cell composition. The following
+section describes the options available for grid layout and cell formatting.
+</p>
+<a name="Grid_layout"><h4> <span class="mw-headline">1.7.1 Grid layout </span></h4>
+</a><p>Grids are laid out as a two-dimensional matrix composed of horizontal rows
+and vertical columns. The number of rows and columns in a grid control can
+be freely specified to suit the needs of different applications. The size
+of a cell in a grid can also be freely specified (considering the limitations
+of the device's screen resolution) and is the same for all of the cells. Horizontal
+and vertical gaps between cells of the grid can also be specified.
+</p><p>As there is no one obvious way to order the cells in a grid, this can be
+customized as well. The ordering of cells can be done by selecting either
+a horizontal or vertical axis as the primary axis. This axis then determines
+the orientation of the grid. The order can be further specified by defining
+the ordering (left-right, top-down) in both axes. This combination then defines
+the exact ordering of data items in the grid.
+</p><p>The scrolling behavior of the grid can also be altered. There are three
+types for scrolling behavior at the edge of a grid:
+</p>
+<ul><li> Stop. The cursor cannot be moved beyond the edge of grid and thus is stopped
+</li></ul>
+<p>at the edge.
+</p>
+<ul><li> Loop. The cursor is moved to the opposite side of the grid. When trying
+</li></ul>
+<p>to move beyond the rightmost item, the cursor is moved to the leftmost item
+in the same row.
+</p>
+<ul><li> Snake. The behavior is similar to loop, but the cursor is moved to the
+</li></ul>
+<p>next/previous row (or column), if applicable. The snaking scrolling order
+is shown in Figure 6.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_SnakingScrollingOrder.png" title="Snaking scrolling order"><img alt="Snaking scrolling order" border="0" height="214" src="images/SPB_10_1_SnakingScrollingOrder.png" width="186" /></a></div>
+<div style="text-align:center"><i>Snaking scrolling order</i></div>
+<a name="Cell_structure"><h4> <span class="mw-headline">1.7.2 Cell structure </span></h4>
+</a><p>As mentioned before, cells are composed of one or more sub-cells. These
+sub-cells may contain either text or graphics, and can be positioned independently
+within the cell. All cells in same grid share the same cell structure. There
+are typically one to three sub-cells in one cell.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_CellItem.png" title="Cell structure"><img alt="Cell structure" border="0" height="116" src="images/SPB_10_1_CellItem.png" width="111" /></a></div>
+<div style="text-align:center"><i>Cell structure</i></div>
+<p>Figure 7 shows the typical components of a grid cell:
+</p>
+<ul><li> Sub-cell A contains graphics.
+</li><li> Sub-cell B contains text.
+</li><li> Sub-cell C contains a marker indicating whether the cell is selected or
+</li></ul>
+<p>not.
+</p><p>The format strings used in conjunction with cell formatting are similar
+to those used with listboxes. The strings in the data structure are composed
+of tab-delimited fields. These fields are then used to render the sub-cell,
+either by using the numeric value of the field as an index to the icon array
+to select the graphical icon to be drawn, or by using the Unicode string itself
+as the content of the text sub-cell.
+</p><p>The format string for item data for the cell in Figure 6 is " <span class="plainlinks"><code><font color="darkred">2\tItem\t0</font></code> </span>":
+the first field contains an index to the icon array, the second field contains
+the text to be displayed, and the third field is a placeholder for the marker
+information.
+</p><p>Sub-cells can be located freely within the cell. For different views, some
+of the fields present in data can be omitted as well, for example to provide
+a text-only view of the grid. The cell structure can be changed dynamically
+at run time without the need to modify the model data or to construct the
+grid control from scratch.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Defining_a_grid_in_resource_file"><h3> <span class="mw-headline">2.1 Defining a grid in resource file </span></h3>
+</a><p>Grid resources are described with the <span class="plainlinks"><code>GRID</code> </span> structure,
+as defined in the<i> avkon.rh</i> file:
+</p>
+<pre>STRUCT GRID
+     {
+     BYTE version = 0;
+     WORD flags = 0;
+     WORD height = 5;  // in items
+     WORD width = 10;  // in chars
+     LLINK array_id = 0;
+     LTEXT emptytext = "";
+     LLINK style = 0;
+     }
+</pre>
+<p>Important members of this structure are:
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">flags</font></code> </span>, which describes the type of the grid control to
+</li></ul>
+<p>be created.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">style</font></code> </span>, which is a reference to the <span class="plainlinks"><code>GRID_STYLE</code> </span> structure
+</li></ul>
+<p>described later.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">array_id</font></code> </span>, which is a reference to an <span class="plainlinks"><code>ARRAY</code> </span> of
+</li></ul>
+<p>strings describing the data items.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">emptytext</font></code> </span>, which contains the text to be shown when there
+</li></ul>
+<p>are no items in the grid.
+</p><p>The grid type is specified in <span class="plainlinks"><code>GRID</code> </span> structure member <span class="plainlinks"><code><font color="darkred">flags</font></code> </span>,
+which may contain one of the following predefined values:
+</p>
+<ul><li> <span class="plainlinks"><code>EAknListBoxMenuGrid</code> </span>, for menu grid type
+</li><li> <span class="plainlinks"><code>EAknListBoxSelectionGrid</code> </span>, for selection grid type
+</li><li> <span class="plainlinks"><code>EAknListBoxMarkableGrid</code> </span>, for multiple selection/markable
+</li></ul>
+<p>grid type
+</p><p>The grid style is described with the <span class="plainlinks"><code>GRID_STYLE</code> </span> structure,
+defined in<i> avkon.rh</i>:
+</p>
+<pre>STRUCT GRID_STYLE
+     {
+     WORD layoutflags = 0;
+     WORD primaryscroll = 0;
+     WORD secondaryscroll = 0;
+     WORD itemsinprimaryorient = 0;
+     WORD itemsinsecondaryorient = 0;
+     WORD height = 0;
+     WORD width = 0;
+     WORD gapwidth = 0;
+     WORD gapheight = 0;
+     }
+</pre>
+<p>Members in the GRID_STYLE structure can be used as described below.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">layoutflags</font></code> </span>: A set of flags describing the orientation
+</li></ul>
+<p>of the grid and the ordering of cells within the axis. Possible values for
+orientation are <span class="plainlinks"><code>EAknGridHorizontalOrientation</code> </span> or <span class="plainlinks"><code>EAknGridVerticalOrientation</code> </span>.
+The ordering of cells in the vertical axis is defined by either <span class="plainlinks"><code>EAknGridTopToBottom</code> </span> or <span class="plainlinks"><code>EAknGridBottomToTop</code> </span> and
+in the horizontal axis by either <span class="plainlinks"><code>EAknGridLeftToRight</code> </span> or <span class="plainlinks"><code>EAknGridRightToLeft</code> </span>.
+The S60 platform also provides flag <span class="plainlinks"><code>EAknGridLanguageSpecificHorizontalDirection</code> </span> to
+provide horizontal ordering based on the language's writing direction.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">primaryscroll</font></code> </span> and <span class="plainlinks"><code><font color="darkred">secondaryscroll</font></code> </span>: Scrolling
+</li></ul>
+<p>behavior within the primary and secondary axes of the grid. The following
+values are defined for use with these fields:
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td> <b> Flag value</b></td><td> <b> Description</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EScrollFollowsItemsAndStops</code> </span></td><td> Snakes. Stops when scrolling beyond the first or last cell.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EScrollFollowsItemsAndLoops</code> </span></td><td> Snakes. Loops to the first cell when scrolling beyond the last cell
+<p>and vice versa.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EScrollFollowsGrid</code> </span></td><td> Loops.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EScrollStops</code> </span></td><td> Stops.
+</td></tr></table>
+<ul><li> <span class="plainlinks"><code><font color="darkred">itemsinprimaryorient</font></code> </span> and <span class="plainlinks"><code><font color="darkred">itemsinsecondaryorient</font></code> </span>:
+</li></ul>
+<p>Number of cells in primary and secondary axes.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">width</font></code> </span> and <span class="plainlinks"><code><font color="darkred">height</font></code> </span>: Size of cell in pixels.
+</li><li> <span class="plainlinks"><code><font color="darkred">gapwidth</font></code> </span> and <span class="plainlinks"><code><font color="darkred">gapheight</font></code> </span>: Size of gap
+</li></ul>
+<p>between cells in pixels.
+</p><p>Note, that resource based definition of grid style is not recommended as
+S60 supports multiple resolutions.
+</p><p>Items contained in the grid can also be specified in the resource file.
+The <span class="plainlinks"><code><font color="darkred">array_id</font></code> </span> member of the <span class="plainlinks"><code>GRID</code> </span> structure
+is a reference to an <span class="plainlinks"><code>ARRAY</code> </span> that contains items of type <span class="plainlinks"><code>LBUF</code> </span>.
+</p><p>The following resource definition defines a selection grid and its contents.
+The resulting grid will be similar to the one shown in Figure 3.
+</p>
+<pre>RESOURCE GRID r_selectiongrid
+	{
+	array_id = r_selectiongrid_items;
+	flags = EAknListBoxSelectionGrid;
+	style = r_selectiongrid_style;
+	}
+</pre>
+<pre>RESOURCE GRID_STYLE r_selectiongrid_style
+	{
+	layoutflags = EAknGridHorizontalOrientation |
+				  EAknGridLeftToRight |
+				  EAknGridTopToBottom;
+</pre>
+<pre>	primaryscroll = EAknGridFollowsItemsAndLoops;
+	secondaryscroll = EAknGridFollowsItemsAndLoops;
+</pre>
+<pre>	itemsinprimaryorient = 3;
+	itemsinsecondaryorient = 3;
+</pre>
+<pre>	gapwidth = 5;
+	gapheight = 5;
+</pre>
+<pre>	width = 60;
+	height = 60;
+	}
+</pre>
+<pre>RESOURCE ARRAY r_selectiongrid_items
+	{
+	items =
+		{
+		LBUF { txt = "Item0"; },
+		LBUF { txt = "Item1"; },
+		LBUF { txt = "Item2"; },
+		LBUF { txt = "Item3"; },
+		LBUF { txt = "Item4"; }
+		};
+	}
+</pre>
+<a name="Setting_up_the_grid_cell_structure"><h3> <span class="mw-headline">2.2 Setting up the grid cell structure </span></h3>
+</a><p>As mentioned before, the cells of a grid are composed of one or more sub-cells.
+This sub-cell structure must be set up before the grid control can be used.
+As per the MVC design pattern, the view component of the grid control is responsible
+for providing the visual presentation of the cells. Therefore the low-level
+manipulation of cell structure can be made with the item drawer class. However,
+the S60 platform also provides utility class <span class="plainlinks"><code>AknListBoxLayouts</code> </span> to
+simplify the setup of the cell structure for grid controls. Class <span class="plainlinks"><code>AknListBoxLayouts</code> </span> provides
+a few static methods for grids.
+</p><p><span class="plainlinks"><code>AknListBoxLayouts::SetupStandardGrid()</code> </span> sets up the background
+and foreground color settings to their default values.
+</p>
+<a name="Setting_up_sub-cell_that_contains_graphics"><h4> <span class="mw-headline">2.2.1 Setting up sub-cell that contains graphics </span></h4>
+</a><p><span class="plainlinks"><code>AknListBoxLayouts::SetupFormGfxCell()</code> </span> is used to set up
+the sub-cell that contains graphics.
+</p>
+<pre>AknListBoxLayouts::SetupFormGfxCell(*iGrid, // Reference to grid control
+                                    iGrid-&gt;ItemDrawer(),  // Pointer to the item drawer
+                                    0, // Column index
+                                    0, // Left position
+                                    0, // Top position
+                                    0, // Right - unused
+                                    0, // Bottom - unused
+                                    50, // Width
+                                    32, // Height
+                                    TPoint(0,0), // Start position
+                                    TPoint(32, 32));  // End position
+</pre>
+<p>The following parameters must be provided when setting up a graphics sub-cell:
+</p>
+<ul><li> Reference to the grid itself and pointer to the grid's item drawer.
+</li><li> Column index - The field number in a tab-delimited data string to be used
+</li></ul>
+<p>to get the index to graphics.
+</p>
+<ul><li> Left and top positions - The number of pixels relative to the left-hand
+</li></ul>
+<p>and top sides of the cell.
+</p>
+<ul><li> The width and height of the graphic in pixels.
+</li><li> Start and end positions - The coordinates describing the area of the bitmap
+</li></ul>
+<p>to be drawn.
+</p>
+<a name="Setting_up_sub-cell_that_contains_text"><h4> <span class="mw-headline">2.2.2 Setting up sub-cell that contains text </span></h4>
+</a><p><span class="plainlinks"><code>AknListBoxLayouts::SetupFormTextCell()</code> </span> is used to set
+up the sub-cell that contains text.
+</p>
+<pre>AknListBoxLayouts::SetupFormTextCell(*iGrid, // Reference to grid
+                                     iGrid-&gt;ItemDrawer(),// Pointer to the item drawer
+                                        1, // Column index
+                                        LatinBold12(), // Font
+                                        215, // Color (215 = black)
+                                        0, // Left margin
+                                        0, // Right margin - unused
+                                        50 - 3, // Baseline
+                                        50, // Text width
+                                        CGraphicsContext::ECenter, // Text alignment
+                                        TPoint(0, 32), // Start position
+                                        TPoint(50, 50)); // End position
+</pre>
+<p>The following parameters must be provided when setting up a text sub-cell:
+</p>
+<ul><li> Reference to the grid itself and a pointer to the grid's item drawer.
+</li><li> Column index. The field number in a tab-delimited data string to be used
+</li></ul>
+<p>to get the index to graphics.
+</p>
+<ul><li> Font used to render the text.
+</li><li> Color of the text. Index to an 8-bit palette used for the user interface
+</li></ul>
+<p>(entries 0-215 are known as Web-safe colors.
+</p>
+<ul><li> Left margin position. Position in pixels relative to the left-hand side
+</li></ul>
+<p>of the cell.
+</p>
+<ul><li> Baseline position.
+</li><li> Width of the text.
+</li><li> Alignment of the text.
+</li><li> Start and end position. The coordinates describing the text area.
+</li></ul>
+<a name="Creating_a_selection_grid_from_resource"><h3> <span class="mw-headline">2.3 Creating a selection grid from resource </span></h3>
+</a><p>Grid controls can be easily created from resource definitions. The resource
+file used to create the grid should have both the resource definition for
+the grid and the definition of the grid item array. In this example a simple
+grid is created which cells have only text items. The grid is created from
+resource defined in [Grids_API_Specification.topic3.1 Defining a grid in resource file].
+Note, that <span class="plainlinks"><code>AknListBoxLayouts::SetupFormTextCell()</code> </span> must be
+called to define the layout of the text in the cell. For details on cell layout
+please see [Grids_API_Specification.topic3.2 Setting up the grid cell structure].
+</p><p>To create a selection grid with text from code, follow these steps:
+</p>
+<ul><li> Create a grid instance.
+</li><li> Set the grid's container window. Since the grid is a non window-owning
+</li></ul>
+<p>control, its parent control is passed as a parameter, providing a window for
+the listbox to draw to.
+</p>
+<ul><li> Construct the selection grid using its resource identifier.
+</li><li> Set the text layout of grid sub-cell using <span class="plainlinks"><code>AknListBoxLayouts::SetupFormTextCell()</code> </span> method.
+</li><li> Activate the grid.
+</li></ul>
+<pre>class MyContainer : public CCoeControl
+     {
+     CAknGrid* iGrid;
+     }
+</pre>
+<pre>void MyContainer::ConstructL()
+     {
+     // Create grid
+     iGrid = new( ELeave ) CAknGrid;
+     iGrid-&gt;SetContainerWindowL( *this );
+     TResourceReader rr;
+     // initialize resource reader, passing resource id as parameter
+     iEikonEnv-&gt;CreateResourceReaderLC( rr, R_SELECTIONGRID );
+     // Construct grid from resource
+     iGrid-&gt;ConstructFromResourceL( rr );
+     CleanupStack::PopAndDestroy();  // rr
+</pre>
+<pre>     // Setup the layout of the text in the cell.
+     AknListBoxLayouts::SetupFormTextCell( *iGrid, iGrid-&gt;ItemDrawer(),
+                                          0, LatinBold16(), 0, 0, 0, 30,
+                                          0, CGraphicsContext::ECenter,
+                                          TPoint(0,0), TPoint(0,0) );
+     // Activate grid
+     iGrid-&gt;SetRect( Rect() );
+     iGrid-&gt;ActivateL();
+     }
+</pre>
+<a name="Creating_a_selection_grid_with_icons_runtime"><h3> <span class="mw-headline">2.4 Creating a selection grid with icons runtime </span></h3>
+</a><p>Creating grids without a resource file is not much more complicated than
+creating them with a resource file. Most of the steps used to create grid
+control are same in both cases. In this example a 3x3 grid is created each
+grid contains an icon and a text.
+</p><p>To create a selection grid with icons and text from code, follow these
+steps:
+</p>
+<ul><li> Create a grid instance an a grid model instance. Set the grid's model
+</li></ul>
+<p>with the created model.
+</p>
+<ul><li> Use flag <span class="plainlinks"><code>EAknListBoxSelectionGrid</code> </span> to construct a selection
+</li></ul>
+<p>grid.
+</p>
+<ul><li> Set the grid's container window. Since the grid is a non window-owning
+</li></ul>
+<p>control, its parent control is passed as a parameter, providing a window for
+the listbox to draw to.
+</p>
+<ul><li> Set the grid layout using <span class="plainlinks"><code>CAknGrid::SetLayoutL()</code> </span>.
+</li><li> Add cell item strings and icons to grid. Cell item string must be formatted
+</li></ul>
+<p>to contain the indexes of the icons in the icon array.
+</p>
+<ul><li> Set the layout of text and icon in the grid sub-cell using <span class="plainlinks"><code>AknListBoxLayouts::SetupFormGfxCell()</code> </span> and <span class="plainlinks"><code>AknListBoxLayouts::SetupFormTextCell()</code> </span> methods.
+</li><li> Activate the grid.
+</li></ul>
+<p>Note that the order of the icons in the icon array (local variable <span class="plainlinks"><code><font color="darkred">iconArray</font></code> </span> of
+the method <span class="plainlinks"><code><font color="darkred">AddGridIconsL()</font></code> </span>) defines their indexes in the
+cell item string ( <span class="plainlinks"><code><font color="darkred">0\tItem1</font></code> </span>). In this example, the first icon
+added to the icon list will be indexed as zero ( <span class="plainlinks"><code><font color="darkred">0</font></code> </span>), and the
+next item, as one ( <span class="plainlinks"><code><font color="darkred">1</font></code> </span>). The first column in the cell item
+string defines the index of the icon to be displayed for the specific cell
+item, the second column defines the text of the cell.
+</p><p>The cell icons are loaded from a AVKON's bitmap file and appended to the
+icon array and added to grid.
+</p>
+<pre>class MyContainer : public CCoeControl
+    {
+    CAknGrid*  iGrid;
+    CAknGridM* iGridModel;
+    }
+</pre>
+<pre>void MyContainer::ConstructL()
+    {
+    &#8230;
+    CreateWindowL();
+    // Create grid
+    iGrid = new( ELeave ) CAknGrid;
+    // Create grid model
+    iGridModel = new( ELeave ) CAknGridM;
+</pre>
+<pre>    // Construct grid
+    iGrid-&gt;SetContainerWindowL( *this );
+    iGrid-&gt;SetModel( iGridModel );
+    iGrid-&gt;ConstructL( this, EAknListBoxSelectionGrid );
+</pre>
+<pre>    // Set grid layout, and scrolling
+	iGrid-&gt;SetLayoutL( EFalse, ETrue, ETrue, 3/*rows*/ , 3/*columns*/, TSize( 70, 70 )/*cellsize*/, 10/*wspace*/, 10/*hspace*/ );
+	iGrid-&gt;SetPrimaryScrollingType( CAknGridView::EScrollIncrementLineAndLoops );
+	iGrid-&gt;SetSecondaryScrollingType( CAknGridView::EScrollIncrementLineAndLoops );
+    AknListBoxLayouts::SetupStandardGrid( *iGrid );
+</pre>
+<pre>    // Accesses grid model`s item array
+    CDesCArray *gridItemArray = static_cast&lt;CDesCArray*&gt;( iGridModel-&gt;ItemTextArray() );
+    // Adds formatted cell item strings to grid including the indexes of icons in icon array.
+    gridItemArray-&gt;AppendL( _L("0\tItem1") );
+    gridItemArray-&gt;AppendL( _L("1\tItem2") );
+    gridItemArray-&gt;AppendL( _L("2\tItem3") );
+    gridItemArray-&gt;AppendL( _L("0\tItem4") );
+    gridItemArray-&gt;AppendL( _L("1\tItem5") );
+    gridItemArray-&gt;AppendL( _L("2\tItem6") );
+    gridItemArray-&gt;AppendL( _L("0\tItem7") );
+    gridItemArray-&gt;AppendL( _L("1\tItem8") );
+    gridItemArray-&gt;AppendL( _L("2\tItem9") );
+    gridItemArray-&gt;AppendL( _L("0\tItem10") );
+    iGrid-&gt;HandleItemAdditionL();
+</pre>
+<pre>    // Adds ICONS from AVKON`s bitmap file
+    AddGridIconsL();
+</pre>
+<pre>    // Set the  layout of icon in grid cell
+    AknListBoxLayouts::SetupFormGfxCell( *iGrid, iGrid-&gt;ItemDrawer(), 0 /*Column index*/,
+                                         10 /*Left pos*/, 10 /*Top pos*/,
+                                         0 /*unused*/, 0 /*unused*/,
+                                         40 /*Icon width*/, 40 /*Icon height*/,
+                                         TPoint(0,0) /*Start pos*/,
+                                         TPoint(0,0) /*End pos*/ );
+</pre>
+<pre>    // Set the  layout of text in grid cell
+    AknListBoxLayouts::SetupFormTextCell( *iGrid, iGrid-&gt;ItemDrawer(), 1 /*Column index*/,
+                                          LatinBold16() /*Font type*/,
+                                          0 /*color*/,
+                                          0 /*Left margin*/, 0 /*unused*/,
+                                          65 /*Baseline*/, 0 /*Text width*/,
+                                          CGraphicsContext::ECenter /*Text alignment*/,
+                                          TPoint(0,0) /*Start pos*/,
+                                          TPoint(0,0) /*End pos*/);
+</pre>
+<pre>    // Activate grid
+    iGrid-&gt;SetRect( Rect() );
+    iGrid-&gt;ActivateL();
+    &#8230;
+    }
+</pre>
+<pre>void MyContainer::AddGridIconsL()
+    {
+    CArrayPtr&lt;CGulIcon*&gt; iconArray = new( ELeave ) CAknIconArray( 1 );
+    CleanupStack::PushL( iconArray );
+</pre>
+<pre>    CFbsBitmap* addressIcon = NULL;
+    CFbsBitmap* addressIconMask = NULL;
+    CFbsBitmap* emailIcon = NULL;
+    CFbsBitmap* emailIconMask = NULL;
+    CFbsBitmap* faxIcon = NULL;
+    CFbsBitmap* faxIconMask = NULL;
+</pre>
+<pre>    AknIconUtils::CreateIconLC( addressIcon,
+                               addressIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_address,
+                               EMbmAvkonQgn_prop_nrtyp_address_mask );
+</pre>
+<pre>    CGulIcon* addressListIcon = CGulIcon::NewL( addressIcon, addressIconMask );
+    CleanupStack::Pop( 2 ); // addressIcon, addressIconMask
+    CleanupStack::PushL( addressListIcon );
+    iconArray-&gt;AppendL( addressListIcon );
+</pre>
+<pre>    AknIconUtils::CreateIconLC( emailIcon,
+                               emailIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_email,
+                               EMbmAvkonQgn_prop_nrtyp_email_mask );
+</pre>
+<pre>    CGulIcon* emailListIcon = CGulIcon::NewL( emailIcon, emailIconMask );
+    CleanupStack::Pop( 2 ); // emailIcon, emailIconMask
+    CleanupStack::PushL( emailListIcon );
+    iconArray-&gt;AppendL( emailListIcon );
+</pre>
+<pre>    AknIconUtils::CreateIconLC( faxIcon,
+                               faxIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_fax,
+                               EMbmAvkonQgn_prop_nrtyp_fax_mask );
+</pre>
+<pre>    CGulIcon* faxListIcon = CGulIcon::NewL( faxIcon, faxIconMask );
+    CleanupStack::Pop( 2 ); // emailIcon, emailIconMask
+    CleanupStack::PushL( faxListIcon );
+    iconArray-&gt;AppendL( faxListIcon );
+</pre>
+<pre>    iGrid-&gt;ItemDrawer()-&gt;ColumnData()-&gt;SetIconArray( iconArray );
+    // faxListIcon, emailListIcon, addressListIcon, iconArray
+    CleanupStack::Pop( 4 );
+    iGrid-&gt;HandleItemAdditionL();
+    }
+</pre>
+<a name="Getting_the_selected_cell_of_a_selection_grid"><h3> <span class="mw-headline">2.5 Getting the selected cell of a selection grid </span></h3>
+</a><p>The menu and selection grids allow selection of one cell on the grid. The
+grid instance contains the index of its currently selected cell. The index
+of the currently selected cell on the menu and selection grids can be retrieved
+by the following code:
+</p>
+<pre>TInt currentIndex = iGrid-&gt;CurrentDataIndex();
+</pre>
+<a name="Selecting_a_cell_in_a_grid"><h3> <span class="mw-headline">2.6 Selecting a cell in a grid </span></h3>
+</a><p>Grid cells can be also selected, so the selected grid is highlighted. In
+this example, the second item is selected, and highlighted in the grid.
+</p><p>iGrid-&gt;SetCurrentItemIndex( 1 );=== Creating a menu grid ===
+The menu grid is a grid control that is embedded in a pop-up dialog. This
+adds a few more steps to the process of creating and using the menu grid control.
+</p><p>Before calling the <span class="plainlinks"><code><font color="darkred">ConstructL()</font></code> </span> method of the grid control,
+the pop-up dialog must be instantiated. In this example a grid with small
+icon is put into the popup dialog.
+</p><p>To create a menu grid with small icon, follow these steps:
+</p>
+<ul><li> Create a grid instance an a grid model instance. Set the grid's model
+</li></ul>
+<p>with the created model.
+</p>
+<ul><li> Create a <span class="plainlinks"><code>CAknPopupList</code> </span> dialog instance, passing the created
+</li></ul>
+<p>grid instance as a parameter.
+</p>
+<ul><li> Construct the grid, passing the dialog instance as a parent control.
+</li><li> Set the grid layout using <span class="plainlinks"><code>CAknGrid::SetLayoutL()</code> </span>.
+</li><li> Add cell icons to grid. Cell item string must be formatted to contain
+</li></ul>
+<p>the indexes of the icons in the icon array.
+</p>
+<ul><li> Set the layout of  icon in the grid sub-cell using <span class="plainlinks"><code>AknListBoxLayouts::SetupFormGfxCell()</code> </span> methods.
+</li><li> Execute the dialog.
+</li></ul>
+<p>Note that the order of the icons in the icon array (local variable <span class="plainlinks"><code><font color="darkred">iconArray</font></code> </span> of
+method <span class="plainlinks"><code><font color="darkred">AddGridIconsL()</font></code> </span>) will define their indexes in the
+cell item string ( <span class="plainlinks"><code><font color="darkred">0\t</font></code> </span>). In this example, the first icon added
+to the icon list will be indexed as zero ( <span class="plainlinks"><code><font color="darkred">0</font></code> </span>), and the next
+item, as one ( <span class="plainlinks"><code><font color="darkred">1</font></code> </span>). The first column in the cell item string
+defines the index of the icon to be displayed for the specific cell item.
+</p><p>The cell icons are loaded from a AVKON's bitmap file and appended to the
+icon array and added to grid.
+</p>
+<pre>class MyContainer : public CCoeControl
+    {
+    &#8230;
+    CAknGrid*  iGrid;
+    CAknGridM* iGridModel;
+    &#8230;
+    }
+</pre>
+<pre>void MyContainer::ConstructL()
+    {
+    &#8230;
+    // Create grid
+    iGrid = new( ELeave ) CAknGrid;
+    // Create grid model
+    iGridModel = new( ELeave ) CAknGridM;
+        // Create popup dialog
+    CAknPopupList* popupList = CAknPopupList::NewL( iGrid, R_AVKON_SOFTKEYS_SELECT_BACK );
+    CleanupStack::PushL( popupList );
+    // Set title of dialog
+    popupList-&gt;SetTitleL( _L(&quot;Menu grid&quot;) );
+</pre>
+<pre>    // Construct grid
+    iGrid-&gt;SetModel( iGridModel );
+    iGrid-&gt;ConstructL( popupList, EAknListBoxMenuGrid );
+</pre>
+<pre>    // Set grid layout, and scrolling
+	iGrid-&gt;SetLayoutL( EFalse, ETrue, ETrue, 5/*rows*/ , 3/*columns*/, TSize( 30, 30 )/*cellsize*/, 10/*wspace*/, 10/*hspace*/ );
+	iGrid-&gt;SetPrimaryScrollingType( CAknGridView::EScrollIncrementLineAndLoops );
+	iGrid-&gt;SetSecondaryScrollingType( CAknGridView::EScrollIncrementLineAndLoops );
+</pre>
+<pre>    // Accesses grid model`s item array
+    CDesCArray *gridItemArray = static_cast&lt;CDesCArray*&gt;( iGridModel-&gt;ItemTextArray() );
+    // Adds formatted items to grid.
+    gridItemArray-&gt;AppendL( _L("0\t") );
+    gridItemArray-&gt;AppendL( _L("1\t") );
+    gridItemArray-&gt;AppendL( _L("2\t") );
+    gridItemArray-&gt;AppendL( _L("0\t") );
+    gridItemArray-&gt;AppendL( _L("1\t") );
+    gridItemArray-&gt;AppendL( _L("2\t") );
+    gridItemArray-&gt;AppendL( _L("0\t") );
+    gridItemArray-&gt;AppendL( _L("1\t") );
+    gridItemArray-&gt;AppendL( _L("2\t") );
+    gridItemArray-&gt;AppendL( _L("0\t") );
+    iGrid-&gt;HandleItemAdditionL();
+</pre>
+<pre>    // Adds icons from AVKON`s image file
+    AddGridIconsL();
+</pre>
+<pre>    // Set the  layout of icon in grid cell
+    AknListBoxLayouts::SetupFormGfxCell( *iGrid, iGrid-&gt;ItemDrawer(), 0 /*Column index*/,
+                                         2 /*Left pos*/, 5 /*Top pos*/,
+                                         0 /*unused*/, 0 /*unused*/,
+                                         20 /*Icon width*/, 20 /*Icon height*/,
+                                         TPoint(0,0) /*Start pos*/,
+                                         TPoint(0,0) /*End pos*/ );
+    // Execute dialog
+    TInt popupOk = popupList-&gt;ExecuteLD();
+    CleanupStack::Pop(); // popupList
+    &#8230;
+    }
+</pre>
+<pre>void MyContainer::AddGridIconsL()
+    {
+    CArrayPtr&lt;CGulIcon*&gt; iconArray = new( ELeave ) CAknIconArray( 1 );
+    CleanupStack::PushL( iconArray );
+</pre>
+<pre>    CFbsBitmap* addressIcon = NULL;
+    CFbsBitmap* addressIconMask = NULL;
+    CFbsBitmap* emailIcon = NULL;
+    CFbsBitmap* emailIconMask = NULL;
+    CFbsBitmap* faxIcon = NULL;
+    CFbsBitmap* faxIconMask = NULL;
+</pre>
+<pre>    AknIconUtils::CreateIconLC( addressIcon,
+                               addressIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_address,
+                               EMbmAvkonQgn_prop_nrtyp_address_mask );
+</pre>
+<pre>    CGulIcon* addressListIcon = CGulIcon::NewL( addressIcon, addressIconMask );
+    CleanupStack::Pop( 2 ); // addressIcon, addressIconMask
+    CleanupStack::PushL( addressListIcon );
+    iconArray-&gt;AppendL( addressListIcon );
+</pre>
+<pre>    AknIconUtils::CreateIconLC( emailIcon,
+                               emailIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_email,
+                               EMbmAvkonQgn_prop_nrtyp_email_mask );
+</pre>
+<pre>    CGulIcon* emailListIcon = CGulIcon::NewL( emailIcon, emailIconMask );
+    CleanupStack::Pop( 2 ); // emailIcon, emailIconMask
+    CleanupStack::PushL( emailListIcon );
+    iconArray-&gt;AppendL( emailListIcon );
+</pre>
+<pre>    AknIconUtils::CreateIconLC( faxIcon,
+                               faxIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_fax,
+                               EMbmAvkonQgn_prop_nrtyp_fax_mask );
+</pre>
+<pre>    CGulIcon* faxListIcon = CGulIcon::NewL( faxIcon, faxIconMask );
+    CleanupStack::Pop( 2 ); // emailIcon, emailIconMask
+    CleanupStack::PushL( faxListIcon );
+    iconArray-&gt;AppendL( faxListIcon );
+</pre>
+<pre>    iGrid-&gt;ItemDrawer()-&gt;ColumnData()-&gt;SetIconArray( iconArray );
+    // faxListIcon, emailListIcon, addressListIcon, iconArray
+    CleanupStack::Pop( 4 );
+    iGrid-&gt;HandleItemAdditionL();
+    }
+</pre>
+<a name="Creating_a_markable_grid_with_icons_runtime"><h3> <span class="mw-headline">2.7 Creating a markable grid with icons runtime </span></h3>
+</a><p>Creating grids without a resource file is not much more complicated than
+creating them with a resource file. Most of the steps used to create grid
+control are same in both cases. In this example a 3x3 grid is created each
+grid contains an icon and a text, and selected grid cells can be marked.
+</p><p>To create a markable grid with icons and text from code, follow these steps:
+</p>
+<ul><li> Create a grid instance and a grid model instance. Set the grid`s model
+</li></ul>
+<p>with the created model.
+</p>
+<ul><li> Use flag <span class="plainlinks"><code>EAknListBoxMarkableGrid</code> </span> to construct a selection
+</li></ul>
+<p>grid.
+</p>
+<ul><li> Set the grids's container window. Since the grid is a non window-owning
+</li></ul>
+<p>control, its parent control is passed as a parameter, providing a window for
+the listbox to draw to.
+</p>
+<ul><li> Set the grid layout using <span class="plainlinks"><code>CAknGrid::SetLayoutL()</code> </span>.
+</li><li> Add cell item strings and icons to grid. Cell item string must be formatted
+</li></ul>
+<p>to contain the indexes of the cell icons, mark icon in the icon array.
+</p>
+<ul><li> Set the layout of icon subcell, mark icon subcell and text subcell using <span class="plainlinks"><code>AknListBoxLayouts::SetupFormGfxCell()</code> </span> and <span class="plainlinks"><code>AknListBoxLayouts::SetupFormTextCell()</code> </span> methods.
+</li><li> Activate the grid.
+</li></ul>
+<p>Note that the order of the icons in the icon array (local variable <span class="plainlinks"><code><font color="darkred">iconArray</font></code> </span> of
+method <span class="plainlinks"><code><font color="darkred">AddGridIconsL()</font></code> </span>) defines their indexes in the cell
+item string (' <span class="plainlinks"><code><font color="darkred">0\t\tItem1</font></code> </span>').
+</p><p>In this example, the first icon added to the icon list is indexed as zero
+( <span class="plainlinks"><code><font color="darkred">0</font></code> </span>), and the next item, as one ( <span class="plainlinks"><code><font color="darkred">1</font></code> </span>). The
+first icon in the iconarray is the mark icon for the cell, the other icons
+are cell icons.
+</p><p>The first column in the cell item string defines the index of the icon
+to be displayed in the cell, the second column defines the index of the mark
+icon and the third column defines the text of the cell.
+</p><p>The mark icon index in the cell item string is initially empty (' <span class="plainlinks"><code><font color="darkred">1\t\tItem1</font></code> </span>'),
+because that column is changed from code to mark a cell, using the mark icon
+index of icon array. The method <span class="plainlinks"><code><font color="darkred">SetItemMarkPosition()</font></code> </span> sets
+which column defines the mark icon index in cell item string, and the method <span class="plainlinks"><code><font color="darkred">SetItemMarkReplacement()</font></code> </span> sets
+what index to replace in that column.
+</p><p>In this example the second column defines the mark icon index, and the
+mark icon is the first icon in the icon array. So to mark a cell the following
+is needed.
+</p>
+<pre>// Set the second column of cell as markable icon index
+iGrid-&gt;ItemDrawer()-&gt;SetItemMarkPosition(1);
+</pre>
+<pre>// Set the item mark replacement string
+iGrid-&gt;ItemDrawer()-&gt;SetItemMarkReplacement( _L("0") );
+</pre>
+<pre>// Don't display all items as marked initially
+iGrid-&gt;ItemDrawer()-&gt;SetItemMarkReverse( ETrue );
+</pre>
+<p>After defining which column defines the mark icon index in cell item string,
+if a cell is marked, its cell item string looks like this: ' <span class="plainlinks"><code><font color="darkred">1\t0\tItem1</font></code> </span>'.
+</p><p>The mark icons and cell icons are loaded from a AVKON's bitmap file and
+appended to the icon array and added to grid.
+</p>
+<pre>class MyContainer : public CCoeControl
+    {
+    &#8230;
+    CAknGrid*  iGrid;
+    CAknGridM* iGridModel;
+    &#8230;
+    }
+</pre>
+<pre>void MyContainer::ConstructL()
+    {
+    &#8230;
+    CreateWindowL();
+    // Create grid
+    iGrid = new( ELeave ) CAknGrid;
+    // Create grid model
+    iGridModel = new( ELeave ) CAknGridM;
+</pre>
+<pre>    // Construct grid
+    iGrid-&gt;SetContainerWindowL( *this );
+    iGrid-&gt;SetModel( iGridModel );
+    iGrid-&gt;ConstructL( this, EAknListBoxMarkableGrid );
+</pre>
+<pre>    // Set grid layout, and scrolling
+	iGrid-&gt;SetLayoutL( EFalse, ETrue, ETrue, 3/*rows*/ , 3/*columns*/, TSize( 70, 70 )/*cellsize*/, 10/*wspace*/, 10/*hspace*/ );
+	iGrid-&gt;SetPrimaryScrollingType( CAknGridView::EScrollIncrementLineAndLoops );
+	iGrid-&gt;SetSecondaryScrollingType( CAknGridView::EScrollIncrementLineAndLoops );
+    AknListBoxLayouts::SetupStandardGrid( *iGrid );
+</pre>
+<pre>    // Accesses grid model`s item array
+    CDesCArray *gridItemArray = static_cast&lt;CDesCArray*&gt;( iGridModel-&gt;ItemTextArray() );
+    // Adds formatted cell item strings to grid.
+    gridItemArray-&gt;AppendL( _L("1\t\tItem1") );
+    gridItemArray-&gt;AppendL( _L("2\t\tItem2") );
+    gridItemArray-&gt;AppendL( _L("3\t\tItem3") );
+    gridItemArray-&gt;AppendL( _L("1\t\tItem4") );
+    gridItemArray-&gt;AppendL( _L("2\t\tItem5") );
+    gridItemArray-&gt;AppendL( _L("3\t\tItem6") );
+    gridItemArray-&gt;AppendL( _L("1\t\tItem7") );
+    gridItemArray-&gt;AppendL( _L("2\t\tItem8") );
+    gridItemArray-&gt;AppendL( _L("3\t\tItem9") );
+    gridItemArray-&gt;AppendL( _L("1\t\tItem10") );
+    iGrid-&gt;HandleItemAdditionL();
+</pre>
+<pre>    // Adds ICONS from AVKON`s image file
+    AddGridIconsL();
+</pre>
+<pre>    // Set the  layout of icon in grid cell
+    AknListBoxLayouts::SetupFormGfxCell( *iGrid, iGrid-&gt;ItemDrawer(), 0 /*Column index*/,
+                                         10 /*Left pos*/, 10 /*Top pos*/,
+                                         0 /*unused*/, 0 /*unused*/,
+                                         40 /*Icon width*/, 40 /*Icon height*/,
+                                         TPoint(0,0) /*Start pos*/,
+                                         TPoint(0,0) /*End pos*/ );
+</pre>
+<pre>    // Set the layout of mark icon in grid cell
+    AknListBoxLayouts::SetupFormGfxCell( *iGrid, iGrid-&gt;ItemDrawer(), 1 /*Column index*/,
+                                         50 /*Left pos*/, 0 /*Top pos*/,
+                                         0 /*unused*/, 0 /*unused*/,
+                                         20 /*Icon width*/, 20 /*Icon height*/,
+                                         TPoint(0,0) /*Start pos*/,
+                                         TPoint(0,0) /*End pos*/ );
+</pre>
+<pre>    // Set the  layout of text in grid cell
+    AknListBoxLayouts::SetupFormTextCell( *iGrid, iGrid-&gt;ItemDrawer(), 2 /*Column index*/,
+                                          LatinBold16() /*Font type*/,
+                                          0 /*color*/,
+                                          0 /*Left margin*/, 0 /*unused*/,
+                                          65 /*Baseline*/, 0 /*Text width*/,
+                                          CGraphicsContext::ECenter /*Text alignment*/,
+                                          TPoint(0,0) /*Start pos*/,
+                                          TPoint(0,0) /*End pos*/);
+</pre>
+<pre>    // Set index of the placeholder field
+    iGrid-&gt;ItemDrawer()-&gt;SetItemMarkPosition(1);
+</pre>
+<pre>    // Set the item mark replacement string
+    iGrid-&gt;ItemDrawer()-&gt;SetItemMarkReplacement( _L("0") );
+</pre>
+<pre>    // Don't display all items as marked initially
+    iGrid-&gt;ItemDrawer()-&gt;SetItemMarkReverse( ETrue );
+    // Mark the second item in the grid
+    iGrid-&gt;View()-&gt;SelectItemL( 1 );
+</pre>
+<pre>    // Activate grid
+    iGrid-&gt;SetRect( Rect() );
+    iGrid-&gt;ActivateL();
+    &#8230;
+    }
+</pre>
+<pre>void MyContainer::AddGridIconsL()
+    {
+    CArrayPtr&lt;CGulIcon*&gt; iconArray = new( ELeave ) CAknIconArray( 1 );
+    CleanupStack::PushL( iconArray );
+</pre>
+<pre>    CFbsBitmap* gridMarkIcon = NULL;
+    CFbsBitmap* gridMarkIconMask = NULL;
+    CFbsBitmap* addressIcon = NULL;
+    CFbsBitmap* addressIconMask = NULL;
+    CFbsBitmap* emailIcon = NULL;
+    CFbsBitmap* emailIconMask = NULL;
+    CFbsBitmap* faxIcon = NULL;
+    CFbsBitmap* faxIconMask = NULL;
+</pre>
+<pre>    AknIconUtils::CreateIconLC( gridMarkIcon,
+                               gridMarkIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_indi_marked_grid_add,
+                               EMbmAvkonQgn_indi_marked_grid_add_mask );
+</pre>
+<pre>    CGulIcon* markIcon = CGulIcon::NewL( gridMarkIcon, gridMarkIconMask );
+    CleanupStack::Pop( 2 ); // gridMarkIcon, gridMarkIconMask
+    CleanupStack::PushL( markIcon );
+    iconArray-&gt;AppendL( markIcon );
+</pre>
+<pre>    AknIconUtils::CreateIconLC( addressIcon,
+                               addressIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_address,
+                               EMbmAvkonQgn_prop_nrtyp_address_mask );
+</pre>
+<pre>    CGulIcon* addressListIcon = CGulIcon::NewL( addressIcon, addressIconMask );
+    CleanupStack::Pop( 2 ); // addressIcon, addressIconMask
+    CleanupStack::PushL( addressListIcon );
+    iconArray-&gt;AppendL( addressListIcon );
+</pre>
+<pre>    AknIconUtils::CreateIconLC( emailIcon,
+                               emailIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_email,
+                               EMbmAvkonQgn_prop_nrtyp_email_mask );
+</pre>
+<pre>    CGulIcon* emailListIcon = CGulIcon::NewL( emailIcon, emailIconMask );
+    CleanupStack::Pop( 2 ); // emailIcon, emailIconMask
+    CleanupStack::PushL( emailListIcon );
+    iconArray-&gt;AppendL( emailListIcon );
+</pre>
+<pre>    AknIconUtils::CreateIconLC( faxIcon,
+                               faxIconMask,
+                               KAvkonBitmapFile,
+                               EMbmAvkonQgn_prop_nrtyp_fax,
+                               EMbmAvkonQgn_prop_nrtyp_fax_mask );
+</pre>
+<pre>    CGulIcon* faxListIcon = CGulIcon::NewL( faxIcon, faxIconMask );
+    CleanupStack::Pop( 2 ); // emailIcon, emailIconMask
+    CleanupStack::PushL( faxListIcon );
+    iconArray-&gt;AppendL( faxListIcon );
+</pre>
+<pre>    iGrid-&gt;ItemDrawer()-&gt;ColumnData()-&gt;SetIconArray( iconArray );
+    // faxListIcon, emailListIcon, addressListIcon, markIcon, iconArray
+    CleanupStack::Pop( 5 );
+    iGrid-&gt;HandleItemAdditionL();
+    }
+</pre>
+<a name="Mark_and_unmark_an_item_in_a_markable_grid"><h3> <span class="mw-headline">2.8 Mark and unmark an item in a markable grid </span></h3>
+</a><p>This example shows how to change the mark states of a markable grid cell.
+</p>
+<pre>// Marks the second cell of the grid
+iGrid-&gt;View()-&gt;SelectItemL(1);
+// Unmarks the first cell of the grid
+iGrid-&gt;View()-&gt;DeselectItem(0);
+</pre>
+<a name="Getting_the_marked_items_of_a_markable_grid"><h3> <span class="mw-headline">2.9 Getting the marked items of a markable grid </span></h3>
+</a><p>Markable grids allow multiple cells to be selected, as well as one cell
+or none at all. An array of the indexes of the selected cells can be requested
+from these grids. The indexes are returned by the grid as an array of type <span class="plainlinks"><code>CSelectionIndexArray</code> </span>,
+which is essentially just a typedef of <span class="plainlinks"><code>CArrayFix</code> </span>. The following
+code example demonstrates how to retrieve the array of selected items from
+a markable grid:
+</p>
+<pre>// Get the selected item indexes an array
+const CArrayFix&lt;TInt&gt; *selectedIndexes = iGrid-&gt;SelectionIndexes();
+</pre>
+<pre>// Make sure the array is not null (no items)
+if ( selectedIndexes != NULL )
+    {
+    // Loop through the selected cell indexes
+    for ( TInt index=0; index &lt; selectedIndexes-&gt;Count(); index++ )
+        {
+        // Get the index of the selected cell
+        TInt selectedItemIndex = (*selectedIndexes)(index);
+        // now do something with the index
+        }
+    }
+</pre>
+<a name="Creating_a_color_selection_grid"><h3> <span class="mw-headline">2.10 Creating a color selection grid </span></h3>
+</a><p>In this example, a color selection grid is created, with four colors, and
+the green color is selected initially.
+</p>
+<pre>&#8230;
+TBool noneExist = ETrue;
+TBool noneChosen = EFalse;
+TRgb colour = KRgbGreen; // Select green color initially
+CArrayFixFlat&lt;TRgb*&gt; colours = new( ELeave ) CArrayFixFlat&lt;TRgb*&gt; ( 6 );
+</pre>
+<pre>// Adds colors to grid
+colours-&gt;AppendL( KRgbBlack );
+colours-&gt;AppendL( KRgbDarkGray );
+colours-&gt;AppendL( KRgbGreen );
+colours-&gt;AppendL( KRgbYellow );
+// Create the color selection dialog
+CAknColourSelectionGrid* dialog = CAknColourSelectionGrid::NewL(
+                                                            colours,
+                                                            noneExist,
+                                                            noneChosen,
+                                                            colour );
+dialog-&gt;ExecuteLD();
+// Cleanup
+colours-&gt;Reset();
+delete colours;
+&#8230;
+</pre>
+<a name="Adding_a_cell_to_grid"><h3> <span class="mw-headline">2.11 Adding a cell to grid </span></h3>
+</a><p>New cells are added to the grid by appending a new cell item string to
+the grid`s cell item array. First, the grid cell item array is retrieved from
+the grid. A new cell item string is then appended to the existing grid cell
+item array and the grid is requested to handle the addition of a new cell
+item. The <span class="plainlinks"><code><font color="darkred">HandleItemAdditionL()</font></code> </span> method handles the grid redrawing
+and repositions the selection in a sensible state.
+</p><p>The following example code adds a new cell item string to a grid:
+</p>
+<pre>// Get grid cell item array
+MDesCArray* textArray = iGrid-&gt;Model()-&gt;ItemTextArray();
+CDesCArray* cellItemStringArray = static_cast&lt;CDesCArray&gt;( textArray );
+cellItemStringArray-&gt;AppendL(( _L("1\t\tItem11") ) );
+// Update grid
+iGrid-&gt;HandleItemAdditionL();
+</pre>
+<a name="Removing_a_cell_from_grid"><h3> <span class="mw-headline">2.12 Removing a cell from grid </span></h3>
+</a><p>To remove cells from the grid, first the listbox item array must be get
+from the grid. Cells are deleted from the cell list array by specifying the
+index of the cell to be deleted and the number of cells to be deleted. The
+grid is requested to handle the cell deletion and redraw itself to show the
+changes.
+</p><p>The following example code removes the fifth cell from a grid:
+</p>
+<pre>// Get grid cell item array
+MDesCArray* textArray = iGrid-&gt;Model()-&gt;ItemTextArray();
+CDesCArray* cellItemStringArray = static_cast&lt;CDesCArray*&gt;( textArray );
+// Delete fifth cell
+cellItemStringArray-&gt;Delete( 5, 1 );
+// Handle item deletion and reposition grid highlight
+AknListBoxUtils::HandleItemRemovalAndPositionHighlightL( iGrid, 5, ETrue );
+// Redraw grid
+iGrid-&gt;DrawNow();
+</pre>
+<p>Multiple contiguous items can also be deleted by specifying the count of
+the contiguous items to be deleted as the second parameter of the <span class="plainlinks"><code><font color="darkred">Delete()</font></code> </span> method.
+In the example above, only the fifth item is deleted by specifying the count
+as one ( <span class="plainlinks"><code><font color="darkred">1</font></code> </span>).
+</p>
+<a name="Getting_the_number_of_cells_of_grid"><h3> <span class="mw-headline">2.13 Getting the number of cells of grid </span></h3>
+</a><p>This example shows how to get the number of listbox items.
+</p>
+<pre>TInt gridItems = iGrid-&gt;Model()-&gt;NumberOfItems();
+</pre>
+<a name="Offering_key_events_to_grid"><h3> <span class="mw-headline">2.14 Offering key events to grid </span></h3>
+</a><p>If the grid is a component of a compound control, it is needed to inform
+the grid about key events. It is simply forwarding the event to the grid from
+the component's <span class="plainlinks"><code><font color="darkred">OfferKeyEventL()</font></code> </span> method.
+</p>
+<pre>TKeyResponse MyContainer::OfferKeyEventL(const TKeyEvent&amp; aKeyEvent, TEventCode aType)
+    {
+    return iGrid-&gt;OfferKeyEventL( aKeyEvent, aType );
+    }
+</pre>
+<a name="Handling_resource_events"><h3> <span class="mw-headline">2.15 Handling resource events </span></h3>
+</a><p>If a custom grid is created or it is needed to handle situations where
+the theme is changed and grid needs to display different icons, <span class="plainlinks"><code><font color="darkred">HandleResourceChange()</font></code> </span> must
+be implemented.
+</p>
+<pre>void MyContainer::HandleResourceChange( TInt aType )
+    {
+    // Call base class first
+    CAknSingleGraphicStyleListBox::HandleResourceChange( aType );
+    if ( aType == KAknsMessageSkinChange )
+        {
+        // Handle skin change here...
+        }
+    }
+</pre>
+<a name="Creating_animated_highlight"><h3> <span class="mw-headline">2.16 Creating animated highlight </span></h3>
+</a><p>If the current skin supports animated highlight, it is only visible on
+grid if the focus is set to grid. This example shows how to set the focus
+on grid. <span class="plainlinks"><code><font color="darkred">iGrid</font></code> </span> is a pointer to <span class="plainlinks"><code>CAknGrid</code> </span>.
+</p>
+<pre>void MyContainer::FocusChanged( TDrawNow aDrawNow )
+    {
+    CCoeControl::FocusChanged( aDrawNow );
+        if( iGrid )
+        {
+        iGrid-&gt;SetFocus( IsFocused(), aDrawNow );
+        }
+    }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.17 Error handling </span></h3>
+</a><p>Grids uses standard Symbian OS error reporting mechanism. Possible panic
+circumstances and panic codes are indicated in class or method descriptions.
+</p><p>Leaves and system wide error codes as function return values are used if
+the error is recoverable. A client application can handle these errors similarly
+as a normal Symbian platform application.
+</p><p>Exception handling is not needed, except when setting up a layout in the <span class="plainlinks"><code><font color="darkred">SizeChanged()</font></code> </span> method,
+which needs to allocate memory.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.18 Memory and Performance Considerations </span></h3>
+</a><p>The amount of reserved memory for grid depend on the application, but despite
+the application the amount of reserved memory is relatively small.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Grids API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> AVKON</td><td> S60 extensions and modifications to Uikon and other parts of the Symbian
+<p>OS application framework.
+</p>
+</td></tr>
+<tr>
+<td> MVC</td><td> Model-View-Controller (design pattern)
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_grids_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:10:27 GMT -->
+</html>

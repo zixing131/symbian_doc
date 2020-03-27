@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5A289A8A-1485-3AB9-94CF-177B83D4F450.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:58:39 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2011"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2011"/>
+<meta name="DC.Type" content="cxxClass"/>
+<meta name="DC.Title" content="MDirectScreenAccess"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="GUID-5A289A8A-1485-3AB9-94CF-177B83D4F450"/>
+<link rel="stylesheet" type="text/css" href="css/commonltr.css"/>
+<title>MDirectScreenAccess</title>
+<meta name="keywords" content="api"/><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css"/><link href="css/html.css" rel="stylesheet" type="text/css"/><link href="css/style.css" rel="stylesheet" type="text/css"/><link href="css/nwg.css" rel="stylesheet" type="text/css"/><link href="css/eclipse.css" rel="stylesheet" type="text/css"/></head>
+<body id="GUID-5A289A8A-1485-3AB9-94CF-177B83D4F450"><a name="GUID-5A289A8A-1485-3AB9-94CF-177B83D4F450"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+
+	<h1 class="sectiontitle">MDirectScreenAccess Class Reference</h1>
+	
+	<div class="section include"><p>#include 
+            
+                    &lt;w32std.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>class MDirectScreenAccess : public MAbortDirectScreenAccess</td></tr></table></div><div class="section derivation"><h2 class="sectiontitle">Inherits from</h2><ul class="derivation derivation-root"><li class="derivation-depth-0 ">MDirectScreenAccess<ul class="derivation"><li class="derivation-depth-1 "><a href="GUID-C1D97AD4-7581-3101-9D9D-3ED68468CA19.html">MAbortDirectScreenAccess</a></li></ul></li></ul></div>
+<div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-56A84FC6-5053-3175-A61A-9E95C32ABEDB">Restart</a>(<a href="GUID-E2092CF9-98E8-3206-91B2-36011AA6FB77.html">RDirectScreenAccess::TTerminationReasons</a>)</td></tr></tbody></table><table class="member-index"><thead><tr><th colspan="2">Inherited Functions</th></tr></thead><tbody><tr><td> </td><td><a href="GUID-C1D97AD4-7581-3101-9D9D-3ED68468CA19.html">MAbortDirectScreenAccess::AbortNow(RDirectScreenAccess::TTerminationReasons)</a></td></tr></tbody></table></div><div class="section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+			<p>The interface for restarting direct screen access.</p>
+
+			<p>The <a href="GUID-5A289A8A-1485-3AB9-94CF-177B83D4F450.html#GUID-56A84FC6-5053-3175-A61A-9E95C32ABEDB">Restart()</a> function is called by the window server as soon as direct screen access can resume. It is called after the window server has called <a href="GUID-C1D97AD4-7581-3101-9D9D-3ED68468CA19.html#GUID-6BD5F6DE-4987-3FCA-B9AA-DDB8A9DCCA6C">AbortNow()</a>.</p>
+
+			<p>An object of the derived class is passed to <a href="GUID-24C7AE25-B44A-3B6F-AA05-EA90A8D36129.html#GUID-CABEE5B6-3C1F-3657-BF38-BA6AAF9B5791">CDirectScreenAccess::NewL()</a>.</p>
+
+			<p/>
+
+			<p>See also: <a href="GUID-24C7AE25-B44A-3B6F-AA05-EA90A8D36129.html#GUID-CABEE5B6-3C1F-3657-BF38-BA6AAF9B5791">CDirectScreenAccess::NewL()</a> </p>
+
+		</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="nested1" id="GUID-56A84FC6-5053-3175-A61A-9E95C32ABEDB"><a name="GUID-56A84FC6-5053-3175-A61A-9E95C32ABEDB"><!-- --></a>
+		<a name="GUID-C5247C94-0424-30C4-A042-4203CF1ED458"><!----></a><h3 class="sectiontitle">Restart ( RDirectScreenAccess::TTerminationReasons )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>Restart</td><td>(</td><td><a href="GUID-E2092CF9-98E8-3206-91B2-36011AA6FB77.html">RDirectScreenAccess::TTerminationReasons</a></td><td><span class="parameter">aReason</span></td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section apidesc">
+				<p>This function is called by the window server as soon as direct screen access can resume.</p>
+
+				<p>This function should call <a href="GUID-24C7AE25-B44A-3B6F-AA05-EA90A8D36129.html#GUID-B0CA6A7D-E19F-32DF-8272-605AE7E7D08D">CDirectScreenAccess::StartL()</a> within a trap harness. If this leaves, e.g. through lack of memory, direct screen access cannot be restarted. StartL() re-calculates the clipping region, so that if direct screen access was aborted because another window appeared in front of it, that window will not be overwritten when direct screen access resumes.</p>
+
+				<p>In this function, you can resume calls to Window Server Client Side API functions.</p>
+
+				<p/>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aReason</td><td>Provides the reason why direct screen access was terminated.  </td></tr></table></div>
+</div>
+
+	</div>
+
+	
+	
+</div></div><div class="footer"><hr/><div class="copy">© Nokia 2011.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5A289A8A-1485-3AB9-94CF-177B83D4F450.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:58:39 GMT -->
+</html>

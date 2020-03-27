@@ -1,0 +1,178 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C60DC070-572B-5960-B394-550426FDB909.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:04:54 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Advanced Pointer Tutorial" /><meta name="abstract" content="This tutorial provides step-by-step instructions and sample code to help you write applications using advanced pointers." /><meta name="description" content="This tutorial provides step-by-step instructions and sample code to help you write applications using advanced pointers." /><meta name="DC.Relation" scheme="URI" content="GUID-9C269F45-F160-5A4B-ABF8-896D2A538E3B" /><meta name="DC.Relation" scheme="URI" content="GUID-9AD75103-CD56-5279-B639-5CA2BBF979B5" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-08427065-B8E5-5194-B095-3B5213836BED" /><meta name="DC.Relation" scheme="URI" content="GUID-A12A66ED-2C8F-5CE6-8F3E-332B045A35B4" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C60DC070-572B-5960-B394-550426FDB909" /><meta name="DC.Language" content="en" /><title> Advanced Pointer Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C60DC070-572B-5960-B394-550426FDB909"> Advanced Pointer Tutorial</h1><div><p>This tutorial provides step-by-step instructions and sample
+code to help you write applications using advanced pointers. </p>
+<p> <strong>Variant</strong>: <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay</a>. <strong>Target audience</strong>: Application developers. </p>
+<div id="GUID-372AE50A-22BF-488F-BCFB-9B9A734C1D79"><h3 class="section-title">Required background </h3> <p>This topic builds
+on the material in the following topics: </p> <ul>
+<li id="GUID-C4209FBD-3860-5F4B-8458-87D22D483953"><a name="GUID-C4209FBD-3860-5F4B-8458-87D22D483953"><!-- --></a><p><a href="GUID-9C269F45-F160-5A4B-ABF8-896D2A538E3B.html">Advanced Pointer
+Overview</a> </p> </li>
+<li id="GUID-9D3C3B31-F43A-5201-A1EC-A1F2848CFF43"><a name="GUID-9D3C3B31-F43A-5201-A1EC-A1F2848CFF43"><!-- --></a><p><a href="GUID-9AD75103-CD56-5279-B639-5CA2BBF979B5.html">Advanced Pointer
+States and Event Communication</a> </p> </li>
+</ul> </div>
+<div id="GUID-1C0E6832-C5BA-49EE-85E7-02801488CE8A"><h3 class="section-title">Using advanced pointers</h3> <p>This topic covers
+the following: </p> <ul>
+<li id="GUID-C3AD43AA-09C0-5BA2-8496-5B87D40C89F5"><a name="GUID-C3AD43AA-09C0-5BA2-8496-5B87D40C89F5"><!-- --></a><p><a href="#GUID-8CBE862B-0C1D-5088-89B7-9B3EC898E4FC">Enabling multiple pointers in a window</a> </p> </li>
+<li id="GUID-177323F2-55C6-56D9-B3D2-A8DDACF69E10"><a name="GUID-177323F2-55C6-56D9-B3D2-A8DDACF69E10"><!-- --></a><p><a href="#GUID-C026DAB9-C11C-5D29-A1EA-6730E914250F">Getting Z coordinates from TPointerEvent</a> </p> </li>
+<li id="GUID-91CEA92C-A692-5853-96F0-625A76B7DC8D"><a name="GUID-91CEA92C-A692-5853-96F0-625A76B7DC8D"><!-- --></a><p><a href="#GUID-B7057F69-191F-5AA4-8C61-EBECE66D92F6"> Pinch zooming</a> </p> </li>
+</ul> </div>
+<div id="GUID-8CBE862B-0C1D-5088-89B7-9B3EC898E4FC"><h3 class="section-title">Enabling
+multiple pointers in a window</h3> <ol id="GUID-210D17A8-4869-5F9B-B71C-672101AC591C">
+<li id="GUID-81A2AC5C-7837-5216-8F47-FC5959C27522"><a name="GUID-81A2AC5C-7837-5216-8F47-FC5959C27522"><!-- --></a><p> <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TPointerEventTAdvancedPointerEvent'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TPointerEventTAdvancedPointerEvent']]]</strong>RWindow provides
+a handle to a standard window. Call <code class="codeph">RWindow</code> to create
+an instance of a window. </p> <pre class="codeblock">
+RWindow window(ws);
+
+User::LeaveIfError(window.Construct(wg, reinterpret_cast&lt;TUint32&gt;(&amp;wg) + 1));
+</pre> </li>
+<li id="GUID-B67D3702-1A8F-5C6A-AB0F-FEA7C4D04A07"><a name="GUID-B67D3702-1A8F-5C6A-AB0F-FEA7C4D04A07"><!-- --></a><p>Call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-05293539-F1B0-3C7D-BB14-3FD42F23D5C8"><code class="apiname">RWindow::EnableAdvancedPointers()</code></a> to enable advanced pointers.
+Then call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1460DD8F-9AA1-3B99-8FFD-F309959CCA34.html#GUID-4E02165A-DFCC-3D18-BB18-18726B28E90A"><code class="apiname">RWindowBase::Activate()</code></a> to display the
+window and enable the window to receive events. <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html"><code class="apiname">RWindow</code></a> inherits from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1460DD8F-9AA1-3B99-8FFD-F309959CCA34.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1460DD8F-9AA1-3B99-8FFD-F309959CCA34.html"><code class="apiname">RWindowBase</code></a>, so you can call the <code class="codeph">Activate()</code> function on <code class="codeph">RWindow</code>. </p> <pre class="codeblock">
+window.EnableAdvancedPointers();
+window.Activate();
+</pre> <p>When an application needs to receive advanced pointer
+events in a window, it must call <code class="codeph">RWindowBase::EnableAdvancedPointers()</code> for the window <em>before</em> it is activated. </p> <p>If advanced
+pointers are not enabled for a window, it receives only standard <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html"><code class="apiname">TPointerEvent</code></a> information from a single pointer with no
+pressure and proximity data. The single pointer environment rules
+describe the way in which pointer events coming from many pointers
+in the multiple pointer model are transformed into events of one pointer.
+They are necessary to ensure that old single-pointer applications
+work in a multiple pointer environment intuitively and
+as expected by the user. </p> <p>However, the new <code class="codeph">TPointerEvent</code> types, EEnterCloseProximity, EExitCloseProximity, EEnterHighPressure and EExitHighPressure, are delivered to all windows, even to those that do not enable
+advanced pointers. </p> </li>
+</ol> </div>
+<div id="GUID-C026DAB9-C11C-5D29-A1EA-6730E914250F"><h3 class="section-title">Getting
+Z coordinates from TPointerEvent</h3> <ol id="GUID-4CC2271D-1798-51B3-9A9D-E7E0B9A33DAE">
+<li id="GUID-184B5B63-4EFC-55CD-8D1F-E015EEBACBE2"><a name="GUID-184B5B63-4EFC-55CD-8D1F-E015EEBACBE2"><!-- --></a><p>Call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-E961DA4D-AD38-31F0-88DD-A07D36346DCB"><code class="apiname">TPointerEvent::AdvancedPointerEvent()</code></a> on a <code class="codeph">TPointerEvent</code> to return a pointer to a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FADA3278-FF8B-308F-90AD-3DCF8911A023.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FADA3278-FF8B-308F-90AD-3DCF8911A023.html"><code class="apiname">TAdvancedPointerEvent</code></a>. </p> <pre class="codeblock">
+TZType aZType;
+TPointerEvent&amp; aPointerEvent;
+TInt* aZ; 
+TInt* aPoint3D;
+
+TAdvancedPointerEvent *advancedP = aPointerEvent.AdvancedPointerEvent();
+</pre> <p> <code class="codeph">TPointerEvent</code> is a struct that contains
+details of a pointer event. <code class="codeph">TZType</code> is a struct provided
+by the programmer containing members to hold proximity, pressure,
+and "proximity and pressure" data. </p> </li>
+<li id="GUID-ABA8FA09-5F57-51BC-8CAE-43649B5ED6D3"><a name="GUID-ABA8FA09-5F57-51BC-8CAE-43649B5ED6D3"><!-- --></a><p>Now we need
+to test whether the pointer event contains advanced pointer data.
+If it is not an advanced pointer, the code leaves. </p> <p>If it is
+an advanced pointer, we call functions to detect proximity, pressure,
+"proximity and pressure" data and coordinates. </p> <pre class="codeblock">
+if(!advancedP)
+    {
+    // The TPointerEvent isn't an instance of TAdvancedPointerEvent
+    User::Leave(KErrArgument);
+    }
+
+switch(aZType)
+    {
+    case EZTypeProximity:
+        aZ = advancedP-&gt;Proximity();
+        aPoint3D = advancedP-&gt;Proximity3D(); 
+        break;
+    case EZTypePressure:
+        aZ = advancedP-&gt;Pressure();
+        aPoint3D = advancedP-&gt;Pressure3D();
+        break;
+    case EZTypeProximityAndPressure:
+        aZ = advancedP-&gt;ProximityAndPressure();
+        aPoint3D = advancedP-&gt;ProximityAndPressure3D();
+        break;
+    default: 
+        User::Leave(KErrArgument);
+        break;
+    }
+</pre> <ul>
+<li id="GUID-40C01884-AC86-5882-935D-2EC2E27C9004"><a name="GUID-40C01884-AC86-5882-935D-2EC2E27C9004"><!-- --></a><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FADA3278-FF8B-308F-90AD-3DCF8911A023.html#GUID-0ED4B1CC-0655-3246-8645-AAC9E0C27298"><code class="apiname">TAdvancedPointerEvent::Proximity()</code></a> returns the proximity. </p> </li>
+<li id="GUID-16A9A86B-A837-5E43-BB3A-F5A04A7F4552"><a name="GUID-16A9A86B-A837-5E43-BB3A-F5A04A7F4552"><!-- --></a><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FADA3278-FF8B-308F-90AD-3DCF8911A023.html#GUID-15DEBFBF-7B7D-3FCF-9929-C973824A5FD3"><code class="apiname">TAdvancedPointerEvent::Pressure()</code></a> returns the pressure. </p> </li>
+<li id="GUID-3E614890-C317-596E-A5B9-FD76426DBD12"><a name="GUID-3E614890-C317-596E-A5B9-FD76426DBD12"><!-- --></a><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FADA3278-FF8B-308F-90AD-3DCF8911A023.html#GUID-114AE77E-D0BD-321E-BFCB-1388B35582EC"><code class="apiname">TAdvancedPointerEvent::ProximityAndPressure()</code></a> returns the proximity and pressure combined. </p> </li>
+<li id="GUID-6F62C0D1-FAE4-5F8F-B451-68ABA404A369"><a name="GUID-6F62C0D1-FAE4-5F8F-B451-68ABA404A369"><!-- --></a><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FADA3278-FF8B-308F-90AD-3DCF8911A023.html#GUID-F5379EB5-7DA6-33A6-94B6-28733F2EBCF4"><code class="apiname">TAdvancedPointerEvent::
+Position3D()</code></a> returns the proximity and the X, Y and Z coordinates. </p> </li>
+<li id="GUID-5AD1811D-BCBF-5A44-B6E7-EB71BF254BCA"><a name="GUID-5AD1811D-BCBF-5A44-B6E7-EB71BF254BCA"><!-- --></a><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FADA3278-FF8B-308F-90AD-3DCF8911A023.html#GUID-2F30A8F5-75BA-3FE3-84B7-3C772ED75857"><code class="apiname">TAdvancedPointerEvent::Pressure3D()</code></a> returns the pressure and the X and Y coordinates. </p> </li>
+</ul> <p>Proximity is <em>always</em> negative and pressure is <em>always</em> positive. Internally they are combined together as a Z coordinate.
+When Z &gt; 0, the proximity is 0 and the Z value represents the pressure.
+When Z &lt; 0, the pressure is 0 and the Z value represents the proximity.
+Some APIs use only a Z coordinate (such as the threshold getters and
+setters and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FADA3278-FF8B-308F-90AD-3DCF8911A023.html#GUID-114AE77E-D0BD-321E-BFCB-1388B35582EC"><code class="apiname">TAdvancedPointerEvent::ProximityAndPressure()</code></a>). In these, the Z coordinate is interpreted in terms of pressure
+and proximity. </p> </li>
+</ol> <div class="figure" id="GUID-7A49B143-5458-5916-B937-55D98B77BB2C"><img src="GUID-1A0FB98B-8DB3-5067-9B71-FF838F6AE402_d0e241367_href.png" /><p class="figure-title"><strong>Figure: </strong> Relationships between the pointer proximity, pressure and
+Z              coordinate            </p></div> </div>
+<div id="GUID-B7057F69-191F-5AA4-8C61-EBECE66D92F6"><h3 class="section-title">Pinch
+zooming</h3> <p>This example shows an easy way to pinch zoom an
+image when the screen receives pointer events from two pointers. There
+are two functions in this code that must be implemented by the programmer: <code class="codeph">BitmapCoordinates()</code> and <code class="codeph">MoveBitmap()</code>. They
+are not included in the example because they involve complex calculations
+that are not related to advanced pointers. </p> <p>The high-level
+steps to perform pinch zooming are: </p> <ol id="GUID-AEF3917C-AAFE-5C25-9609-396D08478AC0">
+<li id="GUID-7839E665-C4E1-59C8-BA89-22A62615EFA3"><a name="GUID-7839E665-C4E1-59C8-BA89-22A62615EFA3"><!-- --></a><p>Define the coordinates,
+equivalent to the given on-screen coordinates. In the code example,
+this is done using the function <code class="codeph">BitmapCoordinates()</code>. </p> </li>
+<li id="GUID-FC4B1BDA-8120-53C9-9C88-BEFEF1AD54B4"><a name="GUID-FC4B1BDA-8120-53C9-9C88-BEFEF1AD54B4"><!-- --></a><p>Define the ID
+of the pointer by using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FADA3278-FF8B-308F-90AD-3DCF8911A023.html#GUID-67593D7E-CE40-303F-B847-81D6FC0578B1"><code class="apiname">TAdvancedPointerEvent::PointerNumber()</code></a>. If the device can handle two pointers (two fingers) at the same
+time, their numbers are 0 and 1. The pointer number enables you to
+distinguish a given pointer from other pointers. </p> </li>
+<li id="GUID-1E8F7D23-EEAD-5EA5-8863-276076D6B54E"><a name="GUID-1E8F7D23-EEAD-5EA5-8863-276076D6B54E"><!-- --></a><p>For each pointer
+assign its coordinates to a local variable. We assume there are only
+two pointers handled by the system here. </p> </li>
+<li id="GUID-E44B3D9B-560A-5959-996D-A63CBD4C3786"><a name="GUID-E44B3D9B-560A-5959-996D-A63CBD4C3786"><!-- --></a><p>Use the <code class="codeph">MoveBitmap()</code> function to achieve the zoom effect. </p> <pre class="codeblock">
+/**
+Receives pointer events from two pointers to perform Pinch Zoom of the image.
+Function will finish when EButton1Up is received for any of the pointers.
+@param aPointer1    Coordinates of pointer number 1 when zoom is started
+@param aPointer2    Coordinates of pointer number 2 when zoom is started
+*/
+
+void PinchZoom(TPoint aPointer1, TPoint aPointer2)
+    {
+    TPoint actualP1 = aPointer1;
+    TPoint actualP2 = aPointer2;
+    
+    // translate on-screen pointer coordinates to coordinates of displayed bitmap
+    TPoint bitmapCatching1 = BitmapCoordinates(aPointer1);
+    TPoint bitmapCatching2 = BitmapCoordinates(aPointer2);
+    
+    TBool repaint = EFalse;
+                                
+    while (ETrue)
+        {
+        TAdvancedPointerEvent event = GetNextPointerEvent();
+        
+        if (event.iType == TPointerEvent::EDrag)
+            { 
+            if (event.PointerNumber() == 1)
+                { 
+                actualP1 = event.iPosition;
+                repaint = ETrue;
+                }
+            else if (event.PointerNumber() == 2)
+                {
+                actualP2 = event.iPosition;
+                repaint = ETrue;
+                }
+            }
+        else if (event.iType == TPointerEvent::EButton1Up)
+            {
+            break;
+            }
+        
+        if (repaint)
+            {
+            // move bitmap on the screen in the way that
+            // bitmapCatching1 point of the bitmap will be displayed at actualP1 screen coordinate,
+            // bitmapCatching2 point of the bitmap will be displayed at actualP2 screen coordinate.
+            MoveBitmap(bitmapCatching1, actualP1, bitmapCatching2, actualP2);
+            repaint = EFalse;
+            }
+        }
+    }
+</pre> </li>
+</ol> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-9C269F45-F160-5A4B-ABF8-896D2A538E3B.html">Advanced
+Pointer                 Overview</a></li><li><a href="GUID-9AD75103-CD56-5279-B639-5CA2BBF979B5.html">Advanced
+Pointer States and                 Event Communication</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated July 2nd, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C60DC070-572B-5960-B394-550426FDB909.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:04:55 GMT -->
+</html>

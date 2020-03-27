@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_aiw_service_handler_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:33 GMT -->
+<head><title>AIW Service Handler API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i466"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>AIW Service Handler API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.2</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.3</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Creating_a_Service_Handler_instance"><span class="tocnumber">2.1</span> <span class="toctext">Creating a Service Handler instance</span></a></li>
+<li class="toclevel-2"><a href="#Attaching_interests"><span class="tocnumber">2.2</span> <span class="toctext">Attaching interests</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Base_services"><span class="tocnumber">2.2.1</span> <span class="toctext">Base services</span></a></li>
+<li class="toclevel-3"><a href="#Menu_services"><span class="tocnumber">2.2.2</span> <span class="toctext">Menu services</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Initializing_Menu_pane"><span class="tocnumber">2.3</span> <span class="toctext">Initializing Menu pane</span></a></li>
+<li class="toclevel-2"><a href="#Executing_service_commands"><span class="tocnumber">2.4</span> <span class="toctext">Executing service commands</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Base_service_commands"><span class="tocnumber">2.4.1</span> <span class="toctext">Base service commands</span></a></li>
+<li class="toclevel-3"><a href="#Menu_service_commands"><span class="tocnumber">2.4.2</span> <span class="toctext">Menu service commands</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Deleting_the_Service_Handler_instance"><span class="tocnumber">2.5</span> <span class="toctext">Deleting the Service Handler instance</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.6</span> <span class="toctext">Error handling</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#References"><span class="tocnumber">3</span> <span class="toctext">References</span></a></li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The purpose of the AIW Service Handler API is to offer the core functionality
+of the Application Interworking framework to the AIW consumer applications.
+This is done by using a Service Handler object, which is the core of the AIW
+framework.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 3.2
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>servicehandler.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/aiw_service_handler_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/aiw_service_handler_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>AIW Service Handler API offers the main access to the AIW framework functionality.
+</p><p>AIW Service Handler API is a library API. From the AIW consumer application
+point of view, it can be categorized as a method call API. AIW Service Handler
+API hides the complexity of resolving and calling the AIW providers, which
+are implemented as ECom plug-ins.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.2 Use Cases </span></h3>
+</a><p>The most important use cases of AIW Service Handler API are the following:
+</p>
+<ul><li> Creating a Service Handler instance
+</li><li> Attaching interests
+</li><li> Base services
+</li><li> Menu services
+</li></ul>
+<ul><li> Initializing menu pane
+</li><li> Executing service commands
+</li><li> Base service commands
+</li><li> Menu service commands
+</li></ul>
+<ul><li> Deleting the Service Handler instance
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.3 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAiwServiceHandler <td><span class="plainlinks"><code>/epoc32/include/mw/AiwServiceHandler.h</code></span>
+</td>
+<p>The main class of AIW Service Handler API is called <span class="plainlinks"><code>CAiwServiceHandler</code> </span>.
+This class is the main entity of the AIW framework. Each AIW consumer application
+should create an instance of that class, which can then be used for attaching
+application's interest, initializing the AIW menu items, and executing the
+AIW service commands. The <span class="plainlinks"><code>CAiwServiceHandler</code> </span> and some of
+its most important methods are illustrated in Figure 1:
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_AIW_Service_Handler_API_Classes.png" title="Class diagram of AIW Service Handler API"><img alt="Class diagram of AIW Service Handler API" border="0" height="314" src="images/SPB_10_1_AIW_Service_Handler_API_Classes.png" width="224" /></a></div>
+<div style="text-align:center"><i>Class diagram of AIW Service Handler API</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>The most important use cases are described in the sections below.
+</p>
+<a name="Creating_a_Service_Handler_instance"><h3> <span class="mw-headline">2.1 Creating a Service Handler instance </span></h3>
+</a><p>For using AIW Service Handler API, the consumer application needs first
+to create a Service Handler instance.
+</p>
+<pre>// Create a service handler instance.
+iServiceHandler = CAiwServiceHandler::NewL();
+</pre>
+<a name="Attaching_interests"><h3> <span class="mw-headline">2.2 Attaching interests </span></h3>
+</a><p>When the Service Handler instance exists, the consumer application's interest
+must be attached to it before AIW service commands can be executed. Attach
+needs usually be done only once,  and a good place for it is the consumer
+application's <span class="plainlinks"><code><font color="darkred">ConstructL()</font></code> </span> method.
+</p>
+<a name="Base_services"><h4> <span class="mw-headline">2.2.1 Base services </span></h4>
+</a><p>Base service interests can be attached by using <span class="plainlinks"><code>CAiwServiceHandler::AttachL()</code> </span>.
+</p>
+<pre>// Attach base service interests.
+iServiceHandler-&gt;AttachL(R_AIWEXAMPLE_BASEINTEREST);
+</pre>
+<p>The interest is defined in a resource file, see <a href="sf_mw_classicui_classicui_pub_aiw_criteria_api.html" title="sf_mw_classicui_classicui_pub_aiw_criteria_api.html">AIW Criteria API</a> for details.
+</p>
+<a name="Menu_services"><h4> <span class="mw-headline">2.2.2 Menu services </span></h4>
+</a><p>Menu service interests can be attached by using <span class="plainlinks"><code>CAiwServiceHandler::AttachMenuL()</code> </span>.
+</p>
+<pre>iServiceHandler-&gt;AttachMenuL(R_AIWEXAMPLE_MENU, R_AIWEXAMPLE_MENUINTEREST);
+</pre>
+<p>A menu pane and an interest containing menu related criteria items need
+to be defined in a resource file, see <a href="sf_mw_classicui_classicui_pub_aiw_criteria_api.html" title="sf_mw_classicui_classicui_pub_aiw_criteria_api.html">AIW Criteria API</a> for details.
+</p>
+<a name="Initializing_Menu_pane"><h3> <span class="mw-headline">2.3 Initializing Menu pane </span></h3>
+</a><p>Menu pane containing AIW menu items needs to be initialized. This is done
+in consumer application's <span class="plainlinks"><code><font color="darkred">DynInitMenuPaneL()</font></code> </span> method. See
+example below:
+</p>
+<pre>void CAIWExampleAppUi::DynInitMenuPaneL( TInt aResourceId, CEikMenuPane *aMenuPane )
+    {
+    // First, offer menu pane to AIW framework. It might be the case, that the
+    // user is opening an AIW submenu. In this case, the AIW handles the menu.
+    if ( iServiceHandler-&gt;HandleSubmenuL( *aMenuPane ) )
+        {
+        return;
+        }
+</pre>
+<pre>    // Add your normal (non-AIW) menu initialisation code here...
+</pre>
+<pre>    // Let AIW provider add its menu items to the menu.
+    iServiceHandler-&gt;InitializeMenuPaneL(
+        *aMenuPane,
+        aResourceId,
+        EAIWExampleCmdLast,
+        iServiceHandler-&gt;InParamListL());
+    }
+</pre>
+<p>In this case, the menu may contain an AIW submenu (i.e. a submenu containing
+only AIW menu items). The submenu is handled by the AIW framework, so if <span class="plainlinks"><code>CAiwServiceHandler::HandleSubmenuL()</code> </span> returns <span class="plainlinks"><code>ETrue</code> </span>, nothing needs to be done.
+</p><p>The actual menu pane initialization is done by <span class="plainlinks"><code>CAiwServiceHandler::InitializeMenuPaneL()</code> </span>.
+Note that the <span class="plainlinks"><code>EAIWExampleCmdLast</code> </span> should be defined as the
+last enumeration value, the Service Handler uses it as the basis of the menu
+command ids it generates.
+</p>
+<a name="Executing_service_commands"><h3> <span class="mw-headline">2.4 Executing service commands </span></h3>
+</a><p>AIW service commands can be executed by calling <span class="plainlinks"><code>CAiwServiceHandler::ExecuteServiceCmdL()</code> </span> for
+base services, and <span class="plainlinks"><code>CAiwServiceHandler::ExecuteMenuCmdL()</code> </span> for
+menu services. The methods are blocking by default. However, it is also possible
+that a provider works asynchronously. In that case, the consumer can implement
+a callback method, which is called when the provider finishes, for example.
+See <a href="sf_mw_classicui_classicui_pub_aiw_criteria_api.html" title="sf_mw_classicui_classicui_pub_aiw_criteria_api.html">AIW Criteria API</a> for more details of asynchronous service calls.
+</p>
+<a name="Base_service_commands"><h4> <span class="mw-headline">2.4.1 Base service commands </span></h4>
+</a><p>Base service commands can be executed by calling <span class="plainlinks"><code>CAiwServiceHandler::ExecuteServiceCmdL()</code> </span>.
+An example is shown below (see <a href="sf_mw_classicui_classicui_pub_aiw_generic_parameter_api.html" title="sf_mw_classicui_classicui_pub_aiw_generic_parameter_api.html">AIW Generic Parameter API</a> how to set up input parameters):
+</p>
+<pre>iServiceHandler-&gt;ExecuteServiceCmdL(
+    KAiwCmdMnShowMap,                  // The service command.
+    inParamList,                       // Input parameter list.
+    iServiceHandler-&gt;OutParamListL(),  // No output parameters used.
+    0,                                 // No options used.
+    NULL);                             // No need for callback
+);
+</pre>
+<a name="Menu_service_commands"><h4> <span class="mw-headline">2.4.2 Menu service commands </span></h4>
+</a><p>The consumer application's "AppUI" class has a callback method HandleCommandL(TInt aCommand). When it is called, the consumer application should first
+try to identify if the command is a normal menu command. If the command is
+not recognized, it should be forwarded to the AIW framework. This is usually
+done in the default branch of the switch statement.
+</p>
+<pre>void CAIWExampleAppUi::HandleCommandL(TInt aCommand)
+    {
+    switch(aCommand)
+        {
+        case ESomeNonAIWCommand:
+            {
+            // Execute command.
+            // ...
+            break;
+            }
+        case EEikCmdExit:
+            {
+            Exit();
+            break;
+            }
+        default:
+            {
+            // Forward the command id to AIW, i.e. execute AIW menu
+            // service command.
+            iServiceHandler-&gt;ExecuteMenuCmdL(
+                aCommand,
+                iServiceHandler-&gt;InParamListL()     // No input parameters
+                iServiceHandler-&gt;OutParamListL(),   // No output parameters
+                0,                                  // No options used.
+                NULL);                              // No need for callback
+            break;
+            }
+        }
+    }
+</pre>
+<a name="Deleting_the_Service_Handler_instance"><h3> <span class="mw-headline">2.5 Deleting the Service Handler instance </span></h3>
+</a><p>The Service Handler instance needs to be deleted when it is not used anymore.
+Usually this is done in the destructor of the consumer application.
+</p>
+<pre>// Delete the service handler instance.
+delete iServiceHandler;
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.6 Error handling </span></h3>
+</a><p>Some methods may leave, for example if running out of memory. Normal Symbian
+OS error handling practises should be used, including e.g. using cleanup stack
+and <span class="plainlinks"><code>TRAP</code> </span> harness.
+</p>
+<a name="References"><h2> <span class="mw-headline">3 References </span></h2>
+<table border="1" cellspacing="0">
+<caption> <b>References</b>
+</caption>
+<tr>
+<td> 1. S60 3.2 AIW Generic Parameter API Specification Document
+</td></tr>
+<tr>
+<td> 2. S60 3.2 AIW Criteria API Specification Document
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_aiw_service_handler_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:34 GMT -->
+</html>

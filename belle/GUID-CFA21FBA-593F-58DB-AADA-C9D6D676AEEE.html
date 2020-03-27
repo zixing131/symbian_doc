@@ -1,0 +1,65 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-CFA21FBA-593F-58DB-AADA-C9D6D676AEEE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to share heaps" /><meta name="abstract" content="Heaps may be shared between threads within a process." /><meta name="description" content="Heaps may be shared between threads within a process." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-A1BD83F8-C6DB-5737-8052-7B710B19147F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-CFA21FBA-593F-58DB-AADA-C9D6D676AEEE" /><meta name="DC.Language" content="en" /><title>How
+to share heaps </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-CFA21FBA-593F-58DB-AADA-C9D6D676AEEE">How
+to share heaps</h1><div><p>Heaps may be shared between threads within a process.</p>
+<p>When a new thread is created:</p>
+<ul>
+<li id="GUID-7FF23B75-DADB-557C-B8F7-C1884E51FCE4"><a name="GUID-7FF23B75-DADB-557C-B8F7-C1884E51FCE4"><!-- --></a><p>it can use the same
+heap as the thread which is doing the creating.</p> </li>
+<li id="GUID-19F6D491-9424-5320-BFF7-DFB27008D90B"><a name="GUID-19F6D491-9424-5320-BFF7-DFB27008D90B"><!-- --></a><p>it can use the heap
+which has been explicitly created for it by the thread which is doing the
+creating.</p> </li>
+<li id="GUID-83CB8A55-DB7C-503C-8CB8-E206C918FF99"><a name="GUID-83CB8A55-DB7C-503C-8CB8-E206C918FF99"><!-- --></a><p>it can use the heap
+automatically created for it by the operating system.</p> </li>
+</ul>
+<p><em>Only in the first two cases is the heap being shared.</em> </p>
+<p>Both are achieved by using the version of <code class="codeph">RThread::Create()</code> prototyped
+as:</p>
+<pre class="codeblock">TInt Create(const TDesC&amp; aName,
+            TThreadFunction aFunction,
+            TInt aStackSize,
+            RHeap* aHeap,
+            TAny* aPtr,
+            TOwnerType aType=EOwnerProcess);</pre>
+<p>If <code class="codeph">aHeap</code> is <code class="codeph">NULL</code>, the new thread uses
+the same heap as the parent thread. For example:</p>
+<pre class="codeblock">RThread t;
+_LIT(KTxtShared1,"Shared1");
+...             ...
+TInt r=t.Create(KTxtShared1,
+                threadEntryPoint,
+                KDefaultStackSize,
+                NULL,
+                NULL);</pre>
+<p>The calling thread can create a new heap using <code class="codeph">User::ChunkHeap()</code> or <code class="codeph">UserHeap::ChunkHeap()</code> (this
+is the same function; the <code class="codeph">User</code> class is derived from <code class="codeph">UserHeap</code>)
+and pass this heap to the <code class="codeph">RThread::Create()</code> function. For
+example:</p>
+<pre class="codeblock">_LIT(KTxtShare,"Share");
+_LIT(KTxtShared1,"Shared1");
+...
+RHeap* pH=User::ChunkHeap(KTxtShare,0x1000,0x100000);
+RThread t;
+TInt r=t.Create(KTxtShared1,
+                threadEntryPoint,
+                KDefaultStackSize,
+                pH,NULL);</pre>
+<p>The new heap is contained within its own chunk.</p>
+<p>If the <em>creating</em> thread no longer has any interest in this explicitly
+created heap, it can close it by calling <code class="codeph">Close()</code>. Note that
+the corresponding call to <code class="codeph">Open()</code> was done automatically by <code class="codeph">User::ChunkHeap()</code>.
+The function <code class="codeph">Open()</code> should be used to re-open the heap for
+sharing; this increases the access count.</p>
+<p>Note that <code class="codeph">Open()</code> can only be called on a heap created
+using <code class="codeph">User::ChunkHeap()</code>.</p>
+<p>The heaps which are created automatically for a thread should not be closed
+with a call to <code class="codeph">Close()</code> since the chunk in which the heap
+is created contains the thread's stack as well as the heap. In this case,
+if <code class="codeph">Close()</code> is called the thread is panicked.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-CFA21FBA-593F-58DB-AADA-C9D6D676AEEE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:55 GMT -->
+</html>

@@ -1,0 +1,106 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1F04E04A-4764-4268-AE0B-7EDA55A20B59.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:20 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Create a Sssion with the SendAs Server" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-63816E09-46C7-503A-ADA0-E350C7ACF3C4" /><meta name="DC.Relation" scheme="URI" content="GUID-F7598A84-9736-5310-AAA4-5BCC4BE46C16" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1F04E04A-4764-4268-AE0B-7EDA55A20B59" /><meta name="DC.Language" content="en" /><title>Create
+a Sssion with the SendAs Server </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1F04E04A-4764-4268-AE0B-7EDA55A20B59">Create
+a Sssion with the SendAs Server</h1><div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-A4230DED-E1F8-45E4-A090-97FAE76DA475"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-A4230DED-E1F8-45E4-A090-97FAE76DA475"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-A4230DED-E1F8-45E4-A090-97FAE76DA475"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-A4230DED-E1F8-45E4-A090-97FAE76DA475"><!-- --></a><p>Create a session
+with the SendAs Server using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E1699CAB-423D-3AFA-BE77-3AFF38886EA3.html#GUID-08F1E2D2-D5B0-3251-807F-639543B56496"><code class="apiname">RSendAs::Connect()</code></a> function.
+ </p>
+</li>
+<li id="GUID-1F1EBD2B-66C8-40DA-992F-D69303E7DBD2"><a name="GUID-1F1EBD2B-66C8-40DA-992F-D69303E7DBD2"><!-- --></a><p>Connect to the server
+using the default number of message slots available to a session, which is
+4, (<code class="codeph">KSendAsDefaultMessageSlots</code>).</p>
+</li>
+<li id="GUID-8FCC5304-7093-4806-B5D4-362D06FA4C5E"><a name="GUID-8FCC5304-7093-4806-B5D4-362D06FA4C5E"><!-- --></a><p>Set the message
+entry using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-85BBE389-81F7-3E2F-A789-446D9BE2CC49.html#GUID-139272C1-EF75-3BD9-AB67-3573C5C2D68C"><code class="apiname">CMsvEntry::SetEntryL()</code></a> function. </p>
+</li>
+<li id="GUID-1D449E8F-5B7D-457E-8EF6-BED6E2BCDE34"><a name="GUID-1D449E8F-5B7D-457E-8EF6-BED6E2BCDE34"><!-- --></a><p>Get the IDs of all
+the context children, using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-85BBE389-81F7-3E2F-A789-446D9BE2CC49.html#GUID-80D240A0-5896-35A3-AADD-830046776D35"><code class="apiname">CMsvEntry::ChildrenL()</code></a> function.</p>
+</li>
+<li id="GUID-B61AB043-AAEF-4EEC-8B16-4EE5E7ABC9D3"><a name="GUID-B61AB043-AAEF-4EEC-8B16-4EE5E7ABC9D3"><!-- --></a><p>Empty the draft
+folder before creating a new message using the CleanMessageFolderL() function.</p>
+</li>
+</ol>
+<div><h3 class="section-title">Example</h3><pre class="codeblock">// SendAs2Example.h
+...
+class CSendAs2Example : public CBase
+{
+public:
+    static CSendAs2Example* NewL();
+    ~CSendAs2Example();
+    void StartL();
+    void Connect();
+    void CreateL(RSendAsMessage&amp; aMessage);
+    void DisplayAccountL();
+    void CapabilityFilterL();
+    void SendL(RSendAsMessage&amp; aMessage);
+    
+private:
+    CSendAs2Example();
+    void ConstructL();
+    void CleanMessageFolderL();
+
+private:
+    /** Pointer to the console interface */
+    CConsoleBase*          iConsole;
+    RSendAs                iSendAs;
+    /** Pointer to Session observer used to report whatever notification it receives */ 
+    CDummyObserver*        iObserver;
+    /** Pointer to the channel of communication between a client thread and the Message Server */
+    CMsvSession*           iSession;
+    /** Pointer to a particular Message Server entry */
+    CMsvEntry*                 iEntry;
+    /** Pointer to the array of entry IDs */
+    CMsvEntrySelection*    iSelection;
+};</pre><pre class="codeblock">// SendAs2Example.cpp
+...
+
+/**
+Allocates and constructs a CSendAs2Example object.
+Initialises all member data to their default values.
+*/  
+CSendAs2Example* CSendAs2Example::NewL()
+    {
+    CSendAs2Example* self = new (ELeave) CSendAs2Example();
+    CleanupStack::PushL(self);
+    self-&gt;ConstructL();
+    CleanupStack::Pop();
+    return self;
+    }
+    
+/**
+Constructor
+*/  
+CSendAs2Example::CSendAs2Example()
+    {   
+        
+    }
+...
+
+/**
+Creates a session
+    - based on the time slots
+    - connects to the server
+    @leave system wide error codes
+*/
+
+void CSendAs2Example::Connect()
+    {
+    iConsole-&gt;Printf ( KTextConn );
+    TInt err = iSendAs.Connect(KSendAsDefaultMessageSlots);
+    if ( err == KErrNone)
+        {
+        iConsole-&gt;Printf ( KTextErrInn );
+        }
+    else
+        {
+        iConsole-&gt;Printf ( KTextErrOut );
+        }
+    }</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 13th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1F04E04A-4764-4268-AE0B-7EDA55A20B59.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:20 GMT -->
+</html>

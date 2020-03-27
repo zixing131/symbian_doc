@@ -1,0 +1,140 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-A3449F37-89BB-5208-8FD5-F4DF73F7E71A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:45 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="System Startup Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-AF30D941-BFD8-5260-9588-C5DA6983F558" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A3449F37-89BB-5208-8FD5-F4DF73F7E71A" /><meta name="DC.Language" content="en" /><title>System Startup Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A3449F37-89BB-5208-8FD5-F4DF73F7E71A">System Startup Overview</h1><div>
+<div id="GUID-C41A0540-2C28-4CCC-B8AA-8236C68CEB18"><h3 class="section-title"> Configuring
+and Controlling a device's boot process </h3> <p>Whenever a Symbian
+device is powered up a number of things have to happen before it is
+ready to be used. A number of processes and applications have to be
+started and certain tasks performed. </p> <p>The System Starter and
+its related components control the startup process. This guide describes
+what the System Starter does and how it may be configured. Configuration
+is the responsibility of device manufacturers. A manufacturer may
+choose to enable operators, third parties and users to extend the
+startup configuration. </p> <p>There are numerous considerations when
+configuring device startup. These include: </p> <ul>
+<li id="GUID-5BA1769D-D1FC-59A4-87F6-30D031443CD9"><a name="GUID-5BA1769D-D1FC-59A4-87F6-30D031443CD9"><!-- --></a><p>which processes,
+tasks and applications are required, </p> </li>
+<li id="GUID-48D7345B-0D3B-5ADA-A646-A3DAC85FE4F5"><a name="GUID-48D7345B-0D3B-5ADA-A646-A3DAC85FE4F5"><!-- --></a><p>the sequence
+of, and inter-dependencies between, activities, </p> </li>
+<li id="GUID-9C7A919A-8C67-5DC0-BDD8-D1DC12AE0636"><a name="GUID-9C7A919A-8C67-5DC0-BDD8-D1DC12AE0636"><!-- --></a><p>the user experience, </p> </li>
+<li id="GUID-9F2C5CCC-EAD6-5AD6-8B85-7EB459F385BA"><a name="GUID-9F2C5CCC-EAD6-5AD6-8B85-7EB459F385BA"><!-- --></a><p>the impact on
+manufacturing and testing, </p> </li>
+<li id="GUID-7212D20D-2A6C-51BC-A3B4-23FAF4CA5EC0"><a name="GUID-7212D20D-2A6C-51BC-A3B4-23FAF4CA5EC0"><!-- --></a><p>operators' customisation
+requirements, </p> </li>
+<li id="GUID-1D75BFB9-9E0C-5E60-8473-278D3ABCF7B7"><a name="GUID-1D75BFB9-9E0C-5E60-8473-278D3ABCF7B7"><!-- --></a><p>users' customisation
+requirements, </p> </li>
+<li id="GUID-41225C9C-047B-59BF-A670-0981A73BF6FC"><a name="GUID-41225C9C-047B-59BF-A670-0981A73BF6FC"><!-- --></a><p>what to do when
+something goes wrong </p> <p>and </p> </li>
+<li id="GUID-5E519AE8-3268-5C2B-A623-2E99229947F8"><a name="GUID-5E519AE8-3268-5C2B-A623-2E99229947F8"><!-- --></a><p>aftermarket
+applications </p> </li>
+</ul> <p><strong>Processes and Applications </strong> </p> <p>In the interest
+of readability this document frequently<strong> uses the terms application
+and process interchangeably</strong>. Unless specifically stated otherwise
+you may assume that the term used refers to both. </p> </div>
+<div id="GUID-528B2FD1-7233-413A-81C8-5064095135AB"><h3 class="section-title">Static
+Startup Configuration</h3> <p>The System Starter is automatically
+invoked as part of the boot process once the file system has been
+mounted. It works by processing a list of instructions in sequence.
+The list is referred to as a Static Startup Configuration, or SSC.
+In practical terms the SSC is defined in a resource file and is built
+into the ROM. </p> <p>A fundamental feature of the SSC is that it
+allows the start up procedure to be optimised. Though the commands
+are processed in sequence their effect is to perform tasks not only
+in <strong>sequence</strong> (wait for the application or process to initialise
+before continuing) but also in <strong>parallel</strong> (do not wait for initialisation)
+and <strong>at the optimum time</strong> (wait until conditions are right). </p> <p>For further information on the contents of an SSC see: </p> <ul>
+<li id="GUID-1F8911D9-F92B-5A4F-8548-942842A7ED2A"><a name="GUID-1F8911D9-F92B-5A4F-8548-942842A7ED2A"><!-- --></a><p><a href="GUID-57F38146-1DA3-5657-ADF4-76DF740363C5.html">Static Startup Configuration</a> </p> </li>
+</ul> <p>Though an SSC cannot be changed, a number of SSCs may be
+included in a ROM. This allows a device to be started with one of
+a number of different configurations, i.e. to be booted into different <strong>modes</strong>. </p> <ul>
+<li id="GUID-92E0E027-8A4F-55A5-AC48-4252164E2E77"><a name="GUID-92E0E027-8A4F-55A5-AC48-4252164E2E77"><!-- --></a><p>The mode determines
+which SSC the System Starter uses to start the system. Symbian has
+defined (and reserved) a number of Startup Modes (for test and reference
+purposes): Full, Emulator, Emergency, Battery charge &amp; Test.</p> </li>
+</ul> <p>SSC files are named <code>SCCForStartupModeN.rss</code> where N is the number of the mode. The method of selecting the mode,
+and therefore the SSC file, for each startup is defined by the licensee. </p> <p>The degree to which an SSC can control and optimise the boot
+process is further enhanced by the concepts of <strong>Startup States</strong> and <strong>Staged Startup</strong>. </p> <p><strong> Startup States</strong> </p> <p>An SSC is divided into a series of states which follow each other
+sequentially. Those described here are defined by Symbian. Licencees
+may add or insert further states by defining them and including them
+in an SSC. The Symbian defined states have a certain significance: </p> <ul>
+<li id="GUID-4C3113C7-CFAF-59AE-A271-51424F6B2478"><a name="GUID-4C3113C7-CFAF-59AE-A271-51424F6B2478"><!-- --></a><p> <strong>The Critical
+Static State:</strong> This is when the essential ROM based components
+are started. Nothing started in this state relies on anything outside
+the ROM. </p> </li>
+<li id="GUID-56754FF8-08A4-56BE-A4C2-A8F2A25AE738"><a name="GUID-56754FF8-08A4-56BE-A4C2-A8F2A25AE738"><!-- --></a><p> <strong> The Critical
+Dynamic State:</strong> This is when essential non-ROM based components
+and components which use non-ROM based files are started. </p> </li>
+<li id="GUID-804244EC-006E-5216-B286-D9FC6B9495EA"><a name="GUID-804244EC-006E-5216-B286-D9FC6B9495EA"><!-- --></a><p> <strong> The Non-critical
+State:</strong> Components started here are not essential for the basic
+functionality of the device. i.e. the phone will be 'up and running'
+before these components are started. </p> </li>
+</ul><p><strong>Staged Startup</strong> </p> <p>A further level of startup control
+and configuration can be achieved using Staged Startup. This technique
+enables components to perform their initialisation procedure as separate
+stages - essential earlier, non-essential later. This enables further
+reduction of the effective boot time. </p> <p>Applications must be <strong>Staged Startup Aware (SSA)</strong> to take advantage of the staged startup
+facilities. They must register with the Starter so that they can receive
+state-change notifications. An SSA application may perform a <strong>stage</strong> of its startup during each SSC <strong>state</strong>. </p> <p>Staged startup
+subdivides each state into five ordered domains: Kernel, Base, OS
+Services, Application Services and UI Framework (these correspond
+to the Symbian System Model). Each SSA component associates itself
+with a domain according to its location in the System Model. Within
+each state the domains are processed sequentially. This allows application
+dependency to be accommodated without individual applications having
+to manage these dependencies. </p> </div>
+<div id="GUID-F58AE201-31BF-4E36-96B6-50D61A53B9CA"><h3 class="section-title">Dynamic
+Startup Configuration (DSC) </h3> <p>All of the components included
+in the Static Startup Configuration are present for the life of the
+device. Components installed after the ROM has been built, or after
+the device has been shipped, may also be started during boot by being
+added to a Dynamic Startup Configuration (DSC). </p> <p>One or more
+DSCs may be included at various points in an SSC. </p> <p>A run-time
+API allows entries to be added to and deleted from a DSC. This means
+that aftermarket applications, updates and patches can be inserted
+automatically on installation, over the air by a Network Operator,
+or by the user. </p> <ul>
+<li id="GUID-84D36270-880B-56F4-BBD9-5C80F9DA1BEF"><a name="GUID-84D36270-880B-56F4-BBD9-5C80F9DA1BEF"><!-- --></a><p>How to use the DSC
+API </p> </li>
+</ul> </div>
+<div id="GUID-D6D28700-0BAD-4F88-8CE9-2E0330233468"><h3 class="section-title">Specifying
+action on failure </h3> <p>Though system startup is an automatic
+process, things can go wrong. In some cases the device can continue
+to function if a component fails to start, in others it cannot. Applications
+can fail to start or fail after they have started for a variety of
+reasons. Symbian provides mechanisms for detecting and handling failure. </p> <p>When an application is started using an SSC or a DSC several
+parameters must be specified in its resource. These include: </p> <ul>
+<li id="GUID-4DC8B8DA-FA50-57E9-B1FD-B60991C927C1"><a name="GUID-4DC8B8DA-FA50-57E9-B1FD-B60991C927C1"><!-- --></a><p>a startup method
+(<code class="codeph">EFireAndForget</code>, <code class="codeph">EWaitForStart</code>, <code class="codeph">EDeferredWaitForStart</code>) </p> </li>
+<li id="GUID-8236B8FB-CDD9-544A-91FA-F53231EDEDAF"><a name="GUID-8236B8FB-CDD9-544A-91FA-F53231EDEDAF"><!-- --></a><p>the number of
+retries (attempts to start the application) </p> </li>
+<li id="GUID-A9EA3792-BA99-59C8-8AE1-40A34CFAC095"><a name="GUID-A9EA3792-BA99-59C8-8AE1-40A34CFAC095"><!-- --></a><p>a timeout period
+(after which an EWaitForStart startup will be considered to have failed) </p> </li>
+<li id="GUID-F9CEA642-4140-5430-9092-C5B70BE9B691"><a name="GUID-F9CEA642-4140-5430-9092-C5B70BE9B691"><!-- --></a><p>a restart action
+(<code class="codeph">EIgnoreProcessFailure</code>, <code class="codeph">ERestartOS</code>, <code class="codeph">ERestartOSWithMode</code> - the action to be taken in
+the event of failure to rendezvous or failure while running normally.) </p> </li>
+<li id="GUID-F737C84D-3BAB-5256-858E-4D9EF9C0AB19"><a name="GUID-F737C84D-3BAB-5256-858E-4D9EF9C0AB19"><!-- --></a><p>a restart mode
+(the phone might restart in a 'Safe Mode', for instance) </p> </li>
+<li id="GUID-2030D3D4-D1C6-5E80-B75E-F8F656CA5168"><a name="GUID-2030D3D4-D1C6-5E80-B75E-F8F656CA5168"><!-- --></a><p>whether to initiate
+monitoring after the component has made its rendezvous. </p> </li>
+</ul> <p>If, after the <strong>timeout period</strong> the application has not
+made its rendezvous, the platform can make further attempts to start
+it. If, after the <strong>number of retries</strong> specified, it has not succeeded
+it will take the specified <strong>restart action</strong>. If the restart action
+is <code class="codeph">ERestartOS</code> or <code class="codeph">ERestartOSWithMode</code> it will shut down the device and restart it (in the second case
+in the <strong>restart mode</strong> specified). If <strong>monitoring</strong> is enabled
+the System Monitor will continue to monitor the process after a successful
+rendezvous and, if it stops unexpectedly at any time, will re-use
+the same configuration information and act accordingly. </p> <ul>
+<li id="GUID-64BFBF8C-3279-5DE5-9350-19DB7FD5D481"><a name="GUID-64BFBF8C-3279-5DE5-9350-19DB7FD5D481"><!-- --></a><p><a href="GUID-4E195F2A-78AE-5664-A115-AD65BF457AB1.html">How to use the System
+Monitor</a> </p> </li>
+</ul> <p>Note that processes or threads declared 'System Critical'
+use an aternative monitoring mechanism, which pre-dates the System
+Monitor, to restart the platform, when they fail (see <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0E661BC-4058-3256-B9C3-5A4FD52F6DE5.html#GUID-AF3E8BE4-FE65-3CCE-8B5A-6C4585BEA2EC"><code class="apiname">RThread::SetCritical()</code></a>). The System Monitor offers two significant advantages: the ability
+to restart the process without restarting the platform, and the option
+of restarting in a specified mode. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 1st, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-A3449F37-89BB-5208-8FD5-F4DF73F7E71A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:45 GMT -->
+</html>

@@ -1,0 +1,1295 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_form_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:53 GMT -->
+<head><title>Form API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i480"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Form API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+<li class="toclevel-2"><a href="#Form_modes_and_formats"><span class="tocnumber">1.5</span> <span class="toctext">Form modes and formats</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Field_structure"><span class="tocnumber">1.5.1</span> <span class="toctext">Field structure</span></a></li>
+<li class="toclevel-3"><a href="#Form_field_layouts"><span class="tocnumber">1.5.2</span> <span class="toctext">Form field layouts</span></a></li>
+<li class="toclevel-3"><a href="#Form_modes"><span class="tocnumber">1.5.3</span> <span class="toctext">Form modes</span></a></li>
+<li class="toclevel-3"><a href="#Multi-page_forms"><span class="tocnumber">1.5.4</span> <span class="toctext">Multi-page forms</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Defining_the_form_resource"><span class="tocnumber">2.1</span> <span class="toctext">Defining the form resource</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Single-page_form"><span class="tocnumber">2.1.1</span> <span class="toctext">Single-page form</span></a></li>
+<li class="toclevel-3"><a href="#Multi-page_form"><span class="tocnumber">2.1.2</span> <span class="toctext">Multi-page form</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Launching_the_form"><span class="tocnumber">2.2</span> <span class="toctext">Launching the form</span></a></li>
+<li class="toclevel-2"><a href="#Initializing_form_data"><span class="tocnumber">2.3</span> <span class="toctext">Initializing form data</span></a></li>
+<li class="toclevel-2"><a href="#Saving_form_data"><span class="tocnumber">2.4</span> <span class="toctext">Saving form data</span></a></li>
+<li class="toclevel-2"><a href="#Reverting_changes"><span class="tocnumber">2.5</span> <span class="toctext">Reverting changes</span></a></li>
+<li class="toclevel-2"><a href="#Modifying_the_menu"><span class="tocnumber">2.6</span> <span class="toctext">Modifying the menu</span></a></li>
+<li class="toclevel-2"><a href="#Processing_commands"><span class="tocnumber">2.7</span> <span class="toctext">Processing commands</span></a></li>
+<li class="toclevel-2"><a href="#Managing_fields"><span class="tocnumber">2.8</span> <span class="toctext">Managing fields</span></a></li>
+<li class="toclevel-2"><a href="#Adding_custom_field"><span class="tocnumber">2.9</span> <span class="toctext">Adding custom field</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.10</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.11</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#References"><span class="tocnumber">4</span> <span class="toctext">References</span></a></li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Forms are dialogs that are used to display and/or edit logically related
+data. Forms are a subset of AVKON dialogs. For detailed information on dialogs
+in general, as well as other dialog types, see Dialogs API Specification.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>avkon.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/form_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/form_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>This document describes how to use Form API to create and use forms.
+Forms are standard AVKON dialogs, based on the class <span class="plainlinks"><code>CAknForm</code> </span>.
+An appropriate resource and the matching <span class="plainlinks"><code>CAknForm</code> </span> based class
+is needed to use forms.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Form.png" title="Form"><img alt="Form" border="0" height="268" src="images/SPB_10_1_Form.png" width="228" /></a></div>
+<div style="text-align:center"><i>Form</i></div>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Form API is an SDK API and was first published in S60 release 0.9.
+</p><p>This API is valid for all platforms running on Symbian OS 9.1 or later.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+<ul><li> Defining the form resource
+</li><li> Launching the form
+</li><li> Initializing form data
+</li><li> Saving form data
+</li><li> Reverting changes
+</li><li> Modifying the menu
+</li><li> Processing commands
+</li><li> Managing fields
+</li><li> Adding custom field
+</li></ul>
+</a><a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknForm <td><span class="plainlinks"><code>/epoc32/include/mw/AknForm.h</code></span>
+</td>
+<p>Figure 8 shows Form API classes.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_FormAPIClasses.png" title="Form API"><img alt="Form API" border="0" height="130" src="images/SPB_10_1_FormAPIClasses.png" width="102" /></a></div>
+<div style="text-align:center"><i>Form API</i></div>
+<a name="Form_modes_and_formats"><h3> <span class="mw-headline">1.5 Form modes and formats </span></h3>
+</a><a name="Field_structure"><h4> <span class="mw-headline">1.5.1 Field structure </span></h4>
+<div style="text-align:center"></div></a><a class="image" href="images/SPB_10_1_FieldStructure.png" title="Field structure"><img alt="Field structure" border="0" height="122" src="images/SPB_10_1_FieldStructure.png" width="377" /></a></div>
+<div style="text-align:center"><i>Field structure</i></div>
+<p>The form data items (dialog lines in the form) are called fields. A field
+contains a label and a control. Labels can contain strings and icons. Controls
+can have various types, such as editors, pop-up lists, and sliders. Labels
+and controls can be displayed on one row or on different rows.
+</p>
+<a name="Form_field_layouts"><h4> <span class="mw-headline">1.5.2 Form field layouts </span></h4>
+</a><p>A field is composed of a label and a control. The label and the control
+can be displayed on one row, which is called single-line display. The label
+and the control can also be displayed on different rows, and this is called
+double-line display. The label can contain only a string, only an icon, or
+both.
+</p><p>The field is in single-line display, and its label contains only a string.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_FormField_1.png" title="Auto-inserted"><img alt="Auto-inserted" border="0" height="33" src="images/SPB_10_1_FormField_1.png" width="216" /></a></div>
+<div style="text-align:center"><i>Auto-inserted</i></div>
+<p>The field is in single-line display, and its label contains only an icon.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_FormField_2.png" title="Auto-inserted"><img alt="Auto-inserted" border="0" height="31" src="images/SPB_10_1_FormField_2.png" width="218" /></a></div>
+<div style="text-align:center"><i>Auto-inserted</i></div>
+<p>The field is in single-line display, and its label contains both a string
+and an icon.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_FormField_3.png" title="Auto-inserted"><img alt="Auto-inserted" border="0" height="31" src="images/SPB_10_1_FormField_3.png" width="216" /></a></div>
+<div style="text-align:center"><i>Auto-inserted</i></div>
+<p>The field is in double-line display, and its label contains only a string.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_FormField_4.png" title="Auto-inserted"><img alt="Auto-inserted" border="0" height="61" src="images/SPB_10_1_FormField_4.png" width="231" /></a></div>
+<div style="text-align:center"><i>Auto-inserted</i></div>
+<p>The field is in double-line display, and its label contains only an icon.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_FormField_5.png" title="Auto-inserted"><img alt="Auto-inserted" border="0" height="61" src="images/SPB_10_1_FormField_5.png" width="234" /></a></div>
+<div style="text-align:center"><i>Auto-inserted</i></div>
+<p>The field is in double-line display, and its label contains both a string
+and an icon.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_FormField_6.png" title="Auto-inserted"><img alt="Auto-inserted" border="0" height="60" src="images/SPB_10_1_FormField_6.png" width="233" /></a></div>
+<div style="text-align:center"><i>Auto-inserted</i></div>
+<a name="Form_modes"><h4> <span class="mw-headline">1.5.3 Form modes </span></h4>
+</a><p>A form has two display modes: the view mode and the edit mode
+(see Figure 2 and Figure 3). In the view mode, the value of each control can
+be viewed. The edit mode is used to change a control's values or labels, and
+to add and delete fields.
+</p><p>The form can be switched between the two modes. These modes can also be
+disabled.
+</p><p>Depending on the field type, the control inside the field may be different
+in view and edit mode. For example, a text editing field may contain an editor
+control in edit mode and a label in view mode.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ViewMode.png" title="View mode"><img alt="View mode" border="0" height="269" src="images/SPB_10_1_ViewMode.png" width="228" /></a></div>
+<div style="text-align:center"><i>View mode</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_EditMode.png" title="Edit mode"><img alt="Edit mode" border="0" height="276" src="images/SPB_10_1_EditMode.png" width="234" /></a></div>
+<div style="text-align:center"><i>Edit mode</i></div>
+<p>Forms have a different default Options menu in the two modes. In the view
+mode, the default Options menu contains only Edit as shown in Figure 4, but
+in the edit mode, the default menu contains Add field, Save, Edit label, and
+Delete field as shown in Figure 5.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ViewModeOptionsMenu.png" title="View mode Options menu"><img alt="View mode Options menu" border="0" height="142" src="images/SPB_10_1_ViewModeOptionsMenu.png" width="219" /></a></div>
+<div style="text-align:center"><i>View mode Options menu</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_EditModeOptionsMenu.png" title="Edit mode Options menu"><img alt="Edit mode Options menu" border="0" height="144" src="images/SPB_10_1_EditModeOptionsMenu.png" width="230" /></a></div>
+<div style="text-align:center"><i>Edit mode Options menu</i></div>
+<p>Figure 6 shows form modes.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_FormModes.png" title="Form modes"><img alt="Form modes" border="0" height="469" src="images/SPB_10_1_FormModes.png" width="513" /></a></div>
+<div style="text-align:center"><i>Form modes</i></div>
+<a name="Multi-page_forms"><h4> <span class="mw-headline">1.5.4 Multi-page forms </span></h4>
+</a><p>Besides forms that contain one page, there is another type of form that
+is comprised of multiple pages controlled by tabs as shown in Figure 7. Multi-page
+forms can be used to group relevant controls. The Arrow keys (left/right)
+can be used to switch between pages.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_MultiPageForm.png" title="Multi-page form"><img alt="Multi-page form" border="0" height="273" src="images/SPB_10_1_MultiPageForm.png" width="354" /></a></div>
+<div style="text-align:center"><i>Multi-page form</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>To use forms, the dialog resource ( RESOURCE DIALOG) must
+be defined in the application resource file and a matching <span class="plainlinks"><code>CAknForm</code> </span>-based
+class must be provided.
+</p><p>Example data structure <span class="plainlinks"><code>TMyData</code> </span> is used to demonstrate
+the usage of most typical data fields in forms.
+</p>
+<pre>struct TMyData
+    {
+public:     // data
+    TBuf&lt;256&gt; iText;
+    TBuf&lt;256&gt; iGlobalText;
+    TBuf&lt;256&gt; iRichText;
+    TInt iNumber;
+    TInt iInteger;
+    TReal iFloat;
+    TInt iFix;
+    TTime iDate;
+    TTime iTime;
+    TTimeIntervalSeconds iDuration;
+    TBuf&lt;4&gt; iNumPwd;
+    TBuf&lt;8&gt; iAlphaPwd;
+    TInetAddr iIpAddr;
+    MAknQueryValue* iPopupVal;
+    TInt iPopupTextIndex;
+    TInt iSliderVal;
+    };
+</pre>
+<p>The class <span class="plainlinks"><code>CMyForm</code> </span> is used to display and edit the data.
+</p>
+<pre>class CMyForm : public CAknForm
+    {
+public:     // construction
+    CMyForm( TMyData&amp; aData );
+    virtual ~CMyForm();
+public:     // from CAknForm
+    void DynInitMenuPaneL( TInt aResourceId, CEikMenuPane* aMenuPane );
+    void ProcessCommandL( TInt aCommandId );
+    TBool SaveFormDataL();
+    void DoNotSaveFormDataL();
+    void AddItemL() ;
+    void PreLayoutDynInitL();
+    MEikDialogPageObserver::TFormControlTypes
+        ConvertCustomControlTypeToBaseControlType( TInt aControlType ) const;
+private:
+    void LoadFormDataL() ;
+private:    // data
+    TMyData&amp; iData;
+    TInt iAddedItemId;
+    };
+</pre>
+<a name="Defining_the_form_resource"><h3> <span class="mw-headline">2.1 Defining the form resource </span></h3>
+</a><p>Since a form is a special dialog, its resource definition is within a <span class="plainlinks"><code>DIALOG</code> </span> resource,
+that is, the dialog structure has the <span class="plainlinks"><code>LLINK</code> </span> form as a member.
+</p>
+<pre>STRUCT DIALOG
+    {
+    LONG flags = 0;
+    LTEXT title = "";
+    LLINK pages = 0;
+    LLINK buttons = 0;
+    STRUCT items();
+    LLINK form = 0;
+    }
+</pre>
+<p>When considering forms, the important members of the <span class="plainlinks"><code>DIALOG</code> </span> structure
+are:
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">flags</font></code> </span>, which specifies the whole form style. The <span class="plainlinks"><code><font color="darkred">flag</font></code> </span> parameters
+</li></ul>
+<p>are defined in the<i> eikon.hrh</i> file.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">pages</font></code> </span>, which is a reference to an <span class="plainlinks"><code>ARRAY</code> </span> of <span class="plainlinks"><code>PAGE</code> </span>.
+</li></ul>
+<p>Used only in multi-page forms (see [Form_API_Specification.topic3.1.2 Multi-page form]).
+For single-page forms, this should not be specified.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">buttons</font></code> </span>, which specifies softkeys.
+</li><li> <span class="plainlinks"><code><font color="darkred">form</font></code> </span>, which is a reference to the <span class="plainlinks"><code>FORM</code> </span> structure
+</li></ul>
+<p>described later. Used in single-page forms. For multi-page forms, this should
+not be specified.
+</p><p>See document S60 3.1 Dialogs API Specification for more
+information on other <span class="plainlinks"><code>DIALOG</code> </span> structure members.
+</p>
+<pre>STRUCT FORM
+    {
+    WORD flags = 0;
+    STRUCT items();
+    }
+</pre>
+<p>The <span class="plainlinks"><code>FORM</code> </span> structure member <span class="plainlinks"><code><font color="darkred">flags</font></code> </span> can be
+used to specify the style of the form. The default setting is single-line
+display, and the predefined values are as follows:
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td> <b> Flag</b></td><td> <b> Description</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikFormUseDoubleSpacedFormat</code> </span></td><td> Double-line display.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikFormHideEmptyFields</code> </span></td><td> Makes empty data fields invisible.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikFormShowBitmaps</code> </span></td><td> Displays a bitmap on a label.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikFormEditModeOnly</code> </span></td><td> Displays the form in edit mode only.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikFormShowEmptyFields</code> </span></td><td> Displays single-line display (default).
+</td></tr></table>
+<p>Form fields are described with the structure <span class="plainlinks"><code>DLG_LINE</code> </span> in
+the member items of the <span class="plainlinks"><code>FORM</code> </span> structure.
+</p>
+<pre>STRUCT DLG_LINE
+    {
+    WORD type;
+    LTEXT prompt;
+    WORD id = 0;
+    LONG itemflags = 0;
+    STRUCT control;
+    LTEXT trailer = "";
+    LTEXT bmpfile = "";
+    WORD bmpid = 0xffff;
+    WORD bmpmask;
+    LTEXT tooltip = "";
+    }
+</pre>
+<p>The important members of this structure are:
+</p>
+<ul><li> type, which specifies a control type, such as <span class="plainlinks"><code>EEikCtEdwin</code> </span>, <span class="plainlinks"><code>EEikCtNumberEditor</code> </span>, <span class="plainlinks"><code>EEikCtDateEditor</code> </span>, <span class="plainlinks"><code>EEikCtTimeEditor</code> </span>, <span class="plainlinks"><code>EEikCtDurationEditor</code> </span>, <span class="plainlinks"><code>EEikCtSecretEd</code> </span>,
+</li></ul>
+<p>or <span class="plainlinks"><code>EAknCtSlider</code> </span>. Types are defined in the<i> eikon.hrh</i> or<i> avkon.hrh</i> files.
+For details on the resource structures defining individual controls, see document S60 3.1 Editors API Specification.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">prompt</font></code> </span>, which specifies the field label.
+</li><li> <span class="plainlinks"><code><font color="darkred">id</font></code> </span>, which specifies the control ID of the application.
+</li></ul>
+<p>Within the application, the ID is used to reference the dialog line. The ID
+must be defined in the application's HRH file. Each dialog line must have
+a unique ID; otherwise the application panics when the dialog is executed.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">itemflags</font></code> </span>, such as <span class="plainlinks"><code>EEikDlgItemTakesEnterKey</code> </span> or <span class="plainlinks"><code>EEikDlgItemOfferAllHotKeys</code> </span>.
+</li><li> <span class="plainlinks"><code><font color="darkred">control</font></code> </span>, which specifies the field control. Controls
+</li></ul>
+<p>are defined in HRH files.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">bmpfile</font></code> </span>, which specifies the bitmap filename.
+</li><li> <span class="plainlinks"><code><font color="darkred">bmpid</font></code> </span>, which specifies the icon image ID.
+</li><li> <span class="plainlinks"><code><font color="darkred">bmpmask</font></code> </span>, which specifies the icon mask ID.
+</li></ul>
+<a name="Single-page_form"><h4> <span class="mw-headline">2.1.1 Single-page form </span></h4>
+</a><p>The following resource defines a form for viewing and editing <span class="plainlinks"><code>TMyStruct</code> </span> data
+in a single page.
+</p>
+<pre>RESOURCE DIALOG r_my_dialog
+    {
+    flags = EEikDialogFlagNoBorder | EEikDialogFlagNoDrag  |
+            EEikDialogFlagNoTitleBar | EEikDialogFlagFillAppClientRect |
+            EEikDialogFlagCbaButtons | EEikDialogFlagWait;
+    buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    form = r_my_form;
+    }
+</pre>
+<pre>RESOURCE FORM r_my_form
+    {
+    flags = EEikFormUseDoubleSpacedFormat;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            prompt = "Text" ;
+            id = EMyAppControlIdTextEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = EDWIN
+                {
+                flags = KMultiLineExpandingEditorFlags |
+                        EEikEdwinNoLineOrParaBreaks;
+                maxlength = 256;
+                width = 6;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtGlobalTextEditor;
+            prompt = "Global text";
+            id = EMyAppControlIdGlobalTextEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = GTXTED
+                {
+                width = 10;
+                height = 17;
+                textlimit = 256;
+                flags = KMultiLineExpandingEditorFlags;
+                max_view_height_in_lines = 2;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtRichTextEditor;
+            prompt = "Rich text";
+            id = EMyAppControlIdRichTextEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = RTXTED
+                {
+                width = 10;
+                height = 17;
+                textlimit = 256;
+                flags = KMultiLineExpandingEditorFlags;
+                max_view_height_in_lines = 3;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtNumberEditor;
+            prompt = "Number" ;
+            id = EMyAppControlIdNumberEd ;
+            control = NUMBER_EDITOR
+                {
+                min = 0;
+                max = 999;
+                };
+            },
+</pre>
+<pre>        DLG_LINE
+            {
+            type = EAknCtIntegerEdwin;
+            prompt = "Integer edwin" ;
+            id = EMyAppControlIdIntegerEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = AVKON_INTEGER_EDWIN
+                {
+                maxlength = 10;
+                min = 0;
+                max = 999;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtFlPtEd;
+            prompt = "Floating point" ;
+            id = EMyAppControlIdFloatEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = FLPTED
+                {
+                maxlength = 10;
+                min = 0;
+                max = 999;
+                };
+            },
+        DLG_LINE
+            {
+            type=EEikCtFxPtEd;
+            prompt = "Fixed point" ;
+            id = EMyAppControlIdFixEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = FIXPTED
+                {
+                min = 0;
+                max = 99999;
+                decimalplaces = 2;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtDateEditor;
+            prompt = "Date" ;
+            id = EMyAppControlIdDateEd ;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = DATE_EDITOR
+                {
+                minDate = DATE { year = 1900; };
+                maxDate= DATE { year = 2100; };
+                flags = 0;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtTimeEditor;
+            prompt = "Time";
+            id = EMyAppControlIdTimeEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = TIME_EDITOR
+                {
+                minTime = TIME {};
+                maxTime = TIME { second = 59; minute = 59; hour = 23; };
+                flags = 0;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtDurationEditor;
+            prompt = "Duration";
+            id = EMyAppControlIdDurationEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = DURATION_EDITOR
+                {
+                minDuration = DURATION {};
+                maxDuration = DURATION { seconds = 3599; };
+                flags = 0;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtNumericSecretEditor;
+            prompt = "Secret number";
+            id = EMyAppControlIdNumPwdEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = NUMSECRETED { num_code_chars = 4; };
+            },
+        DLG_LINE
+            {
+            type = EEikCtSecretEd;
+            prompt = "Secret text";
+            id = EMyAppControlIdAlphaPwdEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = SECRETED { num_letters = 8; };
+            },
+        DLG_LINE
+            {
+            type = EAknCtIpFieldEditor;
+            prompt = "IP address";
+            id = EMyAppControlIdIpAddrEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = IP_FIELD_EDITOR
+                {
+                min_field_values = IP_FIELD
+                    {
+                    first_field = 0;
+                    second_field = 0;
+                    third_field = 0;
+                    fou?th_field = 0;
+                    };
+                max_field_values = IP_FIELD
+                    {
+                    first_field = 255;
+                    second_field = 255;
+                    third_field = 255;
+                    fourth_field = 255;
+                    };
+                flags = 0;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtPopupField;
+            prompt = "Popup field";
+            id = EMyAppControlIdPopupField;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = POPUP_FIELD
+                {
+                flags = EAknPopupFieldFlagAllowsUserDefinedEntry;
+                width = 50;
+                other = "Other";
+                empty = "No items";
+                invalid = "Invalid item";
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtPopupFieldText;
+            prompt = "Popup field text";
+            id = EMyAppControlIdPopupFieldText;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = POPUP_FIELD_TEXT
+                {
+                textarray = r_my_list_popup_items;
+                popupfield = POPUP_FIELD {};
+                active = 0;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtSlider;
+            prompt = "Slider";
+            id = EMyAppControlIdSlider;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = SLIDER
+                {
+                layout = EAknFormSliderLayout2;
+                minvalue = 0;
+                maxvalue = 20;
+                step = 2;
+                valuetype = EAknSliderValueNone;
+                minlabel = "few";
+                maxlabel = "many";
+                valuelabel = "Slider value";
+                };
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE ARRAY r_my_list_popup_items
+    {
+    items =
+        {
+        LBUF { txt = "Monday"; },
+        LBUF { txt = "Tuesday"; },
+        LBUF { txt = "Wednesday"; },
+        LBUF { txt = "Thursday"; },
+        LBUF { txt = "Friday"; },
+        LBUF { txt = "Saturday"; },
+        LBUF { txt = "Sunday"; }
+        };
+    }
+</pre>
+<a name="Multi-page_form"><h4> <span class="mw-headline">2.1.2 Multi-page form </span></h4>
+</a><p>Multi-page forms also use the <span class="plainlinks"><code>DIALOG</code> </span> resource structure,
+but <span class="plainlinks"><code>DIALOG</code> </span> structure member <span class="plainlinks"><code><font color="darkred">pages</font></code> </span> are needed
+as a reference to an <span class="plainlinks"><code>ARRAY</code> </span> of <span class="plainlinks"><code>PAGE</code> </span>. The <span class="plainlinks"><code>PAGE</code> </span> structure
+is as follows:
+</p>
+<pre>STRUCT PAGE
+    {
+    WORD id = 0;
+    LTEXT text;
+    LTEXT bmpfile = "";
+    WORD bmpid = 0xffff;
+    WORD bmpmask;
+    LLINK lines = 0;
+    LLINK form = 0;
+    WORD flags = 0;
+    }
+</pre>
+<p>The following members are concerned with forms in the <span class="plainlinks"><code>PAGE</code> </span> structure:
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">id</font></code> </span>, which specifies the page ID of an application.
+</li><li> <span class="plainlinks"><code><font color="darkred">text</font></code> </span>, which specifies the title string of tabs.
+</li><li> <span class="plainlinks"><code><font color="darkred">form</font></code> </span>, which is a reference to the <span class="plainlinks"><code>FORM</code> </span> structure.
+</li></ul>
+<p>The following resource defines a form for viewing and editing <span class="plainlinks"><code>TMyStruct</code> </span> data
+in a multi-page dialog. The <span class="plainlinks"><code>DLG_LINE</code> </span> structures are identical
+to the single-page example (except that the first page is decorated with icons).
+</p>
+<pre>RESOURCE DIALOG r_my_multipage_dialog
+    {
+    flags = EEikDialogFlagNoBorder | EEikDialogFlagNoDrag  |
+            EEikDialogFlagNoTitleBar | EEikDialogFlagFillAppClientRect |
+            EEikDialogFlagCbaButtons  | EEikDialogFlagWait;
+    buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK ;
+    pages = r_my_pages;
+    }
+</pre>
+<pre>RESOURCE ARRAY r_my_pages
+    {
+    items =
+        {
+        PAGE { text = "text"; id = EMyAppPage1 ; form = r_my_form_1 ; },
+        PAGE { text = "number"; id = EMyAppPage2 ; form = r_my_form_2 ; },
+        PAGE { text = "misc"; id = EMyAppPage3 ; form = r_my_form_3 ; }
+        };
+    }
+</pre>
+<pre>RESOURCE FORM r_my_form_1
+    {
+    flags = EEikFormUseDoubleSpacedFormat | EEikFormShowBitmaps;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            prompt = "Text" ;
+            id = EMyAppControlIdTextEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = EDWIN
+                {
+                flags = KMultiLineExpandingEditorFlags |
+                        EEikEdwinNoLineOrParaBreaks;
+                maxlength = 256;
+                width = 6;
+                };
+            bmpfile = AVKON_ICON_FILE;
+            bmpid = EMbmAvkonQgn_prop_folder_small;
+            bmpmask = EMbmAvkonQgn_prop_folder_small_mask;
+            },
+        DLG_LINE
+            {
+            type = EEikCtGlobalTextEditor;
+            prompt = "Global text";
+            id = EMyAppControlIdGlobalTextEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = GTXTED
+                {
+                width = 10;
+                height = 17;
+                textlimit = 256;
+                flags = KMultiLineExpandingEditorFlags;
+                max_view_height_in_lines = 2;
+                };
+            bmpfile = AVKON_ICON_FILE;
+            bmpid = EMbmAvkonQgn_prop_folder_small;
+            bmpmask = EMbmAvkonQgn_prop_folder_small_mask;
+            },
+        DLG_LINE
+            {
+            type = EEikCtRichTextEditor;
+            prompt = "Rich text";
+            id = EMyAppControlIdRichTextEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = RTXTED
+                {
+                width = 10;
+                height = 17;
+                textlimit = 256;
+                flags = KMultiLineExpandingEditorFlags;
+                max_view_height_in_lines = 3;
+                };
+            bmpfile = AVKON_ICON_FILE;
+            bmpid = EMbmAvkonQgn_prop_folder_small;
+            bmpmask = EMbmAvkonQgn_prop_folder_small_mask;
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE FORM r_my_form_2
+    {
+    flags = EEikFormUseDoubleSpacedFormat;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtNumberEditor;
+            prompt = "Number" ;
+            id = EMyAppControlIdNumberEd ;
+            control = NUMBER_EDITOR
+                {
+                min = 0;
+                max = 999;
+                };
+            },
+</pre>
+<pre>        DLG_LINE
+            {
+            type = EAknCtIntegerEdwin;
+            prompt = "Integer edwin" ;
+            id = EMyAppControlIdIntegerEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = AVKON_INTEGER_EDWIN
+                {
+                maxlength = 10;
+                min = 0;
+                max = 999;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtFlPtEd;
+            prompt = "Floating point" ;
+            id = EMyAppControlIdFloatEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = FLPTED
+                {
+                maxlength = 10;
+                min = 0;
+                max = 999;
+                };
+            },
+        DLG_LINE
+            {
+            type=EEikCtFxPtEd;
+            prompt = "Fixed point" ;
+            id = EMyAppControlIdFixEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = FIXPTED
+                {
+                min = 0;
+                max = 99999;
+                decimalplaces = 2;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtDateEditor;
+            prompt = "Date" ;
+            id = EMyAppControlIdDateEd ;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = DATE_EDITOR
+                {
+                minDate = DATE { year = 1900; };
+                maxDate= DATE { year = 2100; };
+                flags = 0;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtTimeEditor;
+            prompt = "Time";
+            id = EMyAppControlIdTimeEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = TIME_EDITOR
+                {
+                minTime = TIME {};
+                maxTime = TIME { second = 59; minute = 59; hour = 23; };
+                flags = 0;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtDurationEditor;
+            prompt = "Duration";
+            id = EMyAppControlIdDurationEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = DURATION_EDITOR
+                {
+                minDuration = DURATION {};
+                maxDuration = DURATION { seconds = 3599; };
+                flags = 0;
+                };
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE FORM r_my_form_3
+    {
+    flags = EEikFormUseDoubleSpacedFormat;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNumericSecretEditor;
+            prompt = "Secret number";
+            id = EMyAppControlIdNumPwdEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = NUMSECRETED { num_code_chars = 4; };
+            },
+        DLG_LINE
+            {
+            type = EEikCtSecretEd;
+            prompt = "Secret text";
+            id = EMyAppControlIdAlphaPwdEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = SECRETED { num_letters = 8; };
+            },
+        DLG_LINE
+            {
+            type = EAknCtIpFieldEditor;
+            prompt = "IP address";
+            id = EMyAppControlIdIpAddrEd;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = IP_FIELD_EDITOR
+                {
+                min_field_values = IP_FIELD
+                    {
+                    first_field = 0;
+                    second_field = 0;
+                    third_field = 0;
+                    fourth_field = 0;
+                    };
+                max_field_values = IP_FIELD
+                    {
+                    first_field = 255;
+                    second_field = 255;
+                    third_field = 255;
+                    fourth_field = 255;
+                    };
+                flags = 0;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtPopupField;
+            prompt = "Popup field";
+            id = EMyAppControlIdPopupField;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = POPUP_FIELD
+                {
+                flags = EAknPopupFieldFlagAllowsUserDefinedEntry;
+                width = 50;
+                other = "Other";
+                empty = "No items";
+                invalid = "Invalid item";
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtPopupFieldText;
+            prompt = "Popup field text";
+            id = EMyAppControlIdPopupFieldText;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = POPUP_FIELD_TEXT
+                {
+                textarray = r_my_list_popup_items;
+                popupfield = POPUP_FIELD {};
+                active = 0;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtSlider;
+            prompt = "Slider";
+            id = EMyAppControlIdSlider;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = SLIDER
+                {
+                layout = EAknFormSliderLayout2;
+                minvalue = 0;
+                maxvalue = 20;
+                step = 2;
+                valuetype = EAknSliderValueNone;
+                minlabel = "few";
+                maxlabel = "many";
+                valuelabel = "Slider value";
+                };
+            }
+        };
+    }
+</pre>
+<a name="Launching_the_form"><h3> <span class="mw-headline">2.2 Launching the form </span></h3>
+</a><p>The following example code initializes sample data before invoking the
+form.
+</p>
+<pre>// Create example dynamic list for the popup field.
+CDesCArray* array = new (ELeave) CDesCArrayFlat( 8 );
+CleanupStack::PushL( array );
+array-&gt;AppendL( _L("January") );
+array-&gt;AppendL( _L("February") );
+array-&gt;AppendL( _L("March") );
+array-&gt;AppendL( _L("April") );
+array-&gt;AppendL( _L("May") );
+array-&gt;AppendL( _L("June") );
+CAknQueryValueTextArray* textArray = CAknQueryValueTextArray::NewLC();
+textArray-&gt;SetArray( *array );
+CAknQueryValueText* queryVal = CAknQueryValueText::NewLC();
+queryVal-&gt;SetArrayL( textArray );
+queryVal-&gt;SetCurrentValueIndex( 0 );
+</pre>
+<pre>// Initialize example form data.
+TMyData myData;
+myData.iText = _L("This is a text.");
+myData.iGlobalText = _L("This is global text.");
+myData.iRichText = _L("This is rich text.");
+myData.iNumber = 5;
+myData.iInteger = 5;
+myData.iFloat = 1.234;
+myData.iFix = 12345;
+myData.iDate.HomeTime();
+myData.iTime.HomeTime();
+myData.iDuration = TTimeIntervalSeconds( 1000 );
+myData.iNumPwd = _L("1234");
+myData.iAlphaPwd = _L("passwd");
+myData.iIpAddr = TInetAddr();
+myData.iPopupVal = queryVal;
+myData.iPopupTextIndex = 2;
+myData.iSliderVal = 10;
+</pre>
+<pre>// Launch the dialog to view/edit data
+CAknForm* dlg = new ( ELeave ) CMyForm( myData );
+CleanupStack::PushL( dlg );
+dlg-&gt;ConstructL( 0 ); // default menu items only
+CleanupStack::Pop( dlg );
+dlg-&gt;ExecuteLD( R_MY_DIALOG );
+// myData now contains the edited values.
+</pre>
+<pre>CleanupStack::PopAndDestroy( queryVal );
+CleanupStack::PopAndDestroy( textArray );
+CleanupStack::PopAndDestroy( array );
+</pre>
+<a name="Initializing_form_data"><h3> <span class="mw-headline">2.3 Initializing form data </span></h3>
+</a><p><span class="plainlinks"><code><font color="darkred">PreLayoutDynInitL()</font></code> </span> can be overridden to initialize form
+controls.
+</p>
+<pre>void CMyForm::PreLayoutDynInitL()
+    {
+    CAknForm::PreLayoutDynInitL();
+    LoadFormDataL();
+    }
+</pre>
+<pre>void CMyForm::LoadFormDataL()
+    {
+    CEikEdwin* textEd =
+        (CEikEdwin*)Control( EMyAppControlIdTextEd );
+    textEd-&gt;SetTextL( &amp;iData.iText );
+    CEikGlobalTextEditor* globalTextEd =
+        (CEikGlobalTextEditor*)Control( EMyAppControlIdGlobalTextEd );
+    globalTextEd-&gt;SetTextL( &amp;iData.iGlobalText );
+    CEikRichTextEditor* richTextEd =
+        (CEikRichTextEditor*)Control( EMyAppControlIdRichTextEd );
+    richTextEd-&gt;SetTextL( &amp;iData.iRichText );
+    CEikNumberEditor* numberEd =
+        (CEikNumberEditor*)Control( EMyAppControlIdNumberEd );
+    numberEd-&gt;SetNumber( iData.iNumber );
+    CAknIntegerEdwin* integerEd =
+        (CAknIntegerEdwin*)Control( EMyAppControlIdIntegerEd );
+    integerEd-&gt;SetValueL( iData.iInteger );
+    CEikFloatingPointEditor* floatEd =
+        (CEikFloatingPointEditor*)Control( EMyAppControlIdFloatEd );
+    floatEd-&gt;SetValueL( &amp;iData.iFloat );
+    CEikFixedPointEditor* fixEd =
+        (CEikFixedPointEditor*)Control( EMyAppControlIdFixEd );
+    fixEd-&gt;SetValueL( &amp;iData.iFix );
+    CEikDateEditor* dateEd =
+        (CEikDateEditor*)Control( EMyAppControlIdDateEd );
+    dateEd-&gt;SetDate( iData.iDate );
+    CEikTimeEditor* timeEd =
+        (CEikTimeEditor*)Control( EMyAppControlIdTimeEd );
+    timeEd-&gt;SetTime( iData.iTime );
+    CEikDurationEditor* durationEd =
+        (CEikDurationEditor*)Control( EMyAppControlIdDurationEd );
+    durationEd-&gt;SetDuration( iData.iDuration );
+    CAknNumericSecretEditor* numPwdEd =
+        (CAknNumericSecretEditor*)Control( EMyAppControlIdNumPwdEd );
+    numPwdEd-&gt;SetText( iData.iNumPwd );
+    CEikSecretEditor* alphaPwdEd =
+        (CEikSecretEditor*)Control( EMyAppControlIdAlphaPwdEd );
+    alphaPwdEd-&gt;SetText( iData.iAlphaPwd );
+    CAknIpFieldEditor* ipAddrEd =
+        (CAknIpFieldEditor*)Control( EMyAppControlIdIpAddrEd );
+    ipAddrEd-&gt;SetAddress( iData.iIpAddr );
+    iData.iPopupVal-&gt;SetCurrentValueIndex( 0 );
+    CAknPopupField* popupField =
+        (CAknPopupField*)Control( EMyAppControlIdPopupField );
+    popupField-&gt;SetQueryValueL( iData.iPopupVal );
+    CAknPopupFieldText* popupFieldText =
+        (CAknPopupFieldText*)Control( EMyAppControlIdPopupFieldText );
+    popupFieldText-&gt;SetCurrentValueIndex( iData.iPopupTextIndex );
+    CAknSlider* slider =
+        (CAknSlider*)Control( EMyAppControlIdSlider );
+    slider-&gt;SetValueL( iData.iSliderVal );
+    }
+</pre>
+<a name="Saving_form_data"><h3> <span class="mw-headline">2.4 Saving form data </span></h3>
+</a><p>Pressing the Back softkey in the edit state causes calls to <span class="plainlinks"><code><font color="darkred">QuerySaveChangesL()</font></code> </span> then <span class="plainlinks"><code><font color="darkred">SaveFormDataL()</font></code> </span> or <span class="plainlinks"><code><font color="darkred">DoNotSaveFormDataL()</font></code> </span>. The following example saves data from form
+controls to the data structure.
+</p>
+<pre>TBool CMyForm::SaveFormDataL()
+    {
+    CEikEdwin* textEd =
+        (CEikEdwin*)Control( EMyAppControlIdTextEd );
+    textEd-&gt;GetText( iData.iText );
+    CEikGlobalTextEditor* globalTextEd =
+        (CEikGlobalTextEditor*)Control( EMyAppControlIdGlobalTextEd );
+    globalTextEd-&gt;GetText( iData.iGlobalText );
+    CEikRichTextEditor* richTextEd =
+        (CEikRichTextEditor*)Control( EMyAppControlIdRichTextEd );
+    richTextEd-&gt;GetText( iData.iRichText );
+    CEikNumberEditor* numberEd =
+        (CEikNumberEditor*)Control( EMyAppControlIdNumberEd );
+    iData.iNumber = numberEd-&gt;Number();
+    CAknIntegerEdwin* integerEd =
+        (CAknIntegerEdwin*)Control( EMyAppControlIdIntegerEd );
+    (void)integerEd-&gt;GetTextAsInteger( iData.iInteger );
+    CEikFloatingPointEditor* floatEd =
+        (CEikFloatingPointEditor*)Control( EMyAppControlIdFloatEd );
+    (void)floatEd-&gt;GetValueAsReal( iData.iFloat );
+    CEikFixedPointEditor* fixEd =
+        (CEikFixedPointEditor*)Control( EMyAppControlIdFixEd );
+    (void)fixEd-&gt;GetValueAsInteger( iData.iFix );
+    CEikDateEditor* dateEd =
+        (CEikDateEditor*)Control( EMyAppControlIdDateEd );
+    iData.iDate = dateEd-&gt;Date();
+    CEikTimeEditor* timeEd =
+        (CEikTimeEditor*)Control( EMyAppControlIdTimeEd );
+    iData.iTime = timeEd-&gt;Time();
+    CEikDurationEditor* durationEd =
+        (CEikDurationEditor*)Control( EMyAppControlIdDurationEd );
+    iData.iDuration = durationEd-&gt;Duration();
+    CAknNumericSecretEditor* numPwdEd =
+        (CAknNumericSecretEditor*)Control( EMyAppControlIdNumPwdEd );
+    numPwdEd-&gt;GetText( iData.iNumPwd );
+    CEikSecretEditor* alphaPwdEd =
+        (CEikSecretEditor*)Control( EMyAppControlIdAlphaPwdEd );
+    alphaPwdEd-&gt;GetText( iData.iAlphaPwd );
+    CAknIpFieldEditor* ipAddrEd =
+        (CAknIpFieldEditor*)Control( EMyAppControlIdIpAddrEd );
+    iData.iIpAddr = ipAddrEd-&gt;Address();
+    iData.iPopupVal-&gt;SetCurrentValueIndex( 0 );
+    CAknPopupField* popupField =
+        (CAknPopupField*)Control( EMyAppControlIdPopupField );
+    popupField-&gt;SetQueryValueL( iData.iPopupVal );
+    CAknPopupFieldText* popupFieldText =
+        (CAknPopupFieldText*)Control( EMyAppControlIdPopupFieldText );
+    iData.iPopupTextIndex = popupFieldText-&gt;CurrentValueIndex();
+    CAknSlider* slider =
+        (CAknSlider*)Control( EMyAppControlIdSlider );
+    iData.iSliderVal = slider-&gt;Value();
+    return ETrue;
+    }
+</pre>
+<p>Forms can validate the entered data. <span class="plainlinks"><code><font color="darkred">SaveFormDataL()</font></code> </span> should
+return <span class="plainlinks"><code>EFalse</code> </span> if validation failed, this indicates that the
+data has not been saved. In this case, the form remains in edit state.
+</p>
+<a name="Reverting_changes"><h3> <span class="mw-headline">2.5 Reverting changes </span></h3>
+</a><p><span class="plainlinks"><code><font color="darkred">DoNotSaveFormDataL()</font></code> </span> is called if the user responds No
+in <span class="plainlinks"><code><font color="darkred">QuerySaveChangesL()</font></code> </span>. The form should restore the original
+data.
+</p>
+<pre>void CMyForm::DoNotSaveFormDataL()
+    {
+    LoadFormDataL();
+    }
+</pre>
+<a name="Modifying_the_menu"><h3> <span class="mw-headline">2.6 Modifying the menu </span></h3>
+</a><p><span class="plainlinks"><code>CAknForm</code> </span> always uses menu pane <span class="plainlinks"><code>R_AVKON_FORM_MENUPANE</code> </span>.
+This menu pane contains the following commands:
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td> <b> Command</b></td><td> <b> Description</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknFormCmdEdit</code> </span></td><td> Switches to edit mode (if allowed).
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknFormCmdAdd</code> </span></td><td> Adds field. Method <span class="plainlinks"><code><font color="darkred">AddFieldL()</font></code> </span> is called. Default
+<p>implementation is empty.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknFormCmdSave</code> </span></td><td> Saves and switches to view mode. <span class="plainlinks"><code><font color="darkred">SaveFormDataL()</font></code> </span> is
+<p>called. Default implementation is empty.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknFormCmdLabel</code> </span></td><td> Edits field label. Default implementation is provided.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknFormCmdDelete</code> </span></td><td> Deletes field. <span class="plainlinks"><code><font color="darkred">DeleteCurrentItemL()</font></code> </span> is called. Default
+<p>implementation is empty.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknFormMaxDefault</code> </span></td><td> End marker for the enumeration.
+</td></tr></table>
+<p><span class="plainlinks"><code>CAknForm</code> </span> handles these commands and their associated menu
+items.
+</p><p><span class="plainlinks"><code><font color="darkred">DynInitMenuPaneL()</font></code> </span> allows modifying the menu. The following
+example appends the items of a custom menu pane to the form menu:
+</p>
+<pre>RESOURCE MENU_PANE r_my_extra_menu
+    {
+    items =
+        {
+        MENU_ITEM { command = EMyCommand; txt = "Dynamic menu item"; }
+        };
+    }
+void CMyForm::DynInitMenuPaneL( TInt aResourceId, CEikMenuPane* aMenuPane )
+    {
+    CAknForm::DynInitMenuPaneL( aResourceId, aMenuPane );
+    if ( aResourceId == R_AVKON_FORM_MENUPANE )
+        {
+        aMenuPane-&gt;AddMenuItemsL
+            ( R_MY_EXTRA_MENU, EAknFormMaxDefault - 1, ETrue );
+        }
+    }
+</pre>
+<p>The same effect can achieved by passing the ID of a <span class="plainlinks"><code>MENU_BAR</code> </span> resource
+to <span class="plainlinks"><code>CAknForm::ConstructL()</code> </span>. Menu items from <span class="plainlinks"><code>R_MY_MENUBAR</code> </span> will
+be appended to <span class="plainlinks"><code>R_AVKON_FORM_MENUPANE</code> </span>:
+</p>
+<pre>RESOURCE MENU_BAR r_my_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane = r_my_extra_menu; txt=""; }
+        };
+    }
+// Launch the dialog to view/edit data
+CAknForm* dlg = new ( ELeave ) CMyForm( myData );
+CleanupStack::PushL( dlg );
+dlg-&gt;ConstructL( R_MY_MENUBAR );
+CleanupStack::Pop( dlg );
+dlg-&gt;ExecuteLD( R_MY_DIALOG );
+// myData now contains edited values.
+</pre>
+<a name="Processing_commands"><h3> <span class="mw-headline">2.7 Processing commands </span></h3>
+</a><p><span class="plainlinks"><code><font color="darkred">ProcessCommandL()</font></code> </span> can be overridden to handle custom commands.
+Built-in form commands are handled by <span class="plainlinks"><code>CAknForm</code> </span>.
+</p>
+<pre>void CMyForm::ProcessCommandL( TInt aCommandId )
+    {
+    // Form default commands.
+    CAknForm::ProcessCommandL( aCommandId );
+    // Custom commands.
+    switch ( aCommandId )
+        {
+        case EMyCommand:
+            User::InfoPrint( _L("my command") );
+            break;
+        default:
+            break;
+        }
+    }
+</pre>
+<a name="Managing_fields"><h3> <span class="mw-headline">2.8 Managing fields </span></h3>
+</a><p>In edit mode, fields can be added or deleted dynamically. <span class="plainlinks"><code>CAknForm::AddItemL()</code> </span> and <span class="plainlinks"><code>CAknForm::DeleteCurrentItemL()</code> </span> provide default implementation for handling the commands <span class="plainlinks"><code>EAknFormCmdAdd</code> </span> and <span class="plainlinks"><code>EAknFormCmdDelete</code> </span>,
+respectively.
+</p><p>The following sample adds an editor control.
+</p>
+<pre>void CMyForm::AddItemL()
+    {
+    _LIT( caption, "Added text" );
+    TInt pageId = ActivePageId();
+    TInt id = iAddedItemId++; // All controls must have unique id.
+    TInt type = EEikCtEdwin;
+    TAny* unused=0;
+    CEikEdwin* edwin = (CEikEdwin*)CreateLineByTypeL
+        ( caption, pageId, id, type, unused );
+    edwin-&gt;ConstructL
+        ( EEikEdwinNoHorizScrolling | EEikEdwinResizable, 10, 100, 1 );
+    Line( id )-&gt;ActivateL();
+    SetChangesPending( ETrue );
+    UpdatePageL( ETrue );
+    }
+</pre>
+<p>Note that all controls in the dialog must have a unique ID. The sample
+code uses its <span class="plainlinks"><code><font color="darkred">iAddedItemId</font></code> </span> member to ensure that IDs are
+unique, but does not store the IDs of the dynamically created controls. Real-life
+implementations need the IDs to access field data later.
+</p>
+<pre>enum TMyControlIds
+    {
+    EMyAppControlIdTextEd = 100,
+    EMyAppControlIdGlobalTextEd,
+    EMyAppControlIdRichTextEd,
+    EMyAppControlIdNumberEd,
+    EMyAppControlIdIntegerEd,
+    EMyAppControlIdFloatEd,
+    EMyAppControlIdFixEd,
+    EMyAppControlIdDateEd,
+    EMyAppControlIdTimeEd,
+    EMyAppControlIdDurationEd,
+    EMyAppControlIdNumPwdEd,
+    EMyAppControlIdAlphaPwdEd,
+    EMyAppControlIdIpAddrEd,
+    EMyAppControlIdPopupField,
+    EMyAppControlIdPopupFieldText,
+    EMyAppControlIdSlider,
+    EMyAppControlIdFirstAdded   // Dynamically added items
+    };
+CMyForm::CMyForm( TMyData&amp; aData ) : iData( aData ), iAddedItemId( EMyAppControlIdFirstAdded ) {} // Need unique control ids.
+</pre>
+<p>Adding fields dynamically is also useful if the form is used to manipulate
+data which has a variable structure. In this case, the FORM structure can
+be left empty in the resource definition, and <span class="plainlinks"><code><font color="darkred">PreLayoutDynInitL()</font></code> </span> can
+be used to add appropriate fields as necessary.
+</p>
+<a name="Adding_custom_field"><h3> <span class="mw-headline">2.9 Adding custom field </span></h3>
+</a><p>Custom controls can be added to dialogs by overriding <span class="plainlinks"><code><font color="darkred">CreateCustomControlL()</font></code> </span>,
+as described in document S60 3.1 Dialogs API Specification.
+</p><p>In order to support laying out the custom control in forms, the method <span class="plainlinks"><code><font color="darkred">ConvertCustomControlTypeToBaseControlType()</font></code> </span> must
+be provided. This method determines the layout class of the custom control.
+</p>
+<pre>MEikDialogPageObserver::TFormControlTypes
+CMyForm::ConvertCustomControlTypeToBaseControlType( TInt aControlType ) const
+    {
+    if ( aControlType == EAknCtIpFieldEditor )
+        {
+        // Help layout of custom control.
+        return MEikDialogPageObserver::EMfneDerived;
+        }
+    return CAknForm::ConvertCustomControlTypeToBaseControlType( aControlType );
+    };
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.10 Error handling </span></h3>
+</a><p>Form API uses standard Symbian OS error reporting mechanism and standard
+error codes.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.11 Memory and Performance Considerations </span></h3>
+</a><p>Memory consumption of dialogs depends on the contained controls.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Form API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> CBA</td><td> Command Button Area
+</td></tr>
+<tr>
+<td> OS</td><td> Operating System
+</td></tr>
+<tr>
+<td> SDK</td><td> Software Development Kit
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Form API definitions</b>
+</caption>
+<tr>
+<td> Softkey</td><td> A command button mapped to a hard key on the device.
+</td></tr></table>
+</a><a name="References"><h2> <span class="mw-headline">4 References </span></h2>
+<table border="1" cellspacing="0">
+<caption> <b>Form API references</b>
+</caption>
+<tr>
+<td> S60 3.1 Dialogs API Specification
+</td></tr>
+<tr>
+<td> S60 3.1 Editors API Specification
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_form_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:10:10 GMT -->
+</html>

@@ -1,0 +1,40 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8F2D8656-B7F4-4BDA-81CB-8440A2FDDD82.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:58:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Dimming or hiding toolbar extension items" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-E35887BB-7E58-438C-AA27-97B2CDE7E069_overview-GUID-8C40E993-C9A0-423D-979D-7BB11CE091C1" /><meta name="DC.Relation" scheme="URI" content="GUID-E35887BB-7E58-438C-AA27-97B2CDE7E069_overview-GUID-FA9679A1-6FD7-4FB6-883A-D5719388A2B6" /><meta name="DC.Relation" scheme="URI" content="GUID-B05B61B8-1217-441F-BAFA-C209C8F123C5" /><meta name="DC.Relation" scheme="URI" content="GUID-95CE2206-7AE0-48C0-97A7-4E2082F9F662" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-8F2D8656-B7F4-4BDA-81CB-8440A2FDDD82" /><meta name="DC.Language" content="en" /><title>Dimming
+or hiding toolbar extension items </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-8F2D8656-B7F4-4BDA-81CB-8440A2FDDD82">Dimming
+or hiding toolbar extension items</h1><div>
+<p>You can dim or hide toolbar extension items if an extension item function
+is not available in certain cases.</p>
+<p>The example below shows how to set the extension button unavailable. In
+the example, the boolean parameter <code class="codeph">aHide</code> indicates if the
+button should be hidden or dimmed.</p>
+<pre class="codeblock">void CMyAppView::SetExtensionButtonUnavailableL( TBool aHide )
+    {
+    CAknToolbar* toolbar = Toolbar();
+    if ( toolbar )
+        {
+        CAknToolbarExtension* toolbarExtension = toolbar-&gt;ToolbarExtension();
+        if ( toolbarExtension )
+            {
+            if ( aHide )
+                {
+                // To show the item again: 
+                // toolbar-&gt;HideItem( KExtensionButtonId, EFalse );
+                toolbarExtension-&gt;HideItemL( KExtensionButtonId, ETrue );
+                }
+            else
+                {
+                // To undim the item again:
+                // toolbar-&gt;SetItemDimmed( KExtensionButtonId, EFalse );
+                toolbarExtension-&gt;SetItemDimmed( KExtensionButtonId, ETrue );
+                }
+            }
+        }
+    }
+</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 28th, 2008</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8F2D8656-B7F4-4BDA-81CB-8440A2FDDD82.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:58:40 GMT -->
+</html>

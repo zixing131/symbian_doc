@@ -1,0 +1,52 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-27C933F7-4634-57C8-B3D2-45C5563FECA4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:12 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use dynamic arrays" /><meta name="abstract" content="This document describes how to create templated arrays; that is, an array of a particular type of object." /><meta name="description" content="This document describes how to create templated arrays; that is, an array of a particular type of object." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Relation" scheme="URI" content="GUID-E3F403EE-717B-5EA6-BC4E-6840097CAC10" /><meta name="DC.Relation" scheme="URI" content="GUID-59DB0115-053A-5D23-8C40-E2428C096BBC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-27C933F7-4634-57C8-B3D2-45C5563FECA4" /><meta name="DC.Language" content="en" /><title>How
+to use dynamic arrays </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-27C933F7-4634-57C8-B3D2-45C5563FECA4">How
+to use dynamic arrays</h1><div><p>This document describes how to create templated arrays; that is,
+an array of a particular type of object.</p>
+<p>All array classes are templated; the template value defines the type of
+object which is to form an element of the array. This is true for arrays of
+same length and variable length elements. The following example code constructs
+an array of same length elements of type <code class="codeph">TMyClass</code> using the
+flat array buffer <code class="codeph">CArrayFixFlat&lt;class T&gt;</code>. The array has
+granularity 16:</p>
+<pre class="codeblock">CArrayFixFlat&lt;TMyClass&gt; array;
+...
+array = new (ELeave) CArrayFixFlat&lt;TInt&gt;(16);
+...</pre>
+<p>To construct an array of <code class="codeph">TInt</code> values with a <em>granularity</em> of
+16, implement code as follows:</p>
+<pre class="codeblock">CArrayFixFlat&lt;TInt&gt;* array;
+...
+array = new (ELeave) CArrayFixFlat&lt;TInt&gt;(16);</pre>
+<p>After construction, the array contains no elements and no memory is allocated
+to the array buffer.</p>
+<p><code class="codeph">CArrayPtrFlat</code> is a specialised array where the elements
+are <em>pointers</em> to <code class="codeph">CBase</code> derived objects. To construct
+an array whose elements are pointers to <code class="codeph">CMyClass</code> objects:</p>
+<pre class="codeblock">CArrayPtrFlat&lt;CMyClass&gt;* array;
+...
+array = new (ELeave) CArrayPtrFlat&lt;CMyClass&gt;(16);</pre>
+<p>To construct an array of same length elements of type <code class="codeph">TMyClass</code> using <code class="codeph">RArray&lt;class
+T&gt;</code>:</p>
+<pre class="codeblock">RArray&lt;TMyClass&gt; array; // this is on the stack
+...
+...                     // add entries etc
+...
+array.Close();          // called before the array goes out of scope</pre>
+<p>To construct an array of pointers to <code class="codeph">CMyClass</code> objects
+using <code class="codeph">RPointerArray&lt;class T&gt;</code>:</p>
+<pre class="codeblock">RPointerArray&lt;CMyClass&gt; array;  // this is on the stack
+...
+CMyClass* ptr = new (ELeave) CMyClass;
+...
+array.Append(ptr);
+...
+array.ResetAndDestroy();       // called before the array goes
+                               // out of scope</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 18th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-27C933F7-4634-57C8-B3D2-45C5563FECA4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:12 GMT -->
+</html>

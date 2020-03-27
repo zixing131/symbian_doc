@@ -1,0 +1,38 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1BD987D8-B018-51B7-80B2-4E1988841BC2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:28 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to cancel requests" /><meta name="abstract" content="This document describes how to cancel a previously scheduled request." /><meta name="description" content="This document describes how to cancel a previously scheduled request." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-B507490F-6BD3-5DF5-97E4-EFDFEA2B4EDD" /><meta name="DC.Relation" scheme="URI" content="GUID-C2608BF5-CDA7-530A-B67A-0414C7FA585D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1BD987D8-B018-51B7-80B2-4E1988841BC2" /><meta name="DC.Language" content="en" /><title>How
+to cancel requests </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1BD987D8-B018-51B7-80B2-4E1988841BC2">How
+to cancel requests</h1><div><p>This document describes how to cancel a previously scheduled request.</p>
+<p>The <code class="codeph">CActive</code> class provides the <code class="codeph">Cancel()</code> member
+function to cancel an active object’s request.</p>
+<p>If no request has been issued, <code class="codeph">Cancel()</code> does nothing,
+otherwise it calls <code class="codeph">DoCancel()</code>. This is a pure virtual function
+that must be provided by derived classes and which handles specific cancellation
+as required by the service provider. <code class="codeph">Cancel()</code> then waits
+for the completion of that request and sets the active request flag to false.</p>
+<p>The service provider must guarantee that the cancellation operation completes
+in a very short period of time.</p>
+<p>For example, a specialized timer active object, derived from <code class="codeph">CTimer</code> which
+is derived from <code class="codeph">CActive</code>, might implement this as:</p>
+<pre class="codeblock">void CTimedMessenger::DoCancel()
+    {
+      // Base class
+    CTimer::DoCancel(); 
+      // Reset variable - needed if the object is later re-activated
+    iTicksDone = 0;
+    ...
+    }</pre>
+<p>Note that an active object's destructor should ensure that any outstanding
+requests are cancelled. If the class implements a DoCancel() function, then
+the destructor must call the <code class="codeph">Cancel()</code> member function. For
+example:</p>
+<pre class="codeblock">CTimedMessenger::~CTimedMessenger()
+    {
+    Cancel();
+    }</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1BD987D8-B018-51B7-80B2-4E1988841BC2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:28 GMT -->
+</html>

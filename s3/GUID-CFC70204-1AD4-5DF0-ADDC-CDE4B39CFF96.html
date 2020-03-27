@@ -1,0 +1,103 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-CFC70204-1AD4-5DF0-ADDC-CDE4B39CFF96.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Simulating and intercepting key events" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FD1B0F6E-37C9-49BC-BAE4-7ABCE96FD041" /><meta name="DC.Relation" scheme="URI" content="GUID-68A55CD5-EF01-5DE2-8119-EFA39589960F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-CFC70204-1AD4-5DF0-ADDC-CDE4B39CFF96" /><meta name="DC.Language" content="en" /><title>Simulating
+and intercepting key events </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-CFC70204-1AD4-5DF0-ADDC-CDE4B39CFF96">Simulating
+and intercepting key events</h1><div>
+<div id="GUID-EC0588AB-A48E-42A8-A149-315B36DBE493"><h3 class="section-title">Simulating
+key events</h3> <p>Simulating key events is done by calling <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html"><code class="apiname">CCoeFep</code></a> ’s
+member function <code class="codeph">SimulateKeyEventsL()</code>; this sends to the application
+a key event for each of the items in the array passed to it. There are two
+overloads of <code class="codeph">SimulateKeyEventsL()</code>: in the first and most
+commonly used overload, only the character codes of the key events are specified;
+in the second overload, modifier keys can also be specified for each key event
+to be simulated. The header file <code>epoc32\include\E32KEYS.H</code> defines
+the various modifiers possible. The FEP author needs to derive from <code class="codeph">CCoeFep::MModifiedCharacter</code> in
+order to use the second overload of <code class="codeph">SimulateKeyEventsL()</code>,
+implementing all three of its pure virtual functions. The <code class="codeph">ModifierMask()</code> function
+returns the modifiers whose value the FEP wishes to specify; the values for
+the modifiers are returned by the <code class="codeph">ModifierValues()</code> function. <code class="codeph">ModifierValues()</code> should
+not return values for any modifiers that are not also returned by <code class="codeph">ModifierMask()</code>. </p> <p>For
+example, supposing a FEP wishes to send a key event to an application with
+the <kbd class="userinput">func</kbd> modifier on and the <kbd class="userinput">shift</kbd> modifier
+off. In this case the <code class="codeph">ModifierMask()</code> function would return <code class="codeph">EModifierFunc|EModifierShift</code> and
+the <code class="codeph">ModifierValues()</code> function would return <code class="codeph">EModifierFunc</code>.
+The resulting key event received by the application would then have the <code class="codeph">EModifierFunc</code> modifier
+on and the <code class="codeph">EModifierShift</code> modifier off (even if the shift
+key is being pressed down). All the other modifiers in the key event, since
+they were not returned in the <code class="codeph">ModifierMask()</code> function, will
+reflect the current state of the keyboard. </p> </div>
+<div id="GUID-1B15C661-851B-5922-B8BC-7A772232DBD2"><h3 class="section-title">Intercepting
+key events</h3> <p>In order for a FEP to intercept key events before they
+reach the application beneath them, the FEP control must be added to the control
+stack at a high priority. This is done by using the following code in the
+control’s construction routine: </p> <pre class="codeblock">STATIC_CAST(CCoeAppUi*, iCoeEnv-&gt;AppUi())-&gt;AddToStackL(this, ECoeStackPriorityFep, ECoeStackFlagRefusesFocus|ECoeStackFlagSharable);</pre> <p>and the following code in its destructor: </p> <pre class="codeblock">STATIC_CAST(CCoeAppUi*, iCoeEnv-&gt;AppUi())-&gt;RemoveFromStack(this);</pre> <p>Passing the flag <code class="codeph">ECoeStackFlagSharable</code> to <code class="codeph">AddToStackL()</code> ensures
+that if an embedded object is edited from an application, for instance an
+embedded drawing is edited inside a word processor document, the FEP’s control
+will also be put onto the child application’s control stack when the child
+application is started. More importantly, the <code class="codeph">ECoeStackFlagRefusesFocus</code> flag
+should be passed to <code class="codeph">AddToStackL()</code> because FEPs in general
+should not “steal” focus from the target underneath them. For the same reason, <code class="codeph">SetNonFocusing()</code> (a
+member function of <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a>) should be called in the
+control’s construction routine to prevent mouse or pen events from giving
+it focus. On some occasions it may be legitimate for the FEP to take the focus,
+for instance if the FEP has a floating window and it is temporarily in a mode
+where the user can move this window around the screen by using the arrow keys.
+In this case, the FEP’s control can take the focus by calling: </p> <pre class="codeblock">CCoeAppUi&amp; appUi=*STATIC_CAST(CCoeAppUi*, iCoeEnv-&gt;AppUi());
+appUi.UpdateStackedControlFlags(this, 0, ECoeStackFlagRefusesFocus);
+appUi.HandleStackChanged();
+</pre> <p>The following code causes the FEP’s control to revert to normal
+operation by losing focus: </p> <pre class="codeblock">CCoeAppUi&amp; appUi=*STATIC_CAST(CCoeAppUi*, iCoeEnv-&gt;AppUi());
+appUi.UpdateStackedControlFlags(this, ECoeStackFlagRefusesFocus, ECoeStackFlagRefusesFocus);
+appUi.HandleStackChanged();
+</pre> <p>Adding the FEP’s control to the control stack at priority <code class="codeph">ECoeStackPriorityFep</code> means
+that it gets first refusal of all key events. The UI framework offers key
+events to the FEP control by calling its <code class="codeph">OfferKeyEventL()</code> virtual
+function (although key events for a FEP over an OPL application follow a different
+route, described below). The signature of this virtual function, which is
+first declared in <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a>, is: </p> <pre class="codeblock">TKeyResponse OfferKeyEventL(const TKeyEvent&amp; aKeyEvent, TEventCode aType);</pre> <p>The first thing that should be done at the start of <code class="codeph">OfferKeyEventL()</code> is
+to call either of the two macros below, both of which are defined in <code>epoc32\include\FEPBASE.H</code>: </p> <pre class="codeblock">#define FEP_START_KEY_EVENT_HANDLER_L(aFep, aKeyEvent, aEventCode)
+#define FEP_START_KEY_EVENT_HANDLER_NO_DOWN_UP_FILTER_L(aFep, aKeyEvent, aEventCode)
+</pre> <p>The <code class="codeph">aFep</code> parameter must be a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html"><code class="apiname">CCoeFep</code></a> object.
+Note that it should not be a pointer to a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html"><code class="apiname">CCoeFep</code></a>. The <code class="codeph">aKeyEvent</code> and
+the <code class="codeph">aEventCode</code> parameters should be respectively the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0F8FA6A3-F172-36E4-9CF5-60814ABCD562.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0F8FA6A3-F172-36E4-9CF5-60814ABCD562.html"><code class="apiname">TKeyEvent</code></a> and
+the TEventCode parameters of the <code class="codeph">OfferKeyEventL()</code> function
+itself. The <code class="codeph">OfferKeyEventL()</code> function should only be returned
+from by calling either of the following two macros (these are also defined
+in <code>epoc32\include\FEPBASE.H</code>): </p> <pre class="codeblock">#define FEP_END_KEY_EVENT_HANDLER_L(aFep, aKeyEvent, aKeyResponse)
+#define FEP_END_KEY_EVENT_HANDLER_NO_DOWN_UP_FILTER_L(aFep, aKeyEvent, aEventCode, aKeyResponse)
+</pre> <p>Both of these two macros contain a <code class="codeph">return</code> statement,
+so the <code class="codeph">return</code> C++ keyword should not occur in the <code class="codeph">OfferKeyEventL()</code> function
+at all. Note that the macro used at the start of the <code class="codeph">OfferKeyEventL()</code> function
+should match the macro used to return from it; in other words, both should
+be of the <em>no-down-up-filter</em> type or neither should be. The <em>no-down-up-filter</em> variants
+should be used if the FEP wishes to handle <code class="codeph">EEventKeyDown</code> or <code class="codeph">EEventKeyUp</code> events.
+This is likely to be rare, however; most FEPs are probably only interested
+in <code class="codeph">EEventKey</code> events, in which case <code class="codeph">FEP_START_KEY_EVENT_HANDLER_L</code> and <code class="codeph">FEP_END_KEY_EVENT_HANDLER_L</code> should be used. These variants filter out <code class="codeph">EEventKeyDown</code> and <code class="codeph">EEventKeyUp</code> events
+so that the FEP only receives <code class="codeph">EEventKey</code> events. </p> <p>The
+first three parameters of the <code class="codeph">FEP_END_KEY_EVENT_HANDLER_</code> <em>XXX</em> macros
+are the same as for the <code class="codeph">FEP_START_KEY_EVENT_HANDLER_</code> <em>XXX</em> macros.
+The fourth parameter should be a TKeyResponse value (an
+enum defined in <code>epoc32\include\COEDEF.H</code>). Specifying <code class="codeph">EKeyWasNotConsumed</code> as
+this fourth parameter allows that key event to 'fall through' to the application,
+whereas specifying <code class="codeph">EKeyWasConsumed</code> prevents the application
+from receiving that event. A good rule of thumb for a FEP that takes key events
+as its input is to intercept as few key events as possible when not inside
+a FEP transaction, but once inside a transaction to block all key events from
+getting through to the application. A transaction may be defined as the composition
+and abandoning/committing of a piece of text ('committing' means sending it
+on to the application). For a Japanese FEP, that piece of text may be an entire
+sentence, whereas for a Chinese FEP it may be just one or two characters. </p> <p>For
+a FEP running over an OPL application, the <code class="codeph">OfferKeyEventL()</code> virtual
+function declared in <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html"><code class="apiname">CCoeFep</code></a> will get called. This is a
+completely independent function from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a> ’s virtual
+function of the same name, and it has a different signature which is as follows: </p> <pre class="codeblock">void OfferKeyEventL(TEventResponse&amp; aEventResponse, const TKeyEvent&amp; aKeyEvent, TEventCode aEventCode);</pre> <p>This virtual function should be implemented in exactly the same way as <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a> ’s <code class="codeph">OfferKeyEventL()</code>,
+the meaning of the <code class="codeph">aKeyEvent</code> and <code class="codeph">aEventCode</code> parameters
+being the same as for <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a> ’s <code class="codeph">OfferKeyEventL()</code>.
+The <code class="codeph">aEventResponse</code> parameter should be set by the function
+overriding <code class="codeph">CCoeFep::OfferKeyEventL()</code> to either <code class="codeph">CCoeFep::EEventWasNotConsumed</code> or <code class="codeph">CCoeFep::EEventWasConsumed</code>, and this must be done before any function that can leave is called. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 12th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-CFC70204-1AD4-5DF0-ADDC-CDE4B39CFF96.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:15 GMT -->
+</html>

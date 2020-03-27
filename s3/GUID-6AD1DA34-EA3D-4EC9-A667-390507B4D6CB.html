@@ -1,0 +1,230 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6AD1DA34-EA3D-4EC9-A667-390507B4D6CB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:53 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="helloworldbasic.rss" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Relation" scheme="URI" content="GUID-0FB60233-993A-4BF2-9E8C-E03AD092359B" /><meta name="DC.Relation" scheme="URI" content="GUID-411ACFE6-0324-4330-ABCD-97A925759A3C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-6AD1DA34-EA3D-4EC9-A667-390507B4D6CB" /><title>helloworldbasic.rss </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-6AD1DA34-EA3D-4EC9-A667-390507B4D6CB">helloworldbasic.rss</h1><div>
+<p>In the Symbian platform, resource files are used to define UI
+components such as status panes, <a href="GUID-A4F3738C-CBFD-4151-9132-26FE05966715.html">CBA (Control Button
+Area) buttons</a>, <a href="GUID-5918ED8A-B26B-41A0-94A6-AB6D51BF80A1.html">menu bars</a>, <a href="GUID-DAC32BB9-C0EB-42FF-A596-C2F1A90A4BD7.html">views</a>, dialogs,
+strings, and constants used in applications. </p>
+<p>For more information about resource files, see <a href="GUID-0FB60233-993A-4BF2-9E8C-E03AD092359B.html">Managing resource
+files</a>.</p>
+<pre class="codeblock">//  RESOURCE IDENTIFIER
+NAME HEWB    // 4 letter ID
+
+</pre>
+<p>This NAME statement defines the mandatory identifier for this
+resource file, which is unique within this application. For more information,
+see <a href="GUID-EC49B54F-7724-433B-BD7F-201DE3B7DAA6.html">Resource file structure</a>.</p>
+<pre class="codeblock">//  INCLUDES
+#include &lt;eikon.rh&gt;
+#include &lt;avkon.rh&gt;
+</pre>
+<p>These are preprocessor statements for <code class="parname">EIKON</code> and <code class="parname">AVKON</code> files provided in the <code class="parname">./Epoc32/include</code> sub-folder. They are required for data structures used in the resource
+file. For more information on the available preprocessor statements
+in resource files, see <a href="GUID-EC49B54F-7724-433B-BD7F-201DE3B7DAA6.html">Resource file structure</a>.</p>
+<pre class="codeblock">#include &lt;avkon.rsg&gt;
+</pre>
+<p>These is a preprocessor statement for a generated resource file
+provided in the <code class="parname">./Epoc32/include</code> subfolder that
+provides a list of symbolic IDs that point to compiled resources.
+For more on Symbian precompiled options, see <a href="GUID-CBB00F6A-CBA7-4872-B0A1-A86A863725F5.html">Precompiled resource values available from the Symbian platform</a>.</p>
+<pre class="codeblock">#include &lt;appinfo.rh&gt;
+</pre>
+<p>This is a preprocessor statement for an <code class="parname">AVKON</code> file provided in the <code class="parname">./Epoc32/include</code> subfolder
+that is required for the data structure used for the localizable information
+for the application registration resource file.</p>
+<pre class="codeblock">#include "HelloWorldBasic.hrh"</pre>
+<p>This is a preprocessor statement for the <em>HelloWorldBasic</em> custom command IDs. For more on custom command IDs, see <a href="GUID-D52E98C3-F5EE-4CE1-A4F5-2EF41A066B8A.html">Creating resource header files</a>.</p>
+<pre class="codeblock">#include "HelloWorldBasic.rls"
+</pre>
+<p>This is a preprocessor statement for the file used to manage
+building the localized strings for the <em>HelloWorldBasic</em> application.
+For more on internationalization and localization, see <a href="GUID-E111C4E8-1342-4E87-ACB4-5B630AF1501C.html">Internationalization and localization</a>.</p>
+<pre class="codeblock">//  RESOURCE DEFINITIONS
+// -----------------------------------------------------------------------------
+//
+//    Define the resource file signature
+//    This resource should be empty.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+</pre>
+<p>This is the required <code class="parname">RESOURCE</code> definition
+that indicates the version of this resource file. For this application,
+no version is defined.</p>
+<pre class="codeblock">// -----------------------------------------------------------------------------
+//
+//    Default Document Name
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_default_document_name
+    {
+    buf="HEWB";
+    }
+
+</pre>
+<p>This is the required <code class="parname">RESOURCE</code> definition
+that defines the name used if the <code class="parname">helloworldbasicdocument</code> class needs to store a document.</p>
+<pre class="codeblock">// -----------------------------------------------------------------------------
+//
+//    Define default menu and CBA key.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_helloworldbasic_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+</pre>
+<p>This is the required <code class="parname">RESOURCE</code> definition
+that defines the resource used for constructing the menu bar and the
+Control Button Area (CBA) buttons used in the application. The menu
+bar is constructed later in this resource file. The CBA buttons declaration
+uses a precompiled symbolic ID from the <code class="parname">avkon.rsg</code> file, which in turns points to a compiled resource that provides
+an <code class="parname">Options</code> text above the left softkey and an <code class="parname">Exit</code> text above the right softkey. The application framework
+handles the event generated by selection of the <code class="parname">Options</code> softkey and opens the <code class="parname">MENU_PANE</code> resource. Selection
+of the <code class="parname">Exit</code> softkey generates a <code class="parname">EAknSoftkeyExit</code> event that needs to be handled by your code. For more information
+on event handling, see <a href="GUID-A9330FEF-C559-4E2B-B064-0151FDADEA8C.html">Event handling</a>.</p>
+<pre class="codeblock">// -----------------------------------------------------------------------------
+//
+//   r_helloworldbasic_menubar
+//   Menubar for HelloWorldBasic example
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_helloworldbasic_menubar
+    {
+    titles =
+        {
+        MENU_TITLE { menu_pane = r_helloworldbasic_menu; }
+        };
+    }
+</pre>
+<p>This <code class="parname">RESOURCE</code> definition defines the <code class="parname">r_helloworldbasic_menubar</code> menu bar declared in <code class="parname">EIK_APP_INFO</code>. The <code class="parname">MENU_TITLE</code> statement
+maps to the <code class="parname">Options</code> softkey, which opens the
+defined <code class="parname">MENU_PANE</code> resources when selected.</p>
+<pre class="codeblock">// -----------------------------------------------------------------------------
+//
+//   r_helloworldbasic_menu
+//   Menu for "Options"
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_helloworldbasic_menu
+    {
+    items =
+        {
+        // added the new Options menu command here
+        MENU_ITEM
+                {
+                command = EHelloWorldBasicCommand1;
+                txt = STRING_hewb_command1;
+                },
+        MENU_ITEM
+                {
+                command = EHelloWorldBasicCommand2;
+                txt = STRING_hewb_command2;
+                },
+        MENU_ITEM
+                {
+                command = EHelloWorldBasicCommand3;
+                txt = STRING_r_hewb_command3;
+                },
+	MENU_ITEM
+                {
+                command = EAknSoftkeyExit;
+                txt = STRING_r_hewb_exit;
+                }
+        };
+    }
+</pre>
+<p>This <code class="parname">RESOURCE</code> definition defines the <code class="parname">r_helloworldbasic_menu</code> menu opened when <code class="parname">Option</code> is selected. Four menu items are offered: <code class="parname">Hello</code>, <code class="parname">Hello from file</code>, <code class="parname">Hello from edit</code>, and <code class="parname">Exit</code>. The <code class="parname">command</code> definitions indicate which event is returned by the application
+framework when the option is selected and the <code class="parname">txt</code> declarations provide the strings used in the menu. The enumerated <code class="parname">command</code> command IDs here are listed in the <code class="parname">helloworldbasic.hrh</code> file, with the exception of <code class="parname">EAknSoftkeyExit</code>, which is a command ID available from <code class="parname">avkon.hrh</code>.</p>
+<pre class="codeblock">// -----------------------------------------------------------------------------
+//
+// Resources for messages.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_hewb_command1_text { buf=STRING_r_hewb_command1_text; }
+RESOURCE TBUF32 r_hewb_file_text { buf=STRING_r_hewb_file_text; }
+RESOURCE TBUF32 r_hewb_caption_string { buf=STRING_r_hewb_caption_string; }
+</pre>
+<p>These <code class="parname">RESOURCE</code> definitions define <code class="parname">TBUF32</code> resources that can be read in the application implementation
+code later with the <code class="parname">StringLoader</code> class.</p>
+<pre class="codeblock">// ---------------------------------------------------------------------------- 
+//
+// r_helloworldbasic_localisable_app_info
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE LOCALISABLE_APP_INFO r_helloworldbasic_localisable_app_info
+    {
+    short_caption = STRING_hewb_caption_string;
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = STRING_hewb_caption_string;
+
+        number_of_icons = 1;
+	   	icon_file = "\\resource\\apps\\Helloworldbasic_aif.mif";
+	    };
+    }
+</pre>
+<p>This <code class="parname">RESOURCE</code> definition defines the localizable
+information for the <em>HelloWorldBasic</em> registration file, where:</p>
+<ul>
+<li><p><code class="parname">r_helloworldbasic_localisable_app_info</code> is the resource identifier</p></li>
+<li><p><code class="parname">STRING_hewb_caption_string</code> is
+the symbolic ID for <code class="parname">HelloWorld</code>, which is used
+for both the short and long caption</p></li>
+<li><p>there is one icon for <em>HelloWorldBasic</em> and
+it is in the <code class="parname">\\resource\\apps\\Helloworldbasic_aif.mif</code> file</p></li>
+</ul>
+<pre class="codeblock">// ----------------------------------------------------------------------------
+//
+// r_dialog_text_edit_query
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_dialog_text_edit_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EDataLayout;
+                label = "";
+                control = EDWIN
+                    {
+                    width = 32;
+                    maxlength = 32;
+                     lines = 1;
+                    };
+                };
+            }
+        };
+    }
+// End of File
+</pre>
+<p>This <code class="parname">RESOURCE</code> definition defines the resource
+required for a dialog used in the<em>HelloWorldBasic</em> application.
+For more information on defining <code class="parname">DIALOG</code> resources,
+see <a href="specs/guides/Dialogs_API_Specification/Dialogs_API_Specification.html" target="_blank">Using Dialog API</a>.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated July 5th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6AD1DA34-EA3D-4EC9-A667-390507B4D6CB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:53 GMT -->
+</html>

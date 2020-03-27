@@ -1,0 +1,29 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-41F1AED1-7BE6-42CF-BC4A-E913A6F2D5E6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:38 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Deleting an Alarm" /><meta name="abstract" content="Introduction to topic for overview page or search" /><meta name="description" content="Introduction to topic for overview page or search" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1FB321DE-4A02-5468-9AF1-F3786EB678CF" /><meta name="DC.Relation" scheme="URI" content="GUID-CFE3A216-E637-51C1-B258-2ADF4E0F4150" /><meta name="DC.Relation" scheme="URI" content="GUID-63730EBD-E5C1-5BA9-AB71-8FF668ECEF00" /><meta name="DC.Relation" scheme="URI" content="GUID-078492C7-7E25-5D6E-B6BE-3A5DAA4522DA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-41F1AED1-7BE6-42CF-BC4A-E913A6F2D5E6" /><meta name="DC.Language" content="en" /><title>Deleting
+an Alarm </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-41F1AED1-7BE6-42CF-BC4A-E913A6F2D5E6">Deleting
+an Alarm</h1><div><p>Introduction to topic for overview page or search</p>
+<div><h3 class="section-title">Context</h3> <p>The <code class="codeph">RASCliSession::AlarmDelete()</code> API deletes
+an alarm from the Alarm Server and returns <code class="codeph">KErrNone</code> if successful
+as shown in the following code fragment:</p><pre class="codeblock">// RASCliSession::TheAlarmServerSession is the alarm server session 
+// TAlarmId::id is the unique identifier of the alarm the client needs to delete 
+TheAlarmServerSession.AlarmDelete( id );</pre><p><strong>Deleting an Alarm
+by Category</strong></p> <p>You can delete multiple alarm objects by category and
+can also specify the type of alarms within this category. The following code
+fragment illustrates how to delete alarms by category:</p><pre class="codeblock">// Delete all alarms
+RArray&lt;TAlarmCategory&gt; categories;
+CleanupClosePushL( categories );
+TheAlarmServerSession.GetAvailableCategoryListL( categories );
+const TInt KAlarmCategoriesCount = categories.Count();
+for( TInt i = 0; i&lt;KAlarmCategoriesCount; ++i )
+    {
+    const TAlarmCategory category = categories[i];
+    TheAlarmServerSession.AlarmDeleteAllByCategory( category, EFalse );
+    }
+CleanupStack::PopAndDestroy( &amp;categories );</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 15th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-41F1AED1-7BE6-42CF-BC4A-E913A6F2D5E6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:38 GMT -->
+</html>

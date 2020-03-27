@@ -1,0 +1,43 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FBE448A4-4728-5EE5-84F2-4790735857B3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:14 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Basic Types Overview" /><meta name="abstract" content="This document is an overview of the basic types." /><meta name="description" content="This document is an overview of the basic types." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-829D80B6-7F14-5006-94C5-2609565D7BCB" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FBE448A4-4728-5EE5-84F2-4790735857B3" /><meta name="DC.Language" content="en" /><title>Basic Types Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FBE448A4-4728-5EE5-84F2-4790735857B3">Basic Types Overview</h1><div><p>This document is an overview of the basic types.</p>
+<div id="GUID-2307C342-3787-4B91-A57E-D5E1A65A48D4"><h3 class="section-title">Purpose</h3> <p>Provides implementation-independent versions of the C++ built-in
+types, defines the Symbian platform standard base class for all heap-allocated
+classes, and provides some useful yet simple global functions.</p> <p>You should avoid using the C++ built-in types directly: always
+use the Symbian platform types instead.</p> </div>
+<div id="GUID-CB087D7D-6963-40C0-809A-AB75B656C39E"><h3 class="section-title">Description</h3> <p>The API defines classes and typedefs for integer, text, Boolean,
+and floating point types. Additionally, a utility class to help with
+reference arguments in variable argument functions is provided.</p> <p><strong>Heap-allocated classes base</strong> </p> <p>Symbian platform requires
+that all classes that own dynamically allocated resources derive from
+a standard base class, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html"><code class="apiname">CBase</code></a>. Such classes by conventions
+have a C prefix to their name, and so are referred to as C classes.
+C classes, and their associated allocation and cleanup idioms, are
+fundamental to Symbian platform. </p> <p><strong>Integral types</strong> </p> <p>TInt is the natural
+machine word integer and should be used in all general contexts where
+integer arithmetic is desired.</p> <p>TInt32, TInt16 and TInt8 map onto C++ built-in
+types in most implementations. These types should only be used where
+the size of the integer is of first importance.</p> <p>TUint is an unsigned integer of the natural machine word size. It should
+be used for flag and handle words, which are manipulated using bitwise
+and equality-comparison operations rather than arithmetic. </p> <p>TUint32, TUint16 and TUint8 are available where the specific representation
+width is important.</p> <p><strong>Text types</strong> </p> <p>TText represents a character
+in the natural width for the Symbian platform build. From v5.1 onwards,
+this is 16 bits.</p> <p>TText8 is available for
+build-independent 8-bit characters, and TText16 for build-independent 16-bit characters. </p> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-CDCFA2A5-EA8A-3B39-B90F-77AC41571E2D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-CDCFA2A5-EA8A-3B39-B90F-77AC41571E2D.html"><code class="apiname">TChar</code></a> class wraps a character value and provides a number of utility functions
+to operate upon it.</p> <p><strong>Boolean type</strong> </p> <p>TBool represents a
+Boolean whose value may be true or false. It is implemented as a natural
+machine-word integer.</p> <p><strong>Floating-point types</strong> </p> <p>TReal is a
+64-bit double-precision type, used as the argument type for all math
+functions, and the default type of floating-point literals.</p> <p>TReal64 and TReal32 are available
+when the precise size is important.</p> <p><strong>Value reference type</strong> </p> <p>The value reference type is a
+utility that is provided to overcome problems with specifying a C++
+reference argument before the ellipsis argument in variable argument
+functions.</p> <p>The value reference type is provided by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5391E485-A019-358F-85D2-3B55BA439BD1.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5391E485-A019-358F-85D2-3B55BA439BD1.html"><code class="apiname">TRefByValue</code></a> &lt;T&gt;.</p> <p><strong>Global functions</strong> </p> <p><code class="codeph">Max()</code>, <code class="codeph">Min()</code>, <code class="codeph">Rng()</code> and <code class="codeph">Abs()</code> are simple global
+functions that are useful in many contexts.</p> </div>
+<div id="GUID-93D4AD68-48DE-4FB1-A0E9-F8DB1487DFD8"><h3 class="section-title">See
+also</h3> <p><a href="GUID-07A31FD0-304A-57CA-8FFE-4DAD8EE9B30F.html">Maths Overview</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 8th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FBE448A4-4728-5EE5-84F2-4790735857B3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:14 GMT -->
+</html>

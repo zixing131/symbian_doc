@@ -1,0 +1,26 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-F575F364-4BCA-42C7-BE00-7B31D8B55AE1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Reserving the device vibra" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-DC011D9C-6C39-5BB9-A7CC-4447AB97A2D2" /><meta name="DC.Relation" scheme="URI" content="GUID-F2289115-B1F0-595D-AA1C-3E01F08911CA" /><meta name="DC.Relation" scheme="URI" content="GUID-2E3BE23C-B9DC-5B5D-A56A-1DB819EFC9A6" /><meta name="DC.Relation" scheme="URI" content="GUID-D78DCB72-7CEE-5075-A6FA-58D57AB5BA73" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F575F364-4BCA-42C7-BE00-7B31D8B55AE1" /><meta name="DC.Language" content="en" /><title>Reserving
+the device vibra </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-F575F364-4BCA-42C7-BE00-7B31D8B55AE1">Reserving
+the device vibra</h1><div>
+<div><h3 class="section-title">Context</h3> <p>The <code class="codeph">ReserveVibraL()</code> call reserves the
+vibration feature exclusively for the client. A higher priority client may
+cause lower priority client reservation to be temporarily suspended. Commands
+can still be issued in suspended state, but they are not acted upon unless
+suspension is lifted within specified duration. The suspended client does
+not receive any notification about suspension. If vibra is already reserved
+by a higher or equal priority application, reserving still succeeds but suspended
+immediately.</p><p>The following code snippet demonstrates how to reserve
+the device vibration feature:</p><pre class="codeblock">iVibra-&gt;ReserveVibraL( ETrue, EFalse );</pre><p>First
+parameter <code class="codeph">ETrue</code> means that any previously frozen state is
+restored. Second parameter <code class="codeph">EFalse</code> means that the <code class="codeph">CCoeEnv</code> background/foreground
+status is always used to control further reservations.</p><p>Calling the <code class="codeph">ReserveVibraL()</code> method
+without parameters is equal to calling <code class="codeph">ReserveVibraL(EFalse, EFalse)</code>,
+i.e. any previously frozen state is not restored and the <code class="codeph">CCoeEnv</code> background/foreground
+status is always used to control further reservations. </p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 20th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-F575F364-4BCA-42C7-BE00-7B31D8B55AE1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+</html>

@@ -1,0 +1,282 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-16A42EB3-4F45-5623-9981-1DEE3234471E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Power State API" /><meta name="DC.Relation" scheme="URI" content="GUID-C3B6E5F6-74DC-5C0E-94C8-B4822F4A2EB6" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-DC011D9C-6C39-5BB9-A7CC-4447AB97A2D2" /><meta name="DC.Relation" scheme="URI" content="GUID-F2289115-B1F0-595D-AA1C-3E01F08911CA" /><meta name="DC.Relation" scheme="URI" content="GUID-25A005BF-731B-58DB-8EF7-AB7840DA563F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-16A42EB3-4F45-5623-9981-1DEE3234471E" /><meta name="DC.Language" content="en" /><title>Power
+State API </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-16A42EB3-4F45-5623-9981-1DEE3234471E">Power
+State API</h1><div>
+<p>Power State API provides the Publish and Subscribe (P&amp;S) power state
+keys that are updated by HWRM server. </p>
+<p>The P&amp;S power state keys provide up-to-date information on the charging
+status, battery level and battery state of the device. Any application may
+subscribe to these keys that are updated to receive notifications for any
+change in state. This interface is provided by three Publish and Subscribe
+keys. For details on using the P&amp;S API, refer to the <a href="GUID-A81C65CF-CF4E-571C-8080-9D387F46AAD6.html">Publish
+and Subscribe documentation</a>. </p>
+<p>P&amp;S is used by HW Resource Manager to globally publish the power state
+information. The P&amp;S UID is <code class="codeph">KPSUidHWRMPowerState</code> and
+provides the following keys: </p>
+<ul>
+<li id="GUID-B0F5D317-6B63-52C0-85A8-EC30053866BB"><a name="GUID-B0F5D317-6B63-52C0-85A8-EC30053866BB"><!-- --></a><p><a href="#GUID-576EAE06-666F-5903-B006-EA923B7000B5">KHWRMBatteryLevel</a> </p> </li>
+<li id="GUID-5E41F5AE-C3C2-54AA-8959-0A90E4785E90"><a name="GUID-5E41F5AE-C3C2-54AA-8959-0A90E4785E90"><!-- --></a><p><a href="#GUID-5C7D4483-D58A-522B-8B38-D30117698381">KHWRMBatteryStatus</a> </p> </li>
+<li id="GUID-A3C5C6AF-EDB6-5EFD-A713-802F6E8A8DD7"><a name="GUID-A3C5C6AF-EDB6-5EFD-A713-802F6E8A8DD7"><!-- --></a><p><a href="#GUID-C4B24C0C-762F-5319-90B9-5BE8C8E94ABC">KHWRMChargingStatus</a> </p> </li>
+</ul>
+<div id="GUID-576EAE06-666F-5903-B006-EA923B7000B5"><h3 class="section-title">KHWRMBatteryLevel</h3> <p>P&amp;S
+key to represent the battery level of the device. It also relates to the number
+of battery bars displayed. This property is updated only when battery level
+changes. Valid values are defined by the <code class="codeph">EPSHWRMBatteryLevel</code> enumeration
+and ranges from -1 to 7. </p> <p>If an error occurs or the battery level is
+not initialized, the enumeration value of <code class="codeph">EBatteryLevelUnknown</code> is
+used. In all other scenarios, the battery level is used with level 0 being
+the lowest (battery empty) and level 7 the highest (battery full). </p> <p>Refer
+to the <a href="#GUID-CD1197EA-3FDF-53A5-B808-F01F18468121">Keys</a> and <a href="#GUID-AC5B84A9-1393-5473-8C87-A226CFDB6544">Enumerations</a> section
+for more information. </p> </div>
+<div id="GUID-5C7D4483-D58A-522B-8B38-D30117698381"><h3 class="section-title">KHWRMBatteryStatus</h3> <p>P&amp;S
+key to represent the battery status of the device. For example, <strong>Uninitialized</strong>, <strong>Ok</strong>, <strong>Low</strong>, <strong>Empty</strong>.
+This property may be updated to same status as previously, to indicate that
+the note in question must be displayed again. </p> <p> <code class="codeph">EPSHWRMBatteryStatus</code> enumeration
+defines the valid values as shown in the following table: </p> <div class="tablenoborder"><a name="GUID-A339E622-0E97-5020-94A8-18DAED60D8C3"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-A339E622-0E97-5020-94A8-18DAED60D8C3" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e152744">EPSHWRMBatteryStatus</th>
+<th class="cellrowborder" valign="top" id="d0e152747">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e152744 "><p> <code class="codeph">EBatteryStatusUnknown</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152747 "><p>Battery status is unknown or some error has occurred in retrieving
+the battery status. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e152744 "><p> <code class="codeph">EBatteryStatusOk</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152747 "><p>Battery level is normal. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e152744 "><p> <code class="codeph">EBatteryStatusLow</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152747 "><p>Battery level is low, and the user can be notified with a message
+warning them that battery is low. This value is updated approximately ten
+times before battery is completely empty and updated comes at approximately
+10-minute intervals. If phone is in-call mode, update comes at approximately
+1-minute intervals. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e152744 "><p> <code class="codeph">EBatteryStatusEmpty</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152747 "><p>Battery level is empty. This value is updated slightly before the
+phone must be powered down automatically because of insufficient battery power. </p> </td>
+</tr>
+</tbody>
+</table></div> <p>Refer to the <a href="#GUID-CD1197EA-3FDF-53A5-B808-F01F18468121">Keys</a> and <a href="#GUID-AC5B84A9-1393-5473-8C87-A226CFDB6544">Enumerations</a> section
+for more information. </p> </div>
+<div id="GUID-C4B24C0C-762F-5319-90B9-5BE8C8E94ABC"><h3 class="section-title">KHWRMChargingStatus</h3> <p>P&amp;S
+key to represent the charging status of the device. For example, <strong>Charging</strong>, <strong>NotCharging</strong>, <strong>ChargingComplete</strong>.
+This property is updated only when charging status changes. </p> <p> <code class="codeph">EPSHWRMChargingStatus</code> enumeration
+defines the valid values as shown in the following table: </p> <div class="tablenoborder"><a name="GUID-EE9B5750-B531-5AE4-8FA3-6997105CDB72"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-EE9B5750-B531-5AE4-8FA3-6997105CDB72" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e152863">EPSHWRMChargingStatus</th>
+<th class="cellrowborder" valign="top" id="d0e152866">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e152863 "><p> <code class="codeph">EChargingStatusError</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152866 "><p>An error occurred when the charger is connected to the device. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e152863 "><p> <code class="codeph">EChargingStatusNotConnected</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152866 "><p>A charger has not been connected to the device. This also represents
+the uninitialized value if no charger has been initialized. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e152863 "><p> <code class="codeph">EChargingStatusCharging</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152866 "><p>Charger is connected to the device and charging is ongoing. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e152863 "><p> <code class="codeph">EChargingStatusNotCharging</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152866 "><p>Charger is connected to the device but the device is not charging,
+for example, due to battery being full. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e152863 "><p> <code class="codeph">EChargingStatusAlmostComplete</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152866 "><p>Device is charging and the battery is almost full. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e152863 "><p> <code class="codeph">EChargingStatusChargingComplete</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152866 "><p>Charging has just been completed, and hence a notification may be
+shown to the user if required. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e152863 "><p> <code class="codeph">EChargingStatusChargingContinued</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e152866 "><p>Special case where charging was interrupted briefly but is now continuing,
+for example, when a dynamo type of charger is used. </p> </td>
+</tr>
+</tbody>
+</table></div> <p>Refer to the <a href="#GUID-CD1197EA-3FDF-53A5-B808-F01F18468121">Keys</a> and <a href="#GUID-AC5B84A9-1393-5473-8C87-A226CFDB6544">Enumerations</a> section
+for more information. </p> </div>
+<div id="GUID-CD1197EA-3FDF-53A5-B808-F01F18468121"><h3 class="section-title">Keys </h3> <div class="tablenoborder"><a name="GUID-99D595A4-685F-5ABA-A684-4AB137368F10"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-99D595A4-685F-5ABA-A684-4AB137368F10" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e153013"> Keys </th>
+<th class="cellrowborder" valign="top" id="d0e153016">Valid Values</th>
+<th class="cellrowborder" valign="top" id="d0e153019"> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153013 "><p> <code class="codeph">KHWRMBatteryLevel</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153016 "><p>0x00000001 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153019 "><p>P&amp;S key representing battery level of device. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e153013 "><p> <code class="codeph">KHWRMBatteryStatus</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153016 "><p>0x00000002 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153019 "><p>P&amp;S key representing battery status of device. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153013 "><p> <code class="codeph">KHWRMChargingStatus</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153016 "><p>0x00000003 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153019 "><p>P&amp;S key representing charging status of device. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-AC5B84A9-1393-5473-8C87-A226CFDB6544"><h3 class="section-title"> Enumerations</h3> <p> <strong>Battery
+level of device</strong> </p> <p>Interpreted as <code class="codeph">EPSHWRMBatteryLevel</code> enumeration
+and can be related to the number of battery bars displayed by the device. </p> <div class="tablenoborder"><a name="GUID-9DB20436-D945-5363-9089-1B312FE2AD86"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-9DB20436-D945-5363-9089-1B312FE2AD86" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e153120"> EPSHWRMBatteryLevel </th>
+<th class="cellrowborder" valign="top" id="d0e153123">Valid Values</th>
+<th class="cellrowborder" valign="top" id="d0e153126"> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153120 "><p> <code class="codeph">EBatteryLevelUnknown</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153123 "><p>-1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153126 "><p>Uninitialized or some other error. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e153120 "><p> <code class="codeph">EBatteryLevelLevel0</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153123 "><p>0</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153126 "><p>Lowest battery level. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153120 "><p> <code class="codeph">EBatteryLevelLevel1</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153123 "><p>1</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153126 "><p>Battery Level 1. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e153120 "><p> <code class="codeph">EBatteryLevelLevel2</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153123 "><p>2</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153126 "><p>Battery Level 2. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153120 "><p> <code class="codeph">EBatteryLevelLevel3</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153123 "><p>3</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153126 "><p>Intermediate levels </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e153120 "><p> <code class="codeph">EBatteryLevelLevel4</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153123 "><p>4</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153126 "><p>Battery Level 4. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153120 "><p> <code class="codeph">EBatteryLevelLevel5</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153123 "><p>5</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153126 "><p>Battery Level 5. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e153120 "><p> <code class="codeph">EBatteryLevelLevel6</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153123 "><p>6</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153126 "><p>Battery Level 6. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153120 "><p> <code class="codeph">EBatteryLevelLevel7</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153123 "><p>7</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153126 "><p>Highest battery level. </p> </td>
+</tr>
+</tbody>
+</table></div> <p> <strong>Battery status of device</strong> </p> <p>Interpreted as <code class="codeph">EPSHWRMBatteryStatus</code> enumeration
+and can be related to the battery status of the device. </p> <div class="tablenoborder"><a name="GUID-E8331299-6047-579D-B4AD-8DF3B0C7028E"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-E8331299-6047-579D-B4AD-8DF3B0C7028E" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e153348"> EPSHWRMBatteryStatus </th>
+<th class="cellrowborder" valign="top" id="d0e153351">Valid Values</th>
+<th class="cellrowborder" valign="top" id="d0e153354"> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153348 "><p> <code class="codeph">EBatteryStatusUnknown</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153351 "><p>-1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153354 "><p> <tt class="sysout">Uninitialized</tt> or some other error. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e153348 "><p> <code class="codeph">EBatteryStatusOk</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153351 "><p>0</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153354 "><p>This can also be used during charging. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153348 "><p> <code class="codeph">EBatteryStatusLow</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153351 "><p>1</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153354 "><p>Show "<tt class="sysout">Battery low</tt> " note to user . </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e153348 "><p> <code class="codeph">EBatteryStatusEmpty</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153351 "><p>2</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153354 "><p>Show "<tt class="sysout">Recharge battery</tt> " note to user. </p> </td>
+</tr>
+</tbody>
+</table></div> <p> <strong>Charging status of device</strong> </p> <p>Interpreted as enumeration <code class="codeph">EPSHWRMChargingStatus</code> and
+can be related to the charging status of the device. </p> <div class="tablenoborder"><a name="GUID-1BC438C0-8110-53C7-9F4E-77060CFE9202"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-1BC438C0-8110-53C7-9F4E-77060CFE9202" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e153480"> EPSHWRMChargingStatus </th>
+<th class="cellrowborder" valign="top" id="d0e153483">Valid Values</th>
+<th class="cellrowborder" valign="top" id="d0e153486"> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153480 "><p> <code class="codeph">EChargingStatusError</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153483 "><p>-1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153486 "><p>Some error has occurred when charger is connected or charging. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e153480 "><p> <code class="codeph">EChargingStatusNotConnected</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153483 "><p>0</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153486 "><p>Charger uninitialized or not connected. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153480 "><p> <code class="codeph">EChargingStatusCharging</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153483 "><p>1</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153486 "><p>Device is charging. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e153480 "><p> <code class="codeph"> EChargingStatusNotCharging</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153483 "><p>2</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153486 "><p>Charger is connected, device not charging. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153480 "><p> <code class="codeph">EChargingStatusAlmostComplete</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153483 "><p>3</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153486 "><p>Charging almost completed. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e153480 "><p> <code class="codeph">EChargingStatusChargingComplete</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153483 "><p>4</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153486 "><p>Charging completed. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e153480 "><p> <code class="codeph">EChargingStatusChargingContinued</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153483 "><p>5</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e153486 "><p>Charging continued after brief interruption. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-C3B6E5F6-74DC-5C0E-94C8-B4822F4A2EB6.html">Power State
+API Tutorial</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 9th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-16A42EB3-4F45-5623-9981-1DEE3234471E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+</html>

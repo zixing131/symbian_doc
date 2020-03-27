@@ -1,0 +1,119 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A64625D4-F101-5DB7-896B-F91A21BABE01.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:14 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Reclaiming Free Space" /><meta name="DC.Relation" scheme="URI" content="GUID-22844C28-AB5B-5A6F-8863-7269464684B4" /><meta name="DC.Relation" scheme="URI" content="GUID-4EE4E79E-F6D5-5F14-BA8D-4DD10D229B74" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-868D5B32-1CC4-506E-9C49-C86428B9A50F" /><meta name="DC.Relation" scheme="URI" content="GUID-C6D3827F-8F73-593E-A339-B510EEB9771F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A64625D4-F101-5DB7-896B-F91A21BABE01" /><meta name="DC.Language" content="en" /><title>Reclaiming Free Space </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A64625D4-F101-5DB7-896B-F91A21BABE01">Reclaiming Free Space</h1><div>
+<p>This document discusses the benefits to be had, such as performance
+improvements, from performing a <strong>compaction</strong> operation. </p>
+<div id="GUID-9719243A-8391-4B2B-9462-65BF4F2755E7"><h3 class="section-title">Purpose</h3> <p>Database compaction frees up diskspace
+and improves overall performance when performing certain database
+operations. </p> </div>
+<div id="GUID-E7319024-5988-5398-8F77-FAD6F644D1DB"><h3 class="section-title">Database
+compaction</h3> <p>Databases using database compaction will experience
+a performance improvement for some operations, such as DELETE. There
+will also be a better trade-off between performance and disk usage. </p> <p>Legacy databases will be automatically migrated to use the new
+default free space reclaim policy when they are used with the 9.5
+version of Symbian SQL. The migration takes place the first time the
+legacy database is opened with the new version of Symbian SQL. The
+database will be configured to use the default free space reclaim
+policy from then on. <strong>Note</strong>: Such migration will not be possible
+(or necessary) for databases that are on read-only media, but these
+databases will still be readable by Symbian SQL. </p> <p>Databases
+can be configured to use a free space reclaim policy of their choice.
+There are three modes of database compaction: </p> <ul>
+<li id="GUID-7394A159-1BFA-53FF-ABBB-50D1DC8453F0"><a name="GUID-7394A159-1BFA-53FF-ABBB-50D1DC8453F0"><!-- --></a><p> <a href="#GUID-4AF5A27E-9793-5931-B2D0-3673B556DB6D">background</a>, </p> </li>
+<li id="GUID-DCA4B080-B17B-5AFB-916A-9B84C1C3DC5E"><a name="GUID-DCA4B080-B17B-5AFB-916A-9B84C1C3DC5E"><!-- --></a><p> <a href="#GUID-CE6F567F-7300-574A-A180-E42786DC04DB">synchronous</a>, </p> </li>
+<li id="GUID-72035C8D-9B12-5EDB-BD3D-59762DFB46B9"><a name="GUID-72035C8D-9B12-5EDB-BD3D-59762DFB46B9"><!-- --></a><p> <a href="#GUID-F9D40D87-B383-5EF5-9959-2A344436477A">manual</a>. </p> </li>
+</ul> <p>The compaction mode is set when the database is created and
+cannot be changed later. Only the database creator can specify the
+compaction mode. This avoids the possibility of conflicting policy
+change requests by clients of shared databases. When a database compaction
+mode is not specified, background mode is the default mode. </p> <p id="GUID-4AF5A27E-9793-5931-B2D0-3673B556DB6D"><a name="GUID-4AF5A27E-9793-5931-B2D0-3673B556DB6D"><!-- --></a><strong>Background compaction</strong> </p> <p>Compaction activities are deferred and scheduled by the
+server allowing client requests that delete records to complete more
+quickly. This mode offers clients no guarantees on when space will
+be reclaimed. When under high load the server will defer reclamation
+indefinitely. </p> <p>The server maintains an EPriorityIdle active object for each open database that is set to background compaction
+mode. </p> <p>The amount of reclaimable disk space is retrieved after
+an SQL statement is executed on a database. If this value exceeds
+the compaction threshold then the database is marked as <em>dirty</em> by setting its active object as ready to run: </p> <ul>
+<li id="GUID-93948590-87D5-541A-99FE-F166656E85B1"><a name="GUID-93948590-87D5-541A-99FE-F166656E85B1"><!-- --></a><p> The compaction
+threshold is a server-wide parameter that specifies the amount of
+reclaimable disk space (in bytes) that must exist in a database before
+the server compacts that database. A default value for this threshold
+is supplied by Symbian but device creators can override this in the
+server configuration file.  </p> </li>
+<li id="GUID-C5E412DF-E015-592D-8BF9-16D2E82E5514"><a name="GUID-C5E412DF-E015-592D-8BF9-16D2E82E5514"><!-- --></a><p>Each active
+object contains a <em>free pages</em> threshold that is derived from
+the compaction threshold. The <em>free pages</em> threshold is the number
+of pages that must be in the database for it to be marked as <em>dirty</em>. </p> </li>
+<li id="GUID-2B3A1FEB-C351-5CA9-870D-F87051A36476"><a name="GUID-2B3A1FEB-C351-5CA9-870D-F87051A36476"><!-- --></a><p>Each time a RSqlDatabase::Exec() or RSqlStatement::Exec() operation has been completed the number of free pages in the database
+is checked against the free pages threshold. If the threshold is met
+then the database is marked as <em>dirty</em>. </p> </li>
+</ul> <p>Whenever the Symbian SQL server is idle (not processing a
+client request) runnable idle active objects are processed that cause
+free space to be reclaimed from the dirty databases: </p> <ul>
+<li id="GUID-D82FD580-ECDA-5449-BC40-C016723D7510"><a name="GUID-D82FD580-ECDA-5449-BC40-C016723D7510"><!-- --></a><p> Each active
+object reclaims no more pages from its database than the single reclaim
+limit. This limit is a server-wide parameter specifying the maximum
+number of free pages that the server will attempt to reclaim in one
+step and should be small enough to ensure that the server can remain
+responsive to client requests. An appropriate default value is supplied
+by Symbian but device creators can override this in the server configuration
+file.  </p> </li>
+<li id="GUID-84319C82-076C-5EA8-AF5D-F6D907678254"><a name="GUID-84319C82-076C-5EA8-AF5D-F6D907678254"><!-- --></a><p>Following the
+reclaim action an active object will again set itself as ready to
+run if the number of free pages following the reclaim meets the free
+pages threshold. </p> </li>
+<li id="GUID-F10B583B-F098-542D-9D6F-0F8A63A08CD0"><a name="GUID-F10B583B-F098-542D-9D6F-0F8A63A08CD0"><!-- --></a><p>The idle priority
+active objects for background compaction continues to be processed
+until either: </p> <ul>
+<li id="GUID-21EE7484-817C-5EEF-80F1-0600440FD74A"><a name="GUID-21EE7484-817C-5EEF-80F1-0600440FD74A"><!-- --></a><p>there is no
+more free space left to reclaim, </p> </li>
+<li id="GUID-AA4694AB-D403-5807-9CC9-3608F9E86246"><a name="GUID-AA4694AB-D403-5807-9CC9-3608F9E86246"><!-- --></a><p>a higher priority
+active object becomes ready to run. </p> </li>
+</ul> </li>
+</ul> <p><strong>Scheduling of background compaction</strong> </p> <p>The server’s active
+scheduler maintains a priority queue for servicing the active objects.
+The scheduling algorithm is such that following the successful execution
+of any active object's <code class="codeph">RunL()</code>, the scheduler will
+reset to the beginning of the queue. This has two implications: </p> <ul>
+<li id="GUID-CF778079-5E0F-5D74-9A8A-5DB69E4B5B00"><a name="GUID-CF778079-5E0F-5D74-9A8A-5DB69E4B5B00"><!-- --></a><p>There is an
+implicit priority scheme among the active objects for background compaction
+– a database opened earlier will always be given priority over one
+opened later due to its location in the queue. </p> </li>
+<li id="GUID-9EECC098-FC0A-5DB7-8A88-FB59C826582E"><a name="GUID-9EECC098-FC0A-5DB7-8A88-FB59C826582E"><!-- --></a><p>Compaction of
+a later database in the queue cannot begin until an earlier database
+has been fully compacted. This is because the active scheduler resets
+to the beginning of the queue following every active object execution. </p> </li>
+</ul> <p>With this lack of <em>fair scheduling</em> it is advised that
+certain situations are avoided: </p> <ul>
+<li id="GUID-EAE8BC01-15F8-5A8E-99A6-48F4AB73AD68"><a name="GUID-EAE8BC01-15F8-5A8E-99A6-48F4AB73AD68"><!-- --></a><p>Background compaction
+is not intended to be an antidote for critical disk space rescue scenarios
+– a fairer scheduling algorithm may help but the system would already
+be in severe difficulties by this stage. </p> </li>
+<li id="GUID-D17C590B-31E4-582E-A07B-AA411B123BA2"><a name="GUID-D17C590B-31E4-582E-A07B-AA411B123BA2"><!-- --></a><p>The compaction
+operation itself requires free disk space and thus would be inoperable
+in critically low disk space situations. Thus a fairer scheduling
+algorithm would not help here. </p> </li>
+<li id="GUID-80E5F115-4602-5B56-AEAC-B4490992101F"><a name="GUID-80E5F115-4602-5B56-AEAC-B4490992101F"><!-- --></a><p>background compaction
+is not designed to work efficiently when the server load is such that
+idle periods do not occur in sufficient quantity. </p> </li>
+</ul> <p id="GUID-CE6F567F-7300-574A-A180-E42786DC04DB"><a name="GUID-CE6F567F-7300-574A-A180-E42786DC04DB"><!-- --></a><strong>Synchronous compaction</strong> </p> <p>compaction occurs at the end of the client request. A request
+is not completed until compaction has finished. This mode is equivalent
+to the compaction profile of previous versions of Symbian SQL. </p> <p id="GUID-F9D40D87-B383-5EF5-9959-2A344436477A"><a name="GUID-F9D40D87-B383-5EF5-9959-2A344436477A"><!-- --></a><strong>Manual compaction</strong> </p> <p>No automatic compaction occurs. This mode is intended for
+clients that wish to manage compaction directly. </p> <p>Clients wishing
+to exercise direct control over database compaction may select manual
+mode. The server performs no automated compaction in manual mode. </p> <p>Clients can request database compaction with RSqlDatabase::Compact(). The client can specify a limit to the number of bytes to reclaim.
+Compaction can be performed as either a synchronous or an asynchronous
+operation. <code class="codeph">Compact()</code> can be called on either a “manual”
+or a “background” database (it can also be called on a “synchronous”
+database although this will have no effect). </p> <p>The database
+file size and the amount of reclaimable free space in the database
+can be retrieved with RSqlDatabase::Size(). This
+API supports clients wishing to trigger compaction based on either
+absolute free space or a proportion of free space in the database. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-22844C28-AB5B-5A6F-8863-7269464684B4.html">SQL
+Overview</a></li><li><a href="GUID-4EE4E79E-F6D5-5F14-BA8D-4DD10D229B74.html">Handling Blobs</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated July 1st, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A64625D4-F101-5DB7-896B-F91A21BABE01.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:14 GMT -->
+</html>

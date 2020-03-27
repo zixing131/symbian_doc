@@ -1,0 +1,33 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-A3EBB297-1494-579C-83D5-8FDBBD01B674.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Drawing Bitmaps" /><meta name="DC.Relation" scheme="URI" content="GUID-AFE8A9CC-E026-5396-8E0C-616338B5F5C3" /><meta name="DC.Relation" scheme="URI" content="GUID-EAAD1719-C02C-5705-A5C3-993E36441BE6" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-E89F034F-C807-5FF9-B06B-F7CCD2441041" /><meta name="DC.Relation" scheme="URI" content="GUID-EAAD1719-C02C-5705-A5C3-993E36441BE6" /><meta name="DC.Relation" scheme="URI" content="GUID-AFE8A9CC-E026-5396-8E0C-616338B5F5C3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A3EBB297-1494-579C-83D5-8FDBBD01B674" /><meta name="DC.Language" content="en" /><title>Drawing Bitmaps </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A3EBB297-1494-579C-83D5-8FDBBD01B674">Drawing Bitmaps</h1><div><p>This topic provides example code that demonstrates blitting a bitmap to the screen, blitting a rectangular piece of a bitmap to the screen and blitting a bitmap under a mask. </p> <p>These examples assume that <code class="codeph">bitmap</code> is a pointer to a valid <code class="codeph">CFbsBitmap</code> object. </p> <div><h3 class="section-title">Bitmap block transfer</h3> <p>Use <code class="codeph">CBitmapContext::BitBlt()</code> to blit a <code class="codeph">CFbsBitmap</code> to the screen. </p> <pre class="codeblock">// draw the bitmap using bitmap block transfer
+TPoint pos(50,50);
+gc.BitBlt(pos, bitmap);</pre> </div> <div><h3 class="section-title">Block transfer of a rectangular piece of a bitmap</h3> <p>You can blit a rectangular piece of a bitmap to the screen. </p> <pre class="codeblock">...
+// set a rectangle for the top-left quadrant of the source bitmap
+TSize bmpSizeInPixels=bitmap-&gt;SizeInPixels();
+TSize bmpPieceSize(bmpSizeInPixels.iWidth/2,bmpSizeInPixels.iHeight/2);
+TRect bmpPieceRect(TPoint(0,0),bmpPieceSize); 
+    
+// blit only the piece of the bitmap indicated by bmpPieceRect
+TPoint pos(100,100);
+gc.BitBlt(pos, bitmap, bmpPieceRect);</pre> </div> <div id="GUID-22430013-D8A8-5A09-8DD9-D95A6EF00B2D"><h3 class="section-title">Masked bitmap block transfer</h3> <p>Masks can be used to select which parts of a bitmap are drawn by <code class="codeph">CBitmapContext::BitBltMasked()</code>. </p> <p>Masks can be used to not display pixels of the source bitmap if their corresponding mask pixel is black, or, alternatively, where the mask is white (called an inverted mask). </p> <p>The following figure shows successively a source bitmap, a mask, and the outcome when they are blitted with <code class="codeph">BitBltMasked()</code>. </p> <div class="figure" id="GUID-425B6A42-6B3B-5FE4-BDD6-59CD7E695C4A"><img src="GUID-D1E80B1B-FBFD-5FBC-981C-E2D04A02EF41_d0e254216_href.png" /></div> <pre class="codeblock">// Load the mask bitmap, just like any other
+CFbsBitmap* maskBitmap = new (ELeave) CFbsBitmap();
+CleanupStack::PushL(maskBitmap);
+User::LeaveIfError(maskBitmap-&gt;
+  Load(multiBitmapFile,EMbmGrbmap2Smilmask));
+    
+// Calculate rectangle for the whole bitmap
+TRect bmpPieceRect(TPoint(0,0),bitmap-&gt;SizeInPixels());
+    
+// Blit using a masking bitmap, with no inversion
+gc.BitBltMasked(TPoint(50,50),bitmap,bmpPieceRect,maskBitmap,EFalse);
+    
+...
+// clean up
+CleanupStack::PopAndDestroy();
+</pre> <p><strong>Notes </strong> </p> <ul><li id="GUID-4CDB8020-D42D-517D-BA3A-2D6FDD2DEA33"><a name="GUID-4CDB8020-D42D-517D-BA3A-2D6FDD2DEA33"><!-- --></a><p>Unlike with an ordinary <code class="codeph">BitBlit()</code>, with <code class="codeph">BitBltMasked()</code> you always have to specify what part of the bitmap to display: here we just set <code class="codeph">bmpPieceRect</code> so that the whole bitmap is displayed. </p> </li> <li id="GUID-67FFCC84-B364-50DF-ACDA-54FF865FB423"><a name="GUID-67FFCC84-B364-50DF-ACDA-54FF865FB423"><!-- --></a><p>If the mask bitmap is smaller than the source bitmap, then it is tiled across the bitmap. </p> </li> <li id="GUID-A2A17DA3-5B03-56EF-B5FE-E6C8837F26F6"><a name="GUID-A2A17DA3-5B03-56EF-B5FE-E6C8837F26F6"><!-- --></a><p>For an inverted mask, set the last argument to <code class="codeph">BitBltMasked()</code> to <code class="codeph">ETrue</code>. </p> </li> </ul> </div> </div><h3>Related concepts</h3><ul><li><a href="GUID-AFE8A9CC-E026-5396-8E0C-616338B5F5C3.html">BitGDI Tutorials</a></li><li><a href="GUID-EAAD1719-C02C-5705-A5C3-993E36441BE6.html">BitGDI Component</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 8th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-A3EBB297-1494-579C-83D5-8FDBBD01B674.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:57 GMT -->
+</html>

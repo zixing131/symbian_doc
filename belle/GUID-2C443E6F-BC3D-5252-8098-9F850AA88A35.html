@@ -1,0 +1,238 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2C443E6F-BC3D-5252-8098-9F850AA88A35.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:43 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Window Server Component Overview" /><meta name="abstract" content="The Window Server manages the use of the screen and input devices by applications and controls and co-ordinates access." /><meta name="description" content="The Window Server manages the use of the screen and input devices by applications and controls and co-ordinates access." /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-2C443E6F-BC3D-5252-8098-9F850AA88A35" /><meta name="DC.Language" content="en" /><title>Window
+Server Component Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-2C443E6F-BC3D-5252-8098-9F850AA88A35">Window
+Server Component Overview</h1><div><p>The Window Server manages the use of the screen and input devices
+by applications and controls and co-ordinates access. </p>
+<div id="GUID-4BE363E2-E630-462D-A958-721B3636792E"><h3 class="section-title">Architecture</h3> <p>The
+architecture of the Window Server varies depending on whether you are using
+the <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay (NGA)</a> or <a href="GUID-F64E6551-670E-5E12-8103-DE504D3EC94F.html">non-ScreenPlay</a> variant.
+However, with a few exceptions, the client-side API is the same in both variants.
+Both variants use an improved version of the Window Server, sometimes known
+as <code class="codeph">WSERV2</code>, which was introduced in Symbian^2 (Symbian OS
+v9.4). </p> <p>The following diagram provides an overview of the Window Server
+architecture in ScreenPlay. </p> <div class="figure" id="GUID-80DA5DEB-019E-5CE3-812E-496A1D713FFB"><img src="GUID-1635E243-BDC9-55D8-8913-0D2DB622B22C_d0e247512_href.png" /><p class="figure-title"><strong>Figure: </strong>              The Window Server in ScreenPlay            </p></div> <p>Below we list some of the key features of the Window Server, including
+differences between the two architectures. The term <strong>surface</strong> is used
+in ScreenPlay for a hardware-independent memory buffer for holding an image
+or part of a scene. The <strong>UI surface</strong> is a special surface onto which
+the Window Server renders all of the UI content. It is created automatically
+during system start up. An <strong>external surface</strong> is any other surface—for
+example, a surface that holds a video or to which OpenGL ES content is rendered. </p> <ul>
+<li id="GUID-A56D68E9-99E0-528A-9DDD-977BECE50A45"><a name="GUID-A56D68E9-99E0-528A-9DDD-977BECE50A45"><!-- --></a><p>The Window Server has
+a render stage framework, which enables the last stage of the Window Server
+rendering to be customizable through plug-ins called <strong> render stages</strong>.
+These can be chained to form a rendering pipeline, which takes the drawing
+operations that are produced by the Window Server and ultimately passes them
+to the UI surface. Render stages can selectively filter, modify, or redirect
+the draw operation stream, as required—for example, to perform transition
+effects (TFX). </p> </li>
+<li id="GUID-A6589F28-B8B5-5FBA-B241-6E526D6A9BF1"><a name="GUID-A6589F28-B8B5-5FBA-B241-6E526D6A9BF1"><!-- --></a><p>In ScreenPlay, composition
+takes place in two stages. First, the render stages render the drawing to
+the UI surface. Then the composition engine combines the UI surface and any
+external surfaces into elements (sometimes called <strong>layers</strong>) and composes
+them to the screen. This enables the composition to be performed in software
+or hardware accelerator chips. </p> </li>
+<li id="GUID-BA8D10A1-F0CB-56F7-817B-F1425AC1DA56"><a name="GUID-BA8D10A1-F0CB-56F7-817B-F1425AC1DA56"><!-- --></a><p>In the non-ScreenPlay
+variant, the concept of surfaces is not used and the Window Server composes
+directly onto the <strong>frame buffer</strong> which is then displayed on the screen. </p> </li>
+<li id="GUID-FC88013B-E5A4-5DD6-9906-A526D137CF43"><a name="GUID-FC88013B-E5A4-5DD6-9906-A526D137CF43"><!-- --></a><p>There are differences
+in the plug-in framework APIs in the two architectures. In addition, in ScreenPlay,
+fading effects are implemented by using render stages, whereas when ScreenPlay
+is not enabled they are implemented by using a separate fader plug-in type
+(not shown on the diagram). </p> </li>
+<li id="GUID-86A8FB36-B9DF-50F2-AE0B-798D717899A6"><a name="GUID-86A8FB36-B9DF-50F2-AE0B-798D717899A6"><!-- --></a><p>In ScreenPlay, the Window
+Server provides advanced pointer features, such as support for multiple pointers
+and proximity and pressure coordinates. The non-ScreenPlay variant does not
+provide this support. </p> </li>
+<li id="GUID-46123A93-AF91-5FAB-995E-CDEAE9C8B961"><a name="GUID-46123A93-AF91-5FAB-995E-CDEAE9C8B961"><!-- --></a><p>ScreenPlay provides
+support for externally connected displays, such as TV-out. The non-ScreenPlay
+variant considers the size of each display to be fixed. However, for High-Definition
+Multimedia Interface (HDMI) and composite video connectors, there are a range
+of resolutions that can change dynamically. ScreenPlay provides an optional
+feature that supports switching between resolutions at runtime and notifications
+to Window Server clients when there are changes to the resolution and connectedness. </p> </li>
+</ul> </div>
+<div id="GUID-2459A480-EC83-4595-97AA-D090331C9A88"><h3 class="section-title">Building the
+ScreenPlay and non-ScreenPlay variants</h3> <p>To build the ScreenPlay
+version of the Window Server components, declare the following macros in the <code>Symbian_OS.hrh</code> file. </p><pre class="codeblock">SYMBIAN_BUILD_GCE
+SYMBIAN_GRAPHICS_BUILD_OPENWF_WSERV
+</pre><p>This causes the ScreenPlay versions of the components in the
+Graphics package to be built in addition to the non-ScreenPlay components.
+Specifically the <code class="codeph">SYMBIAN_BUILD_GCE</code> macro causes the ScreenPlay
+version of the Window Server to be built. This means that the <code>w32_nga.mmp</code> and <code>wserv_nga.mmp</code> files
+are built. These define a second macro, <code class="codeph">SYMBIAN_GRAPHICS_GCE</code>,
+which causes the ScreenPlay Window Server classes to be built. </p><div class="note"><p><strong class="note_title">Note: </strong>Omit
+the <code class="codeph">SYMBIAN_GRAPHICS_BUILD_OPENWF_WSERV</code> macro shown above
+if you want to use the GCE-based components rather than the OpenWF-C-based
+components.</p></div> <p>To include the ScreenPlay versions when building
+ROM, use the <code class="codeph">SYMBIAN_GRAPHICS_USE_GCE</code> flag. </p> </div>
+<div id="GUID-BEBE7D33-06C7-4B07-837E-9E67633EEFBF"><h3 class="section-title">Selecting the
+ScreenPlay variant in the emulator</h3><p>To select the ScreenPlay version
+of the component in the emulator, add the following line to the <code>epoc.ini</code> file: </p> <pre class="codeblock">SYMBIAN_GRAPHICS_USE_GCE ON</pre></div>
+<div id="GUID-F13720C7-A6E1-4A3F-ACAF-10BEF6D2229F"><h3 class="section-title">Executables</h3> <p>This
+section lists the main Window Server executables. For clarity, these are divided
+into three groups. </p> <p><strong>Window Server executable and client-side libraries </strong> </p> <div class="tablenoborder"><a name="GUID-E68F0783-FE52-55F3-8140-0FD527E91775"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-E68F0783-FE52-55F3-8140-0FD527E91775" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e247645">Executable</th>
+<th class="cellrowborder" valign="top" id="d0e247648">LIB</th>
+<th class="cellrowborder" valign="top" id="d0e247651">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e247645 "><p> <code>wserv_nga.exe</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247648 "><p> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247651 "><p>The ScreenPlay version of the Window Server. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e247645 "><p> <code>wserv_nonnga.exe</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247648 "><p> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247651 "><p>The non-ScreenPlay version of the Window Server. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e247645 "><p> <code>ws32_nga.dll</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247648 "><p> <code>ws32.lib</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247651 "><p>The Window Server client-side API library for the ScreenPlay variant.
+See <a href="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61.html">Window Server Client-Side
+Library</a>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e247645 "><p> <code>ws32_nonnga.dll</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247648 "><p> <code>ws32.lib</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247651 "><p>The Window Server client-side API library for the non-ScreenPlay
+variant. See <a href="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61.html">Window
+Server Client-Side Library</a>. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e247645 "><p> <code>wsgraphicdrawer_nga.dll</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247648 "><p> <code>wsgraphicdrawer.lib </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247651 "><p>The server-side base classes for Window Server plug-ins in the ScreenPlay
+variant. The plug-ins include graphic drawer plug-ins (which are also known
+as Content Rendering Plug-ins or CRPs) and render stage plug-ins. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e247645 "><p> <code>wsgraphicdrawer_nonnga.dll</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247648 "><p> <code>wsgraphicdrawer.lib </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247651 "><p>The server-side base classes for Window Server plug-ins in the non-ScreenPlay
+variant. The plug-ins include graphic drawer plug-ins (which are also known
+as Content Rendering Plug-ins or CRPs) and render stage and fader plug-ins. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e247645 "><p> <code>remotegc_nga.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247648 "><p> <code>remotegc.lib </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247651 "><p>The client-side API library for remote graphic contexts in ScreenPlay.
+Remote graphic contexts store draw operations so that they can be played back
+later. It is "remote" because the draw operations are generally played back
+in a different location from where they are stored. For example, the draw
+operations are frequently stored on the client side and then a transformation
+engine uses them on the server side to make an effect. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e247645 "><p> <code>remotegc_nonnga.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247648 "><p> <code>remotegc.lib </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247651 "><p>The client-side API library for remote graphic contexts in the non-ScreenPlay
+variant. This has a similar role as in ScreenPlay. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e247645 "><p> <code>profilerkeys.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247648 ">&nbsp;</td>
+<td class="cellrowborder" valign="top" headers="d0e247651 "><p>Window Server profiling hotkeys library in both ScreenPlay and non-ScreenPlay
+variants. </p> </td>
+</tr>
+</tbody>
+</table></div> <p><strong>Logging libraries </strong> </p> <div class="tablenoborder"><a name="GUID-C233B864-B909-5C00-B90A-7C78F3D02AFC"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-C233B864-B909-5C00-B90A-7C78F3D02AFC" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e247886">Executable</th>
+<th class="cellrowborder" valign="top" id="d0e247889">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e247886 "><p> <code>dlog.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247889 "><p>On-screen logging library </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e247886 "><p> <code>dlogfl.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247889 "><p>File logging library </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e247886 "><p> <code>dlogrd.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247889 ">&nbsp;</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e247886 "><p> <code>dlogsr.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247889 "><p>Serial logging library </p> </td>
+</tr>
+</tbody>
+</table></div> <p><strong>Plug-ins </strong> </p> <div class="tablenoborder"><a name="GUID-E71B0099-14D9-5C44-99FA-1DDB535EB7BF"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-E71B0099-14D9-5C44-99FA-1DDB535EB7BF" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e247976">Executable</th>
+<th class="cellrowborder" valign="top" id="d0e247979">Variant</th>
+<th class="cellrowborder" valign="top" id="d0e247982">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e247976 "><p> <code>10281922.dll</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247979 "><p>Both </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247982 "><p>This is a standard reference CRP. This type of plug-in is called
+a <em>CWsGraphics</em> ECOM plug-in. Device creators can replace this component. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e247976 "><p> <code>2001b70b.dll</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247979 "><p>Non-ScreenPlay </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247982 "><p>This is a prototype reference render stage ECOM plug-in for the
+non-ScreenPlay variant. This type of plug-in is called a <em>CWsPlugin</em>. </p> <p>Note:
+The ScreenPlay render stage ECOM plug-in is delivered in the Window Server
+Plugins component. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e247976 "><p> <code>10285c4a.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247979 "><p>ScreenPlay </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247982 "><p>This is a reference ScreenPlay surface-based CRP. Device creators
+can replace this component. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e247976 "><p> <code>samplegraphicsurface.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247979 "><p>ScreenPlay </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247982 "><p>Sample ScreenPlay CRP (<em>CWsGraphics</em>) that demonstrates placing
+a surface. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e247976 "><p> <code>w32stdgraphic.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247979 "><p>Both </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e247982 "><p>Sample CRP (<em>CWsGraphics</em>). </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-439B39AD-4184-4928-BF35-ABAB94A89400"><h3 class="section-title">Typical uses</h3> <ul>
+<li id="GUID-BF47989B-D205-5ED8-BBCF-44B099E15C97"><a name="GUID-BF47989B-D205-5ED8-BBCF-44B099E15C97"><!-- --></a><p>Application developers
+use the <a href="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61.html">client-side
+library</a> to control windows in their applications and respond to key
+and pointer events. </p> </li>
+<li id="GUID-51A64C2E-C689-5765-8455-02C6350E4E88"><a name="GUID-51A64C2E-C689-5765-8455-02C6350E4E88"><!-- --></a><p>Testers and application
+developers use the <a href="GUID-6E8807F5-9CC0-5A70-8182-22230D43AA9E.html">logging
+mechanism</a> to log Window Server events when developing and testing their
+code. </p> </li>
+<li id="GUID-139581CB-1185-569E-878D-58088230CCE8"><a name="GUID-139581CB-1185-569E-878D-58088230CCE8"><!-- --></a><p>Device creators create
+Content Rendering Plug-ins (CRPs) for showing customized content on the screen. </p> </li>
+<li id="GUID-75EE03DE-0F78-5114-BCB9-8DD648A7C3A3"><a name="GUID-75EE03DE-0F78-5114-BCB9-8DD648A7C3A3"><!-- --></a><p>Device creators who
+use ScreenPlay, can create render stage plug-ins. These enable the output
+of the Window Server to be combined with auxiliary software subsystems (such
+as a transition effect engine) and hardware-accelerated drawing (for example,
+using OpenVG). </p> </li>
+<li id="GUID-E712A357-5797-5291-829E-C054463FD286"><a name="GUID-E712A357-5797-5291-829E-C054463FD286"><!-- --></a><p>Device creators use
+the <a href="GUID-1D529BDC-6665-58E2-AB3F-7023D8A84F69.html">wsini.ini file</a> to
+configure the Window Server to suit the specific requirements of the particular
+device. </p> </li>
+</ul> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0.html">Window Server
+Component</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated March 3rd, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2C443E6F-BC3D-5252-8098-9F850AA88A35.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:45 GMT -->
+</html>

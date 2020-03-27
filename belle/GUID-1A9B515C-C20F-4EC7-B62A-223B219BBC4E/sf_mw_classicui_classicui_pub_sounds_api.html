@@ -1,0 +1,510 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_sounds_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:28 GMT -->
+<head><title>Sounds API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i511"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Sounds API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Emulator_support"><span class="tocnumber">1.1.1</span> <span class="toctext">Emulator support</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Obtaining_keyboard_sound_system_instance"><span class="tocnumber">2.1</span> <span class="toctext">Obtaining keyboard sound system instance</span></a></li>
+<li class="toclevel-2"><a href="#Playing_sounds"><span class="tocnumber">2.2</span> <span class="toctext">Playing sounds</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Playing_a_sound_by_using_a_SID_.28Sound_ID.29"><span class="tocnumber">2.2.1</span> <span class="toctext">Playing a sound by using a SID (Sound ID)</span></a></li>
+<li class="toclevel-3"><a href="#Stopping_a_sound"><span class="tocnumber">2.2.2</span> <span class="toctext">Stopping a sound</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Defining_application_specific_sounds"><span class="tocnumber">2.3</span> <span class="toctext">Defining application specific sounds</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Defining_a_sound_resource"><span class="tocnumber">2.3.1</span> <span class="toctext">Defining a sound resource</span></a></li>
+<li class="toclevel-3"><a href="#Registering_a_sound_resource"><span class="tocnumber">2.3.2</span> <span class="toctext">Registering a sound resource</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Customizing_key_sounds_of_an_application"><span class="tocnumber">2.4</span> <span class="toctext">Customizing key sounds of an application</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Defining_a_key_sound_context"><span class="tocnumber">2.4.1</span> <span class="toctext">Defining a key sound context</span></a></li>
+<li class="toclevel-3"><a href="#Pushing_a_context_to_the_key_sound_stack"><span class="tocnumber">2.4.2</span> <span class="toctext">Pushing a context to the key sound stack</span></a></li>
+<li class="toclevel-3"><a href="#Popping_a_context_from_the_key_sound_stack"><span class="tocnumber">2.4.3</span> <span class="toctext">Popping a context from the key sound stack</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Obtaining_system_sound_information"><span class="tocnumber">2.5</span> <span class="toctext">Obtaining system sound information</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.6</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.7</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Extensions_to_the_API"><span class="tocnumber">2.8</span> <span class="toctext">Extensions to the API</span></a></li>
+<li class="toclevel-2"><a href="#Limitations_of_the_API"><span class="tocnumber">2.9</span> <span class="toctext">Limitations of the API</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Sounds API can be used to play sounds (predefined system sounds or custom
+sounds), define new sounds, customize the application specific keyboard sounds
+and query the information of system sounds.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>avkon.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/sounds_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/sounds_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Sounds API is meant to be used by system and end-user applications. The
+API provides a simple way to play predefined system sounds or application
+specific custom sounds. Examples of system sounds include key click tone,
+warning tone, power off tone and battery low tone. An application can also
+use the Sounds API to define its own custom sounds by using a special resource
+structure. These custom sounds can then played directly, or used as key sounds
+overriding the default key click tones.
+</p><p>An application can customize its default keyboard sounds in quite a detailed
+level. It can define what sound is played when a certain hardware key is pressed,
+but it can also define the sounds for different key events of a certain key.
+There are three event types existing, which are "short", "long" and "repeat"
+events. For example, an application can define that left arrow key generates
+standard key click sound when it is pressed down, but does not generate any
+long or repeat sounds. This is very common use case when using Sounds API,
+i.e. just to disable key sounds of desired keys or events.
+</p><p>Customizing the keyboard sounds is done with key sound contexts. A key
+sound context defines a mapping between device keys and key sounds, i.e. telling
+which sound to play when certain key event occurs. Key sound contexts are
+stored in so called key sound stack, which is maintained by the Key Sound
+Server. Applications can perform common stack operations for key sound contexts,
+including e.g. push and pop operations. Only the topmost key sound context
+in the stack can be active.
+</p><p>Sounds API can also be used for querying the information of system sounds.
+This information can then be used e.g. to play system sounds directly with
+the classes offered by Multimedia Framework.
+</p><p>The logical type of the Sounds API is library API, so the API provides
+stand-alone implementation units (classes, methods, functions) that are used
+by the client.
+</p><p>The technical type of the API is method call API, so the client needs only
+use local objects. However, there is underlying client-server architecture
+with communications to Key Sound Server, but the user of Sounds API does not
+need to know the details about that.
+</p>
+<a name="Emulator_support"><h4> <span class="mw-headline">1.1.1 Emulator support </span></h4>
+</a><p>This API is not supported in the WINS/WINSCW emulator environment.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Sounds API is an SDK API and was first published in S60 release 0.9. This
+document is valid from S60 release 3.2 onwards.
+</p><p>There are no constraints.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of Sounds API are:
+</p>
+<ul><li> Obtaining keyboard sound system instance.
+</li><li> Playing sounds.
+</li><li> Playing a sound by using a SID (Sound ID).
+</li><li> Stopping a sound.
+</li></ul>
+<ul><li> Defining application specific sounds.
+</li><li> Defining a sound resource.
+</li><li> Registering a sound resource.
+</li></ul>
+<ul><li> Customizing key sounds of an application.
+</li><li> Defining a key sound context.
+</li><li> Pushing a context to the key sound stack.
+</li><li> Popping a context from the key sound stack.
+</li></ul>
+<ul><li> Obtaining system sound information.
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknKeySoundSystem <td><span class="plainlinks"><code>/epoc32/include/mw/aknsoundsystem.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAknSoundInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknSoundinfo.h</code></span>
+</td></tr>
+<p>The main class of Sounds API is <span class="plainlinks"><code>CAknSoundSystem</code> </span>, which
+is the client interface to Key Sound Server. Applications can obtain a pointer
+to the <span class="plainlinks"><code>CAknKeySoundSystem</code> </span> instance from the <span class="plainlinks"><code>CAknAppUi</code> </span> base
+class or they can create a new instance by using <span class="plainlinks"><code>CAknKeySoundSystem::NewL()</code> </span>.
+However, this document only concentrates on the first approach, because it
+is sufficient for the most use cases.
+</p><p>The client can use the <span class="plainlinks"><code>CAknKeySoundSystem</code> </span> instance mainly
+to play or stop sounds, register its own sounds to Key Sound Server and push
+or pop sound contexts to override the default key sounds of the application.
+The client can also request the data of AVKON system sounds encapsulated in <span class="plainlinks"><code>CAknSoundInfo</code> </span> objects.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Sounds_API_CAknKeySoundSystem.png" title="UML diagram of CAknSoundSystem class"><img alt="UML diagram of CAknSoundSystem class" border="0" height="262" src="images/SPB_10_1_Sounds_API_CAknKeySoundSystem.png" width="194" /></a></div>
+<div style="text-align:center"><i>UML diagram of CAknSoundSystem class</i></div>
+<p><span class="plainlinks"><code>CAknSoundInfo</code> </span> class encapsulates the information of AVKON
+system sounds. The sounds are identified by Sound IDs (SIDs). There are three
+types of sounds supported, which are tone, tone sequence and file types. A
+tone sound contains just frequency and duration of the sound, sequence sound
+can have multiple tones in a sequence, and file sound refers to a file, for
+example a WAV file or some other format recognized by Multimedia Framework. <span class="plainlinks"><code>CAknSoundInfo</code> </span> class
+has public data members for representing all of these three sound types. Only
+the relevant parameters are used at a time, depending on the sound type. For
+example, a tone sound uses the <span class="plainlinks"><code><font color="darkred">iFrequency</font></code> </span> and <span class="plainlinks"><code><font color="darkred">iDuration</font></code> </span> fields,
+and does not use the <span class="plainlinks"><code><font color="darkred">iSequence</font></code> </span> field at all.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Sounds_API_CAknSoundInfo.png" title="UML diagram of CAknSoundInfo class"><img alt="UML diagram of CAknSoundInfo class" border="0" height="285" src="images/SPB_10_1_Sounds_API_CAknSoundInfo.png" width="171" /></a></div>
+<div style="text-align:center"><i>UML diagram of CAknSoundInfo class</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>For using the Sounds API, a pointer to the <span class="plainlinks"><code>CAknKeySoundSystem</code> </span> instance
+needs to be obtained first. It can then be used to play sounds, register sounds,
+push sound contexts and query the information of system sounds. When the client
+has finished using the <span class="plainlinks"><code>CAknKeySoundSystem</code> </span> instance, there
+is no need to delete the instance if it is obtained from the <span class="plainlinks"><code>CAknAppUi</code> </span> base
+class.
+</p>
+<a name="Obtaining_keyboard_sound_system_instance"><h3> <span class="mw-headline">2.1 Obtaining keyboard sound system instance </span></h3>
+</a><p>A pointer to a <span class="plainlinks"><code>CAknKeySoundSystem</code> </span> instance can be obtained
+from by using the <span class="plainlinks"><code>CAknAppUiBase::KeySounds()</code> </span> method. Hence,
+if the application is derived from <span class="plainlinks"><code>CAknAppUi</code> </span>, a pointer can
+be obtained e.g. as following:
+</p>
+<pre>// HEADER FILE
+</pre>
+<pre>// Forward declaration.
+class CAknKeySoundSystem;
+...
+// Create a private member variable to appui class.
+private:
+    CAknKeySoundSystem* iKeySounds;
+</pre>
+<pre>// CPP FILE
+#include &lt;aknsoundsystem.h&gt;
+...
+void CMyAppAppUi::ConstructL()
+    {
+    ...
+    // Obtain an instance from CAknAppUi base class.
+    iKeySounds = KeySounds();
+    }
+</pre>
+<a name="Playing_sounds"><h3> <span class="mw-headline">2.2 Playing sounds </span></h3>
+</a><p><span class="plainlinks"><code>CAknKeySoundSystem</code> </span> provides methods for playing and stopping
+sounds. The sounds are identified by Sound IDs
+</p>
+<a name="Playing_a_sound_by_using_a_SID_.28Sound_ID.29"><h4> <span class="mw-headline">2.2.1 Playing a sound by using a SID (Sound ID) </span></h4>
+</a><p><span class="plainlinks"><code>CAknKeySoundSystem::PlaySound()</code> </span> can be used to play a
+sound by giving it a Sound ID (SID), which is an identifier for a sound information
+entry. There is a distinction between predefined AVKON system SIDs and user-defined
+custom SIDs. The values 1000 and above are reserved for system SIDs, and the
+val&#61485;ues below 1000 can be used by custom SIDs. (See <span class="plainlinks"><code>TAvkonSystemSID</code> </span> enumeration
+in<i> Avkon.hrh</i> for a list of predefined AVKON system SIDs and their values.)
+</p><p>The following example shows how to play <span class="plainlinks"><code>EAvkonSIDErrorTone</code> </span> system
+SID:
+</p>
+<pre>iKeySounds-&gt;PlaySound(EAvkonSIDErrorTone);
+</pre>
+<a name="Stopping_a_sound"><h4> <span class="mw-headline">2.2.2 Stopping a sound </span></h4>
+</a><p>If a sound is playing, it can be stopped with the <span class="plainlinks"><code>CAknKeySoundSystem::StopSound()</code> </span> method:
+</p>
+<pre>iKeySounds-&gt;StopSound(EAvkonSIDErrorTone);
+</pre>
+<a name="Defining_application_specific_sounds"><h3> <span class="mw-headline">2.3 Defining application specific sounds </span></h3>
+</a><p>If application needs its own custom sounds, it must first define them in
+its resource file. After that, the resource needs to be registered to Key
+Sound Server.
+</p>
+<a name="Defining_a_sound_resource"><h4> <span class="mw-headline">2.3.1 Defining a sound resource </span></h4>
+</a><p>Applications can define their own sounds, which can be then played via
+the <span class="plainlinks"><code>CAknKeySoundSystem::PlaySound()</code> </span> method or included in
+an application specific key sound context to override the default system key
+sounds within an application.
+</p><p>The <span class="plainlinks"><code>AVKON_SOUND_INFO</code> </span> resource from<i> Avkon.rh</i> is
+used to define a SID. Each SID can be associated with a tone, tone sequence
+or a sound file. A tone is specified by a frequency and duration in microseconds.
+The tone sequence format is product specific and is not covered here. A file
+can be for example in WAV format or in some other format recognized by Multimedia
+Framework.
+</p><p>The parameters of the <span class="plainlinks"><code>AVKON_SOUND_INFO</code> </span> resource are as
+follows:
+</p>
+<ul><li> WORD signature1 and <span class="plainlinks"><code><font color="darkred">signature2</font></code> </span>
+</li><li> These fields are for internal use to distinguish which Symbian resource
+</li></ul>
+<p>compiler version was used. The user must not change these fields.
+</p>
+<ul><li> WORD sid
+</li><li> Unique SID (Sound ID). This is the number that is referenced in the <span class="plainlinks"><code>AVKON_SKEY_INFO</code> </span> resource
+</li></ul>
+<p>or given to the <span class="plainlinks"><code><font color="darkred">PlaySound()</font></code> </span> method.
+</p>
+<ul><li> WORD priority
+</li><li> The sound priority used by the device driver to determine priority. Use
+</li></ul>
+<p>only the sound priorities defined by the device driver, which are also defined
+in<i> Avkon.hrh</i>. Defaults to <span class="plainlinks"><code>EAvkonKeyClickPriority</code> </span>.
+</p>
+<ul><li> WORD preference
+</li><li> This variable holds similar preference values as used with the <span class="plainlinks"><code>CMdaAudioToneUtility</code> </span> and <span class="plainlinks"><code>CMdaAudioPlayerUtility</code> </span> classes. Preference is used in addition to priority to tell what to do with
+</li></ul>
+<p>a sound in case of a simultaneous playing request. The tone can be e.g. mixed
+or not played at all. Preference value defaults to <span class="plainlinks"><code>EAvkonKeyClickPreference</code> </span>.
+Symbian preference values are defined in<i> MmfBase.h</i> and S60 preference
+values are defined in<i> Avkon.hrh</i>.
+</p>
+<ul><li> LTEXT file
+</li><li> The file name of a sound file. The sound file must be a file type recognized
+</li></ul>
+<p>by Multimedia Framework.
+</p>
+<ul><li> WORD frequency
+</li><li> The frequency of the tone to be played.
+</li></ul>
+<ul><li> LONG ms
+</li><li> The duration of the tone to be played in microseconds.
+</li></ul>
+<ul><li> WORD sequencelength
+</li><li> The length of the sound sequence definition in bytes.
+</li></ul>
+<ul><li> BYTE sequence()
+</li><li> A byte array that defines a sound sequence.
+</li></ul>
+<ul><li> BYTE volume
+</li><li> The volume of the sound (0..9). Key tones do not obey this field, but
+</li></ul>
+<p>their volume is controlled by the Profiles application.
+</p><p>An example how to define two new SIDs in a resource file is shown below.
+The first SID is in tone format and the second one uses a sound file (which
+must exist in the given path). In the first SID, the priority and preference
+are omitted, so they default to key click priority and preference.
+</p>
+<pre>RESOURCE AVKON_SOUND_INFO_LIST r_myapp_sound_list
+    {
+    list =
+        {
+        // Tone SID.
+        AVKON_SOUND_INFO
+            {
+            sid = 1; // Accepted range for custom SIDs is (1..999).
+            frequency = 8000;
+            ms = 100000; // 0.1 s
+            },
+        // File SID.
+        AVKON_SOUND_INFO
+            {
+            sid = 2; // Accepted range for custom SIDs is (1..999).
+            priority = EAvkonKeyClickPriority;
+            preference = EAknAudioPrefDefaultTone;
+            file = "c:\\mytone.wav";
+            volume = 5;
+            }
+        };
+    }
+</pre>
+<a name="Registering_a_sound_resource"><h4> <span class="mw-headline">2.3.2 Registering a sound resource </span></h4>
+</a><p>Once the sound info list resource is defined, it must be registered to
+the Key Sound Server. After that, the SIDs can played e.g. by calling the <span class="plainlinks"><code><font color="darkred">PlaySound()</font></code> </span> method
+with the Sound ID as a parameter:
+</p>
+<pre>void CMyAppAppUi::ConstructL()
+    {
+    ...
+    iKeySounds-&gt;AddAppSoundInfoListL(R_MYAPP_SOUND_LIST);
+    }
+</pre>
+<pre>void CMyAppAppUi::SomeMethod()
+    {
+    ...
+    iKeySounds-&gt;PlaySound(1);
+    }
+</pre>
+<a name="Customizing_key_sounds_of_an_application"><h3> <span class="mw-headline">2.4 Customizing key sounds of an application </span></h3>
+</a><p>Customizing the application specific key sounds contains two steps. First,
+a sound context must be defined in the application's resource file. After
+that, the context must be pushed to the key sound stack to make it active.
+If the context is not needed anymore, it should be popped out from the key
+sound stack.
+</p>
+<a name="Defining_a_key_sound_context"><h4> <span class="mw-headline">2.4.1 Defining a key sound context </span></h4>
+</a><p>A sound context defines what sound is played when a particular key is pressed.
+By default, an application has a default system sound context activated, but
+it can be overridden with an application specific sound context.
+</p><p>When a key is pressed and held down, three types of events are generated.
+First, a "down" event is generated, and followed by a "long" event after a
+few moments (ca. 0.6 seconds). After that, the key keeps generating "repeat"
+events until it is released. All of these can be customized in a key sound
+context. An example is shown below. Always use scan codes in the <span class="plainlinks"><code>AVKON_SKEY_LIST</code> </span> resource:
+</p>
+<pre>RESOURCE AVKON_SKEY_LIST r_myapp_sound_context
+    {
+    list =
+        {
+        // Set SID 1 for numeric key '4'. Set the same sound for long and repeat events also.
+        AVKON_SKEY_INFO {key = '4'; sid = 1;},
+        AVKON_SKEY_INFO {key = '4'; sid = 1; type = ESKeyTypeLong;},
+        AVKON_SKEY_INFO {key = '4'; sid = 1; type = ESKeyTypeRepeat;},
+</pre>
+<pre>        // Set SID 2 for numeric key '5'. Disable long and repeat sounds.
+        AVKON_SKEY_INFO {key = '5'; sid = 2;},
+        AVKON_SKEY_INFO {key = '5'; sid = EAvkonSIDNoSound; type = ESKeyTypeLong;},
+        AVKON_SKEY_INFO {key = '5'; sid = EAvkonSIDNoSound; type = ESKeyTypeRepeat;},
+</pre>
+<pre>        // Set system SID "battery low tone" for numeric key '6' (all events).
+        AVKON_SKEY_INFO {key = '6'; sid = EAvkonSIDBatteryLowTone;},
+        AVKON_SKEY_INFO {key = '6'; sid = EAvkonSIDBatteryLowTone; type = ESKeyTypeLong;},
+        AVKON_SKEY_INFO {key = '6'; sid = EAvkonSIDBatteryLowTone; type = ESKeyTypeRepeat;},
+</pre>
+<pre>        // Set system SID "standard key click" for left arrow key. Disable long and repeat sounds.
+        AVKON_SKEY_INFO {key = EStdKeyLeftArrow; sid = EAvkonSIDStandardKeyClick;},
+        AVKON_SKEY_INFO {key = EStdKeyLeftArrow; sid = EAvkonSIDNoSound; type = ESKeyTypeLong;},
+        AVKON_SKEY_INFO {key = EStdKeyLeftArrow; sid = EAvkonSIDNoSound; type = ESKeyTypeRepeat;},
+</pre>
+<pre>        // Same as above for right arrow key. This time use EAvkonSIDDefaultSound for same result.
+        AVKON_SKEY_INFO {key = EStdKeyRightArrow; sid = EAvkonSIDDefaultSound;},
+        AVKON_SKEY_INFO {key = EStdKeyRightArrow; sid = EAvkonSIDNoSound; type = ESKeyTypeLong;},
+        AVKON_SKEY_INFO {key = EStdKeyRightArrow; sid = EAvkonSIDNoSound; type = ESKeyTypeRepeat;},
+</pre>
+<pre>        // Disable all sounds for Send key (the green key).
+        AVKON_SKEY_INFO {key = EStdKeyYes; sid = EAvkonSIDNoSound;},
+        AVKON_SKEY_INFO {key = EStdKeyYes; sid = EAvkonSIDNoSound; type = ESKeyTypeLong;},
+        AVKON_SKEY_INFO {key = EStdKeyYes; sid = EAvkonSIDNoSound; type = ESKeyTypeRepeat;}
+        };
+    }
+</pre>
+<a name="Pushing_a_context_to_the_key_sound_stack"><h4> <span class="mw-headline">2.4.2 Pushing a context to the key sound stack </span></h4>
+</a><p>The sound context must be pushed to key sound stack to have effect. This
+is usually done in the constructor of the application UI class. Note that
+because this sound context contains application specific SIDs, <span class="plainlinks"><code><font color="darkred">AddAppSoundInfoListL()</font></code> </span> has
+to be called before <span class="plainlinks"><code><font color="darkred">PushContextL()</font></code> </span>:
+</p>
+<pre>void CMyAppAppUi::ConstructL()
+    {
+    ...
+    iKeySounds-&gt;AddAppSoundInfoListL(R_MYAPP_SOUND_LIST);
+    ...
+    iKeySounds-&gt;PushContextL(R_MYAPP_SOUND_CONTEXT);
+    }
+</pre>
+<p>Now, the keys listed in the context resource should have customized sounds
+within the application. Note that the key sound system activates automatically
+the default sound context when the application is changed or when e.g. the
+Options menu or Fast Swap window is opened on top of the application. When
+the application is reactivated or these windows are closed, the application
+specific sound context will be active again.
+</p><p>A common use for custom sound contexts is just to disable the sounds for
+some keys or all of them. This can be done by listing all the keys whose sounds
+should be disabled, and using <span class="plainlinks"><code>EAvkonSIDNoSound</code> </span> system SID
+for them. Another alternative is to push the predefined AVKON sound context <span class="plainlinks"><code>R_AVKON_SILENT_SKEY_LIST</code> </span> to
+the key sound stack to disable all key sounds.
+</p>
+<a name="Popping_a_context_from_the_key_sound_stack"><h4> <span class="mw-headline">2.4.3 Popping a context from the key sound stack </span></h4>
+</a><p>The application specific key sound context can be popped from the key sound
+stack any time. Usually this should be done at least in the destructor of
+the application UI:
+</p>
+<pre>CMyAppAppUi::~CMyAppAppUi()
+    {
+    ...
+    iKeySounds-&gt;PopContext();
+    }
+</pre>
+<a name="Obtaining_system_sound_information"><h3> <span class="mw-headline">2.5 Obtaining system sound information </span></h3>
+</a><p>The information of AVKON system sounds can be obtained by using the <span class="plainlinks"><code><font color="darkred">RequestSoundInfoL()</font></code> </span> method.
+Applications must not read AVKON resources directly as the resource format
+can change without any notice, but instead use this method. The method takes
+AVKON system SID and a reference to <span class="plainlinks"><code>CAknSoundInfo</code> </span> as parameters:
+</p>
+<pre>CAknSoundInfo* soundInfo = CAknSoundInfo::NewL();
+TInt err = KeySounds()-&gt;RequestSoundInfoL(EAvkonSIDChargingBatteryTone, *soundInfo);
+</pre>
+<p>The <span class="plainlinks"><code>CAknSoundInfo</code> </span> object contains public data members
+for the following information:
+</p>
+<ul><li> Sound type (tone, tone sequence or file)
+</li><li> Priority
+</li><li> Preference
+</li><li> Volume
+</li><li> Duration
+</li><li> Sequence (for sequence sounds)
+</li><li> File name (for file sounds)
+</li></ul>
+<p>With this information, it is possible e.g. to query whether the sound format
+is tone, tone sequence or file and play the sound directly by using either <span class="plainlinks"><code>CMdaAudioToneUtility</code> </span> or <span class="plainlinks"><code>CMdaAudioPlayerUtility</code> </span> according to the format. Using the Multimedia Framework classes directly
+can give more information e.g. about the playing status. This includes, for
+example, callback functions indicating when preparing or playing has been
+completed and information about possible errors during the playing process.
+</p>
+<a name="Error_handling"><h3> <span class="mw-headline">2.6 Error handling </span></h3>
+</a><p>Some methods may leave, for example if running out of memory. A client
+application can handle these errors similarly as a normal Symbian OS platform
+application.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.7 Memory and Performance Considerations </span></h3>
+</a><p>For key sound contexts, it is recommended to use only tone (or tone sequence)
+format instead of file format, especially with large audio files. For performance
+reasons, the key press sounds (the SIDs that use key click priority and preference)
+are loaded into the memory of Key Sound Server only once, and multiple playing
+requests (key presses) use the same instance. For other sounds, the sound
+is loaded into memory every time when it is played, and deleted immediately
+after that for saving memory.
+</p>
+<a name="Extensions_to_the_API"><h3> <span class="mw-headline">2.8 Extensions to the API </span></h3>
+</a><p>There are no extensions for the API.
+</p>
+<a name="Limitations_of_the_API"><h3> <span class="mw-headline">2.9 Limitations of the API </span></h3>
+</a><p>There are no limitations in the API
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> SID</td><td> Sound ID.
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> Key sound context</td><td> A mapping between device keys and sound IDs. Defines what
+<p>sound to play when a certain key is pressed. Applications can define custom
+key sound contexts to override the default context.
+</p>
+</td></tr>
+<tr>
+<td> Key sound stack</td><td> A stack in Key Sound Server containing key sound contexts. Only the
+<p>topmost context can be active. Applications can make push and pop operations
+for sound contexts.
+</p>
+</td></tr>
+<tr>
+<td> Sound ID</td><td> Defines an identifier for a Sound Info entry. Application specific
+<p>SIDs should be in range (1..999). System SIDs have values starting from 1000.
+</p>
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_sounds_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:30 GMT -->
+</html>

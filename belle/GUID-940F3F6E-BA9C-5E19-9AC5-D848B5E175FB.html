@@ -1,0 +1,122 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-940F3F6E-BA9C-5E19-9AC5-D848B5E175FB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:23 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Application Architecture Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FC2F5CDE-D140-5893-894D-D9B93AF6BDC2" /><meta name="DC.Relation" scheme="URI" content="GUID-E89F034F-C807-5FF9-B06B-F7CCD2441041" /><meta name="DC.Relation" scheme="URI" content="GUID-00631ED2-1B7F-5FC4-9E81-4B6DF7946631" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58CA15F8-D984-5D07-8C00-161FA16A8FD3" /><meta name="DC.Relation" scheme="URI" content="GUID-1578590A-FC00-5C3B-8BF9-F6E43CA9D9A0" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-940F3F6E-BA9C-5E19-9AC5-D848B5E175FB" /><meta name="DC.Language" content="en" /><title>Application Architecture Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-940F3F6E-BA9C-5E19-9AC5-D848B5E175FB">Application Architecture Overview</h1><div>
+<p>APPARC provides access to a cached list of applications, and their
+properties, on the device. APPARC also provides a mechanism for launching
+applications and switching between tasks. </p>
+<div id="GUID-45D429A4-60E1-4837-A757-E0E69059A425"><h3 class="section-title">Purpose</h3> <p>The main purpose of APPARC is to </p> <ul>
+<li id="GUID-869A9DDC-5BCE-58FE-A404-8B10B00ED539"><a name="GUID-869A9DDC-5BCE-58FE-A404-8B10B00ED539"><!-- --></a><p>manage and register
+applications with the device </p> </li>
+<li id="GUID-C4C659F3-027E-5216-A0FD-DEA4A135081F"><a name="GUID-C4C659F3-027E-5216-A0FD-DEA4A135081F"><!-- --></a><p>scan the device
+for installed applications and associate data types to the applications
+based on the information in the registration file </p> </li>
+<li id="GUID-37BADDBF-EFFF-56C6-9348-9CB8D162B8CF"><a name="GUID-37BADDBF-EFFF-56C6-9348-9CB8D162B8CF"><!-- --></a><p>load applications
+and manage the creation and destruction of application objects and
+document objects </p> </li>
+<li id="GUID-4FBABF6C-D3E5-5086-A45B-90A5927185CF"><a name="GUID-4FBABF6C-D3E5-5086-A45B-90A5927185CF"><!-- --></a><p>support the
+registration of non-native applications </p> </li>
+<li id="GUID-5A799FDF-A676-5538-BDE0-FCDAB7857631"><a name="GUID-5A799FDF-A676-5538-BDE0-FCDAB7857631"><!-- --></a><p>define a Server
+Application Framework, which allows applications to communicate through
+the client-server architecture </p> </li>
+<li id="GUID-907A3B8B-EF8B-5280-B825-7C8D15038E50"><a name="GUID-907A3B8B-EF8B-5280-B825-7C8D15038E50"><!-- --></a><p>support multiple
+service types over the client-server link and establish a client-server
+connection to an already running server application </p> </li>
+<li id="GUID-F4DCD71D-2713-5C7E-83AC-DE976DCD6ECD"><a name="GUID-F4DCD71D-2713-5C7E-83AC-DE976DCD6ECD"><!-- --></a><p>monitor the
+lifetime of the server application </p> </li>
+<li id="GUID-B11E42C5-4326-5A59-A07C-95AE266AEAE3"><a name="GUID-B11E42C5-4326-5A59-A07C-95AE266AEAE3"><!-- --></a><p>define the basic
+polymorphic interfaces that applications must conform to, such as, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html"><code class="apiname">CApaApplication</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D7041709-1EBE-3E42-8E16-C7F62081AFB7.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D7041709-1EBE-3E42-8E16-C7F62081AFB7.html"><code class="apiname">CApaDocument</code></a> </p> </li>
+<li id="GUID-AED566ED-D731-5A2D-956A-41A5AD0B0943"><a name="GUID-AED566ED-D731-5A2D-956A-41A5AD0B0943"><!-- --></a><p>provide a list
+of available control panel applications present on the device. </p> </li>
+</ul> </div>
+<div id="GUID-9BAE0318-9E70-4B43-AEB0-FC50D30D191E"><h3 class="section-title">Key
+concepts and terms</h3> <dl>
+<dt class="dlterm">Server Application Framework</dt>
+<dd><p>The Server Application Framework provides generic service support
+over a client-server link, on which real services can be created.
+A service typically provides a client-side interface that clients
+can use directly, and a server-side interface that server applications
+have to implement. </p> </dd>
+</dl> </div>
+<div id="GUID-05FBBF1B-1002-431B-88D1-5AD7DBD8EC43"><h3 class="section-title">Architecture</h3> <p>The following diagram shows the interaction of APPARC with other
+components. </p> <div class="figure" id="GUID-B597764E-2919-55D3-848B-D8579A4E0A98"><img src="GUID-940AF1CE-3C33-54BF-B339-B8CF79C5FC9C_d0e177748_href.jpg" /></div> <p>The following list describes the interaction between APPARC
+and each of the components depicted in the APPARC architectural diagram: </p> <ul>
+<li id="GUID-BAA2F511-151F-5B24-9B31-B6203C8905C4"><a name="GUID-BAA2F511-151F-5B24-9B31-B6203C8905C4"><!-- --></a><p>APPARC provides
+the basic behavior for GUI-based applications. APPARC also provides
+basic behavior for documents in a document-view based application.
+Uikon builds on the basic behavior that APPARC provides for GUI applications.
+PIM application components (Contacts and Calendar) derive the basic
+behavior for GUI-based applications from APPARC. </p> </li>
+<li id="GUID-6E250526-6427-5D7C-BED6-AA903C27E342"><a name="GUID-6E250526-6427-5D7C-BED6-AA903C27E342"><!-- --></a><p>APPARC maintains
+a list of installed applications on the device. APPARC supports rule-based
+application launching which is implemented as ECOM plug-ins. These
+plug-ins define rules that enable APPARC to either deny or accept
+the application launch requests. </p> </li>
+<li id="GUID-EF948E8F-3540-5346-BC63-FCEAD9AA80A7"><a name="GUID-EF948E8F-3540-5346-BC63-FCEAD9AA80A7"><!-- --></a><p>Software Install
+(SWI) allows installing, uninstalling and upgrading of native software
+on the device. When an application needs to be installed, SWI uses
+APPARC for launching applications if run-on-install or run-on-uninstall
+is specified. </p> </li>
+<li id="GUID-30282950-6E98-5988-A05B-2B5D8E86848C"><a name="GUID-30282950-6E98-5988-A05B-2B5D8E86848C"><!-- --></a><p>When an application
+is launched APPARC interacts with the GDI and BIT GDI components to
+associate the application with the appropriate application icon, caption
+and display screen. </p> </li>
+</ul> </div>
+<div id="GUID-D1E7A97D-E25B-4D87-9BD3-EF99D8E0AFA0"><h3 class="section-title">API
+summary</h3> <div class="tablenoborder"><a name="GUID-8AE3BE8D-64A7-5356-B7C8-9C399A2C09D7"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-8AE3BE8D-64A7-5356-B7C8-9C399A2C09D7" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e177792"><p><strong>API</strong></p></th>
+<th class="cellrowborder" valign="top" id="d0e177797"><p><strong>Description</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e177792 "><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html"><code class="apiname">CApaApplication</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e177797 "><p>A class that defines the basic twin roles of an application
+class: </p> <ul>
+<li id="GUID-D25C2518-DEAB-54F1-AD7D-64D5C98C230E"><a name="GUID-D25C2518-DEAB-54F1-AD7D-64D5C98C230E"><!-- --></a><p>as a factory
+that creates concrete document objects </p> </li>
+<li id="GUID-5807892A-1432-5CD9-BF89-B9FF1DE369B5"><a name="GUID-5807892A-1432-5CD9-BF89-B9FF1DE369B5"><!-- --></a><p>as a supplier
+of utility functions not specific to any particular instance of a
+document. </p> </li>
+</ul> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e177792 "><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0510F0C4-2D81-3C4A-A3FC-95B9F624FF14.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0510F0C4-2D81-3C4A-A3FC-95B9F624FF14.html"><code class="apiname">CApaCommandLine</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e177797 "><p>A class that provides information for launching an application.
+This class is often referred to as a command line and it contains </p> <ul>
+<li id="GUID-41D2C6FB-1E60-5BCB-B478-0DC4D0ECCCD6"><a name="GUID-41D2C6FB-1E60-5BCB-B478-0DC4D0ECCCD6"><!-- --></a><p>the name of
+the application EXE to be launched </p> </li>
+<li id="GUID-4D1DB1CC-8D6A-5A8C-921B-A6885F1B0336"><a name="GUID-4D1DB1CC-8D6A-5A8C-921B-A6885F1B0336"><!-- --></a><p>the document
+name </p> </li>
+<li id="GUID-A7E91EAD-7C40-56F6-83E2-106FA9E98F1D"><a name="GUID-A7E91EAD-7C40-56F6-83E2-106FA9E98F1D"><!-- --></a><p>a command code
+that defines the way an application is launched (the structure of
+this depends on the application to be launched). </p> </li>
+</ul> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e177792 "><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D7041709-1EBE-3E42-8E16-C7F62081AFB7.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D7041709-1EBE-3E42-8E16-C7F62081AFB7.html"><code class="apiname">CApaDocument</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e177797 "><p>The base class for all documents. A document contains the
+data associated with the content of the application. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e177792 "><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html"><code class="apiname">RApaLsSession</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e177797 "><p>A session with the APPARC server providing access to a cached
+list of applications on the device. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-0DBE9039-CB80-4B79-A3F5-93BC018E7519"><h3 class="section-title">Typical
+uses</h3> <p><strong>Developing a GUI-based application</strong> </p> <p>A GUI-based application can be developed using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html"><code class="apiname">CApaApplication</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D7041709-1EBE-3E42-8E16-C7F62081AFB7.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D7041709-1EBE-3E42-8E16-C7F62081AFB7.html"><code class="apiname">CApaDocument</code></a> interfaces. For more information,
+see <a href="GUID-1D7BD70F-40A3-53FF-8150-A9CAFA4D01D8.html"> A Minimal
+UI Application</a>. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7.html">Generic
+Application Support</a></li><li><a href="GUID-FC2F5CDE-D140-5893-894D-D9B93AF6BDC2.html">Using
+Uikon</a></li><li><a href="GUID-E89F034F-C807-5FF9-B06B-F7CCD2441041.html">Graphics
+Device Interface (GDI)</a></li><li><a href="GUID-00631ED2-1B7F-5FC4-9E81-4B6DF7946631.html">Calendar
+Guide</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 27th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-940F3F6E-BA9C-5E19-9AC5-D848B5E175FB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:23 GMT -->
+</html>

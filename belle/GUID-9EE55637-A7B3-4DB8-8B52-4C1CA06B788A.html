@@ -1,0 +1,122 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9EE55637-A7B3-4DB8-8B52-4C1CA06B788A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Receiving Data from the Remote Device" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Relation" scheme="URI" content="GUID-3C2FDE3A-2CED-43A6-AD7E-A0A3A1FC74B9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9EE55637-A7B3-4DB8-8B52-4C1CA06B788A" /><meta name="DC.Language" content="en" /><title>Receiving Data from the Remote Device </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-9EE55637-A7B3-4DB8-8B52-4C1CA06B788A">Receiving Data from the Remote Device</h1><div>
+<div id="GUID-31F134DD-DB84-4F62-8E5C-8A19CDF4F165-GENID-GUID-D94A5BC9-1FCA-4972-9342-FB72F94ADF50"><h3 class="section-title">Context</h3> <p>When the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-11FF2ADE-4449-32EB-9676-9F8F109243C6.html#GUID-1B35C8AA-425B-3C04-AB3F-89128A6BBB18"><code class="apiname">MLlcpConnOrientedListener::RemoteConnectRequest()</code></a> callback is called, the remote device sends a connect request to
+the local device. The local device can accept the connect request
+by using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AFBBD7C1-89B3-3C9C-8411-AA4CC4CD818A.html#GUID-5C926676-B821-3144-9D9A-08B1F9FEE0B3"><code class="apiname">MLlcpConnOrientedTransporter::AcceptConnectRequest()</code></a> method or decline the connect request by using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AFBBD7C1-89B3-3C9C-8411-AA4CC4CD818A.html#GUID-6879B6D4-D243-3EF7-A78D-CEA425857EEC"><code class="apiname">MLlcpConnOrientedTransporter::DeclineAcceptRequest()</code></a> method. </p><p>In this "Hello World!" example, the remote device's
+connect request is accepted if the request is the first request. All
+other requests are declined. When the first connect request is accepted, <code class="codeph">CMyOwnLlcpApplication</code> waits for incoming data packets from
+the remote device. </p> </div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-D94A5BC9-1FCA-4972-9342-FB72F94ADF50"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-D94A5BC9-1FCA-4972-9342-FB72F94ADF50"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-D94A5BC9-1FCA-4972-9342-FB72F94ADF50"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-D94A5BC9-1FCA-4972-9342-FB72F94ADF50"><!-- --></a><p>Call the <code class="codeph">MLlcpConnOrientedListener::RemoteConnectRequest()</code> method
+and store the remote connection, as shown in the following code snippet: </p>
+<div class="p"><p><strong>Example: </strong><pre class="codeblock">// CMyOwnLlcpApplication::RemoteConnectRequest()
+// From MLlcpConnOrientedListener
+// -----------------------------------------------------------------------------
+//
+void CMyOwnLlcpApplication::RemoteConnectRequest( MLlcpConnOrientedTransporter* aConnection )
+    {
+    TInt error = KErrNone;
+    
+    // Only accept one incoming remote connection
+    if ( !iRemoteConnection )
+        {
+        aConnection-&gt;AcceptConnectRequest();
+        
+        // Create a wrapper for the connection. 
+        TRAP( error, iRemoteConnection = COwnLlcpConnection::NewL( aConnection ) );
+        if ( error == KErrNone )
+            {
+            // Start receiving the data
+            iRemoteConnection-&gt;StartReceive( *this );
+            }
+        else
+            {
+            delete aConnection;
+            }
+        }
+    else
+        {
+        // Decline the connection request and delete the connection object
+        aConnection-&gt;DeclineConnectRequest();
+        delete aConnection;
+        }
+    }
+// -----------------------------------------------------------------------------
+// End of CMyOwnLlcpApplication::RemoteConnectRequest()</pre></p></div>
+<p><strong>Note</strong>: When a connect request is accepted, the <code class="codeph">MLlcpConnOrientedTransporter</code> object is automatically moved
+to the <strong>Connected</strong> status. This indicates that there is no need
+to issue the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AFBBD7C1-89B3-3C9C-8411-AA4CC4CD818A.html#GUID-567C7FAF-04BE-3E69-BCC6-ABCFBD774B95"><code class="apiname">MLlcpConnOrientedTransporter::Connect()</code></a> method before transferring or receiving the data since the <code class="codeph">MLlcpConnOrientedTransporter</code> object is already connected.</p>
+</li>
+<li id="GUID-95918769-C6C9-4D48-9499-2BC5D7A5B2FF-GENID-GUID-D94A5BC9-1FCA-4972-9342-FB72F94ADF50"><a name="GUID-95918769-C6C9-4D48-9499-2BC5D7A5B2FF-GENID-GUID-D94A5BC9-1FCA-4972-9342-FB72F94ADF50"><!-- --></a><p>Implement
+the <code class="codeph">COwnLlcpConnection::StartReceive()</code> method as
+shown in the following code snippet:</p>
+<div class="p"><p><strong>Example: </strong><pre class="codeblock">// COwnLlcpConnection::StartReceive()
+// -----------------------------------------------------------------------------
+//
+TInt COwnLlcpConnection::StartReceive( MLlcpReceiveCb&amp; aLlcpReceiveCb )
+    {
+    TInt error = KErrNone;
+    
+    if ( iConnState == EConnected )
+        {
+        if ( iActionState == EIdle )
+            {
+            TInt length = 0;
+            length = iConnection-&gt;SupportedDataLength();
+            iLlcpReceiveCb = &amp;aLlcpReceiveCb
+            
+            if ( length &gt; 0 )
+                {
+                iReceiveBuf.Zero();
+                error = iReceiveBuf.ReAlloc( length );
+                
+                if ( error == KErrNone )
+                    {
+                    iConnection-&gt;Receive( iStatus, iReceiveBuf );
+                    SetActive();
+                    iActionState = EReceiving;
+                    }
+                }
+            else
+                {
+                // if the length is 0 or negative, the LLCP link is destroyed.
+                error = KErrNotReady;
+                }
+            }
+        else
+            {
+            // The connection is already connecting or transfering data, 
+            // and cannot start receiving.
+            error = KErrInUse;
+            }
+        }
+    else
+        {
+        error = KErrNotReady;
+        }
+    
+    return error;
+    }
+// -----------------------------------------------------------------------------
+// End of COwnLlcpConnection::StartReceive()
+
+</pre></p></div>
+<div class="p"><div class="note"><p><strong class="note_title">Note: </strong></p><ul>
+<li><p>The <code class="codeph">COwnLlcpConnection::StartReceive()</code> method
+cannot start receiving data if there is a pending transfer or receive
+request. In such a scenario, <code class="codeph">KErrInUse</code> is returned.</p></li>
+<li><p>Data cannot be received from a remote device if a connection
+is not established. In such a scenario, <code class="codeph">KErrNotReady</code> is returned. </p></li>
+<li><p>The LLCP link between the local and remote can be removed anytime.
+Therefore, the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AFBBD7C1-89B3-3C9C-8411-AA4CC4CD818A.html#GUID-6325CFD3-E979-3D57-B066-230B548BA0B2"><code class="apiname">MLlcpConnOrientedTransporter::SupportedDataLength()</code></a> method can return negative values and they must be handled correctly. </p></li>
+</ul></div></div><p>The following diagram illustrates the sequence
+diagram of data receiving:</p><div class="figure" id="GUID-359C32AE-8986-420E-8980-B7BCAC2F9DA1"><img src="GUID-E3109842-BFDB-4722-AE16-BAF0CEE1D98D_d0e431687_href.png" /></div>
+</li>
+</ol>
+</div></div></div><div class="footer"><p class="metadata">Last updated September 30th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9EE55637-A7B3-4DB8-8B52-4C1CA06B788A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:08 GMT -->
+</html>

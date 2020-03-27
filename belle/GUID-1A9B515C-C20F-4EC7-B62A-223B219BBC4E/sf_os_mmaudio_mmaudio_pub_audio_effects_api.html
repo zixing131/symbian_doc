@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_os_mmaudio_mmaudio_pub_audio_effects_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:16 GMT -->
+<head><title>Audio Effects API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i1121 i1207 i1208"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Audio Effects API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.3</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Required_steps_to_start_using_the_API"><span class="tocnumber">2.1</span> <span class="toctext">Required steps to start using the API</span></a></li>
+<li class="toclevel-2"><a href="#Using_the_equalizer_effect"><span class="tocnumber">2.2</span> <span class="toctext">Using the equalizer effect</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.3</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Extensions_to_the_API"><span class="tocnumber">2.4</span> <span class="toctext">Extensions to the API</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.5</span> <span class="toctext">Error handling</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#References"><span class="tocnumber">4</span> <span class="toctext">References</span></a></li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The Audio Effects API supports audio related effects such as equalizer and reverb.  These APIs provide the mechanism of passing requests over the DevSound process boundary. The adaptation components implement these APIs.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>AudioEqualizerEffect.lib, BassBoostEffect.lib, DistanceAttenuationEffect.lib, DopplerBase.lib, EffectBase.lib, EnvironmentalReverbEffect.lib, ListenerDopplerEffect.lib, ListenerLocationEffect.lib, ListenerOrientationEffect.lib, LocationBase.lib, LoudnessEffect.lib, OrientationBase.lib, RoomLevelEffect.lib, SourceDopplerEffect.lib, SourceLocationEffect.lib, SourceOrientationEffect.lib, StereoWideningEffect.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/os/mmaudio/mmaudio_pub/audio_effects_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/os/mmaudio/mmaudio_pub/audio_effects_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>The Effect API gives audio applications the ability to control audio effects. Audio effects are abstractions of audio processing that apply artificial sounds or enhancements to audio. The Audio Effect API relies on the Effects Framework to communicate with software or hardware entities that handle audio effects processing.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>The Effect API is introduced in Symbian OS, S60 3.0. The Effects Framework makes extensive use of the custom command facility that requires a controller plug-in capable of supporting custom commands defined for the Effects Framework. These custom commands are supported in Symbian OS, S60 3.0 or higher.
+</p>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.3 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAudioEffect <td><span class="plainlinks"><code>/epoc32/include/AudioEffectBase.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAudioEqualizer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/AudioEqualizerBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CBassBoost</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/BassBoostBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CDistanceAttenuation</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/DistanceAttenuationBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CDoppler</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/DopplerBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEnvironmentalReverb</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/EnvironmentalReverbBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CListenerDoppler</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/ListenerDopplerBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CListenerLocation</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/ListenerLocationBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CListenerOrientation</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/ListenerOrientationBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CLocation</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/LocationBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CLoudness</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/LoudnessBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>COrientation</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/OrientationBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CRoomLevel</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/RoomLevelBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSourceDoppler</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/SourceDopplerBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSourceLocation</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/SourceLocationBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSourceOrientation</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/SourceOrientationBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CStereoWidening</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/StereoWideningBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAudioEffectObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/MAudioEffectObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAudioEqualizerObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/MAudioEqualizerObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MBassBoostObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/MBassBoostObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MDistanceAttenuationObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/MDistanceAttenuationObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MDopplerObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/MDopplerObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MEnvironmentalReverbObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/MEnvironmentalReverbObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MLocationObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/MLocationObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MOrientationObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/MOrientationObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MRoomLevelObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/MRoomLevelObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MStereoWideningObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/MStereoWideningObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfAudioEqualizer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/AudioEqualizerData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfAudioEqualizerBand</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/AudioEqualizerData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfAudioEqualizerCombined</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/AudioEqualizerData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfBassBoostData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/BassBoostData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfCommon</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/AudioEffectData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfDistanceAttenuation</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/DistanceAttenuationData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfDoppler</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/DopplerData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfEnvironmentalReverb</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/EnvironmentalReverbData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfLocation</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/LocationData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfLoudnessData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/LoudnessData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfOrientation</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/OrientationData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfRoomLevel</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/RoomLevelData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEfStereoWidening</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/StereoWideningData.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/MListenerDopplerObserver.h</code></span>, <span class="plainlinks"><code>/epoc32/include/MListenerLocationObserver.h</code></span>, <span class="plainlinks"><code>/epoc32/include/MListenerOrientationObserver.h</code></span>, <span class="plainlinks"><code>/epoc32/include/MLoudnessObserver.h</code></span>, <span class="plainlinks"><code>/epoc32/include/MSourceDopplerObserver.h</code></span>, <span class="plainlinks"><code>/epoc32/include/MSourceLocationObserver.h</code></span>, <span class="plainlinks"><code>/epoc32/include/MSourceOrientationObserver.h</code></span>
+</td></tr>
+<p>The Audio Effects API includes one or more of following interfaces:
+</p>
+<ul><li><b>MDA Client Utility APIs</b> are defined by <span class="plainlinks"><code>CMdaAudioConvertUtility</code> </span>, <span class="plainlinks"><code>CMdaAudioInputStream</code> </span>, <span class="plainlinks"><code>CMdaAudioOutputStream</code> </span>, <span class="plainlinks"><code>CMdaAudioPlayerUtility</code> </span>, and <span class="plainlinks"><code>CMdaAudioRecorderUtility</code> </span>. These utilities are application-level APIs that offer audio client applications the ability to play, record, or convert audio.
+</li><li><b>Custom Command API</b> is a generic interface that encapsulates the Custom Command APIs provided by the MDA Client Utility API. A custom command is a custom message sent from the client to the controller through the Custom Command API.
+</li><li><b>Custom Interface API</b> is a generic mechanism for clients to retrieve an interface object by specifying the interface UID. Once retrieved, the client uses the interface as a normal API.
+</li><li><b>MMF DevSound API</b> is an interface to the adaptation layer of the audio subsystem.
+</li></ul>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_audio_effects_api.png" title="Diagram"><img alt="Diagram" border="0" height="235" src="images/SPB_10_1_audio_effects_api.png" width="486" /></a></div>
+<div style="text-align:center"><i>Diagram</i></div>
+<p>All the Effect interfaces are method calls. However, the Effects Framework relies on the MMF Controller Framework, which has a client-server boundary. When a client issues requests, the requests and data are encapsulated into messages that can be passed across the client-server boundary. Synchronous method calls block the client thread until they return. However, most of the client method calls do not require a message to be sent. The methods that do generate a message are completed immediately when possible.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Required_steps_to_start_using_the_API"><h3> <span class="mw-headline">2.1 Required steps to start using the API </span></h3>
+<ul><li>Each effect is associated with an audio stream. This association with the audio stream is made when the effect is created by passing in the MDA utility that controls the audio stream in the effect's <code>NewL</code> method. A client application creates the effect after the application initializes the MDA audio utility but before the application starts playing the audio. On the contrary, the effect is deleted before the MDA utility is deleted.
+</li></ul>
+<ul><li>By default, an effect is disabled when it is created. After it is created, the application can configure the effect and then enable it. Some effects can be configured and enabled when they are constructed.
+</li></ul>
+<ul><li>To configure an effect, the application calls the appropriate set methods on the effect. After the effect is configured, the application then calls the <code>ApplyL()</code> method on the effect to apply the new settings. Settings are automatically applied when they are enabled or disabled.
+</li></ul>
+<ul><li>Effect processing is started by calling the <code>EnableL()</code> method on the effect. Enabling an effect that is already enabled does nothing. To stop processing an effect, the <code>DisableL()</code> method on the effect is called. Disabling an effect that is already disabled does nothing.
+</li></ul>
+<ul><li>It is possible for an application to update the settings of an effect when the audio is playing, but it depends on the specific hardware and drivers of a device whether these changes will have an effect.
+</li></ul>
+<ul><li>Due to hardware limitations, it is possible that some hardware platforms can only support a limited number of instances of a specific effect. In this case, the effect is not applied to the lowest priority audio streams. By default, the audio drivers continues playing the audio streams without the effect applied. However, if the application does not want the audio to play without the effect applied, it can call the <code>Enforce</code> method on the effect. In this case, the audio pre-empts the audio stream through the utility that controls that audio stream with the <code>KErrEnforcedEffectPreempted</code> error.
+</li></ul>
+<ul><li>Depending on hardware capability, it is also possible to have one setting for an effect type that is being applied to multiple streams. In this case, only the highest-priority audio stream is allowed to modify the effect parameters. When the priorities of the audio streams are the same, the application that sets up the effect last is the one that is allowed to modify the effect parameters. Applications that lose the right to update the effect are notified through the observer interface with the <code>KLostUpdateRights</code> event. When an application regains the right to control the effects settings, it is notified through the observer interface with the <code>KGaindUpdateRights</code> event. By default, all effects initially have the update rights.
+</li></ul>
+<ul><li>Effect processing is optional. When it is not supported, the <code>NewL()</code> methods for the effects leaves with <code>KErrNotSupported</code>. Even if effect processing is supported, it is not guaranteed that every method of an effect is implemented. In this case, unsupported operations on the effect are ignored by the audio system.
+</li></ul>
+<ul><li>Currently, Tone and Stream Utilities do not support custom interfaces. <code>NewLs</code> with custom interfaces as arguments leaves with <code>KErrNotSupported</code>.
+</li></ul>
+<ul><li>All the x, y and z coordinates that used in those 3D Effect (Doppler, Orientation and Location) follow the right-handed coordinate system.
+</li></ul>
+</a><a name="Using_the_equalizer_effect"><h3> <span class="mw-headline">2.2 Using the equalizer effect </span></h3>
+</a><p>This example shows how a client audio application uses the equalizer effect. Note that an MDA Player utility must be created first and must not be deleted before the equalizer effect is deleted. The following steps and diagrams illustrate the stages of the equalizer effect lifecycle. All effects have similar sequences while their operations and events may be different.
+</p>
+<ul><li>Create the effect. The equalizer effect is created using the usual <code>NewL()</code> method. The client may register an observer with the effect. The effect is then ready to be used.
+</li></ul>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_audio_effects_api_creat.png" title="Diagram"><img alt="Diagram" border="0" height="242" src="images/SPB_10_1_audio_effects_api_creat.png" width="586" /></a></div>
+<div style="text-align:center"><i>Diagram</i></div>
+<ul><li>Change the effect settings. After the creation, the equalizer object assumes an initial state. The initial equalizer value varies and is set by the underlying audio system. Settings are made using one of the available set methods on the object. In this example, the preset values in the equalizer are checked and the values are then changed. Before the equalizer preset is applied, it is possible to change the value many times.
+</li></ul>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_audio_effects_api_change.png" title="Diagram"><img alt="Diagram" border="0" height="291" src="images/SPB_10_1_audio_effects_api_change.png" width="463" /></a></div>
+<div style="text-align:center"><i>Diagram</i></div>
+<ul><li>Apply the effect settings. Effect settings are applied using <code>Enable()</code> or <code>ApplyL()</code>. Initially, all effects are disabled. The <code>Enable()</code> method must be used to enable the effect if it is disabled. Enabling causes the effect settings to be applied. After the effect is enabled, new settings are applied by using the <code>ApplyL()</code> method. The following diagram shows a new setting being applied after the effect is enabled.
+</li></ul>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_audio_effects_api_apply.png" title="Diagram"><img alt="Diagram" border="0" height="356" src="images/SPB_10_1_audio_effects_api_apply.png" width="461" /></a></div>
+<div style="text-align:center"><i>Diagram</i></div>
+<ul><li>Report spontaneous events. Events may occur spontaneously during the lifetime of the effect. These events are reported to the client through the <code>EffectChange()</code> callback. Clients receive event notifications after successful registration. Refer to the Create the effect section above for the registration sequence. If clients do not want to receive further event notifications, use the <code>UnregisterObserver()</code> method. It is recommended to monitor the events if the effect is enabled. In the following diagram the effect cannot be applied when the client attempts to apply the effect on the stream. In such a case, the effect does not have update rights. In addition, because the client indicates that the effect must be enforced, the stream is pre-empted.
+</li></ul>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_audio_effects_api_event.png" title="Diagram"><img alt="Diagram" border="0" height="350" src="images/SPB_10_1_audio_effects_api_event.png" width="633" /></a></div>
+<div style="text-align:center"><i>Diagram</i></div>
+<ul><li>Disable and remove the effect. An effect can be disabled using the <code>DisableL()</code> method. After an effect is disabled, the effect can be removed by deleting the object. The client can also delete the effect without disabling it first.
+</li></ul>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_audio_effects_api_disable.png" title="Diagram"><img alt="Diagram" border="0" height="365" src="images/SPB_10_1_audio_effects_api_disable.png" width="667" /></a></div>
+<div style="text-align:center"><i>Diagram</i></div>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.3 Memory and Performance Considerations </span></h3>
+</a><p>For each effect interface object created, there are two additional support objects and an adaption custom interface effect object created. The size of the support object depends on the effect type. Some effects have larger data structures than others.  However, in general, each effect object requires an estimated 2-KB RAM.
+</p>
+<a name="Extensions_to_the_API"><h3> <span class="mw-headline">2.4 Extensions to the API </span></h3>
+</a><p>The basic functionality of an Effect API can be extended, but this may introduce binary compatibility issues if the interface class is changed. However, new effect classes with additional functionality can be created through derivation.
+</p>
+<a name="Error_handling"><h3> <span class="mw-headline">2.5 Error handling </span></h3>
+</a><p>The leave mechanism of the Symbian platform is used to handle exception situations. Each leaving method has a list of possible leave codes and the meaning of the code. Clients are required to TRAP the leaving methods and handle them appropriately or leave it up to a higher-level TRAP harness.
+</p><p>A number of error conditions can occur when the Effect APIs are used. Each Effect API has different error conditions. The errors common to all effects are listed as follows:
+</p>
+<ul><li><code>KErrAccessDenied</code> - Attempting to apply effect settings when the effect has lost update rights.
+</li><li><code>KErrArgument</code> - Attempting to set an effect setting to an invalid value.
+</li><li><code>KErrNoMemory</code> - Insufficient amount of memory available to carry out the operation.
+</li><li><code>KErrNotSupported</code> - The specified effect is not supported during the effect creation process.
+</li></ul>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<ul><li>API - Application Program Interface
+</li><li>DLL - Dynamic Link Library
+</li><li>HW - Hardware
+</li><li>ID - Identifier
+</li><li>mB - Millibel
+</li><li>MMF - Multimedia Framework
+</li></ul>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<ul><li>Adaptation Layer - The software layer closer to the hardware platform. This requires implementation and adapts to hardware peculiarities. In the context of the Effects Framework, the software below the MMFDevSound API is considered adaptation.
+</li><li>Audio Effects - Artificially created or enhanced sounds.
+</li><li>Custom Command - A mechanism for the controller plug-in to extend the basic API. It allows clients to send custom messages to the controller.
+</li><li>Custom Interface - A mechanism for the controller plug-in to extend the basic API. It allows clients to retrieve an interface by specifying the interface UID. 
+</li><li>Effects Framework - Made up of a set of client-level APIs and callback interfaces that enable audio effects to be realized within the Multimedia Framework.
+</li></ul>
+</a><a name="References"><h2> <span class="mw-headline">4 References </span></h2>
+<ul><li> SGL.GT0137.504 How to use the Client MMF API - </li></ul></a><a class="external free" href="http://www.symbian.com/" rel="nofollow" title="http://www.symbian.com/">http://www.symbian.com/</a>
+
+<div class="copy"><?php include ("copy.html"); ??></div></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_os_mmaudio_mmaudio_pub_audio_effects_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:19 GMT -->
+</html>

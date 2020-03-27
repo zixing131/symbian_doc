@@ -1,0 +1,44 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-AAE39139-B377-5122-A2B0-98708EA00614.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:42 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Writing a UI Data MTM" /><meta name="DC.Relation" scheme="URI" content="GUID-59217FA7-3078-53CA-88B3-78D6FB788271" /><meta name="DC.Relation" scheme="URI" content="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-DD27A452-8B0F-5C6D-A2E6-FC21145468B6" /><meta name="DC.Relation" scheme="URI" content="GUID-7FCDAC24-BFEF-590B-B569-04AA262EBF06" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-AAE39139-B377-5122-A2B0-98708EA00614" /><meta name="DC.Language" content="en" /><title>Writing
+a UI Data MTM  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-AAE39139-B377-5122-A2B0-98708EA00614">Writing
+a UI Data MTM </h1><div><div><p>This section explains the initial steps to be performed to write
+a UI Data MTM. It does not explain the implementation of all <a href="GUID-D7600D93-CFB8-565D-8200-7082B2CF1791.html">UI
+Data MTM functionality</a>, however, you can refer to the UI
+Data MTM examplefor detailed implementation steps.</p></div>
+<div><h3 class="section-title">Context</h3><p>A derived UI Data MTM is simpler to implement than the MTM classes,
+and most of its code is specific to the protocol that is being implemented.
+The UI Data MTM implementation can require a resource file that details the
+strings used by the MTM and a list of functions (as command IDs) and flags
+that are specific to the MTM. </p> </div>
+<h3>Steps</h3><ol id="GUID-6E0C8880-28B0-5ADC-B65E-B3AEE6E932AE"><a name="GUID-6E0C8880-28B0-5ADC-B65E-B3AEE6E932AE"><!-- --></a>
+<li id="GUID-C6574E7B-1748-583F-89AA-9B0FA60FF875"><a name="GUID-C6574E7B-1748-583F-89AA-9B0FA60FF875"><!-- --></a><p></p>
+Derive a class from the CBaseMtmUiData class. 
+</li>
+<li id="GUID-2DDD85DF-A8C9-5BFA-8060-09D547F95992"><a name="GUID-2DDD85DF-A8C9-5BFA-8060-09D547F95992"><!-- --></a><p></p>
+Register it using the CRegisteredMtmDll parameter. 
+</li>
+</ol>
+<div><h3 class="section-title">Results</h3><p>Use the derived CBaseMtmUiData class
+functionality in the Messaging client application. </p><pre class="codeblock">//
+// CTxtiMtmUiData: UI Data MTM
+//
+
+CTxtiMtmUiData* CTxtiMtmUiData::NewL(CRegisteredMtmDll&amp; aRegisteredDll)
+    {
+    CTxtiMtmUiData* base=new(ELeave) CTxtiMtmUiData(aRegisteredDll);
+    CleanupStack::PushL(base);
+    base-&gt;ConstructL();
+    CleanupStack::Pop();
+    return base;
+    }</pre></div>
+<div><h3 class="section-title">UI Data MTM example</h3> <p>For more details on implementing
+all UI MTM functionalities, see example
+code. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-59217FA7-3078-53CA-88B3-78D6FB788271.html">MTM overview</a></li><li><a href="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC.html">User Interface
+Data MTM</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 21st, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-AAE39139-B377-5122-A2B0-98708EA00614.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:42 GMT -->
+</html>

@@ -1,0 +1,192 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9D3637D4-43BD-51ED-B4BC-1F234F09E24B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:07 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to construct and manipulate a singly linked list" /><meta name="abstract" content="Code fragments showing how to create a singly linked list and how to manipulate the list and the elements of the list." /><meta name="description" content="Code fragments showing how to create a singly linked list and how to manipulate the list and the elements of the list." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Relation" scheme="URI" content="GUID-052E9582-9A35-50B0-A32E-F7E6A01A2E2A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9D3637D4-43BD-51ED-B4BC-1F234F09E24B" /><meta name="DC.Language" content="en" /><title>How
+to construct and manipulate a singly linked list </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-9D3637D4-43BD-51ED-B4BC-1F234F09E24B">How
+to construct and manipulate a singly linked list</h1><div><p>Code fragments showing how to create a singly linked list and how
+to manipulate the list and the elements of the list.</p>
+<p>The following code fragments show how a singly linked list can be constructed
+and manipulated. The list consists of instances of an example class, <code class="codeph">CItem</code>,
+which forms items on a stack implemented as a singly linked list using the <code class="codeph">iSlink</code> data
+member as the link object. In this example, a <code class="codeph">CItem</code> object
+can contain an item of text implemented as an <code class="codeph">HBufC</code>.</p>
+<p>The class is declared as:</p>
+<pre class="codeblock">class CItem : public CBase
+    {
+public  :
+    static CItem* NewL(const TDesC&amp; aText);
+    static CItem* NewLC(const TDesC&amp; aText); 
+                  CItem();
+    virtual       ~CItem();
+    const HBufC*  GetText(); 
+public  :        
+    static const  TInt iOffset;
+private :
+    void          ConstructL(const TDesC&amp; aText);
+private :    
+    TSglQueLink   iSlink;
+    HBufC*        iText;
+    friend  class CStack;
+    };</pre>
+<p>The <code class="codeph">CItem</code> member functions are implemented as:</p>
+<pre class="codeblock">const TInt CItem::iOffset = _FOFF(CItem,iSlink);</pre>
+<pre class="codeblock">CItem* CItem::NewLC(const TDesC&amp; aText)
+    {
+    CItem* self = new (ELeave) CItem();
+    CleanupStack::PushL(self);
+    self-&gt;ConstructL(aText);
+    return self;
+    }</pre>
+<pre class="codeblock">CItem* CItem::NewL(const TDesC&amp; aText)
+    {
+    CItem* self = CItem::NewLC(aText);
+    CleanupStack::Pop();
+    return self;
+    }</pre>
+<pre class="codeblock">void CItem::ConstructL(const TDesC&amp; aText)
+    {
+    iText    = aText.AllocL();
+    }</pre>
+<pre class="codeblock">CItem::CItem()
+    {}</pre>
+<pre class="codeblock">CItem::~CItem()
+    {
+    delete iText;
+    }</pre>
+<pre class="codeblock">const HBufC* CItem::GetText()
+    {
+    return (iText);
+    }
+</pre>
+<p>As part of the construction process, a <code class="codeph">CItem</code> constructs
+an <code class="codeph">HBufC</code> of the correct length and copies the content of
+the descriptor parameter into it.</p>
+<p>The stack is implemented by an instance of the example class <code class="codeph">CStack</code>.
+This maintains the stack by adding <code class="codeph">CItem</code> objects onto the
+end of the list and removing them from the end of the list. When removing
+them from the end of the list, a pointer to the removed <code class="codeph">CItem</code> object
+is returned.</p>
+<p>In this example, the list header, <code class="codeph">iStack</code>, and the iterator, <code class="codeph">iStackIter</code>,
+are declared as data members of the class and are constructed when the <code class="codeph">CStack</code> object
+is constructed. A C++ constructor must be supplied so that <code class="codeph">iStackIter</code> can
+be constructed. (<code class="codeph">TSglQueIter</code> has no default constructor).</p>
+<p><code class="codeph">AddToStack()</code> takes a <code class="codeph">CItem</code> object and
+adds it to the end of the singly linked list.</p>
+<p><code class="codeph">RemoveFromStack()</code> takes the <code class="codeph">CItem</code> object
+at the end of the singly linked list, removes it from the list and returns
+a pointer to it.</p>
+<p>The <code class="codeph">CStack</code> class is declared as:</p>
+<pre class="codeblock">class CStack : public CBase
+    {
+public :
+    static CStack* NewL();
+    static CStack* NewLC();
+                   CStack();
+    void           Construct();
+    virtual        ~CStack();
+    CItem*         RemoveFromStack();
+    void           AddToStack(CItem&amp; anItem);
+private :
+    TSglQue&lt;CItem&gt;     iStack; 
+    TSglQueIter&lt;CItem&gt; iStackIter;
+    };
+</pre>
+<p>The <code class="codeph">CStack</code> member functions are implemented as:</p>
+<pre class="codeblock">CStack* CStack::NewLC()
+    {
+    CStack* self = CStack::NewL();
+    CleanupStack::PushL(self);
+    return self;
+    }</pre>
+<pre class="codeblock">CStack* CStack::NewL()
+    {
+    CStack* self = new (ELeave) CStack;
+    return self;
+    }</pre>
+<pre class="codeblock">CStack::CStack()
+    : iStack(CItem::iOffset),iStackIter(iStack) 
+    {}</pre>
+<div id="GUID-6C00AE42-5876-4C9B-8530-4E3BCEC12295"><h3 class="section-title">Using the list
+iterator</h3> <p>The C++ constructor is needed so that the list header
+(<code class="codeph">iStack</code>) and the list iterator (<code class="codeph">iStackIter</code>)
+can be properly constructed.</p> <p>Before destroying a <code class="codeph">CStack</code> object,
+the list is destroyed. This is achieved using the iterator (<code class="codeph">iStackIter</code>).
+The iterator pointer is set to point to each element in turn, removing that
+element from the list before destroying it.</p> <p>Once the iterator has reached
+the end of the list, the operator<code class="codeph">++</code> returns <code class="codeph">NULL</code>.</p> <p>The
+destruction process is safe if the list is empty; the statement <code class="codeph">iStackIter.SetToFirst()</code> is
+harmless, the operator<code class="codeph">++</code> returns <code class="codeph">NULL</code> and
+execution of the body of the <code class="codeph">while</code> loop never happens.</p> <pre class="codeblock">CStack::~CStack()
+    {
+    CItem*  item;
+    
+    iStackIter.SetToFirst(); 
+    while ((item = iStackIter++) != NULL)
+        {
+        iStack.Remove(*item);
+        delete item;
+        };
+    }</pre> </div>
+<div id="GUID-9B58504D-1C1C-4D2C-93BB-085F04EA62B3"><h3 class="section-title">Adding an element
+to the stack</h3> <p>Adding an element to the stack simply involves adding
+the <code class="codeph">CItem</code> object to the end of the list.</p> <pre class="codeblock">void CStack::AddToStack(CItem&amp; anItem)
+    {
+    iStack.AddLast(anItem);
+    }</pre> </div>
+<div id="GUID-99C58AE1-4EA3-41FA-82AF-C1B9D08FB57F"><h3 class="section-title">Removing an
+element from the stack</h3> <p>The <code class="codeph">RemoveFromStack()</code> function
+returns <code class="codeph">NULL</code>, if the list is empty, otherwise it just uses
+the <code class="codeph">Last()</code> member function to return a pointer to the last
+element in the list before removing it.</p> <pre class="codeblock">CItem* CStack::RemoveFromStack()
+    {
+    CItem* lastitem;
+    
+    if (iStack.IsEmpty())
+        return NULL;
+    
+    lastitem = iStack.Last();
+    iStack.Remove(*lastitem); 
+    
+    return (lastitem);
+    }</pre> </div>
+<div id="GUID-BC25EB70-D1D2-4045-8345-C002C17D9114"><h3 class="section-title">Executing the
+code</h3> <p>Executing the code results in a singly linked list of <code class="codeph">CItem</code> objects
+each containing a pointer to an <code class="codeph">HBufC</code> descriptor each of
+which, in turn, contains the text “8”, “89”, and so on through to “89ABCDEF”:</p> <pre class="codeblock">    {
+    CStack*  stack;
+    CItem*   item;
+    TBuf&lt;16&gt; buffer;
+    
+    TRAPD(leavecode,stack = CStack::NewL());
+    if (leavecode != KErrNone)
+        {
+        // Cannot create stack
+        return;
+        }</pre> <pre class="codeblock">    for (TUint jj = 8; jj &lt; 16; jj++)
+        {
+        buffer.AppendNumUC(jj,EHex); 
+        TRAPD(leavecode,item = CItem::NewL(buffer));
+        if (leavecode != KErrNone)
+            {
+            // Cannot create item
+            delete stack;
+            return;
+            }
+        stack-&gt;AddToStack(*item);
+        }</pre> <p>as the following shows:</p> <div class="figure" id="GUID-27C947C7-3035-54A4-BA6E-C701C3007DD6"><img src="GUID-BF155E49-35AF-5BC1-80C5-8D6C68C464F8_d0e284865_href.png" /><p class="figure-title"><strong>Figure: </strong>Example singly linked list</p></div> </div>
+<div id="GUID-CB47362B-7068-45AD-9D60-7D93174ED858"><h3 class="section-title">Removing elements
+from list</h3> <p>The following code removes each <code class="codeph">CItem</code> element
+from the list, starting with the last and working through to the first until
+the list is empty.</p> <pre class="codeblock">    while ((item = stack-&gt;RemoveFromStack()) != NULL)
+        {
+        // item-&gt;GetText());can be used to access the text.
+        delete item;
+        };</pre> <pre class="codeblock">    delete stack;</pre> <p>Note
+that unlike doubly linked lists, elements can only be added to the start or
+the end of a singly linked list. Elements <em>cannot</em> be added to the middle
+of the list.</p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9D3637D4-43BD-51ED-B4BC-1F234F09E24B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:07 GMT -->
+</html>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-CBDAE31A-4C07-3F0F-B74F-C6EC8B4BD372.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:24 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="topic" />
+<meta name="DC.Title" content="q:/epoc32/include/app/CVPbkTopContactManager.h" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-CBDAE31A-4C07-3F0F-B74F-C6EC8B4BD372" />
+<title>q:/epoc32/include/app/CVPbkTopContactManager.h</title>
+<link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-CBDAE31A-4C07-3F0F-B74F-C6EC8B4BD372"><a name="GUID-CBDAE31A-4C07-3F0F-B74F-C6EC8B4BD372"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="title pageHeading topictitle1">q:/epoc32/include/app/CVPbkTopContactManager.h</h1>
+<div class="body">
+<p class="p">A class for managing Top Contact properties of contacts. All main operations are asynchronous and accept two observers. One used to signal completion and return result if necessary. Another one used to signal an error if operation fails.</p>
+<p class="p">A client that re-orders the existing top contacts in the phone</p>
+<p class="p">class CTopContactManagerClient : public <a class="xref" href="GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F">CActive</a>, public MVPbkOperationObserver, public MVPbkOperationErrorObserver, public MVPbkOperationResultObserver&lt;MVPbkContactViewBase*&gt; ...</p>
+<p class="p">// MVPbkOperationObserver void CTopContactManagerClient::VPbkOperationCompleted( MVPbkContactOperationBase*) { FinishCommand( KErrNone ); }</p>
+<p class="p">//From MVPbkOperationErrorObserver void CTopContactManagerClient::VPbkOperationFailed( MVPbkContactOperationBase*, TInt aError ) { FinishCommand( aError ); }</p>
+<p class="p">// From MVPbkOperationResultObserver void CTopContactManagerClient::VPbkOperationResultCompleted( MVPbkContactOperationBase*, MVPbkContactViewBase* aView ) { iView = aView; delete iTopContactOperation; iTopContactOperation = NULL; IssueRequest(EShowMoveDlg); } // -------------------------------------------------------------------------- // CTopContactManagerClient::RunL // State Machine using TopContactManager // -------------------------------------------------------------------------- // void CTopContactManagerClient::RunL() { switch(iState) { case ELoadingTopContacts: { // This async call will fall into VPbkOperationResultCompleted on success with // MVPbkContactOperationBase object as a result // Otherwise, it will fall into VPbkOperationFailed callback iTopContactOperation = iVPbkTopContactManager-&gt;GetTopContactsViewL( *this, *this ); break; } case EShowMoveDlg: { ShowDlgL(); // confirm re-ordering top contacts with user break; } case ESavingTopContacts: { // Do re-ordering via Top Manager // This async call will fall into VPbkOperationResultCompleted on success with // MVPbkContactOperationBase object as a result // Otherwise, it will fall into VPbkOperationFailed callback iTopContactOperation = iVPbkTopContactManager-&gt;SetTopOrderL( *iTopContacts, *this, *this ); <a class="xref" href="GUID-0DD554D7-B9B1-3FD3-898F-4D855144FCEA.html#GUID-A3B62AAC-7E17-31F3-97DF-D7C6F4FB66F2">CleanupStack::PopAndDestroy()</a>; //topContacts break; }</p>
+<div class="p">... } } <pre class="pre codeblock">
+ </pre></div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-CBDAE31A-4C07-3F0F-B74F-C6EC8B4BD372.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:24 GMT -->
+</html>

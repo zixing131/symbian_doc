@@ -1,0 +1,146 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-4E56E531-5757-5740-9C7D-705D427FA9D5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:11:46 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Location Acquisition API Runtime Behaviour" /><meta name="abstract" content="This document describes some differences in runtime behaviour that application clients may observe depending on the Symbian platform on which they are running." /><meta name="description" content="This document describes some differences in runtime behaviour that application clients may observe depending on the Symbian platform on which they are running." /><meta name="DC.Relation" scheme="URI" content="GUID-0D5692FB-305E-58B2-B105-B309BB9AE38D" /><meta name="DC.Relation" scheme="URI" content="GUID-F5944819-2942-5ADA-A0AD-510D20BFBDEB" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-7F476137-5E7F-5288-9F4A-6C20F0A1AD9B" /><meta name="DC.Relation" scheme="URI" content="GUID-D0318BB6-0B9F-5A1C-AB0B-61BA22D28661" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4E56E531-5757-5740-9C7D-705D427FA9D5" /><meta name="DC.Language" content="en" /><title>Location
+Acquisition API Runtime Behaviour </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4E56E531-5757-5740-9C7D-705D427FA9D5">Location
+Acquisition API Runtime Behaviour</h1><div><p>This document describes some differences in runtime behaviour that
+application clients may observe depending on the Symbian platform on which
+they are running. </p>
+<div><h3 class="section-title">Purpose</h3> <p>This document describes some differences
+in runtime behaviour that a Location Acquisition API client may observe. The
+exact behaviour of the API depends on the configuration of the LBS subsystem
+in the Symbian platform and on the positioning technologies that are available. </p> </div>
+<div><h3 class="section-title">Types of runtime behaviour differences</h3> <p>There are
+two main types of runtime behaviour differences: </p> <ul>
+<li id="GUID-8B64686F-3159-52F5-A576-30C3B5428E6C"><a name="GUID-8B64686F-3159-52F5-A576-30C3B5428E6C"><!-- --></a><p>The <a href="#GUID-95EE0194-408E-5366-9273-8F72682E05F2">accuracy of position updates</a> returned to API clients </p> </li>
+<li id="GUID-08F51FA9-4AC9-5B0D-A53C-729828441D5E"><a name="GUID-08F51FA9-4AC9-5B0D-A53C-729828441D5E"><!-- --></a><p>The <a href="#GUID-2DF0D6FF-BB17-56B9-B19F-C0F33C6F0F15">source of position updates</a> (the positioning module from which the
+updates may originate) </p> </li>
+</ul> <p id="GUID-95EE0194-408E-5366-9273-8F72682E05F2"><a name="GUID-95EE0194-408E-5366-9273-8F72682E05F2"><!-- --></a><strong>Accuracy of position updates</strong> </p> <p>This
+section describes the behavior that a client application can expect depending
+on the Symbian platform on which it runs. </p> <p>A client application may
+receive a location update whenever a position is available. The current latitude
+and longitude have been determined but their accuracy may not meet the client’s
+expectations. A timeout of the client's location request will only occur when
+it is not possible to calculate a position (irrespective of its quality). </p> <p>Some
+platforms may be configured to return a position update only if it meets the
+required accuracy. A call to <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1EAEB7EF-0AC7-37C7-B35F-C9B780FFC575.html#GUID-321F6046-3551-3ACE-B0A3-26D51FAEB477"><code class="apiname">RPositioner::NotifyPositionUpdate()</code></a> completes
+only when the Location Server has a position fix that meets the specified
+quality criteria. A client may set its accuracy requirements by passing a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-483AE6F4-5DEB-312D-ADDA-FC5AA932DE3D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-483AE6F4-5DEB-312D-ADDA-FC5AA932DE3D.html"><code class="apiname">TPositionCriteria</code></a> object
+in <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1EAEB7EF-0AC7-37C7-B35F-C9B780FFC575.html#GUID-AF3D9B5F-8025-3AFF-A101-82025520EBD6"><code class="apiname">RPositioner::Open()</code></a>. If no criteria are specified then
+default quality criteria are used to filter position updates returned to the
+client. </p> <p>It is recommended that applications are designed to be aware
+that they may receive positions that do not meet their expected accuracy before
+the timeout period expires. If accuracy is critical to a client application
+it should check the accuracy values <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AB9F288E-86C6-327A-9E53-2EA746416038.html#GUID-187C862D-500F-3095-8F03-9EF4E4CEF80F"><code class="apiname">TPosition::HorizontalAccuracy()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AB9F288E-86C6-327A-9E53-2EA746416038.html#GUID-742043CB-40B1-3BA1-A879-CA2F401C56C3"><code class="apiname">TPosition::VerticalAccuracy()</code></a> of
+the returned <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AB9F288E-86C6-327A-9E53-2EA746416038.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AB9F288E-86C6-327A-9E53-2EA746416038.html"><code class="apiname">TPosition</code></a> object. This is advised as the <code class="codeph">TRequestStatus</code> return
+parameter may not indicate position quality loss (it may be set to <code class="codeph">KErrNone</code> and
+not to <code class="codeph">KPositionQualityLoss</code>). </p> <p>Table 1 shows the position
+updates and <code class="codeph">TRequestStatus</code> values that are returned by the
+Location Acquisition API when a client calls <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1EAEB7EF-0AC7-37C7-B35F-C9B780FFC575.html#GUID-321F6046-3551-3ACE-B0A3-26D51FAEB477"><code class="apiname">RPositioner::NotifyPositionUpdate()</code></a>. </p> <div class="tablenoborder"><a name="GUID-EEE1C9B5-A81C-589D-9636-79E900415F4F"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-EEE1C9B5-A81C-589D-9636-79E900415F4F" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e345495">Event</th>
+<th class="cellrowborder" valign="top" id="d0e345498"> API response to client (partial updates OFF)</th>
+<th class="cellrowborder" valign="top" id="d0e345501">API response to client (partial updates ON)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e345495 "><p>Module returns <code class="codeph">&lt;error code&gt;</code> before request timeout. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345498 "><p>Position is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">&lt;error
+code&gt;</code>. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345501 "><p>Position is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">&lt;error
+code&gt;</code>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e345495 "><p>Module returns incomplete position before request timeout. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345498 "><p>Position is not returned. <code class="codeph">NotifyPositionUpdate()</code> does
+not complete. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345501 "><p>Position is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">KPositionPartialUpdate</code>. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e345495 "><p>Module returns accurate position before request timeout. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345498 "><p>Position is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">KErrNone</code>. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345501 "><p>Position is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">KErrNone</code>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e345495 "><p>Module returns inaccurate position before request timeout. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345498 "><p> <strong>If LBS is configured to return all positions:</strong> </p> <p>Position
+is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">KErrNone</code>. </p> <p> <strong>Else
+if LBS is configured to return only accurate positions:</strong> </p> <p>Position
+is not returned. <code class="codeph">NotifyPositionUpdate()</code> does not complete. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345501 "><p> <strong>If LBS is configured to return all positions:</strong> </p> <p>Position
+is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">KErrNone</code> </p> <p> <strong>Else
+if LBS is configured to return only accurate positions:</strong> </p> <p>Position
+is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">KPositionPartialUpdate</code>. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e345495 "><p>Timeout in Location Server. Module has not yet returned a position. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345498 "><p>Position containing "Not a Number" <code class="codeph">(NaN)</code> values
+is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">KErrTimedOut</code>. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345501 "><p>Position containing <code class="codeph">NaN</code> values is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">KErrTimedOut</code>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e345495 "><p>Timeout in Location Server. Module has previously returned an inaccurate
+position. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345498 "><p> <strong>If LBS is configured to return all positions:</strong> </p> <p>This
+can't happen. Inaccurate position would have been returned to client. </p> <p> <strong>Else
+if LBS is configured to return only accurate positions:</strong> </p> <p>Inaccurate
+position is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">KPositionQualityLoss</code>. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345501 "><p>This can't happen. Inaccurate position would have been returned
+before the timeout. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e345495 "><p>Timeout in Location Server. Module has previously returned an incomplete
+position. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345498 "><p>Incomplete position is returned (contains some <code class="codeph">NaN</code> values). <code class="codeph">TRequestStatus</code> is <code class="codeph">KPositionQualityLoss</code>. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345501 "><p>This can't happen. The incomplete position would have been returned
+before the timeout. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e345495 "><p>Module returns an accurate or an inaccurate position and an error
+code of KPositionCalculationFutile. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345498 "><p>The most accurate available position is returned. </p> <p> <strong>If
+LBS is configured to return all positions:</strong> </p> <p> <code class="codeph"> TRequestStatus</code> is <code class="codeph">KErrNone</code>. </p> <p> <strong>Else
+if LBS is configured to return only accurate positions:</strong> </p> <p>TRequestStatus
+is <code class="codeph">KPositionQualityLoss</code> if position is inaccurate. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345501 "><p>The most accurate available position is returned. </p> <p> <strong>If
+LBS is configured to return all positions:</strong> </p> <p> <code class="codeph"> TRequestStatus</code> is <code class="codeph">KErrNone</code>. </p> <p> <strong>Else
+if LBS is configured to return only accurate positions:</strong> </p> <p> <code class="codeph">TRequestStatus</code> is <code class="codeph">KPositionQualityLoss</code> if
+position is inaccurate. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e345495 "><p>Module returns an incomplete position and an error code of KPositionCalculationFutile. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345498 "><p>The most accurate available position is returned. TRequestStatus
+is <code class="codeph">KPositionQualityLoss</code>. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345501 "><p>The most accurate available position is returned. TRequestStatus
+is <code class="codeph">KPositionPartialUpdate</code>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e345495 "><p>Client calls <code class="codeph">RPositioner::CompleteRequest()</code>. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345498 "><p>The last calculated position is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">KPositionEarlyComplete</code>. </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e345501 "><p>The last calculated position is returned. <code class="codeph">TRequestStatus</code> is <code class="codeph">KPositionEarlyComplete</code>. </p> </td>
+</tr>
+</tbody>
+</table></div> <p>Table 1. Location Acquisition API runtime behavior. </p> <p id="GUID-2DF0D6FF-BB17-56B9-B19F-C0F33C6F0F15"><a name="GUID-2DF0D6FF-BB17-56B9-B19F-C0F33C6F0F15"><!-- --></a><strong>Source of position updates</strong> </p> <p>This
+section describes differences in the source of the position updates that a
+client application receives depending on the Symbian platform on which it
+runs. </p> <p>On platforms with more than one positioning module, a position
+may be obtained by the Location Server from more than one module (for example,
+a position may be returned from GPS hardware or from the network). Whether
+a position is returned to the Location Acquisition API client depends on which <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1EAEB7EF-0AC7-37C7-B35F-C9B780FFC575.html#GUID-AF3D9B5F-8025-3AFF-A101-82025520EBD6"><code class="apiname">RPositioner::Open()</code></a> method
+was used to open the client/server subsession. </p> <p>On some platforms,
+when a client/server subsession is opened using <code class="codeph">RPositioner::Open(RPositionServer&amp;
+aPosServer, TPositionModuleId              aModuleId)</code> only position
+updates from the specified module are returned to the client. Opening a subsession
+using other versions of <code class="codeph">RPositioner::Open()</code> can return position
+updates from other positioning modules. </p> <p>On some platforms LBS may
+be configured to return position updates from any positioning module when
+any version of <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1EAEB7EF-0AC7-37C7-B35F-C9B780FFC575.html#GUID-AF3D9B5F-8025-3AFF-A101-82025520EBD6"><code class="apiname">RPositioner::Open()</code></a> is used. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-F5944819-2942-5ADA-A0AD-510D20BFBDEB.html">How to Get
+Module Status Changes</a></li></ul><h3>Related reference</h3><ul><li><a href="GUID-0D5692FB-305E-58B2-B105-B309BB9AE38D.html">Location
+Acquisition API Reference</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 28th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-4E56E531-5757-5740-9C7D-705D427FA9D5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:11:46 GMT -->
+</html>

@@ -1,0 +1,89 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7062936A-BE0E-43B9-A5EE-10291C4CFC91.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Text wrapping and line breaking" /><meta name="abstract" content="Some languages require more complex handling of word wrapping and line breaking. Languages based on the Latin script are fairly simple to handle, as words are separated by a space, and you can break a line at a space, tab, or hyphen. However, in languages such as Thai and Khmer, words run together with no space in between." /><meta name="description" content="Some languages require more complex handling of word wrapping and line breaking. Languages based on the Latin script are fairly simple to handle, as words are separated by a space, and you can break a line at a space, tab, or hyphen. However, in languages such as Thai and Khmer, words run together with no space in between." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-9F54E3BC-E902-4DB8-A653-0A10A76DAA0C" /><meta name="DC.Relation" scheme="URI" content="GUID-3C151C7A-3EEC-4EDE-9C19-44A93175D626" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-7062936A-BE0E-43B9-A5EE-10291C4CFC91" /><meta name="DC.Language" content="en" /><title>Text wrapping and line breaking </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-7062936A-BE0E-43B9-A5EE-10291C4CFC91">Text wrapping and line breaking</h1><div><p>Some languages require more complex handling of word wrapping
+and line breaking. Languages based on the Latin script are fairly
+simple to handle, as words are separated by a space, and you can break
+a line at a space, tab, or hyphen. However, in languages such as Thai
+and Khmer, words run together with no space in between.</p>
+<p>Languages can have their own rules for line breaking and word wrapping.
+Symbian uses the defined legal combinations of characters to apply
+line breaking.</p>
+<div id="GUID-B5DD7146-7675-4EC4-9776-F5E25503BE14-GENID-GUID-CCE1E77B-473A-46CA-BFA4-24EBB8DC3C45"><h3 class="section-title">Wordjoiner (WORDJOINER: U+2060)</h3>
+<p>Wordjoiner
+is a character that is used to manually override word breaks. The
+wordjoiner has no width so it is not visible in the UI. The function
+of the character is to indicate that line breaks are not allowed between
+the adjoining characters.</p><p>In other words, wordjoiner prevents
+a break at a position. In Thai language, it has been used as a quick
+fix to correct line wrapping in the rare occasions where the zero-width
+space character does not work.</p><p>Word Joiner (WJ) can be used
+to glue characters together.</p><p>When using QML, the "wrap mode"
+property affects how the wrapping is performed. "Word wrap" and "No
+wrap" are the wrap modes which respect the WJ. Other wrap modes override
+the WJ. "Word wrap" can be used with all languages. See the enumeration <a href="http://doc.qt.nokia.com/latest/qml-text.html#wrapMode-prop">wrapMode</a>.</p><p>There are currently differences between languages
+how the wrapping is performed. For example, wrapping with WJ works
+differently for Thai than for Chinese. In Thai the Zero-width space
+(ZWS) is used to separate words. With Chinese, ZWS has no real use.
+Chinese can use WJ if needed to glue glyphs together. Wrapping of
+"dot" character (U+3302 in Unicode) is handled automatically in QML,
+no WJ is needed.  </p><p><strong>Word Joiner example — Case 1: Thai</strong></p><p><strong>Logical name</strong>: qtn_err_wlan_sc_config_failed_try_again/errorres</p><p><strong>English</strong>: WLAN configuration failed. Try again.</p><p><strong>Thai translation</strong>: การ\u200Bกำหนด\u200Bค่า WLAN ล้มเหลว ลอง\u200Bอีก\u200Bครั้ง</p> <p>Notice that in the Thai translation the zero width space
+character (\u200B) has been used to indicate the correct place for
+a word break. However, since the translation contains Latin characters,
+the zero-width space does not function. The text is still incorrectly
+wrapped in the UI, so wordjoiner is used to correctly wrap the translation.</p><div class="figure" id="GUID-2E27E4E6-59C0-4F16-B6E1-B1102C7C28BF"><img src="GUID-7AAAA703-93A2-48F4-B739-78A27790E6AD_d0e22211_href.png" /></div><p>การกำหนดค่า WLAN <strong>ล้มเ</strong>หลว ลองอีกครั้ง </p><p>If we
+want "<strong>ล้มเ</strong>" to be in same line we have to add wordjoiner between <strong>ล้</strong> and <strong>ม</strong> and also between <strong>ม</strong> and <strong>เ</strong>, just
+to make sure that the whole word sticks together.</p><p>So result
+would be (□ represents wordjoiner):</p><p>การกำหนดค่า <strong>WLAN</strong> </p><p>ล้□ม□เหลว ลองอีกครั้ง  </p> </div>
+<div id="GUID-B5DD7146-7675-4EC4-9776-F5E25503BE14-GENID-GUID-CCE1E77B-473A-46CA-BFA4-24EBB8DC3C45"><h3 class="section-title">Zero-width space (ZWSP : U+200B)</h3>
+<p>Zero-width space indicates a word boundary and just as wordjoiner,
+it has no width and is thus not visible in the UI. It is used in languages
+such as Thai that have no visible word spacing to represent word breaks.</p><div class="p"><div class="note"><p><strong class="note_title">Note: </strong> The zero-width space does not work if the text contains
+Latin characters. This applies to Thai language. In these occasions,
+please use also wordjoiner to correct the text.</p></div></div>
+</div>
+<div id="GUID-B5DD7146-7675-4EC4-9776-F5E25503BE14-GENID-GUID-CCE1E77B-473A-46CA-BFA4-24EBB8DC3C45"><h3 class="section-title">Forced line feed (Forced line feed: \n)</h3>
+<p>Forced line feed character has been used in Symbian localization
+in the past as an easy fix for incorrectly wrapped texts. However,
+its use is not recommended.</p><p>Forced line feed is problematic,
+since it overrides the line wrapper and forces the line to break at
+a certain point. Since we support two display resolutions, QVGA and
+QHD, forced line feed causes problems. The text might be correctly
+wrapped in QVGA but not in QHD resolutions after adding a forced line
+feed, and that would generate unnecessary errors.</p><p><strong>Forced
+line feed example — Case 2: Japanese</strong></p><p><strong>Logical name</strong>: qtn_smsvo_invalid_number/vmbx</p><p><strong>English</strong>: Invalid call
+mailbox number</p><p><strong>Japanese translation</strong>: 留守番電話セン<strong>\n</strong>ターの番号が正しくありません</p><p> The text is incorrectly wrapped since "ー" is
+not allowed at the beginning of the line in Japanese and to avoid
+the situation, the forced line feed character (<strong>\n</strong>) has been
+inserted before ”タ" to correct the situation. However, since the translations
+should support both QVGA and QHD displays, the solution is not sufficient.</p><p>The text is correctly wrapped in QVGA but not in QHD where there
+is an unnecessary empty space. The forced line feed character has
+to be removed and replaced with the wordjoiner character since the
+wordjoiner character can be used whether the device is in whichever
+mode.</p><div class="figure" id="GUID-D6F4BB2E-4A3E-43E4-A0AA-27CCF9F5518D"><img src="GUID-9FBF6F2C-86C3-41F1-9273-22B79BE1EF37_d0e22295_href.png" /></div><p>留守番電話セン<strong>\n</strong>ターの番号が正しくありません</p><p>The forced line feed
+character, \n, has to be removed before "ター" and the wordjoiner character
+added between “タ” and “ー". After the wordjoiner has been added, the
+characters before and after it stick together.</p><p>So result would
+be (□ represents wordjoiner):</p><p>留守番電話センタ□ーの</p><p>番号が正しくありませ</p><p>ん</p><p><strong>Forced line feed example — Case 3: Chinese</strong></p><p><strong>Logical name:</strong> qtn_bt_block_all_conn_attempts/btnotif</p><p><strong>English:</strong> Block all future connection requests from %U?</p><p><strong>Chinese translation:</strong>  禁止%U以后发来的所有连接<strong>\n</strong>请求？</p><p>Again,
+the text is incorrectly wrapped and the forced line feed character
+(<strong>\n</strong>) has been inserted to correct the situation. It has not
+helped, so it has to be removed and the wordjoiner inserted to wrap
+the text correctly.</p><div class="figure" id="GUID-C3480B22-301B-4758-85DE-19A5ECD58526"><img src="GUID-2456806C-D773-41E2-8F0D-B121E84291EF_d0e22338_href.png" /></div><p>禁止%U以后发来的所有连接<strong>\n</strong>请求？</p><p>So the forced line feed character,
+\n, is removed before "请" and the wordjoiner character added between
+“求” and “？" to prevent the question mark from appearing alone at the
+beginning of a line.</p><p>So result would be (□ represents wordjoiner):</p><p> 禁止%U以后发来的所有</p><p>连接请求⁠？</p> </div>
+<div id="GUID-B5DD7146-7675-4EC4-9776-F5E25503BE14-GENID-GUID-CCE1E77B-473A-46CA-BFA4-24EBB8DC3C45"><h3 class="section-title">Using unicode characters for text wrapping</h3>
+<p>Problem with Thai, Japanese and Chinese is that usually
+there are no spaces in translations and thus linewrapper doesn't know
+from where to break the text to the next line. Usually it breaks only
+in case of space or other wrapping point.</p><p>In Symbian localization
+for Thai, the text wrapping has been corrected by adding zero width
+space characters to appropriate places to ensure that the text is
+correctly wrapped and breaks only at the specified places. For Japanese
+and Chinese, the use of the zero width space is not recommended. </p><div class="p"><div class="note"><p><strong class="note_title">Note: </strong>If you see one of these special characters in the text mass,
+please do not remove them.</p></div></div> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7062936A-BE0E-43B9-A5EE-10291C4CFC91.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:08 GMT -->
+</html>

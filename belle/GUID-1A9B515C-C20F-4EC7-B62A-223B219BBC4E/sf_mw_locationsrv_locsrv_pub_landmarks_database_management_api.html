@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_locationsrv_locsrv_pub_landmarks_database_management_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:59 GMT -->
+<head><title>Landmarks Database Management API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i770 i773"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Landmarks Database Management API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Listing_landmark_databases"><span class="tocnumber">2.1</span> <span class="toctext">Listing landmark databases</span></a></li>
+<li class="toclevel-2"><a href="#Modifying_database_settings"><span class="tocnumber">2.2</span> <span class="toctext">Modifying database settings</span></a></li>
+<li class="toclevel-2"><a href="#Managing_landmark_databases"><span class="tocnumber">2.3</span> <span class="toctext">Managing landmark databases</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Registering_landmark_databases"><span class="tocnumber">2.3.1</span> <span class="toctext">Registering landmark databases</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Listening_to_events"><span class="tocnumber">2.4</span> <span class="toctext">Listening to events</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.5</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.6</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Extensions_to_the_API"><span class="tocnumber">2.7</span> <span class="toctext">Extensions to the API</span></a></li>
+<li class="toclevel-2"><a href="#Security_issues"><span class="tocnumber">2.8</span> <span class="toctext">Security issues</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.1</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The Landmarks Database Management API allows clients to
+manage landmark databases, for example creating new databases or deleting
+existing databases. The API is used mainly by end-user applications.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>eposlmdbmanlib.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/locationsrv/locsrv_pub/landmarks_database_management_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/locationsrv/locsrv_pub/landmarks_database_management_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>The Landmarks Database Management API is a Library API and is provides with the client-server
+interface (The implementation encapsulates a server session).
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>The Landmarks Database Management API is introduced in Symbian OS, S60 3.0.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+<ul><li> Getting information about available databases
+</li><li> Modifying database settings
+</li><li> Managing landmark databases
+</li><li> Listening to database-related events
+</li></ul>
+</a><a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CPosLmDatabaseManager <td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmDatabaseManager.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CPosLmDatabaseManagerPluginBase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_CPosLmDatabaseManagerPluginBase.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>HPosLmDatabaseInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_HPosLmDatabaseInfo.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TPosLmDatabaseSettings</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_TPosLmDatabaseSettings.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/EPos_TPosLmDatabaseEvent.h</code></span>
+</td></tr>
+<ul><li>The main interface to the API is the <span class="plainlinks"><code>CPosLmDatabaseManager</code> </span> class.
+</li><li>The class <span class="plainlinks"><code>HPosLmDatabaseInfo</code> </span> holds information about a database. 
+</li><li><span class="plainlinks"><code>TPosLmDatabaseSettings</code> </span> is used to read or change the settings for a database. 
+</li><li>The <span class="plainlinks"><code>TPosLmDatabaseEvent</code> </span> class is used when notifications about changes are requested.
+</li><li>This API also contains the <span class="plainlinks"><code>CPosLmDatabaseManagerPluginBase</code> </span> class, but it is reserved for future extensions and must not be used by clients.
+</li></ul>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_DbMgmt_API_Class_Structure.png" title="Landmarks Database Management API class structure"><img alt="Landmarks Database Management API class structure" border="0" height="678" src="images/SPB_10_1_Landmarks_DbMgmt_API_Class_Structure.png" width="673" /></a></div>
+<div style="text-align:center"><i>Landmarks Database Management API class structure</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Listing_landmark_databases"><h3> <span class="mw-headline">2.1 Listing landmark databases </span></h3>
+</a><p>A client can request list of all available landmark databases by using
+the <span class="plainlinks"><code>CPosLmDatabaseManager::ListDatabasesLC()</code> </span> method. It
+is also possible to specify that only databases of some protocol are 
+listed. For example, to get a list of only local native databases, use the 
+"file" protocol as an input parameter, as shown in the first example below.
+</p><p>A client can get more information about a database than only the database
+URI. The client can use <span class="plainlinks"><code>CPosLmDatabaseManager::ListDatabasesL()</code> </span> or <span class="plainlinks"><code>CPosLmDatabaseManager::GetDatabaseInfoL()</code> </span> methods to receive an instance of the <span class="plainlinks"><code>HPosLmDatabaseInfo</code> </span> class,
+which contains properties such as media where database is located, drive for
+local database and whether this database is the default.
+</p><p>The first example uses less memory at the cost of performance. It first gets URIs of databases and then retrieving database info for every particular database.
+</p>
+<pre>CPosLmDatabaseManager* dbManager = CPosLmDatabaseManager::NewL();
+CleanupStack::PushL( dbManager );
+
+// Get a list of databases
+_LIT( KFileProtocol, "file" );
+CDesCArray* dbList = dbManager-&gt;ListDatabasesLC( KFileProtocol );
+
+for ( TInt i = 0; i &lt; dbList-&gt;Count(); ++i )
+    {
+    TPtrC dbUri = ( *dbList )(i);
+    HPosLmDatabaseInfo* dbInfo = HPosLmDatabaseInfo::NewLC( dbUri );
+    dbManager-&gt;GetDatabaseInfoL( *dbInfo ); // this is client-server call
+
+    // Get information about the database
+    TPtrC uri = dbInfo-&gt;DatabaseUri();
+    TPtrC protocol = dbInfo-&gt;Protocol();
+    TBool defaultDb = dbInfo-&gt;IsDefault();
+    TChar drive = dbInfo-&gt;DatabaseDrive();
+    TInt size = dbInfo-&gt;Size();
+
+    CleanupStack::PopAndDestroy( dbInfo );
+    }
+
+// Destroy the list
+CleanupStack::PopAndDestroy( dbList );
+CleanupStack::PopAndDestroy( dbManager );
+</pre>
+<p>The example below allocates memory for holding information about all the databases at once.
+</p>
+<pre>CPosLmDatabaseManager* dbManager = CPosLmDatabaseManager::NewL();
+CleanupStack::PushL(dbManager);
+
+// Get a list of database information
+RPointerArray&lt;HPosLmDatabaseInfo&gt; dbInfoList;
+dbManager-&gt;ListDatabasesL( dbInfoList );
+
+for ( TInt i = 0; i &lt; dbInfoList.Count(); ++i )
+    {
+    HPosLmDatabaseInfo* dbInfo = dbInfoList(i);
+
+    // Get settings
+    const TPosLmDatabaseSettings&amp; settings = dbInfo-&gt;Settings();
+    // Check if a display name is set
+    if ( settings.IsAttributeSet( TPosLmDatabaseSettings::EName ) )
+        {
+        TPtrC displayName = settings.DatabaseName();
+        }
+    }
+
+// Destroy the list
+dbInfoList.ResetAndDestroy();
+
+CleanupStack::PopAndDestroy( dbManager );
+</pre>
+<a name="Modifying_database_settings"><h3> <span class="mw-headline">2.2 Modifying database settings </span></h3>
+</a><p>A client applications can customize some settings of landmark databases
+through the <span class="plainlinks"><code>CPosLmDatabaseManager::ModifyDatabaseSettingsL</code> </span> method. <span class="plainlinks"><code>TPosLmDatabaseSettings</code> </span> encapsulates
+the attributes that can be set for a landmark database. Currently only database
+name attribute is supported. The example below shows how to set a friendly
+name for a database. Typically, applications display this name instead
+of the URI.
+</p><p>The following diagram and example show how the client can change the display name
+of a database.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_DbMgmt_API_Settings_Sequence.png" title="Modifying database name sequence diagram"><img alt="Modifying database name sequence diagram" border="0" height="617" src="images/SPB_10_1_Landmarks_DbMgmt_API_Settings_Sequence.png" width="846" /></a></div>
+<div style="text-align:center"><i>Modifying database name sequence diagram</i></div>
+<pre>_LIT( KDatabaseUri, "file://c:myLandmarks.ldb" );
+_LIT( KDisplayname, "My landmarks" );
+
+CPosLmDatabaseManager* dbManager = CPosLmDatabaseManager::NewL();
+CleanupStack::PushL( dbManager );
+HPosLmDatabaseInfo* dbInfo = HPosLmDatabaseInfo::NewLC( KDatabaseUri );
+
+TPosLmDatabaseSettings&amp; settings = dbInfo-&gt;Settings();
+settings.SetDisplayName( KDisplayName );
+dbManager-&gt;ModifyDatabaseSettingsL( KDatabaseUri, settings );
+
+CleanupStack::PopAndDestroy( dbInfo );
+CleanupStack::PopAndDestroy( dbManager );
+</pre>
+<a name="Managing_landmark_databases"><h3> <span class="mw-headline">2.3 Managing landmark databases </span></h3>
+</a><p>To start managing landmark databases, clients need to create an instance
+of the <span class="plainlinks"><code>CPosLmDatabaseManager</code> </span> class. Database URIs are used
+to refer to landmarks databases.
+</p><p>Clients can create, copy, move and delete landmark databases. For example,
+to create a new landmark database use the following code:
+</p>
+<pre>_LIT(KDatabaseUri, "file://c:myLandmarks.ldb");
+
+CPosLmDatabaseManager* dbManager = CPosLmDatabaseManager::NewL();
+CleanupStack::PushL( dbManager );
+
+HPosLmDatabaseInfo* dbInfo = HPosLmDatabaseInfo::NewLC( KDatabaseUri );
+dbManager-&gt;CreateDatabaseL( *dbInfo );
+
+CleanupStack::PopAndDestroy( dbInfo );
+CleanupStack::PopAndDestroy( dbManager );
+</pre>
+<p>The actual implementation used to create the database depends on the type
+of the URI. Method calls that have a URI parameter are blocking and can take
+a long time to complete. This must be considered if the used
+protocol is slow to perform the task. For local file access, this is fast.
+</p><p>The example below shows how to move a database between two drives on terminal:
+</p>
+<pre>_LIT( KSourceUri, "file://c:myLandmarks.ldb" );
+_LIT( KDestUri, "file://e:myLandmarks.ldb" );
+
+CPosLmDatabaseManager* dbManager = CPosLmDatabaseManager::NewL();
+CleanupStack::PushL( dbManager );
+
+dbManager-&gt;CopyDatabaseL( KSourceUri, KDestUri );
+dbManager-&gt;DeleteDatabaseL( KSourceUri );
+
+CleanupStack::PopAndDestroy( dbManager );
+</pre>
+<a name="Registering_landmark_databases"><h4> <span class="mw-headline">2.3.1 Registering landmark databases </span></h4>
+</a><p>Some protocols may not support creating and deleting databases. In that
+case, clients should use <span class="plainlinks"><code>CPosLmDatabaseManager::RegisterDatabaseL()</code> </span> and <span class="plainlinks"><code>CPosLmDatabaseManager::UnregisterDatabaseL()</code> </span> respectively instead. By registering a database, a link is created so that it is listed when a list of all landmarks databases is requested. Registering
+is only performed for remote databases. It is not supported for local files (those
+of "file" protocol).
+</p>
+<a name="Listening_to_events"><h3> <span class="mw-headline">2.4 Listening to events </span></h3>
+</a><p>Clients listen to database events such as creation of a new database
+or changing default database location. Event notification is implemented through
+asynchronous requests. <span class="plainlinks"><code>TPosLmDatabaseEvent</code> </span> holds information
+about the occurred event. Some events are associated with the URI of an affected
+database, which can be retrieved by <span class="plainlinks"><code>CPosLmDatabaseManager::DatabaseUriFromLastEventLC()</code> </span>.<b> Note:</b> This
+should be performed before a new request for notification is made.
+</p><p>The following diagram shows basic steps that clients perform to get informed about and to analyze database-related events.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Landmarks_DbMgmt_API_Events_Sequence.png" title="Listening to database events"><img alt="Listening to database events" border="0" height="574" src="images/SPB_10_1_Landmarks_DbMgmt_API_Events_Sequence.png" width="861" /></a></div>
+<div style="text-align:center"><i>Listening to database events</i></div>
+<a name="Error_handling"><h3> <span class="mw-headline">2.5 Error handling </span></h3>
+</a><p>The Landmarks Database Management API uses the standard Symbian error reporting
+mechanism. In case of a serious error, panics are used, otherwise, errors
+are reported through return codes or leaves.
+</p><p>The Landmarks Database Management API uses the same panic code category as <a href="sf_mw_locationsrv_locsrv_pub_landmarks_api.html" title="sf_mw_locationsrv_locsrv_pub_landmarks_api.html">Landmarks API</a>. The panic codes are documented in <a href="sf_mw_locationsrv_locsrv_pub_landmarks_api.html" title="sf_mw_locationsrv_locsrv_pub_landmarks_api.html">Landmarks API</a> specification.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.6 Memory and Performance Considerations </span></h3>
+</a><p>Depending on the type of the URI, an ECom plug-in is loaded for the
+used protocol. Memory usage depends on the protocol. For local file access, the memory usage is low.
+</p>
+<a name="Extensions_to_the_API"><h3> <span class="mw-headline">2.7 Extensions to the API </span></h3>
+</a><p>This version of the API does not allow extensions.
+</p>
+<a name="Security_issues"><h3> <span class="mw-headline">2.8 Security issues </span></h3>
+</a><p>Landmarks are considered as important user data and this applies some access
+limitations to client applications. For example, in order to be able to create
+or remove landmark databases, clients must have the <code>WriteUserData</code> capability.
+Whenever special capabilities are needed, they are listed in appropriate class
+and method descriptions.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.1 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Definitions</b>
+</caption>
+<tr>
+<td> Landmark</td><td> A landmark is a named object that contains a location. The location can be defined by various attributes, such as WGS 84 coordinates or a textual address.
+</td></tr>
+<tr>
+<td> Landmark database</td><td> Persistent storage of a collection of landmarks and landmark categories.
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_locationsrv_locsrv_pub_landmarks_database_management_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:01 GMT -->
+</html>

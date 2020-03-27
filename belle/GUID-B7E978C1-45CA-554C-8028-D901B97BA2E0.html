@@ -1,0 +1,105 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B7E978C1-45CA-554C-8028-D901B97BA2E0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="ANALYZE Command" /><meta name="abstract" content="This guide gives details of how to use the ANALYZE command to help the optimizer." /><meta name="description" content="This guide gives details of how to use the ANALYZE command to help the optimizer." /><meta name="DC.Relation" scheme="URI" content="GUID-22844C28-AB5B-5A6F-8863-7269464684B4" /><meta name="DC.Relation" scheme="URI" content="GUID-78773BCA-ADF6-53E6-AC80-5CB2AE1F8BCC" /><meta name="DC.Relation" scheme="URI" content="GUID-1F12E3F5-45B2-55EC-B021-00338277C608" /><meta name="DC.Relation" scheme="URI" content="GUID-43CA02E7-0101-5824-B91B-E15EE20C829A" /><meta name="DC.Relation" scheme="URI" content="GUID-49A3419F-D20A-5C5D-B2FF-51724EF37704" /><meta name="DC.Relation" scheme="URI" content="GUID-C2FAEBB2-4A1A-5BB0-9670-4801525CBC6A" /><meta name="DC.Relation" scheme="URI" content="GUID-B994E6F7-228A-5433-B87F-91857C5D93D6" /><meta name="DC.Relation" scheme="URI" content="GUID-4FC23DB7-4758-5DA4-81FF-0DAB169E2757" /><meta name="DC.Relation" scheme="URI" content="GUID-2A2920E0-5D40-5358-BC0C-8572CEFE078C" /><meta name="DC.Relation" scheme="URI" content="GUID-126FCCCC-0E7D-59AE-959A-2F94A7319C4B" /><meta name="DC.Relation" scheme="URI" content="GUID-ACCCB148-DAF9-59EC-B585-8EF632B9BF04" /><meta name="DC.Relation" scheme="URI" content="GUID-AF5A75D7-0687-546C-87B2-0B7DF7D33217" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-868D5B32-1CC4-506E-9C49-C86428B9A50F" /><meta name="DC.Relation" scheme="URI" content="GUID-C6D3827F-8F73-593E-A339-B510EEB9771F" /><meta name="DC.Relation" scheme="URI" content="GUID-831F9AA3-0209-53DC-96C4-04157F22870C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B7E978C1-45CA-554C-8028-D901B97BA2E0" /><meta name="DC.Language" content="en" /><title>ANALYZE Command </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B7E978C1-45CA-554C-8028-D901B97BA2E0">ANALYZE Command</h1><div><p>This guide gives details of how to use the ANALYZE command to help
+the optimizer.</p>
+<div id="GUID-1612E196-C269-4D58-A36D-6F8F76C7C2F3"><h3 class="section-title">Introduction</h3> <p>The ANALYZE command is used to provide
+the query optimizer with statistical information about the distribution of
+values in a database so that it can make better decisions about which indexes
+to use. </p> <p><strong>Intended
+audience:</strong> </p> <p>This document is intended to be used by Symbian platfomr
+licensees and third party application developers. </p> </div>
+<div id="GUID-3C9732D5-8F18-5835-A7D5-1D17B870E439"><h3 class="section-title">Use the ANALYZE
+Command to Help the Optimizer</h3> <p>A big part of the job of the SQL
+compiler is to choose which of many implementation options should be used
+for a particular SQL statement. </p> <p>Often a table will have two or more
+indexes and the optimizer will need to choose which one of those indexes to
+use. Or the optimizer will have to decide between using an index to implement
+the WHERE clause or the ORDER BY clause. For a join, the optimizer has to
+pick an appropriate order for the table in the join. And so forth. </p> <p>By
+default, the only information the optimizer has to go on when trying to choose
+between two or more indexes is the database schema. In many cases the schema
+alone is not sufficient to make a wise choice. Suppose, for example, you have
+a table with two indexes: </p> <pre class="codeblock">
+CREATE TABLE demo318(a,b,c,data);
+CREATE INDEX idx318a ON demo381(a);
+CREATE INDEX idx318b ON demo381(b);
+</pre> <p>And further suppose SQLite is trying to compile a statement
+such as the following: </p> <pre class="codeblock">
+SELECT data FROM demo318 WHERE a=0 AND b=11;
+</pre> <p>The optimizer has to decide whether it should use idx318a
+with the “a=5” term of the WHERE clause or if it should use idx318b with the
+“b=11” term. </p> <p>Without additional information, the two approaches are
+equivalent and so the choice is arbitrary. But the choice of indexes might
+have a big impact on performance. </p> <p>Suppose that the demo318 table contains
+one million rows of which 55% have a=0, 40% have a=1, and the rest have a=2
+or a=3. If the idx381a index is chosen, it will only narrow down the set of
+candidate rows by half. In this situation you are unlikely to notice any performance
+gain at all. In fact, in this extreme case, using the index is likely to make
+the query slower! </p> <p>On the other hand, let us assume that there are
+never more than 2 or 3 rows with the same value for column b. In this case
+using index idx381b allows us to reduce the set of candidate rows from one
+million to 2 or 3 which will yield a huge speed improvement. </p> <p>So clearly,
+in this example we hope that the optimizer chooses index idx318b. But without
+knowledge of the table contents and the statistical distributions of values
+for the “a” and “b” columns, the optimizer has no way of knowing which of
+the idx318a and idx318b indexes will work better. </p> <p>The ANALYZE command
+is used to provide the query optimizer with statistical information about
+the distribution of values in a database so that it can make better decisions
+about which indexes to use. </p> <p>When you run the ANALYZE command, SQLite
+creates a special table named SQLITE_STAT1. It then reads the entire database,
+gathers statistics and puts those statistics in the SQLITE_STAT1 table so
+that the optimizer can find them. ANALYZE is a relatively slow operation,
+since it has to read every single row of every single table in your database. </p> <p>The
+statistical information generated by ANALYZE is not kept up-to-date by subsequent
+changes to the database. But many databases have a relatively constant statistical
+profile so running ANALYZE once and using the same statistical profile forever
+thereafter is often sufficient. </p> <p>For embedded applications, you can
+often get by without ever having to run ANALYZE on a real database on the
+embedded device. Instead, generate a template database that contains typical
+data for your application and then run ANALYZE on that database on a developer
+workstation. Then just copy the content of the resulting SQLITE_STAT1 table
+over to the embedded device. </p> <p>The SQLITE_STAT1 table is special in
+that you cannot CREATE or DROP it, but you can still SELECT, DELETE, and UPDATE
+the SQLITE_STAT1 table. So to create the SQLITE_STAT1 table on the embedded
+device, just run ANALYZE when the database is empty. That will take virtually
+no time and will leave you with an empty SQLITE_STAT1 table. Then copy the
+content of the SQLITE_STAT1 table that was created on the developer workstation
+into the database on the embedded device and the optimizer will begin using
+it just as if it had been created locally. </p> <p>There is one entry in the
+SQLITE_STAT1 table for each index in your schema. Each entry contains the
+name of the table being indexed, the name of the index itself, and a string
+composed of two or more integers separated by spaces. These integers are the
+statistics that the ANALYZE command collects for each index. </p> <p>The first
+integer is the total number of entries in the table. The second integer is
+the average number of rows in a result from a query that had an equality constraint
+on the first term of the index. The third integer (if there is one) is the
+average number of rows that would result if the index were used with equality
+constraints on the first two terms of the index. And so forth for as many
+terms as there are in the index. </p> <p>The smaller the second and subsequent
+integers are, the more selective an index is. And the more selective the index
+is, the fewer rows have to be processed when using that index. So the optimizer
+tries to use indexes with small second and subsequent numbers. </p> <p>The
+details are complex and do not really add any understanding to what is going
+on. The key point is that the second and subsequent integers in the SQLITE_STAT1
+table are a measure of the selectivity of an index and that smaller numbers
+are better. </p> <p>The statistics gathered by the ANALYZE command reflect
+the state of the database at a single point in time. While making the final
+performance tweaks on an application, some developers may want to adjust these
+statistics manually to better reflect the kinds of data they expect to encounter
+in the field. This is easy to do. The SQLITE_STAT1 table is readable and writable
+using ordinary SQL statements. You are free to adjust or modify the statistics
+in anyway that seems to performance benefit. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-22844C28-AB5B-5A6F-8863-7269464684B4.html">SQL Overview</a></li><li><a href="GUID-78773BCA-ADF6-53E6-AC80-5CB2AE1F8BCC.html">SQL Server
+Guide</a></li><li><a href="GUID-1F12E3F5-45B2-55EC-B021-00338277C608.html">SQL DB Overview</a></li><li><a href="GUID-43CA02E7-0101-5824-B91B-E15EE20C829A.html">Avoid Transient
+Tables</a></li><li><a href="GUID-49A3419F-D20A-5C5D-B2FF-51724EF37704.html">Prevent Datafile
+Corruption</a></li><li><a href="GUID-C2FAEBB2-4A1A-5BB0-9670-4801525CBC6A.html">SQL Index
+Tips</a></li><li><a href="GUID-B994E6F7-228A-5433-B87F-91857C5D93D6.html">SQL Insertion
+Tips</a></li><li><a href="GUID-4FC23DB7-4758-5DA4-81FF-0DAB169E2757.html">SQL Schema
+Tips</a></li><li><a href="GUID-2A2920E0-5D40-5358-BC0C-8572CEFE078C.html">SQL Expressions</a></li><li><a href="GUID-126FCCCC-0E7D-59AE-959A-2F94A7319C4B.html">SQL Statement
+Tips</a></li><li><a href="GUID-ACCCB148-DAF9-59EC-B585-8EF632B9BF04.html">SQL Joins</a></li><li><a href="GUID-AF5A75D7-0687-546C-87B2-0B7DF7D33217.html"> SQL WHERE
+CLause Tips</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B7E978C1-45CA-554C-8028-D901B97BA2E0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+</html>

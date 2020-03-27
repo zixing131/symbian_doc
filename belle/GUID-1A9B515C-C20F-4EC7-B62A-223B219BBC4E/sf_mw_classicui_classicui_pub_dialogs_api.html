@@ -1,0 +1,949 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_dialogs_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:35 GMT -->
+<head><title>Dialogs API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i475"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Dialogs API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Defining_the_resource"><span class="tocnumber">2.1</span> <span class="toctext">Defining the resource</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Defining_the_dialog_resource"><span class="tocnumber">2.1.1</span> <span class="toctext">Defining the dialog resource</span></a>
+<ul>
+<li class="toclevel-4"><a href="#Dialog_flags"><span class="tocnumber">2.1.1.1</span> <span class="toctext">Dialog flags</span></a></li>
+</ul>
+</li>
+<li class="toclevel-3"><a href="#Defining_the_dialog_line_resource"><span class="tocnumber">2.1.2</span> <span class="toctext">Defining the dialog line resource</span></a>
+<ul>
+<li class="toclevel-4"><a href="#Dialog_line_flags"><span class="tocnumber">2.1.2.1</span> <span class="toctext">Dialog line flags</span></a></li>
+</ul>
+</li>
+<li class="toclevel-3"><a href="#Defining_the_softkeys"><span class="tocnumber">2.1.3</span> <span class="toctext">Defining the softkeys</span></a></li>
+<li class="toclevel-3"><a href="#Defining_single-page_dialog_resource"><span class="tocnumber">2.1.4</span> <span class="toctext">Defining single-page dialog resource</span></a></li>
+<li class="toclevel-3"><a href="#Defining_multi-page_dialog_resource"><span class="tocnumber">2.1.5</span> <span class="toctext">Defining multi-page dialog resource</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Creating_and_launching_dialog"><span class="tocnumber">2.2</span> <span class="toctext">Creating and launching dialog</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Creating_dialog_without_menu"><span class="tocnumber">2.2.1</span> <span class="toctext">Creating dialog without menu</span></a></li>
+<li class="toclevel-3"><a href="#Creating_dialog_with_menu"><span class="tocnumber">2.2.2</span> <span class="toctext">Creating dialog with menu</span></a></li>
+<li class="toclevel-3"><a href="#Launching_the_dialog"><span class="tocnumber">2.2.3</span> <span class="toctext">Launching the dialog</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Implementing_custom_dialog"><span class="tocnumber">2.3</span> <span class="toctext">Implementing custom dialog</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Providing_the_factory_function"><span class="tocnumber">2.3.1</span> <span class="toctext">Providing the factory function</span></a></li>
+<li class="toclevel-3"><a href="#Initializing_controls"><span class="tocnumber">2.3.2</span> <span class="toctext">Initializing controls</span></a></li>
+<li class="toclevel-3"><a href="#Checking_exit_condition"><span class="tocnumber">2.3.3</span> <span class="toctext">Checking exit condition</span></a></li>
+<li class="toclevel-3"><a href="#Adding_custom_control_to_dialog"><span class="tocnumber">2.3.4</span> <span class="toctext">Adding custom control to dialog</span></a></li>
+<li class="toclevel-3"><a href="#Handling_command"><span class="tocnumber">2.3.5</span> <span class="toctext">Handling command</span></a></li>
+<li class="toclevel-3"><a href="#Handling_key_events"><span class="tocnumber">2.3.6</span> <span class="toctext">Handling key events</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.4</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.5</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#References"><span class="tocnumber">4</span> <span class="toctext">References</span></a></li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Dialogs are UI elements used by GUI applications.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_DialogTerminology.png" title="Dialog terminology"><img alt="Dialog terminology" border="0" height="234" src="images/SPB_10_1_DialogTerminology.png" width="416" /></a></div>
+<div style="text-align:center"><i>Dialog terminology</i></div>
+<p>As shown in Figure 1, a dialog consists of a title, zero or more pages
+consisting of a sequence of lines, and a row of one or more softkeys (CBA).
+</p><p>The lines can only be arranged vertically, allowing for simpler programming,
+a small application footprint, and a high likelihood of dialogs that are easy
+for novice users to use. Each line consists of a label and a control for displaying
+and entering data. The controls are: a choice list, a set of option buttons,
+a check box, and input fields. Most dialogs have one page of controls.
+</p><p>Multi-page tabs only appear in multi-page dialogs. They are used to access
+separate dialog pages. When a lot of controls are put together on a single
+dialog, a multi-page dialog (or occasionally a scrolling dialog) is invariably
+used to fit all the controls neatly on devices' small screens. There is a
+difference between multi-page tabs with dialog architecture and multi-views
+with view architecture. In views, the view state and data need to be saved
+between the switch, and each view can be activated from outside by a view-switch
+mechanism, whereas in multi-page dialogs data is saved when the dialog is
+closed (after memory footprint) and it is not possible to reach individual
+dialog tabs from outside the dialog.
+</p><p>For typical dialog uses, S60 provides a large collection of ready-made
+dialog classes.
+</p>
+<ul><li> Queries are small dialogs which are used for getting user input or selection.
+</li></ul>
+<p>See S60 3.1 Queries API Specification for more information.
+</p>
+<ul><li> Notifiers are used to display global dialogs. Notifiers are typically
+</li></ul>
+<p>used by components which have no UI context (for example, engine components).
+See S60 3.1 Notifiers API Specification for more information.
+</p>
+<ul><li> Notes are small dialogs which show information, warning and error messages
+</li></ul>
+<p>to the user. See S60 3.1 Notes API Specification for more
+information.
+</p>
+<ul><li> Forms are used to display and/or edit logically related data (for example,
+</li></ul>
+<p>settings). See S60 3.1 Form API Specification for more
+information.
+This document describes how to implement and use dialogs.
+</p><p>For further information see API documentation for <span class="plainlinks"><code>CEikDialog</code> </span> in Symbian OS 9.1 API Reference Guide for more information.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>eikdlg.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/dialogs_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/dialogs_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Dialogs API allows creating and using application-specific dialogs.
+</p><p>Dialogs use the dialog resource, defined in the application resource file
+(RSS). The runtime representations of dialogs are instances of the <span class="plainlinks"><code>CEikDialog</code> </span> and <span class="plainlinks"><code>CAknDialog</code> </span> classes,
+or any custom class deriving from the above. Derivation is used to add custom
+functionality, controls or behavior to standard dialogs.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Dialogs API is an SDK API and was first published in S60 release 0.9.
+</p><p>This API is valid for all platforms running on Symbian OS 9.1 or later.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+<ul><li> Defining the resource
+</li><li> Defining the dialog resource
+</li><li> Defining the dialog line resource
+</li><li> Defining the softkeys
+</li><li> Defining single-page dialog resource
+</li><li> Defining multi-page dialog resource
+</li></ul>
+<ul><li> Creating and launching dialog
+</li><li> Creating dialog without menu
+</li><li> Creating dialog with menu
+</li><li> Launching the dialog
+</li></ul>
+<ul><li> Accessing control in dialog
+</li><li> Implementing custom dialog
+</li><li> Providing the factory function
+</li><li> Initializing controls
+</li><li> Checking the exit condition
+</li><li> Adding custom control to dialog
+</li><li> Handling commands
+</li><li> Handling key events
+</li></ul>
+</a><a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CEikDialog <td><span class="plainlinks"><code>/epoc32/include/mw/eikdialg.h</code></span>
+</td>
+<p>Many methods of <span class="plainlinks"><code>CEikDialog</code> </span> can be overridden to provide
+custom behavior. If standard behavior and built-in components are sufficient, <span class="plainlinks"><code>CEikDialog</code> </span> or <span class="plainlinks"><code>CAknDialog</code> </span> can
+be used directly.
+</p><p><span class="plainlinks"><code>CAknDialog</code> </span> adds Options menu handling to <span class="plainlinks"><code>CEikDialog</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_DialogsAPI_Classes.png" title="Dialogs API"><img alt="Dialogs API" border="0" height="146" src="images/SPB_10_1_DialogsAPI_Classes.png" width="307" /></a></div>
+<div style="text-align:center"><i>Dialogs API</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>Two steps are necessary to use dialogs:
+</p>
+<ul><li> Defining the dialog resource ( RESOURCE DIALOG) in the
+</li></ul>
+<p>application resource file.
+</p>
+<ul><li> Instantiating the dialog class and launching the dialog. Existing classes <span class="plainlinks"><code>CEikDialog</code> </span> and <span class="plainlinks"><code>CAknDialog</code> </span> can
+</li></ul>
+<p>be used. Custom dialogs can also be developed by deriving from these base
+classes. Most methods of dialogs base classes are virtual.
+</p><p>Optionally, individual dialog lines and controls can be accessed and manipulated.
+This enables modifying the dialog contents runtime.
+</p>
+<a name="Defining_the_resource"><h3> <span class="mw-headline">2.1 Defining the resource </span></h3>
+</a><a name="Defining_the_dialog_resource"><h4> <span class="mw-headline">2.1.1 Defining the dialog resource </span></h4>
+</a><p>A <span class="plainlinks"><code>DIALOG</code> </span> resource encapsulates the structure of a dialog.
+The developers need to define a dialog using the <span class="plainlinks"><code>DIALOG</code> </span> resource.
+Its <span class="plainlinks"><code>STRUCT</code> </span> is defined in the<i> eikon.rh</i> file with the
+following members:
+</p>
+<pre>STRUCT DIALOG
+    {
+    LONG flags=0;
+    LTEXT title="";
+    LLINK pages=0;
+    LLINK buttons=0;
+    STRUCT items();
+    LLINK form=0;
+    }
+</pre>
+<table border="1" cellspacing="0">
+<caption> <b>Dialog resource structure</b>
+</caption>
+<tr>
+<td> <b> Member</b></td><td> <b> Description</b>
+</td></tr>
+<tr>
+<td> LONG flags = 0;</td><td> Optional bitmask of flags governing attributes of the dialog. Defaults
+<p>to 0.
+</p>
+</td></tr>
+<tr>
+<td> LTEXT title = "";</td><td> The title of the dialog, displayed at the top. Not really used in the
+<p>S60 platform because most of the dialogs are full screen dialogs. &#8212; The status
+pane would give information related to the dialog content.
+</p>
+</td></tr>
+<tr>
+<td> LLINK pages = 0;</td><td> A resource defining the pages in a multi-page dialog. Do not specify
+<p>this if you only want a single-page dialog.
+</p>
+</td></tr>
+<tr>
+<td> LLINK buttons = 0;</td><td> A resource defining the buttons to use in the dialog. The default is
+<p>no buttons.
+</p>
+</td></tr>
+<tr>
+<td> STRUCT Items();</td><td> A comma-separated list of dialog lines.
+</td></tr>
+<tr>
+<td> LLINK form = 0;</td><td> A reference to the FORM structure used in single-page forms. Can be
+<p>used to specify the style of the form. Supported from S60 release 2.6 onwards.
+Forms are documented in S60 3.1 Form API Specification.
+</p>
+</td></tr></table>
+<a name="Dialog_flags"><h5> <span class="mw-headline">2.1.1.1 Dialog flags </span></h5>
+</a><p>The dialog types are defined by the flags parameter in the <span class="plainlinks"><code>DIALOG</code> </span> structure.
+These are defined in the<i> eikon.hrh</i> and<i> avkon.hrh</i> files. The
+basic dialog flags are defined by <span class="plainlinks"><code>EEikDialogFlagXxx</code> </span> in the<i> eikon.hrh</i> file,
+but some of them are not used anymore in the S60 UI.
+</p><p>Note: Symbian OS versions older than v9.1 (S60 releases 1.x and 2.x) specify
+the dialog flags in the<i> uikon.hrh</i> file.
+</p><p>Typical dialogs specify <span class="plainlinks"><code>EEikDialogFlagWait</code> </span>; other flags
+control keypad input flow, whether there is a title, and several others, as
+shown in Table 2.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Dialog resource flags</b>
+</caption>
+<tr>
+<td> <b> Flag</b></td><td> <b> Description</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagWait</code> </span></td><td> <span class="plainlinks"><code>CEikDialog::ExecuteLD()</code> </span> does not return until the
+<p>dialog is dismissed.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagModeless</code> </span></td><td> The dialog does not grab the pointer, and it is not added to the control
+<p>stack (so it cannot receive key presses).
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagNoTitleBar</code> </span></td><td> The dialog has no title bar. Default in S60 devices.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagAllKeysToButtons</code> </span></td><td> This flag must be set for dialogs that use unmodified keys (that is,
+<p>keys which are not used in combination with Shift, Ctrl, or Fn). For example,
+it would typically be set for a dialog that contains "Yes" and "No" buttons,
+which are activated by an unmodified "Y" or "N" key press.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagFillScreen</code> </span></td><td> The dialog is sized to fill the screen.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagFillAppClientRect</code> </span></td><td> The dialog is sized to fill the client rectangle.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagCbaButtons</code> </span></td><td> The dialog has CBA buttons.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagDensePacking</code> </span></td><td> Spacing around dialog components is minimized.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagNoBackup</code> </span></td><td> Do not use a backup window to minimize redrawing. By default, dialogs
+<p>use screen backup to minimize redrawing. For more information, see <span class="plainlinks"><code>RWindowBase::EnableBackup()</code> </span>.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagNotifyEsc</code> </span></td><td> The dialog framework calls <span class="plainlinks"><code>CEikDialog::OkToExitL()</code> </span> when
+<p>the Cancel button is activated (or its hotkey, Esc, is pressed).
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagNoUserExit</code> </span></td><td> The user cannot dismiss the dialog. This is often used for progress
+<p>dialogs.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagNoBorder</code> </span></td><td> No border is drawn for this dialog, <span class="plainlinks"><code>TGulBorder::ENone</code> </span>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagNoShadow</code> </span></td><td> Disable the dialog's shadow, <span class="plainlinks"><code>CEikonEnv::AddWindowShadow()</code> </span>.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagNoBackgroundFade</code> </span></td><td> Related to the internal method <span class="plainlinks"><code><font color="darkred">DoFadeBehindPopup()</font></code> </span>.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagDontEatUpDownEvents</code> </span></td><td> Used by <span class="plainlinks"><code>EAknDialogMarkableList</code> </span>. <span class="plainlinks"><code>DialogPageSelector</code> </span> forwards
+<p>up/down events to its <span class="plainlinks"><code>PageContainer</code> </span>.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknDialogGenericFullScreen</code> </span></td><td> (binary or) into a single
+<p>flag. ( <span class="plainlinks"><code>EEikDialogFlagNoDrag</code> </span>| <span class="plainlinks"><code>EEikDialogFlagNoTitleBar</code> </span>| <span class="plainlinks"><code>EEikDialogFlagFillAppClientRect</code> </span>| <span class="plainlinks"><code>EEikDialogFlagCbaButtons</code> </span>| <span class="plainlinks"><code>EEikDialogFlagWait</code> </span>)
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknDialogFlagNotConstructed</code> </span></td><td> <span class="plainlinks"><code>CAknDialog::SetEmphasis()</code> </span> called by the framework
+<p>returns immediately, when that dialog is not constructed.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknDialogFlagDialogDeleted</code> </span></td><td> <span class="plainlinks"><code>CAknDialog::SetEmphasis()</code> </span> called by the framework
+<p>returns immediately, when that dialog is deleted already.
+</p>
+</td></tr></table>
+<p>Note that for compatibility reasons some flags have been maintained in
+the S60 platform, but none of these are in use anymore in the S60 platform.
+These removed flags are listed in Table 3.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Removed dialog resource flags</b>
+</caption>
+<tr>
+<td> <b> Flag</b></td><td> <b> Description</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagButtonsBelow</code> </span></td><td> The dialog's button panel is positioned below the dialog lines.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagButtonsRight</code> </span></td><td> Not in the S60 platform. The dialog's button panel is positioned to
+<p>the right of the dialog lines, with the buttons arranged vertically.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagNoDrag</code> </span></td><td> Removed because no pointing device is defined in the current S60 UI
+<p>versions. The dialog cannot be moved around the screen by dragging it with
+the pointing device.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDialogFlagNoTitleBar</code> </span></td><td> The dialog has no title bar.
+</td></tr></table>
+<a name="Defining_the_dialog_line_resource"><h4> <span class="mw-headline">2.1.2 Defining the dialog line resource </span></h4>
+</a><p>The dialog line structure contained in dialogs is defined in the<i> eikon.rh</i> file.
+</p>
+<pre>STRUCT DLG_LINE
+    {
+    WORD type;
+    LTEXT prompt;
+    WORD id=0;
+    LONG itemflags=0;
+    STRUCT control;
+    LTEXT trailer="";
+    LTEXT bmpfile = "" ;
+    WORD bmpid = 0xffff ;
+    WORD bmpmask ;
+    LTEXT tooltip = "" ;
+    }
+</pre>
+<table border="1" cellspacing="0">
+<caption> <b>Dialog line resource struct</b>
+</caption>
+<tr>
+<td> Member</td><td> Description
+</td></tr>
+<tr>
+<td> WORD type;</td><td> The control factory identifier for a control. This may be a custom
+<p>control, or one of the stock control classes. The dialog object must be able
+to understand the value of this WORD &#8212; unrecognized controls cause the dialog
+to panic. Stock controls are identified by <span class="plainlinks"><code>EEikCt...</code> </span> and <span class="plainlinks"><code>EAknCt...</code> </span> values
+(defined in<i> eikon.hrh</i> and<i> avkon.hrh</i>, respectively). Dialogs
+using custom controls must use custom type value and override the virtual <span class="plainlinks"><code>CEikDialog::CreateCustomControlL()</code> </span> function
+to create the custom control.
+</p>
+</td></tr>
+<tr>
+<td> LTEXT prompt;</td><td> The text that appears in front of the control in this dialog line.
+</td></tr>
+<tr>
+<td> WORD id = 0;</td><td> The control ID. This can be used in the C++ source to refer to the
+<p>control in this dialog line. The ID must be defined in a HRH file. Default
+value: 0
+</p>
+</td></tr>
+<tr>
+<td> LONG itemflags = 0;</td><td> Item flags. Default value: 0 &#8212; no flags set.
+</td></tr>
+<tr>
+<td> STRUCT control;</td><td> Resource defining this control. This is the resource for a custom control
+<p>or one of the stock control classes. Target type: Varies according to the
+value of the type member.
+</p>
+</td></tr>
+<tr>
+<td> LTEXT trailer = "";</td><td> The text that appears after the control in this dialog line. Default
+<p>value: No trailer text.
+</p>
+</td></tr>
+<tr>
+<td> LTEXT bmpfile = "" ;</td><td> Specifies the bitmap file name.
+</td></tr>
+<tr>
+<td> WORD bmpid = 0xffff ;</td><td> Icon image ID, which is the enumeration of an icon image. Supported
+<p>from S60 release 2.6 onwards. Default value: 0xffff
+</p>
+</td></tr>
+<tr>
+<td> WORD bmpmask ;</td><td> Specifies the icon mask ID. Supported from S60 release 2.6 onwards.
+</td></tr>
+<tr>
+<td> LTEXT tooltip = "" ;</td><td> Help text for the form line. Supported from S60 release 2.6 onwards.
+</td></tr></table>
+<a name="Dialog_line_flags"><h5> <span class="mw-headline">2.1.2.1 Dialog line flags </span></h5>
+</a><p>Dialog items can have their own flags, as specified in Table 5.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Dialog item flags</b>
+</caption>
+<tr>
+<td> <b> Flag</b></td><td> <b> Description</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemCtlGetsWidthFirst</code> </span></td><td> If there is insufficient space on the dialog, the item has priority
+<p>for using the available width.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemCtlMinHeightOrLess</code> </span></td><td> Item height does not expand to fill the available space.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemCtlMinWidthOrLess</code> </span></td><td> Item width does not expand to fill the available space.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemCtlSharesWidth</code> </span></td><td> If there is insufficient space for the item, the item is scaled to
+<p>get an equal share of the available space.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemIndirect</code> </span></td><td> Specifies that the line is specified indirectly through an LLINK.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemLatent</code> </span></td><td> The item is initially invisible, and requires a call from the client
+<p>to make it visible.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemLglf</code> </span></td><td> A latent group line ( <span class="plainlinks"><code>EEikDlgItemLatent</code> </span>) follows.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemNoBorder</code> </span></td><td> No border is drawn for this item, <span class="plainlinks"><code>TGulBorder::ENone</code> </span>.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemNonFocusing</code> </span></td><td> The item does not take keyboard focus.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemSeparatorAfter</code> </span></td><td> A separator is drawn after this line.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemSeparatorMask</code> </span></td><td> Provides a mask for <span class="plainlinks"><code>DLG_LINE</code> </span> flags ( <span class="plainlinks"><code>EEikDlgItemNoSeparator</code> </span>, <span class="plainlinks"><code>EEikDlgItemSeparatorAfter</code> </span>).
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemTakesEnterKey</code> </span></td><td> Item responds to the Enter key.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemOfferAllHotKeys</code> </span></td><td> The item should be offered all hot key events.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemTrailerAfterEar</code> </span></td><td> The item specifies some text in a trailer field to place after the
+<p>input area ear.
+</p>
+</td></tr></table>
+<p>The flags listed in Table 6 exist only for compatibility reasons.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Dialog item flags not in use</b>
+</caption>
+<tr>
+<td> <b> Flag</b></td><td> <b> Description</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemAsLabel</code> </span></td><td> Treat the line as a label (does not respond to input).
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemColumnEnd</code> </span></td><td> Not used.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemCtlGetsWidthFirst</code> </span></td><td> If there is insufficient space on the dialog, the item has priority
+<p>for using the available width.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemCtlMinSizeOrLess</code> </span></td><td> Item height does not expand to fill the available space.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEikDlgItemNoSeparator</code> </span></td><td> No separator is drawn between this line and the next.
+</td></tr></table>
+<a name="Defining_the_softkeys"><h4> <span class="mw-headline">2.1.3 Defining the softkeys </span></h4>
+</a><p>The softkeys in dialogs (buttons field of the <span class="plainlinks"><code>DIALOG</code> </span> resource)
+are defined by a CBA resource. Avkon provides predefined softkeys. The list
+of predefined softkeys ( <span class="plainlinks"><code>R_AVKON_SOFTKEYS_XXX</code> </span>) is in the<i> avkon.rsg</i> file.
+If these predefined softkeys do not suffice, a new CBA resource can be defined.
+Refer to S60 3.1 Buttons API Specification for details.
+</p>
+<a name="Defining_single-page_dialog_resource"><h4> <span class="mw-headline">2.1.4 Defining single-page dialog resource </span></h4>
+</a><p>The dialog resource is defined in the application resource file (RSS file).
+The following code describes a single-page dialog resource called <span class="plainlinks"><code><font color="darkred">r_demo_singlepage_dialog</font></code> </span>.
+</p>
+<pre>RESOURCE DIALOG r_demo_singlepage_dialog
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect |
+            EEikDialogFlagCbaButtons | EEikDialogFlagWait;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtNumberEditor;
+            prompt = "Number1:";
+            id = ESinglePageDlgC1Id;
+            control = NUMBER_EDITOR { min=0; max=999; };
+            trailer = "cm";
+            },
+        DLG_LINE
+            {
+            type = EEikCtNumberEditor;
+            prompt = "Number2:";
+            id = EsinglePageDlgC2Id;
+            control = NUMBER_EDITOR { min=0; max=999; };
+            trailer = "cm";
+            }
+        };
+    }
+</pre>
+<a name="Defining_multi-page_dialog_resource"><h4> <span class="mw-headline">2.1.5 Defining multi-page dialog resource </span></h4>
+</a><p>Multi-page dialogs also use the <span class="plainlinks"><code>DIALOG</code> </span> resource, but there
+are some differences compared to single-page dialogs. Multi-page dialogs define
+a list of pages instead of items in single-page dialogs. The softkeys defined
+in the resource are generic to the entire dialog - not to each page.
+</p><p>Below is an example of a multi-page dialog and its resource definition.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_MultiPageDialog.png" title="Multi-page dialog"><img alt="Multi-page dialog" border="0" height="212" src="images/SPB_10_1_MultiPageDialog.png" width="180" /></a></div>
+<div style="text-align:center"><i>Multi-page dialog</i></div>
+<p>This dialog has multiple pages.
+</p><p>In the main resource, the only different thing compared to the single-page
+resource is that the multi-page resource definition includes a pages field
+with the name of another resource.
+</p>
+<pre>RESOURCE DIALOG r_multipage_form
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect |
+            EEikDialogFlagNoTitleBar | EEikDialogFlagNoBorder |
+            EEikDialogFlagCbaButtons;
+    buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    pages = r_multipage_form_pages;
+    }
+</pre>
+<p>The pages resource ( <span class="plainlinks"><code><font color="darkred">r_multipage_form_pages</font></code> </span>) is an array
+resource that consists of <span class="plainlinks"><code>PAGE</code> </span> items that contain the text
+on the tab and lines defined in other resources.
+</p>
+<pre>RESOURCE ARRAY r_multipage_form_pages
+    {
+    items =
+        {
+        PAGE
+            {
+            id = EAknExFormPageCtrlIdPage01;
+            text = qtn_multipage_form_label_page1;
+            form = r_multipage_form_text_field_form;
+            },
+        PAGE
+            {
+            id = EAknExFormPageCtrlIdPage02;
+            text = qtn_multipage_form_label_page2;
+            form = r_aknexform_text_number_field_form;
+            },
+        ...
+</pre>
+<pre>        };
+    }
+</pre>
+<p>Every page resource is an array resource that consists of <span class="plainlinks"><code>DLG_LINE</code> </span> items.
+The following shows the resource definition for the first page:
+</p>
+<pre>RESOURCE FORM r_multipage_form_text_field_form
+    {
+    flags = EEikFormUseDoubleSpacedFormat;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            prompt = qtn_multipage_form_label_edwin;
+            id = EAknExFormDlgCtrlIdEdwin11;
+            itemflags = EEikDlgItemTakesEnterKey |
+                        EEikDlgItemOfferAllHotKeys;
+            control = EDWIN
+                {
+                flags = EEikEdwinNoHorizScrolling |
+                        EEikEdwinResizable;
+                width = AKNEXFORM_EDWIN_WIDTH;
+                lines = AKNEXFORM_EDWIN_LINES;
+                maxlength = EAknExFormEdwinMaxLength;
+                // added to limit expanding in forms.
+                // If you want full screen use 5 here
+                max_view_height_in_lines = 5;
+                // if you have the line above, you must have this.
+                // It's calculable from LAF
+                base_line_delta = 21;
+</pre>
+<pre>                };
+            tooltip = qtn_multipage_hint_text_edwin;
+            },
+        };
+    }
+</pre>
+<a name="Creating_and_launching_dialog"><h3> <span class="mw-headline">2.2 Creating and launching dialog </span></h3>
+</a><p>The following table shows the sequence of method calls used to create,
+initialize and run dialogs, see sub-chapters for examples. Only the most significant
+methods are shown. <span class="plainlinks"><code>CMyDialog</code> </span> is included to represent the
+methods typically provided by <span class="plainlinks"><code>CAknDialog</code> </span> or <span class="plainlinks"><code>CEikDialog</code> </span>-derived
+classes.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Creating and launching dialogs</b>
+</caption>
+<tr>
+<td></td><td> <b> CEikDialog</b></td><td> <b> CAknDialog</b></td><td> <b> CMyDialog</b>
+</td></tr>
+<tr>
+<td> 1</td><td> new</td><td></td><td> <span class="plainlinks"><code>NewL</code> </span></td><td> <span class="plainlinks"><code>RunDlgLD</code> </span>
+</td></tr>
+<tr>
+<td> 2</td><td></td><td></td><td> <span class="plainlinks"><code>ConstructL</code> </span>
+</td></tr>
+<tr>
+<td> 3</td><td> <span class="plainlinks"><code>PrepareLC</code> </span></td><td> <span class="plainlinks"><code>ExecuteLD</code> </span></td><td></td><td>
+</td></tr>
+<tr>
+<td> 4</td><td> <span class="plainlinks"><code>RunLD</code> </span></td><td></td><td>
+</td></tr></table>
+<a name="Creating_dialog_without_menu"><h4> <span class="mw-headline">2.2.1 Creating dialog without menu </span></h4>
+</a><p>The following example code creates a standard <span class="plainlinks"><code>CEikDialog</code> </span>.
+</p>
+<pre>CEikDialog* dlg = new (ELeave) CEikDialog();
+</pre>
+<a name="Creating_dialog_with_menu"><h4> <span class="mw-headline">2.2.2 Creating dialog with menu </span></h4>
+</a><p>The following example code creates a standard <span class="plainlinks"><code>CAknDialog</code> </span> and
+constructs it with the specified menu resource ( RESOURCE MENU_BAR):
+</p>
+<pre>CAknDialog* dlg = new (ELeave) CAknDialog();
+CleanupStack::PushL( dlg );
+dlg-&gt;ConstructL( R_DEMO_MENU );
+CleanupStack::Pop( dlg );
+</pre>
+<a name="Launching_the_dialog"><h4> <span class="mw-headline">2.2.3 Launching the dialog </span></h4>
+</a><p>The following code snippet launches the dialog using the specified resource
+( RESOURCE DIALOG):
+</p>
+<pre>dlg-&gt;ExecuteLD( R_DEMO_SINGLEPAGE_DIALOG );
+</pre>
+<p>Alternatively, <span class="plainlinks"><code><font color="darkred">PrepareLC()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">RunLD()</font></code> </span> can
+be called:
+</p>
+<pre>dlg-&gt;PrepareLC( R_DEMO_SINGLEPAGE_DIALOG );  // pushes dlg on the cleanup stack
+//...
+// Dynamic initialization of dialog, e.g. adding / removing dialog lines.
+// The dialog is on the stack. Mind the cleanup stack balance.
+//...
+dlg-&gt;RunLD(); // pops, runs and deletes the dialog
+</pre>
+<p>Derived classes may provide other factory functions ( <span class="plainlinks"><code><font color="darkred">NewL()</font></code> </span>, <span class="plainlinks"><code><font color="darkred">RunDlgLD()</font></code> </span>)
+for convenience.
+</p>
+<a name="Implementing_custom_dialog"><h3> <span class="mw-headline">2.3 Implementing custom dialog </span></h3>
+</a><p>Below is an example custom dialog:
+</p>
+<pre>class CMyDialog: public CAknDialog
+    {
+public:     // construction
+    static TInt RunDlgLD( TInt aResouceId );
+private:    // construction
+    CMyDialog();
+    virtual ~CMyDialog();
+private:    // from CAknDialog
+    void PreLayoutDynInitL(); // initialize controls
+    TBool OkToExitL( TInt aButtonId ); // exit condition
+    SEikControlInfo CreateCustomControlL( TInt aControlType );
+    void ProcessCommandL( TInt aCommandId );
+    TKeyResponse OfferKeyEventL
+        ( const TKeyEvent&amp; aKeyEvent, TEventCode aType );
+    };
+</pre>
+<a name="Providing_the_factory_function"><h4> <span class="mw-headline">2.3.1 Providing the factory function </span></h4>
+</a><p>If there is a derived class from <span class="plainlinks"><code>CAknDialog,</code> </span> a static
+function <span class="plainlinks"><code><font color="darkred">RunDlgLD()</font></code> </span> may be implemented. In this function
+instantiate an instance of the dialog and launch it with the appropriate resource. <span class="plainlinks"><code>ExecuteLD</code> </span> has
+the "LD" postfix. "L" means that this function may leave and "D" means it
+destructs itself. The dialog should not be placed on the cleanup stack when <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span> is
+called. <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span> guarantees that if it leaves, the dialog
+will be deleted.
+</p>
+<pre>TInt CMyDialog::RunDlgLD()
+    {
+    CMyDialog* dlg = new (ELeave) CMyDialog();
+    return dlg-&gt;ExecuteLD( R_DEMO_SINGLEPAGE_DIALOG );
+    }
+</pre>
+<a name="Initializing_controls"><h4> <span class="mw-headline">2.3.2 Initializing controls </span></h4>
+</a><p><span class="plainlinks"><code><font color="darkred">PreLayoutDynInitL()</font></code> </span> is called by the dialog framework
+before the dialog is sized and laid out. It may be overloaded to initialize
+the control values that should influence sizing and layout. The default implementation
+is empty.
+</p><p>The following example code initializes the values of the two number editors:
+</p>
+<pre>void CMyDialog::PreLayoutDynInitL()
+    {
+    // Get the Number1 editor control.
+    CEikNumberEditor* editor1 =
+        (CEikNumberEditor*) Control( ESinglePageDlgC1Id );
+    // Set the value to the Number1 editor.
+    editor1-&gt;SetNumber( 100 );
+    // Get the Number2 editor control.
+    CEikNumberEditor* editor2 =
+        (CEikNumberEditor*) Control( ESinglePageDlgC2Id );
+    // Set the value to the Number2 editor.
+    editor2-&gt;SetNumber( 200 );
+    }
+</pre>
+<a name="Checking_exit_condition"><h4> <span class="mw-headline">2.3.3 Checking exit condition </span></h4>
+</a><p>The following example code checks the validity of the values in the two
+editor controls, if the dialog is accepted. If the values are not valid, the
+dialog cannot be dismissed. <span class="plainlinks"><code><font color="darkred">OkToExitL()</font></code> </span> can be the place
+to handle button presses and commands.
+</p>
+<pre>TBool CMyDialog::OkToExitL( TInt aButtonId )
+    {
+    if ( EAknSoftkeyOk == aButtonId )
+        {
+        // Dialog accepted, check the exit condition.
+        // Get the Number1 editor control.
+        CEikNumberEditor* editor1 =
+            (CEikNumberEditor*) Control( ESingleDlgId );
+        // Get the Number2 editor control.
+        CEikNumberEditor* editor2 =
+            (CEikNumberEditor*) Control( ESingleDlg2Id );
+        // Check the validity of the values in the two editors.
+        if ( editor1-&gt;Number() &gt; editor2-&gt;Number() )
+            {
+            // Exit condition failed.
+            CAknErrorNote* note = new (ELeave) CAknErrorNote;
+            note-&gt;ExecuteLD( _L("Number1 should be less than number2") );
+            return EFalse;
+            }
+        }
+    return ETrue;
+    }
+</pre>
+<a name="Adding_custom_control_to_dialog"><h4> <span class="mw-headline">2.3.4 Adding custom control to dialog </span></h4>
+</a><p>Controls in the dialog lines are created by the dialog framework. Creation
+is based on the control type, specified in the <span class="plainlinks"><code>DLG_LINE</code> </span> resource.
+Built-in control types are recognized by the framework. Custom controls types
+must be recognized, and the appropriate custom control created in the <span class="plainlinks"><code>CAknDialog</code> </span>-derived
+custom dialog class.
+</p><p>The following resource snippet defines a custom control type:
+</p>
+<pre>DLG_LINE
+    {
+    type = EMyControl;
+    id = EMyControlId;
+    control = .....
+    }
+</pre>
+<p>The framework calls <span class="plainlinks"><code><font color="darkred">CreateCustomControlL()</font></code> </span> to create the
+custom control. <span class="plainlinks"><code><font color="darkred">CreateCustomControlL()</font></code> </span> should only create,
+but not construct the created control.
+</p>
+<pre>SEikControlInfo CMyDialog::CreateCustomControlL( TInt aControlType )
+    {
+    SEikControlInfo controlInfo;
+    ontrolInfo.iControl = NULL;
+    controlInfo.iTrailerTextId = 0;
+    controlInfo.iFlags = 0;
+    switch ( aControlType )
+        {
+        case EMyControl:
+            controlInfo.iControl = new (ELeave) CMyControl;
+            break;
+</pre>
+<pre>        default:
+            break;
+        }
+    return controlInfo;
+    }
+</pre>
+<p>The framework constructs the created control by calling <span class="plainlinks"><code><font color="darkred">ConstructFromResourceL()</font></code> </span>.
+</p>
+<pre>void CMyControl::ConstructFromResourceL( TResourceReader&amp; aReader )
+    {
+    // Construct the custom control from its resource.
+    ...
+    }
+</pre>
+<p>The custom control also needs a few other methods so it can be laid out
+and drawn. For example, custom controls usually implement <span class="plainlinks"><code><font color="darkred">MinimumSize()</font></code> </span>, <span class="plainlinks"><code><font color="darkred">SizeChanged()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">Draw()</font></code> </span> methods. Details of creating a <span class="plainlinks"><code>CCoeControl</code> </span>-based custom
+control can be found in document S60 3.1 Core UI API Specification.
+</p>
+<a name="Handling_command"><h4> <span class="mw-headline">2.3.5 Handling command </span></h4>
+</a><p>In the example below, <span class="plainlinks"><code><font color="darkred">ProcessCommandL()</font></code> </span> responds to custom
+and system commands.
+</p><p>For the custom command, <span class="plainlinks"><code><font color="darkred">TryExitL()</font></code> </span> is used which results
+in a call to <span class="plainlinks"><code><font color="darkred">OkToExitL()</font></code> </span>.
+</p>
+<pre>void CMyDialog::ProcessCommandL( TInt aCommandId )
+    {
+    switch( aCommandId )
+        {
+        case EMyCommand:
+            {
+            TryExitL( aCommandId ); // to OkToExitL()
+            break;
+            }
+</pre>
+<pre>        case EAknCmdExit:
+        case EEikCmdExit:
+            {
+            ((CAknAppUi*)iEikonEnv-&gt;EikAppUi())-&gt;RunAppShutter();
+            break;
+            }
+</pre>
+<pre>        default:
+            {
+            CAknDialog::ProcessCommandL( aCommandId );
+            }
+        }
+    }
+</pre>
+<a name="Handling_key_events"><h4> <span class="mw-headline">2.3.6 Handling key events </span></h4>
+</a><p>In the example below, a short press of the Selection key invokes a command.
+</p>
+<pre>TKeyResponse CMyDialog::OfferKeyEventL
+( const TKeyEvent&amp; aKeyEvent, TEventCode aType )
+    {
+    TKeyResponse result = EKeyWasNotConsumed;
+    if (
+        ( aKeyEvent.iCode == EKeyOK || aKeyEvent.iCode == EKeyEnter ) &amp;&amp;
+        ( !(aKeyEvent.iModifiers &amp; EModifierShift) )
+       )
+        {
+        // Short press of selection key.
+        ProcessCommandL( EMyCommand );
+        result = EKeyWasConsumed;
+        }
+    else
+        {
+        result = CAknDialog::OfferKeyEventL( aKeyEvent, aType );
+        }
+    return result;
+    }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.4 Error handling </span></h3>
+</a><p>Dialogs API uses standard Symbian OS error reporting mechanism and standard
+error codes.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.5 Memory and Performance Considerations </span></h3>
+</a><p>Memory consumption of dialogs depends on the contained controls.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Dialogs API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> CBA</td><td> Command Button Area
+</td></tr>
+<tr>
+<td> GUI</td><td> Graphical User Interface
+</td></tr>
+<tr>
+<td> OS</td><td> Operating System
+</td></tr>
+<tr>
+<td> SDK</td><td> Software Development Kit
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Dialogs API definitions</b>
+</caption>
+<tr>
+<td> Softkey</td><td> A command button mapped to a hard key on the device.
+</td></tr></table>
+</a><a name="References"><h2> <span class="mw-headline">4 References </span></h2>
+<table border="1" cellspacing="0">
+<caption> <b>Dialogs API references</b>
+</caption>
+<tr>
+<td> S60 3.1 Queries API Specification</td><td>
+</td></tr>
+<tr>
+<td> S60 3.1 Notifiers API Specification</td><td>
+</td></tr>
+<tr>
+<td> S60 3.1 Notes API Specification</td><td>
+</td></tr>
+<tr>
+<td> S60 3.1 Form API Specification</td><td>
+</td></tr>
+<tr>
+<td> Symbian OS 9.1 API Reference Guide</td><td>
+</td></tr>
+<tr>
+<td> S60 3.1 Buttons API Specification</td><td>
+</td></tr>
+<tr>
+<td> S60 3.1 Core UI API Specification</td><td>
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_dialogs_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:37 GMT -->
+</html>

@@ -1,0 +1,68 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5B26AB8E-E20A-4C15-B4F8-812ED9A4A96C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:56:50 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Defining resources for your own CBA buttons" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-CCE6DC36-625C-487C-9AD8-F1BF8E36080A" /><meta name="DC.Relation" scheme="URI" content="GUID-659E2A30-C2E0-4E5A-AA9F-50EBEC7E9579" /><meta name="DC.Relation" scheme="URI" content="GUID-8B137691-7C9E-4085-BFFE-4CFE4A64A091" /><meta name="DC.Relation" scheme="URI" content="GUID-A4F3738C-CBFD-4151-9132-26FE05966715" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5B26AB8E-E20A-4C15-B4F8-812ED9A4A96C" /><title>Defining
+resources for your own CBA buttons </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5B26AB8E-E20A-4C15-B4F8-812ED9A4A96C">Defining
+resources for your own CBA buttons</h1><div>
+<p>To define <a href="GUID-0F8D0399-58CD-4EB6-82DF-75D6BE5B0A84.html#GUID-5F749184-C804-41FC-BA81-038783BDC967">resources</a> for
+your own <a href="GUID-A4F3738C-CBFD-4151-9132-26FE05966715.html">CBA buttons</a>:</p>
+<ol>
+<li id="GUID-72E2159F-9644-4B0A-B534-3988B618AF47"><a name="GUID-72E2159F-9644-4B0A-B534-3988B618AF47"><!-- --></a><p>Determine
+the CBA button requirements of your application.</p></li>
+<li id="GUID-D112D0E5-3DE3-46F2-91CC-073B71F368B9"><a name="GUID-D112D0E5-3DE3-46F2-91CC-073B71F368B9"><!-- --></a><p>Declare <code class="parname">cba
+= r_name21</code> in the <a href="GUID-23A60DE7-B72D-41BD-9F1E-882D31A7E3C7.html"><code class="parname">EIK_APP_INFO</code></a> or <a href="GUID-B238952B-1691-49F4-B8B9-9F755011A7DD.html"><code class="parname">AVKON_VIEW</code></a> statements,
+where <code class="parname">r_name21</code> is a unique identifier in the application.</p>
+</li>
+<li id="GUID-6D0D8115-9645-4CC7-8384-7226BCF72017"><a name="GUID-6D0D8115-9645-4CC7-8384-7226BCF72017"><!-- --></a><p>Create a <code class="parname">RESOURCE</code> statement
+for the CBA buttons. For the declaration in step 2, the syntax is as follows:</p>
+<pre class="codeblock">RESOURCE CBA r_name21
+	{
+	flags = enumerated value in eikon.hrh;
+	buttons =
+		{
+		CBA_BUTTON
+			{
+			id = enumerated command either from Symbian platform or from application;
+			txt = STRING_button_name1;
+			bmpfile = file name;
+			bmpid = ID of bitmap in file;
+			bmpmask = ID of bitmap mask in file;
+			},
+		};
+	}
+			</pre>
+<p>where:</p>
+<ul>
+<li><p><code class="parname">flags</code> indicates how the button group
+should be handled by the Symbian platform. The default value is <code class="parname">EEikButtonGroupAddToStack</code>,
+which indicates the button group should be added to the stack. </p><p>For
+more information on the stack, see <a href="GUID-A9330FEF-C559-4E2B-B064-0151FDADEA8C.html">Event handling</a> </p>
+<p>While the value used here is determined by the requirements of your
+application, typically the default value is valid for most applications.</p>
+</li>
+<li><p><code class="parname">buttons</code> is the name of an array that
+holds the individual buttons that the group is composed of. The array can
+contain the <code class="parname">CBA_BUTTON</code> structures.</p></li>
+</ul>
+<p>The <code class="parname">CBA_BUTTON</code> structure has the following syntax: </p>
+<ul>
+<li><p><code class="parname">id</code> is an enumerated value for the command
+that is associated with the button. The value used can be provided either
+by the <a href="GUID-CBB00F6A-CBA7-4872-B0A1-A86A863725F5.html">underlying Symbian
+platform</a> or by <a href="GUID-D52E98C3-F5EE-4CE1-A4F5-2EF41A066B8A.html">your
+application</a>. </p>
+<p> For more information on command handling, see <a href="GUID-A9330FEF-C559-4E2B-B064-0151FDADEA8C.html">Event handling</a>.</p>
+</li>
+<li><p><code class="parname">txt</code> is a string that defines the name
+of the button present</p></li>
+<li><p><code class="parname">bmpfile</code>, <code class="parname">bmpid</code>,
+and <code class="parname">bmpmask</code> are used for defining an icon for the button. </p>
+</li>
+</ul>
+</li>
+</ol>
+</div></div></div><div class="footer"><p class="metadata">Last updated July 5th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5B26AB8E-E20A-4C15-B4F8-812ED9A4A96C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:56:50 GMT -->
+</html>

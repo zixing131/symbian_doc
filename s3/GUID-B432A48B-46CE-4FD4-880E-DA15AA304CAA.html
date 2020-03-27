@@ -1,0 +1,44 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B432A48B-46CE-4FD4-880E-DA15AA304CAA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Adding, removing, and accessing header field parameters" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-C0D38954-2FC5-4E8B-BC11-229464DCF16C" /><meta name="DC.Relation" scheme="URI" content="GUID-1E8904E3-43AC-5332-A2EF-F11F5728DBE8" /><meta name="DC.Relation" scheme="URI" content="GUID-B4A54501-4AA4-5ACB-96D7-4427C7752639" /><meta name="DC.Relation" scheme="URI" content="GUID-F6CF2920-9095-568B-B332-D5F4A05BD23A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B432A48B-46CE-4FD4-880E-DA15AA304CAA" /><meta name="DC.Language" content="en" /><title>Adding,
+removing, and accessing header field parameters </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B432A48B-46CE-4FD4-880E-DA15AA304CAA">Adding,
+removing, and accessing header field parameters</h1><div>
+<div id="GUID-D96EA794-4D54-4F15-B839-EBA42687751F"><h3 class="section-title"><!--no section title--></h3> <p>Parameters can be associated with header field parts at the time
+of adding the part. There are two variants of <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-54F9A87B-FE2F-3429-9793-0A24B83466B9.html#GUID-A8708AE6-8EAE-37C9-BAD2-87E4A7DCE266"><code class="apiname">RHTTPHeaders::SetFieldL()</code></a>:
+the first is described previously. The second variant takes four parameters,
+of which two specify the part name/value and two specify the parameter name/value. </p> <p>To
+associate more than one parameter with the part, the function must be invoked
+repeatedly. This does not create duplicate parts; rather it locates the part
+with the specified value, and then adds additional parameters. </p> <p>To
+remove parameters from header parts, the entire part must be removed using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-54F9A87B-FE2F-3429-9793-0A24B83466B9.html#GUID-656EF7AC-479E-3408-B00C-9FAE3022A37B"><code class="apiname">RHTTPHeaders::RemoveFieldPart()</code></a>,
+and then added again. </p> <p>To access parameter values, the header name
+and parameter name must be specified. <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-54F9A87B-FE2F-3429-9793-0A24B83466B9.html#GUID-AAEA368C-D8E6-365E-8B05-31CC812F0469"><code class="apiname">RHTTPHeaders::GetParam()</code></a> is
+used, and has an optional fourth parameter in which the part index can be
+provided. If not, the API assumes that the first header part contains the
+parameter. </p> <p>The following code from <code>HTTPEXAMPLECLIENT</code> illustrates
+the use of header parameters with the <code class="codeph">WWW-Authenticate</code> header: </p> <pre class="codeblock">// Display realm for WWW-Authenticate header
+            RStringF wwwAuth = strP.StringF(HTTP::EWWWAuthenticate,RHTTPSession::GetTable());
+            if (fieldNameStr == wwwAuth)
+                {
+                // check the auth scheme is 'basic'
+                RStringF basic = strP.StringF(HTTP::EBasic,RHTTPSession::GetTable());
+                RStringF realm = strP.StringF(HTTP::ERealm,RHTTPSession::GetTable());
+                THTTPHdrVal realmVal;
+                if ((fieldVal.StrF() == basic) &amp;&amp; 
+                    (!hdr.GetParam(wwwAuth, realm, realmVal)))
+                    {
+                    RStringF realmValStr = strP.StringF(realmVal.StrF());
+                    fieldVal16.Copy(realmValStr.DesC());
+                    iUtils.Test().Printf(_L("Realm is: %S\n"), &amp;fieldVal16);
+                    realmValStr.Close();
+                    }
+                basic.Close();
+                realm.Close();
+                }
+            wwwAuth.Close();</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 14th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B432A48B-46CE-4FD4-880E-DA15AA304CAA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:09 GMT -->
+</html>

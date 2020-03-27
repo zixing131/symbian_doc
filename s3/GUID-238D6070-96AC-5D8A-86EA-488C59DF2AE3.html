@@ -1,0 +1,116 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-238D6070-96AC-5D8A-86EA-488C59DF2AE3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Detecting Changes in the Environment" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FD1B0F6E-37C9-49BC-BAE4-7ABCE96FD041" /><meta name="DC.Relation" scheme="URI" content="GUID-68A55CD5-EF01-5DE2-8119-EFA39589960F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-238D6070-96AC-5D8A-86EA-488C59DF2AE3" /><meta name="DC.Language" content="en" /><title>Detecting
+Changes in the Environment </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-238D6070-96AC-5D8A-86EA-488C59DF2AE3">Detecting
+Changes in the Environment</h1><div>
+<div id="GUID-829626B3-7A91-4A78-8608-9C9F35C96A5F"><h3 class="section-title">Introduction</h3> <p>There
+are two classes defined in <code>epoc32\include\COEMAIN.H</code> that
+enable FEPs to be notified about changes in their environment: <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-2CAC79B0-8BD3-3961-A162-75B004AEE5FC.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-2CAC79B0-8BD3-3961-A162-75B004AEE5FC.html"><code class="apiname">MCoeForegroundObserver</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E591B7D7-ED56-3CEF-883F-7091D5833731.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E591B7D7-ED56-3CEF-883F-7091D5833731.html"><code class="apiname">MCoeFocusObserver</code></a>. <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html"><code class="apiname">CCoeFep</code></a> derives from both of these classes, but does not itself
+implement any of their virtual functions. </p> </div>
+<div id="GUID-357E255E-69AC-4A2C-B098-F1F0353A4F21"><h3 class="section-title">Using the MCoeForegroundObserver
+class</h3><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-2CAC79B0-8BD3-3961-A162-75B004AEE5FC.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-2CAC79B0-8BD3-3961-A162-75B004AEE5FC.html"><code class="apiname">MCoeForegroundObserver</code></a> has two (pure)
+virtual functions whose signatures are as follows: </p> <pre class="codeblock">virtual void HandleGainingForeground()=0;
+virtual void HandleLosingForeground()=0;</pre> <p>The purpose of this
+class is to enable notification of when the application (in whose thread the
+client of this class is running) goes into the foreground or background. FEPs
+that have a window owning control should include the following code at the
+start of their implementation of <code class="codeph">HandleGainingForeground()</code>: </p> <pre class="codeblock">DrawableWindow()-&gt;MoveToGroup(iCoeEnv-&gt;WsSession().GetFocusWindowGroup());</pre> <p>This
+code switches the FEP to the window group that has gained focus. Doing this
+also enables FEPs to work with applications that have more than one window
+group. The <code class="codeph">HandleGainingForeground()</code> and <code class="codeph">HandleLosingForeground()</code> virtual
+functions might also be of use to a FEP if, for example, it is required to
+be invisible when the application underneath it is in the background. </p></div>
+<div id="GUID-C24BDB34-DBBE-4E7A-B07C-BC3E225683F3"><h3 class="section-title">Using the MCoeFocusObserver
+class</h3><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E591B7D7-ED56-3CEF-883F-7091D5833731.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E591B7D7-ED56-3CEF-883F-7091D5833731.html"><code class="apiname">MCoeFocusObserver</code></a> has two (pure) virtual
+functions whose signatures are as follows: </p> <pre class="codeblock">virtual void HandleChangeInFocus()=0;
+virtual void HandleDestructionOfFocusedItem()=0;</pre> <p>The purpose
+of this class is to enable notification of when controls under the FEP gain
+or lose focus. This notification is useful to FEPs that need to know about
+the input capabilities of their target control. See the next section for information
+on input capabilities. </p></div>
+<div id="GUID-5B6859ED-764F-4635-8457-91DDC29FBA7E"><h3 class="section-title">Using the TCoeInputCapabilities
+class</h3><p>The public parts of <code class="codeph">TCoeInputCapabilities</code> (which
+is defined in <code>epoc32\include\COEINPUT.H</code>) are as follows: </p> <pre class="codeblock">class TCoeInputCapabilities
+    {
+public:
+    enum
+        {
+        ENone=0,
+        EWesternNumericIntegerPositive=0x00000001,
+        EWesternNumericIntegerNegative=0x00000002,
+        EWesternNumericReal=0x00000004,
+        EWesternAlphabetic=0x00000008,
+        EJapaneseHiragana=0x00000010,
+        EJapaneseKatakanaHalfWidth=0x00000020,
+        EJapaneseKatakanaFullWidth=0x00000040,
+        EDialableCharacters=0x00000080,
+        ESecretText=0x00000100,
+        EAllText=0x01000000,
+        ENavigation=0x02000000
+        };
+    class MCoeFepSpecificExtensions; // to be defined by concrete FEPs, declared here
+public:
+    IMPORT_C TCoeInputCapabilities(TUint aCapabilities);
+    IMPORT_C TCoeInputCapabilities(TUint aCapabilities, MCoeFepAwareTextEditor* aFepAwareTextEditor, MCoeCaptionRetrieverForFep* aCaptionRetrieverForFep);
+    IMPORT_C TCoeInputCapabilities(TUint aCapabilities, MCoeFepAwareTextEditor* aFepAwareTextEditor,  MCoeCaptionRetrieverForFep* aCaptionRetrieverForFep,  TUid aFepUid, MCoeFepSpecificExtensions* aFepSpecificExtensions);
+    IMPORT_C TCoeInputCapabilities(const TCoeInputCapabilities&amp; aAnother);
+    IMPORT_C TCoeInputCapabilities&amp; operator=(const TCoeInputCapabilities&amp; aAnother);
+    IMPORT_C TBool operator==(const TCoeInputCapabilities&amp; aAnother) const;
+    IMPORT_C TBool operator!=(const TCoeInputCapabilities&amp; aAnother) const;
+    IMPORT_C void MergeWith(const TCoeInputCapabilities&amp; aAnother);
+    IMPORT_C void SetCapabilities(TUint aCapabilities);
+    IMPORT_C TUint Capabilities() const;
+    IMPORT_C TBool IsNone() const;
+    IMPORT_C TBool SupportsWesternNumericIntegerPositive() const;
+    IMPORT_C TBool SupportsWesternNumericIntegerNegative() const;
+    IMPORT_C TBool SupportsWesternNumericReal() const;
+    IMPORT_C TBool SupportsWesternAlphabetic() const;
+    IMPORT_C TBool SupportsJapaneseHiragana() const;
+    IMPORT_C TBool SupportsJapaneseKatakanaHalfWidth() const;
+    IMPORT_C TBool SupportsJapaneseKatakanaFullWidth() const;
+    IMPORT_C TBool SupportsDialableCharacters() const;
+    IMPORT_C TBool SupportsSecretText() const;
+    IMPORT_C TBool SupportsAllText() const;
+    IMPORT_C TBool SupportsNavigation() const;
+    IMPORT_C MCoeFepAwareTextEditor* FepAwareTextEditor() const;
+    IMPORT_C MCoeCaptionRetrieverForFep* CaptionRetrieverForFep() const;
+    IMPORT_C MCoeFepSpecificExtensions* FepSpecificExtensions(TUid aFepUid) const;
+    IMPORT_C MObjectProvider* ObjectProvider() const;
+    IMPORT_C void SetObjectProvider(MObjectProvider* aObjectProvider);
+    };</pre> <p>The following code initializes <code class="codeph">inputCapabilities</code> to
+the merged input capabilities of all the currently focused controls: </p> <pre class="codeblock">TCoeInputCapabilities inputCapabilities(STATIC_CAST(CCoeAppUi*, iCoeEnv-&gt;AppUi())-&gt;InputCapabilities());</pre> <p>The best place for this code is inside the overrides of <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E591B7D7-ED56-3CEF-883F-7091D5833731.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E591B7D7-ED56-3CEF-883F-7091D5833731.html"><code class="apiname">MCoeFocusObserver</code></a> ’s
+virtual functions. </p> <p>By calling <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BB7D0D56-1713-3DC0-BDA0-3CA1F0462BE2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BB7D0D56-1713-3DC0-BDA0-3CA1F0462BE2.html"><code class="apiname">TCoeInputCapabilities</code></a>'s
+inquiry functions, the FEP can vary its behaviour according to the input capabilities
+of the target control. The <code class="codeph">Supports</code> <em>Xxxxx</em> <code class="codeph">()</code> member
+functions indicate what sort of key events should be sent by the FEP to the
+target control. It is important for the FEP to behave appropriately for the
+capabilities of the target control(s). For example, a FEP should not allow
+the user to compose a large amount of text, only to pass it on to a control
+that does not support it. The <code class="codeph">FepAwareTextEditor()</code>, <code class="codeph">CaptionRetrieverForFep()</code> and <code class="codeph">FepSpecificExtensions()</code> member functions return pointers to objects of the interface classes <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A5D563D6-A99A-31DF-B844-5F94EF5FFE87.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A5D563D6-A99A-31DF-B844-5F94EF5FFE87.html"><code class="apiname">MCoeFepAwareTextEditor</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-68C16461-68A4-37D2-888E-DD4A6917442A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-68C16461-68A4-37D2-888E-DD4A6917442A.html"><code class="apiname">MCoeCaptionRetrieverForFep</code></a> and MCoeFepSpecificExtensions respectively. In each case,
+a NULL return value indicates that the interface is not supported by any of
+the currently focused controls. </p> <p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A5D563D6-A99A-31DF-B844-5F94EF5FFE87.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A5D563D6-A99A-31DF-B844-5F94EF5FFE87.html"><code class="apiname">MCoeFepAwareTextEditor</code></a> (which
+is defined in <code>epoc32\include\FEPBASE.H</code>) is an important
+and complex class, and is discussed in <a href="GUID-38679CA2-0066-589C-988F-AC14B7E2F107.html#GUID-9C16757D-DC75-5223-A555-550B8D3C1DB4">Close
+interaction with text editor controls</a> below. </p> <p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-68C16461-68A4-37D2-888E-DD4A6917442A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-68C16461-68A4-37D2-888E-DD4A6917442A.html"><code class="apiname">MCoeCaptionRetrieverForFep</code></a>,
+which is also defined in <code>epoc32\include\FEPBASE.H</code>, has
+a single member function whose signature is as follows: </p> <pre class="codeblock">virtual void GetCaptionForFep(TDes&amp; aCaption) const=0;</pre> <p>This sets <code class="codeph">aCaption</code> to the caption of the target control.
+An example of a caption is the non-editable prompt displayed alongside each
+item in a dialog. </p> <p> MCoeFepSpecificExtensions is
+declared in <code>epoc32\include\COEINPUT.H</code> within the scope
+of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BB7D0D56-1713-3DC0-BDA0-3CA1F0462BE2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BB7D0D56-1713-3DC0-BDA0-3CA1F0462BE2.html"><code class="apiname">TCoeInputCapabilities</code></a> class, although it is not
+defined by any component in the Symbian platform. It is to be defined by concrete
+FEPs rather than by the FEP architecture. The intention of this is to allow
+applications to communicate specialized input capabilities with a particular
+FEP that they know about. The concrete FEP would define the class in a public
+header file which then can be used by the relevant applications. Note that
+the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BB7D0D56-1713-3DC0-BDA0-3CA1F0462BE2.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BB7D0D56-1713-3DC0-BDA0-3CA1F0462BE2.html"><code class="apiname">TCoeInputCapabilities</code></a> constructor which takes a MCoeFepSpecificExtensions pointer,
+and also the inquiry function returning a MCoeFepSpecificExtensions pointer
+both require the UID of the FEP defining this class to be passed. This is
+to ensure that the FEP and the application are both assuming the same definition
+of the MCoeFepSpecificExtensions class. </p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 1st, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-238D6070-96AC-5D8A-86EA-488C59DF2AE3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:15 GMT -->
+</html>

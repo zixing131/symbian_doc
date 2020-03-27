@@ -1,0 +1,92 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3BA539B2-D7E0-47C2-825F-257A102FA61D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:56 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Select from a List of Available MTMs and Accounts" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-63816E09-46C7-503A-ADA0-E350C7ACF3C4" /><meta name="DC.Relation" scheme="URI" content="GUID-F7598A84-9736-5310-AAA4-5BCC4BE46C16" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3BA539B2-D7E0-47C2-825F-257A102FA61D" /><meta name="DC.Language" content="en" /><title>Select
+from a List of Available MTMs and Accounts </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3BA539B2-D7E0-47C2-825F-257A102FA61D">Select
+from a List of Available MTMs and Accounts</h1><div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-C4B6AF3A-DFCE-4086-BB29-7DB6002519B0"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-C4B6AF3A-DFCE-4086-BB29-7DB6002519B0"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-C4B6AF3A-DFCE-4086-BB29-7DB6002519B0"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-C4B6AF3A-DFCE-4086-BB29-7DB6002519B0"><!-- --></a><p>Get a list of MTMs
+available on the device that could send your message by specifying the features
+that the MTMs must have.</p>
+<p>Once a filter has been set, the available MTMs can be retrieved
+using the RSendAs::FilteredMessageTypes against which populates a CSendAsMessageTypes
+object.</p><pre class="codeblock">/**
+Creates a SendAs message
+@param aMessage An RSendAsMessage reference, used to create a message
+*/
+void CSendAs2Example::CreateL( RSendAsMessage&amp; aMessage)
+    {
+        
+    CSendAsMessageTypes* messageTypes = CSendAsMessageTypes::NewL();
+    CleanupStack::PushL(messageTypes);  
+
+    // Filter all MTMs that can send messages. 
+    // This list can be refined by applying filters using FilterAgainstCapability.
+    iSendAs.FilteredMessageTypesL(*messageTypes);
+
+    TUid sendAsMtmUid;
+        
+    // Returning the message UID based on the message type 
+    // such as 0 for SMTP Client, 1 for SMS Client
+    // 2 for Infrared client MTM and 3 for Bluetooth client MTM.
+    sendAsMtmUid = messageTypes-&gt;UidFromNameL(KSmsClient);
+    
+    CleanupStack::PopAndDestroy(messageTypes);  
+    iConsole-&gt;Printf ( KTextCreate );
+    
+    TInt count = iSelection-&gt;Count();
+    iEntry-&gt;SetEntryL(KMsvDraftEntryId);
+    ...
+    }</pre>
+</li>
+<li id="GUID-30A9B60A-6D7E-4206-ABCC-62827583C884"><a name="GUID-30A9B60A-6D7E-4206-ABCC-62827583C884"><!-- --></a><p>Get a list of available accounts using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E1699CAB-423D-3AFA-BE77-3AFF38886EA3.html#GUID-47B62BE3-B285-3E09-B2DC-58D0877FD3F9"><code class="apiname">RSendAs::AvailableAccountsL()</code></a> hich
+populates a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-90C4FDEE-3E4D-32B3-85E1-52C157AC4AC4.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-90C4FDEE-3E4D-32B3-85E1-52C157AC4AC4.html"><code class="apiname">CSendAsAccounts</code></a> object. </p>
+<p>The MTM for which to get the services is specified by the message
+type UID, which can be obtained from the<a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CB2BB982-F91D-3E06-8D66-56731AA60EB8.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CB2BB982-F91D-3E06-8D66-56731AA60EB8.html"><code class="apiname"> CSendAsMessageTypes</code></a> object.</p>
+<p>Once an account has been selected by the user, the ID of the
+service can be obtained to use it when creating a message. </p><pre class="codeblock">/**
+Displays the names of all the available accounts.
+Creates accounts, if not already created.
+*/
+void CSendAs2Example::DisplayAccountL()
+    {
+    CSendAsAccounts* accounts = CSendAsAccounts::NewL();
+    CleanupStack::PushL(accounts);
+    
+    // Append 3 new accounts and associated name pair.
+    if(accounts-&gt;Count()==0)
+        {
+        accounts-&gt;AppendAccountL(KAccount1, 0xaaaaaaaa);    
+        }
+    
+    if(accounts-&gt;Count()==1)
+        {
+        accounts-&gt;AppendAccountL(KAccount2, 0x55555555);    
+        }
+        
+    if(accounts-&gt;Count()==2)
+        {
+        accounts-&gt;AppendAccountL(KAccount3, 0x22222222);    
+        }
+    iConsole-&gt;Printf( KAccountNames );
+    iConsole-&gt;Printf ( KPressAnyKey );
+    iConsole-&gt;Getch ();
+    
+    // Display the array of names of accounts for this message type
+    for(TInt I = 0; I &lt; 3; I++)
+        {
+        TPtrC array = accounts-&gt;AccountNames().MdcaPoint(I);
+        iConsole-&gt;Printf( array ); 
+        }
+        
+    CleanupStack::PopAndDestroy(accounts);
+    
+    }</pre>
+</li>
+</ol>
+<div><h3 class="section-title">Results</h3> <p>Result of carrying out the task</p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 29th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3BA539B2-D7E0-47C2-825F-257A102FA61D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:56 GMT -->
+</html>

@@ -1,0 +1,55 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3C2E0C1A-DC7A-55F7-8005-39CEE71CD0A0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:18 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Emulating stdin/stdout/stderr in STDLIB" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-440FDF7D-B9A0-5767-9FF8-412803C0D2A9" /><meta name="DC.Relation" scheme="URI" content="GUID-F7C9824F-0598-56A1-AC2B-24904E997588" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3C2E0C1A-DC7A-55F7-8005-39CEE71CD0A0" /><meta name="DC.Language" content="en" /><title>Emulating
+stdin/stdout/stderr in STDLIB </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3C2E0C1A-DC7A-55F7-8005-39CEE71CD0A0">Emulating
+stdin/stdout/stderr in STDLIB</h1><div>
+<p>This section briefly describes the process of emulating in STDLIB. </p>
+<div><h3 class="section-title">Simple Mode - CCLocalSystemInterface</h3><p>The following
+are the steps to emulate in simple mode: </p> <ol id="GUID-726C67E0-2339-5E20-9F44-3A2C821CFD7F">
+<li id="GUID-2E5FBA33-8E7B-5B08-A3AE-B22BE011C95D"><a name="GUID-2E5FBA33-8E7B-5B08-A3AE-B22BE011C95D"><!-- --></a><p>Create a single <code class="codeph">CTtyDesc</code> object
+per thread and an instance of the basic console object. </p> </li>
+<li id="GUID-C4A3FBCF-2595-5E2C-8B30-BAC50502CCC0"><a name="GUID-C4A3FBCF-2595-5E2C-8B30-BAC50502CCC0"><!-- --></a><p>Attach the <code class="codeph">CTtyDesc</code> object
+to <code class="codeph">stdin</code>, <code class="codeph">stdout</code> and <code class="codeph">stderr</code>. </p> </li>
+<li id="GUID-09A00AD2-D349-531E-98FF-108CBE2C84B2"><a name="GUID-09A00AD2-D349-531E-98FF-108CBE2C84B2"><!-- --></a><p>Pass the Requests made
+on <code class="codeph">stdin</code>, <code class="codeph">stdout</code> and <code class="codeph">stderr</code> to <code class="codeph">CTtyDesc</code>. </p> </li>
+</ol> <p>There is a separate console per thread. Therefore, output is spread
+over a number of different consoles. </p> </div>
+<div><h3 class="section-title">Complex Mode - CProcessSystemInterface</h3><p>The following
+are the steps to emulate in complex mode: </p> <ol id="GUID-1515247F-07E1-53E9-9479-1B2F1D4C0F61">
+<li id="GUID-4803D30B-CB4D-5153-85CB-C7EE0CDA074D"><a name="GUID-4803D30B-CB4D-5153-85CB-C7EE0CDA074D"><!-- --></a><p>Start the POSIX server
+in the <code class="codeph">crt0</code> glue code. </p> </li>
+<li id="GUID-A5F9DB72-C223-52F6-B24F-C3923CE801EF"><a name="GUID-A5F9DB72-C223-52F6-B24F-C3923CE801EF"><!-- --></a><p>Create either a single
+instance of <code class="codeph">CW32StreamDesc</code> or <code class="codeph">CReDirDesc</code> in
+the POSIX server. </p> </li>
+<li id="GUID-F2D23AC7-A08C-5A1A-A4F0-410D8D14ABBE"><a name="GUID-F2D23AC7-A08C-5A1A-A4F0-410D8D14ABBE"><!-- --></a><p>Attach it to <code class="codeph">stdin</code>, <code class="codeph">stdout</code> and <code class="codeph">stderr</code>,
+which is used by all threads. </p> <p>Requests made on <code class="codeph">stdin</code>, <code class="codeph">stdout</code> and <code class="codeph">stderr</code> are
+passed to the attached descriptor object. </p> </li>
+<li id="GUID-AAEC5A86-21D6-56DA-A834-A2C1743881E7"><a name="GUID-AAEC5A86-21D6-56DA-A834-A2C1743881E7"><!-- --></a><p>Use <code class="codeph">CW32StreamDesc</code> for
+the emulator only if the <code class="codeph">RWin32Stream</code> server was started
+in the <code class="codeph">crt0</code> glue code. </p> <p>If <code class="codeph">CW32StreamDesc</code> cannot
+be used or code is compiled for hardware, then use<code class="codeph">CRedirDesc</code> instead. </p> </li>
+<li id="GUID-31BC5DCD-4F01-5116-A139-123DBC4E217F"><a name="GUID-31BC5DCD-4F01-5116-A139-123DBC4E217F"><!-- --></a><p> <code class="codeph">CReDirDesc</code> connects
+and passes the request to a redirection server. If connection fails the output
+to <code class="codeph">stdout</code> and <code class="codeph">stderr</code> is lost. Nothing is
+read from <code class="codeph">stdin</code>. </p> </li>
+<li id="GUID-1A43C2BC-04D7-5DCF-84E6-CDC53F657564"><a name="GUID-1A43C2BC-04D7-5DCF-84E6-CDC53F657564"><!-- --></a><p>The client application
+(for example, Java RT or the Test application) starts the redirection server.
+The client also provides an implementation of <code class="codeph">CStreamFactoryBase2</code>.
+This implementation deals with standard I/O data in a customised way. </p> </li>
+</ol> <p><strong> Stdin/stdout on emulator in complex mode</strong> </p> <p>A text EXE
+running on the emulator can either use the <code class="codeph">wcrt0.lib</code> or <code class="codeph">wwcrt0.lib</code> crt0
+libraries. These automatically start the <code class="codeph">RWin32Stream</code> server
+to redirect <code class="codeph">stdin</code>, <code class="codeph">stdout</code> and <code class="codeph">stderr</code> to
+the Win32 console. </p> <p><strong>Stdin/stdout on hardware in complex mode</strong> </p> <p>A
+test EXE running on target hardware has no default console. The test application
+requires application/client specific C++ code to be written to create a new
+thread and call <code class="codeph">CRedirServer2::NewL()</code> to start the redirection
+server along with client specific derived classes to plumb the I/O to wherever
+it is required. The POSIX server will then connect to this server when stdXXX
+streams are used. </p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 27th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3C2E0C1A-DC7A-55F7-8005-39CEE71CD0A0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:18 GMT -->
+</html>

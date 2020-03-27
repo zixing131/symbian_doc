@@ -1,0 +1,162 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-90644B52-69D7-595C-95E3-D6F7A30C060D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:56 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Font and Text Services Collection Overview" /><meta name="abstract" content="A font is a complete character set of matching size (height) and appearance. In order to be displayed each character must ultimately be drawn as a series of pixels (a bitmap). Fonts can be stored in a bitmap or vector form. A vector font such as OpenType and TrueType must be converted to bitmaps (or rasterized) before it can be drawn. Bitmaps are cached for performance and memory efficiency." /><meta name="description" content="A font is a complete character set of matching size (height) and appearance. In order to be displayed each character must ultimately be drawn as a series of pixels (a bitmap). Fonts can be stored in a bitmap or vector form. A vector font such as OpenType and TrueType must be converted to bitmaps (or rasterized) before it can be drawn. Bitmaps are cached for performance and memory efficiency." /><meta name="DC.Relation" scheme="URI" content="GUID-71DADA82-3ABC-52D2-8360-33FAEB2E5DE9" /><meta name="DC.Relation" scheme="URI" content="GUID-416A3756-B5D5-5BCD-830E-2371C5F6B502" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DCA2F4D-ABE6-52A0-AC4E-5AAC1AB5909D" /><meta name="DC.Relation" scheme="URI" content="GUID-762A665F-43D0-53ED-B698-0CBD3AC46391" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-90644B52-69D7-595C-95E3-D6F7A30C060D" /><meta name="DC.Language" content="en" /><title>Font and Text Services Collection Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-90644B52-69D7-595C-95E3-D6F7A30C060D">Font and Text Services Collection Overview</h1><div><p>A font is a complete character set of matching size (height)
+and appearance. In order to be displayed each character must ultimately
+be drawn as a series of pixels (a bitmap). Fonts can be stored in
+a bitmap or vector form. A vector font such as OpenType and TrueType
+must be converted to bitmaps (or rasterized) before it can be drawn.
+Bitmaps are cached for performance and memory efficiency. </p>
+<div id="GUID-9F33DD34-F5E5-5EA0-8559-7A933D230129"><h3 class="section-title">Concepts
+and terms</h3> <dl>
+<dt class="dlterm">Points, twips and pixels</dt>
+<dd><p>Points (1/72th inch) and twips (a twentieth of a point) are
+absolute measurements of distance and specify device-independent size.
+Pixel sizes are only relevant for a specific graphics device. Each
+graphics device (screen or printer) must provide a mechanism for converting
+between pixels and twips. </p> </dd>
+<dt class="dlterm">Character</dt>
+<dd><p>A single element (such as a letter, number, ligature, symbol
+or punctuation mark) of written language. Each character has a unique
+number (its <a href="http://www.unicode.org/standard/WhatIsUnicode.html" target="_blank">Unicode</a> code point). </p> </dd>
+<dt class="dlterm">Font</dt>
+<dd><p>A named set of characters of matching size (height) and <strong>font style</strong> (normal, bold, italic, underline). <strong>Times Roman
+14 point bold</strong> is an example of a font. </p> </dd>
+<dt class="dlterm">Typeface</dt>
+<dd><p>A group of fonts with similar appearance. The typeface does
+not include the size or font style. <strong>Times</strong> is an example of
+a typeface. Typefaces are sometimes referred to as <strong>font families</strong>. </p> <p>Typefaces are grouped generically as mono-spaced, variable
+width, serif, sans-serif and symbol. This allows the grouping of typefaces
+that have similar characteristics, so that an alternative font can
+be selected when an exact match is not found. This means that applications
+can display text relatively accurately when a specific font is not
+available. </p> </dd>
+<dt class="dlterm">OpenType font</dt>
+<dd><p>A font that is stored as vector data, which can be rasterized
+to any pixel size. OpenType fonts are sometimes simply called <strong>open
+fonts</strong>. An open font can only be used with a corresponding font
+rasterizer. The <a href="GUID-A03FB1BF-F67B-519D-A904-74CA3F8375D9.html">Font and Bitmap Server</a> uses the Font Store to cache rasterized
+fonts into bitmap form.</p> <p>OpenType is an open source vector font
+format, which extends TrueType. Like TrueType fonts, OpenType fonts
+can contain font hinting information. However the font rasterizer's
+use of the font hinting information in OpenType fonts is restricted
+by a software patent. </p> </dd>
+<dt class="dlterm">Bitmap font</dt>
+<dd><p>A font stored as bitmap glyphs. The size of a font is described
+in pixels. However, the actual size is dependent on the pixel size
+of the graphics device. </p> </dd>
+<dt class="dlterm">Rasterizing</dt>
+<dd><p>The process of converting drawing instructions into bitmap
+data. Fonts provided in vector form (OpenType fonts) must be rasterized
+into fixed size fonts before they can be used. </p> </dd>
+<dt class="dlterm">Glyph and glyph ID</dt>
+<dd><p>A graphical representation of a character in a specific font.
+The mapping between a character and a glyph is not always direct.
+For example, a character may be represented by different glyphs, depending
+on the context. In each font file, every glyph has an unique ID, which
+is called glyph ID.</p> </dd>
+<dt class="dlterm">Contour, outline and glyph outline data</dt>
+<dd><p>A contour is a set of lines and curves that define the border
+of a glyph. A glyph outline is made up of all contours. Special points
+are selected and their coordinate values are saved in a font file
+as glyph outline data. At run time, each contour is calculated against
+the device based on these points. Vector fonts such as open fonts
+use this mechanism to ensure good quality when the fonts are scaled.</p><div class="figure" id="GUID-7DCC2336-39B1-43A9-A497-9F487CD1A667"><img src="GUID-9964E084-FC66-4EF2-A030-9715CAFBD1AD_d0e476204_href.png" /></div><p></p> </dd>
+<dt class="dlterm">Font metrics</dt>
+<dd><p>Measurements (such as maximum height) that are common to all
+of the characters in a font. </p> </dd>
+<dt class="dlterm">Character metrics</dt>
+<dd><p>Measurements (such as character width) that apply to an individual
+character within a font. </p> </dd>
+<dt class="dlterm">Linked font</dt>
+<dd><p>A virtual font or typeface created from characters from other
+fonts. The component fonts must be open fonts or other linked fonts.
+Linked fonts are typically used where a preferred font does not contain
+all of the characters in the character set. One of the typefaces in
+a linked font must be designated as the principal typeface from which
+any unspecified default metrics or characters are used. </p> </dd>
+<dt class="dlterm">Contextual shaping</dt>
+<dd><p>In some scripts some characters are drawn differently depending
+on the adjacent characters. This means that different glyphs are used
+to represent a particular character in different contexts. Contextual
+shaping is the selection of the appropriate glyph from several glyphs
+that represent a particular character depending on the context. </p> <p>In Latin scripts, contextual shaping is normally used only when
+simulating handwriting. For example, the glyph used for the letter <strong>p</strong> might depend on whether the letter is at the start, middle
+or end of a word, as shown in the following diagram. For example,
+when it is in the middle of the word, it might have a "tail" on both
+sides to join it to the letters that appear before and after. </p> <div class="figure" id="GUID-30A9DA99-E1C5-5EE5-AEB3-0BCD6DB0A692"><img src="GUID-8F19C257-9A41-5D38-BC8A-285D0EB16E1B_d0e476263_href.png" /><p class="figure-title"><strong>Figure: </strong>                   Figure 1: Handwriting simulation might use
+different glyphs for                   the letter p depending on its
+position in a word                  </p></div> <p>Contextual shaping is an essential feature of some scripts,
+including Arabic and many Indian and East Asian scripts, such as Devanagari,
+Kannada, Telugu, Tamil, Bengali, Malayalam and Gurmukhi. For this
+reason, support for contextual shaping is sometimes referred to as <strong>Brahmic support</strong>. </p> </dd>
+<dt class="dlterm">Text shaper</dt>
+<dd><p>A plug-in of the Font Store and performs the contextual shaping
+for scripts that require this feature. Text shapers are font and language
+specific. </p> </dd>
+<dt class="dlterm">System font</dt>
+<dd><p>A default font that is used when no font is specified. </p> </dd>
+</dl> </div>
+<div id="GUID-C1EBE332-8515-467A-A16B-630690E4EEB4"><h3 class="section-title">Architecture</h3> <p>The Font and Text Services components are closely integrated
+with the <a href="GUID-71DADA82-3ABC-52D2-8360-33FAEB2E5DE9.html">Font
+and Bitmap Server (FBS)</a> and <a href="GUID-0AB9B221-38AE-576E-AC5A-C4C106E3D93B.html">Graphics Device Interface
+(GDI)</a> of the Graphics package. In general, GDI provides abstract
+APIs, based on which the FBS provides client-side APIs and the Font
+Store provides server-side APIs.</p><p>The following diagram shows
+the component architecture. The FBS forwards client requests to the
+Font Store, which runs inside the FBS's shared heap. Text shapers
+and font rasterizers are ECOM plug-ins of the Font Store.</p><div class="figure" id="GUID-BD89819F-A5A6-4C0F-BF2E-D80726E60A4E"><img src="GUID-FEBF3EA0-C26D-437D-88AF-E38274ACC5C7_d0e476317_href.png" /><p class="figure-title"><strong>Figure: </strong>Font and text services component architecture</p></div><p>The following diagram shows the run-time architectural relationship
+of the components and APIs.  The text following the diagram is a summary
+of the functionality.  For more detailed information, refer to the <a href="GUID-416A3756-B5D5-5BCD-830E-2371C5F6B502.html#GUID-93267E72-6382-4782-A752-9B2FC1200446">Font Store typical uses</a>.</p> <div class="figure" id="GUID-36165480-E5BC-50F3-B205-5668EA7F0306"><img src="GUID-E598E82F-EA81-4145-B0C0-0F0BBA7858D0_d0e476330_href.png" /><p class="figure-title"><strong>Figure: </strong>Font and text services run-time architecture</p></div> <p>Client applications access font services through the FBS,
+which caches the bitmaps of rasterized vector fonts in a shared heap.
+However, the eXecute In Place (XIP) ROM-based bitmap fonts are not
+copied into the heap.</p><p>The FBS provides two main client-side
+classes for fonts–<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DE966D8B-6E00-39B6-B136-6CF29EA384D3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DE966D8B-6E00-39B6-B136-6CF29EA384D3.html"><code class="apiname">CFbsFont</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5E287BF6-08C1-36A2-9085-F6B61CC52550.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5E287BF6-08C1-36A2-9085-F6B61CC52550.html"><code class="apiname">CFbsTypefaceStore</code></a>, which are derived from abstract classes of the GDI component. Use
+of the FBS is transparent to FBS clients. For example, Window Server
+clients, which are also FBS clients, perform no explicit session management.
+ The Window Server client session (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html"><code class="apiname">RWsSession</code></a>)
+automatically creates an <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5B29AC0-4953-385F-84C5-13EE6CB77D46.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5B29AC0-4953-385F-84C5-13EE6CB77D46.html"><code class="apiname">RFbsSession</code></a> and stores
+it in thread local storage (TLS). The FBS client-side classes find
+and use the <code class="codeph">RFbsSession</code> in TLS automatically.</p> <p>The <a href="GUID-B798C19D-4030-564A-A208-D84738259D72.html">Font
+Store</a> contains all the fonts on the device and manages the
+font rasterizers and text shapers required to render these fonts.
+The Font Store classes are created and destroyed by the FBS. These
+classes are stored in the shared heap so that they can be accessed
+(read-only to clients) by both client and FBS processes.  In general,
+the FBS forwards client requests to the Font Store to load font files,
+retrieve the requested font or load the font rasterizer to rasterize
+characters. </p> <p>Open font rasterizers are implemented as ECOM
+plug-ins. An open font file (represented by and derived from COpenFontFile) can contain one or more open fonts in the
+proprietary vector format. A corresponding font rasterizer plug-in
+(derived from COpenFontRasterizer) must convert
+the vector data into bitmaps that the FBS can cache and access using
+the CBitmapFont and COpenFont APIs. Client applications use rasterized open fonts through <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DE966D8B-6E00-39B6-B136-6CF29EA384D3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DE966D8B-6E00-39B6-B136-6CF29EA384D3.html"><code class="apiname">CFbsFont</code></a>.</p> <p>Text shapers (CShaper) are implemented as ECOM plug-ins. They are used for contextual
+scripts, which require their glyphs to be modified according to the
+adjacent characters. Text shapers are font and language specific.</p> </div>
+<div id="GUID-7A5B8050-E419-4E5A-A09A-F4E0890C9188"><h3 class="section-title">Components</h3> <p>The Font and Text Services collection includes the following
+components:</p> <ul>
+<li id="GUID-0C4363B1-4340-5638-8A59-ECDF2AFFA088"><a name="GUID-0C4363B1-4340-5638-8A59-ECDF2AFFA088"><!-- --></a><p><a href="GUID-B798C19D-4030-564A-A208-D84738259D72.html">Font Store</a>. This manages font matching, ownership and rasterizing. This component
+also provides the font rasterizer and text shaper APIs for device
+creators to create additional plug-ins.</p> </li>
+<li id="GUID-AAE1BCA4-B9B4-5AD1-AC79-3308F231FCE7"><a name="GUID-AAE1BCA4-B9B4-5AD1-AC79-3308F231FCE7"><!-- --></a><p> <a href="GUID-75C5A614-CEC1-5832-ACEA-E3C31B8A0DE8.html">FreeType Font Rasterizer</a>. This open source plug-in is a reference open font rasterizer implementation.
+This rasterizer is normally loaded by default. More information about
+FreeType can be found at <a href="http://www.freetype.org/" target="_blank">www.freetype.org</a>. </p> </li>
+<li id="GUID-7EB97752-0F44-5625-8474-FDCF64654AE6"><a name="GUID-7EB97752-0F44-5625-8474-FDCF64654AE6"><!-- --></a><p><a href="GUID-DB453F9B-55B6-50C7-984D-7154F1E84AE6.html">ICU Layout Engine
+Component</a>. This is a text shaper plug-in that performs contextual
+shaping for specific scripts. When a function, such as <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4A501086-7EFF-376D-8901-6D9B2EB4EFF2.html#GUID-176B0A61-867E-35A6-AE53-0BABA48741D9"><code class="apiname">CFbsBitGc::DrawText()</code></a> draws text in one of these scripts, internally a text shaper is
+used to convert the string of characters into the appropriate series
+of glyphs. </p> </li>
+</ul> </div>
+<div id="GUID-14494425-6E91-4271-A11A-F04BBA9624DA"><h3 class="section-title">Using
+Font and Text Services</h3><p>Application developers can use Font
+and Text Services for selecting fonts to display text based on various
+criteria, such as size and typeface.</p><p>Device creators can create
+font rasterizers and text shaper plug-ins. Fonts files can be included
+in the ROM or installed on user drives.</p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-71DADA82-3ABC-52D2-8360-33FAEB2E5DE9.html">Font
+and Bitmap Server Component Overview </a></li><li><a href="GUID-416A3756-B5D5-5BCD-830E-2371C5F6B502.html"> Font
+Store Component Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 27th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-90644B52-69D7-595C-95E3-D6F7A30C060D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:00 GMT -->
+</html>

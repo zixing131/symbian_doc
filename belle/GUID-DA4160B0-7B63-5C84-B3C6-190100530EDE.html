@@ -1,0 +1,36 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DA4160B0-7B63-5C84-B3C6-190100530EDE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:14 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use templated stream operators" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-3FAB9077-3EC3-5539-B391-D11456362513" /><meta name="DC.Relation" scheme="URI" content="GUID-6BF09365-09D7-5596-B802-1BE1757F51F6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-DA4160B0-7B63-5C84-B3C6-190100530EDE" /><meta name="DC.Language" content="en" /><title>How to use templated stream operators </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-DA4160B0-7B63-5C84-B3C6-190100530EDE">How to use templated stream operators</h1><div><p>Templated stream operators are straight forward to use. For example, given the class <code class="codeph">TSimple</code> defined as:</p> <pre class="codeblock">    class TSimple
+          {
+    public :
+          void InternalizeL(RReadStream&amp; aStream);
+          void ExternalizeL(RWriteStream&amp; aStream) const;
+          ...
+          TInt8     iInt8Value;
+          TInt64    iInt64Value;
+          TRect     iRectangle;
+          TUid      iUid;
+          CBufSeg*  iSegBuffer;
+          }</pre> <p><code class="codeph">ExternalizeL()</code> and <code class="codeph">InternalizeL()</code> might be implemented as:</p> <pre class="codeblock">void TSimple::ExternalizeL(RWriteStream&amp; aStream) const
+          {
+          aStream &lt;&lt;  iInt8Value;
+          aStream &lt;&lt;  iInt64Value;
+          aStream &lt;&lt;  iRectangle
+          aStream &lt;&lt;  iUid;
+          aStream &lt;&lt;  *iSegBuffer;
+          }</pre> <pre class="codeblock">void TSimple::InternalizeL(RReadStream&amp; aStream)
+          {
+          aStream &gt;&gt;  iInt8Value;
+          aStream &gt;&gt;  iInt64Value;
+          aStream &gt;&gt;  iRectangle
+          aStream &gt;&gt;  iUid;
+          aStream &gt;&gt;  *iSegBuffer;
+          }</pre> <p>The templated operators can also be used on an object of type <code class="codeph">TSimple</code>. For example:</p> <pre class="codeblock">TSimple simple;
+...
+aStream &lt;&lt; simple;
+...</pre> <p>The <code class="codeph">operator&lt;&lt;</code> results in call to <code class="codeph">TSimple::ExternalizeL()</code> function and this, in turn, calls <code class="codeph">operator&lt;&lt;</code> on <code class="codeph">TSimple</code>'s data members.</p> </div></div></div><div class="footer"><p class="metadata">Last updated October 10th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DA4160B0-7B63-5C84-B3C6-190100530EDE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:14 GMT -->
+</html>

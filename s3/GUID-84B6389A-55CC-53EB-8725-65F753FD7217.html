@@ -1,0 +1,95 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-84B6389A-55CC-53EB-8725-65F753FD7217.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:48 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Content Access Framework Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-986EBD34-DE90-59BA-8A5F-E6E48845F18E" /><meta name="DC.Relation" scheme="URI" content="GUID-AD61E913-9720-5F6B-8386-680384165E87" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-315452C2-A1E2-5888-A694-6D2DE73A3F5E" /><meta name="DC.Relation" scheme="URI" content="GUID-E6C91CF2-A616-5E52-8BB2-630C42C8D540" /><meta name="DC.Relation" scheme="URI" content="GUID-7EE46FD9-DC9E-5C1F-9AC5-48F5212AF0CA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-84B6389A-55CC-53EB-8725-65F753FD7217" /><meta name="DC.Language" content="en" /><title>Content Access Framework Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-84B6389A-55CC-53EB-8725-65F753FD7217">Content Access Framework Overview</h1><div>
+<p>The Content Access Framework (CAF) provides a common interface
+for applications to access Digital Rights Management (DRM) protected
+content. An application might be a video or sound player or an internet
+browser and DRM content might be a media files or a game. </p>
+<div id="GUID-34E3A6A0-A5B1-45EC-948E-61BFE7C75D91"><h3 class="section-title">Purpose</h3> <p>CAF provides a single point of
+access to all functionality related to DRM-protected content. </p> <ul>
+<li id="GUID-15DE43E1-3623-54FF-8AA5-0156D4809199"><a name="GUID-15DE43E1-3623-54FF-8AA5-0156D4809199"><!-- --></a><p>Access to DRM-protected
+content for content consumers, such as media players or software installers </p> </li>
+<li id="GUID-CAD976B3-5AF4-53D2-B4C9-BB20D329AA88"><a name="GUID-CAD976B3-5AF4-53D2-B4C9-BB20D329AA88"><!-- --></a><p>Management of
+DRM protected content </p> </li>
+<li id="GUID-FC614936-1F4A-557D-A61C-BF876050F5A2"><a name="GUID-FC614936-1F4A-557D-A61C-BF876050F5A2"><!-- --></a><p>Import DRM protected
+information </p> </li>
+<li id="GUID-1DA7B843-171D-5C58-8157-B984C8218987"><a name="GUID-1DA7B843-171D-5C58-8157-B984C8218987"><!-- --></a><p>Notification
+on DRM related events, such as rights expiry </p> </li>
+<li id="GUID-BE79AE4B-4DAD-5F91-A7BC-8FAC2143E858"><a name="GUID-BE79AE4B-4DAD-5F91-A7BC-8FAC2143E858"><!-- --></a><p>Implementation
+of new DRM schemes </p> </li>
+</ul> </div>
+<div id="GUID-290C30C0-B088-534F-992E-CA2ED277F07D"><h3 class="section-title">Key
+concepts and terms</h3> <dl>
+<dt class="dlterm">Content</dt>
+<dd><p>Content is logically-coupled data such as a movie, a soundtrack
+or a ringtone forming a content file. </p> </dd>
+</dl> <dl>
+<dt class="dlterm">Content consumer</dt>
+<dd><p>Content consumers are applications such as media players or
+software installers that access DRM-protected content. </p> </dd>
+</dl> <dl>
+<dt class="dlterm">Content access agent</dt>
+<dd><p>A content access agent is an ECom plug-in which implements
+the CAF interface and performs the following functions: </p> <ul>
+<li id="GUID-96ACA45F-F89C-5F83-B2FC-FE19F7EEECB0"><a name="GUID-96ACA45F-F89C-5F83-B2FC-FE19F7EEECB0"><!-- --></a><p>Provides access
+to protected content such as MPEG and MP3, and allows viewing them
+as plain text (even if the content is encrypted). </p> </li>
+<li id="GUID-2B5D35F4-71F7-52A2-A596-24817C68E769"><a name="GUID-2B5D35F4-71F7-52A2-A596-24817C68E769"><!-- --></a><p>Provides indirect
+access to a private server directory. </p> </li>
+<li id="GUID-A2DA01FB-721E-5E9C-B61C-3A5E28034971"><a name="GUID-A2DA01FB-721E-5E9C-B61C-3A5E28034971"><!-- --></a><p>Provides platform
+security enforcement. CAF does not provide any capability enforcement
+so the agent must police access to the APIs. The agent can choose
+to deny some operations in the CAF API based upon both the application's
+capabilities and the agent's policy. </p> </li>
+</ul> </dd>
+</dl> <dl>
+<dt class="dlterm">F32 agent</dt>
+<dd><p>The F32 agent provides access to unprotected files. CAF treats
+the F32 agent as a special case. If no other agent is responsible
+for a file or directory, the F32 Agent is used. </p> <p>The F32 agent
+runs in the same process and thread as the calling application, so
+its file operations are limited to the capability of the calling application's. </p> </dd>
+</dl> <dl>
+<dt class="dlterm">Handling and sharing content in a private directory </dt>
+<dd><p>Few agents can provide access to files stored in their private
+directory. They can share their files existence to applications through
+implementation of the ContentAccess::CAgentManager::GetDir() function. In the file system the private directories have the format: </p> <p> <code class="codeph">\private\xxxxxxxx\directory_1\...directory_n\filename.ext</code> </p> <p>where <code class="codeph">xxxxxxxx</code> is the UID of the agent. </p> <p>CAF will translate that path so applications see the file as: </p> <p> <code class="codeph">\private\agent_name\directory_1\...directory_n\filename.ext</code> </p> <p>where <code class="codeph">agent_name</code> is the name of the agent. </p> <p>When an application opens a file stored in the private directory,
+CAF selects the agent which handles that content based upon the name
+in the path. If the file is not stored in a private directory, CAF
+asks each of the agents in turn whether they support the file. If
+no agent supports the file, it will be read as plaintext using the
+F32Agent. </p> </dd>
+</dl> </div>
+<div id="GUID-B27CF5E9-7F0B-45EF-9EE3-96FBD213EC42"><h3 class="section-title">Architecture</h3> <p>CAF provides interfaces for
+applications to read both unprotected and DRM protected content. It
+behaves as a switch between different Content Access Agents. </p> <p>CAF uses a client-server architecture. The CAF client DLL must be
+linked with the client process. CAF agents can be implemented as plug-ins
+to the CAF client if they do not require access to keys or rights.
+An agent requiring access to encryption or decryption of keys, or
+rights must be implemented as a server-side plug-in. A server side
+plug-in must ensure that only applications with the right capabilities
+can access the content. </p> <p>Each agent is an ECOM plug-in implementing
+the content access agent interface UID 0x10204740. The agents can
+run in separate processes and need not have the capability to open
+files in the TCB or private server directories using just a file name.
+Files must be opened by the process that owns them and an open <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BE0804F6-4375-3C8A-8C83-968F510466E0.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BE0804F6-4375-3C8A-8C83-968F510466E0.html"><code class="apiname">RFile</code></a> handle passed to CAF to read it. </p> <p>In the following
+diagram the yellow blocks represent the components provided by Symbian
+and the blue blocks represent the components that must be implemented
+by device creators. </p> <div class="figure" id="GUID-40498A21-44F3-5250-9E02-3ACF30EC2BF9"><img src="GUID-B93C26B8-D767-5341-A629-1A5714A20992_d0e430931_href.jpg" /><p class="figure-title"><strong>Figure: </strong>              CAF Architecture            </p></div> <p> <strong>Note</strong>: The F32 agent is a client-side implementation
+as it is used for accessing unprotected content only. </p> </div>
+<div id="GUID-317DC5DE-EF0D-4035-B067-47CA00CD29F9"><h3 class="section-title">Typical uses</h3> <p>CAF provides interfaces for
+implementing and using CAF agents. CAF agents allows authorised users
+to access the DRM protected content for installation and playback.
+CAF APIs can be used to perform the following tasks: </p> <ul>
+<li id="GUID-E039C0ED-5A67-5326-8431-047985855B23"><a name="GUID-E039C0ED-5A67-5326-8431-047985855B23"><!-- --></a><p>Providing services
+for applications that render content and multimedia plug-ins. For
+more information, see <a href="GUID-09A760FD-4C2A-5F79-91F2-DCC25A63699C.html">Consumer API Tutorial</a>. </p> </li>
+</ul> </div>
+</div><h3>Related information</h3><ul><li>CAF
+Recogniser Config</li><li>CAF
+Streaming Support</li></ul></div></div><div class="footer"><p class="metadata">Last updated August 27th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-84B6389A-55CC-53EB-8725-65F753FD7217.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:49 GMT -->
+</html>

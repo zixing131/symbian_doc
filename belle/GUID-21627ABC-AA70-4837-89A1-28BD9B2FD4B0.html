@@ -1,0 +1,177 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-21627ABC-AA70-4837-89A1-28BD9B2FD4B0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:51 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Descriptors survival guide" /><meta name="abstract" content="Introduction to Symbian strings, and advice on which concrete class to use." /><meta name="description" content="Introduction to Symbian strings, and advice on which concrete class to use." /><meta name="DC.Relation" scheme="URI" content="GUID-0F0BCB36-53F0-4C05-AE55-5994441EC777" /><meta name="DC.Relation" scheme="URI" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-2CA5C27E-A526-4B26-941B-85F0B32E1FFA" /><meta name="DC.Relation" scheme="URI" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-21627ABC-AA70-4837-89A1-28BD9B2FD4B0" /><meta name="DC.Language" content="en" /><title>Descriptors survival guide </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-21627ABC-AA70-4837-89A1-28BD9B2FD4B0">Descriptors survival guide</h1><div><p>Introduction to Symbian strings, and advice on which concrete
+class to use.</p>
+<div id="GUID-6C6B211A-F3DF-4EE0-9327-40DCF19251C7"><h3 class="section-title">Descriptors
+are Symbian strings</h3><p>In Symbian C++, string handling is done
+using a set of classes known as descriptors. There are two main abstract
+descriptor classes (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html"><code class="apiname">TDesC16</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C04A9A0C-DBA7-37DA-B744-54FBF3D544CD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C04A9A0C-DBA7-37DA-B744-54FBF3D544CD.html"><code class="apiname">TDes16</code></a>) and six concrete classes (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-262C5A94-F186-31A1-855E-1FE123BC101C.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-262C5A94-F186-31A1-855E-1FE123BC101C.html"><code class="apiname">TPtr16</code></a>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EF25E407-26DF-3D97-B725-2DD0345975BA.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EF25E407-26DF-3D97-B725-2DD0345975BA.html"><code class="apiname">TBuf16</code></a>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BEFF9C91-DA64-3032-96E8-F5054405DC74.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BEFF9C91-DA64-3032-96E8-F5054405DC74.html"><code class="apiname">RBuf16</code></a>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8FE95467-D48B-3E61-9028-29C0F15F567E.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8FE95467-D48B-3E61-9028-29C0F15F567E.html"><code class="apiname">TPtrC16</code></a>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-44622E86-313E-36B3-9989-3016F8E6E252.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-44622E86-313E-36B3-9989-3016F8E6E252.html"><code class="apiname">TBufC16</code></a>, and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3D3D9CD7-C8FD-3F81-9CC5-1A71D4F9751E.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3D3D9CD7-C8FD-3F81-9CC5-1A71D4F9751E.html"><code class="apiname">HBufC16</code></a>).</p><div class="p"><div class="figure" id="GUID-7A7D7085-BAE9-482D-A336-67C640DF77B5"><img src="GUID-36B1479B-887A-4A0E-93D8-25F8037B7A8A_d0e35426_href.png" /><p class="figure-title"><strong>Figure: </strong>The main descriptor classes</p></div></div><p>The character width of descriptor classes can be identified
+from their names. If the class name ends in 8 (for example, <code class="codeph">TPtr8</code>) it has narrow (8-bit) characters, while a descriptor
+class name ending with 16 (for example, <code class="codeph">TPtr16</code>) manipulates
+16-bit character strings. The classes with no number in their name,
+as in the diagram above, are <code class="codeph">typedef</code>'d to the character
+width set by the platform, which is 16 bit.</p></div>
+<div id="GUID-7A93CB82-18B2-46F8-9BF9-98E1C511F014"><h3 class="section-title">Abstract
+base classes</h3><p><code class="codeph">TDesC</code> is the abstract base
+class for all 16–bit descriptors. All the public member functions
+of <code class="codeph">TDesC</code> are <code class="codeph">const</code> (i.e. they do
+not modify the object on which they are invoked). The most common
+use of <code class="codeph">TDesC</code> is to pass descriptors as function arguments,
+for example:</p><pre class="codeblock">// Any one of the six concrete descriptor classes
+// can be passed to this function, as well as a literal
+// created with the _LIT macro.
+void PrintAnyDescriptor( const TDesC&amp; aLogEntry )
+  {		
+  _LIT( KOut, "%S \n" );
+  RDebug::Printf( KOut, &amp;aLogEntry );
+  }</pre><p>Note the use of a constant reference in the function.
+Declaring a non-constant reference would prevent the function from
+calling the <code class="codeph">const</code> member functions defined in <code class="codeph">TDesC</code>. If we had not used a reference at all we would have
+lost the derived class member data. This 'slicing' would be disastrous
+because it is the derived class that gives access to the string data.
+So it is important always to pass descriptors by reference when using
+the abstract base classes.</p><p><code class="codeph">TDes</code> is an abstract
+class derived from <code class="codeph">TDesC</code>. The majority of the public
+member functions of <code class="codeph">TDes</code> are non-const, for example <code class="codeph">Append()</code>, <code class="codeph">Insert()</code>, and <code class="codeph">Replace()</code>. As with <code class="codeph">TDesC</code>, the most common use of <code class="codeph">TDes</code> is to pass a descriptor as a function argument. A function
+parameter of type <code class="codeph">TDes&amp;</code> indicates that the function
+accepts any of <code class="codeph">TPtr</code>, <code class="codeph">TBuf</code>, and <code class="codeph">RBuf</code>. </p></div>
+<div id="GUID-B25658E2-B5ED-4649-A873-853AC7F4E528"><h3 class="section-title">Fixed
+size descriptors</h3><p>If you want a small string with a fixed
+maximum size, choose <code class="codeph">TBuf</code>. As this class inherits
+from <code class="codeph">TDes</code> you have access to all the methods of <code class="codeph">TDesC</code> and <code class="codeph">TDes</code>. The main constraint when
+using <code class="codeph">TBuf</code> is that you must specify a compile time
+constant as the maximum length of the descriptor. Place this value
+in the angle brackets when you declare the descriptor. For example:</p><pre class="codeblock">// Formatting for Printf
+_LIT( KOut, "%S Length: %d Max: %d \n" );
+
+// String literals
+_LIT( KHello, "hello" );
+_LIT( KWorld, " world" );
+
+// Specify maximum length of the TBuf as
+// the template parameter. This must be a compile
+// time constant.
+TBuf&lt;12&gt; buf( KHello );
+
+// Call base class methods to manipulate the string.
+buf.Append( KWorld );
+buf.UpperCase();
+
+// Prints "HELLO WORLD, 11, 12".
+console-&gt;Printf( KOut, &amp;buf, buf.Length(), buf.MaxLength() );    </pre><p>If a call to <code class="codeph">Append()</code> overruns the maximum length
+of the descriptor a panic would result (USER-11). This is a general
+rule for all descriptor classes: they immediately detect buffer overflow
+and panic.</p><p>Class <code class="codeph">TBufC</code> is similar to <code class="codeph">TBuf</code> in that the length of the descriptor is specified at
+declaration time. As <code class="codeph">TBufC</code> does not derive from <code class="codeph">TDes</code> you do not have access to <code class="codeph">TDes</code> methods
+if you declare a <code class="codeph">TBufC</code>. In most cases it is preferable
+to use the richer functionality of <code class="codeph">TBuf</code>.</p><p>As <code class="codeph">TBuf</code> and <code class="codeph">TBufC</code> objects are often stored
+on the stack, they are only suitable for relatively small strings
+of up to 256 bytes.</p></div>
+<div id="GUID-973227AB-FAE9-4963-9554-98640B1A1685"><h3 class="section-title">Dynamic
+descriptors</h3><p>If you want a dynamic descriptor, choose <code class="codeph">RBuf</code>. <code class="codeph">RBuf</code> allocates a heap buffer, and
+deallocates it when the <code class="codeph">Close()</code> method is called. </p><div class="p">The <code class="codeph">RBuf</code> class does not manage the size of the
+buffer and re-allocate it if more memory is required for a particular
+operation. If a modification method, such as <code class="codeph">Append()</code>, is called on an <code class="codeph">RBuf</code> object for which there is
+insufficient memory available, a panic will occur. As a programmer,
+you are responsible for re-allocating memory to the descriptor if
+it is required, using the <code class="codeph">ReAllocL()</code> method. Here
+is an example:<pre class="codeblock">// Format string for Printf()
+_LIT( KOut, "%S \n" );
+
+// String literals
+_LIT( KHeapExample, "I am stored in the Heap" );
+_LIT( KBiggerString, "I am stored in the Heap and there is more space" );
+
+// Declare an RBuf. Unlike with TBuf and TBufC,
+// the maximum length of the RBuf can change. 
+RBuf rbuf;
+
+// Allocate sufficient memory to store the initial string.
+rbuf.CreateL( KHeapExample );
+
+// Add to the cleanup stack before calling a
+// leaving function.
+rbuf.CleanupClosePushL();
+
+// Allocate more memory to store a longer string.
+rbuf.ReAllocL( KBiggerString().Length() );
+
+// Copy the longer string into the buffer.
+rbuf.Copy( KBiggerString );
+
+// Prints "I am stored in the Heap and there is more space"
+console-&gt;Printf( KOut, &amp;rbuf );
+
+// Clean up. Calls Close() on the RBuf.
+CleanupStack::PopAndDestroy();                </pre>Class <code class="codeph">HBufC</code> is also a dynamic descriptor that manages heap memory.
+As with <code class="codeph">RBuf</code> the heap memory  is not automatically
+resized but it is possible to resize the buffer explicitly using <code class="codeph">HBufC::ReAllocL()</code>. Use <code class="codeph">RBuf</code> in preference
+to <code class="codeph">HBufC</code>: it is more flexible and easier to use.</div></div>
+<div id="GUID-9EEF094C-4039-4F3F-BC53-93D09450FF79"><h3 class="section-title">Pointing
+at a buffer you do not own</h3><p>Class <code class="codeph">TPtrC</code> is
+the equivalent of using <code class="codeph">const char*</code> when handling
+strings in C. The data can be accessed but not modified. The data
+is separate from the descriptor object and is stored elsewhere, for
+example, in ROM, on the heap or on the stack. The memory that holds
+the data is not owned by the pointer descriptor. You might use a <code class="codeph">TPtrC</code> to extract a substring from another descriptor, or
+to wrap up non descriptor data for a function requiring a descriptor
+parameter.</p><p>Class <code class="codeph">TPtr16</code> is similar to <code class="codeph">TPtrC</code> but it allows modification of, as well as access to,
+a data buffer stored elsewhere. In general it is safer to use <code class="codeph">TPtrC</code> unless you are sure you need to call one of the <code class="codeph">TDes</code> methods that <code class="codeph">TPtr</code> inherits.</p><div class="p"><div class="figure" id="GUID-A355BDC1-346B-4D59-B1BF-FA3929F1D813"><img src="GUID-ABC658F9-3FD9-4C7D-92CF-09F8E887E6A0_d0e35647_href.png" /><p class="figure-title"><strong>Figure: </strong>Memory layout of pointer descriptors TPtrC and TPtr</p></div></div><p></p></div>
+<div id="GUID-ECAE60BD-531B-4A3B-A356-A0F71CD5C61B"><h3 class="section-title">String
+literals</h3><p>The examples above have used the <code class="codeph">_LIT</code> macro to declare named string literals, for example <code class="codeph">_LIT(
+KHello, "Hello World!" )</code>. This adds the 16 bit string literal
+"Hello World!" to the program binary and associates the symbol <code class="codeph">KHello</code> with it so that it can be subsequently referenced.
+The _LIT macro creates an object of type <code class="codeph">TLitC</code>, but
+there is no need to use this class directly.</p><div class="p">You can pass a
+string literal directly to a function taking a <code class="codeph">const TDesC&amp;</code>:<pre class="codeblock">// Function accepts any descriptor, as well
+// as a literal created with the _LIT macro.
+void PrintAnyDescriptor( const TDesC&amp; aLogEntry );
+
+// Declare a literal.
+_LIT( KHello, "Hello World!" );
+
+// Pass directly to the function with 
+// no explicit conversion required.
+PrintAnyDescriptor( KHello );</pre>You can also call a <code class="codeph">TDesC</code> method on a string literal, but you need to perform
+an explicit conversion to type <code class="codeph">const TDesC&amp;</code>.
+The function call operator acts as a (somewhat cryptic looking) shorthand
+for this conversion:<pre class="codeblock">// Declare a literal.
+_LIT( KHello, "Hello World!" );
+
+// Call a TDesC method directly on
+// the literal. Does not compile.
+TUint length = KHello.Length();
+
+// Does compile. Note the () after
+// the name of the literal.
+TUint length = KHello().Length();</pre></div></div>
+<div id="GUID-9E900352-C5D3-4578-8589-57E72F12F7B7"><h3 class="section-title">Packaging
+objects in descriptors</h3><p>There are three specialized descriptor
+classes known as package descriptors. They are useful for treating
+flat data objects as descriptors so they can be copied between threads
+in different processes, for example when using the client server framework.
+The classes are templated on the type to be packaged, so any T object
+can be enclosed in a package descriptor.</p><div class="p"><div class="figure" id="GUID-73DB8D3B-EA33-407A-9E86-C2E2725A7FBE"><img src="GUID-6A5C8923-BA2D-407E-9C4F-5CB8C5B0F771_d0e35696_href.png" /><p class="figure-title"><strong>Figure: </strong>The package descriptor classes</p></div>The use of package descriptors is often encapsulated in the
+server's client side API. The target object is passed to the constructor
+of the package descriptor, as shown below:</div><pre class="codeblock">// Example object to be wrapped in a package descriptor.
+TExample example(...);
+
+// Create a package descriptor to allow a T object to 
+// be treated as a descriptor. 
+TPckg&lt;TExample&gt; buf( example ); </pre><p>Class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C7A094BD-846F-3ED2-8CCE-C0743DB3712A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C7A094BD-846F-3ED2-8CCE-C0743DB3712A.html"><code class="apiname">TPckgBuf</code></a> creates a copy of the object to be wrapped in a descriptor. The
+copied object can be modified by the package descriptor leaving the
+original object unchanged. In contrast <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4DFB8E64-81FF-3D3B-9694-CE51B11DA69A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4DFB8E64-81FF-3D3B-9694-CE51B11DA69A.html"><code class="apiname">TPckg</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-36B29964-420D-38D0-AF08-4DA70BED8B6E.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-36B29964-420D-38D0-AF08-4DA70BED8B6E.html"><code class="apiname">TPckgC</code></a> refer to the existing instance of the target object. <code class="codeph">TPckgC</code> provides read only access to this object, but <code class="codeph">TPckg</code> also allows modifier methods to be called.</p></div>
+<div id="GUID-898498C4-AC1E-4ACB-8D0D-1563217DEE82"><h3 class="section-title">Copyright
+note</h3><p>Some of the material in this topic is based with permission
+on a Symbian Foundation wiki article <cite>Descriptors</cite> which
+is part of the series <cite>The Fundamentals of Symbian C++</cite>. The version used was that available at <a href="http://developer.symbian.org/" target="_blank">http://developer.symbian.org/</a> on 3
+November 2010. The wiki content is licensed under the Creative Commons
+Attribution-Share Alike 2.0 UK: England &amp; Wales License.</p></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-0F0BCB36-53F0-4C05-AE55-5994441EC777.html">Using
+the client server framework</a></li><li><a href="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18.html">Introduction
+to Symbian C++ development</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated February 24th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-21627ABC-AA70-4837-89A1-28BD9B2FD4B0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:52 GMT -->
+</html>

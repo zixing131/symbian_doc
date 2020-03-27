@@ -1,0 +1,85 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7B5A854B-A9A0-557E-9970-9B13D7EE251E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:43 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Using the MIME Framework" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-94215E49-605B-51BA-B215-10BDA1A0C013" /><meta name="DC.Relation" scheme="URI" content="GUID-F18D0E06-2FB8-5339-AF31-02CC7D5A8010" /><meta name="DC.Relation" scheme="URI" content="GUID-863AD171-B40B-5056-96B1-A7B995DB3524" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-7B5A854B-A9A0-557E-9970-9B13D7EE251E" /><meta name="DC.Language" content="en" /><title>Using
+the MIME Framework </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-7B5A854B-A9A0-557E-9970-9B13D7EE251E">Using
+the MIME Framework</h1><div><div><p>The <a href="GUID-1AAA88BB-19AD-5B8E-993C-11F4B7CD90EB.html">MIME
+recognizers</a> are used by the client applications for data type recognition.
+When there is a client request to the <a href="GUID-58CA15F8-D984-5D07-8C00-161FA16A8FD3.html">AppArc</a> for
+data type recognition, AppArc internally uses the MIME recognition framework
+for processing the request. </p></div>
+<div id="GUID-6799E3F3-353E-5C00-A38C-D32F888392AA-GENID-GUID-51772D7A-2C45-4CBB-B8A4-9B2EE2B4FB47"><h3 class="section-title">Context</h3><p>The client connects
+to AppArc and creates a session using the class <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html"><code class="apiname">RApaLsSession</code></a>.
+Apparc provides access to the MIME framework via <code class="codeph">RApaLsSession</code> APIs.
+The class provides the APIs for data type recognition. </p> <p>All MIME (data)
+recognizers are derived from the abstract base class, CApaDataRecognizerType.
+The <code class="codeph">RApaLsSession</code> data recognition APIs access the properties
+of <code class="codeph">CApaDataRecognizerType</code> for data type recognition. </p> </div>
+<h3>Steps</h3><ol id="GUID-554A6B8B-5E46-5977-A588-23EEF7610077"><a name="GUID-554A6B8B-5E46-5977-A588-23EEF7610077"><!-- --></a>
+<li id="GUID-3922D131-9E8C-5865-BF22-D1EB75DADAAF"><a name="GUID-3922D131-9E8C-5865-BF22-D1EB75DADAAF"><!-- --></a><p></p>
+Connect and create a session with AppArc server using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-A92887D0-694C-3792-B3C9-46B155FE83B9"><code class="apiname">RApaLsSession::Connect()</code></a>. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">RApaLsSession aLs;
+TInt ret;
+// Client session with the server created.
+ret=aLs.Connect();
+</pre> </div>
+</li>
+<li id="GUID-715F513B-D88F-5968-B47B-87BB57F015CE"><a name="GUID-715F513B-D88F-5968-B47B-87BB57F015CE"><!-- --></a><p></p>
+Invoke <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-24DCDDC2-1BF8-34BE-A893-7D85DF505D59"><code class="apiname">RApaLsSession::RecognizeData()</code></a> or <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-13C1150F-AEC3-377F-A15E-1722AB750C9C"><code class="apiname">RApaLsSession::RecognizeSpecificData()</code></a>. 
+These APIs internally invoke the implementation for CApaDataRecognizerType::DoRecognizeL(). 
+ <code class="codeph">DoRecognizeL()</code> of the class derived from <code class="codeph">CApaDataRecognizerType</code> implements
+the data recognition behaviour. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">// Implementation of RecognizeData() 
+
+RecognizeData(const TDesC &amp;aName, const TDesC8 &amp;aBuffer, TDataRecognitionResult &amp;aDataType) 
+    {
+     
+    CExampleRecognizer *myrecognizer= CExampleRecognizer::CreateRecognizerL();
+    myrecognize-&gt;DoRecognizeL(aName,aBuffer);
+     
+    }
+
+
+// The RApaLsSession object invokes RecognizeData() for data type recognition.
+
+_LIT(KMyFile, "Myfile.example");
+
+_LIT(KMyBufer, "serach for example string in the file buffer");
+
+TInt ret=aLs.RecognizeData(KMyFile,KMyBufer,result);
+
+
+ 
+</pre> </div>
+For more details about refer <a href="GUID-1AAA88BB-19AD-5B8E-993C-11F4B7CD90EB.html">Writing
+MIME Recognizers </a>. 
+</li>
+</ol>
+<div><h3 class="section-title">Results</h3><p>A <code class="codeph">TDataRecognitionResult</code> object is returned to
+AppArc. The object contains the data (MIME) type and the confidence of recognition. </p> <p>AppArc
+attempts to find the application that can best handle the identified data
+type. It is not guaranteed that an application will be available
+to handle a data type, even after successful recognition. </p><p><strong>Notes</strong>:</p><div class="p">In
+addition to the overloads of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-24DCDDC2-1BF8-34BE-A893-7D85DF505D59"><code class="apiname">RApaLsSession::RecognizeData()</code></a> or <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-13C1150F-AEC3-377F-A15E-1722AB750C9C"><code class="apiname">RApaLsSession::RecognizeSpecificData()</code></a> the
+following functions of the <code class="codeph">RApaLsSession</code> also support the
+processing of data type recognition request.  <ul>
+<li id="GUID-DD30FE7C-7A2E-5D1A-BF2B-9062EA0534F6"><a name="GUID-DD30FE7C-7A2E-5D1A-BF2B-9062EA0534F6"><!-- --></a><p>The overloads of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-75213781-58CC-3133-A29E-A98640B5DCB7"><code class="apiname">RApaLsSession::RecognizeFilesL()</code></a> are
+used to recognize all files contained in a specified directory. </p> </li>
+<li id="GUID-EEFC08FC-BC71-5FBC-84D4-4F90FBE879E4"><a name="GUID-EEFC08FC-BC71-5FBC-84D4-4F90FBE879E4"><!-- --></a><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-73CBA5BA-F834-3C3E-B823-D22D47E80B0D"><code class="apiname">RApaLsSession::GetAcceptedConfidence()</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-52093701-CB5C-3F89-980B-146FB59DA841"><code class="apiname">RApaLsSession::SetAcceptedConfidence()</code></a> retrieve and set the accepted confidence level of the MIME framework. The
+default value is <code class="codeph">ECertain</code>. </p> </li>
+<li id="GUID-611CC0DC-566E-5CAF-ABB2-445AC1E4B21B"><a name="GUID-611CC0DC-566E-5CAF-ABB2-445AC1E4B21B"><!-- --></a><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-02D7272B-576C-34B7-8C70-4B5DD3CA0F7C"><code class="apiname"> RApaLsSession::GetSupportedDataTypesL()</code></a> retrieves
+the list of data types supported by all recognizers in the recognizer list
+of the MIME framework. </p> </li>
+<li id="GUID-C3BB3027-FF85-54CE-ADE9-0104CC749AE5"><a name="GUID-C3BB3027-FF85-54CE-ADE9-0104CC749AE5"><!-- --></a><p>The preferred buffer
+size determines the amount of data passed to <code class="codeph">DoRecognizeL()</code> function.
+The preferred buffer size can be retrieved using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-2BF0B124-F898-3F60-BDA9-D56AAAB92EB2"><code class="apiname">RApaLsSession::GetPreferredBufSize()</code></a>.
+This value cannot be greater than the maximum buffer value. </p> <p>The maximum
+value for the buffer is set by using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-08755985-24A9-3D58-9DCD-2C9E45FC8A24"><code class="apiname">RApaLsSession::SetMaxDataBufSize()</code></a>.
+If the maximum buffer size is not set by the client, the default value is
+256 bytes. The maximum buffer size can be retrieved using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5EEE8745-F483-33C0-A5B1-AEB5544DE2BA.html#GUID-CCE99830-F0A2-3E39-9D16-32A1A3EA570B"><code class="apiname">RApaLsSession::GetMaxDataBufSize()</code></a>. </p> </li>
+</ul></div> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 16th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7B5A854B-A9A0-557E-9970-9B13D7EE251E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:43 GMT -->
+</html>

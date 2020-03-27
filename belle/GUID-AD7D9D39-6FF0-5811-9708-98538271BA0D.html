@@ -1,0 +1,47 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AD7D9D39-6FF0-5811-9708-98538271BA0D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Position data" /><meta name="abstract" content="This document describes the basic and extended classes that hold position data." /><meta name="description" content="This document describes the basic and extended classes that hold position data." /><meta name="DC.Relation" scheme="URI" content="GUID-70E1117B-17F0-5CF4-A5D0-35D3BEBB0FEA" /><meta name="DC.Relation" scheme="URI" content="GUID-ACD9E338-DF75-5811-B696-C3900B498218" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-7F476137-5E7F-5288-9F4A-6C20F0A1AD9B" /><meta name="DC.Relation" scheme="URI" content="GUID-D0318BB6-0B9F-5A1C-AB0B-61BA22D28661" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-AD7D9D39-6FF0-5811-9708-98538271BA0D" /><meta name="DC.Language" content="en" /><title>Position
+data </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-AD7D9D39-6FF0-5811-9708-98538271BA0D">Position
+data</h1><div><p>This document describes the basic and extended classes that hold
+position data. </p>
+<div><h3 class="section-title">Purpose</h3> <p>This document describes how position data
+is represented within the <a href="GUID-ABC01315-D65D-55EA-9D42-4DE6384D517D.html">position
+data classes</a>. </p> </div>
+<div><h3 class="section-title">Values and co-ordinates</h3> <ul>
+<li id="GUID-23C5B7B1-8F7E-5E67-BFC5-8B6ADF2EC263"><a name="GUID-23C5B7B1-8F7E-5E67-BFC5-8B6ADF2EC263"><!-- --></a><p>The World Geodetic System
+reference datum (WGS 84) is used by LBS. This is a global co-ordinate system
+in which co-ordinates are expressed as latitude and longitude in degrees and
+altitude in metres above the reference datum. In WGS 84, latitude values have
+the range (-90 &lt;= Lat &lt;= +90) and longitude values have the range (-180
+&lt;= Long &lt; +180). </p> </li>
+<li id="GUID-3F2BFE0F-29A1-516D-A27B-35298AD35FC8"><a name="GUID-3F2BFE0F-29A1-516D-A27B-35298AD35FC8"><!-- --></a><p>In LBS, latitude and
+longitude are held as <code class="codeph">TReal64</code> values and altitude is held
+as a <code class="codeph">TReal32</code> value. </p> </li>
+<li id="GUID-EB9BEB2B-2CC2-5C70-9A88-4C9D80F42D0A"><a name="GUID-EB9BEB2B-2CC2-5C70-9A88-4C9D80F42D0A"><!-- --></a><p>Both horizontal and
+vertical accuracy are held as <code class="codeph">TReal32</code> values and represent
+a possible error values in metres. </p> </li>
+<li id="GUID-9909202F-8C8C-5EAA-814F-B9760CE63F6C"><a name="GUID-9909202F-8C8C-5EAA-814F-B9760CE63F6C"><!-- --></a><p>Bearings and headings
+are held as <code class="codeph">TReal32</code> values and represent a direction in degrees.
+Bearing and heading accuracies are also held as <code class="codeph">TReal32</code> values
+and represent a possible error value in degrees. </p> </li>
+</ul> </div>
+<div><h3 class="section-title">Co-ordinate adjustment</h3> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DDCBA817-9D88-3332-ABD3-1DDC6E397851.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DDCBA817-9D88-3332-ABD3-1DDC6E397851.html"><code class="apiname">TCoordinate</code></a> base
+class holds the latitude, longitude and altitude of a position. If an application
+attempts to assign values that are outside of the ranges specified by WGS
+84 to an instance of a <code class="codeph">TCoordinate</code> class then the values
+are adjusted to lie within the correct interval. </p> </div>
+<div><h3 class="section-title">Unassigned values</h3> <p>In some situations, one of the
+position co-ordinates, typically altitude may not be known. This is usually
+because the positioning module that was used to obtain the location fix was
+unable to obtain data for that co-ordinate. Where LBS cannot assign a value
+to a co-ordinate value, the value "Not a Number" (NaN) is assigned to it.
+Applications must test for this situation by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1DB7AE7A-A505-3530-AC2B-EBAEFCD3F36A.html#GUID-79B7EC5D-973E-3B91-91C4-48F10FC0038D"><code class="apiname">Math::IsNaN()</code></a> on
+each returned co-ordinate value before using it in a calculation. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-70E1117B-17F0-5CF4-A5D0-35D3BEBB0FEA.html">Position
+Area Data Classes</a></li><li><a href="GUID-ACD9E338-DF75-5811-B696-C3900B498218.html">Privacy Requester
+Classes</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 4th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AD7D9D39-6FF0-5811-9708-98538271BA0D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:25 GMT -->
+</html>

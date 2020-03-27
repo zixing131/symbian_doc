@@ -1,0 +1,132 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D91DC379-947A-52CB-A154-7922AF334527.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:10:49 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to retrieve drive and volume information" /><meta name="abstract" content="This topic describes how to retrieve drive and volume information." /><meta name="description" content="This topic describes how to retrieve drive and volume information." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-BB9760B4-4F3F-5326-81FB-B644C82F0E65" /><meta name="DC.Relation" scheme="URI" content="GUID-198DCED1-F429-5C95-A51D-53AE416687E8" /><meta name="DC.Relation" scheme="URI" content="GUID-30B2AF3F-E120-5D47-AAA2-529555625B55" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D91DC379-947A-52CB-A154-7922AF334527" /><meta name="DC.Language" content="en" /><title>How
+to retrieve drive and volume information </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D91DC379-947A-52CB-A154-7922AF334527">How
+to retrieve drive and volume information</h1><div><p>This topic describes how to retrieve drive and volume information.</p>
+<p>The class <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html"><code class="apiname">RFs</code></a> provides a number of functions that extract
+drive and volume information. </p>
+<p>The <a href="#GUID-23B14094-0526-5BB2-8CCB-E25558F452F4">FileSystemSubType()</a> function
+returns the sub type of a drive. This information can be used to warn a user
+if they try to use a volume that is not of the correct format. </p>
+<p>The volume information supplied by <a href="#GUID-35712294-BF6D-5ADF-A717-67B949F02EC3">VolumeIOParam()</a> is particularly useful as it allows you to get specific properties for a
+volume. This includes the block size of the underlying media for read/write
+operations, allowing your application to access data on the underlying media
+in the most efficient way. For example: </p>
+<ul>
+<li id="GUID-519C820E-DDF3-574C-9FF0-C16E805C38E4"><a name="GUID-519C820E-DDF3-574C-9FF0-C16E805C38E4"><!-- --></a><p>Applications that download
+from a local or network connection to transfer files, for example, bluetooth
+beaming, HTTP, FTP, may be able to improve their performance by knowing the
+recommended block and cluster sizes. </p> </li>
+<li id="GUID-555B3946-64CA-52BC-96AC-12034ACC0483"><a name="GUID-555B3946-64CA-52BC-96AC-12034ACC0483"><!-- --></a><p>For Multimedia source
+data, reading in optimal sized blocks may help to achieve a consistent read
+speed. </p> </li>
+</ul>
+<ul>
+<li id="GUID-F9366D6D-E5CA-58EC-B28F-7219AB43F61A"><a name="GUID-F9366D6D-E5CA-58EC-B28F-7219AB43F61A"><!-- --></a><p> <a href="#GUID-83B63D4E-65E5-5DC6-8C4B-CD3A26165B6D">Drive information</a> </p> <ul>
+<li id="GUID-3E51BA09-FB64-54C7-9FD6-F05E43FC9DB5"><a name="GUID-3E51BA09-FB64-54C7-9FD6-F05E43FC9DB5"><!-- --></a><p> <a href="#GUID-BF5C8B94-7600-555F-B9F7-DFAE390B4EE3">DriveList()</a> </p> </li>
+<li id="GUID-58D7E17C-9D24-551C-AD21-BA234395C0E5"><a name="GUID-58D7E17C-9D24-551C-AD21-BA234395C0E5"><!-- --></a><p> <a href="#GUID-57F650DF-4144-586F-81E5-B1386202A27B">Drive()</a> </p> </li>
+<li id="GUID-241A56DC-B1B5-57A7-8A03-11CC9F11D523"><a name="GUID-241A56DC-B1B5-57A7-8A03-11CC9F11D523"><!-- --></a><p> <a href="#GUID-23B14094-0526-5BB2-8CCB-E25558F452F4">FileSystemSubType()</a> </p> </li>
+</ul> </li>
+<li id="GUID-16335B02-EF2C-51C8-AC1E-8F596085D896"><a name="GUID-16335B02-EF2C-51C8-AC1E-8F596085D896"><!-- --></a><p> <a href="#GUID-43EFDCEC-A390-56F6-A4C0-A8150E188E05">Volume information</a> </p> <ul>
+<li id="GUID-50F492F4-FBF5-50CA-A318-C7758C1999E1"><a name="GUID-50F492F4-FBF5-50CA-A318-C7758C1999E1"><!-- --></a><p> <a href="#GUID-8F14799F-6F60-5C64-AC8D-4083CE06E6A2">Volume()</a> </p> </li>
+<li id="GUID-746C70D5-F301-5F99-B8B6-31E1AB1D42EE"><a name="GUID-746C70D5-F301-5F99-B8B6-31E1AB1D42EE"><!-- --></a><p> <a href="#GUID-35712294-BF6D-5ADF-A717-67B949F02EC3">VolumeIOParam()</a> </p> </li>
+</ul> </li>
+</ul>
+<div id="GUID-83B63D4E-65E5-5DC6-8C4B-CD3A26165B6D"><h3 class="section-title">Drive information</h3> <p id="GUID-BF5C8B94-7600-555F-B9F7-DFAE390B4EE3"><a name="GUID-BF5C8B94-7600-555F-B9F7-DFAE390B4EE3"><!-- --></a><strong> DriveList()</strong> </p> <p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html#GUID-384A86BF-EB47-3525-9614-D474977AF991"><code class="apiname">RFs::DriveList()</code></a> retrieves
+an array of drives. The drive list consists of an array of 26 bytes. Array
+index zero corresponds to drive A, one equals B and so on. If the value of
+an array member is 1 the corresponding drive exists. If this drive is able
+to contain removable media then use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html#GUID-51CDDF8D-3F18-398D-A477-B81948C10872"><code class="apiname">RFs::Drive</code></a> to test
+for its presence. </p> <p>The following code prints each drive in the drive
+list as a letter, followed by the hex value of the integer indicating the
+drive's attributes. </p> <pre class="codeblock">TDriveList drivelist;
+TChar driveLetter; 
+TInt driveNumber; 
+_LIT(KDrive,"%c: %02x ");
+
+User::LeaveIfError(fsSession.DriveList(drivelist)); 
+for(driveNumber=EDriveA;driveNumber&lt;=EDriveZ;driveNumber++) 
+{ 
+    if (drivelist[driveNumber]) 
+    {
+        User::LeaveIfError(fsSession.DriveToChar(driveNumber,driveLetter));
+        console-&gt;Printf(KDrive, TUint(driveLetter), drivelist[driveNumber]); 
+    }
+}</pre> <p id="GUID-57F650DF-4144-586F-81E5-B1386202A27B"><a name="GUID-57F650DF-4144-586F-81E5-B1386202A27B"><!-- --></a><strong>Drive()</strong> </p> <p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html#GUID-BAB41D5B-A8B2-31D0-8A45-931112D1F5D3"><code class="apiname">RFs::Drive()</code></a> retrieves
+the attributes of the drive specified with <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D883FA4-115C-3425-8A34-B00D1D4BBCF9.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D883FA4-115C-3425-8A34-B00D1D4BBCF9.html"><code class="apiname">TDriveInfo</code></a>.
+The following example loops through all possible drives, a-z, and prints a
+message if a drive is flash-based. </p> <pre class="codeblock">TChar driveLetter; 
+TDriveInfo driveInfo; 
+TInt driveNumber;
+_LIT(KFlash,"Drive %c is flash\n"); 
+
+for (driveNumber=EDriveA; driveNumber&lt;=EDriveZ; driveNumber++) 
+{
+    fsSession.Drive(driveInfo, driveNumber); 
+    if (driveInfo.iDriveAtt == KDriveAbsent) 
+        continue; 
+    if (driveInfo.iType == EMediaFlash) 
+    {
+        User::LeaveIfError(fsSession.DriveToChar(driveNumber, driveLetter));
+        console-&gt;Printf(KFlash, driveLetter); 
+    }
+}</pre> <p id="GUID-23B14094-0526-5BB2-8CCB-E25558F452F4"><a name="GUID-23B14094-0526-5BB2-8CCB-E25558F452F4"><!-- --></a><strong>FileSystemSubType()</strong> </p> <p>To
+retrieve the sub type of the volume use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html#GUID-00404432-7095-3461-A669-9009A91BD45C"><code class="apiname">RFs::FileSystemSubType()</code></a>.
+Pass this function a drive number and a TFSName for the
+sub type. For example, the sub type can be 'FAT16' of the Fat file system. </p> <p> <strong>Note</strong>:
+For file systems that do not have a sub type, for example a ROM file system,
+the name of the file system is returned, in this case 'ROM'. </p> <pre class="codeblock">TChar driveLetter;
+TFSName name;
+TInt driveNumber;
+_LIT(KSubType,"Drive %c is Sub Type: %S\n"); 
+
+for (driveNumber=EDriveA; driveNumber&lt;=EDriveZ; driveNumber++) 
+{
+    TInt err = fsSession.FileSystemSubType(driveNumber, name); 
+    if (err != KErrNone)
+        continue; 
+    User::LeaveIfError(fsSession.DriveToChar(driveNumber, driveLetter));
+    console-&gt;Printf(KSubType, driveLetter, &amp;name);
+}</pre> </div>
+<div id="GUID-43EFDCEC-A390-56F6-A4C0-A8150E188E05"><h3 class="section-title">Volume information</h3> <p id="GUID-8F14799F-6F60-5C64-AC8D-4083CE06E6A2"><a name="GUID-8F14799F-6F60-5C64-AC8D-4083CE06E6A2"><!-- --></a><strong>Volume()</strong> </p> <p>Use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html#GUID-52EFB8B0-E175-328F-AB1B-EACD03104A15"><code class="apiname">RFs::Volume()</code></a> to
+get the volume information, with a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F7AECD65-6C3C-3056-847A-FD49BB2E927F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F7AECD65-6C3C-3056-847A-FD49BB2E927F.html"><code class="apiname">TVolumeInfo</code></a> object.
+The information returned includes a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D883FA4-115C-3425-8A34-B00D1D4BBCF9.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D883FA4-115C-3425-8A34-B00D1D4BBCF9.html"><code class="apiname">TDriveInfo</code></a> object with
+the volume name, its unique ID, size and the amount of free space. </p> <p>The
+following example prints out the names of volumes: </p> <pre class="codeblock">TChar driveLetter;
+TVolumeInfo volumeInfo; 
+TInt driveNumber;
+_LIT(KVolName,"Volume name: %S\n"); 
+
+for (driveNumber=EDriveA; driveNumber&lt;=EDriveZ; driveNumber++) 
+{
+    TInt err = fsSession.Volume(volumeInfo, driveNumber); 
+    if (err != KErrNone)
+        continue; 
+    User::LeaveIfError(fsSession.DriveToChar(driveNumber, driveLetter));
+    console-&gt;Printf(KVolName, &amp;volumeInfo.iName);
+}</pre> <p>Note: Use the return value from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html#GUID-52EFB8B0-E175-328F-AB1B-EACD03104A15"><code class="apiname">RFs::Volume()</code></a> to
+test whether a volume is present in the drive, a value of KErrNotReady indicates
+that there is no volume present. </p> <p id="GUID-35712294-BF6D-5ADF-A717-67B949F02EC3"><a name="GUID-35712294-BF6D-5ADF-A717-67B949F02EC3"><!-- --></a><strong> VolumeIOParam()</strong> </p> <p>Use <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E263C747-946F-35AA-9F1D-41833BD350FC.html#GUID-DE5542A5-18ED-3F68-9012-DEE13619DCA2"><code class="apiname">RFs::VolumeIOParam</code></a> to
+retrieve volume information, with a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FA2892FC-4554-3E1D-93AD-593DFA4FB6F7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FA2892FC-4554-3E1D-93AD-593DFA4FB6F7.html"><code class="apiname">TVolumeIOParamInfo</code></a> object.
+The object returns the recommended sizes for read and write operations on
+memory and buffers. </p> <pre class="codeblock">TChar driveLetter;
+TVolumeIOParamInfo volumeparamInfo; 
+TInt driveNumber;
+
+_LIT(KRecWriteSize,"Drive %c's recommended write size: %d\n"); 
+
+for (driveNumber=EDriveA; driveNumber&lt;=EDriveZ; driveNumber++) 
+{
+    TInt err = fsSession.VolumeIOParam(driveNumber, volumeparamInfo); 
+    if (err != KErrNone)
+        continue; 
+    
+    User::LeaveIfError(fsSession.DriveToChar(driveNumber, driveLetter));
+    console-&gt;Printf(KRecWriteSize, driveLetter, &amp;volumeparamInfo.iRecWriteBufSize);
+}</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D91DC379-947A-52CB-A154-7922AF334527.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:10:49 GMT -->
+</html>

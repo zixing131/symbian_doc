@@ -1,0 +1,86 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D78DCB72-7CEE-5075-A6FA-58D57AB5BA73.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Vibra API Tutorial" /><meta name="abstract" content="This tutorial describes how to use the Vibra API of the hardware resource manager." /><meta name="description" content="This tutorial describes how to use the Vibra API of the hardware resource manager." /><meta name="DC.Relation" scheme="URI" content="GUID-623CA1EE-4D25-495A-BD2F-BA7BF95D6D9C" /><meta name="DC.Relation" scheme="URI" content="GUID-D89D1809-0A64-4331-BA5C-2B82187BEFB6" /><meta name="DC.Relation" scheme="URI" content="GUID-AE5432AE-C699-4403-BCFC-474515C9BEC8" /><meta name="DC.Relation" scheme="URI" content="GUID-F575F364-4BCA-42C7-BE00-7B31D8B55AE1" /><meta name="DC.Relation" scheme="URI" content="GUID-B57857D6-F00B-458A-8194-42CACA0BF131" /><meta name="DC.Relation" scheme="URI" content="GUID-B80ADD0D-2834-4478-A4AD-1FEBC0112A43" /><meta name="DC.Relation" scheme="URI" content="GUID-A0122085-369E-46EF-9CA1-0269982A5284" /><meta name="DC.Relation" scheme="URI" content="GUID-2D8A7DCE-47A2-4326-BF2F-B4901F1723A0" /><meta name="DC.Relation" scheme="URI" content="GUID-D157C4D3-FC2F-47DD-BD33-F8BA6156833D" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-DC011D9C-6C39-5BB9-A7CC-4447AB97A2D2" /><meta name="DC.Relation" scheme="URI" content="GUID-F2289115-B1F0-595D-AA1C-3E01F08911CA" /><meta name="DC.Relation" scheme="URI" content="GUID-2E3BE23C-B9DC-5B5D-A56A-1DB819EFC9A6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D78DCB72-7CEE-5075-A6FA-58D57AB5BA73" /><meta name="DC.Language" content="en" /><title>Vibra
+API Tutorial  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D78DCB72-7CEE-5075-A6FA-58D57AB5BA73">Vibra
+API Tutorial </h1><div><p>This tutorial describes how to use the Vibra API of the hardware
+resource manager. </p>
+<div><h3 class="section-title">Introduction</h3> <p>To use the Vibra API,
+the client must first create an instance of the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMVibra'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMVibra']]]</strong>CHWRMVibra. </p> <p> <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMVibra'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMVibra']]]</strong>CHWRMVibra can be used in two modes: </p> <ul>
+<li id="GUID-65226087-E8A5-5B84-8675-A971983C03D2"><a name="GUID-65226087-E8A5-5B84-8675-A971983C03D2"><!-- --></a><p>With notify handling. </p> </li>
+<li id="GUID-E41B1DB9-6880-5F59-AB8B-BBFA5B734CA8"><a name="GUID-E41B1DB9-6880-5F59-AB8B-BBFA5B734CA8"><!-- --></a><p>Without notify handling. </p> </li>
+</ul> <p>An instance with notify handling is created if the client requires
+up-to-date status information. Else, an instance without callback pointer
+is created. After an instance is created, vibra can be directly controlled
+through the provided class methods. </p> <p>To control the device's vibration
+feature, the vibra settings of the vibration feature in the user profile must
+be active. If the settings are not active, vibration is not activated. The
+vibration feature state can be retrieved using the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMVibra'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMVibra']]]</strong>VibraSettings() method. </p> <p> <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMVibra'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMVibra']]]</strong>StartVibraL() starts the device's vibration
+feature. If <code class="codeph">StartVibraL()</code> is called again before the first
+vibration completes, the first vibration is interrupted and the second vibration
+starts immediately, that is, the periods of vibration are not cumulative. </p> <p>The
+duration <code class="codeph">0</code> specifies that the vibration continues indefinitely
+and must be stopped with a call to <code class="codeph">StopVibraL()</code>. The device
+may have implementation defined or hardware imposed limits to the duration
+of the vibration feature. In such circumstances, vibration is ended at that
+limit even if the duration parameter is greater than the limit. </p> <p>Vibration
+can be interrupted with the method <code class="codeph">StopVibraL()</code> before the
+specified interval has elapsed. </p> <p>The current status of the vibration
+feature can be obtained with the <code class="codeph">VibraStatus()</code> method. </p> <p>The
+device vibration feature can be reserved to a single instance of <code class="codeph">CHWRMVibra</code> by
+calling the <code class="codeph">ReserveVibraL()</code> method. After the vibration feature
+is no longer required exclusively, it must be released with a call to <code class="codeph">ReleaseVibra()</code>.
+If there is already a reservation active when a reservation from a higher
+priority client arrives, the previously active reservation is suspended, and
+the new reservation is set as the active one. On the other hand, if there
+is already a reservation active when a reservation from a same or lower priority
+client comes, the new reservation is immediately put in the suspended mode.
+Some trusted clients have higher than default priorities. </p> <p>Vibra can
+be controlled without a reservation, if there is no other client with a reservation. </p> <p>If
+the client is not trusted, Vibra API automatically releases reservation when
+the client goes to background and reserves it again when the client comes
+back to foreground. This also implies that untrusted clients can only use
+Vibra API where <code class="codeph">CCoeEnv</code> is available. Trusted clients have
+an option to disable this auto-reservation feature. </p> <p>The client does
+not receive notifications on whether its reservation is suspended, but <code class="codeph">StartVibraL()</code> and <code class="codeph">StopVibraL()</code> can
+be called normally when the client's reservation is suspended. In such case,
+only the virtual state of the vibra is remembered by the session; the actual
+vibra is not controlled. When suspended reservation is activated, the actual
+vibra state is restored to the same as the virtual state. </p> <p>Using Vibra
+API, you can perform any of the tasks listed in the procedure section.</p></div>
+<div><h3 class="section-title">Procedure</h3> <ul>
+<li id="GUID-1395F0F9-E42A-5D3A-882B-FEBA612A1F93"><a name="GUID-1395F0F9-E42A-5D3A-882B-FEBA612A1F93"><!-- --></a><p><a href="GUID-623CA1EE-4D25-495A-BD2F-BA7BF95D6D9C.html">Creating
+a Vibra instance to control the vibra</a> </p> </li>
+<li id="GUID-43FB5A23-920E-5FED-A9EB-24B1C6561CB6"><a name="GUID-43FB5A23-920E-5FED-A9EB-24B1C6561CB6"><!-- --></a><p><a href="GUID-D89D1809-0A64-4331-BA5C-2B82187BEFB6.html">Retrieving
+the vibra settings</a> </p> </li>
+<li id="GUID-55D570AA-01CD-57E5-BD89-FEB9319DF2A5"><a name="GUID-55D570AA-01CD-57E5-BD89-FEB9319DF2A5"><!-- --></a><p><a href="GUID-AE5432AE-C699-4403-BCFC-474515C9BEC8.html">Retrieving
+the vibra status</a> </p> </li>
+<li id="GUID-E9440FB8-AA83-56EA-A553-A7CBAE1ED526"><a name="GUID-E9440FB8-AA83-56EA-A553-A7CBAE1ED526"><!-- --></a><p><a href="GUID-F575F364-4BCA-42C7-BE00-7B31D8B55AE1.html">Reserving
+the device vibra</a> </p> </li>
+<li id="GUID-81A4E159-92B3-5ED7-8F10-FDA59F103986"><a name="GUID-81A4E159-92B3-5ED7-8F10-FDA59F103986"><!-- --></a><p><a href="GUID-B57857D6-F00B-458A-8194-42CACA0BF131.html">Starting
+the device vibra</a> </p> </li>
+<li id="GUID-B60F29FB-89ED-532A-9D58-650BEDA373C3"><a name="GUID-B60F29FB-89ED-532A-9D58-650BEDA373C3"><!-- --></a><p><a href="GUID-B80ADD0D-2834-4478-A4AD-1FEBC0112A43.html">Stopping
+device vibra</a> </p> </li>
+<li id="GUID-CD985A37-C4E0-5555-80E7-327E6CE98F81"><a name="GUID-CD985A37-C4E0-5555-80E7-327E6CE98F81"><!-- --></a><p><a href="GUID-A0122085-369E-46EF-9CA1-0269982A5284.html">Releasing
+device vibra</a> </p> </li>
+<li id="GUID-7CCAA66F-BC1C-5D19-9ED8-81E6FED9DBA0"><a name="GUID-7CCAA66F-BC1C-5D19-9ED8-81E6FED9DBA0"><!-- --></a><p><a href="GUID-2D8A7DCE-47A2-4326-BF2F-B4901F1723A0.html">Releasing
+the instance</a> </p> </li>
+<li id="GUID-58B61829-89B3-5AA5-8CCB-3CF802D498D4"><a name="GUID-58B61829-89B3-5AA5-8CCB-3CF802D498D4"><!-- --></a><p><a href="GUID-D157C4D3-FC2F-47DD-BD33-F8BA6156833D.html">Sending
+tactile feedback pulse</a> </p> </li>
+</ul> </div>
+<div><h3 class="section-title">See also</h3> <p><a href="GUID-D53A00E4-CF37-5F11-8D15-C5ECCCE64597.html">Vibra
+API</a> </p> </div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-623CA1EE-4D25-495A-BD2F-BA7BF95D6D9C.html">Creating
+a Vibra instance to control the vibra</a></li><li class="ulchildlink"><a href="GUID-D89D1809-0A64-4331-BA5C-2B82187BEFB6.html">Retrieving
+the vibra settings</a></li><li class="ulchildlink"><a href="GUID-AE5432AE-C699-4403-BCFC-474515C9BEC8.html">Retrieving
+the vibra status</a></li><li class="ulchildlink"><a href="GUID-F575F364-4BCA-42C7-BE00-7B31D8B55AE1.html">Reserving
+the device vibra</a></li><li class="ulchildlink"><a href="GUID-B57857D6-F00B-458A-8194-42CACA0BF131.html">Starting
+the device vibra</a></li><li class="ulchildlink"><a href="GUID-B80ADD0D-2834-4478-A4AD-1FEBC0112A43.html">Stopping
+device vibra</a></li><li class="ulchildlink"><a href="GUID-A0122085-369E-46EF-9CA1-0269982A5284.html">Release
+device vibra</a></li><li class="ulchildlink"><a href="GUID-2D8A7DCE-47A2-4326-BF2F-B4901F1723A0.html">Releasing
+the instance</a></li><li class="ulchildlink"><a href="GUID-D157C4D3-FC2F-47DD-BD33-F8BA6156833D.html">Sending
+tactile feedback pulse</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 21st, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D78DCB72-7CEE-5075-A6FA-58D57AB5BA73.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+</html>

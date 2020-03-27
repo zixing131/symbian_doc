@@ -1,0 +1,63 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-01979029-C009-5FD3-9925-2B7945FB96A6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Restarting a Network Connection Tutorial" /><meta name="abstract" content="This section describes the steps used to start a network connection that was stopped due to contention." /><meta name="description" content="This section describes the steps used to start a network connection that was stopped due to contention." /><meta name="DC.Relation" scheme="URI" content="GUID-CD57B3EB-B8FD-53CE-B319-FB6275BE391E" /><meta name="DC.Relation" scheme="URI" content="GUID-FF81C5C5-09B7-5194-928E-0BA87417B2CD" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-B144EAB9-53AB-579B-9E12-B16518E4FC01" /><meta name="DC.Relation" scheme="URI" content="GUID-82438A0F-819C-5CDC-81DC-A8BFE3AA4A6A" /><meta name="DC.Relation" scheme="URI" content="GUID-7821C498-70A2-5D3C-989A-58CEBAE9162B" /><meta name="DC.Relation" scheme="URI" content="GUID-3A14EB6E-2F28-51F6-9D80-1AFCFFBDDF9D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-01979029-C009-5FD3-9925-2B7945FB96A6" /><meta name="DC.Language" content="en" /><title>Restarting a Network Connection Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-01979029-C009-5FD3-9925-2B7945FB96A6">Restarting a Network Connection Tutorial</h1><div><p>This section describes the steps used to start a network
+connection that was stopped due to contention. </p>
+<p>A low priority connection is terminated when a contention issue
+occurs and the incoming connection has a higher priority. The low
+priority connection can be restarted when the higher priority connection
+is complete. For example, if an always-on Internet connection is terminated
+to enable the user to send an MMS, the Internet connection is restarted
+when the message is sent. </p>
+<div id="GUID-964EEA9A-09E8-46FE-B024-552AE53291E4"><h3 class="section-title">Introduction</h3> <p>The following steps outline describe how to restore a low priority
+connection when the higher priority connection is finished.</p><ol id="GUID-409D0186-1BE4-5F7B-999D-0A9FFDED5F14">
+<li id="GUID-99D5A504-3DE4-59A1-AFC0-A49D13A8B7F5"><a name="GUID-99D5A504-3DE4-59A1-AFC0-A49D13A8B7F5"><!-- --></a><p>To terminate
+the high priority connection one of the following occurs: </p> <ol type="a" id="GUID-CF81E2BE-E5E4-5143-AA5C-B0355FB9F9BE">
+<li id="GUID-E8FE9288-9E3C-58CC-B7AA-435FB1D8DFBF"><a name="GUID-E8FE9288-9E3C-58CC-B7AA-435FB1D8DFBF"><!-- --></a><p>The Connection
+Provider (CPR) receives a <code class="codeph">TStopNormal</code> message to
+terminate the process. </p> </li>
+<li id="GUID-DC6D3CEA-8CD1-5B36-856A-A20AEED6DA0E"><a name="GUID-DC6D3CEA-8CD1-5B36-856A-A20AEED6DA0E"><!-- --></a><p>The connection
+remains idle and is automatically terminated. </p> </li>
+</ol> </li>
+<li id="GUID-9F56D151-DD81-5706-B82B-3194FA85DAD0"><a name="GUID-9F56D151-DD81-5706-B82B-3194FA85DAD0"><!-- --></a><p>The PDP Tier
+Manager does the following: </p> <ol type="a" id="GUID-E813DD8A-5F6C-5D92-9F99-B596FC7CB8D7">
+<li id="GUID-6D80A333-6517-5314-B8CA-797AF13D21C3"><a name="GUID-6D80A333-6517-5314-B8CA-797AF13D21C3"><!-- --></a><p>Indicates to
+the PDP Meta-Connection Provider (MCPR) of the low priority connection
+that it can restore the connection. </p> </li>
+<li id="GUID-D14D495F-5C98-5C80-8A90-50C22806ADC3"><a name="GUID-D14D495F-5C98-5C80-8A90-50C22806ADC3"><!-- --></a><p>The PDP MCPR
+sends an availability notification to the <code class="codeph">CConnection</code> of the low priority connection. </p> </li>
+</ol> </li>
+<li id="GUID-AA69E7A9-F16C-5284-9406-C6874569C897"><a name="GUID-AA69E7A9-F16C-5284-9406-C6874569C897"><!-- --></a><p> <code class="codeph">CConnection</code> of the low priority connection receives the availability notification
+and uses <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-CB62E838-A380-309C-8B08-1F804EDB4387"><code class="apiname">RConnection::Start()</code></a> to establish
+the connection. </p> </li>
+</ol> </div>
+<div id="GUID-A5D4E3C2-3108-4AB3-9609-299E4FF23205"><h3 class="section-title">Restoring
+a connection </h3> <p>Use the following code to ensure a stopped
+connection is restored when the higher priority connection has completed. </p> <pre class="codeblock">
+
+    TConnPrefList* prefs = TConnPrefList::NewL();
+    CleanupStack::PushL(prefs);
+    TConnAPPref* APPref = TConnAPPref::NewL(iSnapNumber);
+    CleanupStack::PushL(APPref);
+    TConnAutoStartPref* autoPref = TConnAutoStartPref::NewL();
+    CleanupStack::PushL(autoPref);
+    prefs-&gt;AppendL(APPref);
+    prefs-&gt;AppendL(autoPref);
+
+    error = iConnection-&gt;Start(*prefs);  //Synchronous start. 
+    // For asynchronous variant iConnection-&gt;Start(*iPrefs,  iStatus), you need to     // store “prefs” as a class member and delete them in RunL .
+
+    delete APPref;
+    delete autoPref;
+    prefs-&gt;Remove(0);
+    prefs-&gt;Remove(0);
+    delete prefs;
+
+</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-CD57B3EB-B8FD-53CE-B319-FB6275BE391E.html">What
+is Contention?</a></li><li><a href="GUID-FF81C5C5-09B7-5194-928E-0BA87417B2CD.html">What
+are Access Point Priorities?</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 13th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-01979029-C009-5FD3-9925-2B7945FB96A6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:02 GMT -->
+</html>

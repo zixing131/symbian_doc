@@ -1,0 +1,166 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-093516F2-9076-5A96-9BEF-F5A77F75239C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:14 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="SIP Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-6425B722-4095-56E3-9198-70BA3E06C617" /><meta name="DC.Relation" scheme="URI" content="GUID-057F1F82-56AF-5696-853E-79196A3D567E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-093516F2-9076-5A96-9BEF-F5A77F75239C" /><meta name="DC.Language" content="en" /><title>SIP
+Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-093516F2-9076-5A96-9BEF-F5A77F75239C">SIP
+Overview</h1><div>
+<div id="GUID-EFBD7A9F-1F43-480E-B122-BFA457674AAC"><h3 class="section-title">Purpose</h3> <p>The Multimedia Protocols Session Initiation
+Protocol (SIP) framework supports SIP, Session Description Protocol (SDP),
+and Signaling Compression (SigComp). SIP is an application layer signaling
+protocol that creates, modifies, and terminates sessions with the users. This
+overview describes the use of SIP as defined in <a href="../rfc/rfc3261a79f.txt?number=3261" target="_blank">RFC 3261</a>. It provides the information about the use
+of SDP, SigComp and also the implementation-specific mechanisms like the Client
+Resolver and Profile Agent engines. </p> </div>
+<div id="GUID-06DB8B97-9395-4BA6-AA42-6E630B3D1244"><h3 class="section-title">Required background</h3> <p>This overview does not describe
+how the SIP protocol works, but assumes that the user knows about SIP, SDP,
+and associated protocols that set up multimedia sessions for use cases such
+as VoIP. </p> </div>
+<div id="GUID-1C54AC1A-F2F3-40B9-A4B3-855EAA3D0870"><h3 class="section-title">Key concepts</h3> <dl>
+<dt class="dlterm">Session Initiation Protocol</dt>
+<dd><p>SIP is an application layer signaling protocol used to create, modify,
+and terminate sessions with the users. The SIP subsystem architecture is based
+on the generic Session Initiation Protocol, <a href="../rfc/rfc3261a79f.txt?number=3261" target="_blank">RFC 3261</a>. It indicates that the 3GPP IMS specific
+SIP message flows. SIP message semantics are the responsibility of the clients,
+with the 3GPP Release 5 IMS specific security mechanism implemented as an
+ECOM plug-in. </p> </dd>
+</dl> <p>The following components or subsystems are part of the Symbian SIP
+framework: </p> <ul>
+<li id="GUID-122A91B3-55E3-5521-B1B3-065F5E744A21"><a name="GUID-122A91B3-55E3-5521-B1B3-065F5E744A21"><!-- --></a><dl>
+<dt class="dlterm">Session Description Protocol (SDP)</dt>
+<dd><p>SDP provides a standard representation for multimedia information and
+a standard method to transport that information. The SDP is implemented as
+an independent component and is used with transport mechanisms such as SIP.
+The SDP Codec subsystem provides services to convert SDP descriptions to internal
+representation and internal representations to SDP descriptions. SDP provides
+an API for its clients to encode or decode SDP descriptions and to set or
+get the SDP field values. For more information about the APIs supported by
+the SDP Codec subsystem, see <a href="GUID-28636BB0-2C25-5D6C-9777-41AA4F3D8F31.html">SDP
+Codec API</a>. </p> </dd>
+</dl> </li>
+<li id="GUID-809DA7AA-1AFB-52AC-AA67-EDD218C34831"><a name="GUID-809DA7AA-1AFB-52AC-AA67-EDD218C34831"><!-- --></a><dl>
+<dt class="dlterm">Signaling Compression</dt>
+<dd><p>The Signaling Compression component provides services to compress and
+decompress the text based protocols such as SIP, SDP, and Real Time Session
+Protocol (RTSP). Compressors that use different compression algorithms are
+dynamically determined and loaded at run-time using the ECOM architecture.
+UDVM provides the decompression functionality and runs the uploaded decompression
+algorithms. The component architecture allows new compressors that use a plug-in
+mechanism and static dictionaries to be included in the implementation. </p> </dd>
+</dl> </li>
+<li id="GUID-C2040FE1-CC4A-52AB-8832-C6D6B64D52F0"><a name="GUID-C2040FE1-CC4A-52AB-8832-C6D6B64D52F0"><!-- --></a><dl>
+<dt class="dlterm">SIP Client Resolver</dt>
+<dd><p>The SIP Client Resolver defines the architecture for resolving or identifying
+the target client when it receives the SIP request from a default port. For
+information about the SIP Client Resolver API, see <a href="GUID-A3D1684D-1DF1-5CAF-A0BB-A32685528596.html">SIP
+Client Resolver API</a>. </p> </dd>
+</dl> </li>
+</ul> </div>
+<div id="GUID-981591E6-A9E0-4576-8CD3-FA5F1D445FDD"><h3 class="section-title">API summary</h3> <p>The following are some of the main
+APIs used in SIP communication. </p> <div class="tablenoborder"><a name="GUID-F4063A91-4F8E-5965-9DBA-9CA72AC4A6BC"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-F4063A91-4F8E-5965-9DBA-9CA72AC4A6BC" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e417184">API name</th>
+<th class="cellrowborder" valign="top" id="d0e417187">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e417184 "><p> SIP Client API </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e417187 "><p>An API that manages SIP transactions and SIP dialogs. It sets the
+security mechanism parameters, receives connection state change events, queries
+supported security mechanism and signaling compression support. For more information,
+see <a href="GUID-E339A683-94E2-54E8-BB2B-286B11B0FCE3.html">SIP Client API</a>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e417184 "><p> SIP Codec API </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e417187 "><p>An API that provides services for managing SIP requests and responses.
+This means it sets and obtains the headers and field values. For more information,
+see <a href="GUID-CD0EF6F2-9515-5884-B979-C3C391B7DA07.html">SIP Codec API</a>. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e417184 "><p> SDP Codec API </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e417187 "><p>An API that provides a mechanism to encode or decode SDP messages.
+For more information, see <a href="GUID-28636BB0-2C25-5D6C-9777-41AA4F3D8F31.html">SDP
+Codec API</a>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e417184 "><p> SIP Profile API </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e417187 "><p>An API that is used to get SIP profile parameters. If a profile
+is not configured for automatic registration it registers or deregisters the
+specific SIP profile. It also creates, uses, or terminates SIP transactions
+and dialogs using profile information. For more information, see <a href="GUID-399EAC59-643D-5DED-AB67-9F021CA5687A.html">SIP
+Profile API</a>. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e417184 "><p> SIP Client Resolver API </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e417187 "><p>An ECOM plug-in API that is used by applications that use the SIP
+stack to receive out of dialog incoming request, for example an Incoming VoP
+call. For more information, see <a href="GUID-A3D1684D-1DF1-5CAF-A0BB-A32685528596.html">SIP
+Client Resolver API</a>. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e417184 "><p> SIP High Level API </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e417187 "><p>An API that encapsulates the SIP call flows inside the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html"><code class="apiname">RSubConnection</code></a> APIs.
+For more information, see <a href="GUID-4120651F-E0B9-5927-96B9-2662C51F5A09.html">SIP
+High Level API</a>. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-8EB2C029-3C84-406A-BB2B-FD76398B89D8"><h3 class="section-title">Typical uses</h3> <p><strong>When to use which API</strong> </p><p>The
+following table describes when to use which API. </p><div class="tablenoborder"><a name="GUID-AA11D59D-4373-4878-82A5-BFB2C8C3C336"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-AA11D59D-4373-4878-82A5-BFB2C8C3C336" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e417346"><p>API name</p></th>
+<th class="cellrowborder" valign="top" id="d0e417350"><p>Usage</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e417346 "><p>SIP Client API </p></td>
+<td class="cellrowborder" valign="top" headers="d0e417350 "><p>Use the SIP Client API to send and receive SIP messages, create
+registrations, form and tear down dialogs initiated by INVITE, REFER and SUBSCRIBE
+requests. For more information, see SIP Client API. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e417346 "><p>SIP Codec API </p></td>
+<td class="cellrowborder" valign="top" headers="d0e417350 "><p>Use the SIP Codec API to encode and decode SIP headers and their
+fields. For more information, see SIP Codec API.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e417346 "><p>SDP Codec API </p></td>
+<td class="cellrowborder" valign="top" headers="d0e417350 "><p>Use the SDP Codec API to encode SDP descriptions into an internal
+form, decode the descriptions from an internal form, set and get the SDP field
+values. For more information, see SDP Codec API.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e417346 "><p>SIP Profile API </p></td>
+<td class="cellrowborder" valign="top" headers="d0e417350 "><p>Use the SIP Profile API to register through a profile. For more
+information, see SIP Profile API.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e417346 "><p>SIP Client Resolver API </p></td>
+<td class="cellrowborder" valign="top" headers="d0e417350 "><p>Use the SIP Client Resolver API to resolve or identify
+the target client when SIP requests are received from the default port. For
+more information, see SIP Client Resolver API. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e417346 "><p>SIP High Level API </p></td>
+<td class="cellrowborder" valign="top" headers="d0e417350 "><p>Use the SIP High Level API to register with the SIP server, invite
+a session and subscribe to events. For more information, see SIP High Level
+API.</p></td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-A373C1D8-0678-4A45-BAAC-CA37324A4426"><h3 class="section-title">See also</h3> <ul>
+<li id="GUID-0E00CD92-FCD1-5EFE-87E0-847D3216401F"><a name="GUID-0E00CD92-FCD1-5EFE-87E0-847D3216401F"><!-- --></a><p> <a href="../rfc/rfc3261a79f.txt?number=3261" target="_blank">SIP: Session Initiation Protocol, RFC 3261</a> </p> </li>
+<li id="GUID-F8278257-C4CE-5FBD-9DCB-C7B47A8C5273"><a name="GUID-F8278257-C4CE-5FBD-9DCB-C7B47A8C5273"><!-- --></a><p> <a href="http://www.3gpp.org/" target="_blank">3GPP TS 24.228 v.5.2.0 Signaling flows for the IP multimedia
+call control based on SIP and SDP; Stage 3</a> </p> </li>
+<li id="GUID-F7AF8C36-7D6D-557D-91BA-015DE811FDEA"><a name="GUID-F7AF8C36-7D6D-557D-91BA-015DE811FDEA"><!-- --></a><p> <a href="http://www.3gpp.org/" target="_blank"> 3GPP TS 24.229 v.5.4.0 Internet Protocol (IP) multimedia
+call control protocol based on Session Initiation Protocol (SIP) and Session
+Description Protocol (SDP); Stage 3</a> </p> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 1st, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-093516F2-9076-5A96-9BEF-F5A77F75239C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:16 GMT -->
+</html>

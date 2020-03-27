@@ -1,0 +1,68 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-270FC83E-1D47-4CF9-A560-FB5DDA53111E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:39 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Showing or hiding the toolbar extension" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-8C40E993-C9A0-423D-979D-7BB11CE091C1" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-FA9679A1-6FD7-4FB6-883A-D5719388A2B6" /><meta name="DC.Relation" scheme="URI" content="GUID-B05B61B8-1217-441F-BAFA-C209C8F123C5" /><meta name="DC.Relation" scheme="URI" content="GUID-95CE2206-7AE0-48C0-97A7-4E2082F9F662" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-270FC83E-1D47-4CF9-A560-FB5DDA53111E" /><meta name="DC.Language" content="en" /><title>Showing or hiding the toolbar extension </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-270FC83E-1D47-4CF9-A560-FB5DDA53111E">Showing or hiding the toolbar extension</h1><div>
+<p>The toolbar extension is automatically shown when the extension
+button is pressed. </p>
+<p>The extension button is in a latched down state when the extension
+is open. If the extension button is pressed again, the extension closes
+and the extension button returns to normal state. This also happens
+if the user clicks somewhere outside the extension area.  </p>
+<p>By default, the extension is left open when the user selects an
+item from the extension. You can change this by defining suitable
+flags to the button.</p>
+<p>The example below shown the definition of a toolbar extension with
+the button closing the extension when selected.</p>
+<pre class="codeblock">RESOURCE AVKON_TOOLBAR_EXTENSION r_myapp_toolbar_extension
+    {
+    items =
+        {
+        TBAR_CTRL
+            {
+            type = EAknCtButton;
+            id = ECmdExtFirst;
+            control = AVKON_BUTTON
+                {
+                flags = KAknButtonRequestExitOnButtonUpEvent;
+                states =
+                    {
+                    AVKON_BUTTON_STATE
+                        {
+                        extension = r_myapp_toolbar_ext_first;
+                        }  
+                    };
+                };
+            },
+…
+            }
+        };
+    }
+</pre>
+<p>You can also show or hide the toolbar extension in your application
+using the methods in the class <code class="codeph">CAknToolbarExtension</code> .</p>
+<p>The example below shows how to hide or show the toolbar extension.</p>
+<pre class="codeblock">void CMyAppView::ChangeToolbarExtensionVisibility( TBool aHide )
+    {
+    CAknToolbar* toolbar = Toolbar();
+    if ( toolbar )
+        {
+        CAknToolbarExtension* toolbarExtension = toolbar-&gt;ToolbarExtension();
+        if ( toolbarExtension )
+            {
+            if ( aHide )
+                {
+                toolbarExtension-&gt;SetShown( EFalse );
+                }
+            else
+                {
+                toolbarExtension-&gt;SetShown( ETrue );
+                }
+            }
+        }
+    }
+</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 7th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-270FC83E-1D47-4CF9-A560-FB5DDA53111E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:39 GMT -->
+</html>

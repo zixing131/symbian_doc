@@ -1,0 +1,32 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-27F345DA-7969-5B3B-B2BD-285CD168CF72.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:01:04 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Timers And Timing Services Overview" /><meta name="abstract" content="Provides timers that asynchronously notify an application after an interval or at a specific time." /><meta name="description" content="Provides timers that asynchronously notify an application after an interval or at a specific time." /><meta name="DC.Relation" scheme="URI" content="GUID-1294F540-FDA7-5050-BAFB-3C9888491B98" /><meta name="DC.Relation" scheme="URI" content="GUID-FF8F5D97-7D37-5F6B-84A3-C064E2FD53E0" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-1C7A0C22-90C6-5F54-8B43-342EE460C055" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-27F345DA-7969-5B3B-B2BD-285CD168CF72" /><meta name="DC.Language" content="en" /><title>Timers And Timing Services Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-27F345DA-7969-5B3B-B2BD-285CD168CF72">Timers And Timing Services Overview</h1><div><p>Provides timers that asynchronously notify an application
+after an interval or at a specific time.</p>
+<div id="GUID-48022E0B-8764-4944-8CFF-5EE6956DBC7C"><h3 class="section-title">Architectural
+relationships</h3> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html"><code class="apiname">User</code></a> class in the
+System Static Functions API provides simple functions to suspend a
+thread for a given interval or until a specific time.</p> </div>
+<div id="GUID-59820FCE-FEF5-4089-8B62-1E1D8328437A"><h3 class="section-title">Description</h3> <p>The API has three key concepts: simple timer, periodic timer,
+and heartbeat timer. </p> </div>
+<div id="GUID-4CD59C91-C827-4C5A-98D4-509CBD3948EA"><h3 class="section-title">Simple
+timer</h3> <p>The simple timer produces an event at a given system
+time or after a given interval. It is provided by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8A423EA2-4264-30C9-9579-0466994E6E88.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8A423EA2-4264-30C9-9579-0466994E6E88.html"><code class="apiname">RTimer</code></a>. This service is wrapped in an active object by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5733DF34-5B54-3044-BBED-3BFECB7ACE7A.html"><code class="apiname">CTimer</code></a>.</p> </div>
+<div id="GUID-D44976FF-8171-47B8-A211-66541247F256"><h3 class="section-title">Periodic
+timer</h3><p><strong></strong> </p> <p>A periodic timer produces a sequence
+of events at a specified interval. The application is called through
+a callback (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6C5766BC-05DE-32A8-993D-6BB582931F43.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6C5766BC-05DE-32A8-993D-6BB582931F43.html"><code class="apiname">TCallBack</code></a>) when they occur. It is provided
+by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3CECC9FC-58C1-3117-AAF2-FDF88341F56F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3CECC9FC-58C1-3117-AAF2-FDF88341F56F.html"><code class="apiname">CPeriodic</code></a>.</p> </div>
+<div id="GUID-3D6DC89E-DE6A-4AE1-84E8-870AF4B70FC3"><h3 class="section-title">Heartbeat
+timer</h3> <p>A heartbeat timer is similar to a periodic timer.
+However, if the application is busy handling another event when the
+timer event occurs, a periodic timer simple delays delivering the
+event, while a heartbeat timer will inform the application that it
+has missed the event. </p> <p>It is provided by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-12C497F2-DB51-3740-972C-11ACD6501DAB.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-12C497F2-DB51-3740-972C-11ACD6501DAB.html"><code class="apiname">CHeartbeat</code></a>. Applications are alerted to timer events through implementing an
+interface <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6DE7027A-54C0-33F1-B184-7070B1A85709.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6DE7027A-54C0-33F1-B184-7070B1A85709.html"><code class="apiname">MBeating</code></a>.</p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-1294F540-FDA7-5050-BAFB-3C9888491B98.html">Asynchronous Services Overview</a></li><li><a href="GUID-FF8F5D97-7D37-5F6B-84A3-C064E2FD53E0.html">System
+Static Functions Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated July 1st, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-27F345DA-7969-5B3B-B2BD-285CD168CF72.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:01:04 GMT -->
+</html>

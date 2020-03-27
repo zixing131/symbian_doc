@@ -1,0 +1,123 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A6B1884E-5D36-42BC-887D-8D4D18990F8D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Converting containers and lists" /><meta name="abstract" content="Symbian and Qt both provide an extensive set of array types for purposes such as containers, lists and hash maps. In some cases conversion can be avoided but in other cases the conversion is only possible using item-by-item iteration." /><meta name="description" content="Symbian and Qt both provide an extensive set of array types for purposes such as containers, lists and hash maps. In some cases conversion can be avoided but in other cases the conversion is only possible using item-by-item iteration." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-D1F69FDA-6ED7-4E29-BCD4-250DF3C4841B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A6B1884E-5D36-42BC-887D-8D4D18990F8D" /><meta name="DC.Language" content="en" /><title>Converting containers and lists </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A6B1884E-5D36-42BC-887D-8D4D18990F8D">Converting containers and lists</h1><div><p>Symbian and Qt both provide an extensive set of array types
+for purposes such as containers, lists and hash maps. In some cases
+conversion can be avoided but in other cases the conversion is only
+possible using item-by-item iteration.</p>
+<div id="GUID-7B634FD8-C67E-4B81-9288-2CAC049558C3"><h3 class="section-title">Symbian
+containers and lists</h3><p>Symbian C++ provides a large number
+of array classes, which should be used in preference to standard C/C++
+arrays because of the protection they provide against memory overruns
+etc. The arrays behave much like standard C++ arrays (<code class="codeph">stl::vector&lt;&gt;</code>); they are indexed by an integer, elements can be of any type (or
+pointer to a type), the array does its internal reallocation when
+adding or deleting. </p><p>The topic <a href="GUID-F6F9B2AC-A47E-5B0B-A1E2-EE2B31B59F2A.html">Arrays And Lists
+Overview</a> gives an overview of the different array classes.
+There are four main categories:</p><ul>
+<li><p>CArrayX (<code class="codeph">CArrayFixFlat, CArrayVarFlat, CArrayPakFlat,
+CArrayPtrFlat, CArrayFixSeg, CArrayVarSeg, CArrayPtrSeg</code>)</p></li>
+<li><p>RArrays (<code class="codeph">RArray, RPointerArray</code>)</p></li>
+<li><p>Fixed Array (<code class="codeph">TFixedArray</code>)</p></li>
+<li><p>Descriptor Arrays (<code class="codeph">CDesC16ArrayFlat, CDesC8ArraySeg,
+CDesC8ArrayFlat, CDesC8ArraySeg, CPtrC8Array, CPtrC16Array</code>)</p></li>
+</ul><p>The array naming convention uses <em>Fix</em> where the elements
+of the array all have the same length and are copied directly into
+the array buffer (for example, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-339EC4C5-89DC-3972-9579-6DD38D418317.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-339EC4C5-89DC-3972-9579-6DD38D418317.html"><code class="apiname">TPoint</code></a>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-101762DC-E498-3325-88AB-B0FF17DC62B6.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-101762DC-E498-3325-88AB-B0FF17DC62B6.html"><code class="apiname">TRect</code></a>) and <em>Var</em> where the elements of the array are
+pointers to objects of variable lengths contained elsewhere on the
+heap (such asHBufC* or TAny*). <em>Pak</em>  (for ‘packed’ array) is used where the elements
+of the array are of variable length but are copied into the array
+buffer with each preceded by its length (for example, <code class="codeph">T</code> class objects of variable length). <em>Ptr</em> is used where the
+elements of the array are pointers to <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html"><code class="apiname">CBase</code></a>-derived
+objects.</p><div class="p">In general use the Descriptor arrays for storing lists
+of strings as they have convenient methods for sorting and finding
+matching strings. Otherwise use the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FAEBF321-6B08-3041-A01F-B1E7282D0707.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FAEBF321-6B08-3041-A01F-B1E7282D0707.html"><code class="apiname">RArray</code></a> classes
+in preference to the CArrayX classes. The exception to this rule is
+when the array is likely to be resized often - in which case you might
+use one of the segmented variants. Symbian provides a number of templated
+associative arrays: <ul>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-66EC84D0-531B-37DF-B3F4-41574CF941A6.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-66EC84D0-531B-37DF-B3F4-41574CF941A6.html"><code class="apiname">RHashMap</code></a> - associative array with key type
+K and value type V, using a probe-sequence hash table. Both the key
+and value objects are copied into the table when they are added. A
+bitwise binary copy is used here, so neither of the types K and V
+may implement a nontrivial copy constructor. </p></li>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8BE7A907-FF70-3D91-B90A-E394CBBCDBF2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8BE7A907-FF70-3D91-B90A-E394CBBCDBF2.html"><code class="apiname">RPtrHashSet</code></a> - unordered extensional set
+of objects of type <code class="codeph">T</code> using a probe-sequence hash
+table. The objects are not copied into the set when they are added;
+rather the set stores pointers to the contained objects. </p></li>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-616B71F7-B0A8-31F9-BCF1-FB736EC7E225.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-616B71F7-B0A8-31F9-BCF1-FB736EC7E225.html"><code class="apiname">RPtrHashMap</code></a> - an associative array with
+key type K and value type V, using a probe-sequence hash table. Neither
+the key nor value objects are copied into the table when they are
+added - only pointers are stored. </p></li>
+</ul></div><p>In addition to the Symbian C++ array classes, you can
+also use STL containers provided by Open C and Open C++.</p></div>
+<div id="GUID-DBEAC379-F486-487E-9EA5-4E466B602728"><h3 class="section-title">Qt
+containers and lists</h3><p>Qt allows you to use STL containers,
+or to use its own general purpose template-based container classes.
+The Qt classes are designed to be lighter, safer and easier to use
+than STL classes. They are <a href="http://qt.nokia.com/doc/implicit-sharing.html#implicitly-shared" target="_blank">implicitly shared</a>, <a href="http://qt.nokia.com/doc/threads-reentrancy.html#reentrant" target="_blank">reentrant</a>, and <a href="http://qt.nokia.com/doc/threads-reentrancy.html#thread-safe" target="_blank">thread-safe</a>  in situations where they are
+used as read-only containers by all threads used to access them. </p><p>Qt provides both sequential containers (<code class="codeph">QList</code>,<code class="codeph">QLinkedList</code>, <code class="codeph">QVector</code>, <code class="codeph">QStack</code>, and <code class="codeph">QQueue</code>), and associative containers
+(<code class="codeph">QMap</code>, <code class="codeph">QMultiMap</code>, <code class="codeph">QHash</code>, <code class="codeph">QMultiHash</code>, and <code class="codeph">QSet</code>). There
+are also specialist classes like <code class="codeph">QCache</code> and <code class="codeph">QContiguousCache</code> that provide efficient hash-lookup of objects
+in a limited cache storage, and non-template specialisations like <code class="codeph">QStringList</code> (inherits from <code class="codeph">QListQList&lt;QString&gt;</code>) that make it easier to work with lists of strings. </p><p>The containers
+can be traversed using either java-style or STL-style iterators, or
+using the convenient <code class="codeph">foreach</code> keyword. Qt provides
+a set of <a href="http://qt.nokia.com/doc/qtalgorithms.html#details" target="_blank">Generic Algorithms</a> that you can use to sort,
+find, fill, count, delete items in the container (on container types
+that have an STL iterator). </p><p>The template classes store items
+of a specified type T. The value type T can be a basic type, a pointer
+type, a class that has a default constructor, a copy constructor and
+an assignment operator, or a container that meets the same criteria
+as a class. </p><p>The Qt container classes are well documented in
+the Qt reference: <a href="http://qt.nokia.com/doc/containers.html#container-classes" target="_blank">Container classes</a>. There is also an excellent
+discussion in <a href="http://www.qtsoftware.com/developer/books/cpp-gui-programming-with-qt-4-2nd-edition" target="_blank">C++ GUI Programming with Qt 4 , Second Edition, Jasmin
+Blanchette and Mark Summerfield, Prentice Hall (2006)</a> (the
+first edition is available free online here). </p></div>
+<div id="GUID-343C5DD3-50D3-4847-85D3-71093D9A17B3"><h3 class="section-title">Converting
+between Qt and Symbian containers and lists</h3><p>There is no
+need to convert container/lists if you're using the standard STL containers,
+as these are supported by both Qt and the Symbian platform. </p><p>If you do need to convert between Qt and Symbian arrays, this usually
+a matter of iterating through one container, converting each contained
+object into the correct type for the environment (e.g. <code class="codeph">QString</code> vs descriptor), and then adding it to the new container. </p><p>When converting to Qt, <code class="codeph">QList</code>  is the best "general
+use" re-sizable container template if you have less than 1000 items
+(its implemented as an array-list but provides very fast prepends
+and appends). If you're working with lists of strings, use <code class="codeph">QStringList</code> instead. When converting to Symbian C++, use
+a descriptor array for strings, or <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FAEBF321-6B08-3041-A01F-B1E7282D0707.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FAEBF321-6B08-3041-A01F-B1E7282D0707.html"><code class="apiname">RArray</code></a> for other
+objects that are greater than 4 bytes in size (unless you're expecting
+a lot of array re-sizing). </p><p>The following fragment shows conversion
+of a set of integers from an <code class="codeph">RArray</code> to a <code class="codeph">QList</code>: </p><pre class="codeblock">RArray&lt;TInt&gt; intArrayToList;
+QList&lt;int&gt; integerList;
+...   
+for (int i = 0; i &lt; count; i++) {
+integerList.append(intArrayToList[i]);
+}</pre><p>This fragment shows a QList of integers being imported
+into an <code class="codeph">RArray</code>, using <code class="codeph">foreach</code> to
+iterate the <code class="codeph">QList</code>. Note that a <code class="codeph">TInt</code> is typdef of <code class="codeph">signed int</code>: </p><pre class="codeblock">QList&lt;int&gt; integerList;
+RArray&lt;TInt&gt; listToIntArray;
+... 
+foreach (int integerItem, integerList) {
+listToIntArray.Append(integerItem);
+}</pre><p>Converting lists of strings uses exactly the same
+approach, except that you use a <code class="codeph">QStringList</code> rather
+than a <code class="codeph">QList</code>, a descriptor array instead of an <code class="codeph">RArray</code>, and you need to convert the contained string to
+the correct format for the environment, as discussed in the Strings
+sections of <a href="GUID-C333E39F-03E8-493A-9291-E4AD662B45B6.html">Converting strings and buffers between Symbian and Qt</a>.</p><p>The following code shows how <code class="codeph">CDesCArrayFlat</code> is
+converted to <code class="codeph">QStringList</code>: </p><pre class="codeblock">CDesCArrayFlat* arrayToStringList;
+...
+QStringList qlistOfStrings;
+for (int i = 0; i &lt; count; i++) {
+qlistOfStrings.append(QString::fromUtf16(
+arrayToStringList-&gt;MdcaPoint(i).Ptr(),
+arrayToStringList-&gt;MdcaPoint(i).Length()));
+}</pre></div>
+<div id="GUID-B6E77357-9661-41ED-81D2-6F12A4131C52-GENID-GUID-A1B7CAAB-3217-40E8-8A9D-653423E80DB6"><h3 class="section-title">Copyright
+note</h3><p>Most of the material in this topic is based with permission
+on a Symbian Foundation wiki article <cite>Apps:Using Qt and Symbian
+C++ Together</cite> . The version used was that available at Symbian
+Foundation on 3 November 2010. The content in this page is licensed
+under the Creative Commons Attribution-Share Alike 2.0 UK: England
+&amp; Wales License (<a href="http://creativecommons.org/licenses/by-sa/2.0/uk" target="_blank">http://creativecommons.org/licenses/by-sa/2.0/uk</a>).</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 23rd, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A6B1884E-5D36-42BC-887D-8D4D18990F8D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:00 GMT -->
+</html>

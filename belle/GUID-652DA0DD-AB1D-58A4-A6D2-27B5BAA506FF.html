@@ -1,0 +1,43 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-652DA0DD-AB1D-58A4-A6D2-27B5BAA506FF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:26 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Flipping and Rotating an External Surface" /><meta name="abstract" content="This topic provides an example of flipping and rotating a surface in order to mirror the camera viewfinder during video telephony." /><meta name="description" content="This topic provides an example of flipping and rotating a surface in order to mirror the camera viewfinder during video telephony." /><meta name="DC.Relation" scheme="URI" content="GUID-495EA1C8-E95F-54AE-B4D1-0F463003C2D7" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-1C025957-258C-54C0-94A5-AD60C14E6D76" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-652DA0DD-AB1D-58A4-A6D2-27B5BAA506FF" /><meta name="DC.Language" content="en" /><title>Flipping
+and Rotating an External Surface </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-652DA0DD-AB1D-58A4-A6D2-27B5BAA506FF">Flipping
+and Rotating an External Surface</h1><div><p>This topic provides an example of flipping and rotating a surface
+in order to mirror the camera viewfinder during video telephony. </p>
+<p> <strong>Variant</strong>: ScreenPlay. <strong>Target audience</strong>: Device
+creators. </p>
+<p>When users use the camera at the front of their phone during video telephony,
+they expect their image to be mirrored like when they look in a mirror. The
+camera viewfinder renders its content to a graphics surface which is displayed
+in a window by setting it as the background surface. To mirror the viewfinder
+content, first flip the surface and then rotate it by 180°. </p>
+<div class="figure" id="GUID-87C0B943-81DC-5AB8-BD08-254811F511B5"><img src="GUID-7F0EC737-F5EE-5B58-B9EB-4D8A058E3A49_d0e258319_href.jpg" /><p class="figure-title"><strong>Figure: </strong>           Mirroring          </p></div>
+<p>The following example code assumes that the surface already exists. Call TSurfaceConfiguration::SetFlip() to
+flip the surface, then call TSurfaceConfiguration::SetOrientation() to
+rotate the flipped surface by 180°. Finally bind the surface to the window.
+If necessary, set attributes such as extent to the surface configuration. </p>
+<pre class="codeblock">TSurfaceConfiguration config;
+RWindow iWindow;
+
+// Set the surface ID.
+config.SetSurfaceId(iSurfaceId);
+
+// Get the window size and set the extent.
+const TRect windowSize(iWindow-&gt;Size());
+config.SetExtent(windowSize);
+
+// Set the flipping
+config.SetFlip(ETrue);
+
+// Rotate the flipped surface by 180°
+config.SetOrientation(CFbsBitGc::EGraphicsOrientationRotated180);
+
+// Bind the surface to the window using the configuration
+iWindow.SetBackgroundSurface(config, ETrue);</pre>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-495EA1C8-E95F-54AE-B4D1-0F463003C2D7.html">External
+Surfaces                 Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 21st, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-652DA0DD-AB1D-58A4-A6D2-27B5BAA506FF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:28 GMT -->
+</html>

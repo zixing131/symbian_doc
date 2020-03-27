@@ -1,0 +1,806 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_notes_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:21 GMT -->
+<head><title>Notes API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i498"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Notes API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+<li class="toclevel-2"><a href="#Confirmation_note"><span class="tocnumber">1.5</span> <span class="toctext">Confirmation note</span></a></li>
+<li class="toclevel-2"><a href="#Information_note"><span class="tocnumber">1.6</span> <span class="toctext">Information note</span></a></li>
+<li class="toclevel-2"><a href="#Warning_note"><span class="tocnumber">1.7</span> <span class="toctext">Warning note</span></a></li>
+<li class="toclevel-2"><a href="#Error_note"><span class="tocnumber">1.8</span> <span class="toctext">Error note</span></a></li>
+<li class="toclevel-2"><a href="#Wait_note"><span class="tocnumber">1.9</span> <span class="toctext">Wait note</span></a></li>
+<li class="toclevel-2"><a href="#Progress_note"><span class="tocnumber">1.10</span> <span class="toctext">Progress note</span></a></li>
+<li class="toclevel-2"><a href="#Global_note"><span class="tocnumber">1.11</span> <span class="toctext">Global note</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Using_a_basic_note"><span class="tocnumber">2.1</span> <span class="toctext">Using a basic note</span></a></li>
+<li class="toclevel-2"><a href="#Using_a_non-waiting_basic_note_with_self_pointer"><span class="tocnumber">2.2</span> <span class="toctext">Using a non-waiting basic note with self pointer</span></a></li>
+<li class="toclevel-2"><a href="#Using_the_Wait_note"><span class="tocnumber">2.3</span> <span class="toctext">Using the Wait note</span></a></li>
+<li class="toclevel-2"><a href="#Using_the_Progress_note"><span class="tocnumber">2.4</span> <span class="toctext">Using the Progress note</span></a></li>
+<li class="toclevel-2"><a href="#Using_Global_notes"><span class="tocnumber">2.5</span> <span class="toctext">Using Global notes</span></a></li>
+<li class="toclevel-2"><a href="#Using_Global_note_with_user_interaction"><span class="tocnumber">2.6</span> <span class="toctext">Using Global note with user interaction</span></a></li>
+<li class="toclevel-2"><a href="#Using_custom_notes"><span class="tocnumber">2.7</span> <span class="toctext">Using custom notes</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.8</span> <span class="toctext">Error handling</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#References"><span class="tocnumber">3</span> <span class="toctext">References</span></a></li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Notes are small dialogs that can be used to display short messages to the
+user.
+</p><p>Notes are a subset of AVKON dialogs. For detailed information on dialogs
+in general, as well as other dialog types, see S60 3.1 Dialogs API Specification.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>avkon.lib, eikcdlg.lib, eikctl.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/notes_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/notes_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>It is important to inform the user about different states or result of
+operations. AVKON UI Notes provide method for displaying these short messages
+on the screen for a couple of seconds. User may dismiss them before the note's
+time expire. It is also possible to give a choice to the user: cancel a long
+process (e.g. a file upload), or answering a two-way question (e.g. Yes/No).
+</p><p>To use the basic AVKON UI Notes only an instance should be created from
+the appropriate note class (defined in<i> avkonwrapper.h</i>). These notes
+are the followings:
+</p>
+<ul><li> Confirmation Note,
+</li><li> Information Note,
+</li><li> Warning Note,
+</li><li> Error Note.
+</li></ul>
+<p>A note can be a modal control: when executed it prevents the application
+from doing any further processing until the note is dismissed. By default
+basic notes are non-waitings.
+</p><p>There are also predefined notes that cannot be used just by instantiating
+a simple note class. These notes' lifetime is based on a background process
+and client code has to provide an interface to retrieve this information.
+These notes are:
+</p>
+<ul><li> Wait Note,
+</li><li> Progress Note.
+</li></ul>
+<p>Global Notes are special notes, they are displayed even if the application
+launching the note is not in the foreground.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Notes API is an SDK API and was first published in S60 release 0.9.
+</p><p>This API is valid for all platforms running on Symbian OS 9.1 or later.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of AVKON UI Notes API are:
+</p>
+<ul><li> Using a basic note
+</li><li> Using a non-waiting basic note with self pointer
+</li><li> Using the Wait Note
+</li><li> Using the Progress Note
+</li><li> Using Global Notes
+</li><li> Using custom notes
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknConfirmationNote <td><span class="plainlinks"><code>/epoc32/include/mw/aknnotewrappers.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAknErrorNote</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnotewrappers.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknInformationNote</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnotewrappers.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknNoteControl</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnotecontrol.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknNoteControl::TIndex</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnotecontrol.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknNoteDialog</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnotedialog.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknNoteWrapper</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnotewrappers.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknProgressDialog</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknProgressDialog.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknProgressTimer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknprogresstimer.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknResourceNoteDialog</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnotewrappers.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknStaticNoteDialog</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknstaticnotedialog.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknStaticNoteStackIndicator</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknstaticnotedialog.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknWaitDialog</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknWaitDialog.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknWaitNoteWrapper</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknWaitNoteWrapper.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknWarningNote</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnotewrappers.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikInfoDialog</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikinfo.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikProgressInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikprogi.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknBackgroundProcess</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknWaitNoteWrapper.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MProgressDialogCallback</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknProgressDialog.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TAknNoteResData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnotewrappers.h</code></span>
+</td></tr>
+<p>The base class for AVKON UI Notes is <span class="plainlinks"><code>CAknNoteDialog</code> </span>. The
+following diagram shows the basic notes.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_BasicNotesClasses.png" title="AVKON UI Basic Notes classes"><img alt="AVKON UI Basic Notes classes" border="0" height="169" src="images/SPB_10_1_BasicNotesClasses.png" width="625" /></a></div>
+<div style="text-align:center"><i>AVKON UI Basic Notes classes</i></div>
+<p>Wait Note and Progress Note's design
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ProgressNotesClasses.png" title="AVKON UI Progress notes classes"><img alt="AVKON UI Progress notes classes" border="0" height="276" src="images/SPB_10_1_ProgressNotesClasses.png" width="588" /></a></div>
+<div style="text-align:center"><i>AVKON UI Progress notes classes</i></div>
+<a name="Confirmation_note"><h3> <span class="mw-headline">1.5 Confirmation note </span></h3>
+</a><p>A confirmation note informs the user about a successfully completed operation.
+By default it has a short duration and a subtle tone and should be used when
+the effect of the operation cannot be seen directly.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ConfirmationNote.png" title="Confirmation note"><img alt="Confirmation note" border="0" height="214" src="images/SPB_10_1_ConfirmationNote.png" width="182" /></a></div>
+<div style="text-align:center"><i>Confirmation note</i></div>
+<a name="Information_note"><h3> <span class="mw-headline">1.6 Information note </span></h3>
+</a><p>Information note is used when an unexpected situation is encountered during
+usage of the device. This note has a longer duration and a more noticeable
+tone than the confirmation note. Information note should be used when an error
+that can be rectified occurs, for example "Name already exists" when user
+tries to add a duplicate name to Phonebook.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_InformationNote.png" title="Information note"><img alt="Information note" border="0" height="210" src="images/SPB_10_1_InformationNote.png" width="183" /></a></div>
+<div style="text-align:center"><i>Information note</i></div>
+<a name="Warning_note"><h3> <span class="mw-headline">1.7 Warning note </span></h3>
+</a><p>Warning note is used when the user must be notified about something that
+may require action. The note is displayed for a fairly long time and the sound
+can be heard even when the user is not concentrating on the phone - this note
+is used for example a "Battery low" warning.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_WarningNote.png" title="Warning note"><img alt="Warning note" border="0" height="214" src="images/SPB_10_1_WarningNote.png" width="182" /></a></div>
+<div style="text-align:center"><i>Warning note</i></div>
+<a name="Error_note"><h3> <span class="mw-headline">1.8 Error note </span></h3>
+</a><p>Error notes should be used when user does something that may cause considerable
+harm immediately or later, for example entering a wrong PIN-code would block
+using the SIM card.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ErrorNote.png" title="Error note"><img alt="Error note" border="0" height="222" src="images/SPB_10_1_ErrorNote.png" width="183" /></a></div>
+<div style="text-align:center"><i>Error note</i></div>
+<a name="Wait_note"><h3> <span class="mw-headline">1.9 Wait note </span></h3>
+</a><p>Wait note is used to inform the user about an operation is taking place.
+However, it does not indicate the length of the operation.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_WaitNote.png" title="Wait note"><img alt="Wait note" border="0" height="214" src="images/SPB_10_1_WaitNote.png" width="182" /></a></div>
+<div style="text-align:center"><i>Wait note</i></div>
+<a name="Progress_note"><h3> <span class="mw-headline">1.10 Progress note </span></h3>
+</a><p>Progress note is used for operations when the process length can be calculated;
+so the user might be informed about the time status of the operation.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ProgressNote.png" title="Progress note"><img alt="Progress note" border="0" height="217" src="images/SPB_10_1_ProgressNote.png" width="181" /></a></div>
+<div style="text-align:center"><i>Progress note</i></div>
+<a name="Global_note"><h3> <span class="mw-headline">1.11 Global note </span></h3>
+</a><p>Global note is used to display an information which is not application
+specific, e.g. Alarm, Calendar notes or battery notes.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_GlobalNote.png" title="Global note"><img alt="Global note" border="0" height="278" src="images/SPB_10_1_GlobalNote.png" width="190" /></a></div>
+<div style="text-align:center"><i>Global note</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Using_a_basic_note"><h3> <span class="mw-headline">2.1 Using a basic note </span></h3>
+</a><p>The following code creates a waiting confirmation note, displays it, and
+after a short delay dismisses it. Delay timer is predefined for all basic
+notes in<i> avkon.hrh</i>. Since the note is created as a waiting note, the <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span> function
+blocks the application execution. <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span> also deletes
+the note automatically.
+</p>
+<pre>// creating basic note
+#include &lt;aknnotewrappers.h&gt;
+</pre>
+<pre>_LIT( mConfText, "Picture deleted.");
+CAknConfirmationNote *mConfNote;
+mConfNote = new (ELeave) CAknConfirmationNote( ETrue );  // waiting
+mConfNote-&gt;ExecuteLD( mConfText );  // display the note and delete it
+</pre>
+<a name="Using_a_non-waiting_basic_note_with_self_pointer"><h3> <span class="mw-headline">2.2 Using a non-waiting basic note with self pointer </span></h3>
+</a><p>When a non-waiting note is used, <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span> returns immediately
+not blocking the application to do further processes. When a pointer reference
+is used, the note is not only deleted after execution but the pointer is also
+set to <span class="plainlinks"><code>NULL</code> </span>.
+</p>
+<pre>class CNoteExampleAppUi : public CAknAppUi
+    {
+    private:
+        CAknInformationNote *iInfNote;
+    };
+</pre>
+<pre>void CNoteExampleAppUi::HandleCommandL( TInt aCommand )
+    {
+    switch( aCommand )
+        {
+        case ECommandCreateInformationNote :
+            {
+            iInfNote = new (ELeave) CAknInformationNote( &amp;iInfNote );
+            iInfNote-&gt;ExecuteLD( _L("Not an integer. Try again.") );
+            // note will be deleted automatically
+            // and pointer will be set to NULL after execution
+            break;
+            }
+        default:
+            break;
+        }
+    }
+</pre>
+<p>Do not create and execute another note until this one has completed, <span class="plainlinks"><code>ActiveScheduler</code> </span> cannot
+handle this situation:
+</p>
+<pre>void CNoteExampleAppUi::ShowErrorNoteL()
+    {
+    if( iInfNote )  // note is on the screen
+        {
+        return;
+        }
+    // no note is shown
+    CAknErrorNote* mErrorNote;
+    mErrorNote = new (ELeave) CAknErrorNote( ETrue );
+    mErrorNote-&gt;ExecuteLD( _L("General error.") );
+    }
+</pre>
+<a name="Using_the_Wait_note"><h3> <span class="mw-headline">2.3 Using the Wait note </span></h3>
+</a><p>To use <span class="plainlinks"><code>WaitNoteWrapper</code> </span> you have to define a note resource.
+Its structure is defined in<i> eikon.rh</i> and<i> avkon.rh</i>.
+</p>
+<pre>STRUCT DIALOG
+    {
+    LONG   flags = 0;
+    LLINK  buttons = 0;
+    STRUCT items();     // STRUCT DLG_LINE
+    }
+</pre>
+<pre>STRUCT DLG_LINE
+    {
+    WORD   type;
+    WORD   id = 0;
+    STRUCT control;     // STRUCT AVKON_NOTE
+    }
+</pre>
+<pre>STRUCT AVKON_NOTE
+    {
+    WORD  layout;
+    LTEXT singular_label;     // e.g. You have missed a call.
+    LTEXT plural_label = "";  // e.g. You have %d missed calls.
+    LTEXT imagefile = "";
+    WORD  imageid   = 0xffff;
+    WORD  imagemask = 0xffff;
+    LTEXT iconfile  = "";
+    WORD  iconid    = 0xffff;
+    WORD  iconmask  = 0xffff;
+    LLINK animation = 0;
+    }
+RESOURCE DIALOG r_myapp_waitnote
+    {
+    flags = EAknWaitNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EMyAppWaitNote;
+            control = AVKON_NOTE
+                {
+                layout = EWaitLayout;
+                singular_label = "Connecting, please wait.";
+                imagefile = "z:\\system\data\avkon.mbm";
+                imageid = EMbmAvkonQgn_note_progress;
+                imagemask = EMbmAvkonQgn_note_progress_mask;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+</pre>
+<p>Wait note's background process is controlled by a <span class="plainlinks"><code>MAknBackgroundProcess</code> </span> class.
+Its callback functions are called by the <span class="plainlinks"><code>WaitNoteWrapper</code> </span>:
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">IsProcessDone()</font></code> </span>: check whether the background process
+</li></ul>
+<p>has been finished or not.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">StepL()</font></code> </span>: do 1 step in the background process.
+</li><li> <span class="plainlinks"><code><font color="darkred">CycleError()</font></code> </span>: called when <span class="plainlinks"><code><font color="darkred">StepL()</font></code> </span> leaves,
+</li></ul>
+<p>has to return with <span class="plainlinks"><code>KErrNone</code> </span> if error was processed.
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">DialogDismissedL()</font></code> </span>: called when user dismissed the note.
+</li><li> <span class="plainlinks"><code><font color="darkred">ProcessFinishedL()</font></code> </span>: do anything before destroying the
+</li></ul>
+<p>note.
+</p><p>If the user does not interrupt the Wait note by pressing a key, <span class="plainlinks"><code><font color="darkred">ProcessFinishedL()</font></code> </span> is
+called before <span class="plainlinks"><code><font color="darkred">DialogDismissedL()</font></code> </span>.
+</p>
+<pre>#include &lt;aknwaitnotewrapper.h&gt;
+</pre>
+<pre>class CMyProcess : public CBase, public MAknBackgroundProcess
+    {
+    public:
+        TBool IsProcessDone() const;
+        void StepL();
+        // TInt CycleError( TInt aError );
+        // void DialogDismissedL( TInt aButtonId );
+        // void ProcessFinishedL();
+</pre>
+<pre>    private:
+        TInt iCount;
+    };
+</pre>
+<p>Here we implement a simple strategy to maintain the wait note. It will
+be shown for 5 seconds, so 5 rounds of stepping is done:
+</p>
+<pre>TBool CMyProcess::IsProcessDone() const
+    {
+    return ( iCount == 5 );
+    }
+</pre>
+<pre>void CMyProcess::StepL()
+    {
+    sleep( 1 );  // do nothing for 1 second
+    iCount++;    // next cycle
+    }
+</pre>
+<p>Using the note:
+</p>
+<pre>// create background process
+CMyProcess *myProcess = new (ELeave) CMyProcess();
+CleanupStack::PushL( myProcess );
+</pre>
+<pre>// create WaitNoteWrapper
+CAknWaitNoteWrapper *waitNote = CAknWaitNoteWrapper::NewL();
+// CAknWaitNoteWrapper is privately derived from CActive/CBase
+// therefore a reinterpret_cast must be performed here
+CleanupStack::PushL( reinterpret_cast&lt;CBase*&gt; ( waitNote ) );
+</pre>
+<pre>// shows the note immediately
+TBool success =
+    waitNote-&gt;ExecuteL( R_MYAPP_WAITNOTE, *myProcess, ETrue ) )
+</pre>
+<pre>CleanupStack::PopAndDestroy( waitNote );
+CleanupStack::PopAndDestroy( myProcess );
+</pre>
+<pre>// further processes based on the note's exit code
+if( success )
+    {
+    InitializeConnection();
+    }
+else  // note was cancelled
+    {
+    CancelConnection();
+    }
+</pre>
+<a name="Using_the_Progress_note"><h3> <span class="mw-headline">2.4 Using the Progress note </span></h3>
+</a><p>A similar resource can be used to create a Progress note:
+</p>
+<pre>RESOURCE DIALOG r_myapp_progressnote
+    {
+    flags = EAknProgressNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EMyAppProgressNote;
+            control = AVKON_NOTE
+                {
+                layout = EProgressLayout;
+                singular_label = "Resizing image";
+                imagefile = "\\system\data\avkon.mbm";
+                imageid = EMbmAvkonQgn_note_progress;
+                imagemask = EMbmAvkonQgn_note_progress_mask;
+                };
+            }
+        };
+    }
+</pre>
+<p>Progress note does not have a wrapper class around the note object as Wait
+note does. Therefore the note has to be controlled directly by the client.
+This means two things: when and how the progress bar is updated. In most cases
+it means a data-based operation calculation, e.g. uploading a file is a connection
+dependent process, converting an image to another format might be a hardware
+chipset-variant operation, etc.
+</p><p>Here we use a simple timer-based active object for the progress bar calculation.
+It is a safe design decision to encapsulate the active object, the dialog
+and the callback provide mechanism ( <span class="plainlinks"><code>MProgressDialogCallback</code> </span>)
+into one class. Another design issue is the usage of the class. Here we used
+the "fire and forget" method:
+</p>
+<pre>#include &lt;myapp.rsg&gt;
+// create a waiting note
+CProgressProcessor* iProcessor = CProgressProcessor::NewL(
+    &amp;iProcessor, R_MYAPP_PROGRESSNOTE, ETrue );
+// run
+iProcessor-&gt;ExecuteLD();
+// do nothing, ExecuteLD() deletes the objects automatically
+</pre>
+<p>Based on this the class definition looks like this:
+</p>
+<pre>#include &lt;aknprogressdialog.h&gt;
+</pre>
+<pre>class CProgressProcessor: public CActive, public MProgressDialogCallback
+    {
+    public:  // constructors, destructor
+</pre>
+<pre>        // aResource: the progress note's resource id
+        // aWaiting: waiting note or non-waiting
+        // aVisible: ETrue if note has to be shown immediately
+        static CProgressProcessor* NewL(
+            CProgressProcessor** aSelfPtr,
+            TInt aResource,
+            TBool aWaiting,
+            TBool aVisible = EFalse );
+</pre>
+<pre>        virtual ~CProgressProcessor();
+</pre>
+<pre>    public:  // new functions
+        void ExecuteLD();
+</pre>
+<pre>    private:  // from CActive
+        void RunL();
+        void DoCancel();
+        TInt RunError( TInt aError );
+</pre>
+<pre>    public:  // from MProgressDialogCallback
+        void DialogDismissedL( TInt aButtonId );
+</pre>
+<pre>    protected:  // construction
+        CProgressProcessor();
+        void ConstructL( TInt aResource, TBool aWaiting, TBool aVisible );
+</pre>
+<pre>    private:  // new functions
+        TBool IsProcessDone();  // finished?
+        void DoProcess();  // perform next step
+        void DoDelete();  // delete the object
+</pre>
+<pre>    private:  // data
+        CAknProgressDialog* iDialog;
+        TInt iCounter;
+        CProgressProcessor** iSelfPtr;
+        RTimer iTimer;
+        TBool iDestroy;
+        CActiveSchedulerWait* iWait;  // for waiting note
+    };
+</pre>
+<p>There is nothing special in the constructors and destructor. The second
+phase constructor creates the dialog and initializes the progress bar.
+</p>
+<pre>CProgressProcessor::ConstructL( TInt aResource, TBool aWaiting, TBool aVisible )
+    {
+    User::LeaveIfError( iTimer.CreateLocal() );
+</pre>
+<pre>    // length of the process is unknown (in time) but it can be calculated
+    iDialog = new (ELeave) CAknProgressDialog(
+        reinterpret_cast&lt;CEikDialog**&gt;(&amp;iDialog), aVisible );
+    iDialog-&gt;PrepareLC( aResource );
+    CleanupStack::Pop();
+    iDialog-&gt;SetCallback( this );
+</pre>
+<pre>    // how "long" is the process in steps
+    // here we use a percentage value
+    CEikProgressInfo* progressInfo = iDialog-&gt;GetProgressInfoL();
+    progressInfo-&gt;SetFinalValue( 100 );
+</pre>
+<pre>    if( aWaiting )
+        iWait = new (ELeave) CActiveSchedulerWait();
+    CActiveScheduler::Add( this );
+    }
+</pre>
+<pre>CProgressProcessor::~CProgressProcessor()
+    {
+    iTimer.Close();
+    // if note is not deleted yet
+    if( iDialog )
+        {
+        iDialog-&gt;SetCallback( NULL );
+        TRAP_IGNORE( iDialog-&gt;ProcessFinishedL() );
+        }
+    *iSelfPtr = NULL;  // set self pointer in parent object to NULL
+    }
+</pre>
+<p>The process status functions are very simple:
+</p>
+<pre>TBool CProgressProcessor::IsProcessDone()
+    {
+    // 100 percent reached?
+    return iCounter&gt;=100;
+    }
+</pre>
+<pre>void CProgressProcessor::DoProcess()
+    {
+    iCounter++;
+    iTimer.After( iStatus, 300000 );  // wait 0.3 seconds
+    SetActive();  // and call RunL()
+    }
+</pre>
+<p>The public function to activate the note:
+</p>
+<pre>void CProgressProcessor::ExecuteLD()
+    {
+    CleanupStack::PushL( this );
+    iDialog-&gt;RunLD();  // shows the dialog, returns immediately
+    DoProcess();  // start background process
+    if( iWait )
+        {
+        // start waiting process, it blocks further execution here
+        iWait-&gt;Start();
+        // after it finishes, cleanup everything
+        CleanupStack::PopAndDestroy();
+        }
+    else
+        {
+        // non-waiting dialog, so return immediately
+        // delete will be performed by RunL() or DoCancel()
+        CleanupStack::Pop();
+        }
+    }
+</pre>
+<p>Safe object delete:
+</p>
+<pre>void CProgressProcessor::DoDelete()
+    {
+    if( iWait )  // waiting note?
+        CAknEnv::StopSchedulerWaitWithBusyMessage( *iWait );
+    else
+        delete this;
+    }
+</pre>
+<p>Active object deletes itself if it was requested (via an error) or process
+has been finished; or perform next step.
+</p>
+<pre>// one step was done
+void CProgressProcessor::RunL()
+    {
+    // any delete operation requested meanwhile?
+    if( iDestroy )
+        {
+        DoDelete();
+        }
+</pre>
+<pre>    if( IsProcessDone() )
+        {
+        iDialog-&gt;SetCallback( NULL );
+        iDialog-&gt;ProcessFinishedL();
+        DoDelete();
+        }
+    else  // do next step, update progress bar
+        {
+        DoProcess();
+        iDialog-&gt;GetProgressInfoL()-&gt;IncrementAndDarw( 1 );
+        }
+    }
+</pre>
+<pre>// RunL() did leave
+TInt CProgressProcessor::RunError( TInt /* aError */ )
+    {
+    iDialog-&gt;SetCallback( NULL );
+    TRAP_IGNORE( iDialog-&gt;ProcessFinishedL() );
+</pre>
+<pre>    iDestroy = ETrue;
+    iTimer.Cancel();
+    iTimer.Start( iStatus, 10 );  // call RunL() immediately
+    SetActive();
+</pre>
+<pre>    // all errors are swallowed
+    return KErrNone;
+    }
+</pre>
+<pre>// someone uses the object in a not proper way?
+void CProgressProcessor::DoCancel()
+    {
+    if( iDialog )
+        {
+        // no function callback needed for ProcessFinishedL()
+        iDialog-&gt;SetCallback( NULL );
+        TRAP_IGNORE( iDialog-&gt;ProcessFinishedL() );
+        }
+    iDestroy = ETrue;  // just in case
+    iTimer.Cancel();
+    // object is NOT deleted here
+    }
+</pre>
+<p>If the dialog was dismissed, delete this object too:
+</p>
+<pre>void CProgressProcessor::DialogDismissedL( TInt /* aButton */ )
+    {
+    iDialog = NULL;
+    DoDelete();
+    }
+</pre>
+<a name="Using_Global_notes"><h3> <span class="mw-headline">2.5 Using Global notes </span></h3>
+</a><p>Following code shows the simplest way of using the Global note:
+</p>
+<pre>// resource definition
+RESOURCE TBUF r_myapp_globalnote_searching { buf = "Searching..."; }
+#include &lt;aknnotifystd.h&gt;  // note type
+#include &lt;myapp.rsg&gt;  // application resource
+</pre>
+<pre>const TInt KGlobalNoteMaxLength = 32;
+</pre>
+<pre>// allocate TBuf with constant length, and fill it with a resource text
+TBuf&lt;KGlobalNoteMaxLength&gt; text( NULL );
+CEikonEnv::Static()-&gt;ReadResourceL( text, R_MYAPP_GLOBALNOTE_SEARCHING );
+TPtrC noteText( text );
+</pre>
+<pre>// create GlobalNote instance and show it.
+CAknGlobalNote* globalNote = CAknGlobalNote::NewLC();
+TInt noteId = globalNote-&gt;ShowNoteL( EAknGlobalInformationNote, noteText );
+</pre>
+<pre>// do anything here
+sleep( 5 );  // waiting for 5 seconds
+</pre>
+<pre>// discard note
+globalNote-&gt;CancelNoteL( noteId );
+CleanupStack::PopAndDestroy();
+</pre>
+<a name="Using_Global_note_with_user_interaction"><h3> <span class="mw-headline">2.6 Using Global note with user interaction </span></h3>
+</a><p>It is also possible to wait for user action when softkeys are attached
+to the Global note. This note is an asynchronous UI element, so an active
+object has to be implemented to receive the notification about user's choice.
+</p><p>Here we define an interface class as well to handle user interactions and
+errors.
+</p>
+<pre>// callback interface for global note handler
+class MGlobalNoteClient
+    {
+    public:
+        virtual void HandleCommandL( TInt aCommand ) = 0;
+        virtual TInt NoteError( TInt aError ) = 0;
+    };
+</pre>
+<pre>// define the global note handler as an active object
+class CGlobalNoteHandler: public CActive
+    {
+    public:  // constructors, destructor, etc.
+</pre>
+<pre>    public:  // new function
+        // aResource: resource identifier to shown
+        void ShowNoteL(
+            TInt aResource,
+            const TDesC&amp; aText,
+            MGlobalNoteClient*&amp; aClient );
+</pre>
+<pre>    protected:  // from CActive
+        void RunL();
+        void DoCancel();
+        TInt RunError( TInt aError );
+</pre>
+<pre>    private:  // data
+        CAknGlobalNote *iGlobalNote;
+        TInt iNoteId;
+        MGlobalNoteClient* iNoteClient;
+    };
+// active object initialization
+CGlobalNoteHandler::CGlobalNoteHandler() : CActive( EPriorityNormal )
+    {
+    CActiveScheduler::Add( this );
+    }
+</pre>
+<pre>// showing the note
+void CGlobalNoteHandler::ShowNoteL(
+        TInt aResource,
+        const TDesC&amp; aText,
+        MGlobalNoteClient*&amp; aClient )
+    {
+    if( iGlobalNote )
+        return;  // do not do anything if a note is already shown
+    iGlobalNote = CAknGlobalNote::NewL();
+    iGlobalNote-&gt;SetSoftkeys( aResource );
+    iNoteId = iGlobalNote-&gt;ShowNoteL( iStatus,
+        EAknGlobalConfirmationNote, aText );
+    SetActive();
+    iNoteClient = aNoteClient;
+    }
+// handling user interaction
+void CGlobalNoteHandler::RunL()
+    {
+    // cancel note operation
+    iGlobalNote-&gt;CancelNoteL( iNoteId );
+    delete iGlobalNote;
+    iGlobalNote = NULL;
+    iNoteId = 0;
+</pre>
+<pre>    TInt value( iStatus.Int() );  // user response
+    User::LeaveIfError( value );
+</pre>
+<pre>    // handle user response
+    iNoteClient-&gt;HandleCommandL( value );
+    }
+</pre>
+<pre>// error occurs in RunL()
+TInt CGlobalNoteHandler::RunError( TInt aError )
+    {
+    // cancel note operation
+    TRAP_IGNORE( iGlobalNote-&gt;CancelNoteL( iNoteId ) );
+    delete iGlobalNote;
+    iGlobalNote = NULL;
+    iNoteId = 0;
+</pre>
+<pre>    return iNoteClient-&gt;NoteError( aError );  // all errors are passed to client
+    }
+</pre>
+<pre>// system cancelled the note
+void CGlobalNoteHandler::DoCancel()
+    {
+    // cancel note operation
+    TRAP_IGNORE( iGlobalNote-&gt;CancelNoteL( iNoteId ) );
+    delete iGlobalNote;
+    iGlobalNote = NULL;
+    iNoteId = 0;
+    }
+</pre>
+<a name="Using_custom_notes"><h3> <span class="mw-headline">2.7 Using custom notes </span></h3>
+</a><p>There are cases when the predefined notes just are not enough. You might,
+for example, want to change the icon displayed in the note, use a different
+kind of sound, or change the note duration. All of the properties can be changed
+via <span class="plainlinks"><code>CAknNoteDialog</code> </span>'s setter functions: <span class="plainlinks"><code>SetTimeout</code> </span>, <span class="plainlinks"><code>SetTone</code> </span>, <span class="plainlinks"><code>SetTextWrapping</code> </span>, <span class="plainlinks"><code>SetTextProcessing</code> </span>, <span class="plainlinks"><code>SetImageL</code> </span>, <span class="plainlinks"><code>SetIconL</code> </span>.
+</p>
+<a name="Error_handling"><h3> <span class="mw-headline">2.8 Error handling </span></h3>
+</a><p>AVKON UI Notes API uses standard Symbian OS error reporting mechanism.
+Leaves and system wide error codes as function return values are used if the
+error is recoverable. A client application can handle these errors similarly
+as a normal Symbian platform application.
+</p>
+<a name="References"><h2> <span class="mw-headline">3 References </span></h2>
+<table border="1" cellspacing="0">
+<caption> <b>Reference documents</b>
+</caption>
+<tr>
+<td> S60 3.1 Dialogs API Specification
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_notes_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:27 GMT -->
+</html>

@@ -1,0 +1,198 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F46E4F89-B9ED-5A4A-B812-B605B925D0C0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:04:58 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use the audio convert utility" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DE5CDAD-8D71-5384-9E98-5665D5A4C792" /><meta name="DC.Relation" scheme="URI" content="GUID-3E341F9F-2635-589B-A59A-B999FE7DF9BE" /><meta name="DC.Relation" scheme="URI" content="GUID-DDE1A8A9-1D67-53BF-8A65-340F139AD4AB" /><meta name="DC.Relation" scheme="URI" content="GUID-EB15EC74-BCCE-591D-8308-210C22CDDDDA" /><meta name="DC.Relation" scheme="URI" content="GUID-03D132BE-5B90-50E1-88D3-D66289C02444" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F46E4F89-B9ED-5A4A-B812-B605B925D0C0" /><meta name="DC.Language" content="en" /><title>How to use the audio convert utility </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-F46E4F89-B9ED-5A4A-B812-B605B925D0C0">How to use the audio convert utility</h1><div>
+<div id="GUID-06F005A3-F80A-5428-9AFE-0BF1B567BE6D"><h3 class="section-title">Overview</h3> <p>Audio convert utility is used to convert audio clips contained
+in files or descriptors to other formats using the default codecs
+provided by MMF. This functionality is implemented by the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-810D29DA-8332-3E63-8A63-5B8A04EC9688.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-810D29DA-8332-3E63-8A63-5B8A04EC9688.html"><code class="apiname">CMdaAudioConvertUtility</code></a> class. </p> </div>
+<div id="GUID-598B8280-09AB-4A60-9400-0AAE88A8DE4B"><h3 class="section-title">Description</h3> <p>Using a audio converter utility
+involves the following tasks: </p> <ul>
+<li id="GUID-707AF876-DBB4-5AE0-8610-A9E6B5A7D543"><a name="GUID-707AF876-DBB4-5AE0-8610-A9E6B5A7D543"><!-- --></a><p> <a href="#GUID-8E3F0FF4-48D5-58E3-9F6B-643D7401EF47">Construct and open converter utility object</a> </p> </li>
+<li id="GUID-0E4A77DB-0E03-5918-9EB1-8AF6F589490B"><a name="GUID-0E4A77DB-0E03-5918-9EB1-8AF6F589490B"><!-- --></a><p> <a href="#GUID-F46111C2-E670-5A1D-A091-48B2BB959C1F">Configure conversion parameters</a> </p> </li>
+<li id="GUID-CDCA30C1-7474-554F-A81E-5B13D36B7652"><a name="GUID-CDCA30C1-7474-554F-A81E-5B13D36B7652"><!-- --></a><p> <a href="#GUID-5B8C4F5B-104E-58F8-A705-A3FD1E2B82FA">Convert audio clip</a> </p> </li>
+<li id="GUID-07128D98-31E5-5090-B9CC-12FA2696A356"><a name="GUID-07128D98-31E5-5090-B9CC-12FA2696A356"><!-- --></a><p> <a href="#GUID-785AFDB4-527A-5AEA-88F3-91F8E348E049">Change conversion position and crop audio data </a> </p> </li>
+<li id="GUID-58C88A02-7CB2-541C-AE59-CB92511D0C1C"><a name="GUID-58C88A02-7CB2-541C-AE59-CB92511D0C1C"><!-- --></a><p> <a href="#GUID-E79175EB-EBAE-52FB-A594-04F2275A9A5F">Custom commands</a> </p> </li>
+</ul> <p id="GUID-8E3F0FF4-48D5-58E3-9F6B-643D7401EF47"><a name="GUID-8E3F0FF4-48D5-58E3-9F6B-643D7401EF47"><!-- --></a><strong>Construct and open
+converter utility object</strong> </p> <p>The MMF provides a utility class
+called CMdaAudioConverterUtility. Using this class,
+you can convert audio clips from one format to another. The CMdaAudioConverterUtility::NewL() function need to be used
+to construct an object of this utility class, with the following arguments: </p> <ul>
+<li id="GUID-11759C41-FAE9-59C5-89DA-131537795AED"><a name="GUID-11759C41-FAE9-59C5-89DA-131537795AED"><!-- --></a><p>An object of
+the class, which inherits the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C18F29E7-6A66-320A-8F19-988BA1E4EAB9.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C18F29E7-6A66-320A-8F19-988BA1E4EAB9.html"><code class="apiname">MMdaObjectStateChangeObserver</code></a> class to receive state change notifications from the converter object. </p> </li>
+<li id="GUID-577C3B7C-30A4-5ECC-A38D-DCE762F8AA80"><a name="GUID-577C3B7C-30A4-5ECC-A38D-DCE762F8AA80"><!-- --></a><p>Client's relative
+priority, which can be <code class="codeph">EMdaPriorityMin</code>, <code class="codeph">EMdaPriorityNormal</code> or <code class="codeph">EMdaPriorityMax</code>. </p> </li>
+<li id="GUID-1639A961-D674-525A-8B59-C1837441BD3B"><a name="GUID-1639A961-D674-525A-8B59-C1837441BD3B"><!-- --></a><p>An object of TMdaPriorityPreference specifying the behaviour, if a higher
+priority client takes over the device. </p> </li>
+</ul> <p>The following code shows how the client application <code class="codeph">CClientApp</code> inherits the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C18F29E7-6A66-320A-8F19-988BA1E4EAB9.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C18F29E7-6A66-320A-8F19-988BA1E4EAB9.html"><code class="apiname">MMdaObjectStateChangeObserver</code></a> and creates the audio converter utility object: </p> <pre class="codeblock">class CClientApp : public CBase, MMdaObjectStateChangeObserver
+    {
+public:
+   void CClientApp();
+protected:
+
+    // from MMdaObjectStateChangeObserver
+    virtual void MoscoStateChangeEvent(CBase *aObject, TInt aPreviousState, TInt aCurrentState, TInt aErrorCode);
+    
+protected:
+    CMdaAudioConverterUtility*    iConverter;   
+    };
+
+void CClientApp()
+{    
+    iConverter = CMdaAudioConverterUtility::NewL(*this, EMdaPriorityNormal,
+                   EMdaPriorityPreferenceTimeAndQuality);
+}
+</pre> <p>Once the audio converter utility object is constructed,
+you can open an audio clip for conversion using the function CMdaAudioConverterUtility::OpenL(). You can use the following
+versions of this function: </p> <ul>
+<li id="GUID-4AAA0055-3EC1-5B47-8ED9-8A1562F45292"><a name="GUID-4AAA0055-3EC1-5B47-8ED9-8A1562F45292"><!-- --></a><p>To open an existing
+audio file and append the converted audio data to another file, use
+the following version: </p> <pre class="codeblock">OpenL(const TDesC&amp; aPrimaryFile, const TdesC&amp; aSecondaryFile);</pre> <p>Where, <code class="codeph">aPrimaryFile</code> and <code class="codeph">aSecondaryFile</code> are used to specify the source and destination audio file names. </p> </li>
+<li id="GUID-403A3496-1B71-5DE0-AF6D-56453E7FC349"><a name="GUID-403A3496-1B71-5DE0-AF6D-56453E7FC349"><!-- --></a><p>To open existing
+audio file and store the converted audio data to either a file or
+a descriptor, use the following version: </p> <pre class="codeblock">OpenL(const TdesC&amp; aPrimaryFile
+        TMdaClipLocation* aLocation,
+        TMdaClipFormat* aFormat,
+        TMdaPackage* aArg1 = NULL,
+        TMdaPackage* aArg2 = NULL);
+</pre> <p>Where, <code class="codeph">aPrimaryFile</code> specifies the
+source audio file names. The <code class="codeph">aLocation</code>, <code class="codeph">aFormat</code>, <code class="codeph">aArg1</code> and <code class="codeph">aArg2</code> are used to specify
+the target location for the converted audio data, target audio format,
+codec for the target audio and target audio settings. </p> </li>
+<li id="GUID-0A3D5957-920F-5232-85A0-F5137A6E9759"><a name="GUID-0A3D5957-920F-5232-85A0-F5137A6E9759"><!-- --></a><p>To open audio
+data either from a file or a descriptor source and store the resulting
+data to either a file or descriptor, use the following version: </p> <pre class="codeblock">OpenL(TmdaClipLocation* aPriLocation
+        TMdaClipLocation* aSecLocation,
+        TMdaClipFormat* aPriFormat,
+        TMdaClipFormat* aSecFormat,
+        TMdaPackage* aPriArg1 = NULL,
+        TMdaPackage* aPriArg2 = NULL,
+        TMdaPackage* aSecArg1 = NULL,
+        TMdaPackage* aSecArg2 = NULL);
+</pre> <p>Where, <code class="codeph">aPriLocation</code> and <code class="codeph">aPriLocation</code> specifies the source and destination audio data locations. The <code class="codeph">aPriFormat</code> and <code class="codeph">aSecFormat</code> specifies the
+audio format of the source and target audio data. The <code class="codeph">aPriArg1</code> and <code class="codeph">aPriArg2</code> specifies codec and settings for the
+source audio data. Whereas, the <code class="codeph">aSecArg1</code> and <code class="codeph">aSecArg2</code> specifies the codec and settings for the target
+audio data. </p> </li>
+</ul> <p> <strong>Note</strong>: It is recommended to use the first version
+of <code class="codeph">OpenL</code> to specify source and destination audio
+file location. The arguments for the other versions are deprecated. </p> <p>The following code uses the first version of OpenL to specify
+source and destination audio location: </p> <pre class="codeblock">TFileName fromFilename = _L("C:\\rectest2.wav");
+TFileName toFilename = _L("C:\\rectest2.wav");
+
+iConverter-&amp;gt;OpenL(&amp;fromFilename, &amp;toFilename);
+</pre> <p>Once the converter calls the CMdaAudioConverterUtility::OpenL() function, the callback function <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C18F29E7-6A66-320A-8F19-988BA1E4EAB9.html#GUID-4FD38520-962C-3FA3-9F29-012695B1841B"><code class="apiname">MMdaObjectStateChangeObserver::MoscoStateChangeEvent()</code></a> will notify the client application about the change in state of
+the object. </p> <p id="GUID-F46111C2-E670-5A1D-A091-48B2BB959C1F"><a name="GUID-F46111C2-E670-5A1D-A091-48B2BB959C1F"><!-- --></a><strong>Configure conversion
+parameters</strong> </p> <p>The configuration parameters can be broadly
+classified into four categories as shown below: </p> <p><strong>Set recorded file length </strong> </p> <p>You can control the size
+settings of a recorded file. This is handled by the SetMaxWriteLength() function that sets the maximum number of bytes that can be written
+to a recorded audio clip. The SetMaxWriteLength() function is provided so that converters can limit the amount of
+file storage or memory that should be allocated. If the maximum limit
+is reached, MMF stops recording and notifies the client application. </p> <p>The following code sets the maximum number of bytes to 800: </p> <pre class="codeblock">iConverter-&gt;SetMaxWriteLength(800);</pre> <p><strong>Formats and Codecs </strong> </p> <p>You can report and set formats
+and codecs for audio data that is already open. The four methods related
+to DataTypes (codecs) enable you to retrieve a list of supported codecs
+for the current data format, set a new codec to use or determine which
+codec is currently in use. A further three methods are provided to
+query and set the audio format to use. </p> <p>Codec related actions: </p> <ul>
+<li id="GUID-BEFE741E-42F8-5A2A-A045-9DEED5351AF8"><a name="GUID-BEFE741E-42F8-5A2A-A045-9DEED5351AF8"><!-- --></a><p>To get the data
+type of the destination audio clip, use the DestinationDataTypeL() function. </p> </li>
+<li id="GUID-88543928-F6EA-5D88-A470-383203E328C5"><a name="GUID-88543928-F6EA-5D88-A470-383203E328C5"><!-- --></a><p>To set the data
+type of the destination audio clip, use the SetDestinationDataTypeL() function. </p> </li>
+<li id="GUID-11EC06F6-E79D-53CA-8A55-E5E2A709695A"><a name="GUID-11EC06F6-E79D-53CA-8A55-E5E2A709695A"><!-- --></a><p>To get a list
+of supported data types for the conversion destination, use the GetSupportedDestinationDataTypesL() function. </p> </li>
+<li id="GUID-FC20AD49-B7F3-55AE-9DC9-96751497FF70"><a name="GUID-FC20AD49-B7F3-55AE-9DC9-96751497FF70"><!-- --></a><p>To get the data
+type of the source audio clip, use the SourceDataTypeL() function. </p> </li>
+</ul> <p>Data format related actions: </p> <ul>
+<li id="GUID-63B22181-DCE4-5CF4-AACE-52F92F529821"><a name="GUID-63B22181-DCE4-5CF4-AACE-52F92F529821"><!-- --></a><p>To get the format
+of the destination audio clip, use the DestinationFormatL() function. </p> </li>
+<li id="GUID-E3224695-C58D-5986-819B-E7178ADF7537"><a name="GUID-E3224695-C58D-5986-819B-E7178ADF7537"><!-- --></a><p>To set the format
+of the destination audio clip, use the SetDestinationFormatL() function. </p> </li>
+<li id="GUID-C4A10676-7A39-50B1-807D-1F91B8CC3743"><a name="GUID-C4A10676-7A39-50B1-807D-1F91B8CC3743"><!-- --></a><p>To get the format
+of the source audio clip, use the SourceFormatL() function. </p> </li>
+</ul> <p> <strong>Note</strong>: It is only possible to report the format and
+codec used by the source audio and cannot be changed. </p> <p><strong>Bit and sample rates </strong> </p> <p>You can report and set bit and
+sample rates as required by specific codecs. </p> <p>Methods to control
+the bit rate of audio data: </p> <ul>
+<li id="GUID-6F218910-6BDD-5553-9648-1F62305F3589"><a name="GUID-6F218910-6BDD-5553-9648-1F62305F3589"><!-- --></a><p>To get a list
+of supported bit rates to the conversion destination, use the GetSupportedConversionBitRatesL() function. </p> </li>
+<li id="GUID-6ED4056A-AFAC-5051-B77F-DB094C6470CD"><a name="GUID-6ED4056A-AFAC-5051-B77F-DB094C6470CD"><!-- --></a><p>To get the bit
+rate of the destination audio clip, use the DestinationBitRateL() function. </p> </li>
+<li id="GUID-7B6C2AF7-E5BA-548C-BB91-182C4285D0D3"><a name="GUID-7B6C2AF7-E5BA-548C-BB91-182C4285D0D3"><!-- --></a><p>To set the bit
+rate of the destination audio clip, use the SetDestinationBitRateL() function. The bit rate must be one of the supported bit rates of
+the audio target. Use the GetSupportedConversionBitRatesL() function to retrieve a list of supported bit rates. </p> </li>
+<li id="GUID-0D644C39-21EF-57DB-B1C3-EA6109E05AF0"><a name="GUID-0D644C39-21EF-57DB-B1C3-EA6109E05AF0"><!-- --></a><p>To get the bit
+rate of the source audio clip, use the SourceBitRateL() function. </p> </li>
+</ul> <p> <strong>Note</strong>: None of the default codecs provided in the
+MMF support the use of bit rates. These methods are provided to enable
+the creation of additional codecs that might require bit rate information,
+such as the audio format MP3. </p> <p>Methods for controlling the
+sampling rate of audio data: </p> <ul>
+<li id="GUID-C59895FE-BAF7-54E3-B5C9-8BC559EF1B32"><a name="GUID-C59895FE-BAF7-54E3-B5C9-8BC559EF1B32"><!-- --></a><p>To get a list
+of supported conversion sample rates, use the GetSupportedConversionSampleRatesL() function. The list of sample rates is used by the conversion destination. </p> </li>
+<li id="GUID-CB4C78D7-827D-5247-8832-8A7271087CAC"><a name="GUID-CB4C78D7-827D-5247-8832-8A7271087CAC"><!-- --></a><p>To get the sample
+rate of the conversion destination, use the DestinationSampleRateL() function. </p> </li>
+<li id="GUID-390679E1-CB13-5722-B090-8E5001142FE3"><a name="GUID-390679E1-CB13-5722-B090-8E5001142FE3"><!-- --></a><p>To set the sample
+rate for the conversion destination, use the SetDestinationSampleRateL() function. The sample rate must be one of the supported sample rates
+of the audio target. Use the GetSupportedConversionSampleRatesL() function to retrieve a list of supported sample rates. </p> </li>
+<li id="GUID-5A4D9803-D3FA-5C3E-A110-4B910A675B26"><a name="GUID-5A4D9803-D3FA-5C3E-A110-4B910A675B26"><!-- --></a><p>To get the sample
+rate of the source audio clip, use the SourceSampleRateL() function. </p> </li>
+</ul> <p> <strong>Note</strong>: It is only possible to report the bit rate
+or sample rate used by the source audio and cannot be changed. </p> <p><strong>Balance </strong> </p> <p>You can report and set the audio mode (mono
+or stereo). </p> <ul>
+<li id="GUID-AE349537-63C5-500A-96BC-FFD62CA6FA16"><a name="GUID-AE349537-63C5-500A-96BC-FFD62CA6FA16"><!-- --></a><p>To get a list
+of the supported number of channels for conversion, use the GetSupportedConversionNumberOfChannelsL() function. </p> </li>
+<li id="GUID-36B76579-0DA0-5514-9E5F-3B7AAA31F16B"><a name="GUID-36B76579-0DA0-5514-9E5F-3B7AAA31F16B"><!-- --></a><p>To get the number
+of channels the destination audio clip contains, use the DestinationNumberOfChannelsL() function. </p> </li>
+<li id="GUID-B6CC8F43-C44F-5C1B-909F-4517C31844CF"><a name="GUID-B6CC8F43-C44F-5C1B-909F-4517C31844CF"><!-- --></a><p>To set the number
+of channels the destination audio clip contains, use the SetDestinationNumberOfChannelsL() function. The number
+of channels must be one of the values returned by GetSupportedConversionNumberOfChannelsL(). </p> </li>
+<li id="GUID-7C522973-402E-5231-9A51-76C640C13568"><a name="GUID-7C522973-402E-5231-9A51-76C640C13568"><!-- --></a><p>To get the number
+of channels used by the conversion source, use the SourceNumberOfChannelsL() function. </p> </li>
+</ul> <p> <strong>Note</strong>: It is only possible to report the number of
+supported channels for the source audio and cannot be changed. </p> <p id="GUID-5B8C4F5B-104E-58F8-A705-A3FD1E2B82FA"><a name="GUID-5B8C4F5B-104E-58F8-A705-A3FD1E2B82FA"><!-- --></a><strong> Convert audio clip</strong> </p> <p>Several methods are provided in <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-810D29DA-8332-3E63-8A63-5B8A04EC9688.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-810D29DA-8332-3E63-8A63-5B8A04EC9688.html"><code class="apiname">CMdaAudioConvertUtility</code></a> to enable the conversion of audio data. The specific functions to
+convert and perform related tasks are as follows: </p> <ul>
+<li id="GUID-ED4D516E-EDD0-59D4-86C9-06E61189D2A5"><a name="GUID-ED4D516E-EDD0-59D4-86C9-06E61189D2A5"><!-- --></a><p>To start converting
+audio data from the current position within the audio source and writing
+the converted data to a play window within the destination file, use
+the ConvertL() function. </p> </li>
+<li id="GUID-41EF4109-6406-5777-A696-72421DF6E4C4"><a name="GUID-41EF4109-6406-5777-A696-72421DF6E4C4"><!-- --></a><p>To stop audio
+conversion, use the Stop() function. The positions
+within the audio source and destination are maintained to handle subsequent ConvertL() statements. </p> </li>
+<li id="GUID-F1C55C8A-F965-5857-A488-4C029CFC6D07"><a name="GUID-F1C55C8A-F965-5857-A488-4C029CFC6D07"><!-- --></a><p>To stop audio
+conversion and close all related controllers, use the Close() function. </p> </li>
+</ul> <p id="GUID-785AFDB4-527A-5AEA-88F3-91F8E348E049"><a name="GUID-785AFDB4-527A-5AEA-88F3-91F8E348E049"><!-- --></a><strong>Change conversion
+position and crop audio data</strong> </p> <p>It is possible to crop the
+audio clip from the current position to the end of the clip or from
+the begging to the current position as illustrated below: </p> <ul>
+<li id="GUID-31CF2D85-4ACD-5B37-A4F9-67F435BE302C"><a name="GUID-31CF2D85-4ACD-5B37-A4F9-67F435BE302C"><!-- --></a><p>To crop the
+current clip from the current position, use the CropL() function. The remainder of the clip is discarded. The effects of
+the function cannot be undone. The function is synchronous and can
+leave if there is a problem. The leave code depends on the configuration
+settings. </p> </li>
+<li id="GUID-70B87D7E-D4C2-5A26-B1D2-44315A404D4A"><a name="GUID-70B87D7E-D4C2-5A26-B1D2-44315A404D4A"><!-- --></a><p>To crop the
+audio clip from the start of the file to the current position, use
+the CropFromBeginningL() function. The audio data
+prior to the current position is discarded. The effects of the function
+cannot be undone. The function is synchronous and can leave if there
+is a problem. The leave code depends on the configuration settings. </p> </li>
+</ul> <p>To retrieve the current position of the audio clip or move
+the position to the desired location use the following functions: </p> <ul>
+<li id="GUID-4764FACE-A6E6-58DE-81A2-B6DF19647673"><a name="GUID-4764FACE-A6E6-58DE-81A2-B6DF19647673"><!-- --></a><p>To get the current
+position in the audio clip, use the Position() function.
+The position is defined in terms of a time interval measured from
+the beginning of the audio sample data. </p> </li>
+<li id="GUID-431A1E59-15CC-5463-83D5-64FE363369FA"><a name="GUID-431A1E59-15CC-5463-83D5-64FE363369FA"><!-- --></a><p>To set the current
+position in the audio clip, use the SetPosition() function. A subsequent call to the ConvertL() function starts conversion from this new position. </p> </li>
+</ul> <p id="GUID-E79175EB-EBAE-52FB-A594-04F2275A9A5F"><a name="GUID-E79175EB-EBAE-52FB-A594-04F2275A9A5F"><!-- --></a><strong> Custom commands</strong> </p> <ul>
+<li id="GUID-403EADC5-2D41-54F5-A97B-3484B754109B"><a name="GUID-403EADC5-2D41-54F5-A97B-3484B754109B"><!-- --></a><p>To send a raw
+custom command synchronously to the controller or to allow data to
+be returned from the controller, use the CustomCommandSync()  function. </p> </li>
+<li id="GUID-8958B82D-B1C5-5D27-B931-D957735955E4"><a name="GUID-8958B82D-B1C5-5D27-B931-D957735955E4"><!-- --></a><p>To send a raw
+custom command asynchronously to the controller or to allows data
+to be returned from the controller, use the CustomCommandAsync()  function. </p> </li>
+</ul> </div>
+<div id="GUID-1AEF4A81-2898-46F5-AC26-E5DDA3E64061"><h3 class="section-title">See Also</h3> <p> <a href="GUID-9EE78D5A-32BC-5E0F-9139-AF00CDB95CC1.html">How to use the audio
+tone player utility</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated July 8th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F46E4F89-B9ED-5A4A-B812-B605B925D0C0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:04:58 GMT -->
+</html>

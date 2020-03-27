@@ -1,0 +1,39 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-DB2E0959-C24E-4E6E-BC6D-064B91BDE662.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:53 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Checking for touch support at runtime" /><meta name="abstract" content="The Symbian platform now includes AknLayoutUtils::PenEnabled() to check for touch support at runtime to allow for reduced run-time memory consumption if the device does not support touch." /><meta name="description" content="The Symbian platform now includes AknLayoutUtils::PenEnabled() to check for touch support at runtime to allow for reduced run-time memory consumption if the device does not support touch." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Relation" scheme="URI" content="GUID-A9330FEF-C559-4E2B-B064-0151FDADEA8C" /><meta name="DC.Relation" scheme="URI" content="GUID-26A4F760-C85A-4030-8910-15D239323E9D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-DB2E0959-C24E-4E6E-BC6D-064B91BDE662" /><meta name="DC.Language" content="en" /><title>Checking
+for touch support at runtime </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-DB2E0959-C24E-4E6E-BC6D-064B91BDE662">Checking
+for touch support at runtime</h1><div><p>The Symbian platform now includes <code class="parname">AknLayoutUtils::PenEnabled()</code> to
+check for touch support at runtime to allow for reduced run-time memory consumption
+if the device does not support touch.</p>
+<p>Typical cases where <code class="parname">AknLayoutUtils::PenEnabled()</code> might
+be useful include:</p>
+<ul>
+<li><p>In the component’s constructor to skip the creation of touch-only component
+controls.</p></li>
+<li><p>In the component’s <code class="parname">HandleResourceChange</code>, create
+touch-only component controls if the layout is switched from a non-touchable
+to a touchable one. Touch-only component controls should not be deleted.</p></li>
+<li><p>In the component’s drawing code.</p></li>
+</ul>
+<div class="note"><p><strong class="note_title">Note: </strong><code class="codeph">AknLayoutUtils::PenEnabled()</code> is supported from S60
+3rd Edition, FP1, onwards.</p></div>
+<pre class="codeblock">void CMyAppContainer::ConstructL( const TRect&amp; aRect )
+    {
+    CreateWindowL();
+    SetRect( aRect );
+ 
+    // If the device supports touch, construct long tap detector
+    if ( AknLayoutUtils::PenEnabled() )
+        {
+        iLongTapDetector = CAknLongTapDetector::NewL( this );
+        }
+    ActivateL();
+    }</pre>
+<div class="note"><p><strong class="note_title">Note: </strong>You cannot use <code class="codeph">AknLayoutUtils::PenEnabled()</code> in <code class="codeph">.rss</code> resource
+files.</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 9th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-DB2E0959-C24E-4E6E-BC6D-064B91BDE662.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:53 GMT -->
+</html>

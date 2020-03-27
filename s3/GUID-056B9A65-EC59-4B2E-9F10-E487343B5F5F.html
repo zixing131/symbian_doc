@@ -1,0 +1,62 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-056B9A65-EC59-4B2E-9F10-E487343B5F5F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:10:48 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="SemaphoreExample: thread synchronisation using semaphores" /><meta name="abstract" content="Explains how to use Semaphores to achieve thread synchronization." /><meta name="description" content="Explains how to use Semaphores to achieve thread synchronization." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-0D61EBFF-F513-5911-B234-09F36E5E3DC8" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-056B9A65-EC59-4B2E-9F10-E487343B5F5F" /><meta name="DC.Language" content="en" /><title>SemaphoreExample: thread synchronisation using semaphores </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-056B9A65-EC59-4B2E-9F10-E487343B5F5F">SemaphoreExample: thread synchronisation using semaphores</h1><div><p>Explains how to use Semaphores to achieve thread synchronization.</p>
+<div class="p">It is recommended to use semaphores instead of thread priorities
+for the following reasons:<ul>
+<li><p> In a uniprocessor environment, setting the thread priorities
+does not guarantee prioritized or serialized execution.</p></li>
+<li><p>In a multiprocessor or SMP environment, thread priorities are
+irrelevant as multiple threads can run simultaneously.</p></li>
+</ul></div>
+<div id="GUID-48668C9B-6B42-4FE8-899B-403D5EB5FB53"><h3 class="section-title">Download</h3> <p>Click on the following link to download the example: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/zips/guid-34775913-c5c2-41ba-a591-827039bbe7af.zip" target="_blank">SemaphoreExample.zip</a></p><p>Click: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/guid-34775913-c5c2-41ba-a591-827039bbe7af.html#guid-6013a680-57f9-415b-8851-c4fa63356636/guid-34775913-c5c2-41ba-a591-827039bbe7af.html">browse</a> to view the example code. </p></div>
+<div id="GUID-2E531F3D-EEC8-40FD-9F32-2071FDECAE61"><h3 class="section-title">Description: </h3><p> The example creates a database containing a table of three columns
+with integer entries.</p><p> The example creates two threads:</p><ul>
+<li><p><code class="codeph">WriterThread</code>: This thread calls a periodic
+function at an interval of one second, and in each iteration it inserts
+one row of integers in the table. </p></li>
+<li><p><code class="codeph">ReaderThread</code>: This thread also calls a periodic
+function at an interval of one second, and in each iteration it reads
+one row of integers following the last row read.</p></li>
+</ul><p> The example uses a macro <code class="codeph">USE_SEMAPHORE</code> to
+show the difference between the code using semaphores and the code
+which doesn't use semaphores. When not using semaphores, it is not
+guaranteed that the <code class="codeph">ReaderThread</code> will be able to
+read the database because in an SMP environment, data may not yet
+have been written by the <code class="codeph">WriterThread</code>.</p><p>Using
+a semaphore serializes the thread execution. The read operation waits
+on the semaphore until it gets a signal from the write operation.
+This ensures that the <code class="codeph">ReaderThread</code> only reads a row
+from the database after the <code class="codeph">WriterThread</code> has written
+it. </p></div>
+<div id="GUID-07CAD3CA-86DB-4245-8565-C618E59718A5"><h3 class="section-title">Class
+summary</h3><ul>
+<li><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0E661BC-4058-3256-B9C3-5A4FD52F6DE5.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0E661BC-4058-3256-B9C3-5A4FD52F6DE5.html"><code class="apiname">RThread</code></a> - A handle to a thread.</p></li>
+<li><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F4A68645-2265-307F-B951-8295827E000B.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F4A68645-2265-307F-B951-8295827E000B.html"><code class="apiname">RDbStoreDatabase</code></a> - DBMS Store database implementation</p></li>
+<li><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AED27A76-3645-3A04-B80D-10473D9C5A27.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AED27A76-3645-3A04-B80D-10473D9C5A27.html"><code class="apiname">RSemaphore</code></a> - Used for thread synchronization. </p></li>
+</ul></div>
+<div id="GUID-863B0EDF-F3F8-4345-9FEE-824350A2DBCE"><h3 class="section-title">Building
+and configuring</h3> <p>To build the example: </p> <ul>
+<li id="GUID-037442C7-2436-5152-9A3E-9DC0B4283A9C"><a name="GUID-037442C7-2436-5152-9A3E-9DC0B4283A9C"><!-- --></a><p>The example
+builds an executable called <code>semaphoreexample.exe</code> in the standard location. </p> </li>
+<li id="GUID-B7C849B9-0885-5253-A78B-71854F86D772"><a name="GUID-B7C849B9-0885-5253-A78B-71854F86D772"><!-- --></a><p>You can build
+the example from your IDE or the command line. </p> <p>If you use
+an IDE, import the <code>bld.inf</code> file of the example
+into your IDE, and use the build command of the IDE. </p> <p>If you
+use the command line, open a command prompt, and set the current directory
+to the source code directory of the example. You can then build the
+example with the SBSv1 build tools with the following commands: </p> <p><kbd class="userinput">bldmake bldfiles</kbd> </p> <p><kbd class="userinput">abld
+build</kbd> .</p> </li>
+</ul> </div>
+<div id="GUID-278DD8CF-28AF-4826-B938-20EC19F3A5B0"><h3 class="section-title">Running
+the example</h3> <p>The example code contains a macro<code class="codeph">USE_SEMAPHORE</code> in the <code>mmp</code> file. By default it is commented
+out and on execution the example runs without using semaphores; the
+macro should be uncommented to use semaphores. The console output
+will generally look the same whether using semaphores or not if there
+is a single processor, but differences will occur in an SMP environment.
+Run the example following the instructions provided in the console. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated July 7th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-056B9A65-EC59-4B2E-9F10-E487343B5F5F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:10:49 GMT -->
+</html>

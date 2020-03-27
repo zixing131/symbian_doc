@@ -1,0 +1,98 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-48AD5B98-DBA8-4601-A158-12559985BCEB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:12 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Two-phase construction" /><meta name="abstract" content="Introduction to why Symbian constructors must never leave and how Symbian achieves object initialization using constructors and second-phase ConstructL() methods." /><meta name="description" content="Introduction to why Symbian constructors must never leave and how Symbian achieves object initialization using constructors and second-phase ConstructL() methods." /><meta name="DC.Relation" scheme="URI" content="GUID-226AF3DB-3C92-4B11-B31C-B26492B6B900" /><meta name="DC.Relation" scheme="URI" content="GUID-6B58FC67-221A-49B5-B2CA-C247A938103F" /><meta name="DC.Relation" scheme="URI" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-2CA5C27E-A526-4B26-941B-85F0B32E1FFA" /><meta name="DC.Relation" scheme="URI" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Relation" scheme="URI" content="GUID-B717CAA0-237B-48B9-AAE9-A805E4EB8E9E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-48AD5B98-DBA8-4601-A158-12559985BCEB" /><meta name="DC.Language" content="en" /><title>Two-phase construction </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-48AD5B98-DBA8-4601-A158-12559985BCEB">Two-phase construction</h1><div><p>Introduction to why Symbian constructors must never leave
+and how Symbian achieves object initialization using constructors
+and second-phase <code class="codeph">ConstructL()</code> methods.</p>
+<div id="GUID-745A77B0-6A20-4705-A1BD-6A5EB253D2C4"><h3 class="section-title">What
+is new (ELeave)?</h3><p>In standard C++ the <code class="codeph">new</code> operator throws an <code class="codeph">std::bad_alloc</code> exception if
+insufficient heap memory is available. It is also possible to use <code class="codeph">new (nothrow)</code> to indicate that a null pointer should be
+returned instead of throwing an exception.</p><p>Symbian uses the
+trap and leave mechanism instead of exceptions. Accordingly <code class="codeph">new (ELeave)</code> calls an overload of <code class="codeph">operator new()</code> that indicates failure through a leave instead of an exception.
+The leave code is <code class="codeph">KErrNoMemory</code> (-4). <code class="codeph">ELeave</code> is a constant value of the enumeration <code class="codeph">TLeave</code>,
+defined in e32const.h.</p></div>
+<div id="GUID-CECEB337-C8BF-4E3C-A3E3-A621ACC03347"><h3 class="section-title">Why
+constructors must not leave</h3><div class="p">Consider the following code
+to allocate an object on the heap using <code class="codeph">new (ELeave)</code>:<pre class="codeblock">CExample* ptr = new (ELeave) CExample;</pre>This
+code can be broken down into 3 steps:<ol>
+<li id="GUID-E05F4628-C4FC-4305-86AB-98C35368FB70"><a name="GUID-E05F4628-C4FC-4305-86AB-98C35368FB70"><!-- --></a><p>Allocate memory.
+In the case of a C object derived from <code class="codeph">CBase</code> the
+allocation function is <code class="codeph">TAny* CBase::operator new(TUint aSize,
+TLeave)</code>.</p></li>
+<li id="GUID-C40E96D7-4956-4927-BEDF-BBD338248C24"><a name="GUID-C40E96D7-4956-4927-BEDF-BBD338248C24"><!-- --></a><p>Invoke the constructor.
+The default constructor is called in this example.</p></li>
+<li id="GUID-F5F1A169-E664-423F-A60A-6992211D759C"><a name="GUID-F5F1A169-E664-423F-A60A-6992211D759C"><!-- --></a><p>Return the address
+of the initialized object. This is stored by the caller in the pointer <code class="codeph">ptr</code>.</p></li>
+</ol>If step 1 were to fail a <code class="codeph">KErrNoMemory</code> leave
+would result and control would transfer to the enclosing trap. In
+this case no memory has been allocated so no memory leak would occur.</div><p>What if a leave occurs at step 2 in the <code class="codeph">CExample</code> constructor? This would cause a problem because the memory allocated
+at step 1 would leak. The calling code cannot be expected to resolve
+this problem using the cleanup stack because the address of the object
+has not yet been returned to the calling code. </p><p><strong>The second
+phase constructor</strong></p><div class="p">Symbian resolves this problem by adopting
+the convention that a constructor must never leave. As long as the
+memory for the object is allocated the address will be returned successfully.
+The caller can then add the address of the object to the cleanup stack
+before performing any further initialization that may leave. This
+gives rise to the following idiom for object creation:<pre class="codeblock">// Static member function to perform object creation
+// using the two-phase construction idiom.
+CExample* CExample::NewL()
+{
+  // Allocate the object. A leave could occur when
+  // the memory for the object is allocated, but 
+  // not as a result of the constructor call.
+  CExample* self = new (ELeave) CExample;
+
+  // Push the address of the object onto the cleanup stack.
+  CleanupStack::PushL( self );
+
+  // Perform any initialization that can leave.
+  self-&gt;ConstructL();
+
+  // Remove the object from the cleanup stack now that it is 
+  // safely initialized.
+  CleanupStack::Pop();
+
+  // Return the address of the fully initialized object.
+  return self;
+}</pre><code class="codeph">ConstructL()</code> is the conventional name
+for the function that is invoked to carry out any initialization of
+the object that can leave. This function is known as the second phase
+constructor. <code class="codeph">ConstructL()</code> is only called after the
+address of the object has been pushed onto the cleanup stack. If a
+leave were to occur in <code class="codeph">ConstructL()</code> the cleanup stack
+would ensure that the partially constructed object is destroyed.</div></div>
+<div id="GUID-51497B69-1DC8-49CD-AC36-05906885F129"><h3 class="section-title">NewL()
+and NewLC()</h3><p>Classes that use two-phase construction often
+restrict access to the constructors and <code class="codeph">ConstructL()</code> functions by using the <code class="codeph">protected</code> access modifier.
+The user instantiates the class using a public, static factory function
+called <code class="codeph">NewL()</code>, as in the example above. All the arguments
+required to initialize the object are passed to <code class="codeph">NewL()</code>. Inside <code class="codeph">NewL()</code> some of these arguments are passed
+on to the constructor, others to <code class="codeph">ConstructL()</code>. </p><div class="p">Note that the address returned by <code class="codeph">NewL()</code> is no
+longer on the cleanup stack. If you store the address in a local variable
+you must push it onto the cleanup stack before it is safe to call
+a leaving function. For example:<pre class="codeblock">  // Use the static factory function to create the
+  // object. Internally this uses two-phase construction.
+  CExample* ptr = CExample::NewL();
+
+  // Push the pointer onto the cleanup stack so that it is
+  // possible to call a leaving function safely.
+  CleanupStack::PushL( ptr );
+
+  // Invoke a leaving function.
+  ptr-&gt;UseL();</pre>Classes that define a <code class="codeph">NewL()</code> function usually also define <code class="codeph">NewLC()</code> as a convenience.
+The only difference between <code class="codeph">NewL()</code> and <code class="codeph">NewLC()</code> is that the address returned by <code class="codeph">NewLC()</code> is already
+on the cleanup stack. So the following is equivalent to the code above:</div><pre class="codeblock">  // Use the factory function that creates the object
+  // and returns the address already on the cleanup stack.
+  CExample* ptr = CExample::NewLC();
+
+  // Invoke a leaving function.
+  ptr-&gt;UseL();</pre></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-226AF3DB-3C92-4B11-B31C-B26492B6B900.html">Using
+the cleanup stack</a></li><li><a href="GUID-6B58FC67-221A-49B5-B2CA-C247A938103F.html">Symbian
+exception handling</a></li><li><a href="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18.html">Introduction
+to Symbian C++ development</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 18th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-48AD5B98-DBA8-4601-A158-12559985BCEB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:12 GMT -->
+</html>

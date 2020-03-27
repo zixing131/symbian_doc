@@ -1,0 +1,111 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E97C2A7E-8E8F-58E6-99D4-288589385B44.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:31 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Querying TLD Policy Data" /><meta name="abstract" content="This document explains how to retrieve the characters from the Top-Level Domain Blacklists and Whitelists." /><meta name="description" content="This document explains how to retrieve the characters from the Top-Level Domain Blacklists and Whitelists." /><meta name="DC.Relation" scheme="URI" content="GUID-EDA831F7-7248-5C00-B6BE-B7F44097C9B6" /><meta name="DC.Relation" scheme="URI" content="GUID-AC4C18D1-D6A3-5988-AB10-5A5025183950" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-C0D38954-2FC5-4E8B-BC11-229464DCF16C" /><meta name="DC.Relation" scheme="URI" content="GUID-939C0EE6-0931-4898-842B-9D0C9D61DD2F" /><meta name="DC.Relation" scheme="URI" content="GUID-C0E7CBC4-C525-4CA8-8D21-E7E2ABE396CE" /><meta name="DC.Relation" scheme="URI" content="GUID-945FAA13-A302-55F5-917C-EAD2C9D960E9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E97C2A7E-8E8F-58E6-99D4-288589385B44" /><meta name="DC.Language" content="en" /><title> Querying
+TLD Policy Data </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E97C2A7E-8E8F-58E6-99D4-288589385B44"> Querying
+TLD Policy Data</h1><div><p>This document explains how to retrieve the characters from the
+Top-Level Domain Blacklists and Whitelists. </p>
+<div id="GUID-7778FEFB-9E66-4C3F-8102-2A20F705B058"><h3 class="section-title">Context</h3><p>The TLD policy data is composed of a list of TLDs. </p> <p>For
+each of the TLDs, the Whitelist contains the trusted UTF-8 characters and
+the Blacklist contains the suspect UTF-8 characters. </p> </div><div id="GUID-67B2BC51-7D62-4A5D-84A4-259F645FBF3D"><h3 class="section-title">Prerequisites</h3><p>Before you start, you must: </p> <ul>
+<li id="GUID-1EE28078-9695-5F4E-AFBA-18B2E31B4994"><a name="GUID-1EE28078-9695-5F4E-AFBA-18B2E31B4994"><!-- --></a><p>Be familiar with the
+concepts of Top-Level Domain (TLD) and International Domain Name (IDN): see <a href="GUID-6A78F618-09A9-56A7-8C58-98C353BF0788.html">What is the Domain Name Server</a>. </p> </li>
+</ul> </div>
+<h3>Steps</h3><ol id="GUID-DD346F2F-33BE-5510-866D-B8F2B9748EA6"><a name="GUID-DD346F2F-33BE-5510-866D-B8F2B9748EA6"><!-- --></a>
+<li id="GUID-567ECE81-C1EF-56A0-9654-9AB1151183D2"><a name="GUID-567ECE81-C1EF-56A0-9654-9AB1151183D2"><!-- --></a><p>Create a connection
+with the InetURIList server. </p>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">
+RInetUriList uriServer;
+uriServer.OpenL();
+CleanupClosePushL(uriServer);
+</pre> </div>
+</li>
+<li id="GUID-D0A705EA-1A7E-56E3-A3A8-8CC6A9AA1820"><a name="GUID-D0A705EA-1A7E-56E3-A3A8-8CC6A9AA1820"><!-- --></a><p>Build a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-792B548A-7B80-3DA3-9008-7525C3B3A593.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-792B548A-7B80-3DA3-9008-7525C3B3A593.html"><code class="apiname">TPolicyQueryArgs</code></a> object. </p>
+The constructor takes an URI as its first parameter, which defines which
+TLD the request is made on. 
+<ol type="i" id="GUID-4AE60DE9-963C-5093-AF74-CB634EBA1A41"><a name="GUID-4AE60DE9-963C-5093-AF74-CB634EBA1A41"><!-- --></a>
+<li id="GUID-C83724BE-BE79-59A9-B7A2-A6434CA95F2B"><a name="GUID-C83724BE-BE79-59A9-B7A2-A6434CA95F2B"><!-- --></a><p></p>
+To request a character set, pass the list type (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC9862A2-8C4E-3558-90A8-610B03C55FE3.html#GUID-100518D1-3FD1-34A4-BF2F-6D80BF9420F3"><code class="apiname">InetUriList::EWhiteList</code></a> or <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC9862A2-8C4E-3558-90A8-610B03C55FE3.html#GUID-F140C173-AAF2-3078-A20B-CD2198D8FC44"><code class="apiname">InetUriList::EBlackList</code></a>)
+as the second parameter, and the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC9862A2-8C4E-3558-90A8-610B03C55FE3.html#GUID-2C7F5445-8AA0-3487-89E4-AD1FCA8ABA44"><code class="apiname">InetUriList::EPolicyCharSet</code></a> request
+type as the third parameter. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">
+// The TLD is "COM"
+_LIT8(KUri, "http://www.nokia.com");
+
+// the query requests the white list character set
+TPolicyQueryArgs tldArgs(KUri, InetUriList::EWhiteList, InetUriList::EPolicyCharSet);
+</pre> </div>
+</li>
+<li id="GUID-3BCB0DC7-CE81-5978-B9DB-1BA9CF00245D"><a name="GUID-3BCB0DC7-CE81-5978-B9DB-1BA9CF00245D"><!-- --></a><p></p>
+To check whether an URI is unsafe, only pass the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC9862A2-8C4E-3558-90A8-610B03C55FE3.html#GUID-017B224C-9BE2-3B60-91A1-CAE36B929223"><code class="apiname">InetUriList::EPolicyListType</code></a> request
+type as the second parameter. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">
+// The TLD is "COM"
+_LIT8(KUri, "http://www.nokia.com");
+
+// the query requests to check the URI
+TPolicyQueryArgs tldArgs(KUri, InetUriList::EPolicyListType);
+</pre> </div>
+</li>
+</ol>
+</li>
+<li id="GUID-A616A748-8962-5CC0-A5F9-A5E97BA30BC1"><a name="GUID-A616A748-8962-5CC0-A5F9-A5E97BA30BC1"><!-- --></a><p>Create a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-83761AF1-B6D4-3946-88D6-DB649D554138.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-83761AF1-B6D4-3946-88D6-DB649D554138.html"><code class="apiname">TQueryResults</code></a> object
+to store the result. </p>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">TQueryResults tldResult;</pre> </div>
+</li>
+<li id="GUID-27E11482-72C6-5645-A381-B96843E522A6"><a name="GUID-27E11482-72C6-5645-A381-B96843E522A6"><!-- --></a><p>Call the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6F5E2A42-5047-3AB2-9929-D893B88F2BD2.html#GUID-59D3BF9F-4808-33C7-8D27-63EEE7BD70E1"><code class="apiname">RInetUriList::QueryTldInfoL()</code></a> method
+with your query and result structures. </p>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">RInetUriList::QueryTldInfoL(tldArgs, tldResult);
+
+// retrieve the characters
+HBufC8* policyData(NULL);
+policydata = tldResult.CharSetL();</pre> </div>
+</li>
+<li id="GUID-1D67B3E0-3AC6-5829-A691-9DFA6C7B34DC"><a name="GUID-1D67B3E0-3AC6-5829-A691-9DFA6C7B34DC"><!-- --></a><p>Close the connection
+with the InetURIList server. </p>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">CleanupStack::PopAndDestroy(&amp;uriServer);</pre> </div>
+</li>
+</ol>
+<div id="GUID-F79600BE-2553-4671-996E-2CA93480C3D7"><h3 class="section-title">Results</h3><p>The <code class="codeph">TQueryResults</code> object contains the requested
+TLD policy data. </p> <ul>
+<li id="GUID-92BF741E-4764-59AB-81C2-8680F71EA4EF"><a name="GUID-92BF741E-4764-59AB-81C2-8680F71EA4EF"><!-- --></a><p>With an <code class="codeph">EPolicyListType</code> request,
+the results objet contains <code class="codeph">ETrue</code> is the URI contains suspect
+characters, <code class="codeph">EFalse</code> otherwise. </p> </li>
+<li id="GUID-846E962F-3AF4-5A45-8B8E-BBB7B4F8B07B"><a name="GUID-846E962F-3AF4-5A45-8B8E-BBB7B4F8B07B"><!-- --></a><p>An <code class="codeph">EPolicyCharSet</code> request,
+the results objet contains the list of characters of the requested list. </p> </li>
+</ul> </div>
+<div id="GUID-8D5A4D7A-C9C9-5F16-8DE0-94212B7131F3"><h3 class="section-title">Query example</h3> <p>Here
+is the combination of the code snippets provided in the above steps: </p> <pre class="codeblock">
+// Open the connection
+RInetUriList uriServer;
+uriServer.OpenL();
+CleanupClosePushL(uriServer);
+
+// The TLD is "COM"
+_LIT8(KUri, "http://www.nokia.com");
+
+// Build a query requesting a character set
+TPolicyQueryArgs tldArgs(KUri, InetUriList::EPolicyCharSet);
+
+// Create an object for the results
+TQueryResults tldResult;
+
+// Make the query
+RInetUriList::QueryTldInfoL(tldArgs, tldResult);
+
+// retrieve the characters
+HBufC8* policyData(NULL);
+policydata = tldResult.CharSetL();
+
+// [...] 
+// process the policy data
+
+// Close the connection
+CleanupStack::PopAndDestroy(&amp;uriServer);</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-EDA831F7-7248-5C00-B6BE-B7F44097C9B6.html">WhiteList/BlackList
+TLD Overview</a></li></ul><h3>Related tasks</h3><ul><li><a href="GUID-AC4C18D1-D6A3-5988-AB10-5A5025183950.html">Modifying
+TLD Policy Data</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 9th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E97C2A7E-8E8F-58E6-99D4-288589385B44.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:31 GMT -->
+</html>

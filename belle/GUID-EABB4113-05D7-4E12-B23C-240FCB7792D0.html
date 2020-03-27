@@ -1,0 +1,112 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-EABB4113-05D7-4E12-B23C-240FCB7792D0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Coding standards and conventions" /><meta name="abstract" content="Symbian and Qt both have extensive coding standards to ensure code safety and ease of maintainance. A convention also exists for filenames to show which files include public or private content." /><meta name="description" content="Symbian and Qt both have extensive coding standards to ensure code safety and ease of maintainance. A convention also exists for filenames to show which files include public or private content." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-D1F69FDA-6ED7-4E29-BCD4-250DF3C4841B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-EABB4113-05D7-4E12-B23C-240FCB7792D0" /><meta name="DC.Language" content="en" /><title>Coding standards and conventions  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-EABB4113-05D7-4E12-B23C-240FCB7792D0">Coding standards and conventions </h1><div><p>Symbian and Qt both have extensive coding standards to
+ensure code safety and ease of maintainance. A convention also exists
+for filenames to show which files include public or private content.</p>
+<div id="GUID-6B4FEB3E-EE19-46AA-8F32-4F19E381CAF6"><h3 class="section-title">Symbian
+coding standards</h3><p>Symbian's coding standards cover code formatting,
+safety, ease of maintenance and efficiency. This topic provides a
+summary of the most applicable points from the standard that relate
+specifically to Symbian idioms. </p><p>For a full introduction to
+the Symbian idioms and conventions, see <a href="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18.html">Introduction to Symbian
+C++ development</a>.</p><p><strong>Code safety </strong></p><p><em>Memory
+allocation failure </em></p><p>When memory is allocated on the heap,
+it is essential to determine whether the allocation succeeded or failed,
+and act accordingly. Use the leaving overload of the <code class="codeph">new</code> operator (<code class="codeph">new(ELeave)</code>), or check the pointer returned
+from the call to allocate the memory against <code class="codeph">NULL</code>. </p><p><em>No side-effects from assertions </em></p><p>Assertion
+statements must not perform ‘side effects’, such as modifying the
+value of a variable. </p><p><em>Strings and buffers</em></p><p>Use proven
+string classes like the <a href="GUID-21627ABC-AA70-4837-89A1-28BD9B2FD4B0.html">Symbian descriptor
+classes</a> in preference to native strings and memory buffers
+or hand-crafted string classes. Classes provided by the Qt application
+framework (<code class="codeph">QString</code> and <code class="codeph">QByteArray</code>) are suitable alternatives and classes provided by the STL ports
+available. Be extremely careful when dealing with C-style strings
+and arrays.  </p><p><em>Multiple inheritance</em> </p><p>Only use multiple
+inheritance through interfaces defined by <a href="GUID-2458916B-55B2-5E08-A825-4EBDB3503E67.html">M classes</a>.
+Inherit from one <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html"><code class="apiname">CBase</code></a>-derived class and one or
+more M classes. (Put the CBase-derived class first in the inheritance
+list to ensure that destruction by the cleanup stack occurs correctly.) </p><p><em>Object construction </em></p><p>The code inside a C++ constructor
+must not leave.</p><p>Implement non-trivial construction and initialization
+code that can fail in the second phase of a two-phase constructor,
+typically in a <code class="codeph">ConstructL()</code> method. </p><p><em>Safe
+cleanup</em></p><p>Use the cleanup stack to avoid orphaning memory
+or resources in the event of a leave. </p><p>If an object is deleted,
+do not put it on the cleanup stack. </p><p>An object must not be simultaneously
+owned by another object and on the cleanup stack. This means that
+class member data should never be placed on the cleanup stack if it
+is also destroyed in the class destructor, as is usually the case. </p><p>Functions with a ‘C’ suffix on their name (such as <code class="codeph">NewLC()</code>) automatically put a pointer to the object(s) they allocate on the
+cleanup stack. Therefore, those objects must not also be pushed on
+to the cleanup stack explicitly or they will be present twice. </p><p>A <code class="codeph">TRAP</code> can be used within a destructor of a class
+stored on the heap. However, it is not safe to use a TRAP within any
+destructor that may be called as the stack unwinds. </p><p>When calling
+code that can throw a C++ exception, catch everything and convert
+the exceptions to leaves. TRAP and TRAPD panic if they receive a C++
+exception that was not raised by a Symbian leave (of type <code class="codeph">XLeaveException</code>). </p><p><strong>Ease of maintenance </strong></p><p><em>Use and comment assertions </em></p><p>Use the <code class="codeph">__ASSERT_DEBUG</code> assertion macro liberally to detect programming errors. It may sometimes
+also be appropriate to use <code class="codeph">__ASSERT_ALWAYS</code> to catch
+invalid runtime input. </p><p>Use comments to explain assertion statements
+and the assumptions they make. This makes the code easier to maintain. </p><p><em>Naming conventions </em></p><p>Use the concrete types defined
+in <code>e32def.h</code> in lieu of the language-defined basic
+types. For example, use <code class="codeph">TInt</code> instead of <code class="codeph">int</code>. </p><p><em>Interface classes </em></p><p>Use M classes to specify
+the interface only, not the implementation. Generally M classes should
+contain only pure virtual functions. </p><p><em>Descriptor parameters </em></p><p>When using descriptors as function parameters, use the base
+classes (<code class="codeph">TDes</code> and <code class="codeph">TDesC</code>) and pass
+them by reference. </p><p><em>Handling date and time values </em></p><p>Use the Symbian date and time classes (such as <code class="codeph">TDateTime</code> and <code class="codeph">TTime</code>) instead of hand-crafted alternatives. </p><p><em>Static factory functions</em> </p><p>Where two-phase construction
+is used, provide one or more public static factory functions (typically
+called <code class="codeph">NewL()</code> and <code class="codeph">NewLC()</code>) for object
+construction. The construction methods themselves should be private
+or protected. </p><p><em>Check correct cleanup</em></p><p>Use the checking
+methods of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0DD554D7-B9B1-3FD3-898F-4D855144FCEA.html#GUID-9520A1B5-B1D0-379B-BFAD-443AB20EECFE"><code class="apiname">CleanupStack::Pop()</code></a> and <code class="codeph">CleanupStack::PopAndDestroy()</code> where possible, to check that <code class="codeph">PushL()</code> and <code class="codeph">Pop()</code> calls are balanced. </p><p><strong>Efficiency </strong></p><p><em>Minimize stack use </em></p><p>Minimize stack use as much as is
+possible. For example, use the heap to store large data structures
+instead of the stack and take care when declaring larger stack-based
+variables within loops or recursive functions. Use of the <code class="codeph">TFileName</code> and TParse classes is a common
+cause of stack consumption, because objects of both these types are
+over 512 bytes in size. (Remember that the default stack size is only
+8KB.) </p><p><em>Avoid writable global data in DLLs </em></p><p>Where
+possible avoid the use of writable global data in DLLs.</p><p><em>Literals </em></p><p>Do not use the <code class="codeph">_L</code> macro for literal descriptors
+except where it is convenient to do so in test code. Instead , use
+the <code class="codeph">_LIT</code> macro for literal descriptors. </p></div>
+<div id="GUID-12DF0EE7-F007-42A9-A3E8-0BDC375820DF"><h3 class="section-title">Qt
+coding standards</h3><p>Qt provides a compact set of coding guidelines
+that are separated into <a href="http://qt.gitorious.org/qt/pages/QtCodingStyle" target="_blank">Coding Style</a> and <a href="http://qt.gitorious.org/qt/pages/CodingConventions" target="_blank">Coding Conventions</a>. The former defines best-practice
+for code format and layout, while the conventions discuss C++ features
+you should not use, approaches to including headers, casting, maintaining
+binary compatibility, and compiler specific issues. As you would expect,
+there is a clear focus on coding to ensure cross platform compatibility. </p></div>
+<div id="GUID-DA2F294D-D4B2-4D21-8D4E-43EEF97E3981"><h3 class="section-title">Coding
+standards for mixed Symbian C++ and Qt code</h3><p>Qt applications
+should follow the <a href="http://qt.gitorious.org/qt/pages/QtCodingStyle" target="_blank">Qt Coding Style</a> rules for code layout in both Symbian C++
+and Qt code. In other respects the Qt code should follow the Qt conventions
+and Symbian C++ code should follow the <a href="GUID-C50A3F22-FF47-4074-9A8B-E1E8EFDF65EA.html">Symbian
+programming conventions</a>. </p><p>This approach is followed in
+the Telephony application accompanying this documentation. The exception
+to this rule is that the <code class="codeph">TelephonyPrivate</code> class is
+a Symbian C class (derived from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">CActive</code></a>), and should
+therefore be named using the <code class="codeph">C</code>  prefix. However,
+this prefix is not used in order to maintain the "opacity" of the
+private implementation. The risk of not using the class prefix is
+low because the <code class="codeph">Telephony</code> class is its only user. </p></div>
+<div id="GUID-FD0191B5-FAC1-4DB4-A526-76289C70CE5E"><h3 class="section-title">File
+and class naming conventions </h3><div class="p">In general, if the public
+class is called <code class="codeph">QMyClass</code>: <ul>
+<li><p>The private class is <code class="codeph">QMyClassPrivate</code>. </p></li>
+<li><p>Public class source and header files share the name of the
+public class: <code>qmyclass.h,qmyclass.cpp</code>. </p></li>
+<li><p>Private class headers and source file names are terminated
+with <code class="codeph">_p</code> (such as <code>qmyclass_p.h</code>) unless the file is a platform-specific implementation. </p></li>
+<li><p>Platform-specific implementation headers and source files include
+the platform in the file name - e.g. <code>qmyclass_symbian.cpp</code> (the <em>_p</em> is not necessary because it is implied). </p></li>
+</ul></div></div>
+<div id="GUID-B6E77357-9661-41ED-81D2-6F12A4131C52-GENID-GUID-C642F867-42BC-40B3-ADFB-4C40BF3726B3"><h3 class="section-title">Copyright
+note</h3><p>Most of the material in this topic is based with permission
+on the Symbian Foundation wiki articles <cite>Apps:Using Qt and Symbian
+C++ Together</cite> and <cite>Coding Standards Quick Start</cite>.
+The versions used were those available at Symbian Foundation on 3
+November 2010. The content in this page is licensed under the Creative
+Commons Attribution-Share Alike 2.0 UK: England &amp; Wales License
+(<a href="http://creativecommons.org/licenses/by-sa/2.0/uk" target="_blank">http://creativecommons.org/licenses/by-sa/2.0/uk</a>).</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated April 7th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-EABB4113-05D7-4E12-B23C-240FCB7792D0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:00 GMT -->
+</html>

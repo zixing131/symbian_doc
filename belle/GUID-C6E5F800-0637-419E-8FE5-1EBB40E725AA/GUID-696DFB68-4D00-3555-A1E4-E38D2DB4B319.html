@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-696DFB68-4D00-3555-A1E4-E38D2DB4B319.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:14:39 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxClass" />
+<meta name="DC.Title" content="MCoeFepObserver" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-696DFB68-4D00-3555-A1E4-E38D2DB4B319" />
+<title>MCoeFepObserver</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-696DFB68-4D00-3555-A1E4-E38D2DB4B319"><a name="GUID-696DFB68-4D00-3555-A1E4-E38D2DB4B319"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">MCoeFepObserver Class Reference</h1>
+<div class="state state apiQualifier apiQualifier cxxClassDeclarationFile section include"><p>#include 
+            
+                    &lt;mw/fepbase.h&gt;
+                </p></div>
+<div class="p section linkagainst"><p>Link against: fepbase.lib</p></div>
+<div class="section signature"><table class="signature"><tr><td>class MCoeFepObserver</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">virtual IMPORT_C void</td><td><a href="#GUID-4E7466A2-379D-385A-8CC4-6B3E3BD5F617">HandleCompletionOfTransactionL</a>()</td></tr><tr class="bg"><td align="right" class="code">virtual IMPORT_C void</td><td><a href="#GUID-35584C16-E754-3F51-A25B-7010C96D97F0">HandleStartOfTransactionL</a>()</td></tr></tbody></table></div><div class="section section apiDesc section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+<p class="p">Specifies the mixin protocol for observing a FEP transaction.</p>
+<p class="p">Applications which need to implement this protocol should derive from this class. The functions are not pure virtual because most applications will only need to override one of them.</p>
+<p class="p">
+</p><p class="p">See also: <a class="xref" href="GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html#GUID-9A967FE5-2DF6-30CF-9EEB-A48CCD001C0D">CCoeFep::MakeDeferredFunctionCall()</a> </p>
+</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-4E7466A2-379D-385A-8CC4-6B3E3BD5F617"><a name="GUID-4E7466A2-379D-385A-8CC4-6B3E3BD5F617"><!-- --></a>
+<h3 class="sectiontitle">HandleCompletionOfTransactionL (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>HandleCompletionOfTransactionL</td><td>(</td><td>)</td><td>[virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">If an application needs to get more information about a FEP transaction than is provided by the FEP framework, (for example, a Japanese FEP may want the pronunciation of the transaction's text as well as the text itself), then it should override this function to retrieve the information it wants from the FEP.</p>
+<p class="p">This assumes that the application knows which concrete FEP is above it so that it can call the specialised functions in that FEP. An application can safely do this by calling <a class="xref" href="GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html#GUID-463FE7DE-44A1-3FB1-B9BB-5584AC1E4CF3">CCoeEnv::Fep()</a> to get the address of the current FEP (this is NULL if there is no FEP above it) and downcasting this address to the specific derived class of the FEP it is expecting, on condition that the <a class="xref" href="GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html#GUID-7522812A-D7C0-3336-B850-94B5DC6B74A5">CCoeEnv::FepUid()</a> function returns the UID of the FEP it is expecting.</p>
+<p class="p">This function is called by the FEP framework. If the FEP is doing inline editing, <a class="xref" href="GUID-696DFB68-4D00-3555-A1E4-E38D2DB4B319.html#GUID-4E7466A2-379D-385A-8CC4-6B3E3BD5F617">HandleCompletionOfTransactionL()</a> is called inside <a class="xref" href="GUID-A5D563D6-A99A-31DF-B844-5F94EF5FFE87.html#GUID-A5D563D6-A99A-31DF-B844-5F94EF5FFE87">MCoeFepAwareTextEditor</a>'s CommitFepInlineEditL(). If it isn't doing inline editing, <a class="xref" href="GUID-696DFB68-4D00-3555-A1E4-E38D2DB4B319.html#GUID-4E7466A2-379D-385A-8CC4-6B3E3BD5F617">HandleCompletionOfTransactionL()</a> is called (inside an active object) after the key events generated by one or more calls to <a class="xref" href="GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html#GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D">CCoeFep</a>'s SimulateKeyEventsL() have been sent to the application. </p>
+</div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-35584C16-E754-3F51-A25B-7010C96D97F0"><a name="GUID-35584C16-E754-3F51-A25B-7010C96D97F0"><!-- --></a>
+<h3 class="sectiontitle">HandleStartOfTransactionL (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>HandleStartOfTransactionL</td><td>(</td><td>)</td><td>[virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Handles the start of a FEP transaction.</p>
+<p class="p">The implementation of this function might move focus to an existing edit window, or might launch a new dialog (if the dialog should appear as soon as the user starts composing their text in the FEP rather than when the text contained in the FEP is committed to it).</p>
+<p class="p">This function should be called by the FEP when it receives the first event which begins a FEP transaction. It should be called after using CoeFep::MakeDeferredFunctionCall() to handle the event.</p>
+<p class="p">The FEP calls this function indirectly by calling <a class="xref" href="GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html#GUID-DEF4D7DC-4DA7-3CD9-A63E-F1B1D4C9E9A7">CCoeEnv::ForEachFepObserverCall()</a> passing in FepObserverHandleStartOfTransactionL. Internally, this calls <a class="xref" href="GUID-696DFB68-4D00-3555-A1E4-E38D2DB4B319.html#GUID-35584C16-E754-3F51-A25B-7010C96D97F0">HandleStartOfTransactionL()</a> for each <a class="xref" href="GUID-696DFB68-4D00-3555-A1E4-E38D2DB4B319.html#GUID-696DFB68-4D00-3555-A1E4-E38D2DB4B319">MCoeFepObserver</a> object that has been registered with the control environment by calling <a class="xref" href="GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html#GUID-34FC7A35-CA26-3AA0-A778-5D3414E6CA2F">CCoeEnv::AddFepObserverL()</a>.</p>
+<p class="p">
+</p><p class="p">See also: <a class="xref" href="GUID-ADAA039A-7BF3-3B06-8486-2E3604C2633D.html#GUID-9A967FE5-2DF6-30CF-9EEB-A48CCD001C0D">CCoeFep::MakeDeferredFunctionCall()</a> </p>
+</div>
+</div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-696DFB68-4D00-3555-A1E4-E38D2DB4B319.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:14:39 GMT -->
+</html>

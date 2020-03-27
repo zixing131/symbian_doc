@@ -1,0 +1,75 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-026E865E-12FA-59A9-B923-309B65790E23.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:21 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Creating a FAT Filename Conversion Plug-in" /><meta name="abstract" content="This section describes how to create a FAT Filename Conversion plug-in DLL." /><meta name="description" content="This section describes how to create a FAT Filename Conversion plug-in DLL." /><meta name="DC.Relation" scheme="URI" content="GUID-2068DA42-AE77-5213-B3CF-C3AB7F2188BE" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DCA2F4D-ABE6-52A0-AC4E-5AAC1AB5909D" /><meta name="DC.Relation" scheme="URI" content="GUID-F3406651-0B57-50FD-81CA-A3D4000D5625" /><meta name="DC.Relation" scheme="URI" content="GUID-0584846D-D4D9-5093-8FE5-764CCFBA813F" /><meta name="DC.Relation" scheme="URI" content="GUID-F4320746-68DF-50B6-817A-24E46DFBF77B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-026E865E-12FA-59A9-B923-309B65790E23" /><meta name="DC.Language" content="en" /><title>Creating a FAT Filename Conversion Plug-in </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-026E865E-12FA-59A9-B923-309B65790E23">Creating a FAT Filename Conversion Plug-in</h1><div><p>This section describes how to create a FAT Filename Conversion
+plug-in DLL. </p>
+<div id="GUID-EC9E6B5B-0D54-401C-8136-3EAB0F42F44B"><h3 class="section-title">Context</h3><p>The flowchart
+below shows the steps to create a Fat Filename Conversion plug-in
+DLL. </p> <div class="figure" id="GUID-B3799729-B2DB-55E3-AE09-E045A9E1AE8B"><img src="GUID-9482CC98-2600-539D-A243-639CF11A2599_d0e491603_href.jpg" /></div> <p> <strong>Note</strong>: To create the plug-in DLL, the <code>unicodeconv.cpp</code> file is needed. It provides the functions to convert text between
+Unicode and a foreign encoding.</p><p>This tutorial
+uses the example of <code class="codeph">CP1250</code> to explain the process
+of creating a plug-in DLL. </p> </div><div id="GUID-1A39B098-AA9F-4E56-BFEE-0DA6AA26E1AC"><h3 class="section-title">Prerequisites</h3><p>This tutorial
+assumes that you have an understanding of the following: </p> <ul>
+<li id="GUID-09E0AD13-A9EA-5A1B-956F-2AC4812F99FC"><a name="GUID-09E0AD13-A9EA-5A1B-956F-2AC4812F99FC"><!-- --></a><p><a href="GUID-66231EA2-BDEF-582D-A4B9-F356B590038D.html">FAT Filename Conversion
+Plug-ins Overview</a> introduces Windows code page and the main
+purpose of the Plug-ins component. </p> </li>
+</ul> </div>
+<h3>Steps</h3><ol id="GUID-8037DE6A-A5AB-575A-A9F5-0A6CB42651D4"><a name="GUID-8037DE6A-A5AB-575A-A9F5-0A6CB42651D4"><!-- --></a>
+<li id="GUID-21741F55-882F-51B9-BA77-EBFFED6B7D5E"><a name="GUID-21741F55-882F-51B9-BA77-EBFFED6B7D5E"><!-- --></a><p>Create a
+source file using a text editor and save it as, for example <code>d:\charconvfiles\data\cp1250.txt</code>. This file contains pairs
+of hexadecimal numbers. The first number in each pair is the encoding
+of a character in CP1250 and the second is the Unicode encoding of
+the same character. </p>
+<pre class="codeblock">...
+0x00    0x0000    #NULL
+0x01    0x0001    #START OF HEADING
+0x02    0x0002    #START OF TEXT
+0x03    0x0003    #END OF TEXT
+0x04    0x0004    #END OF TRANSMISSION
+0x05    0x0005    #ENQUIRY
+0x06    0x0006    #ACKNOWLEDGE
+...</pre> 
+The source file has the same syntax as a cnvtool source file.
+For more information about the syntax, refer to <a href="GUID-6796BA71-47A7-5465-89F2-BD0AEF2E4EE7.html">Cnvtool Source File</a>. 
+</li>
+<li id="GUID-10B9D3BB-7B21-5AC0-89B0-5E89C5796F11"><a name="GUID-10B9D3BB-7B21-5AC0-89B0-5E89C5796F11"><!-- --></a><p></p>
+Start a command prompt to run the ConversionTable tool on the
+source as follows:<p><kbd class="userinput"><code>cd </code><code class="parname">d:\Symbian\epoc32\tools</code></kbd></p><p><kbd class="userinput"><code>ConversionTable.pl </code><code class="parname">d:\charconvfiles\data\cp1250.txt</code></kbd></p> 
+This process generates a C++ source code file called <code>cp1250.cpp</code>. It is referred to as the ConversionTableTool-generated
+cpp file, which contains the data structure. The data structure is
+used by <code>unicodeconv.cpp</code> for the encoding conversion. 
+</li>
+<li id="GUID-D4F5D984-62E2-53F2-944E-E6E387ACA697"><a name="GUID-D4F5D984-62E2-53F2-944E-E6E387ACA697"><!-- --></a><p></p>
+Create an mmp file which is used to build the plug-in DLL. 
+ <pre class="codeblock">TARGET            cp1250.dll
+CAPABILITY            All
+TARGETTYPE            dll
+
+UID        0x100039e6 0x10206A9C
+VENDORID     0x70000001
+
+OS_LAYER_SYSTEMINCLUDE
+USERINCLUDE            ../inc
+
+SOURCEPATH            ../src
+SOURCE            unicodeconv.cpp
+
+SOURCEPATH            +/build/generated/fatcharsetconv
+SOURCE            cp1250.cpp
+
+DEFFILE             fatCnv.def
+
+LIBRARY            euser.lib
+
+SMPSAFE</pre>
+</li>
+</ol>
+<div id="GUID-24FB4224-7D26-4115-9248-91C8BE54C1BA"><h3 class="section-title">Next actions</h3><p>Build the
+plug-in DLL and install it into the <code>\sys\bin\</code> directory. The DLL is then available to be loaded and called by
+the File Server.</p></div>
+</div><h3>Related tasks</h3><ul><li><a href="GUID-2068DA42-AE77-5213-B3CF-C3AB7F2188BE.html">Using
+a FAT Filename Conversion Plug-in</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 1st, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-026E865E-12FA-59A9-B923-309B65790E23.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:21 GMT -->
+</html>

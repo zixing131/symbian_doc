@@ -1,0 +1,99 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-59217FA7-3078-53CA-88B3-78D6FB788271.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:31 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Message Type Module Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-400E4702-973A-5CAC-9F9C-3A10121F856A" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-44CF5471-564E-5790-935B-51193A4978D6" /><meta name="DC.Relation" scheme="URI" content="GUID-8B843382-D27A-5E36-8F60-304903F3AA41" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-59217FA7-3078-53CA-88B3-78D6FB788271" /><meta name="DC.Language" content="en" /><title>Message Type Module Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-59217FA7-3078-53CA-88B3-78D6FB788271">Message Type Module Overview</h1><div>
+<p>Message Type Modules (MTMs) are polymorphic DLL plug-ins that implement
+the interfaces defined by the Message Server framework to handle various
+message types—such as, IMAP4, POP3, SMTP, SMS and MMS. </p>
+<div id="GUID-FA16D3AD-19CA-4F2D-A29B-9318119FA05A"><h3 class="section-title">Purpose</h3> <p>Client applications can access different types of message and
+every message type must handled in a specific way. To support a new
+message type within the client applications, MTMs to implement that
+type must be provided. The following points are specific to each message
+type, and so must be implemented in an MTM: </p> <ul>
+<li id="GUID-B47F5D1A-1C45-56FE-8074-D48F8B72AA58"><a name="GUID-B47F5D1A-1C45-56FE-8074-D48F8B72AA58"><!-- --></a><p>Message structure </p> </li>
+<li id="GUID-39DEC177-3210-5ED2-8095-32728E33EF7A"><a name="GUID-39DEC177-3210-5ED2-8095-32728E33EF7A"><!-- --></a><p>User interface
+requirements </p> </li>
+<li id="GUID-3BA20B3C-0922-515D-8E11-B5A7336CE263"><a name="GUID-3BA20B3C-0922-515D-8E11-B5A7336CE263"><!-- --></a><p>Addressing mechanism </p> </li>
+<li id="GUID-3ADE85A9-3BF2-50F0-9A94-01002A440CF9"><a name="GUID-3ADE85A9-3BF2-50F0-9A94-01002A440CF9"><!-- --></a><p>Error handling
+mechanism </p> </li>
+<li id="GUID-E0E95CA4-EB36-5D90-8313-CC608ED2ABF1"><a name="GUID-E0E95CA4-EB36-5D90-8313-CC608ED2ABF1"><!-- --></a><p>MTM DLL information </p> </li>
+</ul> <p>A Message Server abstraction that is used to locate and load
+particular MTM components. </p></div>
+<div id="GUID-3AE975F2-367A-480D-8459-8B8828B88CD1"><h3 class="section-title">Description</h3> <p>The MTM architecture is the plug-in scheme provided by the Messaging
+Framework to integrate different message transports to the Message
+Server. The plug-in scheme consists of four interfaces, the UI MTM,
+UI Data MTM, Client MTM and Server MTM. </p> <ul>
+<li id="GUID-A2763364-A20D-52B4-99FB-5D08747C22B4"><a name="GUID-A2763364-A20D-52B4-99FB-5D08747C22B4"><!-- --></a><p>Client MTM manages
+the message type’s data model, providing the UI MTM and client applications
+with interfaces to access and to search for messages. </p> </li>
+<li id="GUID-BCF8AD0F-42D9-55D3-92DE-998FBD97E5E9"><a name="GUID-BCF8AD0F-42D9-55D3-92DE-998FBD97E5E9"><!-- --></a><p>User Interface
+(UI) Data MTM provides icons, menu text and a list of capabilities
+for a message type. </p> </li>
+<li id="GUID-66AFF19F-1ED2-5AF4-A079-5C8B5344E557"><a name="GUID-66AFF19F-1ED2-5AF4-A079-5C8B5344E557"><!-- --></a><p>User Interface
+(UI) MTM implements the user interface required for the message type,
+including a viewer, editor and dialog settings. </p> </li>
+<li id="GUID-6C73D1B2-A6F6-5F26-A814-6BD38F43DE3B"><a name="GUID-6C73D1B2-A6F6-5F26-A814-6BD38F43DE3B"><!-- --></a><p>Server MTM provides
+message transport over the network and manages a queue of outstanding
+client requests, and ensures that more than one message of a given
+type is sent simultaneously. </p> </li>
+</ul> <p>Each of the MTM DLLs is a polymorphic DLL that exports an
+instance of a system-defined base class. The Message Server and client
+applications use these base class interfaces to access MTM functionality
+in a generic and extensible way. The MTM in turn implements a specialized
+version of the class to provide specific message type functionality. </p> <p>Client applications can load and use the UI MTM, UI Data MTM
+and Client MTM DLLs. The DLLs are loaded within the client’s process
+space. The Server MTM DLLs are loaded within the Message Server process.
+The Messaging Middleware architecture allows clients to access the
+combined functionality of the Message Server and the Server MTMs through
+a single server interface. The following figure shows the MTM architecture. </p> <div class="figure" id="GUID-D9869871-08F2-5601-8A9C-1871D2AB4E1B"><img src="GUID-9E9C00E1-00A2-5248-946B-D3AE182F44EC_d0e356201_href.jpg" /><p class="figure-title"><strong>Figure: </strong>              MTM architecture            </p></div> </div>
+<div id="GUID-045AD527-DD8A-4E45-8220-0F613A9C5EF5"><h3 class="section-title">Message
+Server and MTMs</h3> <p>The following figure shows the relationship
+between the Message Server and MTMs. The grey classes are realisations
+of the MTM interfaces defined by the Messaging Framework. The Message
+Server depends on the Server MTM interface and controls access to
+message data and delegates protocol-specific requests to Server side
+MTMs. Messaging clients depend on the Client, UI and UI Data MTM interfaces
+and the Message Server client API. </p> <div class="figure" id="GUID-F743115B-6934-5026-9D15-8DA5BE3A2D6F"><img src="GUID-5059C3F9-1CEA-5DF3-914A-B99376570242_d0e356217_href.jpg" /><p class="figure-title"><strong>Figure: </strong>              Relationship between Message Server and MTMs
+           </p></div> </div>
+<div id="GUID-D831A62C-5A1A-498E-BB2E-9E532DD81165"><h3 class="section-title">MTM
+class summary</h3> <p>Messaging Middleware provides the following
+base classes, which defines the component interfaces for MTM implementations. </p> <ul>
+<li id="GUID-B72EC9B2-DC51-502F-A23C-303597405B13"><a name="GUID-B72EC9B2-DC51-502F-A23C-303597405B13"><!-- --></a><p>The base class
+for UI MTMs is CBaseMtmUi. </p> </li>
+<li id="GUID-5549337B-621D-52F0-A19F-A0EA61816486"><a name="GUID-5549337B-621D-52F0-A19F-A0EA61816486"><!-- --></a><p>The base class
+for UI Data MTMs is CBaseMtmUiData. </p> </li>
+<li id="GUID-D2E07F67-69DF-54A8-A7E2-3EA64FD74D3C"><a name="GUID-D2E07F67-69DF-54A8-A7E2-3EA64FD74D3C"><!-- --></a><p>The base class
+for Client MTMs is CBaseMtm. </p> </li>
+<li id="GUID-42B1BC77-0D29-5627-93C2-CDCC02417B2F"><a name="GUID-42B1BC77-0D29-5627-93C2-CDCC02417B2F"><!-- --></a><p>The base class
+for Server MTMs is CBaseServerMtm. </p> </li>
+</ul> <p> <strong> Important:</strong> MTMs can also provide message type-specific
+functionality that is not defined by the base class interfaces. For
+example, for IMAP4, perform a full synchronization with a remote service;
+for POP3, connect to a remote server and download messages. The APIs
+for the client interfaces are extensible through run time type information
+provided by the QueryCapability API, and the InvokeAsyncFunction and InvokeSyncFunction APIs. </p> <p>For information on how to implement the base classes,
+see the MTM
+Implementation Tutorial. </p> </div>
+<div id="GUID-E6D21CD2-03C3-45F3-90CA-571AF6394AFC"><h3 class="section-title">MTM
+functions</h3><p>The MTM DLLs provide the following functions.
+MTMs implement them according to the requirements for the message
+type: </p><ul>
+<li id="GUID-56E24547-DA0C-5B01-B68C-4A928D07802F"><a name="GUID-56E24547-DA0C-5B01-B68C-4A928D07802F"><!-- --></a><p><strong>Querying
+functionality</strong> </p> <p>Allow the client applications to query the
+supported functionality for the message type. For example, the maximum
+message size or whether attachments are supported. </p> </li>
+<li id="GUID-110AFD4C-09D8-585D-B078-6DCD1A4525B4"><a name="GUID-110AFD4C-09D8-585D-B078-6DCD1A4525B4"><!-- --></a><p><strong>Message management
+functionality</strong> </p> <p>Allow the client applications to manage
+the messages, for example, to send, reply and forward messages. </p> </li>
+<li id="GUID-92F32F80-8E5F-56F9-B35B-99A2934C50E5"><a name="GUID-92F32F80-8E5F-56F9-B35B-99A2934C50E5"><!-- --></a><p><strong>Attachment
+management functionality</strong> </p> <p>Allow the client applications
+to handle attachments. For example, to add, remove or create an attachment
+for a particular message. </p> </li>
+</ul></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-B394A824-8745-505E-8429-8B9B6D418387.html">Message
+Server and Store</a></li><li><a href="GUID-400E4702-973A-5CAC-9F9C-3A10121F856A.html">Types
+of MTM</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 17th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-59217FA7-3078-53CA-88B3-78D6FB788271.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:32 GMT -->
+</html>

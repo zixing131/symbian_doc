@@ -1,0 +1,67 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AF07AD54-86F1-5DB7-80FF-633A559DA4BD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Creating Processes and Threads" /><meta name="DC.Relation" scheme="URI" content="GUID-6590B534-D976-5305-BE95-48DD05120DFB#GUID-3CA8FF29-79B4-5D43-8A23-EDB136BF7A8F" /><meta name="DC.Relation" scheme="URI" content="GUID-ADB9AD91-37A2-4FE6-B378-C43CD0A7B513" /><meta name="DC.Relation" scheme="URI" content="GUID-545DA961-217E-49CA-A90E-7A41E2C03A99" /><meta name="DC.Relation" scheme="URI" content="GUID-B58D282E-E6EC-4AE1-96DB-30A5FB850563" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-C4C85189-BA6F-5F11-ABB3-727D8C1F5984" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-AF07AD54-86F1-5DB7-80FF-633A559DA4BD" /><meta name="DC.Language" content="en" /><title>Creating
+Processes and Threads  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-AF07AD54-86F1-5DB7-80FF-633A559DA4BD">Creating
+Processes and Threads </h1><div>
+<div id="GUID-6E0A2832-98BA-54AF-B7A7-28DFFD5FEC76"><h3 class="section-title">Introduction</h3> <p>Process
+creation on Unix-like machines is normally done in two stages. Firstly, <code class="codeph">fork()</code> is
+called. This creates a child process, which is a clone of the calling (parent)
+process. The child process is identical (except for a few details) to the
+parent. Secondly, a call to one of the <code class="codeph">exec()</code> family functions
+is invoked by the child which changes the program being executed by that process.
+For more information about <code class="codeph">fork()</code> or <code class="codeph">exec()</code>,
+see <a href="http://www.opengroup.org/" target="_blank">Open Group</a>. </p> <p>P.I.P.S.
+does not support <code class="codeph">fork()</code> and <code class="codeph">exec()</code> and the
+reasons for the same are described in the following sections. However, there
+are industry standard alternatives supported by P.I.P.S. and are detailed
+in the following sections: </p> <ul>
+<li><p><a href="GUID-ADB9AD91-37A2-4FE6-B378-C43CD0A7B513.html">Alternatives
+to <code class="codeph">fork()</code> and <code class="codeph">exec()</code> for creating child
+processes</a></p></li>
+<li><p><a href="GUID-545DA961-217E-49CA-A90E-7A41E2C03A99.html">Forking without <code class="codeph">exec()</code></a></p></li>
+<li><p><a href="GUID-B58D282E-E6EC-4AE1-96DB-30A5FB850563.html"><code class="codeph">exec()</code> without
+forking using <code class="apiname">posix_spawn()</code></a></p></li>
+</ul> <p><strong>Omission of fork()</strong> </p> <p>A Unix-like kernel is designed
+with the two stage process creation in mind. On the Symbian platform (and
+Microsoft Windows®), the kernel was designed to create a process, which runs
+a single executable, in a single step. </p> <p>P.I.P.S. does not implement
+the <code class="codeph">fork()</code> operation because this would require an entirely
+new way of dealing with processes in the kernel and memory model. For example,
+duplicating the address space of an existing process was not something that
+was considered in the Symbian platform kernel's design. Symbian took this
+decision as the effort involved in customising this feature would be more
+than the benefit of providing the <code class="codeph">fork()</code> function, especially
+in the provision of Pthreads. For more information about Pthreads, see the <a href="http://en.wikipedia.org/wiki/POSIX_Threads" target="_blank">Pthread
+Wikipage</a>. </p> <p><strong>Omission of exec()</strong> </p> <p>On Unix-like systems, <code class="codeph">exec()</code> is
+the standard way to load a process image into memory. Only the initialisation
+process is loaded directly into a new address space (special case code in
+the kernel), all other processes are loaded into an existing address space
+which was initially created by forking. </p> <p>On the Symbian
+platform, the only way to load a process image into memory is using the loader.
+It assumes that the image is being loaded as a new process - one that owns
+no resources, has no open handles and so on. The change to the loader and
+any associated kernel changes, to support the <code class="codeph">exec()</code> function
+were deemed to be too risky. </p> <p><strong>Generic IPC</strong> </p> <p>P.I.P.S. supports
+two types of Inter-Process Communication (IPC) between processes or threads: </p> <ul>
+<li><p> <strong>Pipes (named and unnamed):</strong> Unnamed pipes are created using pipe() and
+named pipes are created using mkfifo(). Pipe-based communication
+is also possible between a parent and a child process when the child is created
+using popen() or popen3(). </p></li>
+<li><p> <strong>Local file sockets:</strong> These correspond to sockets created with <code class="codeph">AF_LOCAL/PF_LOCAL/AF_UNIX</code> as
+the address family. The semantics of their use are similar to those of their
+Unix equivalents. </p></li>
+</ul> </div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-ADB9AD91-37A2-4FE6-B378-C43CD0A7B513.html">Alternatives
+to fork() and exec() for creating child
+processes</a><div class="linkdesc">P.I.P.S. supports some industry standard alternatives for <code class="codeph">fork()</code> and <code class="codeph">exec()</code> while
+creating child processes. The scenarios are discussed in the following sections:</div></li><li class="ulchildlink"><a href="GUID-545DA961-217E-49CA-A90E-7A41E2C03A99.html">Forking without exec()</a><div class="linkdesc">A Unix-like system may create the child process using <code class="codeph">fork()</code>, which then does not make a subsequent <code class="codeph">exec()</code> call. The result of this is that the parent and child processes
+run the same executable. The child may communicate with the parent
+using pipes. One example of a system which does this is the email
+software program Exim (www.exim.org). In addition to forking without <code class="codeph">exec()</code>, it can also <code class="codeph">re-exec()</code> itself to
+regain dropped root privileges.</div></li><li class="ulchildlink"><a href="GUID-B58D282E-E6EC-4AE1-96DB-30A5FB850563.html">exec() without
+forking using posix_spawn()</a></li></ul><h3>Related information</h3><ul><li><a href="GUID-6590B534-D976-5305-BE95-48DD05120DFB.html#GUID-3CA8FF29-79B4-5D43-8A23-EDB136BF7A8F">One Definition Rule - warning</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 28th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AF07AD54-86F1-5DB7-80FF-633A559DA4BD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+</html>

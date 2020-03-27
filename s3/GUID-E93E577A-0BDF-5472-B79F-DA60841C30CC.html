@@ -1,0 +1,68 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E93E577A-0BDF-5472-B79F-DA60841C30CC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:45 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Cleanup requirements" /><meta name="abstract" content="This document describes the requirements for cleanup after a function leaves." /><meta name="description" content="This document describes the requirements for cleanup after a function leaves." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-61DEE78D-4E78-5367-BC8A-F99D3B4E9D5A" /><meta name="DC.Relation" scheme="URI" content="GUID-E7D29464-05E1-5039-8A02-62CB27B5FF21" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E93E577A-0BDF-5472-B79F-DA60841C30CC" /><meta name="DC.Language" content="en" /><title>Cleanup
+requirements </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E93E577A-0BDF-5472-B79F-DA60841C30CC">Cleanup
+requirements</h1><div><p>This document describes the requirements for cleanup after a function
+leaves.</p>
+<p>When a function leaves, it transfers control directly to the statement
+following the <code class="codeph">TRAP</code> (or <code class="codeph">TRAPD</code>) macro under
+which it was invoked. This is carried out by setting the stack pointer to
+the context of the original <code class="codeph">TRAP</code> macro, and jumping to the
+desired program location. Therefore,</p>
+<ul>
+<li id="GUID-FFC56E72-DCCD-5B0C-BDF4-41EE76BB808E"><a name="GUID-FFC56E72-DCCD-5B0C-BDF4-41EE76BB808E"><!-- --></a><p>any objects created
+as automatic variables, passed by value as arguments, or created as member
+variables of other objects so created, will be <em>orphaned</em>:
+their destructor will not be called, and any resources they claim except for
+storage space on the stack, cannot be recovered.</p> </li>
+</ul>
+<p>This key aspect of Symbian platform exceptions has far-reaching implications:</p>
+<ul>
+<li id="GUID-587C3891-CE53-5F83-96E9-94E17E869CBA"><a name="GUID-587C3891-CE53-5F83-96E9-94E17E869CBA"><!-- --></a><p>There should be a clear
+distinction between objects which can be safely orphaned, and those which
+cannot. </p> <p>This is embodied in the naming convention for types. All types
+beginning with <code class="codeph">T</code> can be safely orphaned, including, for instance, <code class="codeph">TInt</code>, <code class="codeph">TPoint</code>, <code class="codeph">TPtr</code> and many others. Such objects can be freely allocated on the stack.</p> <p>The
+basic requirement for <code class="codeph">T</code> objects is that all their data is
+contained internally. Pointers, handles and references to data owned by the <code class="codeph">T</code> object
+are not allowed (although such references to data owned by other objects is
+allowed).</p> <p><code class="codeph">C</code> objects must never be orphaned: they should
+never be allocated on the stack.</p> <p><code class="codeph">R</code> objects may contain
+handles to external resources, but are generally designed so that the R object
+can be copied without copying its resources. Copied <code class="codeph">R</code> objects
+may therefore be allocated on the stack: the stack-allocated copies may safely
+be orphaned, provided the resources are safely accessible by some other means.</p> </li>
+</ul>
+<ul>
+<li id="GUID-9550E9C4-F908-5AED-9294-8D74D73AA3CE"><a name="GUID-9550E9C4-F908-5AED-9294-8D74D73AA3CE"><!-- --></a><p>Objects which cannot
+be safely orphaned must, if allocated inside the trap harness, be accessible
+somehow so they can be cleaned up. </p> </li>
+</ul>
+<p>The <em>cleanup stack</em> is the Symbian platform mechanism for handling
+this last problem. </p>
+<div id="GUID-459CE643-4A19-41E2-8251-92F0EA6A5C7D"><h3 class="section-title">Example</h3> <p>The problem for heap-allocated resources
+is shown below. If the call to <code class="codeph">DoSomethingL()</code> leaves, the <code class="codeph">CExample</code> object
+would be <em>orphaned</em> on the heap: the memory used for it could
+not have been recovered until the program terminates.</p> <pre class="codeblock">void doExampleL()
+ {
+ // An T-type object: can be declared on the stack
+ TBuf&lt;10&gt; buf;
+
+ // A C-type object: must be allocated on the heap
+ // Allocate and leave if can not
+ CExample* myExample = new (ELeave) CExample;
+
+ // do something that cannot leave: no protection needed
+ myExample-&gt;iInt = 5; 
+
+ // PROBLEM: do something that can leave
+ myExample-&gt;DoSomethingL();
+   
+ // delete
+ delete myExample;
+ }</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E93E577A-0BDF-5472-B79F-DA60841C30CC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:45 GMT -->
+</html>

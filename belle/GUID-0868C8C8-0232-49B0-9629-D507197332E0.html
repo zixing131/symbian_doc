@@ -1,0 +1,186 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0868C8C8-0232-49B0-9629-D507197332E0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Sharing a File or Data" /><meta name="abstract" content="This section explains how to share a file using the Application Interworking (AIW) Service Handler API." /><meta name="description" content="This section explains how to share a file using the Application Interworking (AIW) Service Handler API." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0868C8C8-0232-49B0-9629-D507197332E0" /><meta name="DC.Language" content="en" /><title>Sharing a File or Data </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0868C8C8-0232-49B0-9629-D507197332E0">Sharing a File or Data</h1><div><p>This section explains how to share a file using the Application
+Interworking (AIW) Service Handler API. </p>
+<div id="GUID-6D8A777E-BA2B-4351-A791-874D586244F3"><h3 class="section-title">Context</h3> <p> The
+AIW Service Handler API listens to NFC connections and provides data
+to the callback method. </p><p>The NFC AIW API provides the following
+callbacks via MAiwNotifyCallback::HandleNotifyL():</p><ul>
+<li><p><strong>NFC power on</strong>: This callback is called with the <code class="codeph">KAiwCmdNFCGive</code> command and the <code class="codeph">KAiwEventStarted</code> event identifier. The event parameter contains one parameter with
+the semantic id <code class="codeph">KNfcSemanticIdNfcPowerInfo</code> and value <code class="codeph">KNfcPowerOn</code>. </p></li>
+<li><p><strong>NFC sharing started</strong>: This callback is called when NFC
+connection hand over is complete and Bluetooth bearer connection is
+up. It is called with the<code class="codeph">KAiwCmdNFCGive</code> command and
+the <code class="codeph">KAiwEventStarted</code> event identifier, the event
+parameter list is empty. The application is then expected to provide
+the item(s) currently in focus to the NFC AIW provider. <code class="codeph">RFile</code> or <code class="codeph">RArray</code> types are supported and need to be stored
+into the <code class="codeph">AiwGenericParamList&amp; aInParamList</code> parameter
+of the <code class="codeph">ExecuteServiceCmdL</code> method.</p></li>
+<li><div class="p"><strong>Error callback</strong>: This callback is called in case of error.
+This callback is called with the <code class="codeph">KAiwCmdNFCGive</code> command
+and the <code class="codeph">KAiwEventStarted</code> event identifier. The event
+parameter contains one parameter with semantic id <code class="codeph">KNfcSemanticIdNfcPowerInfo</code> and error value.<div class="tablenoborder"><a name="GUID-BBEDD396-678E-4EA6-8AF4-600A967D7833"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-BBEDD396-678E-4EA6-8AF4-600A967D7833" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="24.5%" id="d0e429136"><p>Error Values</p></th>
+<th class="cellrowborder" valign="top" width="75.5%" id="d0e429140"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="24.5%" headers="d0e429136 "><p>KErrHardwareNotAvailable</p></td>
+<td class="cellrowborder" valign="top" width="75.5%" headers="d0e429140 "><p>NFC feature is not available or turned OFF by user. Sharing
+is not possible. The client application should instruct the user to
+turn the NFC ON.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="24.5%" headers="d0e429136 "><p>KErrAbort</p></td>
+<td class="cellrowborder" valign="top" width="75.5%" headers="d0e429140 "><p>Bluetooth could not be enabled in offline mode. Sharing
+is not possible.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="24.5%" headers="d0e429136 "><p>System wide error values</p></td>
+<td class="cellrowborder" valign="top" width="75.5%" headers="d0e429140 "><p>Error occurred during transfer or during prepare phase.
+Call <code class="codeph">Reset()</code> and retry with the new prepare call.</p></td>
+</tr>
+</tbody>
+</table></div></div><div class="note"><p><strong class="note_title">Note: </strong>Errors related to <code class="codeph">KAiwCmdNFCEasySetup</code> command is called back with <code class="codeph">KAiwEventError</code> and
+empty parameter list.</p></div></li>
+<li><p><strong>NFC sharing completed</strong>: The <code class="codeph">HandleNotifyL()</code> callback is called after the file is sent and the NFC transfer is
+completed. It is called with the <code class="codeph">KAiwCmdNFCGive</code> command
+and the KAiwEventCompleted event identifier, the
+event parameter list is empty. The application can then send another
+file or if the transfer is completed it must release the connection
+by calling the <code class="codeph">Reset()</code> method on <code class="codeph">CAiwServiceHandler</code> object.</p></li>
+</ul></div><div id="GUID-9B93FA37-733B-4819-86EA-D26FD77470A0"><h3 class="section-title">Prerequisites</h3><p>Before you
+begin, refer to the following: </p><ul>
+<li><p><a href="GUID-B6BDE53C-A583-4CC1-B8B9-5A1BBA59C8B1.html#GUID-702DFD90-CFEB-4F06-854D-72EF1322AA70">Sharing Enquiry</a></p></li>
+</ul></div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-9CB55F69-F9F8-4E82-9B42-16B5F45BB629"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-9CB55F69-F9F8-4E82-9B42-16B5F45BB629"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-9CB55F69-F9F8-4E82-9B42-16B5F45BB629"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-9CB55F69-F9F8-4E82-9B42-16B5F45BB629"><!-- --></a><p>Define an <code class="codeph">AIW_INTEREST</code> resource element in the resource file using <code class="codeph">KAiwCmdNFCGive</code> as a service command and <code class="codeph">KAiwClassBase</code> as a service class:</p>
+<div class="p"><p><strong>Example: </strong><pre class="codeblock">RESOURCE AIW_INTEREST r_example_app_aiw_nfc_interest
+    {
+    items =
+        {
+        AIW_CRITERIA_ITEM
+            {
+            id              = 200000;
+            serviceCmd      = KAiwCmdNFCGive;
+            contentType     = "*";
+            serviceClass    = KAiwClassBase;
+            maxProviders    = 1;
+            }
+        };
+    }
+</pre></p></div>
+</li>
+<li id="GUID-ED8019C1-8F08-4844-8B72-3500E170E291"><a name="GUID-ED8019C1-8F08-4844-8B72-3500E170E291"><!-- --></a><p>Include <code class="codeph">aiwcommon.h</code> and <code class="codeph">AiwServiceHandler.h</code> header
+files in the application source files, and link to the <code class="codeph">servicehandler.lib</code> library in the MMP file.</p>
+</li>
+<li id="GUID-4B0AF6E4-E5C1-4F95-9158-84F749AF8E6E"><a name="GUID-4B0AF6E4-E5C1-4F95-9158-84F749AF8E6E"><!-- --></a><p>Call the <code class="codeph">ExecuteServiceCmdL</code> method without providing AIW input parameters
+to initiate listening to NFC callbacks, as shown in the following
+code snippet: </p>
+<div class="p"><p><strong>Example: </strong><pre class="codeblock">iAiwServiceHandler = CAiwServiceHandler::NewL();
+iAiwServiceHandler-&gt;AttachL( R_EXAMPLE_APP_AIW_NFC_INTEREST );
+iAiwServiceHandler-&gt;ExecuteServiceCmdL( KAiwCmdNFCGive, 
+                                        iAiwServiceHandler-&gt;InParamListL(),
+                                        iAiwServiceHandler-&gt;OutParamListL(),
+                                        KAiwOptASyncronous,
+                                        this );
+</pre></p></div>
+</li>
+<li id="GUID-B84DAA64-EEF9-4EF7-B3EE-FF802921CC1D"><a name="GUID-B84DAA64-EEF9-4EF7-B3EE-FF802921CC1D"><!-- --></a><p>Implement <code class="codeph">MAiwNotifyCallback::HandleNotifyL()</code> (declared in <code class="codeph">aiwcommon.h</code>) to receive callback notifications, as shown
+in the following sample code snippet:</p>
+<div class="p"><p><strong>Example: </strong><pre class="codeblock">TInt CExampleApplication::HandleNotifyL(
+
+	TInt aCmdId,
+	TInt aEventId,
+	CAiwGenericParamList&amp; aEventParamList,
+	const CAiwGenericParamList&amp; /*aInParamList*/)
+   {
+   If ( aCmdId == KAiwCmdNFCGive )
+       {
+       if ( aEventId == KAiwEventStarted )
+           {
+ if( aEventParamList.Count() &gt; 0 )
+               {
+               TAiwGenericParam param = aEventParamList[0];
+               if ( param.SemanticId() == KNfcSemanticIdNfcPowerInfo ) 
+                   {
+                   if( param.Value() == KNfcPowerOn )
+                       {
+       	             // NFC is powered on and Bluetooth is enabled
+                       }
+                   }
+     else
+               { 
+               // NFC connection detected, give in a RFile handle to the
+               // file to be sent
+               iInParamList = CAiwGenericParamList::NewL();
+               TAiwGenericParam obj( EGenericParamFile,
+                   TAiwVariant( iRFile ) );
+               iInParamList-&gt;AppendL( obj );
+
+               // Send the file via NFC (asynchronous)
+               iAiwServiceHandler-&gt;ExecuteServiceCmdL( KAiwCmdNFCGive,
+                   *iInParamList, iAiwServiceHandler-&gt;OutParamListL(),
+                   KAiwOptASyncronous, this );
+               }
+           }
+       else if ( aEventId == KAiwEventCompleted )
+           {
+           // NFC transfer completed – release touch 
+           iAiwServiceHandler-&gt;Reset();
+           delete iInParamList;
+           iInParamList = NULL;
+           }
+       else // KAiwEventError
+           {
+           // In case of transfer failure release must be done.
+           // For preparation failure resetting is not necessary
+           if( aEventParamList.Count() &gt; 0 )
+               {
+               TAiwGenericParam param = aEventParamList[0];
+               if ( param.SemanticId() == KNfcSemanticIdError )
+                   {
+                   if( param.Value() == KErrHardwareNotAvailable )
+                       {
+                       // NFC not enabled. Reset must be called                               
+                       }
+                   else if( param.Value() == KErrAbort )
+                       {
+	 // Bluetooth could not be enabled in offline mode.
+ 		 // 
+                       } 
+                   else
+                       {
+                	 // other error
+                       }
+                   }
+               else
+                   {
+                   // unspecified
+                   }
+               }
+
+           iAiwServiceHandler-&gt;Reset();
+
+           delete iInParamList;
+           iInParamList = NULL;
+           }
+       }
+
+   return KErrNone;
+   } 
+
+</pre></p></div>
+</li>
+</ol>
+<div id="GUID-62737A9D-094A-4D8B-AB3E-95DF62251514"><h3 class="section-title">Results</h3><p>The file
+or data is shared between the two devices. </p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 11th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0868C8C8-0232-49B0-9629-D507197332E0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:15 GMT -->
+</html>

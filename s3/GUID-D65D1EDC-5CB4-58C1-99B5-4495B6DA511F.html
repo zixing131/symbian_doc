@@ -1,0 +1,187 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D65D1EDC-5CB4-58C1-99B5-4495B6DA511F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:52:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Text resource utility overview" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-E079315A-E5B6-4D33-B7E3-88697A3F11A4" /><meta name="DC.Relation" scheme="URI" content="GUID-61B965D9-B85E-5F40-8D56-1C0FA77D2492" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D65D1EDC-5CB4-58C1-99B5-4495B6DA511F" /><meta name="DC.Language" content="en" /><title>Text resource
+utility overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D65D1EDC-5CB4-58C1-99B5-4495B6DA511F">Text resource
+utility overview</h1><div>
+<div id="GUID-C6857C66-B599-4AA0-9ABE-469ADDE4BA5D"><h3 class="section-title">Purpose</h3> <p>Text
+Resource Utility is part of the Symbian Text Utilities. It is an API class,
+which provides static methods for loading and formatting resource strings.
+The purpose of Text Resource Utility is to make localization of the software
+easier by allowing variable order in indexing of the key strings in the resource
+string. </p> <p>Text Resource Utility provides resource string loading and
+formatting methods for other subsystems. Through simple <code class="codeph">Load()</code> and <code class="codeph">Format()</code> operation
+calls, the user can access resource strings which may contain formatting parameters
+(<code class="codeph">%U</code> for text or <code class="codeph">%N</code> for numerical). Strings
+can contain multiple instances of the same parameter. The <code class="codeph">0x0001</code> character
+has special meaning in strings; it is used to delimit different options for
+displayable string. The client of <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html"><code class="apiname">TulTextResourceUtils</code></a> is
+responsible for choosing the proper string to display from given options. </p> </div>
+<div id="GUID-BAEBDD2B-2A9D-4BE6-9078-7835CF9B4E05"><h3 class="section-title">Architectural
+Relationships</h3> <p>The implementation requires a <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html"><code class="apiname">CCoeEnv</code></a> instance
+(given as reference by the user or <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html"><code class="apiname">CCoeEnv::Static</code></a>)
+to access the resource files. </p> <p>All interface methods are static, so
+there is no need to explicitly allocate memory for the interface class. All
+functionality is accessed through exported methods of the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html"><code class="apiname">TulTextResourceUtils</code></a> class. </p> <p>The
+interface is accessed through the <code class="codeph">tultextresourceutils.h</code> header
+file. Binaries are linked to the <code class="codeph">etul.dll</code> library. </p> </div>
+<div id="GUID-3694DAEC-D25F-4E28-87EA-E1D230571003"><h3 class="section-title">Description</h3> <p><strong>Usage</strong> </p> <p>Applications
+load and format resource strings from normal resources with static methods
+of the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html"><code class="apiname">TulTextResourceUtils</code></a> class.
+The loading is done with the <code class="codeph">LoadL()</code> and <code class="codeph">LoadLC()</code> methods
+and with the <code class="codeph">Load()</code> method in situations where memory allocation
+from the heap is not possible. Formatting is done automatically after loading
+in the <code class="codeph">LoadL()</code> and <code class="codeph">LoadLC() </code> methods, but
+it can also be done separately with the <code class="codeph">Format() </code> method
+in situations where memory allocation from the heap is not possible. </p> <p>For
+reading the resource strings with the<code class="codeph"> Load()</code>, <code class="codeph">LoadL()</code> and <code class="codeph">LoadLC()</code> methods,
+the user should provide a pointer to <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html"><code class="apiname">CCoeEnv</code></a> for
+efficiency reasons. If the pointer is not provided, the implementation uses
+the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html"><code class="apiname">CCoeEnv::Static</code></a> method
+internally to get it. The user can get a pointer to <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html"><code class="apiname">CCoeEnv</code></a>,
+for example, via the <code class="codeph">iEikonEnv</code> macro (for which see <code class="codeph">&lt;eikdef.h&gt;</code>). </p> <p><strong>Scalable
+UI Support</strong> </p> <p>Different size displays can handle different length
+strings. To take full advantage of this fact, <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html"><code class="apiname">TulTextResourceUtils</code></a> supports
+resource strings with multiple options for string separated by <code class="codeph">0x0001</code> character.
+Each such string can contain same or different sub string keys (<code class="codeph">%U</code> and <code class="codeph">%N</code>). <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html"><code class="apiname">TulTextResourceUtils</code></a> returns all strings,
+it is the responsibility of the caller to parse the result and choose the
+proper string to display. </p> <p><strong>Setting the Maximum Substring Length</strong> </p> <p>This
+may be done in the text resources. Sub string maximum lengths can be localized
+separately for every language. </p> <p>The maximum sub string length is of
+the format: </p> <pre class="codeblock">%U[NN] </pre> <p>where <code class="codeph">NN</code> is
+a number <code class="codeph">[01..99]</code>. Please note that <code class="codeph">NN</code> must
+always consist of two characters, in other words, if the sub string maximum
+length is eight characters, the value to be used is <code class="codeph">08</code>, not
+plain <code class="codeph">8</code>. </p> <p>If the number of characters exceeds the
+maximum length, the sub string is cut to fit and the last character is replaced
+with an ellipsis character. </p> <p><strong>Error Handling</strong> </p> <p>The leave
+mechanism is used to handle memory exhaustion. Errors in application programming
+are handled with the panic mechanism. The error codes used are as follows: </p> <div class="tablenoborder"><a name="GUID-3320467E-C326-523F-9B44-EB8BC916BFA5"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-3320467E-C326-523F-9B44-EB8BC916BFA5" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p><code class="codeph">ETooFewArguments</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>= 0: Unsolved parameters in the resource string. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p><code class="codeph">ETooManyArguments</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>= 1: Already solved all parameters in the resource string. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p><code class="codeph">EKeyStringNotFound</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>= 2: The key string was not found in formatting. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p><code class="codeph">EInvalidIndex</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>= 3: Invalid index in the Format method. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p><code class="codeph">EDescriptorTooSmall</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>= 4: Too small destination descriptor. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p><code class="codeph">ECCoeEnvNotInitialized</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>= 5: <code class="codeph">CCoeEnv</code> not initialized. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p><code class="codeph">EInvalidSubstitute</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>= 6: Substituted string contains substring separator (i.e. 0x0001). </p> </td>
+</tr>
+</tbody>
+</table></div> <p><strong>Example</strong> </p> <p>The following example describes the usage
+of the Text Resource Utility component: </p> <pre class="codeblock">/*  Using examples: */
+
+#include &lt;tultextresourceutils.h&gt;
+
+// Get CCoeEnv instance
+CEikonEnv* iEikonEnv = CEikonEnv::Static();
+
+/*
+*   One TInt to add:
+*/
+
+//(In .loc -file)
+#define TEXT_EXAMPLE "You have %N undone tasks."
+
+//(In .rss -file)
+RESOURCE TBUF R_TEXT_EXAMPLE { buf = TEXT_EXAMPLE; }
+
+//(In the .cpp -file)
+TInt number( 324 );
+
+//
+//iEikonEnv is needed for loading the resource string.
+//
+HBufC* stringholder = TulTextResourceUtils::LoadL( R_TEXT_EXAMPLE, number, iEikonEnv );
+
+//
+//The TInt in number is added to the resource string. The result is
+//that stringholder points to a heap descriptor containing string:
+//"You have 324 undone tasks."
+//
+
+/*
+*   Several strings to add:
+*/
+
+//(In a .loc -file)
+#define TEXT_EXAMPLE "I'm %2U%1U %3U%0U fine." 
+
+//(In an .rss -file)
+RESOURCE TBUF R_TEXT_EXAMPLE { buf = TEXT_EXAMPLE; }
+
+//(In the .cpp -file)
+CDesCArrayFlat* strings = new CDesCArrayFlat( 4 );
+CleanupStack::PushL( strings );
+
+strings-&gt;AppendL( _L("orking") ); //First string
+
+strings-&gt;AppendL( _L("ll") ); //Second string
+
+strings-&gt;AppendL( _L("sti") ); //Third string
+
+strings-&gt;AppendL( _L("w") ); //Fourth string
+
+//
+//iEikonEnv is needed for loading the resource string.
+//
+HBufC* stringholder = TulTextResourceUtils::LoadL( R_TEXT_EXAMPLE, *strings, iEikonEnv );
+
+//
+//The strings in strings are added to the resource string. The result is
+//that stringholder points to a heap descriptor containing string:
+//"I'm still working fine."
+//
+
+/*
+* Scalable UI support
+*/
+//(In .loc -file)
+#define TEXT_EXAMPLE "You have missed %N messages from %U."&lt;0x0001&gt;"Missed %N msgs from %U."&lt;0x0001&gt;"Missed %N msgs."
+
+//(In .rss -file)
+RESOURCE TBUF R_TEXT_EXAMPLE { buf = TEXT_EXAMPLE; }
+
+//(In the .cpp -file)
+TInt number( 12 );
+_LIT(name, “John Doe”);
+
+//
+//iEikonEnv is needed for loading the resource string.
+//
+HBufC* stringholder = TulTextResourceUtils::LoadL(R_TEXT_EXAMPLE,name,number,iEikonEnv);
+
+//
+//The number and name are added to the resource string. The result is
+//that stringholder points to a heap descriptor containing string:
+//"You have missed 12 messages from John Doe.\001Missed 12 msgs from John
+// Doe.\001Missed 12 msgs."
+//
+
+CleanupStack::PopAndDestroy(); //strings
+</pre> <p>For more information on individual methods, please see the
+reference API for <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TulTextResourceUtils']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E19C9DB8-2C8B-366B-B650-2673B066256D.html"><code class="apiname">TulTextResourceUtils</code></a>. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 1st, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D65D1EDC-5CB4-58C1-99B5-4495B6DA511F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:52:34 GMT -->
+</html>

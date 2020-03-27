@@ -1,0 +1,52 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F389671B-FC30-561B-BF48-E597D0CB2D47.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Using Secure Sockets : Tutorial" /><meta name="abstract" content="This topic describes how to use secure sockets." /><meta name="description" content="This topic describes how to use secure sockets." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-B144EAB9-53AB-579B-9E12-B16518E4FC01" /><meta name="DC.Relation" scheme="URI" content="GUID-198A417F-EA4D-58A0-A928-A78FCE1BB772" /><meta name="DC.Relation" scheme="URI" content="GUID-3D20F136-4526-502D-A708-1F26550FC61A" /><meta name="DC.Relation" scheme="URI" content="GUID-D430A6E4-003C-5368-893B-D7FCD5ADCAAD" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F389671B-FC30-561B-BF48-E597D0CB2D47" /><meta name="DC.Language" content="en" /><title>Using
+Secure Sockets : Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-F389671B-FC30-561B-BF48-E597D0CB2D47">Using
+Secure Sockets : Tutorial</h1><div><p>This topic describes how to use secure sockets. </p>
+<h3>Steps</h3><ol id="GUID-9C1C62FF-403D-5B8A-BB71-C6B931C23D88"><a name="GUID-9C1C62FF-403D-5B8A-BB71-C6B931C23D88"><!-- --></a>
+<li id="GUID-4C65F526-6188-5957-9F2B-EC9C697C00D7"><a name="GUID-4C65F526-6188-5957-9F2B-EC9C697C00D7"><!-- --></a><p>Open a socket using
+RSocket::Open() function and connect it with RSocket::Connect() function. </p>
+</li>
+<li id="GUID-3B20F63F-1CB8-5DA8-9228-5DD96EDC9C4B"><a name="GUID-3B20F63F-1CB8-5DA8-9228-5DD96EDC9C4B"><!-- --></a><p></p>
+Create a secure socket by calling CSecureSocket::NewL() function with
+the parameters as socket and secure protocol name. 
+</li>
+<li id="GUID-200AFAD0-FE35-5213-9B26-CA4714F2FECC"><a name="GUID-200AFAD0-FE35-5213-9B26-CA4714F2FECC"><!-- --></a><p></p>
+To start the application acting as a client, use the CSecureSocket::StartClientHandshake()
+function to initiate a handshake with the remote server. To start the application
+acting as a server, use the CSecureSocket::StartServerHandshake() function. 
+The call completes with an error code, if the handshake fails. 
+</li>
+</ol>
+<div><h3 class="section-title">Secure Sockets example</h3> <p>In the following example
+iSocket is a reference to the already opened and connected socket and KSSLProtocol
+is the descriptor containing the name of a protocol, in this case TLS1.0.
+The function should return a pointer to the CSecureSocket. </p> <pre class="codeblock">
+// Connect the socket server
+   User::LeaveIfError(iSocketServ.Connect());
+// Open the socket
+   User::LeaveIfError(iSocket.Open(iSocketServ, KAfInet, KSockStream, KProtocolInetTcp)); 
+//Connect the socket
+   connectInetAddr.SetAddress(KTestAddress);
+   connectInetAddr.SetPort(KSSLPort);  //TLS port
+
+   iSocket.Connect(connectInetAddr, iStatus); 
+
+   ...
+
+    
+// Construct the Tls socket
+   iTlsSocket = CSecureSocket::NewL(iSocket, KSSLProtocol());
+
+// start the handshake 
+   iTlsSocket-&gt;StartClientHandshake(iStatus);
+
+</pre> </div>
+<div><h3 class="section-title">Next actions</h3><p>Use CSecureSocket::Send() to send data over the socket. Use CSecureSocket::Recv()
+and CSecureSocket::RecvOneOrMore() to receive data from the socket. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 6th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F389671B-FC30-561B-BF48-E597D0CB2D47.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:25 GMT -->
+</html>

@@ -1,0 +1,796 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_hierarchical_lists_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:10:27 GMT -->
+<head><title>Hierarchical Lists API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i484"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Hierarchical Lists API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.2</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.3</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Creating_hierarchical_list_instance"><span class="tocnumber">2.1</span> <span class="toctext">Creating hierarchical list instance</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Creating_a_CAknSingleStyleTreeList_instance"><span class="tocnumber">2.1.1</span> <span class="toctext">Creating a CAknSingleStyleTreeList instance</span></a></li>
+<li class="toclevel-3"><a href="#Creating_a_CAknSingleColumnStyleTreeList_instance"><span class="tocnumber">2.1.2</span> <span class="toctext">Creating a CAknSingleColumnStyleTreeList instance</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Populating_the_list"><span class="tocnumber">2.2</span> <span class="toctext">Populating the list</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Adding_items_to_a_single_style_list"><span class="tocnumber">2.2.1</span> <span class="toctext">Adding items to a single style list</span></a></li>
+<li class="toclevel-3"><a href="#Adding_items_to_a_single_column_style_list"><span class="tocnumber">2.2.2</span> <span class="toctext">Adding items to a single column style list</span></a></li>
+<li class="toclevel-3"><a href="#Adding_icons_to_the_list"><span class="tocnumber">2.2.3</span> <span class="toctext">Adding icons to the list</span></a></li>
+<li class="toclevel-3"><a href="#Setting_icons_for_the_items"><span class="tocnumber">2.2.4</span> <span class="toctext">Setting icons for the items</span></a></li>
+<li class="toclevel-3"><a href="#Replacing_icons_in_the_list"><span class="tocnumber">2.2.5</span> <span class="toctext">Replacing icons in the list</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Removing_item_from_the_list"><span class="tocnumber">2.3</span> <span class="toctext">Removing item from the list</span></a></li>
+<li class="toclevel-2"><a href="#Expanding_a_node"><span class="tocnumber">2.4</span> <span class="toctext">Expanding a node</span></a></li>
+<li class="toclevel-2"><a href="#Collapsing_a_node"><span class="tocnumber">2.5</span> <span class="toctext">Collapsing a node</span></a></li>
+<li class="toclevel-2"><a href="#Moving_focus"><span class="tocnumber">2.6</span> <span class="toctext">Moving focus</span></a></li>
+<li class="toclevel-2"><a href="#Selecting_an_item"><span class="tocnumber">2.7</span> <span class="toctext">Selecting an item</span></a></li>
+<li class="toclevel-2"><a href="#Sorting"><span class="tocnumber">2.8</span> <span class="toctext">Sorting</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.9</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.10</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Extensions_to_the_API"><span class="tocnumber">2.11</span> <span class="toctext">Extensions to the API</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The purpose of the Hierarchical Lists API is to provide client applications
+means for presenting a view into their hierarchical data structures consisting
+of text and graphics.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>aknhlist.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/hierarchical_lists_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/hierarchical_lists_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Hierarchical Lists API is a library API that provides an interface to the
+hierarchical list UI components implemented in the Hierarchical Lists library.
+The API is targeted for end user applications that want to present their data
+structures for the user in a hierarchical list format.
+</p><p>Hierarchical List is a list that can display list items in a hierarchical
+structure. The hierarchical list items are divided into leaves and nodes.
+Nodes are item types that form the hierarchy in the list. They can contain
+other list items, including other nodes, and can be expanded and collapsed
+to display or hide their content. Leaves are list item types, that cannot
+contain any other items.
+</p><p>The client applications can use the API for creating local hierarchical
+list instances, populating the list instances with list items, modifying list
+content and structure, and displaying the list for the user. The list client
+is responsible for mediating key and pen events to the list, so that the user
+may interact with the list. The client is also responsible for reacting to
+the user actions.
+</p><p>The Hierarchical Lists library contains implementations for two different
+hierarchical list type: Single style hierarchical list and single column style
+hierarchical list.
+</p><p><b> Single style hierarchical list</b>
+</p><p>Single style hierarchical list is a basic hierarchical list UI component
+that can contain items consisting of single line of text, one icon, and two
+optional icons. The items are one of the following two types:
+</p>
+<ul><li> <b> Leaf</b> is the basic leaf item type that can represent, for example,
+</li></ul>
+<p>a file in the directory listing. The leaf item has a default icon representing
+the generic document.
+</p>
+<ul><li> <b> Node</b> is the basic node item type that can represent, for example,
+</li></ul>
+<p>a folder in the directory listing. The node item uses default icons that represent
+expanded and collapsed folders.
+</p><p>By default, the items in a single style tree list are indented according
+to their hierarchy and, tree structure lines are drawn to emphasize the hierarchical
+structure and to show the relations between list items. These properties can
+be turned off when necessary. [Hierarchical_Lists_API_Specification.topic2_fig1 Figure 1] below
+shows an example of a single style hierarchical list. The <span class="plainlinks"><code>CAknSingleStyleTreeList</code> </span> class
+contains an implementation for this hierarchical list type.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Hierarchical_Lists_API_Hierarchcal_List_Example.png" title="Hierarchical list"><img alt="Hierarchical list" border="0" height="330" src="images/SPB_10_1_Hierarchical_Lists_API_Hierarchcal_List_Example.png" width="250" /></a></div>
+<div style="text-align:center"><i>Hierarchical list</i></div>
+<p><b> Single column style hierarchical list</b>
+</p><p>The name for single column style hierarchical list comes form the fact
+that one of its item types can display text in several columns. Opposite to
+the single style hierarchical list, the single column style hierarchical list
+provides support for marking, but does not allow the indention of list item
+according to the hierarchy. Single column style hierarchical list contains
+items of three different types:
+</p>
+<ul><li> <b> Simple data row</b> is a simple leaf item type that consist of single
+</li></ul>
+<p>line of text, one leaf icon, and one optional indicator icon. No default icons
+is set for simple data row.
+</p>
+<ul><li> <b> Core data row</b> is a leaf item type that consist of a single line
+</li></ul>
+<p>of text that is divided up to three columns, one leaf icon, and two optional
+indicator icons. The number of available columns depends on the used layout;
+the third column is usable only in landscape orientation. No default icons
+is set for core data row.
+</p>
+<ul><li> <b> Subtitle row</b> is a node item type. It is otherwise similar to simple
+</li></ul>
+<p>data row, but can have separate node icons for expanded and collapsed state.
+By default, the subtitle row uses the expanded and collapsed folder icons.
+[Hierarchical_Lists_API_Specification.topic2_fig2 Figure 2] below shows an example of single
+column style hierarchical list. The core data row at the bottom of the list
+is set to have three different text column, but the third column is displayed
+only in landscape orientation. Note also that, due to the lack of indention
+and tree structure lines, the hierarchical structure is not apparent from
+the list, and hence, the number of levels in the list should be restricted
+to two. The <span class="plainlinks"><code>CAknSingleColumnStyleTreeList</code> </span> class contains
+an implementation for this hierarchical list type.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Hierarchical_Lists_API_Hierarchcal_Column_List_Example.png" title="Hierarchical column list"><img alt="Hierarchical column list" border="0" height="331" src="images/SPB_10_1_Hierarchical_Lists_API_Hierarchcal_Column_List_Example.png" width="591" /></a></div>
+<div style="text-align:center"><i>Hierarchical column list</i></div>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.2 Use Cases </span></h3>
+</a><p>Use cases of Hierarchical Lists API are illustrated in [Hierarchical_Lists_API_Specification.topic2.1_fig3 Figure 3].
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Hierarchical_Lists_API_Use_Cases.png" title="Use cases of Hierarchical Lists API"><img alt="Use cases of Hierarchical Lists API" border="0" height="475" src="images/SPB_10_1_Hierarchical_Lists_API_Use_Cases.png" width="582" /></a></div>
+<div style="text-align:center"><i>Use cases of Hierarchical Lists API</i></div>
+<p>The above figure contains the following use cases:
+</p><p><b> Create List</b>
+</p>
+<ul><li> Construct an instance of one of the provided hierarchical list classes.
+</li></ul>
+<p><b> Add Item</b>
+</p>
+<ul><li> Add new item to created list instance.
+</li><li> Add new icon to the list or replace existing icon in the list.
+</li><li> Set list item to use some of the default icons or icons added to the list.
+</li></ul>
+<p><b> Expand Node</b>
+</p>
+<ul><li> List node is expanded by client application or by end user.
+</li><li> Observers of the list are notified of the event.
+</li></ul>
+<p><b> Collapse Node</b>
+</p>
+<ul><li> List node is collapsed either by the client application or by the end
+</li></ul>
+<p>user.
+</p>
+<ul><li> The content of the collapsed node may be removed from the list.
+</li><li> Observers of the list are notified of the event.
+</li></ul>
+<p><b> Remove Item</b>
+</p>
+<ul><li> The item is removed from the list.
+</li><li> Observers of the list are notified of the event.
+</li></ul>
+<p><b> Move Focus</b>
+</p>
+<ul><li> Focus is moved either by the client application or by the end user.
+</li><li> Observers of the list are notified of the event.
+</li></ul>
+<p><b> Select Item</b>
+</p>
+<ul><li> The user selects a focused leaf item in the list with pen or key event.
+</li><li> Observers of the list are notified of the event.
+</li></ul>
+<p><b> Sort List</b>
+</p>
+<ul><li> The client application sets new ordering for the list, which sorts the
+</li></ul>
+<p>whole list, or
+</p>
+<ul><li> The client application sorts the content of single node or tree branch.
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.3 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknSingleColumnStyleTreeList <td><span class="plainlinks"><code>/epoc32/include/mw/aknsinglecolumnstyletreelist.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAknSingleStyleTreeList</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknsinglestyletreelist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknTreeList</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/akntreelist.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknCustomTreeOrdering</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/akncustomtreeordering.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknTreeListObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/akntreelistobserver.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/aknhlistpanic.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/akntreelistconstants.h</code></span>
+</td></tr>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Hierarchical_Lists_API_Class_Diagram.png" title="API class structure"><img alt="API class structure" border="0" height="378" src="images/SPB_10_1_Hierarchical_Lists_API_Class_Diagram.png" width="612" /></a></div>
+<div style="text-align:center"><i>API class structure</i></div>
+<p>[Hierarchical_Lists_API_Specification.topic2.2_fig4 Figure 4] depicts the classes used in
+Hierarchical Lists API. The client application may use either the <span class="plainlinks"><code>CAknSingleStyleTreeList</code> </span> class
+for single style tree list, or the <span class="plainlinks"><code>CAknSingleColumnStyleTreeList</code> </span> class
+for single column style tree list. Declarations for these classes can be found
+in the<i> aknsinglestyletreelist.h</i> and<i> aknsinglecolumnstyletreelist.h</i> files
+respectively.
+</p><p>Both of the list classes are derived from the abstract <span class="plainlinks"><code>CAknTreeList</code> </span> class,
+which contains the common methods for all hierarchical list types. The base
+class declaration is located in the<i> akntreelist.h</i> file.
+</p><p>The <span class="plainlinks"><code>MAknTreeListObserver</code> </span> interface, declared in the<i> akntreelistobserver.h</i> file,
+is used in notifying the list observers of the changes in the list state.
+In order to receive these events from the list, the client application has
+to provide a realization of the interface and register it to the list. Several
+observers can be registered to the list, and each of these receives the same
+events.
+</p><p>As the list is derived from the <span class="plainlinks"><code>CCoeControl</code> </span> class, the <span class="plainlinks"><code>MCoeControlObserver</code> </span> interface
+can be used for observing the state changes in the list as well, but the <span class="plainlinks"><code>MAknTreeListObserver</code> </span> interface
+provides more detailed events.
+</p><p>Optionally, the client may provide an implementation for the <span class="plainlinks"><code>MAknCustomOrdering</code> </span> interface,
+declared in the<i> akncustomtreeordering.h</i> file. When such implementation
+is set for the list, it is used to determine the ordering between the list
+items within each tree node. By default, the items in either of the list types
+are not ordered, and they remain in the order in which they were added to
+the nodes.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>To use Hierarchical Lists API, the application has to link the Hierarchical
+Lists library to itself.
+</p><p>In general, using the API contains the following steps:
+</p>
+<ul><li> Link the Hierarchical Lists library (<i> aknhlist.lib</i>) to the client
+</li></ul>
+<p>application.
+</p>
+<ul><li> Provide realization for the <span class="plainlinks"><code>MAknTreeListObserver</code> </span> interface
+</li></ul>
+<p>class.
+</p>
+<ul><li> Create the hierarchical list instance.
+</li><li> Register the observer to the list in order to receive hierarchical list
+</li></ul>
+<p>events.
+</p>
+<ul><li> Add items to the list.
+</li><li> Set size for the list and set it visible.
+</li><li> Mediate key and pen events to the list instance.
+</li><li> Respond to user actions received through observer interface.
+</li><li> Delete list instance.
+</li></ul>
+<a name="Creating_hierarchical_list_instance"><h3> <span class="mw-headline">2.1 Creating hierarchical list instance </span></h3>
+</a><p>To use the hierarchical list UI component, the client application must
+first link itself to the Hierarchical Lists library, which contains the implementations
+for different hierarchical list types. The list usage is started by creating
+an instance of chosen list class with one of its static constructors. The
+construction may vary depending on the used list. However, the list cannot
+be constructed from resources.
+</p><p>The list instance is usually constructed as a component control of some
+application specific container class derived from the <span class="plainlinks"><code>CCoeControl</code> </span> class.
+This is not mandatory for list usage, but the list can be created as non-window-owning
+only by giving the parent control as parameter to the list constructor. If
+the container is not given to the list constructor, then the list creates
+new window for itself. The window can be later changed with the <span class="plainlinks"><code><font color="darkred">SetContainerWindowL()</font></code> </span> method.
+</p><p><b> Note:</b> When the window is constructed as window-owning,, the client
+must set the <span class="plainlinks"><code>MObjectProvider</code> </span> parent for the list with the <span class="plainlinks"><code>CCoeControl::SetMopParent()</code> </span> method.
+When the list is constructed as non-window-owning control, the given container
+is set as the object provider parent for the list.
+</p><p>After the list has been constructed, the client can change some of the
+list properties, populate the list, and set it ready to be drawn.
+</p><p>The following properties can be set with the <span class="plainlinks"><code><font color="darkred">SetFlags()</font></code> </span> method:
+</p>
+<ul><li> <span class="plainlinks"><code>KAknTreeListLooping</code> </span> changes the list looping. This means
+</li></ul>
+<p>that the focus jumps from the bottom of the list to the top when scrolling
+downwards and from the top to bottom when scrolling upwards.
+</p>
+<ul><li> <span class="plainlinks"><code>KAknTreeListNoStructureLines</code> </span> disables the structure lines
+</li></ul>
+<p>that are used to depict the hierarchical structure of the list.
+</p>
+<ul><li> <span class="plainlinks"><code>KAknTreeListMarqueeScrolling</code> </span> enables marquee scrolling
+</li></ul>
+<p>for list items. The marquee scrolling is used when the text of the focused
+item does not fully fit to the screen.
+</p>
+<ul><li> <span class="plainlinks"><code>KAknTreeListNoIndention</code> </span> disables the indention of the
+</li></ul>
+<p>list items according to the list hierarchy. When indention is disabled, the
+tree structure lines cannot be drawn, as there is no space in front of the
+list items.
+</p>
+<ul><li> <span class="plainlinks"><code>KAknTreeListMarkable</code> </span> sets the list markable. Items in
+</li></ul>
+<p>the list can always be marked by the client application through the API, but
+when the list is set markable, the list responds also to user actions by marking
+the items on defined key and pen events.
+Note that not all of these flags are applicable to every list type and
+some of the flags may be set permanently on for some list types. The applicable
+flags for each list type are specified in their header files. None of the
+flags is by default set, unless it is permanently set for the list type.
+</p><p>In addition to these flags, the <span class="plainlinks"><code>CAknTreeList</code> </span> class contains
+the <span class="plainlinks"><code><font color="darkred">EnableTabModeFunctionIndicatorsL()</font></code> </span> method that changes
+the expand and collapse indicators that are superimposed over the icon of
+each non-empty node. In default mode, the function indicator icons represent
+arrows to indicate that folders can be expanded and collapsed with left and
+right arrow key, but if the list is used in tabs, then these keys are reserved
+for moving between different tabs. Hence, in these cases, by enabling the
+tab mode function indicators, the superimposed expand and collapse indicator
+icons are changed into icons that do not contain misleading arrows. The normal
+and tab mode indicator icons are superimposed over the default open and closed
+folder icons in the [Hierarchical_Lists_API_Specification.topic3.1_fig5 Figure 5] below.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Hierarchical_Lists_API_Superimposed_Indicator_Icons.png" title="Expand/Collapse indicator icons"><img alt="Expand/Collapse indicator icons" border="0" height="36" src="images/SPB_10_1_Hierarchical_Lists_API_Superimposed_Indicator_Icons.png" width="174" /></a></div>
+<div style="text-align:center"><i>Expand/Collapse indicator icons</i></div>
+<p>Before the created list instance can be displayed, the size and properties
+of the list have to be set and the control has to be marked ready to draw
+with the <span class="plainlinks"><code><font color="darkred">ActivateL()</font></code> </span> method. The properties of the list can
+be changed to non-default values with the <span class="plainlinks"><code><font color="darkred">SetFlags()</font></code> </span> method.
+Size and position of the list can be set freely with some of the methods provided
+by the <span class="plainlinks"><code>CCoeControl</code> </span> class, but the layout for the list is
+designed for main pane sized area, which should be used in most of the cases.
+</p><p>The client application must also make sure that all the necessary key and
+pen events are passed to the list, so that the list can respond to the user
+action properly. As window-owning control, the list will receive the pointer
+events directly from the control framework, but if the list is constructed
+as non-window-owning control and the container control contains an overridden
+version for the <span class="plainlinks"><code>CCoeControl::HandlePointerEventL()</code> </span> method,
+then the method must be implemented so that the pen events are mediated to
+the list. For the key events, the client can either add the container into
+the control stack and then mediate the required key events from container's <span class="plainlinks"><code><font color="darkred">OfferKeyEventL()</font></code> </span> method
+to the list's <span class="plainlinks"><code><font color="darkred">OfferKeyEventL()</font></code> </span> method, or alternatively,
+add the list directly to the control stack and let it receive key events directly
+from the control stack.
+</p>
+<a name="Creating_a_CAknSingleStyleTreeList_instance"><h4> <span class="mw-headline">2.1.1 Creating a CAknSingleStyleTreeList instance </span></h4>
+</a><p>[Hierarchical_Lists_API_Specification.topic3.1.1_fig6 Figure 6] shows an example construction
+sequence on how the list instance can be constructed within a container control
+provided by the client application.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Hierarchical_Lists_API_Create_List_Basic_Flow.png" title="Creating a CAknSingleStyleTreeList instance"><img alt="Creating a CAknSingleStyleTreeList instance" border="0" height="558" src="images/SPB_10_1_Hierarchical_Lists_API_Create_List_Basic_Flow.png" width="665" /></a></div>
+<div style="text-align:center"><i>Creating a CAknSingleStyleTreeList instance</i></div>
+<a name="Creating_a_CAknSingleColumnStyleTreeList_instance"><h4> <span class="mw-headline">2.1.2 Creating a CAknSingleColumnStyleTreeList instance </span></h4>
+</a><p>An example how an instance of <span class="plainlinks"><code>CAknSingleColumnStyleTreeList</code> </span> can
+be constructed is shown in [Hierarchical_Lists_API_Specification.topic3.1.2_fig7 Figure 7] below.
+This is essentially similar to the one shown with the <span class="plainlinks"><code>CAknSingleStyleTreeList</code> </span> instance,
+only the used class is different, and the container and observer instances
+are not shown.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Hierarchical_Lists_API_Create_List_Alternate_Flow.png" title="Creating a CAknSingleColumnStyleTreeList instance"><img alt="Creating a CAknSingleColumnStyleTreeList instance" border="0" height="578" src="images/SPB_10_1_Hierarchical_Lists_API_Create_List_Alternate_Flow.png" width="700" /></a></div>
+<div style="text-align:center"><i>Creating a CAknSingleColumnStyleTreeList instance</i></div>
+<p>The construction of single column style tree list is shown in the figure
+above. The list can be constructed either as window-owning control, or as
+non-window-owning component of some window-owning control.
+</p><p>In order to receive list events, the client should also realize the <span class="plainlinks"><code>MAknTreeListObserver</code> </span> interface
+and add it to list observers with the <span class="plainlinks"><code>CAknTreeList::AddObserverL()</code> </span> method.
+The number of observers is not restricted to one, and registered observers,
+that are no longer needed, can be removed from the list with the <span class="plainlinks"><code>CAknTreeList::RemoveObserver()</code> </span> method.
+</p>
+<a name="Populating_the_list"><h3> <span class="mw-headline">2.2 Populating the list </span></h3>
+</a><p>The construction of new list items and adding them to the list is implemented
+by each list specialization, and the construction may be somewhat different
+in each list type. However, every list has to return an identifier for each
+item that is added to the list. This identifier can later be used when referring
+to the added item, for example, when changing the icons of the added item.
+</p><p>When the client first populates the list, the content of the whole list
+can be added, but it is necessary only for the items on the topmost level
+of the list hierarchy, and for the items in the expanded branches of the hierarchy.
+The items in the collapsed nodes can be added whenever the nodes are expanded
+by the user. Note also that, unless item or one of its descendant is set persistent
+or marked, it is automatically removed from the list, when its parent node
+is collapsed. The items may be set persistent when they are added to the list,
+and after they have been added to the list, their persistence can be changed
+with the <span class="plainlinks"><code>CAknTreeList::SetPersistent()</code> </span> method.
+</p>
+<a name="Adding_items_to_a_single_style_list"><h4> <span class="mw-headline">2.2.1 Adding items to a single style list </span></h4>
+</a><p>The <span class="plainlinks"><code>CAknSingleStyleTreeList</code> </span> class contains two methods
+for adding items to the list:
+</p><p>Tree leaves can be added with the <span class="plainlinks"><code><font color="darkred">AddLeafL()</font></code> </span> method, and
+tree nodes can be added with the <span class="plainlinks"><code><font color="darkred">AddNodeL()</font></code> </span> method. Both
+of these methods take four parameters:
+</p>
+<ul><li> The TAknTreeItemID aParent parameter specifies the parent
+</li></ul>
+<p>node to which the new item is to be added. The parent is specified with the
+identifier that was received when the parent node was added to the list, or
+with the constant <span class="plainlinks"><code>KAknTreeIIDRoot</code> </span>, if the new item is to
+be added directly to the tree root.
+</p>
+<ul><li> The const TDesC&amp; aText parameter contains the text
+</li></ul>
+<p>for the new item.
+</p>
+<ul><li> The TUint32 aFlags parameter contains the flags for the
+</li></ul>
+<p>new item. The possible flags for the item are defined in the <span class="plainlinks"><code>CAknSingleStyleTreeList::TSingleStyleItemFlags</code> </span> enumeration.
+</p>
+<ul><li> The Tbool aDrawNow parameter specifies whether the list
+</li></ul>
+<p>is to be redrawn after the item has been added.
+</p><p>The following example shows how an expanded and persistent node is added
+to the topmost level of the tree, and a persistent leaf to the previously
+added node.
+</p>
+<pre>// Flags used while adding the items.
+const TInt KPersistent = CAknSingleStyleTreeList::EPersistent;
+const TInt KExpanded = CAknSingleStyleTreeList::EExpanded;
+</pre>
+<pre>// Add expanded node to the topmost level of the list.
+_LIT( KNodeText, "Parent folder" );
+TAknTreeItemID parentNode = list-&gt;AddNodeL( KAknTreeIIDRoot,
+    KNodeText, KPersistent | KExpanded, EFalse );
+</pre>
+<pre>// Add leaf to the previously added node (and request redraw).
+_LIT( KLeafText, "Leaf item" );
+TAknTreeItemID leaf = list-&gt;AddLeafL( parentNode, KLeafText,
+    KPersistent, ETrue );
+</pre>
+<a name="Adding_items_to_a_single_column_style_list"><h4> <span class="mw-headline">2.2.2 Adding items to a single column style list </span></h4>
+</a><p>The <span class="plainlinks"><code>CAknSingleColumnStyleTreeList</code> </span> class has four different
+methods for adding items to the list.
+</p><p>The tree nodes in the single column style tree list are named as subtitle
+rows. New subtitle rows can be added to the list with the <span class="plainlinks"><code><font color="darkred">AddSubtitleRowL()</font></code> </span> method.
+The tree leaves in the list are either simple data rows, or core data rows.
+New simple data rows can be added with the <span class="plainlinks"><code><font color="darkred">AddSimpleDataRowL()</font></code> </span> method,
+and new core data row can be added with the <span class="plainlinks"><code><font color="darkred">AddCoreDataRowL()</font></code> </span> method.
+The latter has two versions, which can be used depending whether the added
+core data row has two or three columns.
+</p><p>The parameters of these methods are similar to the ones with the <span class="plainlinks"><code>CAknSingleStyleTreeList</code> </span> class.
+Each of these methods require the identifier of the added items parent node,
+the text fields for the new item, flags, and the <span class="plainlinks"><code><font color="darkred">aDrawNow</font></code> </span> parameter.
+</p><p>The <span class="plainlinks"><code><font color="darkred">aFlags</font></code> </span> parameter can be used setting the item properties
+at the time of its addition. Possible flags for the items in single column
+style tree list are defined in the <span class="plainlinks"><code>CAknSingleColumnStyleTreeList::TItemFlags</code> </span> enumeration.
+Note that some of these flags cannot be used with every list item type.
+</p><p>The following example shows how items of different type are added to single
+column style tree list. The <span class="plainlinks"><code>EPersistent</code> </span> flag is used for
+making the created tree structure static, so that the child items are not
+automatically removed from the list when their parent nodes are being collapsed.
+</p>
+<pre>const TInt KPersistent = CAknSingleColumnStyleTreeList::EPersistent;
+</pre>
+<pre>// Add simple data row to the topmost level of the list.
+_LIT( KSimpleDataRowText, "Simple data row" );
+TAknTreeItemID simpleDataRow = list-&gt;AddSimpleDataRowL( KAknTreeIIDRoot,
+    KSimpleDataRowText, KPersistent, EFalse );
+</pre>
+<pre>// Add subtitle row to the topmost level of the list.
+_LIT( KSubtitleRowText, "Subtitle row" );
+TAknTreeItemID subtitleRow = list-&gt;AddSubtitleRowL( KAknTreeIIDRoot,
+    KSubtitleRowText, NULL, EFalse );
+</pre>
+<pre>// Add core data row with three columns to the subtitle row.
+_LIT( KColumn1Text, "Core" );
+_LIT( KColumn2Text, "Data" );
+_LIT( KColumn3Text, "Row" );
+TAknTreeITemID coreDataRow = list-&gt;AddCoreDataRow( subtitleRow,
+    KColumn1Text, KColumn2Text, KColumn3Text, KPersistent, ETrue );
+</pre>
+<p>The text fields of added items can be retrieved with the <span class="plainlinks"><code><font color="darkred">Text()</font></code> </span> methods
+and later changed with the <span class="plainlinks"><code><font color="darkred">SetText()</font></code> </span> methods.
+</p><p>Core data rows can be set emphasized at the time they are added to the
+list with the <span class="plainlinks"><code>EEmphasis</code> </span> flag, and the setting can be changed
+later with the <span class="plainlinks"><code><font color="darkred">SetEmphasis()</font></code> </span> method. When core data rows
+are added with three text field parameters, the third column is enabled to
+be used in landscape mode, when there is enough space for third column. If
+construction is done with two text field parameters, the third column usage
+is by default disabled. This setting can later be changed with the <span class="plainlinks"><code><font color="darkred">EnableThirdColumn()</font></code> </span> method,
+if necessary.
+</p>
+<a name="Adding_icons_to_the_list"><h4> <span class="mw-headline">2.2.3 Adding icons to the list </span></h4>
+</a><p>A hierarchical list instance stores all the icons used in the list, and
+these icons can be shared by several list items. When the list is constructed,
+the list loads a set of default icons. In addition to these default icons,
+the list client can add new icons to the list, or replace existing icons with
+the methods provided in the <span class="plainlinks"><code>CAknTreeList</code> </span> class.
+</p><p>There are three possible methods for adding new icons to the list:
+</p>
+<pre>TInt AddIconL( const TAknsItemID&amp; aId, const TDesC&amp; aFilename,
+     TInt aBitmapId, TInt aMaskId, TScaleMode aScaleMode );
+</pre>
+<pre>TInt AddIconL( CFbsBitmap* aIcon, CFbsBitmap* aMask,
+     TBool aTransferOwnership, TScaleMode aScaleMode );
+</pre>
+<pre>TInt AddColorIconL( const TAknsItemID&amp; aId,
+    const TAknsItemID&amp; aColorId, TInt aColorIndex, const TDesC&amp; aFilename,
+    TInt aBitmapId, TInt aMaskId, TRgb aDefaultColor,
+    TScaleMode aScaleMode );
+</pre>
+<p>The first method can be used to add a new icon with the necessary parameters
+needed for loading the icon from the current skin instance or from the given
+file. The advantage of this method is that it stores the parameters to the
+list, and reloads the icons automatically on skin change events.
+</p><p>The second method takes pointers to the bitmaps as parameter. When using
+this method, the client has to handle updating the bitmaps on skin change
+events itself.
+</p><p>The third method is similar to the first one, but it takes also some icon
+color related parameters, which are then used for creating a colored icon.
+As with the first method, the parameters are stored in the list and used in
+reloading the icon on skin change events.
+</p><p>All of these methods return an identifier, that refers to the added icon.
+This identifier is to be used by the client when it wishes to set one of the
+list items to use the icon, to replace the icon with another, or remove the
+icon from the list. The identifiers for default list icons are defined in
+the<i> akntreelistconstants.h</i> file.
+</p><p>The following example shows how a new icon can be added to the list with
+each of these methods.
+</p>
+<pre>// Add an icon to to the list using the first method.
+TInt id1 = list-&gt;AddIconL( KAknsIIDQgnIndiS60,
+    AknIconUtils::AvkonIconFileName(), EMbmAvkonQgn_indi_s60,
+    EMbmAvkonQgn_indi_s60_mask, EAspectRatioPreserved );
+</pre>
+<pre>// Load the same icon from file to bitmaps.
+CFbsBitmap* bitmap = NULL;
+CFbsBitmap* mask = NULL;
+AknIconUtils::CreateIconLC( bitmap, mask,
+    AknIconUtils::AvkonIconFileName(),
+    EMbmAvkonQgn_indi_s60, EMbmAvkonQgn_indi_s60_mask );
+</pre>
+<pre>// Add the icon to the list with bitmaps using the second method.
+// The third parameter indicates that ownership of the bitmaps is
+// transferred to the list.
+TInt id2 = list-&gt;AddIconL( bitmap, mask, ETrue, EAspectRatioPreserved );
+CleanupStack::Pop( 2 ); // mask, bitmap
+</pre>
+<pre>// Finally, add coloured version of the icon using the third method.
+// The colour EAknsCIQsnTextColorsCG6 used here is the same with list item
+// text. Colour for highlighted text would be EAknsCIQsnTextColorsCG10.
+TInt id3 = list-&gt;AddColorIconL( KAknsIIDQgnIndiS60,
+    KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG6,
+    AknIconUtils::AvkonIconFileName(), EMbmAvkonQgn_indi_s60,
+    EMbmAvkonQgn_indi_s60_mask, KRgbBlack, EAspectRatioPreserved );
+</pre>
+<p>For each of the three methods represented here, there is also a corresponding
+method for assigning an identifier for the icon while adding it to the list.
+These methods can be used also for replacing default icons or previously added
+icons.
+</p>
+<a name="Setting_icons_for_the_items"><h4> <span class="mw-headline">2.2.4 Setting icons for the items </span></h4>
+</a><p>The methods for setting the icons for list items are provided by each list
+specialization, namely the <span class="plainlinks"><code>CAknSingleStyleTreeList</code> </span> and <span class="plainlinks"><code>CAknSingleColumnStyleTreeList</code> </span> classes.
+</p><p>The <span class="plainlinks"><code>CAknSingleStyleTreeList::SetIcon()</code> </span> method can be used
+to set icons for the items in single style tree list. This method requires
+four parameters:
+</p>
+<ul><li> TAknTreeItemID aItem is the item identifier of the item,
+</li></ul>
+<p>for which the icon is being changed.
+</p>
+<ul><li> TIconType aType is the type of the icon, which defines
+</li></ul>
+<p>which icon within the specified item is to be changed. Note that the set of
+applicable icon types depends on the type of the item, for which the icon
+is being changed.
+</p>
+<ul><li> TInt aIconId is an identifier of one of the default icons,
+</li></ul>
+<p>or identifier of an icon added to the list by the client. The item can be
+set to use no icon with the constant <span class="plainlinks"><code>AknTreeListIconID::KNone</code> </span>,
+and constant <span class="plainlinks"><code>AknTreeListIconID::KDefault</code> </span> can be used to set
+the item to use the default icon defined for the item type.
+</p>
+<ul><li> TBool aDrawNow specifies whether the list should be redrawn
+</li></ul>
+<p>after the icon has been changed.
+</p><p>For instance, folder icons for a node item in single style list could be
+changed as follows:
+</p>
+<pre>// Suppose we have bitmaps for expanded and collapsed folder icons.
+// Add those icons to the list.
+TInt expandedFolderIconId = list-&gt;AddIconL( expandedIconBitmap,
+    expandedIconMask, ETrue, EAspectRatioPreserved );
+TInt collapsedFolderIconId = list-&gt;AddIconL( collapsedIconBitmap,
+    collapsedIconMask, ETrue, EAspectRatioPreserved );
+</pre>
+<pre>// Add new node to the topmost level of the list.
+TAknTreeItemID nodeId = list-&gt;AddNodeL( KAknTreeIIDRoot, _L("node"),
+    NULL, EFalse );
+</pre>
+<pre>// Set the node to use the first added icon as expanded node icon.
+list-&gt;SetIcon( nodeId, CAknSingleStyleTreeList::EExpandedNode,
+    expandedFolderIconId, EFalse );
+</pre>
+<pre>// Set the node use the second added icon as collapsed node icon.
+list-&gt;SetIcon( nodeId, CAknSingleStyleTreeList::ECollapsedNode,
+    colapsedFolderIconId, ETrue );
+</pre>
+<p>The icons added to the list can be used by several list items; the client
+only has to set several items to use the icons with the same identifier. However,
+the icon should never be set simultaneously to such types that have different
+sizes, as this could require the size of icon changed during the draw routine
+of the list, and result in screen flickering. In general, all the main leaf
+and node icons have the same size, and all optional indicator icons have the
+same size.
+</p><p>In the <span class="plainlinks"><code>CAknSingleColumnStyleTreeList</code> </span> class the icons are
+added with the similar <span class="plainlinks"><code><font color="darkred">SetIcon()</font></code> </span> method, only difference
+being the icon types, which are specific to the list type.
+</p>
+<a name="Replacing_icons_in_the_list"><h4> <span class="mw-headline">2.2.5 Replacing icons in the list </span></h4>
+</a><p>As mentioned earlier, the <span class="plainlinks"><code>CAknTreeList</code> </span> class contains
+three methods for replacing icons in the list. The three methods correspond
+to the three methods that can be used for adding icons to the list. The parameters
+for each method are otherwise the same as for the corresponding method for
+adding icons, but these methods take the identifier of the icon as parameter
+instead of returning it to the caller.
+</p><p>The following example shows how a new icon is added to a single style list,
+item is set to use the added icon, and then the icon is replaced with another
+icon.
+</p>
+<pre>// Add new icon to to the list.
+TInt iconId = list-&gt;AddIconL( TAknsIIDQgnIndiS60,
+    AknIconUtils::AvkonIconFileName(), EMbmAvkonQgn_indi_s60,
+    EMbmAvkonQgn_indi_s60_mask, EAspectRatioPreserved );
+</pre>
+<pre>// Add leaf item to the list.
+TAknTreeItemID leafId = list-&gt;AddLeafL( KAKnTreeIIDRoot, _L("leaf"),
+    NULL, EFalse );
+</pre>
+<pre>// Set leaf to use added icon as its main icon.
+list-&gt;SetIcon( leafId, CAknSingleStyleTreeList::ELeaf, iconId, EFalse );
+</pre>
+<pre>// Replace the previously added icon with coloured version of it.
+list-&gt;AssignColorIconL( iconId, TAknsIIDQgnIndiS60,
+    KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG6,
+    AknIconUtils::AvkonIconFileName(), EMbmAvkonQgn_indi_s60,
+    EMbmAvkonQgn_indi_s60_mask, KRgbBlack, EAspectRatioPreserved );
+</pre>
+<pre>// Redraw list.
+list-&gt;DrawNow();
+</pre>
+<p>After the icon has been replaced with one of the assign methods, every
+icon using the identifier of the replaced icon immediately refers to the new
+icon. This could, for instance, be used for changing the default file icon
+to some other icon as follows:
+</p>
+<pre>// Replace default file icon.
+list-&gt;AssignIconL( AknTreeListIconID::KDefaultFileIndication,
+    TAknsIIDQgnIndiS60, AknIconUtils::AvkonIconFileName(),
+    EMbmAvkonQgn_indi_s60, EMbmAvkonQgn_indi_s60_mask,
+    EAspectRatioPreserved );
+</pre>
+<p>Icons that are no longer needed in the list can be removed with the <span class="plainlinks"><code>CAknTreeList::RemoveIconL()</code> </span> method.
+When the item refers to an icon that has been removed from the list, no icon
+is drawn for that specific place, unless the new icon using the same icon
+identifier has already been added to the list. Default icons cannot be removed
+from the list, only replaced.
+</p>
+<a name="Removing_item_from_the_list"><h3> <span class="mw-headline">2.3 Removing item from the list </span></h3>
+</a><p>The client application can remove items from the list with the <span class="plainlinks"><code>CAknTreeList::RemoveItem()</code> </span> method.
+The item identifier specifying the removed item is given as a parameter to
+the method. If the removed item is a node, then the content of the node is
+removed from the list as well. Setting list items persistent does not affect
+the removal in any way.
+</p><p>When items are removed from the list, the list notifies its observers of
+each removal. After the notifications, the identifiers assigned to removed
+items can no longer be used.
+</p><p>Note that any icons that were added to the exclusive use of the removed
+tree items, and are no longer needed, should also be removed from the list
+with the <span class="plainlinks"><code>CAknTreeList::RemoveIcon()</code> </span> method.
+</p>
+<a name="Expanding_a_node"><h3> <span class="mw-headline">2.4 Expanding a node </span></h3>
+</a><p>Tree list nodes can be expanded by the client application with the <span class="plainlinks"><code>CAknTreeList::ExpandNode()</code> </span> method.
+This is illustrated in [Hierarchical_Lists_API_Specification.topic3.4_fig8 Figure 8]. Item identifier
+of the expanded node has to be passed as parameter to the method. The method
+panics, if the specified item does not exist in the list, or if it is not
+a node. The <span class="plainlinks"><code>CAknTreeList::Contains()</code> </span> method can be used to
+check whether the list contains the specified item, and the <span class="plainlinks"><code>CAknTreeList::IsNode()</code> </span> and <span class="plainlinks"><code>CAnkTreeList::IsLeaf()</code> </span> methods
+can be used to check whether the specified item is a leaf or a node.
+</p><p>Before the specified node is expanded, the list notifies all of its observers
+of the expansion event. This enables the client application to add content
+to the list only when it is needed by the list. After the client has had the
+possibility to update the content of the expanded node, the node state is
+changed to the expanded. After this, the list is redrawn, if it was requested
+with the <span class="plainlinks"><code><font color="darkred">aDrawNow</font></code> </span> parameter.
+</p><p>The expand event may be triggered also by key or pen event as a result
+of user action. The observers are notified of the event also in this case.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Hierarchical_Lists_API_Expand_Node_Basic_Flow.png" title="Expand node sequence diagram"><img alt="Expand node sequence diagram" border="0" height="308" src="images/SPB_10_1_Hierarchical_Lists_API_Expand_Node_Basic_Flow.png" width="644" /></a></div>
+<div style="text-align:center"><i>Expand node sequence diagram</i></div>
+<a name="Collapsing_a_node"><h3> <span class="mw-headline">2.5 Collapsing a node </span></h3>
+</a><p>The nodes in the list can be collapse also by the user with pen or and
+key events. The observers of the list are notified of the event. In addition
+to these events, the client application can provide collapse command in softkey
+or options menu. In these cases, the list nodes can be collapsed by the client
+application with the <span class="plainlinks"><code>CAknTreeList::CollapseNode()</code> </span> method.
+This is shown in [Hierarchical_Lists_API_Specification.topic3.5_fig9 Figure 9].
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Hierarchical_Lists_API_Collapse_Node_Basic_Flow.png" title="Collapse node sequence diagram"><img alt="Collapse node sequence diagram" border="0" height="404" src="images/SPB_10_1_Hierarchical_Lists_API_Collapse_Node_Basic_Flow.png" width="513" /></a></div>
+<div style="text-align:center"><i>Collapse node sequence diagram</i></div>
+<p>When node is collapsed, the list first notifies the observers of the collapse
+event. Then, it removes every child item of the collapsed node, that is not
+set marked or persistent, and does not contain any descendants that are set
+either marked or persistent. The descendants of the removed items are removed
+as well, and the observers are notified of every removal.
+</p>
+<a name="Moving_focus"><h3> <span class="mw-headline">2.6 Moving focus </span></h3>
+</a><p>The client application can set the focused item in the list with the <span class="plainlinks"><code>CAknTreeList::SetFocusedItem()</code> </span> method.
+The method requires the identifier of the new focused item, and index specifying
+the desired location for the item in the visible part of the list.
+</p><p>Focus can also be moved by the user with key and pen events. Observers
+of the list are notified of focus changes with the <span class="plainlinks"><code>EItemFocused</code> </span> event.
+</p>
+<a name="Selecting_an_item"><h3> <span class="mw-headline">2.7 Selecting an item </span></h3>
+</a><p>The leaf items in the list can be selected by the user when they are focused.
+Observers of the list get notification of the event via the <span class="plainlinks"><code>MAknTreeObserer::HandleTreeListEvent</code> </span> method
+with the <span class="plainlinks"><code>EItemSelected</code> </span> event as the parameter and the item
+identifier of the selected item as the <span class="plainlinks"><code><font color="darkred">aItem</font></code> </span> parameter. Client
+applications should respond to these event by performing some item related
+operation, for example, opening the selected file, displaying selected message,
+and so on.
+</p>
+<a name="Sorting"><h3> <span class="mw-headline">2.8 Sorting </span></h3>
+</a><p>By default, the list items reside within their parent nodes in the order
+in which they were first added to the node. The client application can change
+the ordering of the items with the help of the <span class="plainlinks"><code>MAknCustomTreeOrdering</code> </span> interface.
+By providing an implementation of the interface and setting the interface
+to be used in the list, the interface is thereafter used in determining the
+ordering of the list items within their parent nodes.
+</p><p>The <span class="plainlinks"><code>MAknCustomTreeOrdering</code> </span> interface contains the pure
+virtual <span class="plainlinks"><code>Compare</code> </span> method, for which the client application
+must provide an implementation. The method gets two item identifiers as parameters,
+and the implementation has to choose an integer return value specifying the
+order between the given items.
+</p><p>The <span class="plainlinks"><code>CAknTreeList::Sort(MAknCustomOrdering*,TBool)</code> </span> method
+sets the interface implementation to be used by the list. This method also
+sorts the list by sorting each node in the list according to the given interface.
+Only one ordering interface can be in use at a time, and ordering can be removed
+altogether from use by giving NULL pointer as pointer to new ordering interface.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Hierarchical_Lists_API_Sort_List_Basic_Flow.png" title="Setting custom ordering for a list"><img alt="Setting custom ordering for a list" border="0" height="413" src="images/SPB_10_1_Hierarchical_Lists_API_Sort_List_Basic_Flow.png" width="569" /></a></div>
+<div style="text-align:center"><i>Setting custom ordering for a list</i></div>
+<p>After the custom ordering interface is set for the list, it is used whenever
+items are moved within the list with the <span class="plainlinks"><code>CAknTreeList::MoveItemL</code> </span> method.
+The interface cannot be used in determining the items position during the
+addition, because the client receives the item identifier for the added item
+only after it has been added. Therefore, even with the custom ordering interface
+in use, new items are inserted to the end of their parents node. After new
+items have been added to some node, the client can sort the contents of that
+node with the <span class="plainlinks"><code><font color="darkred">Sort(TAknTreeItemID,TBool,TBool)</font></code> </span> method. The
+sorting can be set to include the whole branch specified by the node, or only
+its immediate children.
+</p><p>For example, if custom ordering is in use and new item is added to the
+list, the item is inserted to the end of the node. To change the item to correct
+position amongst its siblings, the content of the parent node could be sorted
+as follows:
+</p>
+<pre>// Add new item to a node in a list without redrawing the list.
+list-&gt;AddLeafL( parentId, _L("Text"), NULL, EFalse );
+</pre>
+<pre>// Sort the content of parent node and request redraw.
+list-&gt;Sort( parentId, EFalse, ETrue );
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.9 Error handling </span></h3>
+</a><p>The leave mechanism of Symbian OS environment is used to handle memory
+exhaustion. The panic mechanism is used in cases where the list client tries
+to use list interface incorrectly by referring to non-existent list items,
+or items of invalid type. The used panic codes are defined in<i> aknhlistpanic.h</i> file.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.10 Memory and Performance Considerations </span></h3>
+</a><p>Memory consumption of the list depends solely on the content added to the
+constructed list instance. Memory overhead for list items, which does not
+include the text strings or icons, is somewhere in the range from 50 bytes
+to 100 bytes per item, depending on the item type.
+</p>
+<a name="Extensions_to_the_API"><h3> <span class="mw-headline">2.11 Extensions to the API </span></h3>
+</a><p>Hierarchical Lists API does not explicitly support any kinds of extensions
+to it.
+</p>
+<div class="copy"><?php include ("copy.html"); ??></div></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_hierarchical_lists_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:10:44 GMT -->
+</html>

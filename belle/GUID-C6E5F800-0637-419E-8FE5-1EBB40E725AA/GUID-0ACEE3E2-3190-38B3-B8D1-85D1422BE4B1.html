@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0ACEE3E2-3190-38B3-B8D1-85D1422BE4B1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:22:12 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxStruct" />
+<meta name="DC.Title" content="BSUL::TParameterDetails" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-0ACEE3E2-3190-38B3-B8D1-85D1422BE4B1" />
+<title>BSUL::TParameterDetails</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-0ACEE3E2-3190-38B3-B8D1-85D1422BE4B1"><a name="GUID-0ACEE3E2-3190-38B3-B8D1-85D1422BE4B1"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">BSUL::TParameterDetails Struct Reference</h1>
+<div class="state state apiQualifier apiQualifier cxxStructDeclarationFile section include"><p>#include 
+            
+                    &lt;bsul/clientmessage.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>struct BSUL::TParameterDetails</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Attributes</th></tr></thead><tbody><tr><td align="right" valign="top" class="code">const <a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td><a href="#GUID-D195967E-5380-3F61-87B4-F829ECF54279">iMax</a></td></tr><tr class="bg"><td align="right" valign="top" class="code">const <a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td><a href="#GUID-86F84ED9-FF9A-332D-BC97-865942F2BE55">iMin</a></td></tr><tr><td align="right" valign="top" class="code">const <a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td><a href="#GUID-F6B9DB83-738F-3C98-8731-151A8124E179">iType</a></td></tr></tbody></table></div><div class="section section apiDesc section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+<p class="p">This structure defines the format for storing information for an individual message parameter.</p>
+<p class="p">iType - This defines the parameter type and is used by the CMessageParameterBase class to instantiate the appropriate derived class via the KParameterFactoryFunctions factory lookup table.</p>
+<p class="p">iMin, iMax - These are two constraints that are used in the ValidateL method of a class derived from CMessageParameter to validate the message as required by that parameter. The constraints that are used depend on the type as follows: EParamInt: -iMin = Minimum int value accepted -iMax = Maximum int value accepted. This must be &gt; iMin</p>
+<p class="p">NOTE: Currently unsigned integers are not explicitly supported, however 16 bit unsigned integers are implicitly supported by the EParamInt type. Note that the constraint above (iMax &gt; iMin) means that the maximum supported value for an unsigned int is 0x7FFFFFFF.</p>
+<p class="p">EParamDes8Read: EParamDes16Read: -iMin = Minimum length of descriptor in clients address space. If no minimum restriction exists this should be set to 0 in the schema. This must be &gt;= 0 -iMax = Maximum length of descriptor in clients address space. The descriptor supplied by the client must not have a length that exceeds this value. This must be &gt;= iMin EParamDes8: EParamDes16: -iMin = Minimum MaxLength of descriptor in clients address space. The descriptor supplied by the client must have a MaxLength that is at least as big as this value. This must be &gt;= 0 -iMax = Maximum length of descriptor in clients address space. The descriptor supplied by the client must not have a length that exceeds this value. This must be &gt;= 0.</p>
+<p class="p">NOTE: As the EParamDes* types use MaxLength() as a restriction They cannot be used if the client intends to pass a TDesC derived descriptor. If the client intends read only use then the explicit EParamDes*Read types should be used instead.</p>
+<p class="p">EParamPckg: -iMin = Minimum length of descriptor in clients address space. If no minimum restriction exists this should be set to 0 in the schema. This must be &gt;= 0 -iMax = Maximum length of descriptor in clients address space. The descriptor supplied by the client must not have a length that exceeds this value. This must be &gt;= iMin</p>
+<p class="p">EParamPtr: -iMin = Unused -iMax = Unused   </p>
+</div>
+<h2 class="sectiontitle">Member Attribute Documentation</h2><div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-D195967E-5380-3F61-87B4-F829ECF54279"><a name="GUID-D195967E-5380-3F61-87B4-F829ECF54279"><!-- --></a>
+<h3 class="sectiontitle">iMax</h3>
+<div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td>iMax</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-86F84ED9-FF9A-332D-BC97-865942F2BE55"><a name="GUID-86F84ED9-FF9A-332D-BC97-865942F2BE55"><!-- --></a>
+<h3 class="sectiontitle">iMin</h3>
+<div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td>iMin</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-F6B9DB83-738F-3C98-8731-151A8124E179"><a name="GUID-F6B9DB83-738F-3C98-8731-151A8124E179"><!-- --></a>
+<h3 class="sectiontitle">iType</h3>
+<div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td>iType</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0ACEE3E2-3190-38B3-B8D1-85D1422BE4B1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:22:12 GMT -->
+</html>

@@ -1,0 +1,98 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-031B1C19-E8BC-4394-81A8-D98F48CA3AC1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Plural support in Qt" /><meta name="abstract" content="Plural support allows linguistically correct localization of strings with numbers that indicate amount. This brings quality improvements for 17 languages in Symbian, such as Arabic, Czech and Russian. These languages use more than one grammatical plural form depending on the value of the parameter." /><meta name="description" content="Plural support allows linguistically correct localization of strings with numbers that indicate amount. This brings quality improvements for 17 languages in Symbian, such as Arabic, Czech and Russian. These languages use more than one grammatical plural form depending on the value of the parameter." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-9F54E3BC-E902-4DB8-A653-0A10A76DAA0C" /><meta name="DC.Relation" scheme="URI" content="GUID-3C151C7A-3EEC-4EDE-9C19-44A93175D626" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-031B1C19-E8BC-4394-81A8-D98F48CA3AC1" /><meta name="DC.Language" content="en" /><title>Plural support in Qt </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-031B1C19-E8BC-4394-81A8-D98F48CA3AC1">Plural support in Qt</h1><div><p>Plural support allows linguistically correct localization
+of strings with numbers that indicate amount. This brings quality
+improvements for 17 languages in Symbian, such as Arabic, Czech and
+Russian. These languages use more than one grammatical plural form
+depending on the value of the parameter.</p>
+<p>Plural support uses the special parameter %Ln, which makes it possible
+to create several translations for one string. When before two separate
+logical names would have been needed for singular ("1 message") and
+plural ("4 messages"), now you only need to create one logical name.
+Example:</p>
+<div class="p"><ul>
+<li><p>Engineering English:</p><ul>
+<li><p>%Ln messages</p></li>
+</ul></li>
+<li><p>English:</p><ul>
+<li><p>%Ln message (In device: "1 message")</p></li>
+<li><p>%Ln messages (In device: "0 messages", "2 messages", "58 messages"
+etc.)</p></li>
+</ul></li>
+<li><p>French:</p><ul>
+<li><p>%Ln message (In device: "0 message", "1 message")</p></li>
+<li><p>%Ln messages (In device: "2 messages", "58 messages" etc.)</p></li>
+</ul></li>
+<li><p>Russian:</p><ul>
+<li><p>%Ln сообщение (In device: "1 сообщение")</p></li>
+<li><p>%Ln сообщения (In device: "2 сообщения", "23 сообщения" etc.)</p></li>
+<li><p>%Ln сообщений (In device: "5 сообщений", "58 сообщений" etc.)</p></li>
+</ul></li>
+</ul></div>
+<ul>
+<li><p>Plural support reduces the number of text IDs needed:</p><ul>
+<li><p>One text value "%Ln new messages" is enough in Qt instead of
+“1 new message” and “%N new messages” required in Avkon</p></li>
+</ul></li>
+<li><p>Plural support allows the correct number of localizations for
+those languages with no plural or several plurals:</p><ul>
+<li><p>Chinese translator creates 1 translation (same form of the
+noun is used with all numbers) </p></li>
+<li><p>Finnish translator creates 2 translations (one form for "1"
+and one for other numbers)</p></li>
+<li><p>French translator creates 2 translations (one form for "0"
+or "1" and one for other numbers)</p></li>
+<li><p>Polish translator creates 3 translations (one form for "1",
+another for numbers 2-4, 22-24, 32-34 etc., a third form for other
+numbers)</p></li>
+</ul></li>
+<li><p>Use parameter %Ln to enable plural support</p><ul>
+<li><p>%Ln new messages</p></li>
+<li><p>Alarm snoozed for %Ln minutes</p></li>
+<li><p>%Ln callers on lines %L1 and %L2 (Note: only "callers" requires
+plural support).</p></li>
+<li><p>%Ln new voice messages on line %L1 (Note: Only "new voice messages"
+requires plural support).</p></li>
+</ul></li>
+<li><p>You should use %L1, %L2 etc. to display all other numerical
+parameter values. Examples of cases where plural support is not needed:</p><ul>
+<li><p>Deleting template %L1 of %L2</p></li>
+<li><p>Page %L1</p></li>
+<li><p>Group %L1</p></li>
+<li><p>%Ln callers on lines %L1 and %L2 ("%Ln callers" requires plural
+support, but "lines %L1 and %L2" does not.)</p></li>
+</ul></li>
+<li><p>Note that plural support can only be used with parameter values
+that are positive integers, and it is only available for one parameter
+%Ln at a time. This means that if a text value contains two parameters
+indicating amount that otherwise would require different grammatical
+plural forms, plural support cannot be used. Instead, you need to
+create four separate text IDs as shown in the following example:</p><ul>
+<li><p>%L1 file, %L2 folder</p></li>
+<li><p>%L1 file, %L2 folders</p></li>
+<li><p>%L1 files, %L2 folder</p></li>
+<li><p>%L1 files, %L2 folders</p></li>
+</ul></li>
+</ul>
+<p>Not all numerical values need plural support (such as ordinal numbers,
+for example: "Call on line %L1").</p>
+<div id="GUID-C85D3630-9FF9-49F5-8B27-910CF3B789C9"><h3 class="section-title">Zero
+and none</h3><p>If a parameter can have multiple values and one
+of them is zero, plural support covers the issue. In that case, only
+one string (for example, "%Ln messages") is needed.  However, in some
+situations the user needs to know that there are for example no messages
+or that the search found no results.</p><p>Typically, this kind of
+text is displayed as a placeholder when an inbox, search result field
+or playlist is empty. In this case a separate string with no parameters
+should be used:</p><ul>
+<li><p>No messages</p></li>
+<li><p>No results</p></li>
+<li><p>(no videos)</p></li>
+<li><p>(no bookmarks)</p></li>
+</ul></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-031B1C19-E8BC-4394-81A8-D98F48CA3AC1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+</html>

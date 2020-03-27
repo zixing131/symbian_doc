@@ -1,0 +1,62 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-579D7C32-B6C8-5C77-88A5-B3078729E1BA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to implement a simple client interface" /><meta name="abstract" content="Provides code snippets to help you to implement a simple client interface." /><meta name="description" content="Provides code snippets to help you to implement a simple client interface." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-6047DB3F-DC92-51DF-9EEB-00E79E890B54" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-579D7C32-B6C8-5C77-88A5-B3078729E1BA" /><meta name="DC.Language" content="en" /><title>How
+to implement a simple client interface </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-579D7C32-B6C8-5C77-88A5-B3078729E1BA">How
+to implement a simple client interface</h1><div><p>Provides code snippets to help you to implement a simple client
+interface.</p>
+<div id="GUID-EE1BFD0F-EE55-47BA-A8FD-D753EC132255"><h3 class="section-title">Client side session with a server</h3> <p>A client side
+session is represented by an instance of a class derived from <code class="codeph">RSessionBase</code> which
+provides the behaviour for connecting to the server and sending messages to
+it. </p> <p>In the following code fragment, taken from the example that can
+be found at <code>...\examples\Base\IPC\ClientServer\simple</code>,
+the class <code class="codeph">RCountServSession</code>, derived from <code class="codeph">RSessionBase</code>,
+represents the client side session with a server. In the example, this may
+be referred to as the "count server". Note that sessions can not be shared
+in this example, and it just shows the basic mechanics of the client/server
+interaction. </p> <pre class="codeblock">class RCountServSession : public RSessionBase
+    {
+public:
+    RCountServSession();
+    TInt Connect();
+    TVersion Version() const;
+    TInt UnsupportedRequest();
+    TInt SetFromString(const TDesC&amp; aString);
+    void Increase();
+    void Decrease();
+    void IncreaseBy(TInt anInt);
+    void DecreaseBy(TInt anInt);
+    void Reset();
+    TInt CounterValue();
+    void BadRequest();
+    void Close();
+private:
+    RThread iServerThread;
+    };</pre> <p>The important points are: </p> <ul>
+<li id="GUID-B6AC51AC-91A3-5794-815A-292E308735F6"><a name="GUID-B6AC51AC-91A3-5794-815A-292E308735F6"><!-- --></a><p>Use <code class="codeph">Connect()</code> to
+start the count server. This calls <code class="codeph">RSessionBase::CreateSession()</code> to
+create a session with the server. Note that in this simple example, the server
+is implemented as a separate thread, which is started by the example executable. </p> </li>
+<li id="GUID-EBDC7F23-8D2F-5093-8C32-50C3DE137EF5"><a name="GUID-EBDC7F23-8D2F-5093-8C32-50C3DE137EF5"><!-- --></a><p>Use a client interface
+function, such as <code class="codeph">Increase()</code>, to send a specific message
+to the server. The client interface function builds the message using the
+appropriate operation code and assembling a suitable <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4AD02F14-1142-372F-9D11-224595932034.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4AD02F14-1142-372F-9D11-224595932034.html"><code class="apiname">TIpcArgs</code></a> object,
+i.e. the object containing the integers and/or the descriptor pointers to
+the message arguments in the client address space. </p> </li>
+</ul> <p>As an example, the function <code class="codeph">SetFromString()</code> is implemented
+as follows: </p> <pre class="codeblock">TInt RCountServSession::SetFromString(const TDesC&amp; aString)
+    {
+    TIpcArgs args(&amp;aString);
+    return SendReceive(ECountServSetFromString, args);
+    }</pre> <p> <code class="codeph">SendReceive()</code> is called, specifying
+an operation code <code class="codeph">ECountServSetFromString</code> and a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4AD02F14-1142-372F-9D11-224595932034.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4AD02F14-1142-372F-9D11-224595932034.html"><code class="apiname">TIpcArgs</code></a> object
+containing argument values. In this case, there is only one argument - a pointer
+to a <code class="codeph">TDesC</code> object containing the string to be passed to the
+server. Typically, operation codes are enum values defined in a header file
+visible to both the client interface and the server. Note that the client
+descriptor must remain in existence until the server request completes. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-579D7C32-B6C8-5C77-88A5-B3078729E1BA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:34 GMT -->
+</html>

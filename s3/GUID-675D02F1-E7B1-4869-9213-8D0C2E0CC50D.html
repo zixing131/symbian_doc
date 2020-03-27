@@ -1,0 +1,89 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-675D02F1-E7B1-4869-9213-8D0C2E0CC50D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Adding, Removing and Accessing Header Field Parts" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-C0D38954-2FC5-4E8B-BC11-229464DCF16C" /><meta name="DC.Relation" scheme="URI" content="GUID-1E8904E3-43AC-5332-A2EF-F11F5728DBE8" /><meta name="DC.Relation" scheme="URI" content="GUID-B4A54501-4AA4-5ACB-96D7-4427C7752639" /><meta name="DC.Relation" scheme="URI" content="GUID-F6CF2920-9095-568B-B332-D5F4A05BD23A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-675D02F1-E7B1-4869-9213-8D0C2E0CC50D" /><meta name="DC.Language" content="en" /><title>Adding,
+Removing and Accessing Header Field Parts </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-675D02F1-E7B1-4869-9213-8D0C2E0CC50D">Adding,
+Removing and Accessing Header Field Parts</h1><div>
+<div id="GUID-F273A4FC-D2C7-45A2-A2CA-12D9B6C8531C"><h3 class="section-title"><!--no section title--></h3> <p>Header field parts are added by repeated invocation of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-54F9A87B-FE2F-3429-9793-0A24B83466B9.html#GUID-A8708AE6-8EAE-37C9-BAD2-87E4A7DCE266"><code class="apiname">RHTTPHeaders::SetFieldL()</code></a> method.
+On the first invocation, when no field of that name exists in the header,
+a new field is created with a single part. On subsequent invocations, additional
+parts are added to the existing header field. </p> <p>This behaviour is consistent
+with HTTP/1.1 in which: </p> <pre class="codeblock">Accept: text/*, text/html</pre> <p>is
+preferable to </p> <pre class="codeblock">Accept: text/* text/html</pre> <p>Although
+the two are semantically equivalent, the API will not output the second variant
+under any circumstance. </p> <p>When parts are added to a header field, they
+are given an index number. The first part to be added has index 0, the second
+is index 1, and so on. This index is necessary when identifying parts for
+retrieval (using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-54F9A87B-FE2F-3429-9793-0A24B83466B9.html#GUID-E89FA67E-7E0B-3C37-B920-B6E594A31BFE"><code class="apiname">RHTTPHeaders::GetField()</code></a>). </p> <p>To
+remove a single header field part, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-54F9A87B-FE2F-3429-9793-0A24B83466B9.html#GUID-656EF7AC-479E-3408-B00C-9FAE3022A37B"><code class="apiname">RHTTPHeaders::RemoveFieldPart()</code></a> is
+used, specifying a part index. To remove a header field entirely, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-54F9A87B-FE2F-3429-9793-0A24B83466B9.html#GUID-2C6BE5F2-E486-39E9-8594-2E5A5E936C1A"><code class="apiname">RHTTPHeaders::RemoveField()</code></a> is
+used. </p> <p>Part values are accessed using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-54F9A87B-FE2F-3429-9793-0A24B83466B9.html#GUID-E89FA67E-7E0B-3C37-B920-B6E594A31BFE"><code class="apiname">RHTTPHeaders::GetField()</code></a>.
+The client must supply a part index and an uninitialized <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEE8279A-3BEC-316F-97B8-6C49FEDBD5B3.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEE8279A-3BEC-316F-97B8-6C49FEDBD5B3.html"><code class="apiname">THTTPHdrVal</code></a>,
+which will be filled by the method. This example, from <code>HTTPEXAMPLECLIENT</code>,
+retrieves all response headers and prints their values: </p> <pre class="codeblock">void CHttpEventHandler::DumpRespHeadersL(RHTTPTransaction&amp; aTrans)
+    {
+    RHTTPResponse resp = aTrans.Response();
+    RStringPool strP = aTrans.Session().StringPool();
+    RHTTPHeaders hdr = resp.GetHeaderCollection();
+    THTTPHdrFieldIter it = hdr.Fields();
+
+    TBuf&lt;KMaxHeaderNameLen&gt;  fieldName16;
+    TBuf&lt;KMaxHeaderValueLen&gt; fieldVal16;
+
+    while (it.AtEnd() == EFalse)
+        {
+        RStringTokenF fieldName = it();
+        RStringF fieldNameStr = strP.StringF(fieldName);
+        THTTPHdrVal fieldVal;
+        if (hdr.GetField(fieldNameStr,0,fieldVal) == KErrNone)
+            {
+            const TDesC8&amp; fieldNameDesC = fieldNameStr.DesC();
+            fieldName16.Copy(fieldNameDesC.Left(KMaxHeaderNameLen));
+            switch (fieldVal.Type())
+                {
+            case THTTPHdrVal::KTIntVal:
+                iUtils.Test().Printf(_L("%S: %d\n"), &amp;fieldName16, fieldVal.Int());
+                break;
+            case THTTPHdrVal::KStrFVal:
+                {
+                RStringF fieldValStr = strP.StringF(fieldVal.StrF());
+                const TDesC8&amp; fieldValDesC = fieldValStr.DesC();
+                fieldVal16.Copy(fieldValDesC.Left(KMaxHeaderValueLen));
+                iUtils.Test().Printf(_L("%S: %S\n"), &amp;fieldName16, &amp;fieldVal16);
+                fieldValStr.Close();
+                }
+                break;
+            case THTTPHdrVal::KStrVal:
+                {
+                RString fieldValStr = strP.String(fieldVal.Str());
+                const TDesC8&amp; fieldValDesC = fieldValStr.DesC();
+                fieldVal16.Copy(fieldValDesC.Left(KMaxHeaderValueLen));
+                iUtils.Test().Printf(_L("%S: %S\n"), &amp;fieldName16, &amp;fieldVal16);
+                fieldValStr.Close();
+                }
+                break;
+            case THTTPHdrVal::KDateVal:
+                {
+                TDateTime date = fieldVal.DateTime();
+                TBuf&lt;40&gt; dateTimeString;
+                TTime t(date);
+                t.FormatL(dateTimeString,KDateFormat);
+                iUtils.Test().Printf(_L("%S: %S\n"), &amp;fieldName16, &amp;dateTimeString);
+                } 
+                break;
+            default:
+                iUtils.Test().Printf(_L("%S: &lt;unrecognised value type&gt;\n"), &amp;fieldName16);
+                break;
+                }
+            ...
+            }
+        // Advance the iterator to get the next field
+        ++it;
+        }
+     }</pre> <p>Note that in this example, only the first part of each
+header field is displayed. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 14th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-675D02F1-E7B1-4869-9213-8D0C2E0CC50D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:09 GMT -->
+</html>

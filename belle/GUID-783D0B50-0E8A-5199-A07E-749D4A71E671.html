@@ -1,0 +1,129 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-783D0B50-0E8A-5199-A07E-749D4A71E671.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:56 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Processing an Extended Inquiry Response" /><meta name="DC.Relation" scheme="URI" content="GUID-F2A793F1-A5B5-526B-B147-771D440B13A2" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-227B6970-A536-470F-B5A1-A1871F65D7F3" /><meta name="DC.Relation" scheme="URI" content="GUID-6CE12919-FF81-5254-BA12-385F589FEA44" /><meta name="DC.Relation" scheme="URI" content="GUID-8411E1C9-C6CC-5B0A-BEBA-74D0B8AABF35" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-783D0B50-0E8A-5199-A07E-749D4A71E671" /><meta name="DC.Language" content="en" /><title>Processing an Extended Inquiry Response </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-783D0B50-0E8A-5199-A07E-749D4A71E671">Processing an Extended Inquiry Response</h1><div>
+<p>This tutorial shows you how to retrieve and process the data from
+a Bluetooth Extended Inquiry Response (EIR). </p>
+<div id="GUID-5BD30F69-2DE0-40C6-8F45-3DDBC3F79A35"><h3 class="section-title">Introduction</h3> <p>This tutorial shows you how
+to retrieve the EIR data and how to access the various types of data
+within it. </p> <p><strong>Basic Procedure</strong> </p> <p>The high level steps to access the
+EIR are shown here: </p> <ol id="GUID-27E2F081-EE4A-516D-8D04-29D1A4601045">
+<li id="GUID-2F5F1046-3335-53CA-AD6D-01D1981348B5"><a name="GUID-2F5F1046-3335-53CA-AD6D-01D1981348B5"><!-- --></a><p>Create the <code class="codeph">EIR</code> object and during construction fill it with the data
+from the Extended Inquiry Response </p> </li>
+<li id="GUID-541D9DF2-816B-5057-B116-8A587F7A2146"><a name="GUID-541D9DF2-816B-5057-B116-8A587F7A2146"><!-- --></a><p>Use access functions
+to retrieve the different types of data. </p> </li>
+</ol> </div>
+<div id="GUID-ED477BF8-1A81-49C2-9566-682D70A9DC3A"><h3 class="section-title">Environment</h3> <p>This tutorial assumes that
+you have your device correctly configured, active and with Bluetooth
+enabled and the Bluetooth Stack initialised. <code class="codeph">iResult</code> is in scope and contains a TNameEntry object
+as the result of a successful Inquiry request. See <a href="GUID-58F65411-CF08-5F46-8222-3FDB9E571FCC.html">Inquiring About Remote
+Devices</a>. </p> <p> <strong>Note:</strong> When the Inquiry Request is
+made, set the <code class="codeph">aDoEIR</code> flag to specify that Extended
+Inquire Response data is required. The Bluetooth Stack will set the <code class="codeph">aDoEIR</code> flag if an older version of the API (non-EIR) is
+used. </p> </div>
+<div id="GUID-38AF6CEE-4F78-4113-AE85-CDD0390F1DC7"><h3 class="section-title">Tutorial</h3> <p><strong>Create an object to hold the Extended Inquiry Response data </strong> </p> <ul>
+<li id="GUID-0837BC7D-58A1-5E84-B64F-D2705DA2A844"><a name="GUID-0837BC7D-58A1-5E84-B64F-D2705DA2A844"><!-- --></a><pre class="codeblock">TBluetoothNameRecordWrapper eir(iResult());</pre> </li>
+</ul> <p><strong> Use access functions to retrieve the various kinds of data</strong> </p> <ol id="GUID-2733C57E-2A4B-58CD-9340-A0DA609F5705">
+<li id="GUID-0CA4F35B-23D4-570C-BAAC-520B5CEA62D2"><a name="GUID-0CA4F35B-23D4-570C-BAAC-520B5CEA62D2"><!-- --></a><p>Get the Bluetooth
+device local name </p> <p> <strong>Note:</strong> The device local name may
+be truncated if it is too long to fit in the EIR data packet. If the
+name is not truncated then the <code class="codeph">isNameComplete</code> flag
+will be set to <code class="codeph">TRUE</code>. </p> <pre class="codeblock">
+TBool isNameComplete;
+TInt error = KErrNone;
+TInt length = 0;
+            
+// Get name
+// This length could be used to create the TBuf to be passed into GetDeviceName()
+length = eir.GetDeviceNameLength();
+TBuf&lt;255&gt; name;
+if(length &gt;= 0)
+ {
+ // name will contain a Unicode encoded 16-bit string
+    error = eir.GetDeviceName(name, isNameComplete);
+    }
+ else
+    {
+        error = length;
+    }
+if(error == KErrNone)
+// we have name here
+    {
+    if(isNameComplete == EFalse)
+        {
+        iHROutputConsole-&gt;Printf(_L("%d Bytes [Partial] Name: "), length);
+        }
+    else
+        {
+        iHROutputConsole-&gt;Printf(_L("%d Bytes [Complete] Name: "), length);
+        }
+        iHROutputConsole-&gt;Printf(_L("%S \n"),&amp;name);
+    }
+</pre> </li>
+<li id="GUID-323875EC-7012-537A-935A-74A91DE0F8D7"><a name="GUID-323875EC-7012-537A-935A-74A91DE0F8D7"><!-- --></a><p>Get the Transmission
+Power level </p> <pre class="codeblock">// Get TxPowerLevel
+TInt8 txPowerLevel;
+error = eir.GetTxPowerLevel(txPowerLevel);
+if(error == KErrNone)
+    // TxPowerLevel present
+    {
+    iHROutputConsole-&gt;Printf(_L("TxPowerLevel: %ddBm\n"), txPowerLevel);
+    }</pre> </li>
+<li id="GUID-2C67FE67-0652-5840-BA1F-04891A95CAB6"><a name="GUID-2C67FE67-0652-5840-BA1F-04891A95CAB6"><!-- --></a><p>Get the Service
+Class UUIDs. </p> <p> </p> <pre class="codeblock">// Get UUIDs
+RExtendedInquiryResponseUUIDContainer uuidContainer;
+error = eir.GetServiceClassUuids(uuidContainer);
+if(error &gt;= KErrNone)
+    {
+    RArray&lt;TUUID&gt; uuids;
+    TInt uuidCount = uuidContainer.UUIDs().Count();
+    if(uuidCount &gt; 0)
+     {
+        iHROutputConsole-&gt;Printf(_L("*** UUID Count: %d\n"), uuidCount);
+        TInt i;
+        for(i=0;i&lt;uuidCount;i++)
+            {
+            TInt j;
+            TPtrC8 uuid(uuidContainer.UUIDs()[i].ShortestForm());
+            // Treat it as a big endian
+            for(j=0;j&lt;uuid.Length();j++)
+                {
+                iHROutputConsole-&gt;Printf(_L("%02X"), uuid[j]);
+                }
+                
+            iHROutputConsole-&gt;Printf(_L(" \n"));
+            }
+        }
+    }</pre> </li>
+<li id="GUID-C694FBFB-496F-5936-B542-BDB3CD0C063B"><a name="GUID-C694FBFB-496F-5936-B542-BDB3CD0C063B"><!-- --></a><p>Get Manufacturer
+Specific data. </p> <p> <strong>Note:</strong> This data is entirely defined
+by the individual Manufacturer. </p> <pre class="codeblock">// Get Manufacturer Specific Data
+length = eir.GetVendorSpecificDataLength();
+TBuf8&lt;255&gt; msd;
+if(length &gt; 0)
+    {
+    error = eir.GetVendorSpecificData(msd);
+    }
+else
+    {
+    error = length;
+ }
+if(error == KErrNone)
+// we have Manufacturer Specific Data here
+    {
+    // This conversion is for display reason, in a real world this may not be necessary as 
+    // Manufacturer specific data can be just raw 8-bit data, however GetDeviceName() is
+    // different as it always return Unicode encoded 16-bit string
+    error = CnvUtfConverter::ConvertToUnicodeFromUtf8(name, msd);
+    if(error &gt;= KErrNone &amp;&amp; length &gt; 0)
+        {
+        iHROutputConsole-&gt;Printf(_L("%d Bytes Manufacturer Specific Data: %S\n"), length, &amp;name);
+        }
+    }
+}</pre> </li>
+</ol> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-F2A793F1-A5B5-526B-B147-771D440B13A2.html">Bluetooth Extended Inquiry Response</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated July 8th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-783D0B50-0E8A-5199-A07E-749D4A71E671.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:56 GMT -->
+</html>

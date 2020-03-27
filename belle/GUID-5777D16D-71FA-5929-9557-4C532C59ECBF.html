@@ -1,0 +1,108 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5777D16D-71FA-5929-9557-4C532C59ECBF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:05 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Platform Security Considerations" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-2016EF4B-F001-5EB2-8095-6048582511D6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5777D16D-71FA-5929-9557-4C532C59ECBF" /><meta name="DC.Language" content="en" /><title>Platform
+Security Considerations </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5777D16D-71FA-5929-9557-4C532C59ECBF">Platform
+Security Considerations</h1><div>
+<p>Symbian platform v9.1 introduced <a href="GUID-4BFEDD79-9502-526A-BA7B-97550A6F0601.html">Platform
+Security</a> (the concept of Capabilities, Signing and Data Caging) to
+protect a phone against malicious code. Granting a program certain capabilities
+enables it to use protected operating system functionality, and signing an
+installation file enables it to be installed onto different phones. </p>
+<p>A program using the P.I.P.S. libraries may need certain capabilities in
+order to use protected functionality to be available. The capabilities required
+are listed in the program's makefile (or an MMP file on the Symbian
+platform). For example, the following line added to a Symbian MMP file will
+grant network access to a program. </p>
+<pre class="codeblock">CAPABILITY     NetworkServices</pre>
+<p>Each Symbian program has access to a private area of storage in a <code>/private/&lt;secureid&gt;/</code> directory
+where <code class="codeph">secureid</code> is an identifier specified in the MMP file.
+If a <code class="codeph">secureid</code> is not specified in the MMP file, the <code class="codeph">secureid</code> is
+set from the program's third UID (Unique Identifier). Some extra capabilities
+are required if the program wishes to have access to another program's private
+area. Also it is worth noting that P.I.P.S. does not allow file descriptors
+in private directories to be inherited. </p>
+<div id="GUID-A4D36A90-314A-5EEA-A025-7135A9A60177"><h3 class="section-title">Capabilities
+supported for P.I.P.S. APIs</h3> <p>The following table provides details
+of the P.I.P.S. APIs and the capabilities that may need to be added. </p> <div class="tablenoborder"><a name="GUID-4DF992C4-AE1E-56BC-B97F-BC411D02E3FF"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-4DF992C4-AE1E-56BC-B97F-BC411D02E3FF" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>P.I.P.S. API</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Capabilities required</strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> lstat(), stat(), tmpnam(), tempnam(), wstat() </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">None</code> if the path is not in the protected /sys/
+or /private/ directory. </p> <p> <code class="codeph">AllFiles</code> if the path contains
+the protected /sys/ directory. </p> <p> <code class="codeph">AllFiles</code> if the path
+contains the protected /private/ directory using another program's Secure
+Identifier. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> open(), wfopen() </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">None</code> if the path is not in the protected /sys/
+or /private/ directory. </p> <p> <code class="codeph">AllFiles</code> if the path contains
+the protected /sys/ directory and read mode is specified. </p> <p> <code class="codeph">TCB</code> if
+the path contains the protected /sys/ directory and write mode is specified.
+P.I.P.S. libraries do not have the TCB capability, and so it is not possible
+to write to this directory. </p> <p> <code class="codeph">AllFiles</code> if the path
+contains the protected /private/ directory using another program's Secure
+Identifier. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> access(), chdir(), chmod(), creat(), fchmod(), ftok(), mkdir(), mkfifo(), rename(), rmdir(), utimes(), waccess(), wchdir(), wcreat(), wmkdir(), wrmdir(), wunlink(), unlink(), utime() </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">None</code> if the path is not in the protected /sys/,
+/resource/ or /private/ directory. </p> <p> <code class="codeph">TCB</code> if the path
+contains the protected /sys/ or /resource/ directory. P.I.P.S. libraries do
+not have the TCB capability, and so it is not possible to write to this directory. </p> <p> <code class="codeph">AllFiles</code> if
+the path contains the protected /private/ directory using another program's
+Secure Identifier. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> accept(), bind(), connect(), ioctl(), recv(), recvfrom(), send(), sendto(), recvmsg(), sendmsg() </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">None</code> if the descriptor does not refer to a socket. </p> <p> <code class="codeph">NetworkServices</code> if
+the descriptor is a socket. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div><h3 class="section-title">A P.I.P.S. platform security example</h3> <p>The following
+code illustrates how P.I.P.S. conforms to Data Caging rules while creating
+a file with and without capabilities. </p> <pre class="codeblock">#include &lt;stdio.h&gt;
+
+int main(int argc, char *argv[])
+{
+   FILE* file;
+   
+   //Create the file in another program's private directory
+   file = fopen("/private/10004902/out.file", "w");
+   if (file == NULL)
+   {
+      int I = errno;
+   
+      //Error occurred
+      printf("\nError creating file, error=%d", errno);    
+      return EXIT_FAILURE;
+   }
+   else
+   {
+      //File created
+      fprintf(file, "Sample File Output");
+      fclose(file);
+      
+      printf("\nFile created");    
+   }
+
+   return EXIT_SUCCESS;
+}</pre> <p>If no capabilities are provided, the code will print out
+an error message due to the attempted use of fopen() on
+another program's <code>/private/</code> directory. The error code
+displayed will be EACCESS, showing a security error. </p> <p>If,
+however, the <code class="codeph">AllFiles</code> capability is listed in the program's
+MMP file, the file will be generated successfully. </p> <p> <strong>Note:</strong> Here, <code class="codeph">AllFiles</code> represents
+a system capability and is not something your application should require or
+use, in most of the cases. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 3rd, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5777D16D-71FA-5929-9557-4C532C59ECBF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:05 GMT -->
+</html>

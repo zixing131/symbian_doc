@@ -1,0 +1,423 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-A1598248-EE3D-5ED5-A431-02DCEBEDF472.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:16:20 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="SIP Profile Setting" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-6425B722-4095-56E3-9198-70BA3E06C617" /><meta name="DC.Relation" scheme="URI" content="GUID-057F1F82-56AF-5696-853E-79196A3D567E" /><meta name="DC.Relation" scheme="URI" content="GUID-4C47ADC7-3624-5C39-B632-F227452C420A" /><meta name="DC.Relation" scheme="URI" content="GUID-82ABFD08-D354-5955-8F95-9F22859FCE2A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A1598248-EE3D-5ED5-A431-02DCEBEDF472" /><meta name="DC.Language" content="en" /><title> SIP
+Profile Setting </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A1598248-EE3D-5ED5-A431-02DCEBEDF472"> SIP
+Profile Setting</h1><div>
+<p>SIP Profiles are a set of configurable parameters related to registration.
+The SIP Profiles are stored in <a href="GUID-27F39152-0AF2-577A-A367-BCEE9060902E.html">CenRep</a>.
+The applications retrieve the profiles based on parameters (AOR, Profile Type
+to mention a few) from CenRep and use them. </p>
+<p>The SIP Profiles can be provided with the device.(Default) </p>
+<p>The user can create new SIP Profiles as per requirement. </p>
+<p>The existing SIP Profiles (Default) can be customised by the user. </p>
+<p>A Key Schema ( Key Space Design) is defined for the storage of the SIP
+Profile in CenRep. </p>
+<div><h3 class="section-title"> Key Schema for a SIP Profile</h3><p>SIP Profile data is
+referenced by using TUint32 constant as a Key. Several Keys defined in CSIPProfile,CSIPManagedProfile
+classes together define the parameters that constitute a complete SIP Profile.
+For more details refer to SIP Profile API Parameters. </p><p>The following
+schema is used to store SIP profile information in the Central Repository:
+ </p><div class="tablenoborder"><a name="GUID-6521952F-3664-40EE-BEF8-40FAA9B82D45"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-6521952F-3664-40EE-BEF8-40FAA9B82D45" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e412567"><p>8 bits   </p></th>
+<th class="cellrowborder" valign="top" id="d0e412571"><p> 12 bits</p></th>
+<th class="cellrowborder" valign="top" id="d0e412575"><p>12 bits</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412567 "><p>Profile Id      </p></td>
+<td class="cellrowborder" valign="top" headers="d0e412571 "><p> Variable Id</p></td>
+<td class="cellrowborder" valign="top" headers="d0e412575 "><p>Array index</p></td>
+</tr>
+</tbody>
+</table></div> <p><strong>Profile Id</strong> defines a SIP profile Id. The valid range for
+profile Id is 1 to 255. </p><p><strong>Variable Id</strong> identifies the variable.
+There can be a maximum of 4095 variables. </p><p><strong>Array Index</strong> indexes
+the array attribute. </p><ul>
+<li><p>The value at the ‘zero index’ contains the number of items in the array.</p></li>
+<li><p>Two different type of arrays are used :</p><ul>
+<li><p>Arrays that contain only data items. These arrays contain up to 4095
+elements .  </p></li>
+<li><p>Arrays that contain a list of Key value pairs. These arrays contain
+up to 2047 elements.</p><div class="tablenoborder"><a name="GUID-E3BCE901-5E92-4305-94E6-9C7C81E8555B"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-E3BCE901-5E92-4305-94E6-9C7C81E8555B" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e412642"><p>Element </p></th>
+<th class="cellrowborder" valign="top" id="d0e412646"><p>Binary value</p></th>
+<th class="cellrowborder" valign="top" id="d0e412650"><p> Data saved</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412642 "><p>Array[0]    </p></td>
+<td class="cellrowborder" valign="top" headers="d0e412646 "><p> 000000000000b</p></td>
+<td class="cellrowborder" valign="top" headers="d0e412650 "><p> 2(array length) </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412642 "><p>Array[1]      </p></td>
+<td class="cellrowborder" valign="top" headers="d0e412646 "><p> 000000000001b</p></td>
+<td class="cellrowborder" valign="top" headers="d0e412650 "><p>45</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412642 "><p>Array[2]     </p></td>
+<td class="cellrowborder" valign="top" headers="d0e412646 "><p>000000000002b </p></td>
+<td class="cellrowborder" valign="top" headers="d0e412650 "><p>67</p></td>
+</tr>
+</tbody>
+</table></div><p>Key/value array are stored in Key first order as {Key, value},{Key,
+value} pairs.</p><div class="tablenoborder"><a name="GUID-F65C1D91-EA0E-4263-94A3-064D9645495B"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-F65C1D91-EA0E-4263-94A3-064D9645495B" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e412718"><p>Element  </p></th>
+<th class="cellrowborder" valign="top" id="d0e412722"><p>Binary value</p></th>
+<th class="cellrowborder" valign="top" id="d0e412726"><p>Data saved</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412718 "><p>Array[0]      </p></td>
+<td class="cellrowborder" valign="top" headers="d0e412722 "><p> 000000000000b</p></td>
+<td class="cellrowborder" valign="top" headers="d0e412726 "><p>4(array length)</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412718 "><p>Array[1]     </p></td>
+<td class="cellrowborder" valign="top" headers="d0e412722 "><p>000000000001b</p></td>
+<td class="cellrowborder" valign="top" headers="d0e412726 "><p> ‘Server’(Key)</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412718 "><p>Array[2]      </p></td>
+<td class="cellrowborder" valign="top" headers="d0e412722 "><p> 000000000002b</p></td>
+<td class="cellrowborder" valign="top" headers="d0e412726 "><p>‘ 192.168.1.1’(value)</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412718 "><p>Array[3]      </p></td>
+<td class="cellrowborder" valign="top" headers="d0e412722 "><p> 000000000003b</p></td>
+<td class="cellrowborder" valign="top" headers="d0e412726 "><p>‘ Proxy’(Key)</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412718 "><p>Array[4]     </p></td>
+<td class="cellrowborder" valign="top" headers="d0e412722 "><p> 000000000004b</p></td>
+<td class="cellrowborder" valign="top" headers="d0e412726 "><p>‘ 192.168.1.1’(value)</p></td>
+</tr>
+</tbody>
+</table></div></li>
+</ul></li>
+</ul></div>
+<div><h3 class="section-title">Example</h3><p>The following example shows the complete CenRep Key/value data
+stored for a single predefined profile.The Key values are provided assuming
+Profile ID is '1' .  </p><p>  Provider Name: ‘Example Profile’
+  </p><p>Profile Id: 1   </p><p>Profile Type/Class: Internet  </p><p> Profile
+Type/Name : ‘IETF’  </p><p> Registrar Address: ‘192.168.1.1’  </p><p> Registrar
+User: ‘reguser’</p><p> Registrar Password: ‘regpass’   </p><p>Registrar Realm:
+’realm’   </p><p>Proxy Address: ‘192.168.1.1’   </p><p>Proxy User: ‘proxyuser’
+ </p><p> Proxy Password: ‘proxypass’  </p><p> Proxy Realm: ‘realm’   </p><p>Public
+User Name: ‘user@192.168.1.1’  </p><p> Password: ‘password’   </p><p>Proxy
+extension parameters : [key_1=‘value 1’, key_n=‘value n’]  </p><p> Registrar
+extension parameters : [key_1=‘value 1’, key_2=‘value 2’, key_n=‘value n’]
+  </p><p>Extension integer parameters :[11=1234, 22=5678]   </p><p>Extension
+boolean parameters :[33=1]  </p><p> Extension descriptor parameters : [44=‘extension
+descriptor parameter value’]  </p><p> Extension descriptor array parameters
+: [ [55, ‘Sub Array1 value1’, ‘Sub Array1 value2’, ‘Sub Array1 value3’], [66,
+‘Sub Array2 value1’, ‘Sub Array2 value2’, ‘Sub Array2 value3’, ‘Sub Array2
+value4’] ]  </p><div class="tablenoborder"><a name="GUID-60D1747B-E298-5F42-B2CE-9802A995A539"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-60D1747B-E298-5F42-B2CE-9802A995A539" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e412870"> Member</th>
+<th class="cellrowborder" valign="top" id="d0e412873"> CenRep Key</th>
+<th class="cellrowborder" valign="top" id="d0e412876"> Key value</th>
+<th class="cellrowborder" valign="top" id="d0e412879"> Data saved</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPProviderName </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPProviderName </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01002000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘Example Profile’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPProfileType. iSIPProfileClass </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPProfileClass </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFA000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>0 (0=Internet,1=Ims,2=Other) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPProfileType. iSIPProfileName </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPProfileName </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFD000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>'IETF’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPRegistrar </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KiSIPRegistrar </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01082000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘192.168.1.1[:port]’ </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPRegistrarParameter[i] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPRegistrarDigestUserName </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF1000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘Proxy’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPRegistrarParameter[i] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPRegistrarDigestPassword </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FEF000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>'192.168.1.1’ </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPRegistrarParameter[i] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPRegistrarDigestRealm </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF0000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘realm’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPOutboundProxy </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPOutboundProxy </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01083000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘192.168.1.1[:port;lr]’ </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPOutboundProxyParameter[i] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPProxyDigestUserName </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF4000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘proxyuser’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPOutboundProxyParameter[i] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPProxyDigestPassword </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF2000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘proxypass’ </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPOutboundProxyParameter[i] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPProxyDigestRealm </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF3000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘realm’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPProfileId </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPProfileId </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01001000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>1(first profile = 1, second = 2, …) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPOutboundProxyExtParameter[0] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtProxyParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFE000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>4 (the length of proxy extension parameter array) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPOutboundProxyExtParameter[1] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtProxyParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFE001 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>'key_1' </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPOutboundProxyExtParameter[2] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtProxyParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFE002 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘value 1’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPOutboundProxyExtParameter[n-1] ‘ </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtProxyParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFE003 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>'key_n’ </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPOutboundProxyExtParameter[n] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtProxyParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFE004 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘value n’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPRegistrarExtParameter[0] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPRegistrarExtParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFC000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>6 (the length of registrar extension parameter array) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPRegistrarExtParameter[1] ‘ </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPRegistrarExtParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFC001 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>'key_1’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPRegistrarExtParameter[2] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPRegistrarExtParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFC002 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘value 1’ </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPRegistrarExtParameter[3] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPRegistrarExtParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFC003 ‘ </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>'key_2’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPRegistrarExtParameter[4] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPRegistrarExtParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFC004 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘value 2’ </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPRegistrarExtParameter[n-1] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPRegistrarExtParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFC005 ‘ </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>'key_n’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iSIPRegistrarExtParameter[n] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPRegistrarExtParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FFC006 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘value n’ </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionIntParams[0] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionIntParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF8000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>4 (the length of extension int parameter array) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionIntParams[1] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionIntParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF8001 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>11 (the id of the first extension int parameter) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionIntParams[2] 1234 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionIntParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF8002 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>1234(value of the first extension int parameter) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionIntParams[3] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionIntParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF8003 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>22 (the id of the second extension int parameter) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionIntParams[4] 5678 (value of the second extension int parameter) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionIntParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF8004 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>5678 (value of the second extension int parameter) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionBoolParams[0] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSipExtensionBoolParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF7000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>2 (the length of extension Boolean parameter array) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionBoolParams[1] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSipExtensionBoolParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF7001 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>33 (the id of the boolean parameter ) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionBoolParams[2] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSipExtensionBoolParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF7002 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>1 (ETrue) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrParams[0] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF6000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>2 (the length of extension descriptor array) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrParams[1] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF6001 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>44 (the id of the descriptor parameter ) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrParams[2] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF6002 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘extension descriptor parameter value’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[0] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF5000 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>11 (total count of array) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[1] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF5001 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>3 (Sub Array1 count) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[2] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF5002 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>55 (Sub Array1 id) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[3] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF5003 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘Sub Array1 value1’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[4] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF5004 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘Sub Array1 value2’ </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[5] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF5005 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘Sub Array1 value3’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[6] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF5006 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>4 (Sub Array2 count) </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[7] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF5007 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>66 (Sub Array2 id) </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[8] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF5008 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘Sub Array2 value1’ </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[9] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF5009 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘Sub Array2 value2’ </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[10] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF500A </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘Sub Array2 value3’ </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e412870 "><p>iExtensionDescrArrayParams[11] </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412873 "><p>KSIPExtensionDescArrayParam </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412876 "><p>0x01FF500B </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e412879 "><p>‘Sub Array2 value4’ </p> </td>
+</tr>
+</tbody>
+</table></div></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 16th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-A1598248-EE3D-5ED5-A431-02DCEBEDF472.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:16:20 GMT -->
+</html>

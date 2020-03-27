@@ -1,0 +1,35 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6C1E4B3D-0FBF-5CEA-9A30-B4C5CB4CAC3E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:18 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Coding literal descriptors" /><meta name="abstract" content="Literal descriptors must be defined in their own C++ statement and the resulting constant used wherever it is required." /><meta name="description" content="Literal descriptors must be defined in their own C++ statement and the resulting constant used wherever it is required." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Relation" scheme="URI" content="GUID-7CB11EAD-260E-551A-85F1-FEAC975FE722" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-6C1E4B3D-0FBF-5CEA-9A30-B4C5CB4CAC3E" /><meta name="DC.Language" content="en" /><title>Coding
+literal descriptors </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-6C1E4B3D-0FBF-5CEA-9A30-B4C5CB4CAC3E">Coding
+literal descriptors</h1><div><p>Literal descriptors must be defined in their own C++ statement
+and the resulting constant used wherever it is required.</p>
+<p> Literal descriptors cannot be embedded in expressions because they do
+not create temporary objects.</p>
+<p>Literal objects can be declared safely in header files:</p>
+<ul>
+<li id="GUID-1EEAF77A-63B1-5191-95D7-6F24FAC6B94C"><a name="GUID-1EEAF77A-63B1-5191-95D7-6F24FAC6B94C"><!-- --></a><p>without requiring writable
+data</p> </li>
+<li id="GUID-BED08A91-2EAF-53CB-9B23-8F63D5658303"><a name="GUID-BED08A91-2EAF-53CB-9B23-8F63D5658303"><!-- --></a><p>without creating a copy
+of the data in every module that includes the header.</p> </li>
+</ul>
+<p>Literals can be defined at file-scope, including in header files, in which
+case they are visible to any code that follows. They can also be declared
+local to the function which uses them. However, there are a couple of caveats
+with defining them at function scope:</p>
+<ul>
+<li id="GUID-9193E180-8358-5BB9-8A76-5EAB4753FB4E"><a name="GUID-9193E180-8358-5BB9-8A76-5EAB4753FB4E"><!-- --></a><p>For very short strings,
+of the order of 3 ASCII characters or 1 UNICODE character, it is more efficient
+to declare the literals at file scope.</p> </li>
+<li id="GUID-CAEF761B-7E05-58C7-968E-FF9C31413FFB"><a name="GUID-CAEF761B-7E05-58C7-968E-FF9C31413FFB"><!-- --></a><p>Literal descriptors
+defined in inline functions are laid down in <em>every single</em> compilation
+module that includes the header file.</p> </li>
+</ul>
+<p>Thus, if the descriptor is short or used only in an inline function, it
+is better to define it at file scope with a suitably distinct name.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 15th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6C1E4B3D-0FBF-5CEA-9A30-B4C5CB4CAC3E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:18 GMT -->
+</html>

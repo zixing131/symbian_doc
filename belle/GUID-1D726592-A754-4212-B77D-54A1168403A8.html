@@ -1,0 +1,259 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1D726592-A754-4212-B77D-54A1168403A8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:48:57 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Converting active objects to Qt signals and slots" /><meta name="abstract" content="Qt and Symbian C++ have different asynchronous signalling mechanisms, so you need to convert between them if you are using a Symbian C++ component." /><meta name="description" content="Qt and Symbian C++ have different asynchronous signalling mechanisms, so you need to convert between them if you are using a Symbian C++ component." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-D1F69FDA-6ED7-4E29-BCD4-250DF3C4841B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1D726592-A754-4212-B77D-54A1168403A8" /><meta name="DC.Language" content="en" /><title>Converting active objects to Qt signals and slots  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1D726592-A754-4212-B77D-54A1168403A8">Converting active objects to Qt signals and slots </h1><div><p>Qt and Symbian C++ have different asynchronous signalling
+mechanisms, so you need to convert between them if you are using a
+Symbian C++ component.</p>
+<div id="GUID-01AB667B-BC62-43F5-8727-F5A37F0E7F25"><h3 class="section-title">Background</h3><p>When using Qt and Symbian C++ together, you may need to make use
+of a Symbian service with an asynchronous API. The best way to do
+this is to wrap the request in an active object and then notify completion
+of the request to Qt code using a Qt <a href="http://qt.nokia.com/doc/signalsandslots.html" target="_blank">signal</a>. </p><p>Converting an active object's completion events
+into signals and slots is straightforward: </p><ul>
+<li><p>Use the PIMPL idiom to create a public Qt-style API. </p></li>
+<li><p>Create the active object as the Symbian private implementation
+class (or as an object owned by the private class). </p></li>
+<li><p>Map functions/slots in the public class to functions that start
+the active object. </p></li>
+<li><p>Emit signals when the active object completes successfully
+using its pointer to the public implementation. Only Qt-style objects
+should be emitted with the signal. </p></li>
+<li><p>Emit signals if an error occurs. Qt uses module-local errors,
+so you should translate global (or local) errors from the underlying
+interface into errors defined by the module public API. </p></li>
+</ul><div class="note"><p><strong class="note_title">Note: </strong>Sometimes it may be possible to do a zero-copy transfer
+from a Symbian object to the Qt Object. For example it is possible
+to initialize a <code class="codeph">QString</code> to use a pointer to a buffer
+you have received from your asynchronous service. As always with C++,
+you need to ensure that the object you transfer has a lifetime that
+exceeds all of its users. Given the different approaches used by Qt
+and Symbian C++ for memory management, it is usually better to create
+a "fully new" Qt style object.</p></div><p>For a general introduction
+to active objects, see <a href="GUID-116A02BE-F93C-4E2C-8D75-E23B6EE67D2A.html">Introduction to active
+objects</a>. </p></div>
+<div id="GUID-331C29FB-EAA4-4295-A9DD-148D6C55463D"><h3 class="section-title">Dialpad
+example TelephonyPrivate active object</h3><p>This topic uses the
+Dialpad <code class="codeph">TelephonyPrivate</code> class (which
+is an active object) and builds on <a href="GUID-123ED0A9-2F1C-4DDD-9D90-E8DDADF673DB.html">Mixing Qt and Symbian
+C++ in your application</a>, which explains how the private object
+is constructed and started. This document explains how the private
+object signals events back to the Qt API.</p><div class="figure" id="GUID-62C838E3-A68C-4981-AF64-50F18D262202"><img src="GUID-93B9F374-13E3-47AC-971C-4F2758ED482E_d0e15879_href.png" /><p class="figure-title"><strong>Figure: </strong>TelephonyPrivate class is an active object with four states.</p></div></div>
+<div id="GUID-1007D830-62CE-4817-9B61-0E2C623E08D4"><h3 class="section-title">Signalling
+from the active object </h3><p>You signal errors and events from
+the private object back to the Qt API by emitting an appropriate signal
+on the public class. This is possible because the private object is
+passed a pointer to the public object on construction. Any objects
+that are emitted must be Qt-style objects to hide the private class
+implementation. Errors that are emitted must be local to the current
+Qt component (typically defined as enums on the public API) and not
+global Symbian errors. </p><p>The signal that is emitted can be connected
+to any number of slots. This has two implications: </p><ul>
+<li><p>Slots that run inside the context of our non-preemptive active
+scheduler (<code class="codeph">RunL()</code>) must be kept short. If the total
+time spent in all slots is too great, the UI may become unresponsive
+(or worse, block). </p></li>
+<li><p>Any of the slots connected to the signal can throw, and this
+propagates back to the emit. For this reason we use <code class="codeph">QT_TRYCATCH_LEAVING</code> barriers when we emit signals that can propagate into Symbian code.</p></li>
+</ul><p><strong>RunL() </strong></p><p>Below is a fragment of the <code class="codeph">TelephonyPrivate::RunL()</code>, which is called when the asynchronous service completes. <code class="codeph">RunL()</code> is called when call connection and disconnection
+requests complete. The code checks if the completing request was to
+connect or disconnect a phone call and it emits the appropriate signal.
+If there is an error, it is converted to a <code class="codeph">Telephony::TelephonyErrors</code> enum value, which is emitted as a parameter with the <code class="codeph">error()</code> signal.</p><pre class="codeblock">// Called when an asynchronous service request completes.
+// This is called when requests for connecting and disconnecting calls complete.
+void TelephonyPrivate::RunL()
+{
+
+    // Check return code and emit the appropriate signal based on iCallState.
+    if (iStatus == KErrNone)
+    {
+        // Start call request has completed successfully.
+        if (iCallState == EDialling) {
+            iCallState = EConnected;
+
+            // Call connect was succesful - notify clients.
+            // This Qt code could throw, need to convert to a Symbian Leave if it does.
+            QT_TRYCATCH_LEAVING( emit iPublic-&gt;callConnected() );
+
+            // Start a new async request to be notified if the called party hangs up.
+            iTelephony-&gt;NotifyChange(iStatus, CTelephony::EVoiceLineStatusChange, iCallStatusPckg);
+            SetActive();
+        }
+
+        // Hang up request has completed successfully.
+        else if (iCallState == EDisconnecting) {
+            iCallState = EIdle;
+
+            // Notify clients of call disconnection.
+            QT_TRYCATCH_LEAVING( emit iPublic-&gt;callDisconnected() );
+        }
+
+        // CTelephony::NotifyChange() has completed.
+        // The call state has changed. Check if the called party has hung-up
+        // by checking for disconnecting status.
+        // Emit callDisconnected if necessary
+        else if (iCallState == EConnected) {
+
+            // Is the call disconnecting?
+            if (iCallStatus.iStatus == CTelephony::EStatusDisconnecting) {
+
+                iCallState = EIdle;
+
+                // Notify clients of call disconnection.
+                QT_TRYCATCH_LEAVING( emit iPublic-&gt;callDisconnected() );
+            }
+        }
+
+    }
+    // Return code was not KErrNone - so it could be an error or a timeout.
+    // Convert the Symbian error code into an enum value defined on the Telephony interface.
+    else {
+        iCallState = EIdle;
+        ConvertErrorL(iStatus.Int());
+    }
+}</pre><p><strong>SetActive() </strong></p><p>The private functions <code class="codeph">startCall()</code>  and <code class="codeph">endCall()</code> start the active
+object. They check the current object state, and if necessary, create
+an asynchronous request on a <code class="codeph">CTelephony</code> object to
+start or end a phone call. Finally they call <code class="codeph">CActive::SetActive()</code> to set the object active. </p><p>In the Dialpad example <code class="codeph">startCall()</code> emits a signal on error (the object is already
+started) or to notify clients that it started successfully. Here we
+do not need a barrier around the emit call because although it can
+throw, <code class="codeph">startCall()</code> can only be called by the Qt API.
+The behavior of <code class="codeph">endCall()</code> is similar. </p><pre class="codeblock">// Public interface slot implementation - start a call using number.
+void TelephonyPrivate::startCall(QString number)
+{
+    // Only allow one call to be active at any time
+    if (iCallState != EIdle) {
+        return;
+    }
+
+    // Convert the QString to a descriptor
+    // typedef TBuf&lt;KMaxTelNumberSize&gt; TTelNumber;
+    CTelephony::TTelNumber telNumber(number.utf16());
+
+    // Dial the call
+    CTelephony::TCallParamsV1 callParams;
+    callParams.iIdRestrict = CTelephony::EIdRestrictDefault;
+    CTelephony::TCallParamsV1Pckg callParamsPckg(callParams);
+
+    // iCallId is set to a unique ID which can be used to end the call later.
+    iTelephony-&gt;DialNewCall(iStatus, callParamsPckg, telNumber, iCallId);
+
+    // Emit the callDialling signal to clients.
+    iCallState = EDialling;
+
+    // This function is only called from Qt code so no need to wrap in QT_TRY_CATCH_LEAVING.
+    emit iPublic-&gt;callDialling(number);
+
+    SetActive();
+}
+
+// Public interface slot implementation - end the current call.
+void TelephonyPrivate::endCall()
+{
+    // If the call is still dialling, cancel that request
+    if (iCallState == EDialling) {
+        Cancel(); // Calls DoCancel() to cancel any outstanding async request
+        iCallState = EIdle;
+
+        // Notify clients that the call disconnected.
+        // This function is only called from Qt code so no need to wrap in QT_TRY_CATCH_LEAVING.
+        emit iPublic-&gt;callDisconnected();
+        return;
+    }
+
+    // The call has been answered - so hang up.
+    else if (iCallState == EConnected) {
+        iTelephony-&gt;Hangup(iStatus, iCallId);
+        iCallState = EDisconnecting;
+
+        // Only emit callDisconnected() when this async request has completed - see RunL().
+        SetActive();
+    }
+}</pre><p><strong>DoCancel()</strong></p><p>The function <code class="codeph">CActive::Cancel()</code> can be called to cancel an asynchronous request, and in turn calls
+the derived class's <code class="codeph">CActive::DoCancel()</code> implementation
+if it is called when the object is active. The <code class="codeph">Cancel()</code> function MUST  be called from the active object destructor to cancel
+any outstanding requests - the active scheduler panics because of
+a “stray signal” if a destroyed object is still waiting on a signal. </p><p>In the Dialpad example <code class="codeph">DoCancel()</code> cancels an
+outstanding request to start or end a phone call. </p><pre class="codeblock">// Cancel an outstanding asynchronous request.
+// What to do here depends on what state the call is in.
+void TelephonyPrivate::DoCancel()
+{
+    if (iCallState == EDialling) {
+        iTelephony-&gt;CancelAsync(CTelephony::EDialNewCallCancel);
+    }
+    else if (iCallState == EDisconnecting)
+    {
+        iTelephony-&gt;CancelAsync(CTelephony::EHangupCancel);
+    }
+    else if (iCallState == EConnected)
+    {
+        iTelephony-&gt;CancelAsync(CTelephony::EVoiceLineStatusChangeCancel);
+    }
+    // If iCallState is EIdle there is no outstanding async request.
+}</pre><p><strong>Callback APIs</strong></p><div class="p"><div class="note"><p><strong class="note_title">Note: </strong>A callback interface
+is not implemented in the Dialpad example, where the <code class="codeph">TelephonyPrivate</code> implementation is a <code class="codeph">CActive</code> object instead.</p></div></div><p>Symbian C++ provides APIs that use callbacks to signal
+completion of an asynchronous service. (Internally these are implemented
+as active objects; using a callback simplifies the use of the API
+for client code.) A good example of this is <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-778D24B5-A68E-3C91-B66A-69007FBA4791.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-778D24B5-A68E-3C91-B66A-69007FBA4791.html"><code class="apiname">CMdaAudioPlayerUtility</code></a>, which takes an instance of <code class="codeph">MMdaAudioPlayerCallback</code> in its static factory constructor, and calls methods on this to
+indicate when initialisation and playing are complete. </p><p>Wrapping
+a Symbian C++ callback is even easier than using an active object
+directly. Again you can use PIMPL to create a Qt class, with a private
+implementation. This private implementation owns an instance of the
+Symbian class and implements its callback interface. </p><pre class="codeblock">class MyAudioPlayerPrivate : public QObject, public MMdaAudioPlayerCallback
+{
+public:
+    QMyAudioPlayer (MyAudioPlayer *wrapper = 0);
+    ~QMyAudioPlayer ();
+ 
+public:
+    //methods, slots intiate play (duplicate API of the public class)
+ 
+public: //From MMdaAudioPlayerCallback
+    virtual void MapcInitComplete(TInt aError, const TTimeIntervalMicroSeconds &amp;aDuration;);
+    virtual void MapcPlayComplete(TInt aError);
+ 
+private:
+    void ErrorConvertToLocal(int err);
+ 
+private: // Data
+    CMdaAudioPlayerUtility *iAudioPlayer;  //The audio player object
+    MyAudioPlayer *d_ptr; // pointer to Qt public API
+};
+ 
+ 
+MyAudioPlayerPrivate::MyAudioPlayerPrivate (MyAudioPlayer *wrapper) 
+: d_ptr(wrapper)
+{
+    QT_TRAP_THROWING(iAudioPlayer=CMdaAudioPlayerUtility::NewL(this)); 
+        //note, throws if can't construct object
+}
+ 
+MyAudioPlayerPrivate::~MyAudioPlayerPrivate()
+{
+    delete iAudioPlayer;
+}
+</pre><p>We can then emit any needed signals from the callback: </p><pre class="codeblock">MyAudioPlayerPrivate::initialisationComplete()
+{
+    QT_TRY {
+        emit d_ptr-&gt;initialisationComplete();
+    }
+    QT_CATCH (std::exception&amp;amp;) {}
+}
+</pre><p>Note that the above code traps exceptions, and does
+not deal with them or re-throw them. Generally this is not good practice.
+However, here we are constrained by the API - we cannot leave because
+its prototype indicates that it may only be used in a leave-safe way.
+Similarly we cannot throw, because this leads back into Symbian code.
+Absorbing the errors is our only choice. </p><div class="note"><p><strong class="note_title">Caution: </strong>It is important to remember that any callback may be run from
+within the context of a <code class="codeph">RunL()</code>. If you have any Qt
+code that might throw in a leaving callback, this should be wrapped
+in a <code class="codeph">QT_TRYCATCH_LEAVING</code> method.</p></div></div>
+<div id="GUID-B6E77357-9661-41ED-81D2-6F12A4131C52-GENID-GUID-9C11CBE2-E752-4D69-8AC6-BBAD9D9BA405"><h3 class="section-title">Copyright
+note</h3><p>Some of the material in this topic is based with permission
+on a Symbian Foundation wiki article <cite>Apps:Using Qt and Symbian
+C++ Together</cite> . The version used was that available at Symbian
+Foundation on 3 November 2010. The content in this page is licensed
+under the Creative Commons Attribution-Share Alike 2.0 UK: England
+&amp; Wales License (<a href="http://creativecommons.org/licenses/by-sa/2.0/uk" target="_blank">http://creativecommons.org/licenses/by-sa/2.0/uk</a>).</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1D726592-A754-4212-B77D-54A1168403A8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:00 GMT -->
+</html>

@@ -1,0 +1,73 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-ECEA58F3-F26C-4F5F-8674-7E3CB7BFE0E4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Integrating and testing the application help" /><meta name="abstract" content="This topic describes how to integrate the application help with your Symbian application and test it on emulator and on the Symbian device." /><meta name="description" content="This topic describes how to integrate the application help with your Symbian application and test it on emulator and on the Symbian device." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-1CE41300-0AFA-4DFB-809C-80A8637245E8" /><meta name="DC.Relation" scheme="URI" content="GUID-C2117749-D227-4EBF-94CE-F9CDACB9DEFB" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-ECEA58F3-F26C-4F5F-8674-7E3CB7BFE0E4" /><meta name="DC.Language" content="en" /><title>Integrating and testing the application help </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-ECEA58F3-F26C-4F5F-8674-7E3CB7BFE0E4">Integrating and testing the application help</h1><div><p>This topic describes how to integrate the application help
+with your Symbian application and test it on emulator and on the Symbian
+device.</p>
+<p>The application help can be integrated and tested on the following
+platforms: </p>
+<div class="p"><ul>
+<li><p><a href="#GUID-B916D74B-EA1B-479A-BAA2-FA720A37DEF6">On emulator</a></p></li>
+<li><p><a href="#GUID-2E42D313-43C3-46CC-9C1B-8E3C138CD3B7">On the Symbian device</a></p></li>
+</ul></div>
+<div id="GUID-B916D74B-EA1B-479A-BAA2-FA720A37DEF6"><h3 class="section-title">On
+emulator</h3><div class="p">Perform the following steps to integrate and launch
+the application help on emulator:<ol>
+<li id="GUID-C311D74E-B62B-42AA-ADE0-87458D6A76C1"><a name="GUID-C311D74E-B62B-42AA-ADE0-87458D6A76C1"><!-- --></a><p>Open the <code>bld.inf</code> file of your Symbian application.</p></li>
+<li id="GUID-6186269F-7CB8-42C9-AF8B-E34B68B14214"><a name="GUID-6186269F-7CB8-42C9-AF8B-E34B68B14214"><!-- --></a><p>Edit the <code class="codeph">bld.inf</code> file to export <code class="codeph">contents.zip</code>, <code class="codeph">index.xml</code>, <code class="codeph">keywords.xml</code>, <code class="codeph">meta.xml</code> and images to the <code class="codeph">c:</code> drive of the emulator and
+also other appropriate paths.</p> <p>For example:</p><div class="p"><pre class="codeblock">../help/xhtml/01/0x2002c37b/contents.zip  	\epoc32\winscw\c\resource\xhtml\01\0x2002c37b\contents.zip
+../help/xhtml/01/0x2002c37b/index.xml  	\epoc32\winscw\c\resource\xhtml\01\0x2002c37b\index.xml
+../help/xhtml/01/0x2002c37b/keywords.xml  	\epoc32\winscw\c\resource\xhtml\01\0x2002c37b\keywords.xml
+../help/xhtml/01/0x2002c37b/meta.xml  	\epoc32\winscw\c\resource\xhtml\01\0x2002c37b\meta.xml
+../help/xhtml/theme/icons/cshelphelloworld_button1.png  	\epoc32\winscw\c\resource\xhtml\theme\icons\cshelphelloworld_button1.png
+../help/xhtml/theme/icons/qgn_cshelphelloworld_caution.gif  	\epoc32\winscw\c\resource\xhtml\theme\icons\qgn_cshelphelloworld_caution.gif
+../help/xhtml/theme/icons/qgn_cshelphelloworld_example.gif  	\epoc32\winscw\c\resource\xhtml\theme\icons\qgn_cshelphelloworld_example.gif
+../help/xhtml/theme/icons/qgn_cshelphelloworld_link_ref_popup.gif  	\epoc32\winscw\c\resource\xhtml\theme\icons\qgn_cshelphelloworld_link_ref_popup.gif
+../help/xhtml/theme/icons/qgn_cshelphelloworld_link_web.gif  	\epoc32\winscw\c\resource\xhtml\theme\icons\qgn_cshelphelloworld_link_web.gif
+../help/xhtml/theme/icons/qgn_cshelphelloworld_note.gif  	\epoc32\winscw\c\resource\xhtml\theme\icons\qgn_cshelphelloworld_note.gif
+../help/xhtml/theme/icons/qgn_cshelphelloworld_tip.gif  	\epoc32\winscw\c\resource\xhtml\theme\icons\qgn_cshelphelloworld_tip.gif
+../help/xhtml/theme/icons/qgn_cshelphelloworld_warning.gif  	\epoc32\winscw\c\resource\xhtml\theme\icons\qgn_cshelphelloworld_warning.gif</pre></div></li>
+<li id="GUID-901F7C4A-099C-42CC-AB13-9DAA3652A0BE"><a name="GUID-901F7C4A-099C-42CC-AB13-9DAA3652A0BE"><!-- --></a><p>Save and close
+the <code class="codeph">bld.inf</code> file.</p></li>
+<li id="GUID-69E38CF1-5713-40CE-B01E-4364AA59EED5"><a name="GUID-69E38CF1-5713-40CE-B01E-4364AA59EED5"><!-- --></a><p>Build the Symbian
+application to export the <code class="codeph">contents.zip</code>, <code class="codeph">index.xml</code>, <code class="codeph">keywords.xml</code>, <code class="codeph">meta.xml</code>, and images.</p></li>
+<li id="GUID-1E03529A-D9C7-4F71-9454-AF04E5C42CCC"><a name="GUID-1E03529A-D9C7-4F71-9454-AF04E5C42CCC"><!-- --></a><p>Run the emulator.</p></li>
+<li id="GUID-9242D2A4-160A-4B41-88AC-CCDEFEB1FB7E-GENID-GUID-DC7527B9-02B7-4C03-9622-1CDB563C29EC"><a name="GUID-9242D2A4-160A-4B41-88AC-CCDEFEB1FB7E-GENID-GUID-DC7527B9-02B7-4C03-9622-1CDB563C29EC"><!-- --></a><p>Launch the application
+help by selecting <strong>Menu &gt; User Guide &gt; App user guide topics &gt; &lt;help&gt;</strong>. </p><p>Where <code class="codeph">&lt;help&gt;</code> is the name of the application
+help that you have created.</p> <p>If you have added the help menu
+item as instructed in <a href="GUID-F966D5D2-D0DB-4F62-9911-EEB0464CDBAC.html">Launching a help
+topic from a Symbian application</a>, you can view the specific
+help topic by launching the Symbian application and clicking the help
+menu item.</p> </li>
+</ol></div></div>
+<div id="GUID-2E42D313-43C3-46CC-9C1B-8E3C138CD3B7"><h3 class="section-title">On
+the Symbian device</h3><p>Perform the following steps to integrate
+and launch the application help on the Symbian device:</p><ol>
+<li id="GUID-802DB60C-633F-46B8-B6F5-038BF25CE7A8"><a name="GUID-802DB60C-633F-46B8-B6F5-038BF25CE7A8"><!-- --></a><p>Open the <code>.pkg</code> file of your Symbian application.</p></li>
+<li id="GUID-9080F6B7-481B-47E7-862A-95321CF125B8"><a name="GUID-9080F6B7-481B-47E7-862A-95321CF125B8"><!-- --></a><p>Ensure that <code class="codeph">contents.zip</code>, <code class="codeph">index.xml</code>, <code class="codeph">keywords.xml</code>, <code class="codeph">meta.xml</code> and  images are included in the <code>.pkg</code> file.</p> <p>For example:</p><div class="p"><pre class="codeblock">; all help content related files here till the end of this file.
+"../help/xhtml/01/0x2002c37b/contents.zip"	-"!:\resource\xhtml\01\0x2002c37b\contents.zip"
+"../help/xhtml/01/0x2002c37b/index.xml"	-"!:\resource\xhtml\01\0x2002c37b\index.xml"
+"../help/xhtml/01/0x2002c37b/keywords.xml"	-"!:\resource\xhtml\01\0x2002c37b\keywords.xml"
+"../help/xhtml/01/0x2002c37b/meta.xml"	-"!:\resource\xhtml\01\0x2002c37b\meta.xml"
+"../help/xhtml/theme/icons/cshelphelloworld_button1.png"	-"!:\resource\xhtml\theme\icons\cshelphelloworld_button1.png"
+"../help/xhtml/theme/icons/qgn_cshelphelloworld_caution.gif"   -"!:\resource\xhtml\theme\icons\qgn_cshelphelloworld_caution.gif"
+"../help/xhtml/theme/icons/qgn_cshelphelloworld_example.gif"   -"!:\resource\xhtml\theme\icons\qgn_cshelphelloworld_example.gif"
+"../help/xhtml/theme/icons/qgn_cshelphelloworld_link_ref_popup.gif"	 -"!:\resource\xhtml\theme\icons\qgn_cshelphelloworld_link_ref_popup.gif"
+"../help/xhtml/theme/icons/qgn_cshelphelloworld_link_web.gif"  -"!:\resource\xhtml\theme\icons\qgn_cshelphelloworld_link_web.gif"
+"../help/xhtml/theme/icons/qgn_cshelphelloworld_note.gif"	-"!:\resource\xhtml\theme\icons\qgn_cshelphelloworld_note.gif"
+"../help/xhtml/theme/icons/qgn_cshelphelloworld_tip.gif"	-"!:\resource\xhtml\theme\icons\qgn_cshelphelloworld_tip.gif"
+"../help/xhtml/theme/icons/qgn_cshelphelloworld_warning.gif"  -"!:\resource\xhtml\theme\icons\qgn_cshelphelloworld_warning.gif"
+</pre></div></li>
+<li id="GUID-E8020516-86FD-4F4F-8055-48A37DAFC1FB"><a name="GUID-E8020516-86FD-4F4F-8055-48A37DAFC1FB"><!-- --></a><p>Create and sign
+the SIS file for the Symbian application. For information on how to
+create and sign a SIS file, see <a href="http://library.developer.nokia.com/index.jsp?topic=/GUID-E35887BB-7E58-438C-AA27-97B2CDE7E069/GUID-03BBEA31-3266-5B1C-9017-4EE7EA4AF1A8.html" target="_blank">Creating and Signing an Installation File</a>.</p></li>
+<li id="GUID-85D2F2AE-BDD0-4342-A042-656D639BFC1D"><a name="GUID-85D2F2AE-BDD0-4342-A042-656D639BFC1D"><!-- --></a><p>Copy the SIS
+file to the Symbian device and then install it.</p></li>
+<li id="GUID-9242D2A4-160A-4B41-88AC-CCDEFEB1FB7E-GENID-GUID-DC7527B9-02B7-4C03-9622-1CDB563C29EC"><a name="GUID-9242D2A4-160A-4B41-88AC-CCDEFEB1FB7E-GENID-GUID-DC7527B9-02B7-4C03-9622-1CDB563C29EC"><!-- --></a><p>Launch the help
+by selecting <strong>Menu &gt; User Guide &gt; App user guide topics &gt; &lt;help&gt;</strong>. </p> </li>
+</ol></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-ECEA58F3-F26C-4F5F-8674-7E3CB7BFE0E4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+</html>

@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_app_organizer_organizer_pub_calendar_interim_utils2_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:32 GMT -->
+<head><title>Calendar Interim Utils2 API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i128 i273 i274"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Calendar Interim Utils2 API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.2</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.3</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Allocating_a_new_global_UID_for_Calendar_entry"><span class="tocnumber">2.1</span> <span class="toctext">Allocating a new global UID for Calendar entry</span></a></li>
+<li class="toclevel-2"><a href="#Checking_whether_the_Meeting_Request_Viewer_functionality_is_enabled_and__available_for_use"><span class="tocnumber">2.2</span> <span class="toctext">Checking whether the Meeting Request Viewer functionality is enabled and  available for use</span></a></li>
+<li class="toclevel-2"><a href="#Populating_empty_fields_of_a_child_entry_with_data_from_the_parent_entry"><span class="tocnumber">2.3</span> <span class="toctext">Populating empty fields of a child entry with data from the parent entry</span></a></li>
+<li class="toclevel-2"><a href="#Storing_a_Calendar_entry"><span class="tocnumber">2.4</span> <span class="toctext">Storing a Calendar entry</span></a></li>
+<li class="toclevel-2"><a href="#Checking_whether_the_given_entry_has_properties_consistent_with_a_meeting_request"><span class="tocnumber">2.5</span> <span class="toctext">Checking whether the given entry has properties consistent with a meeting request</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.6</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Extensions_to_the_API"><span class="tocnumber">2.7</span> <span class="toctext">Extensions to the API</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#References"><span class="tocnumber">3</span> <span class="toctext">References</span></a></li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The purpose of Calendar Interim Utils2 API is to provide utility methods
+that extend Calendar Interim API. Calendar Interim API is introduced in Symbian
+OS v9.1 (S60 3rd Edition) and replaces Agenda Model API in previous version.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>CalenInterimUtils2.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/app/organizer/organizer_pub/calendar_interim_utils2_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/app/organizer/organizer_pub/calendar_interim_utils2_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Calendar Interim Utils2 API can be categorized as a library API and offers
+common functions used in Calendar entry manipulation, such as allocating a
+new global UID or checking to see if the given entry has properties consistent
+with a meeting request, and so on.
+</p><p>The type of this API is a normal method call interface. This API provides
+both static and non-static methods buffering some of the results, so that they
+do not need to be re-fetched.
+</p><p>This API is meant for applications that need to manipulate Calendar entries.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.2 Use Cases </span></h3>
+</a><p>The following are the most common use cases of the Calendar Interim Utils2 API:
+</p>
+<ul><li> Allocating a new global UID for Calendar entry
+</li><li> Checking whether the Meeting Request Viewer functionality is enabled and available to use
+</li><li> Populating empty fields of a child entry with data from the parent entry
+</li><li> Storing a Calendar entry
+</li><li> Checking if a given entry has properties consistent with a meeting request
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.3 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CCalenInterimUtils2 <td><span class="plainlinks"><code>/epoc32/include/app/CalenInterimUtils2.h</code></span>
+</td>
+<p>Class <span class="plainlinks"><code>CCalenInterimUtils2</code> </span> is derived from <span class="plainlinks"><code>CBase</code> </span>, and it contains some utility methods.
+The classes of the Calendar Interim Utils2 API are shown in the following class diagram:
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Calendar_Interim_Utils2_Class.png" title="Class diagram of the Calendar Interim Utils2 API"><img alt="Class diagram of the Calendar Interim Utils2 API" border="0" height="289" src="images/SPB_10_1_Calendar_Interim_Utils2_Class.png" width="344" /></a></div>
+<div style="text-align:center"><i>Class diagram of the Calendar Interim Utils2 API</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>If you intend to use the non-static methods of this API, it is recommended
+for performance reasons, to allocate a single instance of the <span class="plainlinks"><code>CCalenInterimUtils2</code> </span> object
+for the lifetime of a process. The <code>GlobalUidL()</code> and <code>MRViewersEnabledL()</code> methods
+buffer data that is non-trivial to retrieve, so it is worth keeping an instance
+of the <span class="plainlinks"><code>CCalenInterimUtils2</code> </span> object between calls. If you intend to use only
+the static methods, then it is not really worth keeping an instance of the
+<span class="plainlinks"><code>CCalenInterimUtils2</code> </span> object in memory.
+</p>
+<a name="Allocating_a_new_global_UID_for_Calendar_entry"><h3> <span class="mw-headline">2.1 Allocating a new global UID for Calendar entry </span></h3>
+</a><p>The following code snippet demonstrates how to allocate a new global UID
+and return the ownership to the caller.
+</p>
+<pre>#include &lt;CalEntry.h&gt;
+#include &lt;CalenInterimUtils2.h&gt;
+// Instantiate utils
+//
+CCalenInterimUtils2* utils = CCalenInterimUtils2::NewL();
+CleanupStack::PushL( utils );
+// Generate a new UID
+//
+HBufC8* uid = utils-&gt;GlobalUidL();
+CleanupStack::PushL( uid );
+// Create a new Calendar entry using the UID
+//
+CCalEntry* entry = CCalEntry::NewL( CCalEntry::EAppt, uid, CCalEntry::EMethodNone, 0);
+CleanupStack::Pop( uid );
+CleanupStack::PushL( entry );
+// Set other property
+...
+// Clean up temporary variables
+//
+CleanupStack::Pop( entry );
+CleanupStack::PopAndDestroy( utils );
+</pre>
+<a name="Checking_whether_the_Meeting_Request_Viewer_functionality_is_enabled_and__available_for_use"><h3> <span class="mw-headline">2.2 Checking whether the Meeting Request Viewer functionality is enabled and  available for use </span></h3>
+</a><p>The following code snippet demonstrates how to check to see if the Meeting
+Request Viewer functionality is enabled and available for use.
+</p>
+<pre>#include &lt;CalenInterimUtils2.h&gt;
+// Instantiate utils
+//
+CCalenInterimUtils2* utils = CCalenInterimUtils2::NewL();
+// Check the Meeting Request Viewer status
+//
+TBool enabled = utils-&gt;MRViewersEnabledL();
+// Clean up temporary variables
+//
+delete utils;
+utils = NULL;
+</pre>
+<a name="Populating_empty_fields_of_a_child_entry_with_data_from_the_parent_entry"><h3> <span class="mw-headline">2.3 Populating empty fields of a child entry with data from the parent entry </span></h3>
+</a><p>The following code snippet demonstrates how to populate empty fields of
+a child entry with data from the parent entry.
+</p>
+<pre>#include &lt;CalEntry.h&gt;
+#include &lt;CalenInterimUtils2.h&gt;
+// Instantiate utils
+//
+CCalenInterimUtils2* utils = CCalenInterimUtils2::NewL();
+CleanupStack::PushL( utils );
+// Get the parent Calendar entry
+//
+CCalEntry* parent = ...;
+CleanupStack::PushL(parent);
+// Create child Calendar entry
+//
+CCalEntry* child = CCalEntry::NewL( parent-&gt;EntryTypeL(),
+                                    parent-&gt;UidL().AllocL(),
+                                    parent-&gt;MethodL(),
+                                    parent-&gt;SequenceNumberL(),
+                                    parent-&gt;StartTimeL(),
+                                    CalCommon::EThisOnly );
+CleanupStack::PushL( child );
+// Populate empty fields of child entity
+//
+utils-&gt;PopulateChildFromParentL( *child, *parent);
+// StartAndEndTime should be set separately
+//
+child-&gt;SetStartAndEndTimeL( parent-&gt;StartTimeL(), parent-&gt;EndTimeL() );
+// Clean up temporary variables
+//
+CleanupStack::PopAndDestroy( child );
+CleanupStack::PopAndDestroy( parent );
+CleanupStack::PopAndDestroy( utils );
+</pre>
+<a name="Storing_a_Calendar_entry"><h3> <span class="mw-headline">2.4 Storing a Calendar entry </span></h3>
+</a><p>The following code snippet demonstrates how to store the Calendar entry
+to the Calendar database. The use of this function should be favoured over
+the  direct use of the <span class="plainlinks"><code>CCalEntryView::StoreL()</code> </span> function. It wraps around <span class="plainlinks"><code>CCalEntryView::StoreL()</code> </span> or <span class="plainlinks"><code>CCalEntryView::UpdateL()</code> </span> and makes the appropriate call to either of those methods, depending on
+several factors, such as whether the entry is a child or parent, and whether
+it has exceptions or not. This function also handles preserving child entries
+which would  be lost by a direct call to <span class="plainlinks"><code>CCalEntryView::StoreL()</code> </span>.
+</p>
+<pre>#include &lt;CalEntry.h&gt;
+#include &lt;CalEntryView.h&gt;
+#include &lt;CalSession.h&gt;
+#include &lt;CalenInterimUtils2.h&gt;
+// Instantiate CCalSession
+//
+CCalSession* calSession = ...;
+CleanupStack::PushL( calSession );
+// Instantiate CCalEntryView
+//
+CCalEntryView* entryView = CCalEntryView::NewL( *calSession, *this );
+CleanupStack::PushL( entryView );
+// Instantiate utils
+//
+CCalenInterimUtils2* utils = CCalenInterimUtils2::NewL();
+CleanupStack::PushL( utils );
+// Create Calendar entry
+//
+CCalEntry* entry = ...;
+CleanupStack::PushL( entry );
+// Store the Calendar entry to repository
+//
+iUtils-&gt;StoreL( *entryView, *entry );
+// Clean up temporary variables
+//
+CleanupStack::PopAndDestroy( entry );
+CleanupStack::PopAndDestroy( utils );
+CleanupStack::PopAndDestroy( entryView );
+CleanupStack::PopAndDestroy( calSession );
+</pre>
+<a name="Checking_whether_the_given_entry_has_properties_consistent_with_a_meeting_request"><h3> <span class="mw-headline">2.5 Checking whether the given entry has properties consistent with a meeting request </span></h3>
+</a><p>The following code snippet demonstrates how to check if the given entry
+has properties consistent with a meeting request.
+</p>
+<pre>#include &lt;CalenInterimUtils2.h&gt;
+// Instantiate utils
+//
+CCalenInterimUtils2* utils = CCalenInterimUtils2::NewL();
+CleanupStack::PushL( utils );
+// Create Calendar entry
+//
+CCalEntry* entry = ...;
+CleanupStack::PushL( entry );
+// Check if the entry is a meeting request or not
+//
+TBool isMeetingRequest = utils-&gt;IsMeetingRequestL( *entry );
+// Clean up temporary variables
+//
+CleanupStack::PopAndDestroy( entry );
+CleanupStack::PopAndDestroy( utils );
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.6 Error handling </span></h3>
+</a><p>All methods leave in case of an error situation. Normal Symbian error handling
+practises should be used, for example, using cleanup stack and trap harness.
+</p>
+<a name="Extensions_to_the_API"><h3> <span class="mw-headline">2.7 Extensions to the API </span></h3>
+</a><p>The Calendar Interim Utils2 API is a utility class and does not explicitly
+support any kinds of extensions to it.
+</p>
+<a name="References"><h2> <span class="mw-headline">3 References </span></h2>
+<table border="1" cellspacing="0">
+<tr>
+<td> Symbian Calendar Interim API
+</td><td> [mk:@MSITStore:Symbian_DevLib.chm::/doc_source/reference/reference-cpp/CALINTERIMAPI/index.html CALINTERIMAPI]
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_app_organizer_organizer_pub_calendar_interim_utils2_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:32 GMT -->
+</html>

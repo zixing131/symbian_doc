@@ -1,0 +1,70 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4D92E302-3145-4453-AFA1-F5C5BDF933F9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:47:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Compatibility breaks" /><meta name="abstract" content="All functional and binary breaks in this release are listed with supporting information on handling these breaks." /><meta name="description" content="All functional and binary breaks in this release are listed with supporting information on handling these breaks." /><meta name="DC.Relation" scheme="URI" content="GUID-2BD07F78-4275-4274-B20C-8AB14D3C3D20" /><meta name="DC.Relation" scheme="URI" content="GUID-E7A53792-5ABC-460C-87EA-36E8C6989A2C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4D92E302-3145-4453-AFA1-F5C5BDF933F9" /><meta name="DC.Language" content="en" /><title>Compatibility breaks </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4D92E302-3145-4453-AFA1-F5C5BDF933F9">Compatibility breaks</h1><div><p>All functional and binary breaks in this release are listed
+with supporting information on handling these breaks.</p><div class="tablenoborder"><a name="GUID-B5EA4A65-9F6B-458F-BBF6-CDB0D7A62946"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B5EA4A65-9F6B-458F-BBF6-CDB0D7A62946" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="46.5%" id="d0e1873">APIs/Header files/Libraries</th>
+<th class="cellrowborder" valign="top" width="53.5%" id="d0e1876">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="46.5%" headers="d0e1873 "><code>e32cmn.h</code> and <code>e32std.h</code> / <code>euser.dll</code></td>
+<td class="cellrowborder" valign="top" width="53.5%" headers="d0e1876 ">Symbian Belle introduces hybrid heap allocator, which offers
+improved performance by selecting between three different allocator
+algorithms. The New heap, <code class="codeph">RHybridHeap</code> is derived
+from RHeap. It latter acts as base class offering only few bits of
+data for backward compatibility. The developers must be aware that
+RHeap should not be instantiated directly nor must be derived. Only <code class="codeph">RAllocator</code> can be derived. The new <code class="codeph">RHybridHeap</code> overrides the minimum heap size for all applications with 4K. The
+maximum heap size is also adjusted upwards to compensate for extra
+overhead of the hybrid allocator. RHeap has been modifled as follows: <ul>
+<li><p>Several public inline methods have been moved to RAllocator
+or removed.</p></li>
+<li><p>RAllocator must be dervied as most of protected RHeap methods
+are removed. If application derived RHeap and calls these, break occurs.</p></li>
+<li><p>The value of enums <code class="codeph">ECellAlignment</code>, <code class="codeph">EFreeCellSize</code> and <code class="codeph">EAllocCellSize</code> changed
+as the implementation has changed in the new heap allocator.</p></li>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EFAFDD75-7E59-306A-882D-317F5564979E.html#GUID-D8662EB6-F4F7-3430-8FB0-D7B6605D00AC"><code class="apiname">RHeap::__DbgGetAllocFail()</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-667E23C1-6EC2-3845-A9AD-89EFA6A59704"><code class="apiname">User::__DbgGetAllocFail()</code></a> functions added allowing to access
+that variable.</p></li>
+</ul></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="46.5%" headers="d0e1873 "><code class="codeph">RHeap</code></td>
+<td class="cellrowborder" valign="top" width="53.5%" headers="d0e1876 "><p>RHeap hybrid heap is re-implemented. External binary breaks
+from methods that were originally implemented as in-line are now implemented
+internally. A recompile using the new heap will automatically switch
+the client code over to the new system. The variables that were accessed
+by these in-line methods remain in their original place so they will
+continue to work with old third party code that uses them.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="46.5%" headers="d0e1873 "><code class="codeph">Connection settings API </code> /<code>cmmanager.h</code> /<code>cmmanager.lib </code> </td>
+<td class="cellrowborder" valign="top" width="53.5%" headers="d0e1876 "><div class="p">The support for <code class="codeph">ECmCellularDataUsageConfirm</code> and <code class="codeph">iUsageOfWlan </code> from <code class="codeph">TCmGenConnSettings</code> is removed. The following values/fields are no longer supported:<ul>
+<li><p><code class="codeph">ECmCellularDataUsageConfirm </code> value in <code class="codeph">TCmCellularDataUsage</code></p></li>
+<li><p><code class="codeph">iUsageOfWlan</code> field in <code class="codeph">TCmGenConnSettings</code></p></li>
+<li><p><code class="codeph">TCmUsageOfWlan </code></p></li>
+</ul> </div></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="46.5%" headers="d0e1873 "><code class="codeph">Navigation Pane API</code> / <code>avkon.lib </code></td>
+<td class="cellrowborder" valign="top" width="53.5%" headers="d0e1876 "><p>The following methods are deprecated:</p><ul>
+<li><p><code class="codeph">CAknNavigationControlContainer::SetPreferredNaviDecoratorLayoutStyle()</code></p></li>
+<li><p><code class="codeph">CAknNavigationDecorator::SetNaviControlLayoutStyle()</code></p></li>
+<li><p><code class="codeph">CAknNavigationDecorator::NaviControlLayoutStyle()</code> </p></li>
+<li><p><code class="codeph">CAknNavigationDecorator::SetNaviControlLayoutMode()</code></p></li>
+<li><p><code class="codeph">CAknNavigationDecorator::NaviControlLayoutMode()</code></p></li>
+</ul><p> Only the wide layout style is supported. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="46.5%" headers="d0e1873 "><code class="codeph">Profiles API</code> / <code>mproengengine.h </code>/ <code>profileengine.lib</code></td>
+<td class="cellrowborder" valign="top" width="53.5%" headers="d0e1876 "><p>In the Profile settings Class MProEngEngine() the two default profile identifiers EProfileOutdoorId () and  EProfilePagerId() cannot be
+set. </p></td>
+</tr>
+</tbody>
+</table></div></div></div></div><div class="footer"><p class="metadata">Last updated November 17th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4D92E302-3145-4453-AFA1-F5C5BDF933F9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:47:01 GMT -->
+</html>

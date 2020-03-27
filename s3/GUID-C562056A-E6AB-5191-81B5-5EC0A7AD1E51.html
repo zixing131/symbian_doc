@@ -1,0 +1,39 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C562056A-E6AB-5191-81B5-5EC0A7AD1E51.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to implement Ioctl requests" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-227B6970-A536-470F-B5A1-A1871F65D7F3" /><meta name="DC.Relation" scheme="URI" content="GUID-7883F1FE-C12F-5E65-A1AD-AA3DCDC29868" /><meta name="DC.Relation" scheme="URI" content="GUID-D9BB06D6-8192-5559-A93B-7F50DF88A840" /><meta name="DC.Relation" scheme="URI" content="GUID-14647210-3DEB-5A66-916C-961F66D09990" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C562056A-E6AB-5191-81B5-5EC0A7AD1E51" /><meta name="DC.Language" content="en" /><title>How to implement Ioctl requests </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C562056A-E6AB-5191-81B5-5EC0A7AD1E51">How to implement Ioctl requests</h1><div><p>The following code fragment shows how a discovery indication Ioctl would be implemented. This request would be queued on the secondary station prior to an attempted secondary connection. That way, the client would be able to indicate, in an appropriate fashion, when it has been discovered by a remote primary device.</p> <pre class="codeblock">...
+//
+// .. do an RSocketServ::NumProtocols() and RocketServ::FindProtocol()
+//
+RSocket sock1;
+ret=sock1.Open(ss,pInfo.iAddrFamily,pInfo.iSockType,pInfo.iProtocol);
+if (ret==KErrNone)
+   {
+   // Successfully opened socket 1
+   }
+else
+    {
+   // Failed to open socket
+    }</pre> <pre class="codeblock">//
+// IOCTL DISCOVERY INDICATION
+//
+TRequestStatus status1;
+TNameEntry     log;
+sock1.Ioctl(KDiscoveryIndicationIoctl,status1,&amp;log,pInfo.iAddrFamily);
+User::WaitForRequest(status1);          // status1 should be KErrNone
+
+TIrdaSockAddr addr(log().iAddr);        // Takes a TSockAddr
+
+// Remote machine dev addr:         addr.GetRemoteDevAddr()
+// Host machine dev addr:           addr.GetHostDevAddr()
+// Remote machine solicited:        addr.GetSolicitedStatus()
+// Remote machine sniff status:     addr.GetSniffStatus()
+// Remote machine Irlap version:    addr.GetIrlapVersion()
+// Remote no. of service hint bytes:addr.GetServiceHintByteCount()
+// Remote first service hint byte:  addr.GetFirstServiceHintByte()
+// Remote machine character set:    addr.GetCharacterSet()
+// Remote machine name:             log().iName</pre> </div></div></div><div class="footer"><p class="metadata">Last updated October 9th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C562056A-E6AB-5191-81B5-5EC0A7AD1E51.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:01 GMT -->
+</html>

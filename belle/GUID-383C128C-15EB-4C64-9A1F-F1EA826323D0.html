@@ -1,0 +1,119 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-383C128C-15EB-4C64-9A1F-F1EA826323D0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Parent and Child IPC Using Named Pipes or FIFOs" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-C4C85189-BA6F-5F11-ABB3-727D8C1F5984" /><meta name="DC.Relation" scheme="URI" content="GUID-AF07AD54-86F1-5DB7-80FF-633A559DA4BD" /><meta name="DC.Relation" scheme="URI" content="GUID-ADB9AD91-37A2-4FE6-B378-C43CD0A7B513" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-383C128C-15EB-4C64-9A1F-F1EA826323D0" /><meta name="DC.Language" content="en" /><title>Parent
+and Child IPC Using Named Pipes or FIFOs </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-383C128C-15EB-4C64-9A1F-F1EA826323D0">Parent
+and Child IPC Using Named Pipes or FIFOs</h1><div>
+<p>An alternative approach to using the popen() function
+is to use named pipes, or FIFOs. The advantage of using them over the popen() mechanism
+is that they allow the code in both the parent and child processes to continue
+to use file descriptors for communication rather than streams (and avoid modification
+to the<code class="codeph"> stdin()</code>/<code class="codeph">stdout()</code> streams of the child
+process). </p>
+<p>In addition, since each created FIFO is referenced as a file in the file
+system, FIFOs allow for more complicated IPC schemes than those offered by
+the popen() function, for example, inter-child process
+communication. For more information about the use of FIFOs, see <a href="http://www.opengroup.org/" target="_blank">http:\\www.opengroup.org</a>. </p>
+<p><strong>Parent process P.I.P.S. example using FIFOs</strong></p>
+<p>The following code shows how FIFOs can be used in P.I.P.S. by the parent
+process.</p>
+<pre class="codeblock">int main(int argc, char *argv[])
+{
+   char fifoFileName[] = "/root/PortDoc/Example2_c/Symbian/fifofile";
+
+   int fifoResult = mkfifo(fifoFileName,S_IXGRP);
+  
+   if(fifoResult == -1)
+   {
+      //FIFO creation failure.
+      printf("\n*** failure mkfifo ***\n");
+
+      return EXIT_FAILURE;
+   }
+   else
+   {
+      //FIFO creation successful.
+      
+      //Spawn the child process.
+      pid_t Childpid;
+      char execFileName[] = "/root/PortDoc/Example2_c/Symbian/ChildProg";
+      int RetVal= posix_spawn(&amp;Childpid,execFileName,NULL,NULL,NULL,NULL);
+      
+      if(RetVal != 0)
+      {
+         printf("\n*** failure posix_spawn ***\n");
+
+         return EXIT_FAILURE;
+      }
+      else
+      {
+         //Open the FIFO. Parent reads from the FIFO
+         int ReadFifoFd = open(fifoFileName,O_RDONLY);
+ 
+         if(ReadFifoFd == -1)
+         {
+            //Failed to open the Fifo
+            printf("\n*** failure Fifo Open ***\n");
+
+            return EXIT_FAILURE;
+         }
+         else
+         {
+            //create a receive buffer and clear
+            char RxBuffer[100];
+            memset(RxBuffer,0,sizeof(RxBuffer));
+      
+            //Wait for data from the child process. Child sends a string.
+            int nbytes = read(ReadFifoFd,RxBuffer,sizeof(RxBuffer));
+
+            printf("\nMessage Received by Parent=%s",RxBuffer);
+      
+            //close the FIFO
+            (void)close(ReadFifoFd);
+         }
+
+         //wait for the child process to finish      
+         (void)waitpid(Childpid,NULL,0);
+   
+         //unlink the FIFO
+         unlink(fifoFileName);
+      }
+   }
+   return EXIT_SUCCESS;
+}
+</pre>
+<p><strong>Child process P.I.P.S. example using FIFOs</strong></p>
+<p>The following code shows how FIFOs can be used in P.I.P.S. by the child
+process. </p>
+<pre class="codeblock">int main(int argc, char *argv[])
+{
+   char fifoFileName[] = "/root/PortDoc/Example2_c/Symbian/fifofile";
+
+   //Open the FIFO. child writes to parent
+   int WriteFifoFd = open(fifoFileName,O_WRONLY);
+     
+   if(WriteFifoFd == -1)
+   {
+      //Failed to open the Fifo
+      printf("\n*** child failure Fifo Open ***\n");
+      return EXIT_FAILURE;
+   }
+   else
+   {
+      //create a message to send.
+      char TxMsg[] = "Hello Parent\n";
+       
+      //Wait for data from the child process. Child sends a string.
+      write(WriteFifoFd,TxMsg,sizeof(TxMsg));
+     
+      //close the FIFO
+     (void)close(WriteFifoFd);
+   }
+   return EXIT_SUCCESS;
+}
+</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 12th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-383C128C-15EB-4C64-9A1F-F1EA826323D0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+</html>

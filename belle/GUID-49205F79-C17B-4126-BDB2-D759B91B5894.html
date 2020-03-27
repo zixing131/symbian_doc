@@ -1,0 +1,105 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-49205F79-C17B-4126-BDB2-D759B91B5894.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:49 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Enabling Application Level Roaming" /><meta name="abstract" content="Application-level roaming (ALR) enables your application to roam to use the best available data connection while operational." /><meta name="description" content="Application-level roaming (ALR) enables your application to roam to use the best available data connection while operational." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-D280276A-6E4C-41B7-B6EA-700B33B04981" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-49205F79-C17B-4126-BDB2-D759B91B5894" /><meta name="DC.Language" content="en" /><title>Enabling
+Application Level Roaming </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-49205F79-C17B-4126-BDB2-D759B91B5894">Enabling
+Application Level Roaming</h1><div><p>Application-level roaming (ALR) enables your application to roam
+to use the best available data connection while operational.</p>
+<div id="GUID-9B1466E3-661E-4BAB-A7F7-7F587FF8EBF1"><h3 class="section-title">Context</h3> <p>To use application-level
+roaming: </p> </div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-E2BCF8DF-C4C7-4794-9564-3D331FA9C716"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-E2BCF8DF-C4C7-4794-9564-3D331FA9C716"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-E2BCF8DF-C4C7-4794-9564-3D331FA9C716"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-E2BCF8DF-C4C7-4794-9564-3D331FA9C716"><!-- --></a><p>Initiate an Internet
+connection using the Connection Manager API and the Internet destination network.
+In this example it is assumed that the best available access point for Internet
+is GPRS. </p>
+<p> RConnection handle is returned to the application. </p>
+</li>
+<li id="GUID-247DC723-B5D7-4E6B-B3E9-380DA63230B2"><a name="GUID-247DC723-B5D7-4E6B-B3E9-380DA63230B2"><!-- --></a><p>Register for mobility
+API sending NewL(RConnection handle, MMobilityProtocolResp&amp;) to
+the Connection Manager API.</p>
+</li>
+<li id="GUID-65B2CBFA-9631-4172-8B1A-665F09729871"><a name="GUID-65B2CBFA-9631-4172-8B1A-665F09729871"><!-- --></a><p>Use Sockets Client
+API to open RSockets with <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> handle. </p>
+<p> RSocket handle is returned to the application.</p>
+</li>
+<li id="GUID-663CEB0D-A36D-46CB-8C2D-700D7DA76EF8"><a name="GUID-663CEB0D-A36D-46CB-8C2D-700D7DA76EF8"><!-- --></a><p>Initiate normal
+socket communication to the Sockets Client API. This data transfer uses GPRS.
+  A WLAN access point becomes available. The Connection Manager API sends PreferredCarrierAvailable(old
+access point, new access point, is upgrade, not seamless) to the
+application.  The application decides to switch to the better access point.
+It closes the old socket using the Sockets Client API. </p>
+</li>
+<li id="GUID-417D1229-320F-4B07-A429-9274163C7E01"><a name="GUID-417D1229-320F-4B07-A429-9274163C7E01"><!-- --></a><p>Send MigrateToPreferredCarrier() to
+the Connection Manager API.  Note: The application can also IgnorePreferredCarrier().
+In that case it would just keep using the existing socket.  The connection
+is moved in the Connection Manager API. The WLAN access point is activated
+and RConnection handle is moved from the GPRS interface to WLAN.  NewCarrierActive(new
+IAP) is returned to the application.  The WLAN access point is now
+ready to be used. </p>
+</li>
+<li id="GUID-284D53C0-516A-4F05-8422-918A6FCA036C"><a name="GUID-284D53C0-516A-4F05-8422-918A6FCA036C"><!-- --></a><p>Use Sockets Client
+API to open RSockets with RConnection handle. This data transfer uses WLAN.</p>
+</li>
+<li id="GUID-27CF0583-4A43-4386-AFF6-E37E6DA15A64"><a name="GUID-27CF0583-4A43-4386-AFF6-E37E6DA15A64"><!-- --></a><p>Transfer data using
+the Sockets Client API to confirm that the connection works.</p>
+</li>
+<li id="GUID-B7B7D14A-D241-49C2-84D0-147B780A70FF"><a name="GUID-B7B7D14A-D241-49C2-84D0-147B780A70FF"><!-- --></a><p>Send NewCarrierAccepted() to
+the Connection Manager API. This is the point of no return.</p>
+</li>
+<li id="GUID-239B2867-A34A-45EE-A843-8C913709CD47"><a name="GUID-239B2867-A34A-45EE-A843-8C913709CD47"><!-- --></a><p>Continue transferring
+data using the Sockets Client API. This data transfer uses WLAN.</p>
+</li>
+</ol>
+<div id="GUID-B55F3ECE-2C77-446C-8313-ED3B72BBF4DF"><h3 class="section-title">Results</h3> <p>ALR is enabled.</p>
+</div>
+<div><h3 class="section-title">Example</h3><pre class="codeblock">class CALRApplication : public CActive, public MMobilityProtocolResp
+    {
+...
+    public: // From MMobilityProtocolResp
+    void PreferredCarrierAvailable( TAccessPointInfo aOldAPInfo,
+                                        TAccessPointInfo aNewAPInfo,
+                                        TBool aIsUpgrade,
+                                        TBool aIsSeamless );
+  void NewCarrierActive( TAccessPointInfo aNewAPInfo, TBool aIsSeamless );
+  void Error( TInt aError );
+  private:    // Data
+  RConnection  iConnection;
+  CActiveCommsMobilityApiExt*   iMobility;
+    };
+// When the connection starts, iMobility is created and it registers the connection to receive mobility messages.
+iMobility = CActiveCommsMobilityApiExt::NewL( iConnection, *this );When apreferred access point becomes available, the implementation of CALRApplication::PreferredCarrierAvailable is called. MigrateToPreferredCarrier Mobility message is sent to the middleware in order to roam to this preferred access point.
+void CALRApplication::PreferredCarrierAvailable( TAccessPointInfo aOldAPInfo,TAccessPointInfo aNewAPInfo,TBool aIsUpgrade,TBool aIsSeamless ){
+    // aOldAPInfo contains the current IAP used by the connection.
+    // aNewAPInfo contains the newly available IAP that can be used by the connection.
+ if ( aIsSeamless )
+        {
+        // It is Seamless. E.g. Mobile IP enabled.
+        }
+    else
+        {
+        // sockets used by the connection should be closed here.
+        // We ask to migrate to the Preferred Carrier.
+        iMobility-&gt;MigrateToPreferredCarrier();
+        }
+    }
+Once the connection roamed to the new access point, the implementation ofCALRApplication::NewCarrierActive is called. The application reopens its sockets on the connection. If the socket connection is fine, the application sends the NewCarrierAccepted Mobility message to the middleware.
+
+void CALRApplication::NewCarrierActive( TAccessPointInfo aNewAPInfo, TBool aIsSeamless )
+    {
+    // aNewAPInfo contains the newly started IAP used now by the connection.
+    if ( aIsSeamless )
+        {
+        // It is Seamless. E.g. Mobile IP enabled.
+        }
+    else
+        {
+        // sockets used by the connection should be reopened here.
+        // We accept the new IAP.
+        iMobility-&gt;NewCarrierAccepted();
+        }
+    }</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 12th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-49205F79-C17B-4126-BDB2-D759B91B5894.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:49 GMT -->
+</html>

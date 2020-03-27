@@ -1,0 +1,87 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5FBA9BB1-94A2-470C-9932-C4255E3774C0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:45 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Shared Memory between Threads" /><meta name="abstract" content="This document describes the shared memory between threads and how to avoid race conditions." /><meta name="description" content="This document describes the shared memory between threads and how to avoid race conditions." /><meta name="DC.Relation" scheme="URI" content="GUID-547CF71C-6A62-57C0-A9BE-E76B4286C6D6" /><meta name="DC.Relation" scheme="URI" content="GUID-BA89F4DF-E2F6-5E0B-BF20-F8898FC5D5F8" /><meta name="DC.Relation" scheme="URI" content="GUID-E865E677-1219-500C-89CF-0A2835B91834" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-BFEBCD57-3C83-56D7-B7A3-B8A361725645" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5FBA9BB1-94A2-470C-9932-C4255E3774C0" /><meta name="DC.Language" content="en" /><title>Shared
+Memory between Threads </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5FBA9BB1-94A2-470C-9932-C4255E3774C0">Shared
+Memory between Threads</h1><div><p>This document describes the shared memory between threads and how
+to avoid race conditions.</p>
+<p>Shared memory is a method of InterProcess Communication (IPC) where a single
+chunk of memory is shared between two or more processes. It is used to communicate
+between threads within a process or two unrelated processes, allowing both
+to share a given region of memory efficiently. In an SMP system, multiple
+cores are running threads at the same time and not just virtually as in unicore.
+Extra caution is needed to handle memory that shared between multiple threads.</p>
+<p>A thread is the unit of execution within a process. Every time a process
+is initialized, a primary thread is created. For many applications the primary
+thread is the only one that the application requires, however, processes can
+create additional threads. In an SMP system, multiple threads can be executing
+the same (shared) functions simultaneously. Therefore functions need to deal
+with this situation in order to maintain consistency of the system.</p>
+<p>Following are the key concepts to synchronize threads:</p>
+<ul>
+<li><p><strong>Mutexes</strong> are used to serialize access to a section of re-entrant
+code that cannot be executed concurrently by more than one thread. A mutex
+object only allows one thread into a controlled section, forcing other threads
+which attempt to gain access to that section to wait until the first thread
+has exited from that section. A mutex can be used by threads across any number
+of processes. If a resource is only shared between the threads within the
+same process, it can be more efficient to use a critical section.</p></li>
+</ul>
+<ul>
+<li><p><strong>Semaphores</strong> restrict the number of simultaneous users of a shared
+resource up to a maximum number. Threads can request access to the resource
+(decrementing the semaphore), and can signal that they have finished using
+the resource (incrementing the semaphore). A thread that requests access to
+a busy resource is put in a waiting state. The semaphore maintains a First
+In First Out (FIFO) queue of such waiting threads. When another thread increments
+the semaphore, the first thread in this queue is resumed.</p></li>
+</ul>
+<ul>
+<li><p><strong>Locks</strong> are used to synchronize the data between threads in the
+kernel. In SMP, threads are executed in parallel, which means that if locks
+are not applied to the code it could result in a race condition. Race conditions
+lead to system crashes and data corruptions. For more information about locking,
+see Locking.</p></li>
+</ul>
+<div class="p">Shared memory between threads is provided by the following APIs:<div class="tablenoborder"><a name="GUID-A35DFE73-AE8C-42A9-A76F-4D47B6BAD6EB"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-A35DFE73-AE8C-42A9-A76F-4D47B6BAD6EB" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e308609"><p>API name</p></th>
+<th class="cellrowborder" valign="top" id="d0e308613"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e308609 "><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-29F27759-CC53-36DF-AE92-623F061D6C96.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-29F27759-CC53-36DF-AE92-623F061D6C96.html"><code class="apiname">TFindThread</code></a></p></td>
+<td class="cellrowborder" valign="top" headers="d0e308613 "><p>Searches for threads by pattern matching against the names of thread
+objects.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e308609 "><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0E661BC-4058-3256-B9C3-5A4FD52F6DE5.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0E661BC-4058-3256-B9C3-5A4FD52F6DE5.html"><code class="apiname">RThread</code></a></p></td>
+<td class="cellrowborder" valign="top" headers="d0e308613 "><p>A handle to a thread. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e308609 "><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C0FEA3A0-7DD3-3B87-A919-CB973BC05766.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C0FEA3A0-7DD3-3B87-A919-CB973BC05766.html"><code class="apiname">RMutex</code></a></p></td>
+<td class="cellrowborder" valign="top" headers="d0e308613 "><p>A handle to a mutex.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e308609 "><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A907C7B1-BD90-3E8F-AEA8-5A634BC98D0D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A907C7B1-BD90-3E8F-AEA8-5A634BC98D0D.html"><code class="apiname">TFindMutex</code></a></p></td>
+<td class="cellrowborder" valign="top" headers="d0e308613 "><p>Finds all global mutexes whose full names match a specified pattern.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e308609 "><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AED27A76-3645-3A04-B80D-10473D9C5A27.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AED27A76-3645-3A04-B80D-10473D9C5A27.html"><code class="apiname">RSemaphore</code></a></p></td>
+<td class="cellrowborder" valign="top" headers="d0e308613 "><p>A handle to a semaphore.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e308609 "><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F3ACDC41-31EE-3C32-BE2C-D696B84931CD.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F3ACDC41-31EE-3C32-BE2C-D696B84931CD.html"><code class="apiname">TFindSemaphore</code></a></p></td>
+<td class="cellrowborder" valign="top" headers="d0e308613 "><p>Finds all global semaphores whose full names match a specified pattern.</p></td>
+</tr>
+</tbody>
+</table></div></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-547CF71C-6A62-57C0-A9BE-E76B4286C6D6.html">Threads And
+Processes Overview</a></li><li><a href="GUID-BA89F4DF-E2F6-5E0B-BF20-F8898FC5D5F8.html">Mutexes Overview</a></li><li><a href="GUID-E865E677-1219-500C-89CF-0A2835B91834.html">Semaphores
+Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5FBA9BB1-94A2-470C-9932-C4255E3774C0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:45 GMT -->
+</html>

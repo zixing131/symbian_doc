@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-CE08DCE3-E2AE-3F5C-8907-A3A3D811DCE3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:21:33 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="aeselect.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-CE08DCE3-E2AE-3F5C-8907-A3A3D811DCE3" />
+<title>aeselect.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-CE08DCE3-E2AE-3F5C-8907-A3A3D811DCE3"><a name="GUID-CE08DCE3-E2AE-3F5C-8907-A3A3D811DCE3"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">aeselect.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-93454795-75B9-334C-8F59-3AD6199DF9DD"><a name="GUID-93454795-75B9-334C-8F59-3AD6199DF9DD"><!-- --></a>
+<a name="GUID-025BC4DC-9C10-37CF-8508-487F59AB7207"><!-- --></a><h3 class="sectiontitle">aselect ( int, fd_set *, fd_set *, fd_set *, struct timeval *, TRequestStatus * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>aselect</td><td>(</td><td>int</td><td><span class="parameter">maxfd</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-9BC229F6-9D5B-3EA1-BEAF-C1BA5896A286.html">fd_set</a> *</td><td><span class="parameter">readfds</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-9BC229F6-9D5B-3EA1-BEAF-C1BA5896A286.html">fd_set</a> *</td><td><span class="parameter">writefds</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-9BC229F6-9D5B-3EA1-BEAF-C1BA5896A286.html">fd_set</a> *</td><td><span class="parameter">exceptfds</span>,</td></tr><tr><td colspan="3"> </td><td>struct <a class="xref xref apiRelation" href="GUID-E120EDB8-D04F-3A22-A8B3-0BA20F84A04C.html">timeval</a> *</td><td><span class="parameter">tvptr</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html">TRequestStatus</a> *</td><td><span class="parameter">requeststatus</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The <a class="xref" href="GUID-CE08DCE3-E2AE-3F5C-8907-A3A3D811DCE3.html#GUID-93454795-75B9-334C-8F59-3AD6199DF9DD">aselect()</a> function is an asynchronous version of the select API, which allows select-based code to be used with other event schedulers e.g. an ActiveScheduler). It invokes select in a new thread and when that returns, it completes the <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> argument with the result of select or errno.</p>
+<p class="p">If aselect is unable to set up an asynchronous request, it fails with -1 and sets errno appropriately. Otherwise, it returns 0. Any error that occurs later is reflected in the completion value of the <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> variable.</p>
+<p class="p">On success, the <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> variable is set to the return value of select (number of descriptors with ready events on them). On error, this is set to the negative value of errno (-errno)</p>
+<div class="p">Examples: <pre class="pre codeblock">	#include &lt;sys/aeselect.h&gt;
+	#include &lt;e32cmn.h&gt;
+	int main()
+         	{
+         	timeval time;
+         	time.tv_sec = 5;
+         	time.tv_usec = 0;
+         	TRequestStatus status;
+         	// Issue aselect request which complete after 5 seconds
+         	aselect(0, NULL, NULL, NULL,&amp;time ,&amp;status);
+         	// Catch the request completion event
+         	User::WaitForRequest(status);
+         	// The status is completed with negative value on failure
+         	if( status.Int() &lt; 0 )
+         		{
+         		// Failure
+         		return KErrGeneral;
+         		}
+         	else
+         		{
+         		// Success
+         		return KErrNone;
+         		}
+         	}</pre>
+</div>
+<p class="p">
+</p><p class="p">See also: select()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">maxfd</td><td>- The nfds argument specifies the range of file descriptors to be tested. The select() function tests file descriptors in the range of 0 to nfds-1.  </td></tr><tr class="bg"><td class="parameter">readfds</td><td>- If the readfds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for being ready to read, and on output indicates which file descriptors are ready to read.  </td></tr><tr><td class="parameter">writefds</td><td>- If the writefds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for being ready to write, and on output indicates which file descriptors are ready to write.  </td></tr><tr class="bg"><td class="parameter">exceptfds</td><td>- If the errorfds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for error conditions pending, and on output indicates which file descriptors have error conditions pending.  </td></tr><tr><td class="parameter">tvptr</td><td>- If the timeout argument is not a null pointer, it points to an object of type struct timeval that specifies a maximum interval to wait for the selection to complete. If the timeout argument points to an object of type struct timeval whose members are 0, select() does not block. If the timeout argument is a null pointer, select() blocks until an event causes one of the masks to be returned with a valid (non-zero) value. If the time limit expires before any event occurs that would cause one of the masks to be set to a non-zero value, select() completes successfully and returns 0.  </td></tr><tr class="bg"><td class="parameter">requeststatus</td><td>A TRequestStatus object that is used for the asynchronous request  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>0 on Success and -1 on Failure. After completion, TRequestStatus is set to the of total number of bits set in the bit masks on success and -errno on failure</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-9C287FB1-23FC-36BB-A1BF-D9BB94356E88"><a name="GUID-9C287FB1-23FC-36BB-A1BF-D9BB94356E88"><!-- --></a>
+<a name="GUID-A14EA379-BF8E-3A0A-98E4-A369D4C8EC1B"><!-- --></a><h3 class="sectiontitle">cancelaselect ( TRequestStatus * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>cancelaselect</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html">TRequestStatus</a> *</td><td><span class="parameter">requeststatus</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+<a class="xref" href="GUID-CE08DCE3-E2AE-3F5C-8907-A3A3D811DCE3.html#GUID-9C287FB1-23FC-36BB-A1BF-D9BB94356E88">cancelaselect()</a> function is used to cancel a pending aselect request. The aselect request to be cancelled is indicated by passing the <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> on which aselect was issued.</p>
+<p class="p">Upon successful cancellation, the request is completed with KErrCancel, and cancelaselect function returns 0. Upon error it returns -1 and errno is set to the error code.</p>
+<div class="p">Examples: <pre class="pre codeblock">	#include &lt;sys/aeselect.h&gt;
+	#include &lt;e32cmn.h&gt;
+	int main()
+	{
+	timeval time;
+	time.tv_sec = 5;
+	time.tv_usec = 0;
+	TRequestStatus status[10];
+	for( int i=0; i&lt;10;i++ )
+		{
+		aselect(0, NULL, NULL, NULL,&amp;time ,&amp;status[i]);
+		}
+	for( int j=0; j&lt;10;j++ )
+		{
+		int p = cancelaselect(&amp;status[j]);
+		if( p != 0)
+			{
+			return KErrGeneral; // Error in cancelaselect
+			}
+		// Consume the cancellation event
+		User::WaitForRequest(status[j]);
+		// Ensure that the cancel has set the status to KErrCancel
+		if( status[j] != KErrCancel ) 
+			{
+			return KErrGeneral;
+			}
+		}
+	return KErrNone;
+	}</pre>
+</div>
+<p class="p">
+</p><p class="p">See also: select(),<a class="xref" href="GUID-CE08DCE3-E2AE-3F5C-8907-A3A3D811DCE3.html#GUID-93454795-75B9-334C-8F59-3AD6199DF9DD">aselect()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>0 on Success and -1 on Failure. errno is set to indicate the error.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-754FE7A5-C067-3F65-8539-A9D66D0A79E7"><a name="GUID-754FE7A5-C067-3F65-8539-A9D66D0A79E7"><!-- --></a>
+<a name="GUID-408580B7-0674-3D0E-8B5C-0F97053944BD"><!-- --></a><h3 class="sectiontitle">eselect ( int, fd_set *, fd_set *, fd_set *, struct timeval *, int, TRequestStatus * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>eselect</td><td>(</td><td>int</td><td><span class="parameter">maxfd</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-9BC229F6-9D5B-3EA1-BEAF-C1BA5896A286.html">fd_set</a> *</td><td><span class="parameter">readfds</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-9BC229F6-9D5B-3EA1-BEAF-C1BA5896A286.html">fd_set</a> *</td><td><span class="parameter">writefds</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-9BC229F6-9D5B-3EA1-BEAF-C1BA5896A286.html">fd_set</a> *</td><td><span class="parameter">exceptfds</span>,</td></tr><tr><td colspan="3"> </td><td>struct <a class="xref xref apiRelation" href="GUID-E120EDB8-D04F-3A22-A8B3-0BA20F84A04C.html">timeval</a> *</td><td><span class="parameter">tvptr</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">numreqs</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html">TRequestStatus</a> *</td><td><span class="parameter">waitarray</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The eselect function is an extended variant of select. Alongside the fd_sets to watch for, eselect also accepts an array of <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> variables  representing other pending events. It returns whenever there is an event on one of the fds or any of the <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> variables are complete.</p>
+<p class="p">eselect thus takes 2 extra parameters:</p>
+<p class="p">1. An array of <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> objects. 2. The number of <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> objects in the array.</p>
+<p class="p">The function is synchronous and returns, when an event is available on any of the fds or when any of the <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> objects in <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> array is Complete-d.</p>
+<p class="p">Note that the return value of eselect is the same as select (the number of descriptors with ready events or 0, on success and -1 on failure). The number of <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> variables that are Complete do not show up in the result.</p>
+<p class="p">It is the callers responsibility to check each of your input variables in a loop (after checking the fd_sets), to ascertain which ones are now Complete. It is the callers responsibility to cancel any outstanding requests and/or gather their completion status.</p>
+<p class="p">IMPORTANT INFORMATION: Note on return value and callers responsibility:</p>
+<p class="p">The return value of eselect is as follows</p>
+<p class="p">1. The total number of bits set in the bit masks on success. 2. 0 when there is a timeout due to timeval or when any of the <a class="xref" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646">TRequestStatus</a> elements in the waitarray are signalled. In case of a timeout errno is set to ETIMEDOUT. 3. -1 in case of error and errno is set to reflect the error.</p>
+<p class="p">The caller will have to either wait for or cancel the following number of outstanding requests</p>
+<p class="p">1. numreqs number of requests if return value is 0, and errno is ETIMEDOUT 2. (numreqs-1) number of requests if return value is 0 and errno is not ETIMEDOUT.</p>
+<div class="p">Examples: <pre class="pre codeblock">	// Example to denote the usage of eselect
+	TRequestStatus status = KRequestPending;
+	fd_set readfds;
+	FD_ZERO(&amp;readfds);
+	FD_SET(0, &amp;readfds);
+	RTimer timer;
+	if (timer.CreateLocal() != KErrNone)
+		{
+		// die
+		return -1;
+		}
+	timer.After(status, 10000000);
+	int ret = eselect(1, &amp;readfds, NULL, NULL, NULL, 1, status);
+	//Blocks
+	// Check if eselect is successful
+	if (ret &gt;= 0)
+		{
+		if (FD_ISSET(0, &amp;readfds))
+			{
+			// do something
+			}
+		if (status.Int() == KRequestPending)
+			{
+			// Cancel this request
+			timer.Cancel()
+			User::WaitForRequest(status);
+			}
+		}
+	else
+		{
+		// Failure in eselect
+		}</pre>
+</div>
+<div class="p">
+<pre class="pre codeblock">	// Example to denote the return value and errno value upon a timeval timeout
+    TInt timesecs;
+    TInt timemicrosecs;  	
+    timemicrosecs = 0;
+    timesecs = 5;  	
+    struct timeval tv;
+    tv.tv_sec = timesecs;
+    tv.tv_usec = timemicrosecs;    
+    time_t time1,time2;
+	TRequestStatus waitarray[3];
+	for (TInt i = 0; i &lt; 3; i++)
+		{
+		waitarray[i] = KRequestPending;
+		}
+	RTimer timer;
+	timer.CreateLocal();
+	timer.After(waitarray[2],TTimeIntervalMicroSeconds32(10000000));
+    int err = time(&amp;time1);
+    // Upon time out from timeval eselect should return 0
+	if ( eselect(1, NULL, NULL, NULL, &amp;tv,3,waitarray) == KErrNone )
+		{
+	    err = time(&amp;time2);
+	    // errno should be set to ETIMEDOUT if eselect returns due to a timeval timeout
+	    if( errno == ETIMEDOUT )
+	    	{
+	    	if ( ((time2 - time1) &gt;= timesecs) &amp;&amp; (waitarray[2] == KRequestPending) )
+	    		{
+	    		timer.Cancel();
+	    		timer.Close();
+	    		return KErrNone;
+	    		}
+	    	else
+	    		{
+	    		timer.Cancel();
+	    		timer.Close();
+	    		return KErrGeneral;
+	    		}
+	    	}
+	    else
+	    	{
+	    	// errno not set to ETIMEDOUT, hence it is an error
+	    	return KErrGeneral;
+	    	}
+		}
+	else
+		{
+		timer.Cancel();
+		timer.Close();
+		return KErrGeneral;
+		}</pre>
+</div>
+<p class="p">
+</p><p class="p">See also: select()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">maxfd</td><td>- The nfds argument specifies the range of file descriptors to be tested. The select() function tests file descriptors in the range of 0 to nfds-1.  </td></tr><tr class="bg"><td class="parameter">readfds</td><td>- If the readfds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for being ready to read, and on output indicates which file descriptors are ready to read.  </td></tr><tr><td class="parameter">writefds</td><td>- If the writefds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for being ready to write, and on output indicates which file descriptors are ready to write.  </td></tr><tr class="bg"><td class="parameter">exceptfds</td><td>- If the errorfds argument is not a null pointer, it points to an object of type fd_set that on input specifies the file descriptors to be checked for error conditions pending, and on output indicates which file descriptors have error conditions pending.  </td></tr><tr><td class="parameter">tvptr</td><td>- If the timeout argument is not a null pointer, it points to an object of type struct timeval that specifies a maximum interval to wait for the selection to complete. If the timeout argument points to an object of type struct timeval whose members are 0, select() does not block. If the timeout argument is a null pointer, select() blocks until an event causes one of the masks to be returned with a valid (non-zero) value. If the time limit expires before any event occurs that would cause one of the masks to be set to a non-zero value, select() completes successfully and returns 0.  </td></tr><tr class="bg"><td class="parameter">numreqs</td><td>The number of TRequestStatus elements in the waitarray  </td></tr><tr><td class="parameter">waitarray</td><td>An array of TRequestStatus elements to wait on  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>Total number of bits set in the bit masks on success</dd></dl></div>
+</div>
+</div>
+</div></p></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-CE08DCE3-E2AE-3F5C-8907-A3A3D811DCE3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:21:34 GMT -->
+</html>

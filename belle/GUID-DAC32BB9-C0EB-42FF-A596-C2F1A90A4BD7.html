@@ -1,0 +1,79 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DAC32BB9-C0EB-42FF-A596-C2F1A90A4BD7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:51 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Views" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Relation" scheme="URI" content="GUID-0F593BE1-1220-4403-B04E-B8E8A9A49701" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-DAC32BB9-C0EB-42FF-A596-C2F1A90A4BD7" /><title>Views </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-DAC32BB9-C0EB-42FF-A596-C2F1A90A4BD7">Views</h1><div>
+<p>The term <em>view</em> refers to the <a href="GUID-BDDDF68F-F7C3-43AF-8B6C-C77C701FD2A9.html">MVC design</a> (Model-View-Controller) component that has the following attributes:</p>
+<ul>
+<li><p>displays the application state known by the application</p>
+</li>
+<li><p>receives user input</p></li>
+<li><p>is owned by the <a href="GUID-FD2CDEB8-0784-4BE5-A775-170F57D71BBC.html">UI controller</a></p></li>
+<li><p>observes application state changes either directly
+or through the UI controller and updates the screen accordingly</p>
+</li>
+</ul>
+<p>In practice, views are collections of interface elements, such
+as controls, menus, command button areas (CBAs), key events, that
+make up one top-level window in an application. Applications may have
+one or more views. If an application has more than one view and if
+the status pane behavior is organized in this manner, then each view
+in an application can have its own tab. Applications can have only
+a single view active at any one time. The current view is the view
+that interacts with the user, receiving events and menu choices as
+if it were the only set of UI elements.</p>
+<p>Multiple view architectures are widely used in application development
+on the Symbian platform. Multiple view architectures:</p>
+<ul>
+<li><p>provide developers with an efficient way to build
+multiple views within an application and switch between them easily
+and simply. </p></li>
+<li><p>allow applications to bundle their user interface
+requirements into a single element (a view). The view architecture
+then provides the capability to switch quickly between the views.</p>
+</li>
+<li><p>allow applications to take advantage of object orientation
+to encapsulate code, keeping it simple and clear. </p></li>
+<li><p>provide the ability for one application to activate
+the view of another. This is particularly useful when you want to
+use an existing display or editing capability without going to the
+expense of integrating a component into your application. </p>
+</li>
+<li><p>allow applications to register views, with one view
+being active in each running application at any one time. It does
+not dictate what a view is; however, it does provide support for a
+view being a display page on the screen</p></li>
+</ul>
+<div class="figure" id="GUID-79751C55-C0D9-4511-9147-8E6CB95AA610"><img src="GUID-46040A24-92C3-4B0B-88CC-BDD8DDA8F27C_d0e82966_href.png" /><p class="figure-title"><strong>Figure: </strong>Controller-view hierarchy in traditional and Symbian architectures</p></div>
+<p>In practice, the view concept varies depending upon your chosen
+architecture approach: </p>
+<div id="GUID-53125010-FFC7-422E-9EE5-A42427031F10"><h3 class="section-title">Traditional
+architecture views</h3>
+<p>In a traditional architecture, the view is derived from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a>, which typically constructs a top-level window-owning
+control that draws itself and contains other controls.</p>
+<p>For more information on views in tradition architecture approaches,
+see <a href="GUID-B5DE1C86-2B16-4B22-887F-7079E54A8ED6.html">Traditional Symbian UI application architecture</a>.</p>
+</div>
+<div id="GUID-B473202D-9682-4EBA-83F2-8391DB2B56D9"><h3 class="section-title">Symbian
+architecture views</h3>
+<p>In Symbian view architecture, a view controller is added between
+the <a href="GUID-FD2CDEB8-0784-4BE5-A775-170F57D71BBC.html">UI controller</a> and the view that draws itself and contains other controls. For
+example, view controllers can be used to specify CBAs that are specific
+to specific views.</p>
+<p>In a Symbian architecture, the view controller is derived from CAknView, which is derived directly from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html"><code class="apiname">CBase</code></a> and not from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a>. This means the CAknView-derived views are not controls. CAknView-derived views need to contain <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a>-derived
+classes to provide visual representation on the display.</p>
+<p>For more information on views in Symbian architecture approaches,
+see <a href="GUID-68B999C2-0993-4804-9624-42C3D88BE5C7.html">View architecture</a>.</p>
+</div>
+<div id="GUID-C9AA9483-424E-4626-8335-5F70FE246E1D"><h3 class="section-title">Dialog
+architecture views</h3>
+<p>In dialog architectures, views are implemented in modeless dialog
+boxes. Multiple views can be constructed using nested dialogs or a
+tabbed dialog pane.</p>
+<p>For more information on views in dialog architecture approaches,
+see <a href="GUID-DD88DD7B-E246-4BF2-B537-5C677728CC49.html">Dialog architecture</a>.</p>
+</div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 31st, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DAC32BB9-C0EB-42FF-A596-C2F1A90A4BD7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:51 GMT -->
+</html>

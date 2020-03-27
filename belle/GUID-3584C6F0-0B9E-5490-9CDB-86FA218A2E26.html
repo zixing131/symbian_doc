@@ -1,0 +1,20 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3584C6F0-0B9E-5490-9CDB-86FA218A2E26.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:46 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Loading a Bitmap from a File" /><meta name="DC.Relation" scheme="URI" content="GUID-AFE8A9CC-E026-5396-8E0C-616338B5F5C3" /><meta name="DC.Relation" scheme="URI" content="GUID-EAAD1719-C02C-5705-A5C3-993E36441BE6" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-E89F034F-C807-5FF9-B06B-F7CCD2441041" /><meta name="DC.Relation" scheme="URI" content="GUID-EAAD1719-C02C-5705-A5C3-993E36441BE6" /><meta name="DC.Relation" scheme="URI" content="GUID-AFE8A9CC-E026-5396-8E0C-616338B5F5C3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3584C6F0-0B9E-5490-9CDB-86FA218A2E26" /><meta name="DC.Language" content="en" /><title>Loading a Bitmap from a File </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3584C6F0-0B9E-5490-9CDB-86FA218A2E26">Loading a Bitmap from a File</h1><div><p>Bitmaps can be stored in multi-bitmap (<code>.mbm</code>) files, which can be built from <code>.bmp</code> files as part of the <code class="codeph">abld</code> process. This topic provides an example of loading a multi-bitmap file. </p> <p>Loading them has four stages: </p> <ol id="GUID-48EA2A7A-CEEC-587A-A4E3-358F60369183"><li id="GUID-623ACA50-14A7-5573-87AC-BF394ABDBB65"><a name="GUID-623ACA50-14A7-5573-87AC-BF394ABDBB65"><!-- --></a><p>Put the name of the bitmap file into a buffer. </p> </li> <li id="GUID-064AD234-B581-5DEA-8276-DF5E78D1CCF6"><a name="GUID-064AD234-B581-5DEA-8276-DF5E78D1CCF6"><!-- --></a><p>Create a bitmap (<code class="codeph">CFbsBitmap</code>). </p> </li> <li id="GUID-BA848FFC-23C2-56B9-9AEC-D89945FD1361"><a name="GUID-BA848FFC-23C2-56B9-9AEC-D89945FD1361"><!-- --></a><p>Load the bitmap using <code class="codeph">CFbsBitmap::Load()</code>. </p> </li> <li id="GUID-48B6560D-96AC-5020-B98D-642549611792"><a name="GUID-48B6560D-96AC-5020-B98D-642549611792"><!-- --></a><p>If an error is returned, leave and ensure the bitmap is cleaned up </p> </li> </ol> <pre class="codeblock">// set the name of the multi-bitmap file containing the bitmaps
+_LIT(KMBMFileName,"z:\\resource\\apps\\grbmap2.mbm");
+    
+// load the bitmap from an .mbm file
+CFbsBitmap* bitmap = new (ELeave) CFbsBitmap();
+CleanupStack::PushL(bitmap);
+User::LeaveIfError(bitmap-&gt;Load(KMBMFileName, EMbmGrbmap2Smiley));
+    
+// EMbmGrbmap2Smiley is the ID of a bitmap in the .mbm file
+...
+    
+// clean up
+CleanupStack::PopAndDestroy();</pre> </div><h3>Related concepts</h3><ul><li><a href="GUID-AFE8A9CC-E026-5396-8E0C-616338B5F5C3.html">BitGDI Tutorials</a></li><li><a href="GUID-EAAD1719-C02C-5705-A5C3-993E36441BE6.html">BitGDI Component</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 8th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3584C6F0-0B9E-5490-9CDB-86FA218A2E26.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:46 GMT -->
+</html>

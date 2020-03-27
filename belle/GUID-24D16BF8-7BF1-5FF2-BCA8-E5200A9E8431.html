@@ -1,0 +1,62 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-24D16BF8-7BF1-5FF2-BCA8-E5200A9E8431.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:04 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to form links" /><meta name="abstract" content="To be an element of a list, each element needs to contain a link object." /><meta name="description" content="To be an element of a list, each element needs to contain a link object." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Relation" scheme="URI" content="GUID-052E9582-9A35-50B0-A32E-F7E6A01A2E2A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-24D16BF8-7BF1-5FF2-BCA8-E5200A9E8431" /><meta name="DC.Language" content="en" /><title>How
+to form links </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-24D16BF8-7BF1-5FF2-BCA8-E5200A9E8431">How
+to form links</h1><div><p>To be an element of a list, each element needs to contain a link
+object.</p>
+<p>To form a singly linked list of <code class="codeph">CMyClass</code> objects, include
+the link object <code class="codeph">TSglQueLink</code> as a component of <code class="codeph">CMyClass</code>:</p>
+<pre class="codeblock">class CMyClass : public CBase
+    {
+    ...
+    TSglQueLink iSlink;
+    ...
+    };</pre>
+<div class="figure" id="GUID-C1BDFB57-AAD9-55A2-8E02-D9277BCCE122"><img src="GUID-C014FC75-732F-558F-8E6A-77DDAA032930_d0e284299_href.png" /><p class="figure-title"><strong>Figure: </strong>Two elements in a linked list</p></div>
+<p>Although any kind of object can be an element of a linked list, most lists
+consist of elements which are all of the same type.</p>
+<p>An object can participate in more than one list. For example, to allow <code class="codeph">CMyClass</code> objects
+to participate in two singly linked lists, include two separate <code class="codeph">TSglQueLink</code> objects
+as components of <code class="codeph">CMyClass</code>:</p>
+<pre class="codeblock">class CMyClass : public CBase
+    {
+    ...
+    TSglQueLink iSlink1;
+    ...
+    TSglQueLink iSlink2;
+    };</pre>
+<div class="figure" id="GUID-AA2CB21D-B848-5ADF-8B0E-7E2928C84DBE"><img src="GUID-773A0EDC-F17C-553B-BEC3-DA990F5064B7_d0e284325_href.png" /><p class="figure-title"><strong>Figure: </strong>An example of two elements, in two lists where they are consecutive
+elements in both lists</p></div>
+<p>Elements can also be objects constructed from a variety of classes, all
+ultimately derived from the same base class, where that base class includes
+the link object as a component. For example, if <code class="codeph">CBc</code> is a
+base class for <code class="codeph">CDc1</code> which, in turn, is a base class for <code class="codeph">CDc2</code>,
+then the elements of the list can consist of a mix of <code class="codeph">CBc</code> or <code class="codeph">CDc1</code> or <code class="codeph">CDc2</code> objects.</p>
+<pre class="codeblock">class CBc : public CBase
+    {
+    ...
+    TSglQueLink iSlink;
+    ...
+    };</pre>
+<pre class="codeblock">class CDc1 : public CBclass
+    {
+    ...
+    }
+</pre>
+<pre class="codeblock">class CDc2 : public CDc1
+    {
+    ...
+    }
+</pre>
+<div class="figure" id="GUID-408F856C-86C0-5ED2-A61D-2F81B41566DD"><img src="GUID-935057C9-8FA9-5B41-A36C-03A825C51B32_d0e284363_href.png" /><p class="figure-title"><strong>Figure: </strong>Example of a linked list of different element types</p></div>
+<p>Note that the link object is at the same offset in each element in this
+list.</p>
+<p>New link elements can be inserted at the beginning or the end of the list,
+but not into the middle of the list. The functionality for this is provided
+by the header <code class="codeph">TSglQue&lt;class T&gt;</code>.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-24D16BF8-7BF1-5FF2-BCA8-E5200A9E8431.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:06 GMT -->
+</html>

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-ACCF1617-07D7-323B-97E7-8FAADB33B896.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:24 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="topic" />
+<meta name="DC.Title" content="Freestyle Email API" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-ACCF1617-07D7-323B-97E7-8FAADB33B896" />
+<title>Freestyle Email API</title>
+<link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-ACCF1617-07D7-323B-97E7-8FAADB33B896"><a name="GUID-ACCF1617-07D7-323B-97E7-8FAADB33B896"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="title pageHeading topictitle1">Freestyle Email API</h1>
+<div class="body">
+<p class="p topictitle1">Introduction</p>
+<p class="p para1">This is the mail API and framework used by the Freestyle email client. It provides access to the message store for reading email and to the sync engine for starting and stopping synchronizations.</p>
+<p class="p topictitle1">Typical Usage From UI</p>
+<p class="p para1">// Initialize the access to the mail framework CFSMailClient* mail = CFSMailClient::NewL(); CleanupClosePushL(*mail);</p>
+<p class="p para1">// List mailboxes for user to select which one to open RPointerArray&lt;CFSMailBox&gt; mailBoxes; mailBoxes.Reset(); TFSMailMsgId plugin; // null id if all mailboxes required mail-&gt;ListMailBoxes(plugin,mailBoxes); // Lets select the first one this time CFSMailBox * currentMailbox = mailboxes[0];</p>
+<p class="p para1">// list all mailbox folders for user <a class="xref" href="GUID-AAA13D1F-1BD7-3331-BB8C-11FA2795B53F.html#GUID-AAA13D1F-1BD7-3331-BB8C-11FA2795B53F">RPointerArray&lt;CFSMailFolder&gt;</a> folders = currentMailBox-&gt;ListFolders( );</p>
+<p class="p para1">// or get default folder, for example inbox TFSMailMsgId folderId; folderId = mailBox-&gt;GetStandardFolderId( EFSInbox ); CFSMailFolder* inbox = mail-&gt;GetFolderByUid(currentMailBox-&gt;GetId(),folderId);</p>
+<p class="p para1">// List messages in inbox // select message details to be listed TFSMailDetails details(EFSMsgDataStructure);</p>
+<p class="p para1">// set sorting criteria TFSMailSortCriteria criteria; criteria.iField = EFSMailSortByDate; criteria.iOrder = EFSMailAscending; RArray&lt;TFSMailSortCriteria&gt; sorting; sorting.Append(criteria);</p>
+<p class="p para1">// get email list iterator from plugin MFSMailIterator* iterator = folder-&gt;ListMessagesL(details,sorting);</p>
+<p class="p para1">// list all messages from folder TFSMailMsgId currentMessageId; // first call contains NULL id as begin id RPointerArray&lt;CFSMailMessage&gt; messages; messages.Reset(); iterator-&gt;NextL(currentMessageId, folder-&gt;GetMessageCount(), messages);</p>
+<p class="p para1">// Show the first 5 messages to in the UI for(TInt i=0;i&lt;messages.Count() &amp;&amp; i&lt;5;i++) { MyHeaderShowMethod(messages[i]-&gt;GetSender().GetEmailAddress(), messages[i]-&gt;GetSubject() messages[i]-&gt;GetDate());</p>
+<p class="p para1">// get email body CFSMailMessagePart* body = messages[i]-&gt;PlainTextBodyPartL(); if(body) { TBuf&lt;n&gt; text; TInt startOffset = 0; body-&gt;GetContentToBufferL(text,startOffset); MyPlainTextBodyShowMethod(text); delete body; }</p>
+<p class="p para1">//list email attachments <a class="xref" href="GUID-AAA13D1F-1BD7-3331-BB8C-11FA2795B53F.html#GUID-AAA13D1F-1BD7-3331-BB8C-11FA2795B53F">RPointerArray&lt;CFSMailMessagePart&gt;</a> attachments; attachments.Reset(); messages[i]-&gt;AttachmentListL(attachments); for(TInt i=0;i&lt;attachments.Count();i++) { MyShowAttachmentNameMethod(attachments[i]-&gt;AttachmentName()); } attachments.ResetAndDestroy(); }</p>
+<p class="p para1">// clean iterator and tables messages.ResetAndDestroy(); delete iterator; sorting.Reset(); delete folder;</p>
+<p class="p para1">// <a class="xref" href="GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-C197C9A7-EA05-3F24-9854-542E984C612D">User</a> should call close when terminating mail framework usage // when shutting down application close mail client singleton CleanupStack::PopAndDestroy(mail);</p>
+<p class="p topictitle1">Observing Email Events.</p>
+<p class="p para1">// To be able to observe events an user has to // implement MFSMailEventObserver interface. // Here the COwnMailObserver class implements the interface. COwnMailObserver* ownObserver = COwnMailObserver::NewL();</p>
+<p class="p para1">// Register to observe mail store events mail-&gt;AddObserverL(*ownObserver);</p>
+<p class="p para1">// Now callbacks are done via the EventL function defined // in the MFSMailEventObserver and implemented in this case // by the COwnMailObserver</p>
+<p class="p para1">// When user does not wish to observe events anymore // he has to unregister mail-&gt;RemoveObserver( *ownObserver );</p>
+<p class="p para1">// Remember that it must be done for each observer // in the end of the observation because the AddObserverL // does not replace the observer</p>
+<p class="p topictitle1">Classes</p>
+<p class="p para1">The following classes form the public API of the frame work.</p>
+<p class="p topictitle1">More Information</p>
+<p class="p para1">Copyright © 2006 Nokia. All rights reserved.</p>
+<p class="p para1">This material, including documentation and any related computer programs, is protected by copyright controlled by Nokia. All rights are reserved. Copying, including reproducing, storing, adapting or translating, any or all of this material requires the prior written consent of Nokia. This material also contains confidential information which may not be disclosed to others without the prior written consent of Nokia. </p>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-ACCF1617-07D7-323B-97E7-8FAADB33B896.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:24 GMT -->
+</html>

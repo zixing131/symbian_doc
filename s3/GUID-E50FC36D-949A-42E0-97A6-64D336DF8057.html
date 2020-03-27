@@ -1,0 +1,36 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E50FC36D-949A-42E0-97A6-64D336DF8057.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="HTTP Version Property" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-C0D38954-2FC5-4E8B-BC11-229464DCF16C" /><meta name="DC.Relation" scheme="URI" content="GUID-1E8904E3-43AC-5332-A2EF-F11F5728DBE8" /><meta name="DC.Relation" scheme="URI" content="GUID-B4A54501-4AA4-5ACB-96D7-4427C7752639" /><meta name="DC.Relation" scheme="URI" content="GUID-F9184A82-A467-5022-B02F-2FDF52258618" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E50FC36D-949A-42E0-97A6-64D336DF8057" /><meta name="DC.Language" content="en" /><title>HTTP
+Version Property </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E50FC36D-949A-42E0-97A6-64D336DF8057">HTTP
+Version Property</h1><div>
+<p>By default, HTTP sessions use HTTP/1.1. To use HTTP/1.0, the connection
+information property <code class="codeph">HTTP::EHTTPVersion</code> must be set to <code class="codeph">HTTP::EHttp10</code>. </p>
+<p>From <code>HTTPEXAMPLECLIENT</code>: </p>
+<pre class="codeblock">switch(cmd)
+    {
+    case EVersion10:
+        SetHttpVersion(HTTP::EHttp10);
+        break;
+    case EVersion11:
+        SetHttpVersion(HTTP::EHttp11);
+        break;
+        ...
+
+void CHttpClient::SetHttpVersion(HTTP::TStrings aHttpVersion)
+    {
+    RHTTPConnectionInfo connInfo = iSess.ConnectionInfo();
+    RStringPool p=iSess.StringPool();
+    connInfo.SetPropertyL(p.StringF(HTTP::EHTTPVersion,RHTTPSession::GetTable()),THTTPHdrVal(p.StringF(aHttpVersion)));
+    }</pre>
+<p>The version chosen will apply to all new transactions following the property
+change, but will not affect any transactions currently in progress.</p>
+<p>As HTTP/1.1 mandates the use of a persistent connection for requests made
+in series to a single origin server, the default behaviour of HTTP Client
+is to set up persistent connections for each transaction. This can be overridden
+by specifying a Connection header in the client request. </p>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 7th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E50FC36D-949A-42E0-97A6-64D336DF8057.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:09 GMT -->
+</html>

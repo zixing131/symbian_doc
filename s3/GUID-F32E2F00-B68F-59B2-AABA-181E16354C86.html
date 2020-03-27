@@ -1,0 +1,43 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-F32E2F00-B68F-59B2-AABA-181E16354C86.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:52:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="The object provider (MOP) mechanism" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-E079315A-E5B6-4D33-B7E3-88697A3F11A4" /><meta name="DC.Relation" scheme="URI" content="GUID-6C16417B-5B37-5310-B59A-750D971AA6D4" /><meta name="DC.Relation" scheme="URI" content="GUID-1BB546C1-2795-55D9-97B6-AC3F6AB79389" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F32E2F00-B68F-59B2-AABA-181E16354C86" /><meta name="DC.Language" content="en" /><title>The
+object provider (MOP) mechanism </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-F32E2F00-B68F-59B2-AABA-181E16354C86">The
+object provider (MOP) mechanism</h1><div>
+<div id="GUID-07E61ABD-C57F-4E11-A32B-85DF6FAC4D61"><h3 class="section-title">Purpose</h3><p>The object provider mechanism
+exists to enable control types to be established at run time. It's a form
+of Run Time Type Identification (RTTI). More specifically it allows a caller
+to find a control in the run-time hierarchy that implements a particular interface,
+or mixin. From the caller's point of view it's pretty simple: all that's required
+is to ask a control, any control, to get an object that supports the specified
+interface, cast the pointer returned to the correct interface and then call
+the desired function. </p></div>
+<div id="GUID-96964B1B-297B-4196-961F-B574ACBF1811"><h3 class="section-title">History</h3><p>The Object Provider interface pre-dates
+the parent pointer in <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a>. Instead it uses a <code class="codeph">MopParent</code> pointer
+which is normally the parent control but may be the AppUi or even the <code class="codeph">CoeEnv</code> object.
+It was designed to meet Series 60 requirements for navigation of the run-time
+hierarchy. Internally it is now implemented by the framework using the parent
+pointer where possible which simplifies the control development process. </p></div>
+<div id="GUID-8A6CBDB0-343E-41F1-AC3A-876FA6968DB4"><h3 class="section-title">Description</h3><p>Interfaces are only identifiable by
+the Object Provider framework if they have an associated Interface UID. The
+Interface UID must be declared in the class definition. Fortunately the UID
+is invisible to the caller which simply uses the interface (mixin) name. </p><p>A
+class which implements an identifiable mixin, i.e. one with an Interface UID,
+can 'supply' a pointer to itself when the Object Provider framework requests
+it. If a control is not able to supply the mixin requested it passes the request
+on to the next control in the hierarchy. </p><p>The sequence diagram below
+illustrates the Object Provider process for supplying an interface pointer
+from the run-time hierarchy. </p><div class="figure" id="GUID-91496FA9-60F6-5DDA-899B-7E54A8A7E4CB"><img src="GUID-DF3ECD47-4A5B-5836-B5CA-ACCEE98412D4_d0e68845_href.png" /></div><p>Object1 wishes to call a function on <code class="codeph">MInterface</code>.
+It calls <code class="codeph">MopGetObject()</code> on the nearest control in the run-time
+hierarchy. The Object Provider Framework identifies the Uid for <code class="codeph">Minterface</code> and
+then passes the request up the hierarchy until an object is found (Object4)
+that implements <code class="codeph">Minterface</code>. </p><p>Calling <code class="codeph">MopGetGetObjectNoChaining()</code> will
+call <code class="codeph">MopSupplyObject()</code> but not <code class="codeph">MopNext()</code>.
+It returns Null if the class does not implement the specified mixin. </p></div>
+<div id="GUID-33E336B0-98AD-45B0-80A8-5263D8D6167D"><h3 class="section-title">See also</h3> <p><a href="GUID-B84FA223-3DFD-58C5-8CEF-C5AA73AA6290.html">How
+to write controls</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 13th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-F32E2F00-B68F-59B2-AABA-181E16354C86.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:52:27 GMT -->
+</html>

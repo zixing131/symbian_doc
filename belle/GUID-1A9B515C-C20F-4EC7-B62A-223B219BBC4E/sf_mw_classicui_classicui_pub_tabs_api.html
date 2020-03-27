@@ -1,0 +1,481 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_tabs_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:31 GMT -->
+<head><title>Tabs API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i514"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Tabs API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Creating_tab_group_control_from_resource"><span class="tocnumber">2.1</span> <span class="toctext">Creating tab group control from resource</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Accessing_tab_group_control_created_from_resource"><span class="tocnumber">2.1.1</span> <span class="toctext">Accessing tab group control created from resource</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Creating_tab_group_control_dynamically_from_resource"><span class="tocnumber">2.2</span> <span class="toctext">Creating tab group control dynamically from resource</span></a></li>
+<li class="toclevel-2"><a href="#Creating_tab_group_control_dynamically"><span class="tocnumber">2.3</span> <span class="toctext">Creating tab group control dynamically</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_pre-implemented_tab_group"><span class="tocnumber">2.4</span> <span class="toctext">Creating a pre-implemented tab group</span></a></li>
+<li class="toclevel-2"><a href="#Modifying_tabs_of_tab_group_control"><span class="tocnumber">2.5</span> <span class="toctext">Modifying tabs of tab group control</span></a></li>
+<li class="toclevel-2"><a href="#Observing_tab_group_control_events"><span class="tocnumber">2.6</span> <span class="toctext">Observing tab group control events</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Tab_events"><span class="tocnumber">2.6.1</span> <span class="toctext">Tab events</span></a></li>
+<li class="toclevel-3"><a href="#Tab_navigation_events"><span class="tocnumber">2.6.2</span> <span class="toctext">Tab navigation events</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.7</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.8</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The principal use of tab is to display information about the current state
+and view, and to help the user navigate in the application. Tabs can contain
+text, images or both.
+</p><p>Tabs can be used to help switch between different views of the application,
+or just give the user some additional information. Tabs are placed on the
+navigation pane. The navigation pane is a sub pane of the status pane. For
+details on navigation pane, see <a href="sf_mw_classicui_classicui_pub_navigation_pane_api.html" title="sf_mw_classicui_classicui_pub_navigation_pane_api.html">Navigation Pane API</a> documentation.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>avkon.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/tabs_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/tabs_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Tabs API provides support for creating tab group controls on the navigation
+pane. Tab group controls consists of tabs. Each tab can be accessed, new tabs
+can be created, or tabs can be replaced.
+</p><p>The navigation pane control contains factory methods for pre-implemented
+navigation pane tab group control type: <span class="plainlinks"><code>CAknNavigationControlContainer::CreateTabGroupL()</code> </span>).
+This method returns a navigation decorator object. A decorator object contains
+the tab group control itself and in addition, it provides support for navigation
+arrows, etc.
+</p><p>Tabs API 's most important classes are <span class="plainlinks"><code>CAknTabGroup</code> </span> and <span class="plainlinks"><code>MAknTabObserver</code> </span>.
+Tab group controls can be created at runtime, or from resource files, using
+the <span class="plainlinks"><code>NAVI_DECORATOR</code> </span> resource headers.
+</p><p>Tabs API can be used by any application that is designed to show information
+outside the view area of the application.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p><a href="sf_mw_classicui_classicui_pub_navigation_pane_api.html" title="sf_mw_classicui_classicui_pub_navigation_pane_api.html">Navigation Pane API</a> is an SDK API and part of S60 release
+3.x.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of Tabs API are:
+</p>
+<ul><li> Creating tab group control from resource
+</li><li> Accessing tab group control created from resource
+</li><li> Creating tab group control dynamically from resource
+</li><li> Creating tab group control dynamically
+</li><li> Creating a pre-implemented tab group
+</li><li> Modifying tabs of tab group control
+</li><li> Observing tab group control events
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknTab <td><span class="plainlinks"><code>/epoc32/include/mw/akntabgrp.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAknTabGroup</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/akntabgrp.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknTabObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknTabObserver.h</code></span>
+</td></tr>
+<p>Tabs API contains small number of classes providing functionality of the
+interface. The main classes are: <span class="plainlinks"><code>CAknTabGroup</code> </span>, <span class="plainlinks"><code>MaknTabObserver</code> </span>, <span class="plainlinks"><code>MAknNavigationObserver</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_TabsAPI.png" title="Tabs API"><img alt="Tabs API" border="0" height="172" src="images/SPB_10_1_TabsAPI.png" width="681" /></a></div>
+<div style="text-align:center"><i>Tabs API</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Creating_tab_group_control_from_resource"><h3> <span class="mw-headline">2.1 Creating tab group control from resource </span></h3>
+</a><p>The first step of creating a tab group is to specify the status pane and
+the navigation pane decorator resources. Status pane's ID and type field values
+are defined in<i> avkon.hrh</i>. Decorator's resource type is defined as <span class="plainlinks"><code>ENaviDecoratorControlTabGroup</code> </span> since
+the decorator will contain a label control, <span class="plainlinks"><code><font color="darkred">tab_width</font></code> </span> field
+specifies how many tabs are visible on the tab group. This value can be:
+</p>
+<ul><li> <span class="plainlinks"><code>EAknTabWidthWithTwoTabs</code> </span>
+</li><li> <span class="plainlinks"><code>EAknTabWidthWithTwoLongTabs</code> </span>
+</li><li> <span class="plainlinks"><code>EAknTabWidthWithThreeTabs</code> </span>
+</li><li> <span class="plainlinks"><code>EAknTabWidthWithThreeLongTabs</code> </span>
+</li><li> <span class="plainlinks"><code>EAknTabWidthWithFourTabs</code> </span>
+</li><li> <span class="plainlinks"><code>EAknTabWidthWithOneTab</code> </span>
+</li></ul>
+<p>The <span class="plainlinks"><code><font color="darkred">id</font></code> </span> field of TAB is defined in the application's HRH
+file.
+</p>
+<pre>RESOURCE EIK_APP_INFO
+    {
+    status_pane = r_app_status_pane;
+    }
+</pre>
+<pre>RESOURCE STATUS_PANE_APP_MODEL r_app_status_pane
+    {
+    panes=
+        {
+        SPANE_PANE
+            {
+            id = EEikStatusPaneUidNavi;
+            type = EAknCtNaviPane;
+            resource = r_navi_decorator;
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE NAVI_DECORATOR r_navi_decorator
+    {
+    type = ENaviDecoratorControlTabGroup;
+    control = TAB_GROUP
+        {
+        tab_width = EAknTabWidthWithTwoTabs;
+        active = 0;
+        tabs = {
+            TAB
+                {
+                id = EAppView1Tab;
+                txt = "View1";
+                },
+            TAB
+                {
+                id = EAView2Tab;
+                txt = "View2";
+                }
+            };
+        };
+    }
+</pre>
+<a name="Accessing_tab_group_control_created_from_resource"><h4> <span class="mw-headline">2.1.1 Accessing tab group control created from resource </span></h4>
+</a><p>This example shows how to get the tab group object that was constructed
+from resources as described earlier. <span class="plainlinks"><code><font color="darkred">iDecorator</font></code> </span> is a pointer
+to <span class="plainlinks"><code>CAknNavigationDecorator</code> </span>, <span class="plainlinks"><code><font color="darkred">iTabGroup</font></code> </span> is
+a pointer to <span class="plainlinks"><code>CAknTabGroup</code> </span>.
+</p>
+<pre>// Get the decorator constructed from resource
+iDecorator = iNaviPane-&gt;ResourceDecorator();
+// Get the tab group from decorator
+iTabGroup = (CAknTabGroup*)iDecorator-&gt;DecoratedControl();
+// Add new tab to tabbgroup
+iTabGroup-&gt;AddTabL(1,_L("NewTab") );
+</pre>
+<a name="Creating_tab_group_control_dynamically_from_resource"><h3> <span class="mw-headline">2.2 Creating tab group control dynamically from resource </span></h3>
+</a><p>You need to define tab group control in the resource file as follows.
+</p>
+<pre>RESOURCE NAVI_DECORATOR r_navi_decorator2
+    {
+    type = ENaviDecoratorControlTabGroup;
+    control = TAB_GROUP
+        {
+        tab_width = EAknTabWidthWithTwoTabs;
+        active = 0;
+        tabs = {
+            TAB
+                {
+                id = EAhdemoappView1Tab;
+                txt = "ResView1";
+                },
+            TAB
+                {
+                id = EAhdemoappView2Tab;
+                txt = "ResView2";
+                }
+            };
+     };
+</pre>
+<p>A tab group resource identifier can directly be passed to <span class="plainlinks"><code><font color="darkred">CreateResourceReaderLC()</font></code> </span>,
+a new navigation pane decorator object is created by <span class="plainlinks"><code><font color="darkred">ConstructNavigationDecoratorFromResourceL()</font></code> </span>,
+and the created decorator, that contains the tab group control is pushed to
+the navigation pane, so it becomes visible on the pane. In the following example <span class="plainlinks"><code><font color="darkred">iDecorator</font></code> </span> is a pointer to <span class="plainlinks"><code>CAknNavigationDecorator</code> </span>, and <span class="plainlinks"><code><font color="darkred">iNaviPane</font></code> </span> is
+a pointer to <span class="plainlinks"><code>CAknNavigationControlContainer</code> </span>. This way multiple
+navigation pane decorators can be defined in the resource file, which contains
+tab group controls.
+</p>
+<pre>TResourceReader reader;
+</pre>
+<pre>// Read the resource
+iEikonEnv-&gt;CreateResourceReaderLC( reader, R_AHDEMO_NAVI_DECORATOR2 );
+</pre>
+<pre>// Construct the decorator from resource
+iDecorator = iNaviPane-&gt;ConstructNavigationDecoratorFromResourceL( reader );
+// Destroy the object that was put on CleanupStack by
+// CreateResourceReaderLC()
+CleanupStack::PopAndDestroy();
+</pre>
+<pre>// Display the tab group on navigation pane
+iNaviPane-&gt;PushL( *iDecorator );
+</pre>
+<a name="Creating_tab_group_control_dynamically"><h3> <span class="mw-headline">2.3 Creating tab group control dynamically </span></h3>
+</a><p>First a tab group is created, then navigation pane decorator object is
+created with the tab group. The decorator must be pushed to the navigator
+pane. Note: <span class="plainlinks"><code><font color="darkred">SetActiveTabByIndex()</font></code> </span> must be called to make
+tab group visible. In the following example <span class="plainlinks"><code><font color="darkred">iDecorator</font></code> </span> is
+a pointer to <span class="plainlinks"><code>CAknNavigationDecorator</code> </span>, <span class="plainlinks"><code><font color="darkred">iNaviPane</font></code> </span> is
+a pointer to <span class="plainlinks"><code>CAknNavigationControlContainer</code> </span> and <span class="plainlinks"><code><font color="darkred">iTabGroup</font></code> </span> is
+a pointer to <span class="plainlinks"><code>CAknTabGroup</code> </span>.
+</p>
+<pre>// Create tab group
+iTabGroup = CAknTabGroup::NewL( *iNaviPane );
+// Set tab width
+iTabGroup-&gt;SetTabFixedWidthL ( EAknTabWidthWithTwoLongTabs );
+// Add tabs to tab group
+iTabGroup-&gt;AddTabL(0,_L("Tab1") );
+iTabGroup-&gt;AddTabL(1,_L("Tab2") );
+// Create a navipane decorator containing the tab group
+iDecorator = CAknNavigationDecorator::NewL( iNaviPane, iTabGroup, CAknNavigationDecorator::ETabGroup );
+iNaviPane-&gt;PushL( *iDecorator );
+// Activate the first tab
+iTabGroup-&gt;SetActiveTabByIndex(0);
+</pre>
+<a name="Creating_a_pre-implemented_tab_group"><h3> <span class="mw-headline">2.4 Creating a pre-implemented tab group </span></h3>
+</a><p>Decorator and the required tab group control can be created easily with
+method <span class="plainlinks"><code>CAknNavigationControlContainer::CreateTabGroupL()</code> </span>.
+In the following example <span class="plainlinks"><code><font color="darkred">iDecorator</font></code> </span> is a pointer to <span class="plainlinks"><code>CAknNavigationDecorator</code> </span>, <span class="plainlinks"><code><font color="darkred">iNaviPane</font></code> </span> is
+a pointer to <span class="plainlinks"><code>CAknNavigationControlContainer</code> </span> and <span class="plainlinks"><code><font color="darkred">iTabGroup</font></code> </span> is
+a pointer to <span class="plainlinks"><code>CAknTabGroup</code> </span>.
+</p>
+<pre>// Create the decorator and the tab group control
+iDecorator = iNaviPane-&gt;CreateTabGroupL(this);
+iTabGroup = ( CAknTabGroup* ) iDecoratedTabGroup-&gt;DecoratedControl();
+// Set tab width
+iTabGroup-&gt;SetTabFixedWidthL ( EAknTabWidthWithTwoLongTabs );
+// Add tabs to tab group
+iTabGroup-&gt;AddTabL(0,_L("Tab1") );
+iTabGroup-&gt;AddTabL(1,_L("Tab2") );
+// Activate the first tab
+iTabGroup-&gt;SetActiveTabByIndex(0);
+</pre>
+<a name="Modifying_tabs_of_tab_group_control"><h3> <span class="mw-headline">2.5 Modifying tabs of tab group control </span></h3>
+</a><p>Tabs in tab group can be accessed by ID, or index. Index is the position
+of the tab in the tab group. Tab indexes are zero based. Tab ID can be any
+integer value. In the following example <span class="plainlinks"><code><font color="darkred">iTabGroup</font></code> </span> is a pointer
+to <span class="plainlinks"><code>CAknTabGroup</code> </span>. Note: <span class="plainlinks"><code><font color="darkred">SetActiveTabByIndex()</font></code> </span> or <span class="plainlinks"><code><font color="darkred">SetActiveTabById()</font></code> </span> method
+must be called after adding the tabs, to make the tab group visible.
+</p><p>Adds a tab to a tab group with text.
+</p>
+<pre>enum TabId
+     {
+     ETabFirst,
+     ETabSecond,
+     ETabThird
+     };
+</pre>
+<pre>iTabGroup-&gt;AddTabL( ETabFirst,_L( "Tab1" ) );
+iTabGroup-&gt;AddTabL( ETabSecond,_L( "Tab2" ) );
+iTabGroup-&gt;SetActiveTabByIndex(ETabFirst );
+</pre>
+<p>Adds a tab to the tab group with text and image.
+</p>
+<pre>CFbsBitmap* bitmap1 = iEikonEnv-&gt;CreateBitmapL( _L( "c:\image.mbm" ), 0 );
+CFbsBitmap* bitmap2 = iEikonEnv-&gt;CreateBitmapL( _L( "c:\image.mbm" ), 1 );
+iTabGroup-&gt;AddTabL( ETabFirst, _L("tab1" ), bitmap1 );
+iTabGroup-&gt;AddTabL( ETabSecond, _L("tab2" ), bitmap2 );
+</pre>
+<p>Replaces a tab with a new tab at tab with ID: <span class="plainlinks"><code>ETabThird</code> </span>.
+</p>
+<pre>iTabGroup-&gt;ReplaceTabL ( ETabThird, _L( "NewTab" ) );
+</pre>
+<p>Deletes a tab at tab with ID: <span class="plainlinks"><code>ETabThird</code> </span>.
+</p>
+<pre>iTabGroup-&gt;ReplaceTabL ( ETabThird, _L( "NewTab" ) );
+</pre>
+<p>Activates a tab with ID: <span class="plainlinks"><code>ETabThird</code> </span>.
+</p>
+<pre>iTabGroup-&gt;SetActiveTabById( ETabThird );
+</pre>
+<p>Gets the ID of the active tab.
+</p>
+<pre>TInt actveTabId = iTabGroup-&gt;ActiveTabId();
+if ( actveTabId == ETabThird )
+     {
+     // your code here&#8230;
+     }
+</pre>
+<p>Gets the index of tab with ID: <span class="plainlinks"><code>ETabThird</code> </span>.
+</p>
+<pre>TInt tabIndex = iTabGroup-&gt;TabIndexFromId ( ETabThird );
+if (tabIndex == 2 )
+     {
+     // your code here&#8230;
+     }
+</pre>
+<p>Gets the IDof tab from index.
+</p>
+<pre>TInt tabId = iTabGroup-&gt;TabIdFromIndex( 2 );
+if ( tabId == ETabThird )
+     {
+     // your code here&#8230;
+     }
+</pre>
+<p>Dims tab with ID: <span class="plainlinks"><code>ETabThird</code> </span>.
+</p>
+<pre>iTabGroup-&gt;DimTab( ETabThird, ETrue );
+</pre>
+<p>Gets the number of tabs in tab group.
+</p>
+<pre>TInt numOfTabs = iTabGroup-&gt; TabCount();
+</pre>
+<a name="Observing_tab_group_control_events"><h3> <span class="mw-headline">2.6 Observing tab group control events </span></h3>
+</a><p>There are two types of tab group events: tab events, and tab navigation
+events.
+</p>
+<a name="Tab_events"><h4> <span class="mw-headline">2.6.1 Tab events </span></h4>
+</a><p>This requires that the observing class must be derived from <span class="plainlinks"><code>MAknTabObserver</code> </span>,
+and the observer must implement the method <span class="plainlinks"><code><font color="darkred">TabChangedL()</font></code> </span>.
+This event notifies the observer that the active tab has changed.
+</p><p>In the example, <span class="plainlinks"><code>CMyAppUi</code> </span> observes the tab events.
+</p>
+<pre>class CMyAppUi : public CAknViewAppUi, MAknTabObserver
+     {
+     &#8230;
+     // From MAknTabObserver
+     void TabChangedL( TInt aIndex );
+     &#8230;
+     };
+</pre>
+<p>In the following example, tab group has been defined in resources. So this
+tab group is accessed and then observer is registered. <span class="plainlinks"><code><font color="darkred">iDecorator</font></code> </span> is
+a pointer to <span class="plainlinks"><code>CAknNavigationDecorator</code> </span> and <span class="plainlinks"><code><font color="darkred">iTabGroup</font></code> </span> is
+a pointer to <span class="plainlinks"><code>CAknTabGroup</code> </span>.
+</p>
+<pre>void CMyAppUi::Construct()
+     {
+     &#8230;
+     // Get the decorator from resource
+     iDecorator = iNaviPane-&gt;ResourceDecorator();
+     if ( iDecoratedTabGroup )
+        {
+        // Get the tab group from decorator
+        iTabGroup = ( CAknTabGroup* )iDecoratedTabGroup
+-&gt;DecoratedControl();
+        }
+</pre>
+<pre>     // Register this object as a tab observer
+     iTabGroup-&gt;SetObserver( this );
+     &#8230;
+     }
+</pre>
+<p>The <span class="plainlinks"><code><font color="darkred">TabChangedL()</font></code> </span> method receives tab events.
+</p>
+<pre>void CMyAppUi::TabChangedL( TInt aIndex )
+     {
+     // Do event handling code here&#8230;
+     }
+</pre>
+<a name="Tab_navigation_events"><h4> <span class="mw-headline">2.6.2 Tab navigation events </span></h4>
+</a><p>The observer class must be derived from <span class="plainlinks"><code>MCoeControlObserver</code> </span>,
+and the observer must implement the method <span class="plainlinks"><code><font color="darkred">HandleControlEventL()</font></code> </span>.
+This event notifies the observer about the position of the current tab in
+the tab group. The events are:
+</p>
+<ul><li> <span class="plainlinks"><code>ENaviEventHandleNavigation</code> </span>
+</li><li> <span class="plainlinks"><code>ENaviEventLeftMostItemReached</code> </span>
+</li><li> <span class="plainlinks"><code>ENaviEventRightMostItemReached</code> </span>
+</li><li> <span class="plainlinks"><code>ENaviEventOneItemExists</code> </span>
+</li><li> <span class="plainlinks"><code>ENaviEventRedrawNeeded</code> </span>
+</li><li> <span class="plainlinks"><code>ENaviEventAlreadyLeftmostItem</code> </span>
+</li><li> <span class="plainlinks"><code>ENaviEventAlreadyRightmostItem</code> </span>
+</li></ul>
+<p>In the example, <span class="plainlinks"><code>CMyAppUi</code> </span> observes the tab events.
+</p>
+<pre>class CMyAppUi : public CAknViewAppUi, MCoeControlObserver
+     {
+     &#8230;
+     // From MCoeControlObserver
+     void HandleControlEventL( CCoeControl* aControl, TCoeEvent aEventType );
+     &#8230;
+     };
+</pre>
+<p>The following example accesses the tab group defined in resource, and then
+registers the observer. <span class="plainlinks"><code><font color="darkred">iDecorator</font></code> </span> is a pointer to <span class="plainlinks"><code>CAknNavigationDecorator</code> </span> and <span class="plainlinks"><code><font color="darkred">iTabGroup</font></code> </span> is
+a pointer to <span class="plainlinks"><code>CAknTabGroup</code> </span>. The observer is registered in
+the base class of the tab group.
+</p>
+<pre>void CMyAppUi::Construct()
+     {
+     &#8230;
+     // Get the decorator from resource
+     iDecorator = iNaviPane-&gt;ResourceDecorator();
+     if ( iDecoratedTabGroup )
+        {
+        // Get the tab group from decorator
+        iTabGroup = ( CAknTabGroup* ) iDecoratedTabGroup-&gt;DecoratedControl();
+        }
+</pre>
+<pre>     // Register this object in the base class as a tab event observer
+     CCoeControl* baseControl =  ( CCoeControl* )iTabGroup;
+     baseControl-&gt;SetObserver( ( MCoeControlObserver* )this );
+     &#8230;
+     }
+</pre>
+<p><span class="plainlinks"><code><font color="darkred">HandleControlEventL()</font></code> </span> receives tab navigation events.
+</p>
+<pre>void CMyAppUi:: HandleControlEventL( CCoeControl* /*aControl*/,TCoeEvent aEventType )
+     {
+     switch (aEventType)
+         {
+         case MAknNavigationObserver::ENaviEventLeftMostItemReached:
+</pre>
+<pre>             // Do event handling code here&#8230;
+</pre>
+<pre>             break;
+         default:
+             break;
+     }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.7 Error handling </span></h3>
+</a><p>Tabs API uses the standard Symbian OS error reporting mechanism. Possible
+panic circumstances and panic codes are indicated in class or method descriptions.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.8 Memory and Performance Considerations </span></h3>
+</a><p>The amount of reserved memory for application owned tab group controls
+depend on the application, but despite the application the amount of reserved
+memory is relatively small.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Tabs API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_tabs_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:32 GMT -->
+</html>

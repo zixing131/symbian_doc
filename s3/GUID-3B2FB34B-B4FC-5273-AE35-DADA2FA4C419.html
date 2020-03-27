@@ -1,0 +1,106 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3B2FB34B-B4FC-5273-AE35-DADA2FA4C419.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:03:18 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using ClientMessage Framework" /><meta name="abstract" content="This section explains how to use the ClientMessage framework to sanitize the incoming messages." /><meta name="description" content="This section explains how to use the ClientMessage framework to sanitize the incoming messages." /><meta name="DC.Relation" scheme="URI" content="GUID-42C94E3D-93DE-543E-A0D2-8B705C668BE0" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-D02B5AF1-B1C3-560D-9654-971A5CC1A904" /><meta name="DC.Relation" scheme="URI" content="GUID-D98E984D-69A5-5BA8-89E7-A7CC9FD0C584" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3B2FB34B-B4FC-5273-AE35-DADA2FA4C419" /><meta name="DC.Language" content="en" /><title>Using
+ClientMessage Framework </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3B2FB34B-B4FC-5273-AE35-DADA2FA4C419">Using
+ClientMessage Framework</h1><div><p>This section explains how to use the ClientMessage framework to
+sanitize the incoming messages. </p>
+<div><h3 class="section-title">Procedure</h3> <ol id="GUID-99AB8BE4-C585-55A3-B16F-C4B53A9E9E61">
+<li id="GUID-F6B94808-046E-5D80-9BDC-AEEEE1DB694B"><a name="GUID-F6B94808-046E-5D80-9BDC-AEEEE1DB694B"><!-- --></a><p>Create and initialize
+a TClientMessageSchema structure to represent a single
+message from the client. </p> <p>It defines the function number corresponding
+to the message, the security policy for the message, the number of paramaters
+that are passed to the function and the type and constraint information for
+each of the parameters. </p> <div class="p"><pre class="codeblock">const TParameterDetails KMessageParams2[1] = {{EParamInt,-10,100}};
+
+const TClientMessageSchema KClientMessages[] = 
+MESSAGE_SCHEMA( EMessage0, KDefaultPolicy, KMessageParams2 );</pre> </div> </li>
+<li id="GUID-2BD81806-096B-58F3-A498-733BBC876809"><a name="GUID-2BD81806-096B-58F3-A498-733BBC876809"><!-- --></a><p>Create and initialize
+a TClientMessageServerData structure containing an array
+of custom validation functionsTCustomValidationFn and TClientMessageSchema structure
+defining a schema for each message that will be accepted by the server. </p> <div class="p"><pre class="codeblock">extern const TClientMessageServerData aServerData=
+    {
+    sizeof( KClientMessages )/sizeof( TClientMessageSchema ),
+    KClientMessages,                                               
+    KCustomValidationFunctions,
+    ( TUint8* )"My Server"
+    }</pre> </div> </li>
+<li id="GUID-A3F4C516-B219-5E77-9F3B-6EB0F76944B4"><a name="GUID-A3F4C516-B219-5E77-9F3B-6EB0F76944B4"><!-- --></a><p>Initialize the framework
+by calling the static function CClientMessage::InitialiseFrameworkL ()
+and pass it to TClientMessageServerData structure. </p> <div class="p"><pre class="codeblock">IMPORT_C static void InitialiseFrameworkL( const TClientMessageServerData &amp;aServerData );</pre> </div> </li>
+</ol> </div>
+<div><h3 class="section-title">Results</h3> <p>On construction, <code class="codeph">CMessageParameterBase</code> objects
+are instantiated using the <code class="codeph">TParameterDetails</code> structs in the
+message schema and stored in an <code class="codeph">RPointerArray</code>. The objects
+represent the individual message arguments and are used to validate each argument
+against the constraints defined in the message schema. </p> </div>
+<div><h3 class="section-title">Example</h3> <p>Below is an example schema that defines
+four messages, including two that define custom validation functions. The
+data is passed to the framework through a constant <code class="codeph">TClientMessageServerData</code> structure. </p> <pre class="codeblock">#include &lt;bsul/bsul.h&gt;
+using namespace BSUL;
+//This enum defines the custom parameter types used to validate 
+//TPckg&lt;TMyStruct&gt; and TPckg&lt;TMyStruct1&gt; parameters.
+enum TCustomParamType
+    {        
+    EParamCustom1 = ( 0x000 | EParamPckg ),        
+    EParamCustom2 = ( 0x100 | EParamPckg )     
+    };
+//Defines the schema for each message
+const TParamaterDetails KMessage0Params[2] = {{EParamInt,-10,100},
+                                             {EParamInt,0,200}};
+const TParamaterDetails KMessage1Params[2] = {{EParamDes8Read,64,64},
+                                             {EParamInt,0,64}};
+//Parameter is TPckg&lt;TMyStruct&gt;
+const TParamaterDetails KMessage2Params[1] = {{EParamCustom1,sizeof( TMyStruct ), sizeof( TMyStruct )}};
+//Parameter is TPckg&lt;TMyStruct1&gt;
+const TParamaterDetails KMessage3Params[1] = {{EParamCustom2,sizeof( TMyStruct1 ), sizeof( TMyStruct1 )}};
+//Define the security policies for each message
+_LIT_SECURITY_POLICY_PASS( KDefaultPolicy );
+_LIT_SECURITY_POLICY_C2( KMsg2Policy, ECapabilityReadUserData, ECapabilityWriteUserData );
+//This is the array of TClientMessageSchema structs that define the messages that will be accepted by the server.
+const TClientMessageSchema KClientMessages[] =      
+    {
+    {EMessage0,
+    KDefaultPolicy,         
+    sizeof( KMessage0Params )/sizeof( TParamaterDetails ),KMessage0Params},
+    
+    {EMessage1,
+    KDefaultPolicy,
+    sizeof( KMessage1Params )/sizeof( TParamaterDetails ),KMessage1Params},
+    
+    {EMessage2,
+    KMsg2Policy,
+    sizeof( KMessage2Params )/sizeof( TParamaterDetails ),KMessage2Params},
+    
+    {EMessage3,
+    KDefaultPolicy,
+    sizeof( KMessage3Params )/sizeof( TParamaterDetails ),KMessage3Params}
+    };
+//These are the custom validation functions that are used to validate 
+//TPckg&lt;TMyStruct1&gt; and TPckg&lt;TMyStruct1&gt; parameters
+static void CustomValidationFn1L( CMessageParameterBase* aParameter );
+static void CustomValidationFn2L( CMessageParameterBase* aParameter );
+//This is the array of custom validation functions. The index of the function 
+//in the array should match the upper 16 bits of the value defined in 
+//TCustomParamType enum for that parameter type.
+const TCustomValidationFn KCustomValidationFunctions[] = 
+    {
+    &amp;CustomValidationFn1L,
+    &amp;CustomValidationFn2L
+    };
+//This is the initialization data that is passed into the ClientMessage 
+//framework by the server. It contains everything the framework needs to 
+//validate incoming messages
+extern const TClientMessageServerData KServerData =
+    {
+    sizeof( KClientMessages )/sizeof( TClientMessageSchema ),
+    KClientMessages,                                               
+    KCustomValidationFunctions,
+    ( TUint8* )"My Server"
+    };</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-42C94E3D-93DE-543E-A0D2-8B705C668BE0.html">Base Services
+Utility Library Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 23rd, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3B2FB34B-B4FC-5273-AE35-DADA2FA4C419.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:03:18 GMT -->
+</html>

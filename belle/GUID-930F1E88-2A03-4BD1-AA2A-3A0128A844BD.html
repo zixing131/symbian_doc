@@ -1,0 +1,49 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-930F1E88-2A03-4BD1-AA2A-3A0128A844BD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:20 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Enabling Multiple Pointers in the Emulator Tutorial" /><meta name="abstract" content="This topic describes how to configure the Symbian emulator to enable a multiple pointer environment." /><meta name="description" content="This topic describes how to configure the Symbian emulator to enable a multiple pointer environment." /><meta name="DC.Relation" scheme="URI" content="GUID-9126A296-0301-4077-A183-3D703F77C548" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-08427065-B8E5-5194-B095-3B5213836BED" /><meta name="DC.Relation" scheme="URI" content="GUID-A12A66ED-2C8F-5CE6-8F3E-332B045A35B4" /><meta name="DC.Relation" scheme="URI" content="GUID-3E7A9A92-F217-4BD1-82CE-227931CFB8ED" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-930F1E88-2A03-4BD1-AA2A-3A0128A844BD" /><meta name="DC.Language" content="en" /><title>Enabling Multiple Pointers in the Emulator Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-930F1E88-2A03-4BD1-AA2A-3A0128A844BD">Enabling Multiple Pointers in the Emulator Tutorial</h1><div><p>This topic describes how to configure the Symbian emulator
+to enable a multiple pointer environment. </p>
+<p><strong>Variant</strong>: <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay</a>. <strong>Target audience</strong>: Application developers. </p>
+<p>This topic builds on <a href="GUID-9126A296-0301-4077-A183-3D703F77C548.html">Support for Multiple
+Pointers in the Emulator Overview</a>.</p>
+<div id="GUID-4F4F8E71-517D-4C5D-96A4-BB17CD49FD4C"><h3 class="section-title">Configuring the emulator</h3> <p>Make sure that two or more mice
+are plugged in and detected on the Windows PC on which the emulator
+will run.  The number of detected mice can be from two up to the maximum
+number defined in the HAL <code class="codeph">HALData::EPointerMaxPointers</code> attribute. </p><ol>
+<li id="GUID-63F317A2-E4EA-48BD-8F2B-40B54BF35EC6"><a name="GUID-63F317A2-E4EA-48BD-8F2B-40B54BF35EC6"><!-- --></a><p>Add the following
+lines to the <code>\epoc32\data\epoc.ini</code> file. These
+lines enable ScreenPlay and multiple pointers.</p><pre class="codeblock">SYMBIAN_BASE_USE_GCE ON
+EnableMultiTouch ON</pre></li>
+<li id="GUID-CA823DAB-C8C4-4E09-8491-0C0BCD57BAE4"><a name="GUID-CA823DAB-C8C4-4E09-8491-0C0BCD57BAE4"><!-- --></a><p>Specify the <code class="codeph">MultiTouchProximityStep</code> and <code class="codeph">MultiTouchPressureStep</code> values in the <code>\epoc32\data\epoc.ini</code> file to
+define the proximity and pressure steps.</p><pre class="codeblock">MultiTouchProximityStep 10
+MultiTouchPressureStep 200
+</pre><p>If the above two options are not defined in the <code>epoc.ini</code> file, the default proximity and pressure steps
+are taken from the following HAL attributes.</p><pre class="codeblock">HALData::EPointer3DProximityStep
+HALData::EPointer3DPressureStep</pre></li>
+</ol><p><strong>Result</strong>: Launch the emulator to verify that the mice
+are detected and displayed inside the application window area. When
+you move a mouse or scroll the mouse wheel, its X, Y and Z values
+are reflected in the status bar.</p> </div>
+<div id="GUID-44C3561D-92A1-421E-9AD3-0D8648919C46-GENID-GUID-C7AE12D4-025F-4DF7-BDB6-187FFB18A4A1"><h3 class="section-title">Enabling and disabling multiple pointers</h3> <p>Multiple pointers
+are only required by UI applications. Therefore, multiple pointers
+are enabled inside the orange rectangular area shown on the following
+diagram. Inside the area two Windows pointers are displayed. The one
+numbered zero is the system pointer and the other is used only for
+emulating touch with two fingers. The first mouse to report events
+to the emulator is automatically taken as the primary mouse, which
+owns the Windows system pointer.</p><div class="figure" id="GUID-C62E31A2-65F8-4976-A3A9-058BFE3D30D3"><img src="GUID-FD0593E7-A36C-4656-A85A-9D62DFBCC42F_d0e256806_href.png" /><p class="figure-title"><strong>Figure: </strong>Multiple pointer area</p></div><p><strong>System pointer</strong>. Once the system pointer moves outside
+multiple pointer area, multiple pointers are temporarily disabled
+and standard emulator pointer behavior is resumed. This means that
+only one Windows system pointer is displayed and it is controlled
+by both mice.</p> <p><strong>Non-system pointer</strong>. If the non-system
+pointer moves out of the multiple pointer area, the pointer just disappears
+from the screen. Disabling multiple pointers is then not necessary
+because the system pointer behaves normally inside the multiple pointer
+area. Moving the non-system pointer back into the area makes it reappear
+on the screen.</p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-9126A296-0301-4077-A183-3D703F77C548.html">Support
+for Multiple Pointers in the Emulator Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated July 2nd, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-930F1E88-2A03-4BD1-AA2A-3A0128A844BD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:22 GMT -->
+</html>

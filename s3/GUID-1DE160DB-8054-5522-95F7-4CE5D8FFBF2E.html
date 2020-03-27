@@ -1,0 +1,51 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1DE160DB-8054-5522-95F7-4CE5D8FFBF2E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:59:37 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="What is Serial Port Contention?" /><meta name="abstract" content="Serial Port Contention occurs when ports are not available to open client applications. This topic outlines problems and suggests solutions that Serial Port Contention raises with the C32 Serial Server Client." /><meta name="description" content="Serial Port Contention occurs when ports are not available to open client applications. This topic outlines problems and suggests solutions that Serial Port Contention raises with the C32 Serial Server Client." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-8905A627-1D13-5066-ABC4-7E0AF07D96A5" /><meta name="DC.Relation" scheme="URI" content="GUID-B93D6BAE-B9B9-5118-92DF-5E566E5BE8EB" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1DE160DB-8054-5522-95F7-4CE5D8FFBF2E" /><meta name="DC.Language" content="en" /><title>What is Serial Port Contention? </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1DE160DB-8054-5522-95F7-4CE5D8FFBF2E">What is Serial Port Contention?</h1><div><p>Serial Port Contention occurs when ports are not available
+to open client applications. This topic outlines problems and suggests
+solutions that Serial Port Contention raises with the C32 Serial Server
+Client. </p>
+<p>The Root Server process includes a server which allows access to
+the serial ports of a device. This server is known as C32 Serial Server
+and it sits on top of the Kernel RBusDevComm APIs.
+The <code class="codeph">RBusDevComm</code> APIs provide access to the serial
+ports. Serial port configuration is important because each device
+has a specific hardware configuration and serial ports are highly
+susceptible to contention issues. </p>
+<div id="GUID-35BC2F4D-0B46-41EF-86E1-A623EE9FE99E"><h3 class="section-title">Serial
+port co-operation and contention</h3> <p>The first client to open
+a serial port effectively owns that port and can then choose to share
+it or keep exclusive access. This logic can cause problems for C32
+Serial server clients. C32 Serial server clients cannot use <code class="codeph">RBusDevComm</code> to track clients that use the serial ports directly.
+In these circumstances, C32 can only see that the port is in use and
+reports this to all of its clients. </p> <p>To ensure a specified
+process can access a serial port, do one of the following: </p> <ul>
+<li id="GUID-DA3D42DF-1E53-5811-83D4-79C9747D53C2"><a name="GUID-DA3D42DF-1E53-5811-83D4-79C9747D53C2"><!-- --></a><p>Configure the
+device startup so that the specified process can open the serial port
+before all other applications. </p> </li>
+<li id="GUID-F331356C-8C75-5651-8702-FB5E47FBAEF0"><a name="GUID-F331356C-8C75-5651-8702-FB5E47FBAEF0"><!-- --></a><p>Implement the
+serial port driver so that only the specified process can access it.
+For example, the driver might require that the client has a particular
+process ID. </p> </li>
+</ul> <p>Both of these solutions require an understanding of the serial
+port hardware and potential client software before the solutions can
+be implemented. For C32 Serial Server the device boot order is very
+important since it affects both solutions. </p> <p>The C32 Serial
+Server is started after Root Server starts. The Root Server and C32
+startups are specified in each associated CMI file. They are started
+early in the boot process, but the serial ports might be ready for
+use by <code class="codeph">RBusDevComm</code> at an earlier stage. If the strategy
+of guaranteeing port access is based on the client opening the port
+using the C32 Serial Server, then no other client can open a port
+using RBusDevComm before C32 starts. </p> <p>The C32 Serial Server
+loads plug-ins that act as high-level drivers for each serial port.
+You can implement any requirements for access within these plug-ins,
+such as requiring the client to have a specific process ID. This strategy
+only works within the C32 Serial Server, since any client using the
+serial port through <code class="codeph">RBusDevComm</code> does not load the
+C32 Serial Server plug-in. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 15th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1DE160DB-8054-5522-95F7-4CE5D8FFBF2E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:59:37 GMT -->
+</html>

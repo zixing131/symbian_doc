@@ -1,0 +1,114 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4F8B0675-AC8D-529A-903D-DA31C8236A98.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:13 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using TArray&lt;class T&gt;" /><meta name="abstract" content="This document covers important issues in using TArray" /><meta name="description" content="This document covers important issues in using TArray" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Relation" scheme="URI" content="GUID-E3F403EE-717B-5EA6-BC4E-6840097CAC10" /><meta name="DC.Relation" scheme="URI" content="GUID-59DB0115-053A-5D23-8C40-E2428C096BBC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4F8B0675-AC8D-529A-903D-DA31C8236A98" /><meta name="DC.Language" content="en" /><title>Using
+TArray&lt;class T&gt; </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4F8B0675-AC8D-529A-903D-DA31C8236A98">Using
+TArray&lt;class T&gt;</h1><div><p>This document covers important issues in using TArray</p>
+<div id="GUID-658749FD-5BE8-4233-B107-DA466FB662CF"><h3 class="section-title">Using TArray to avoid the need for overloaded variants</h3> <p>The
+use of a <code class="codeph">TArray</code> object can avoid the need for the member
+function of an end-user class to have overloaded variants to handle all possible
+types of arrays of <code class="codeph">&lt;class T&gt;</code> elements.</p> <p>The following
+example illustrates the point. It constructs a fixed flat array, a variable
+flat array and a packed array of <code class="codeph">&lt;TElement&gt;</code> objects.</p> <p>By
+taking a <code class="codeph">TArray&lt;TElement&gt;</code> argument, the <code class="codeph">CTot::Total()</code> member
+function can access array elements regardless of the type of array containing
+them.</p> <pre class="codeblock">class TElement                 // array elements
+ {
+ public:
+  TElement();
+  inline TInt GetValue() const;
+  void SetValue(TInt aVal);
+ private :
+  TInt iValue;
+ };
+</pre> <pre class="codeblock">class CTot : public CBase           
+ {
+ public :
+  void Total(const TArray&lt;TElement&gt;&amp; anArray);
+ private :
+  TInt iTotalElements;
+  TInt iTotalValue;
+ };
+</pre> <pre class="codeblock">TElement::TElement()
+ : iValue(0)
+ {}
+
+</pre> <pre class="codeblock">inline TInt TElement::GetValue() const
+ {
+ return iValue;
+ }
+
+</pre> <pre class="codeblock">void TElement::SetValue(TInt aVal)
+ {
+ iValue = aVal;
+ }
+
+</pre> <pre class="codeblock">void CTot::Total(const TArray&lt;TElement&gt;&amp; anArray)
+ {
+ TInt count = anArray.Count();
+ 
+ for (TInt jj = 0; jj &lt; count; jj++)
+  iTotalValue += anArray[jj].GetValue();
+ 
+ iTotalElements += count;
+ }
+
+</pre> <p>Then some code using these could be:</p> <pre class="codeblock">//           main body
+
+CArrayFixFlat&lt;TElement&gt;* fix;
+CArrayVarFlat&lt;TElement&gt;* var;
+CArrayPakFlat&lt;TElement&gt;* pak;
+TElement x;
+CTot* ptr;
+
+ptr = new CTot;
+
+fix = new CArrayFixFlat&lt;TElement&gt;(2);
+var = new CArrayVarFlat&lt;TElement&gt;(2);
+pak = new CArrayPakFlat&lt;TElement&gt;(2);
+
+x.SetValue(1);
+fix-&gt;AppendL(x);
+x.SetValue(2);
+var-&gt;AppendL(x,sizeof(x));
+x.SetValue(3);
+pak-&gt;AppendL(x,sizeof(x));
+
+ptr-&gt;Total(fix-&gt;Array());
+ptr-&gt;Total(var-&gt;Array());
+ptr-&gt;Total(pak-&gt;Array());</pre> <p>Without the use of <code class="codeph">TArray</code>,
+the <code class="codeph">Total()</code> member function would need overloaded variants
+to handle all the possible array types which it might expect. The <code class="codeph">CTot</code> class
+would need redefining as:</p> <pre class="codeblock">class CTot : public CBase           
+ {
+ public :
+  void Total(const CArrayFixFlat&lt;TElement&gt;&amp; anArray);
+  void Total(const CArrayFixSeg&lt;TElement&gt;&amp; anArray);
+  void Total(const CArrayVarFlat&lt;TElement&gt;&amp; anArray);
+  void Total(const CArrayVarSeg&lt;TElement&gt;&amp; anArray);
+  void Total(const CArrayPakFlat&lt;TElement&gt;&amp; anArray);
+ private :
+  TInt iTotalElements;
+  TInt iTotalValue;
+ };</pre> <p>To allow the <code class="codeph">Total()</code> function to handle
+arrays composed of different types of element, (i.e. arrays constructed with
+different template values), then a separate variant of <code class="codeph">Total()</code> is
+required for each element type. For example, to handle arrays of <code class="codeph">&lt;TElement1&gt;</code> elements
+and arrays of <code class="codeph">&lt;TElement2&gt;</code> elements, the <code class="codeph">CTot</code> class
+might be defined as:</p> <pre class="codeblock">class CTot : public CBase           
+ {
+ public :
+  void TotalA(const TArray&lt;TElement1&gt;&amp; anArray);
+  void TotalB(const TArray&lt;TElement2&gt;&amp; anArray);
+ private :
+  TInt iTotalElements;
+  TInt iTotalValue;
+ };</pre> <p>One important point to note; the referenced <code class="codeph">TElement</code> returned
+by <code class="codeph">operator[]</code> is declared as <code class="codeph">const</code>. This
+means that any member function of <code class="codeph">TElement</code> must also be declared
+as <code class="codeph">const</code>, as shown in this example.</p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 18th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4F8B0675-AC8D-529A-903D-DA31C8236A98.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:13 GMT -->
+</html>

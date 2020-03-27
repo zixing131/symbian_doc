@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5031CE85-608A-3620-92F9-69D4A3E25485.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:49 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="coeeventdata.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-5031CE85-608A-3620-92F9-69D4A3E25485" />
+<title>coeeventdata.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-5031CE85-608A-3620-92F9-69D4A3E25485"><a name="GUID-5031CE85-608A-3620-92F9-69D4A3E25485"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">coeeventdata.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-B128EE04-175E-398E-B8B3-52E7D0A8017D"><a name="GUID-B128EE04-175E-398E-B8B3-52E7D0A8017D"><!-- --></a>
+<a name="GUID-CE3EAA3D-B7C6-3AC3-B3E3-B8EC5F6A3363"><!-- --></a><h3 class="sectiontitle">NONSHARABLE_CLASS ( CCoeEventData )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>NONSHARABLE_CLASS</td><td>(</td><td>CCoeEventData</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Class for grouping together events per control.</p>
+<div class="p">Example use: <pre class="pre codeblock"> void CExampleAppControl::HandlePointerEventL( const TPointerEvent&amp; aPointerEvent )
+   {
+   if ( aPointerEvent.iType == TPointerEvent::EDataCCoeEventData )
+       {
+       // Only advanced pointers can be data type pointer events.
+       const TAdvancedPointerEvent* advEvent = aPointerEvent.AdvancedPointerEvent();
+       if ( advEvent )
+           {
+           // We know we're this data type advanced pointer event.
+           const CCoeEventData&amp; eventData = CCoeEventData::EventData( *advEvent );
+
+           // We have data, check the data type.
+           switch ( eventData.Type() )
+               {
+               case CWsEventWithData::EPointerEvent: // This enum is now for a general pointer event,
+                                                        not an advanced pointer event
+                   {
+                   const TPointerEvent* pointerEvent = NULL;
+                   TUint count = eventData.Count();
+                   for ( TUint event = 0; event &lt; count; ++event )
+                       {
+                       // This API now returns a TPointerEvent, not a TAdvancedPointerEvent.
+                       pointerEvent = eventData.Pointer( event );
+                       advEvent = pointerEvent-&gt;AdvancedPointerEvent();
+                       if ( advEvent )
+                           {
+                           RDebug::Print( _L( "Multi Pointer %d  %d,%d" ),
+                                              advEvent-&gt;PointerNumber(),
+                                              advEvent-&gt;iPosition.iX,
+                                              advEvent-&gt;iPosition.iY );
+                           }
+                       else
+                           {
+                           RDebug::Print( _L( "Single Pointer %d,%d" ),
+                                              pointerEvent-&gt;iPosition.iX,
+                                              pointerEvent-&gt;iPosition.iY );
+                           }
+                       }
+                   break;
+                   }
+               ...</pre>
+</div>
+<div class="p">
+<dl class="dl since">
+<dt class="dt dlterm">Since</dt>
+<dd class="dd">Symbian Carla </dd>
+</dl>
+</div>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+</div>
+</div>
+</div></p></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5031CE85-608A-3620-92F9-69D4A3E25485.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:50 GMT -->
+</html>

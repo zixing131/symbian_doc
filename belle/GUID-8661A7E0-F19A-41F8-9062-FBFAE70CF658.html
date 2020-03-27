@@ -1,0 +1,100 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-8661A7E0-F19A-41F8-9062-FBFAE70CF658.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:22 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Tactile feedback client API" /><meta name="abstract" content="The Tactile feedback client API is used for producing tactile feedback for different touch events." /><meta name="description" content="The Tactile feedback client API is used for producing tactile feedback for different touch events." /><meta name="DC.Relation" scheme="URI" content="GUID-B8C3E562-EE45-47F2-BC00-F6C10ADD3026" /><meta name="DC.Relation" scheme="URI" content="GUID-786D76B7-B827-43B7-8202-BA7A7E5EE03E" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-8C40E993-C9A0-423D-979D-7BB11CE091C1" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-FA9679A1-6FD7-4FB6-883A-D5719388A2B6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-8661A7E0-F19A-41F8-9062-FBFAE70CF658" /><meta name="DC.Language" content="en" /><title>Tactile feedback client API </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-8661A7E0-F19A-41F8-9062-FBFAE70CF658">Tactile feedback client API</h1><div><p>The Tactile feedback client API is used for producing tactile
+feedback for different touch events.</p>
+<p>The Tactile feedback client API is a library API that has been
+implemented with a client-server technique. A major part of the processing
+is done on the client side, and thus API calls don't necessarily generate
+a client-server transaction immediately. Instead for example, changes
+to area registry are buffered, and then transferred to server-side
+at once.</p>
+<p>You can use tactile feedback in, for example, the following cases:</p>
+<ul>
+<li>When the user starts to scroll with the scroll bar, user can feel
+and/or hear when the scroll bar thumb has been caught.</li>
+<li>When button is pressed, user can feel and/or hear the button being
+pressed.</li>
+</ul>
+<p>The concept of logical feedback type is very important from this
+API's point of view. </p>
+<p>In practice it means that, for example, you should not try to use
+this API for producing vibrator feedback only. Instead, logical feedback
+types such as "basic" or "sensitive" are used on this level, and the
+actual physical effect then depends on the settings and device configuration.
+This way the feedback works in a unified way from the end user point
+of view in the whole device.</p>
+<div id="GUID-44CAF194-6B6A-4661-AB29-88BF700BBC60"><h3 class="section-title"><!--no section title--></h3><p>For user
+experience guidelines on tactile feedback, see <a href="GUID-581A8E4B-12BE-41C0-A20E-3087A80FEECF-GENID-GUID-DE2BF6AE-5859-4458-A9D7-0C06FF2F2077.html">Tactile feedback</a>.</p><p>For information on using the API, see <a href="GUID-786D76B7-B827-43B7-8202-BA7A7E5EE03E.html">Providing tactile
+feedback for touch events</a>.</p><p>For the Tactile feedback client
+API classes and header files, see Classes and Definitions.</p></div>
+<div id="GUID-E44747A5-92BF-4D7A-895C-C469112A4D32"><h3 class="section-title">API
+class structure</h3><p>All functionality of the Tactile feedback
+client API is provided in the MTouchFeedback class.</p></div>
+<div id="GUID-2C1211DF-0E59-44C1-B7D7-94C17E7F5ABD"><h3 class="section-title">Changes
+and release information</h3><p>The Tactile feedback client API
+is an SDK API and first released in S60 5th Edition. </p></div>
+<div id="GUID-0D0648C0-5AAE-48C1-82BD-025D6908E3B1"><h3 class="section-title">Constraints</h3><p>This API is valid for all platforms running on Symbian OS v9.4
+or later.</p></div>
+<div id="GUID-E8D3D7BC-F365-45D7-A4AE-4393CF1B6795"><h3 class="section-title">Error
+handling</h3><p>The leave mechanism of Symbian environment is used
+to handle memory exhaustion. The panic mechanism is not used.</p> <p>The table below presents possible error conditions and responses
+to them.</p> <div class="tablenoborder"><a name="GUID-E9186B9F-2C9B-4C09-B054-69D093BBE41D"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-E9186B9F-2C9B-4C09-B054-69D093BBE41D" frame="border" border="1" rules="all"><caption><strong>Table: </strong>Possible error situations when using Tactile Feedback Client
+API</caption>
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e117607">Error situation</th>
+<th class="cellrowborder" valign="top" id="d0e117610">Response</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e117607 "><code class="codeph">SetFeedbackArea</code> returns <code class="codeph">KErrNoMemory</code> in case of an OOM situation.</td>
+<td class="cellrowborder" valign="top" headers="d0e117610 ">This error can usually be ignored by the application.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e117607 "><code class="codeph">SetFeedbackArea</code> returns <code class="codeph">KErrArgument</code></td>
+<td class="cellrowborder" valign="top" headers="d0e117610 ">The given <code class="codeph">CCoeControl</code> pointer is a <code class="codeph">NULL</code> pointer or the control does not have any window associated
+with it (the feedback area setting is attempted before <code class="codeph">SetContainerWindow</code> has been called on the control).</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e117607 "><code class="codeph">SetFeedbackArea</code> returns <code class="codeph">KErrNotSupported</code>.</td>
+<td class="cellrowborder" valign="top" headers="d0e117610 ">The given logical feedback type or triggering event type is
+out of range.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e117607 ">A tactile feedback enabled control is moved with <code class="codeph">CCoeControl::SetPosition</code>, but the feedback area is not moved.</td>
+<td class="cellrowborder" valign="top" headers="d0e117610 ">The control must override the <code class="codeph">CCoeControl::PositionChanged</code> function, and update the feedback area there the same way as in
+the <code class="codeph">SizeChanged</code> function.</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e117607 ">Area registry updates not are effective fast enough. This might
+happen in some applications which use very many frequently running
+active objects, so that the <code class="codeph">CIdle</code> object used by
+the implementation of this API gets no change to run.</td>
+<td class="cellrowborder" valign="top" headers="d0e117610 ">Use the <code class="codeph">FlushRegistryUpdates</code> function for
+forcing an update to the server side after doing all updates on the
+client side.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e117607 ">A control's feedback areas are not automatically disabled when
+the control is dimmed.</td>
+<td class="cellrowborder" valign="top" headers="d0e117610 "><code class="codeph">CCoeControl::SetMopParent</code> has not been called
+on the control, and thus the object provider hierarchy is broken.</td>
+</tr>
+</tbody>
+</table></div></div>
+<div id="GUID-2190CCB3-0569-4A43-A300-BBE83AAD64B6"><h3 class="section-title">Memory
+overhead</h3><p>Using direct feedback does not cause additional
+memory overhead.</p> <p>Area registry based feedback consumes approximately
+32 bytes for each feedback area.</p></div>
+<div id="GUID-F903AC63-2526-4767-B326-56D43344B23B"><h3 class="section-title">Extensions
+to the API</h3><p>New logical feedback types can be added in later
+releases. Otherwise the Tactile feedback client API does not explicitly
+support any kinds of extensions to it.</p></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-B8C3E562-EE45-47F2-BC00-F6C10ADD3026.html">Definitions</a></li><li class="ulchildlink"><a href="GUID-786D76B7-B827-43B7-8202-BA7A7E5EE03E.html">Providing
+tactile feedback for touch events</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 15th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-8661A7E0-F19A-41F8-9062-FBFAE70CF658.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:22 GMT -->
+</html>

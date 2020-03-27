@@ -1,0 +1,47 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B046D3DF-8BD2-48C2-A347-D6F74FE30F6D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Sensor Channel Declaration" /><meta name="abstract" content="This document provides details about the sensor channel declarations." /><meta name="description" content="This document provides details about the sensor channel declarations." /><meta name="DC.Relation" scheme="URI" content="GUID-8DCBAA05-9741-48C8-A831-966D37FBC05A" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-E3ADCC42-ACFC-49FC-88FF-8196CE61014B" /><meta name="DC.Relation" scheme="URI" content="GUID-9102DB10-3B93-4E79-9125-25791CEEBEFB" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B046D3DF-8BD2-48C2-A347-D6F74FE30F6D" /><meta name="DC.Language" content="en" /><title>Sensor Channel Declaration </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B046D3DF-8BD2-48C2-A347-D6F74FE30F6D">Sensor Channel Declaration</h1><div><p>This document provides details about the sensor channel
+declarations.</p>
+<div id="GUID-BFC1DE84-96C8-40E2-94FA-4C315FC2B19C"><h3 class="section-title">Channel
+property declarations</h3><p>Channel properties are declared in <code class="codeph">sensrvgeneralproperties.h</code> and sensor specific files. For
+example, general properties for all channel types are declared in
+the <code class="codeph">sensrvgeneralproperties.h</code> file and accelerometer
+specific properties are declared in the <code class="codeph">sensrvaccelerometersensor.h</code> file. </p><p>Each channel property is defined by its unique property
+ID constant and a short description. The property type specifies the
+type of the value the property contains. It can be <code class="codeph">TInt</code>, <code class="codeph">TReal</code> or <code class="codeph">TBuf</code>. Property scope
+can be defined for a: </p><ul>
+<li>channel</li>
+<li>specific attribute inside channel data</li>
+<li>sensor related to a channel.</li>
+</ul><p>For example, accuracy property is declared as shown in the
+following code snippet:</p><pre class="codeblock">    /**
+    * - Name:         Accuracy of the channel data
+    * - Type:         TReal
+    * - Scope:        Channel item property
+    * - Mandatory:    No
+    * - Capability:   None
+    * - Description:  Returns the accuracy of this channel of the sensor as a
+    *                 percentage of reading (=data value).
+    */
+    const TSensrvPropertyId KSensrvPropIdChannelAccuracy = 0x000000008;
+</pre><p>A mandatory section specifies if the property is required
+for all channels. Capability section specifies the required capabilities
+to change value of the property. </p><p>The example content of the
+accuracy property is shown in the following code snippet. </p><pre class="codeblock">    iPropertyId   = KSensrvPropIdChannelAccuracy
+    iItemIndex    = KSensrvItemIndexNone
+    iArrayIndex   = ESensrvSingleProperty
+    iRealValue    = 10.0
+    iReadOnly     = ETrue
+    iRealValueMax = n/a
+    iRealValueMin = n/a
+    iPropertyType = ESensrvRealProperty
+    iSecurityInfo = n/a</pre><p>The array index is explained
+in <a href="GUID-8DCBAA05-9741-48C8-A831-966D37FBC05A.html">Array Properties</a>.</p></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-8DCBAA05-9741-48C8-A831-966D37FBC05A.html">Array
+Properties</a><div class="linkdesc">A property that defines multiple discrete values inside one property
+ID is called an array property.</div></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 27th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B046D3DF-8BD2-48C2-A347-D6F74FE30F6D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:40 GMT -->
+</html>

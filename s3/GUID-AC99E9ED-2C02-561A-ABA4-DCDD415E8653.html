@@ -1,0 +1,46 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-AC99E9ED-2C02-561A-ABA4-DCDD415E8653.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:36 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Math functions" /><meta name="abstract" content="Describes the maths functions used by application programs." /><meta name="description" content="Describes the maths functions used by application programs." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9AA99D27-D646-54D0-92B9-204FDA1F3162" /><meta name="DC.Relation" scheme="URI" content="GUID-486981A0-1F0E-5935-8E9A-9C6D4CCF34A7" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-AC99E9ED-2C02-561A-ABA4-DCDD415E8653" /><meta name="DC.Language" content="en" /><title>Math
+functions </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-AC99E9ED-2C02-561A-ABA4-DCDD415E8653">Math
+functions</h1><div><p>Describes the maths functions used by application programs.</p>
+<div id="GUID-965ABD80-2C30-43D1-8F40-7BF573301630"><h3 class="section-title">Calling syntax</h3> <p>Math functions are designed for
+use by application programs which must be able firstly to do the desired calculation
+and secondly to handle error conditions arising from the calculations. Thus,
+the ANSI-style functions of the form</p> <pre class="codeblock">double sin(double); // typical declaration</pre> <pre class="codeblock">double x=1; // argument
+double a; // result
+a=sin(x); // typical use</pre> <p>are not implemented by the Symbian
+software platform. Rather, all functions return error information explicitly.</p> <p>All
+functions are provided as static member functions of the <code class="codeph">Math</code> class.
+This is a convenient packaging mechanism. A typical math function is thus
+declared like this:</p> <pre class="codeblock">class Math
+    {
+public:
+    // ...
+    static TInt Sin(TReal &amp;aTrg,const TReal &amp;aSrc);
+    // ...
+    };</pre> <p>and used like this:</p> <pre class="codeblock">TReal x=1; // argument
+TReal a; // result
+TInt matherror; // error indication
+matherror=Math::ASin(a,x); // get result and error
+User::LeaveIfError(matherror); // handle error</pre> <p>This syntax
+is unusual for those used to the ANSI library. However, the ANSI library functions
+are designed for speed, and for users whose programs control the valid range
+of the arguments, and can thus reasonably ensure that they are within range.
+The <code class="codeph">Math</code> class, however, provides direct support to expression
+interpreters acting on numbers entered by users. In this context, error checking
+is a vital part of the process.</p> <p>In most cases, the same variable may
+be used for both argument and result, i.e., <code class="codeph">Math::Sin(x,x)</code> will
+work as expected, because the function has finished with the argument by the
+time the result is written to.</p> </div>
+<div id="GUID-8633E2E3-316D-40AE-9F88-77E6CF7FA041"><h3 class="section-title">Precision</h3> <p>The <code class="codeph">TReal</code> type is equated
+to <code class="codeph">double</code>. With an IEEE754 floating-point implementation,
+this gives a range from about 2.225074 × 10<sup>–</sup> <sup>308</sup> to
+about 1.797693 × 10<sup>+308</sup>, and an accuracy of 15 decimal places.</p> </div>
+<div id="GUID-2D26DDD3-FE18-4D0A-AC10-F445708750BB"><h3 class="section-title">Error indications</h3> <p>All functions return a standard
+error code. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-AC99E9ED-2C02-561A-ABA4-DCDD415E8653.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:36 GMT -->
+</html>

@@ -1,0 +1,75 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F46D5A5B-EC44-53B0-9A11-886735B28610.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:29 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use the modifiable pointer descriptor — TPtr" /><meta name="abstract" content="Modifiable pointer descriptors are useful for referencing strings or data which can be accessed and changed." /><meta name="description" content="Modifiable pointer descriptors are useful for referencing strings or data which can be accessed and changed." /><meta name="DC.Relation" scheme="URI" content="GUID-7CB11EAD-260E-551A-85F1-FEAC975FE722" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Relation" scheme="URI" content="GUID-11EEFB3D-0414-5BEB-9D78-56A4B9154008" /><meta name="DC.Relation" scheme="URI" content="GUID-E8BEE049-6814-543B-8A88-889E434A5D92" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-F46D5A5B-EC44-53B0-9A11-886735B28610" /><meta name="DC.Language" content="en" /><title>How to use the modifiable pointer descriptor — TPtr </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-F46D5A5B-EC44-53B0-9A11-886735B28610">How to use the modifiable pointer descriptor — TPtr</h1><div><p>Modifiable pointer descriptors are useful for referencing
+strings or data which can be accessed and changed.</p>
+<ul>
+<li id="GUID-80F50BD5-A919-5EB3-B28E-4BDF7A2A0121"><a name="GUID-80F50BD5-A919-5EB3-B28E-4BDF7A2A0121"><!-- --></a><p>For text data,
+it is usual to construct a <code class="codeph">TPtr</code> type and allow the
+appropriate variant, either a <code class="codeph">TPtr</code> or a <code class="codeph">TPtrC</code> to be selected at build time.</p> </li>
+<li id="GUID-965CB6DC-DE3E-5744-A6D8-10C9A0567011"><a name="GUID-965CB6DC-DE3E-5744-A6D8-10C9A0567011"><!-- --></a><p>For binary data,
+an explicit <code class="codeph">TPtr8</code> is used.</p> </li>
+<li id="GUID-40B8DB60-33DB-56D3-BDE7-263B1B48840E"><a name="GUID-40B8DB60-33DB-56D3-BDE7-263B1B48840E"><!-- --></a><p>It is rare to
+use an explicit <code class="codeph">TPtr16</code>.</p> </li>
+</ul>
+<div id="GUID-AEBBFA2C-D87D-48F8-ADBF-0A042F371EC1"><h3 class="section-title">Constructing
+a TPtr</h3> <p>A modifiable pointer descriptor can be constructed
+in a number of ways:</p> <ul>
+<li id="GUID-C3767C93-A5BA-5B09-A90D-FAD74E9CDC3F"><a name="GUID-C3767C93-A5BA-5B09-A90D-FAD74E9CDC3F"><!-- --></a><p>another modifiable
+pointer descriptor.</p> </li>
+<li id="GUID-9704F005-0931-5DA0-B4C7-7F263270300C"><a name="GUID-9704F005-0931-5DA0-B4C7-7F263270300C"><!-- --></a><p>from a non-modifiable
+buffer descriptor using the <code class="codeph">Des()</code> function</p> </li>
+<li id="GUID-2F09FD0B-7FE7-5D4E-B353-233B2609F9FC"><a name="GUID-2F09FD0B-7FE7-5D4E-B353-233B2609F9FC"><!-- --></a><p>from an explicit
+pointer into memory and specifying a maximum length.</p> </li>
+<li id="GUID-F9C4E446-B390-56AD-8771-A0C393ADA246"><a name="GUID-F9C4E446-B390-56AD-8771-A0C393ADA246"><!-- --></a><p>from an explicit
+pointer into memory and specifying the length of the data and a maximum
+length.</p> </li>
+</ul> <p>The following code fragment constructs a <code class="codeph">TPtr</code> to represent the data already represented by another <code class="codeph">TPtr</code>:</p> <pre class="codeblock">TPtr ptr1;
+...
+TPtr ptr2(ptr1);
+...</pre> <p>The following code fragment constructs a <code class="codeph">TPtr</code> for a non-modifiable buffer descriptor, a <code class="codeph">TBufC&lt;TInt&gt;</code>, using the <code class="codeph">Des()</code> function. Data that would normally
+be unmodifiable through the <code class="codeph">TBufC&lt;TInt&gt;</code> can be
+changed through the <code class="codeph">TPtr</code>.</p> <p>The source are literals
+which are converted to descriptor type.</p> <pre class="codeblock">_LIT(KText,"Hello World!");
+_LIT(KExtraText," &amp; Hi");
+...
+TBufC&lt;16&gt; buf1(KText);
+...
+TPtr ptr = buf1.Des();
+...
+ptr.Delete((ptr.Length()-1),1);
+ptr.Append(KExtraText);</pre> <p>Define a <code class="codeph">TText</code> area initialised to contain the string "Have a nice day":</p> <p>The following code fragments show the construction of a <code class="codeph">TPtr</code> using a pointer and specifying a length and a maximum length. This
+technique is not commonly used. Literals are a much better way of
+defining string constants.</p> <pre class="codeblock">TText str[16] =  {'H', 'a', 'v', 'e', ' ', 'a',
+    ' ', 'n', 'i', 'c', 'e',
+    ' ', 'd', 'a', 'y', '\0'};</pre> <pre class="codeblock">TPtr ptr(&amp;str[0],15,16);</pre> <p>The descriptor <code class="codeph">ptr</code> represents the data in <code class="codeph">str</code> and is constructed to have a current length of 15 (the
+length of the text, excluding the zero terminator) and a maximum length
+of 16 (the actual length of <code class="codeph">str</code>). Once the descriptor
+has been constructed, it has no further use for the zero terminator.</p> <pre class="codeblock">TPtr ptr(&amp;str[0],15,16);</pre> </div>
+<div id="GUID-AA957AF0-8791-446C-B6E3-DD5EDB642E9E"><h3 class="section-title">Replacing
+data through the TPtr</h3> <p>Data can be completely replaced using
+the assignment operator or the <code class="codeph">Copy()</code> function:</p> <pre class="codeblock">_LIT(KText,"Hi there");
+...
+ptr = KText;
+...
+ptr.Copy(KText);</pre> <p>Note the use of the <code class="codeph">_LIT</code> macro to define the source string. A literal is converted into a
+descriptor type.</p> <p>The length of <code class="codeph">ptr</code> is now
+8 but the maximum length remains unchanged. The size depends on the
+build variant. In a non-Unicode build, this is 8 but in a Unicode
+build, this becomes 16 (two bytes for every character).</p> </div>
+<div id="GUID-4A13D438-C058-4370-970E-1139708758E3"><h3 class="section-title">Changing
+the length of data</h3> <p>The length of the data represented can
+be changed. </p> <pre class="codeblock">_LIT(KText,"Hi there");
+...
+ptr = KText;
+ptr.SetLength(2);
+ptr.Zero();
+</pre> <p>For example, after <code class="codeph">ptr.SetLength(2)</code>, the descriptor represents the string "Hi". The length can even
+be set to zero so that after <code class="codeph">ptr.Zero()</code>, the descriptor
+represents no data. Nevertheless, the maximum length remains unchanged.</p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-7CB11EAD-260E-551A-85F1-FEAC975FE722.html">Literal
+Descriptors</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 8th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-F46D5A5B-EC44-53B0-9A11-886735B28610.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:29 GMT -->
+</html>

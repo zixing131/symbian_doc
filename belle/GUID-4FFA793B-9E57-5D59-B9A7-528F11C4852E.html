@@ -1,0 +1,53 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4FFA793B-9E57-5D59-B9A7-528F11C4852E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:33 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Locating a DLL" /><meta name="abstract" content="A polymorphic DLL is loaded by calling one of the Load() member functions of an RLibrary object." /><meta name="description" content="A polymorphic DLL is loaded by calling one of the Load() member functions of an RLibrary object." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-4A56B285-790E-5171-88F3-8C40B2AA9699" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4FFA793B-9E57-5D59-B9A7-528F11C4852E" /><meta name="DC.Language" content="en" /><title>Locating
+a DLL </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4FFA793B-9E57-5D59-B9A7-528F11C4852E">Locating
+a DLL</h1><div><p>A polymorphic DLL is loaded by calling one of the <code class="codeph">Load()</code> member
+functions of an <code class="codeph">RLibrary</code> object.</p>
+<p> <code class="codeph">Load()</code> has three overloaded variants but they all behave
+in a similar way. They are prototyped: </p>
+<pre class="codeblock">TInt Load(const TDesC&amp; aFileName,const TDesC&amp; aPath,const TUidType&amp; aType);
+TInt Load(const TDesC&amp; aFileName,const TUidType&amp; aType);
+TInt Load(const TDesC&amp; aFileName,const TDesC&amp; aPath=KNullDesC);</pre>
+<p>The arguments determine how the DLL is to be found. The rules are summarised
+as follows: </p>
+<ul>
+<li id="GUID-36D6A634-8CB3-57E9-BAB9-5C70C7EF106A"><a name="GUID-36D6A634-8CB3-57E9-BAB9-5C70C7EF106A"><!-- --></a><p>If <code class="codeph">aFileName</code> is
+a fully defined filename, i.e. it includes a path specification, then the
+contents of <code class="codeph">aPath</code> are ignored and an attempt is made to load <code class="codeph">aFileName</code>,
+if specified; if this DLL cannot be found, then the load operation fails and
+no further searching is done. </p> </li>
+<li id="GUID-50FBE6FD-5AD3-5732-8A24-91A0B0B5ABB1"><a name="GUID-50FBE6FD-5AD3-5732-8A24-91A0B0B5ABB1"><!-- --></a><p>if <code class="codeph">aFileName</code> does
+not have an extension, an extension of <code>.DLL</code> is assumed. </p> </li>
+<li id="GUID-61547446-A954-5EF2-A77C-D0C4B2D0B4EB"><a name="GUID-61547446-A954-5EF2-A77C-D0C4B2D0B4EB"><!-- --></a><p>If <code class="codeph">aFileName</code> contains
+a file name but does <em>not</em> include a path specification (e.g. <code>EULIBDR1.DLL</code>),
+then a search is done in the following locations in the order given: </p> <ul>
+<li id="GUID-C0A63546-FE94-5B06-824D-83A4B77583BE"><a name="GUID-C0A63546-FE94-5B06-824D-83A4B77583BE"><!-- --></a><p>the path defined in <code class="codeph">aPath</code>,
+if specified </p> </li>
+<li id="GUID-72315ED1-4593-5D69-90DD-CE813A091F4B"><a name="GUID-72315ED1-4593-5D69-90DD-CE813A091F4B"><!-- --></a><p>the system path <code>\sys\bin\</code> on
+each attached drive. Drives are searched in the order: <code>C:</code> (the
+device's main internal drive), then <code>Y:</code>, <code>X:</code>, <code>W:</code>, <code>V:</code>, <code>U:</code>, ..., <code>D:</code>, <code>B:</code>, <code>A:</code> and
+finally, drive <code>Z:</code> (the ROM). </p> </li>
+</ul> </li>
+<li id="GUID-2EBA5162-3E09-510A-B65F-024CC5FF011E"><a name="GUID-2EBA5162-3E09-510A-B65F-024CC5FF011E"><!-- --></a><p>If <code class="codeph">aType</code> is
+specified, then the UIDType of the loaded DLL must match <code class="codeph">aType</code>.
+If <code class="codeph">aType</code> is <code class="codeph">KNullUid</code>, or the variant of <code class="codeph">Load()</code> that
+does not take <code class="codeph">aType</code> is called, then the loaded DLL will have
+the name <code class="codeph">aFileName</code> and may have any UIDType. </p> </li>
+</ul>
+<p>Note that in WINS debug mode, the system path is <code>\epoc32\release\wins\udeb\</code> on
+the current PC drive; in WINS release mode, the system path is <code>\epoc32\release\wins\urel\</code> on
+the current PC drive. For WINSCW, the paths are the same as for WINS, except
+that <code>wins\</code> becomes <code>winscw\</code>. </p>
+<p>Note also that, in contrast with the usual convention, <code class="codeph">aPath</code> specifies
+a list of directories, each one separated by a semicolon. </p>
+<p>See also: </p>
+<ul>
+<li id="GUID-2B04DF55-F0A3-5755-905D-8BB243A6BC36"><a name="GUID-2B04DF55-F0A3-5755-905D-8BB243A6BC36"><!-- --></a><p> TFindFile </p> </li>
+</ul>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 18th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4FFA793B-9E57-5D59-B9A7-528F11C4852E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:33 GMT -->
+</html>

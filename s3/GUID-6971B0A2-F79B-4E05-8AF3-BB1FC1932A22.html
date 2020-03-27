@@ -1,0 +1,44 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6971B0A2-F79B-4E05-8AF3-BB1FC1932A22.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:50:37 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Capabilities" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-AB3D07E6-83C9-4948-A13F-75A65498F444" /><meta name="DC.Relation" scheme="URI" content="GUID-4BFEDD79-9502-526A-BA7B-97550A6F0601" /><meta name="DC.Relation" scheme="URI" content="GUID-EA20E614-C911-4EE9-92B5-C8F9B657D59E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-6971B0A2-F79B-4E05-8AF3-BB1FC1932A22" /><title>Capabilities </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-6971B0A2-F79B-4E05-8AF3-BB1FC1932A22">Capabilities</h1><div>
+<p>Capabilities allow the Symbian platform to control access by
+applications to the functionalities provided by the platform APIs.
+Access to capabilities is determined by the device configuration and
+how the application has been signed. Capabilities can be divided into
+four categories:</p>
+<ul>
+<li><p><em>user capabilities</em>: <a href="http://www.developer.nokia.com/Community/Wiki/LocalServices" target="_blank"><code class="codeph">LocalServices</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/NetworkServices" target="_blank"><code class="codeph">NetworkServices</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/ReadUserData" target="_blank"><code class="codeph">ReadUserData</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/WriteUserData" target="_blank"><code class="codeph">WriteUserData</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/UserEnvironment" target="_blank"><code class="codeph">UserEnvironment</code></a> and, <a href="http://www.developer.nokia.com/Community/Wiki/Location" target="_blank"><code class="codeph">Location</code></a></p></li>
+<li><p><em>system capabilities</em>: <a href="http://www.developer.nokia.com/Community/Wiki/PowerMgmt" target="_blank"><code class="codeph">PowerMgmt</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/ProtServ" target="_blank"><code class="codeph">ProtServ</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/ReadDeviceData" target="_blank"><code class="codeph">ReadDeviceData</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/SurroundingsDD" target="_blank"><code class="codeph">SurroundingsDD</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/SwEvent" target="_blank"><code class="codeph">SwEvent</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/TrustedUI" target="_blank"><code class="codeph">TrustedUI</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/WriteDeviceData" target="_blank"><code class="codeph">WriteDeviceData</code></a></p></li>
+<li><p><em>restricted capabilities</em>: <a href="http://www.developer.nokia.com/Community/Wiki/CommDD" target="_blank"><code class="codeph">CommDD</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/DiskAdmin" target="_blank"><code class="codeph">DiskAdmin</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/MultimediaDD" target="_blank"><code class="codeph">MultimediaDD</code></a> and <a href="http://www.developer.nokia.com/Community/Wiki/NetworkControl" target="_blank"><code class="codeph">NetworkControl</code></a></p></li>
+<li><p><em>device manufacturer capabilitie</em>s: <a href="http://www.developer.nokia.com/Community/Wiki/AllFiles" target="_blank"><code class="codeph">AllFiles</code></a>, <a href="http://www.developer.nokia.com/Community/Wiki/DRM" target="_blank"><code class="codeph">DRM</code></a> and <a href="http://www.developer.nokia.com/Community/Wiki/Trusted_Computing_Base_(TCB)" target="_blank"><code class="codeph">TCB</code></a></p></li>
+</ul>
+<p>Capabilities required by the application are defined in the <code class="codeph">mmp</code> project definition file during the build process, and
+cannot be changed during run time. For information on the parameters
+you can use, see <strong>Symbian Tools Guide &gt; Building &gt; Symbian Build
+System (SBSv1) &gt; Build tools reference &gt; MMP file syntax &gt; capability</strong>. Carbide.c++ has a Capability Scanner tool which can be accessed
+through the <strong>Project &gt; Run Capability Scanner on Project MMP</strong> menu. The tool scans and checks the project for required capabilities.</p>
+<p>During the installation the <a href="GUID-1293DE8C-E803-4ADF-9FA8-862519337331.html">Software Installer</a> application in the device checks whether the application has been
+certified or signed. It then checks the capabilities requested by
+the application. If the application has been certified, it checks
+that the root certificate is allowed to grant the required capabilities.
+If no problems are encountered, the installation can continue. For
+information on certifications required by the capabilities, see <a href="GUID-B9414AE8-820E-4CA5-A9C4-29560CD6F2EF.html">Application signing</a>.</p>
+<p>The user can grant the <em>user capabilities</em> to a self-signed
+application. For example, the following dialog is shown to the user
+to grant the <code class="codeph">LocalServices</code> capability:</p>
+<div class="figure" id="GUID-5FCD68FB-BB79-48E0-B438-E8BFAD37331D"><img src="GUID-08152DC3-2A5D-42AC-B722-3D49275FE548_d0e13026_href.png" /><p class="figure-title"><strong>Figure: </strong>Granting LocalServices capability during the installation</p></div>
+<div id="GUID-DD22FF50-BE6F-4929-85BA-EAF3481EA2BD"><h3 class="section-title">dll capabilities</h3>
+<p>A <code class="codeph">dll</code> must have equal or greater set of capabilities
+than the loading process, otherwise the process is not allowed to
+load the <code class="codeph">dll</code>. Once loaded, a <code class="codeph">dll</code> runs at the capability level of the loading process. A <code class="codeph">dll</code> that has a higher capability set than the loading process cannot
+leak capabilities to the process, but a process can leak capabilities
+to the <code class="codeph">dll</code>.</p>
+<p>For more information, see <a href="http://www.developer.nokia.com/Community/Wiki/TSS000454_-_DLL_capability_model_in_a_secure_platform" target="_blank">DLL capability model in a secure platform</a> (TSS000454) in
+the Nokia Developer Knowledge Base.</p>
+</div>
+</div></div></div><div class="footer"><p class="metadata">Last updated July 5th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6971B0A2-F79B-4E05-8AF3-BB1FC1932A22.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:50:38 GMT -->
+</html>

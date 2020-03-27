@@ -1,0 +1,49 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-AA5DEEB2-0B13-5FA8-8494-EC2F5C654FEF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:30 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="CentRepExample: Using Central Repository for Persistent Storage" /><meta name="abstract" content="This example application demonstrates the usage of Central Repository API for persistent storage." /><meta name="description" content="This example application demonstrates the usage of Central Repository API for persistent storage." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FBCBF8A0-7922-5881-A1C5-5DB41630E75A" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-6D28A0C6-7D1A-5C71-B61C-EE3F9E29DC5D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-AA5DEEB2-0B13-5FA8-8494-EC2F5C654FEF" /><meta name="DC.Language" content="en" /><title>CentRepExample: Using Central Repository for Persistent Storage </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-AA5DEEB2-0B13-5FA8-8494-EC2F5C654FEF">CentRepExample: Using Central Repository for Persistent Storage</h1><div><p>This example application demonstrates the usage of Central
+Repository API for persistent storage.</p>
+<div id="GUID-E2129D18-6FBB-55B9-8D79-420EB2CF2401"><h3 class="section-title">Description</h3> <p>Several Symbian platform components have state and settings information
+that need to be persistent. There is also a global state that needs
+to persist, for example, default filenames, locale settings, user
+preferences. </p> <p>The CentRep example application first registers
+a group of settings with the central repository server. It uses <code>E80000AD.txt</code>, a UTF-16 format text file to initialise
+the repository. This text file contains access control structure and
+the initial content of the repository. It is recommended to convert
+the initialisation text file into a binary file using the central
+repository converter tool to speed up the execution. </p> <p>The application
+creates a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html"><code class="apiname">CRepository</code></a> object using the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-B8DD1F6F-5A03-30C7-A5B5-51053D9FBDD3"><code class="apiname">CRepository::NewLC()</code></a> method to access a repository using
+its UID. It resets the whole repository using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-BA806B9D-C347-3722-886E-1290A4A0618A"><code class="apiname">CRepository::Reset()</code></a> method with the contents in the initialisation file. </p> <p>Each
+setting stored in the repository will have a unique key to identify
+the setting. This unique key is used to read and change the setting
+by calling the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-AB3918A5-BA69-3EE8-89B4-51DD8A899AF5"><code class="apiname">CRepository::Get()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-114079A1-A8CA-3FE7-8FAD-F5E61453FF6B"><code class="apiname">CRepository::Set()</code></a> methods respectively. The application
+moves these keys to a different location using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-4F005B5F-2664-3F7C-848D-B6F93462F2F4"><code class="apiname">CRepository::Move()</code></a> method and deletes them from their original location. </p> <p>The
+application also creates another <code class="codeph">CRepository</code> object
+to demonstrate that, at any given point a repository cannot be opened
+with <em>READ/WRITE</em> access by more than one client. In such situations,
+it is recommended to start a transaction before a write operation
+using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-1F14EB0C-89CF-3A76-A678-5F6F86F50B32"><code class="apiname">CRepository::StartTransaction()</code></a> method. A
+transaction guarantees the consistency and persistence of all values
+read and written during the transaction. </p> <p>Finally, the application
+requests the central repository server to notify any changes to the
+original settings. </p><p><strong>Related APIs</strong></p><ul>
+<li><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html"><code class="apiname">CRepository</code></a> - Provides access to a repository.</p></li>
+<li><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-AB3918A5-BA69-3EE8-89B4-51DD8A899AF5"><code class="apiname">CRepository::Get()</code></a></p></li>
+<li><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-4F005B5F-2664-3F7C-848D-B6F93462F2F4"><code class="apiname">CRepository::Move()</code></a></p></li>
+<li><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-B8DD1F6F-5A03-30C7-A5B5-51053D9FBDD3"><code class="apiname">CRepository::NewLC()</code></a></p></li>
+<li><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-BA806B9D-C347-3722-886E-1290A4A0618A"><code class="apiname">CRepository::Reset()</code></a></p></li>
+<li><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-114079A1-A8CA-3FE7-8FAD-F5E61453FF6B"><code class="apiname">CRepository::Set()</code></a></p></li>
+<li><p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-1F14EB0C-89CF-3A76-A678-5F6F86F50B32"><code class="apiname">CRepository::StartTransaction()</code></a></p></li>
+</ul> </div>
+<div id="GUID-3B353EAA-5FE4-426B-A0A5-6800CE0BC9E3"><h3 class="section-title">Download</h3> <p>Click on the following link to download the example: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/zips/guid-e78b3d2c-7205-45ca-abe0-163e33a0fcc3.zip" target="_blank">CentRepExample.zip</a></p><p>Click: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/guid-e78b3d2c-7205-45ca-abe0-163e33a0fcc3.html#guid-6013a680-57f9-415b-8851-c4fa63356636/guid-e78b3d2c-7205-45ca-abe0-163e33a0fcc3.html">browse</a> to view the example code.</p> </div>
+<div id="GUID-DCCBE8DE-0BBD-5528-A460-E1645116DD4F"><h3 class="section-title">Build</h3> <p>The Symbian build process describes how to build an application. </p> <p>The <code class="codeph">CentRepExample</code> builds an
+executable called <code>CentRepExample.exe</code> in the standard
+location (\epoc32\release\winscw\&lt;<em>build_variant</em> &gt; for CodeWarrior).
+After launching the executable, depending on the emulator you are
+using, you may need to task away from the app launcher/shell screen
+to view the console. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated July 8th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-AA5DEEB2-0B13-5FA8-8494-EC2F5C654FEF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:31 GMT -->
+</html>

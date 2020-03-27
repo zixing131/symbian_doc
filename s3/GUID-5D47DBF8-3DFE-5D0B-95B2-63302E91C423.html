@@ -1,0 +1,41 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5D47DBF8-3DFE-5D0B-95B2-63302E91C423.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:30 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="How to Open a Port: Tutorial" /><meta name="abstract" content="This tutorial shows the basic steps required to open a serial port using the RComm API." /><meta name="description" content="This tutorial shows the basic steps required to open a serial port using the RComm API." /><meta name="DC.Relation" scheme="URI" content="GUID-35D49549-1F4D-583F-A45D-9B557A207DD2" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-9B83CDD4-FC94-51A0-AC67-CD04BCAFEF08" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5D47DBF8-3DFE-5D0B-95B2-63302E91C423" /><meta name="DC.Language" content="en" /><title>How to Open a Port: Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5D47DBF8-3DFE-5D0B-95B2-63302E91C423">How to Open a Port: Tutorial</h1><div><p>This tutorial shows the basic steps required to open a
+serial port using the RComm API.</p>
+<div id="GUID-FD0FBF5F-E524-49FD-8DBA-5E2FAD506E90"><h3 class="section-title">Context</h3></div>
+<h3>Steps</h3><ol id="GUID-7C95375B-0469-5B65-96C3-F94C0C4418D1"><a name="GUID-7C95375B-0469-5B65-96C3-F94C0C4418D1"><!-- --></a>
+<li id="GUID-39496668-DE99-5A5C-AB01-CCB0609757EC"><a name="GUID-39496668-DE99-5A5C-AB01-CCB0609757EC"><!-- --></a><p></p>
+The <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html"><code class="apiname">RComm</code></a> is a client of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6B3CA99B-ABF2-32EA-935D-23AE5AE2C306.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6B3CA99B-ABF2-32EA-935D-23AE5AE2C306.html"><code class="apiname">RCommServ</code></a> API, so create a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6B3CA99B-ABF2-32EA-935D-23AE5AE2C306.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6B3CA99B-ABF2-32EA-935D-23AE5AE2C306.html"><code class="apiname">RCommServ</code></a> session. 
+</li>
+<li id="GUID-5C7D946E-C7A7-5482-9A94-E806EEB7DF4F"><a name="GUID-5C7D946E-C7A7-5482-9A94-E806EEB7DF4F"><!-- --></a><p></p>
+Call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6B3CA99B-ABF2-32EA-935D-23AE5AE2C306.html#GUID-F851835B-4585-3C3A-B257-ADAE04CD95AA"><code class="apiname">RCommServ::LoadCommModule()</code></a> with the <code class="codeph">aFileName</code> parameter set to a Serial Protocol Module. This
+requests that the Serial Communications Server use a specific Serial
+Protocol Module. These Serial Protocol Modules are <code>.CSY</code> files that let the Serial Communications Server know how the server
+should manage the port. For example, sample terminal code uses a standard <em>RS232</em> module called <code class="codeph">ECUART</code>, while infra-red
+code uses a <em>IrDA</em> module called <code class="codeph">IrCOMM</code>. 
+The <code>.csy</code> file extension is not required
+in the <code class="codeph">aFileName</code> parameter. 
+</li>
+<li id="GUID-EF3C8BFE-1A2A-5F26-A35E-8C6924C3D699"><a name="GUID-EF3C8BFE-1A2A-5F26-A35E-8C6924C3D699"><!-- --></a><p></p>
+Call RComm:Open() to connect the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html"><code class="apiname">RComm</code></a> client to the server and to open the port by name.
+You must specify the name of the port. The serial port name format
+is: 
+ <pre class="codeblock">[text-string]::[0-255]</pre> 
+The name of the port may not be the same as the name of the
+Serial Protocol Module. For example, the Infrared Serial Protocol
+Module is called <code>irda.csy</code> and the port name is <code class="codeph">IrCOMM</code>. 
+</li>
+</ol>
+<div><h3 class="section-title">Example</h3> <pre class="codeblock">RCommServ server; 
+server.Connect ();                     // step 1
+server.LoadCommModule (_L ("ECUART")); // step 2
+RComm commPort;
+commPort.Open (server, _L ("COMM::0"), ECommExclusive); // step 3
+</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-35D49549-1F4D-583F-A45D-9B557A207DD2.html">GlassTerm
+-                 glass teletype terminal</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 15th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5D47DBF8-3DFE-5D0B-95B2-63302E91C423.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:30 GMT -->
+</html>

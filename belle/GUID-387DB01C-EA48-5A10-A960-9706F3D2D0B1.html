@@ -1,0 +1,51 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-387DB01C-EA48-5A10-A960-9706F3D2D0B1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:38 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Activating an Alarm on Given Days" /><meta name="abstract" content="This tutorial explains the steps required to activate an alarm that expires, or goes OFF on one or more days of the week." /><meta name="description" content="This tutorial explains the steps required to activate an alarm that expires, or goes OFF on one or more days of the week." /><meta name="DC.Relation" scheme="URI" content="GUID-E6788741-EF34-57B7-B4D4-8AAC21B25774" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1FB321DE-4A02-5468-9AF1-F3786EB678CF" /><meta name="DC.Relation" scheme="URI" content="GUID-CFE3A216-E637-51C1-B258-2ADF4E0F4150" /><meta name="DC.Relation" scheme="URI" content="GUID-63730EBD-E5C1-5BA9-AB71-8FF668ECEF00" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-387DB01C-EA48-5A10-A960-9706F3D2D0B1" /><meta name="DC.Language" content="en" /><title>Activating an Alarm on Given Days </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-387DB01C-EA48-5A10-A960-9706F3D2D0B1">Activating an Alarm on Given Days</h1><div><p>This tutorial explains the steps required to activate an
+alarm that expires, or goes OFF on one or more days of the week. </p>
+<div id="GUID-685F82B9-65CB-4626-BA1E-7CFCEFC578E2"><h3 class="section-title">Introduction</h3> <p>The <code class="codeph">TASShdAlarm</code> class provides functions that
+enable an alarm to repeat on specified days of the week. This alarm
+is known as a <em>Daily On Given Days</em> alarm. The alarm can be repeated
+weekly on a single day or on multiple days. The alarms can also be
+repeated at the same time on every specified day. </p> <p>If the user
+changes the system date or time, the alarm expires once. Unlike a <em>Repeat Once</em> alarm, a <em>Daily On Given Days</em> alarm is not
+deleted but rescheduled for the next available expiry time. </p> </div>
+<div id="GUID-E616E249-7FD5-428E-B38F-969E9020D5BF"><h3 class="section-title">Procedure</h3> <p>Follow the steps given below to create a <em>Daily On Given Days</em> alarm that is active on Monday and Wednesday of every week: </p> <ol id="GUID-55067C23-0A8E-5EC8-A029-8B2045BDAFC4">
+<li id="GUID-C189432B-4468-56D1-B547-D5A9DBFCF998"><a name="GUID-C189432B-4468-56D1-B547-D5A9DBFCF998"><!-- --></a><p>Create an alarm
+with the <code class="codeph">TASShdAlarm</code> class. </p> </li>
+<li id="GUID-AA3EA741-F3AB-5A4D-B279-AA2C053D7313"><a name="GUID-AA3EA741-F3AB-5A4D-B279-AA2C053D7313"><!-- --></a><p>Use the<code class="codeph">SetAlarmDays()</code> API to specify the required days. <code class="codeph">EAlarmDayMonday</code> and <code class="codeph">EAlarmDayWednesday</code> are
+the parameters to specify that the alarm must repeat on Monday and
+Wednesday as shown in the code fragment. </p> <p> <strong>NOTE</strong>: SetAlarmDays() must be
+specifically used for <code class="codeph">EAlarmRepeatDefinitionRepeatDailyOnGivenDays</code> repeat definition only. </p> </li>
+<li id="GUID-81AC5FBA-A003-5196-B692-B53632467F01"><a name="GUID-81AC5FBA-A003-5196-B692-B53632467F01"><!-- --></a><p>Use <code class="codeph">RASCliSession</code> to create a session with the Alarm Server. </p> </li>
+<li id="GUID-A4D4B840-0A7A-58D4-A192-9CBCA12C1493"><a name="GUID-A4D4B840-0A7A-58D4-A192-9CBCA12C1493"><!-- --></a><p>Add the alarm
+to the Alarm Server using the AlarmAdd() API. </p> </li>
+</ol> <p>The following code fragment illustrates how to activate an
+alarm on the given days: </p> <pre class="codeblock">
+#include &lt;ASCliSession.h&gt;    // For RASCliSession.
+#include &lt;ASShdAlarm.h&gt;      // For TASShdAlarm.
+
+…
+
+// Create an alarm that is active on Monday and Wednesday.
+TASShdAlarm alarm;
+alarm.RepeatDefinition() = EAlarmRepeatDefinitionRepeatDailyOnGivenDays;
+alarm.SetAlarmDays( EAlarmDayMonday | EAlarmDayWednesday );
+
+// Connect to Alarm Server.
+RASCliSession alarmSession;
+User::LeaveIfError( alarmSession.Connect() );
+CleanupClosePushL( alarmSession );
+
+// Add the alarm to Alarm Server.
+User::LeaveIfError( alarmSession.AlarmAdd( alarm ) );
+
+CleanupStack::PopAndDestroy();
+</pre> </div>
+<div id="GUID-BEAF5FD8-994D-44F2-A3F1-835109DBA2B1"><h3 class="section-title">Results</h3> <p>The alarm is set to repeat every week on Monday and Wednesday. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-E6788741-EF34-57B7-B4D4-8AAC21B25774.html">Alarm
+Server Concepts</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 10th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-387DB01C-EA48-5A10-A960-9706F3D2D0B1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:38 GMT -->
+</html>

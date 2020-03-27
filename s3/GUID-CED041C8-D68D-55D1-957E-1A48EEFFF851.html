@@ -1,0 +1,112 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-CED041C8-D68D-55D1-957E-1A48EEFFF851.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Inquiring about Remote Devices" /><meta name="abstract" content="Describes how to inquire about remote devices." /><meta name="description" content="Describes how to inquire about remote devices." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-227B6970-A536-470F-B5A1-A1871F65D7F3" /><meta name="DC.Relation" scheme="URI" content="GUID-6CE12919-FF81-5254-BA12-385F589FEA44" /><meta name="DC.Relation" scheme="URI" content="GUID-5FE7D4DB-B853-57C4-8A90-16DF92F6231A" /><meta name="DC.Relation" scheme="URI" content="GUID-58F65411-CF08-5F46-8222-3FDB9E571FCC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-CED041C8-D68D-55D1-957E-1A48EEFFF851" /><meta name="DC.Language" content="en" /><title>Inquiring
+about Remote Devices </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-CED041C8-D68D-55D1-957E-1A48EEFFF851">Inquiring
+about Remote Devices</h1><div><p>Describes how to inquire about remote devices.</p>
+<p>Now that you have decided on the best method of selecting a remote device
+you will need to go through the process. For the purposes of this tutorial
+we will assume you are going to allow the program to determine the remote
+device with which to connect. </p>
+<div id="GUID-2AE00E8E-3DC5-4AB3-9B85-5953BDC873BF"><h3 class="section-title">How to inquire about remote devices</h3> <p>Each Bluetooth
+device has a 48-bit unique address built into its hardware. A basic inquiry
+for devices in range returns zero or more of these addresses. </p> <p>As well
+as an address, a Bluetooth device has a text name suitable for display to
+users. If you want to display a list of available devices to the user, you
+will also need to obtain these names. </p> <p>The address and the name inquiries
+can occur simultaneously, if the underlying hardware supports this. Otherwise,
+the address inquiry must finish before the name request can be issued over
+the air. </p> <p>Address and name inquiries are performed through the generic
+Symbian platform sockets class <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html"><code class="apiname">RHostResolver</code></a>.
+A specialist Bluetooth sockets address class, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0ECE42E1-5E04-3BFB-BA17-F8036510798D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0ECE42E1-5E04-3BFB-BA17-F8036510798D.html"><code class="apiname">TInquirySockAddr</code></a>,
+which encapsulates Bluetooth address, Inquiry Access Code, and service and
+device classes, is provided for use with such inquiries. </p> <p><strong> Basic
+Procedure</strong> </p> <p>To inquire for the addresses of remote devices, take
+the following steps: </p> <ol id="GUID-B794CB43-DF26-5C9E-BABC-95E614B8225F">
+<li id="GUID-20EDA9A2-9C57-55E2-B36D-117CFF923D49"><a name="GUID-20EDA9A2-9C57-55E2-B36D-117CFF923D49"><!-- --></a><p>Connect to the Sockets
+Server (<a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EF29C1D7-B1E5-370F-AE37-66231A6BE449.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EF29C1D7-B1E5-370F-AE37-66231A6BE449.html"><code class="apiname">RSocketServ</code></a>), and then select the protocol to be
+used using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EF29C1D7-B1E5-370F-AE37-66231A6BE449.html#GUID-95B5BAA3-5A01-37F3-9C81-C5E71530B3B7"><code class="apiname">RSocketServ::FindProtocol()</code></a>. Address and name
+queries are supplied by the stack's BTLinkManager protocol layer, so select
+this. </p> </li>
+<li id="GUID-30F19EEC-CB83-53D4-99E6-84C68A2DED9C"><a name="GUID-30F19EEC-CB83-53D4-99E6-84C68A2DED9C"><!-- --></a><p>Create and initialise
+an <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html"><code class="apiname">RHostResolver</code></a> object. </p> </li>
+<li id="GUID-B2FD4AE2-A5DE-5EB4-A135-CDA502364550"><a name="GUID-B2FD4AE2-A5DE-5EB4-A135-CDA502364550"><!-- --></a><p>Set the <code class="codeph">TInquirySockAddr</code> parameter
+for the inquiry: for address inquiries, the KHostResInquiry flag
+must be set through <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0ECE42E1-5E04-3BFB-BA17-F8036510798D.html#GUID-E4E83FA5-3102-3CE8-8796-A70C017D4FC7"><code class="apiname">TInquirySockAddr::SetAction()</code></a>. </p> <p>The
+query can then be started with <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B210BAF2-1D26-3F5A-8EBE-EF5B460A69E1"><code class="apiname">RHostResolver::GetByAddress()</code></a>. </p> </li>
+<li id="GUID-85980345-3E1A-5E10-A9F0-547DECBE52BB"><a name="GUID-85980345-3E1A-5E10-A9F0-547DECBE52BB"><!-- --></a><p>When <code class="codeph">GetByAddress()</code> completes,
+it fills in a TNameEntry object with the address and class
+of the first device found (or is undefined if no device was found). </p> </li>
+<li id="GUID-B2FE92B6-989A-5A9F-92CB-9759587C31F8"><a name="GUID-B2FE92B6-989A-5A9F-92CB-9759587C31F8"><!-- --></a><p>To get all the devices
+discovered, call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B16CAD6D-85B1-3482-AAC0-9BADEDB6ABDD.html#GUID-B64AB6BA-6D1D-30EB-88EF-381B52939F3D"><code class="apiname">RHostResolver::Next()</code></a> repeatedly until <code class="codeph">KErrHostResNoMoreResults</code> is
+returned. </p> </li>
+</ol> <p><strong>Getting
+the addresses of remote devices</strong> </p> <p>The following example shows how
+to start a remote device address inquiry. </p> <ol id="GUID-A31D5876-7EE5-56B6-8F5A-7B8986C55349">
+<li id="GUID-B6BCA711-BBC7-52C0-9B7A-F128031346ED"><a name="GUID-B6BCA711-BBC7-52C0-9B7A-F128031346ED"><!-- --></a><p>Connect to the socket
+server </p> <pre class="codeblock">RSocketServ socketServ;
+socketServ.Connect();
+TProtocolDesc pInfo;
+_LIT(KL2Cap, "BTLinkManager");
+User::LeaveIfError(socketServ.FindProtocol(KL2Cap,pInfo));</pre> </li>
+<li id="GUID-48A0FDB1-BB15-5759-8AC1-F837513B423A"><a name="GUID-48A0FDB1-BB15-5759-8AC1-F837513B423A"><!-- --></a><p>Create and initialise
+an <code class="codeph">RHostResolver</code> </p> <pre class="codeblock">RHostResolver hr;
+User::LeaveIfError(hr.Open(socketServ,pInfo.iAddrFamily,pInfo.iProtocol));</pre> </li>
+<li id="GUID-4A5D7DFC-FDFE-5D87-8DAB-A1BE59EFF806"><a name="GUID-4A5D7DFC-FDFE-5D87-8DAB-A1BE59EFF806"><!-- --></a><p>Set up a discovery query
+and start it </p> <pre class="codeblock">TInquirySockAddr addr;
+TNameEntry entry;
+addr.SetIAC(KGIAC);
+addr.SetAction(KHostResInquiry);
+TRequestStatus status;
+hr.GetByAddress(addr, entry, status);
+User::WaitForRequest(status);</pre> </li>
+<li id="GUID-9835B54E-E6D2-5FD5-8E7C-1374177F2D8A"><a name="GUID-9835B54E-E6D2-5FD5-8E7C-1374177F2D8A"><!-- --></a><p>Process the information
+returned in <code class="codeph">entry</code> </p> <pre class="codeblock">...</pre> </li>
+</ol> <p><strong>Notes:</strong> </p> <ul>
+<li id="GUID-71BF7F7E-AD6E-5715-B9A5-BAE7488B9B80"><a name="GUID-71BF7F7E-AD6E-5715-B9A5-BAE7488B9B80"><!-- --></a><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0ECE42E1-5E04-3BFB-BA17-F8036510798D.html#GUID-B8F50B34-789B-3ADE-8D1E-04B59394BC2A"><code class="apiname">TInquirySockAddr::SetIAC()</code></a> sets
+the Bluetooth Inquiry Access Code. For more information, see <a href="http://www.bluetooth.org/assigned-numbers/" target="_blank">Bluetooth Assigned Numbers</a>. </p> </li>
+<li id="GUID-B55A03AB-3F37-5377-80E6-5F94045A4C5F"><a name="GUID-B55A03AB-3F37-5377-80E6-5F94045A4C5F"><!-- --></a><p>The host resolver caches
+the results of inquiries so that devices that are no longer present may appear
+in the list of results. This does not cause any additional complications,
+as it is always possible for a device to go out of range between when it is
+discovered and when a connection to it is made. </p> </li>
+<li id="GUID-51CA2D0D-6A75-537F-A040-EA47D00DFEE0"><a name="GUID-51CA2D0D-6A75-537F-A040-EA47D00DFEE0"><!-- --></a><p>Communications API calls
+are typically asynchronous (indicated by a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html"><code class="apiname">TRequestStatus</code></a> parameter
+in the call). It is recommended that such calls are encapsulated in active
+objects, as explained in <a href="GUID-B507490F-6BD3-5DF5-97E4-EFDFEA2B4EDD.html">Using
+Asynchronous Programming</a>. </p> </li>
+</ul> <p><strong>Getting
+the name of a remote device</strong> </p> <p>The name of a remote device can be
+queried for by taking the same steps as for an address query, but setting
+the action flag of a <code class="codeph">TInquirySockAddr</code> to KHostResName.
+The name is returned in the <code class="codeph">iName</code> member accessed through
+the <code class="codeph">TNameEntry</code>. </p> <p><strong>Example </strong> </p> <pre class="codeblock">// Now do name inquiry
+addr.SetAction(KHostResName);
+hr.GetByAddress(addr, entry, stat);
+User::WaitForRequest(stat);
+TPtrC deviceName;
+if (stat == KErrNone)
+     deviceName.Set(entry().iName);</pre> <p><strong>Notes </strong> </p> <ul>
+<li id="GUID-DB873994-76A6-5FE2-8B8D-00E0FD815DF2"><a name="GUID-DB873994-76A6-5FE2-8B8D-00E0FD815DF2"><!-- --></a><p>To do a simultaneous
+address and name inquiry, use <code class="codeph">SetAction(KHostResName|KHostResInquiry)</code>. </p> </li>
+<li id="GUID-5823E26F-BFE7-5745-A208-C51DECF21D14"><a name="GUID-5823E26F-BFE7-5745-A208-C51DECF21D14"><!-- --></a><p> <code class="codeph">RHostResolver::GetByName()</code> is
+not supported </p> </li>
+</ul> </div>
+<div id="GUID-4425B269-2649-4A3C-81A4-17AB3733CF1C"><h3 class="section-title">Where Next?</h3> <p>This tutorial set takes you through
+all the steps involved in setting up and communicating over a Bluetooth connection. </p> <ul>
+<li id="GUID-78BDF706-7245-5D78-AB1D-8DB1352CFEAF"><a name="GUID-78BDF706-7245-5D78-AB1D-8DB1352CFEAF"><!-- --></a><p> <a href="GUID-301488F8-B6D8-569A-B05E-19B740FE4C00.html">Selecting
+a Remote Device</a> </p> </li>
+<li id="GUID-65BD97CF-9CD6-5050-9B96-4B22124C7E0F"><a name="GUID-65BD97CF-9CD6-5050-9B96-4B22124C7E0F"><!-- --></a><p> <strong>Inquiring About
+Remote Devices</strong> - This document </p> </li>
+<li id="GUID-2418982B-074A-561F-AF89-C0A233F7C593"><a name="GUID-2418982B-074A-561F-AF89-C0A233F7C593"><!-- --></a><p> <a href="GUID-A13494B9-C1E4-506A-B236-8AE0A6D6D557.html">Inquiring
+About Services on a Remote Device</a> </p> </li>
+<li id="GUID-3E09B7DF-5BD7-5FC7-9C09-245421BCA730"><a name="GUID-3E09B7DF-5BD7-5FC7-9C09-245421BCA730"><!-- --></a><p> <a href="GUID-A24D2CEF-88C9-5C63-A14D-85EFFBEF3C92.html">Connecting
+and Transferring Data to a Remote Device</a> </p> </li>
+<li id="GUID-9AF0CBD6-3762-5724-82EF-88348D246CA1"><a name="GUID-9AF0CBD6-3762-5724-82EF-88348D246CA1"><!-- --></a><p> <a href="GUID-4F0C4B9D-AA42-59C4-900A-7045FEAAF2F4.html">Using
+security on outgoing sockets</a> </p> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated February 5th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-CED041C8-D68D-55D1-957E-1A48EEFFF851.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:01 GMT -->
+</html>

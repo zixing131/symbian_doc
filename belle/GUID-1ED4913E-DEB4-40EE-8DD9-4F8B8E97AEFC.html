@@ -1,0 +1,61 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1ED4913E-DEB4-40EE-8DD9-4F8B8E97AEFC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 08:16:53 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Symbian frameworks" /><meta name="abstract" content="Client applications frequently make use of services provided by Symbian servers. This section introduces the role of servers and the use of active objects to send requests to servers asynchronously." /><meta name="description" content="Client applications frequently make use of services provided by Symbian servers. This section introduces the role of servers and the use of active objects to send requests to servers asynchronously." /><meta name="DC.Relation" scheme="URI" content="GUID-116A02BE-F93C-4E2C-8D75-E23B6EE67D2A" /><meta name="DC.Relation" scheme="URI" content="GUID-46074C81-EECF-41A4-B710-6DDE135DBD1E" /><meta name="DC.Relation" scheme="URI" content="GUID-0E3EA815-04EA-497F-9610-09F6776B5678" /><meta name="DC.Relation" scheme="URI" content="GUID-0F0BCB36-53F0-4C05-AE55-5994441EC777" /><meta name="DC.Relation" scheme="URI" content="GUID-93086866-F6E1-5715-A3BE-EEACF8A760DB" /><meta name="DC.Relation" scheme="URI" content="GUID-46EE47A5-67F1-4520-8D95-F38757B6C28E" /><meta name="DC.Relation" scheme="URI" content="GUID-7767640D-5DD0-563B-8EE7-5C3EAEDBF859" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-2CA5C27E-A526-4B26-941B-85F0B32E1FFA" /><meta name="DC.Relation" scheme="URI" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1ED4913E-DEB4-40EE-8DD9-4F8B8E97AEFC" /><meta name="DC.Language" content="en" /><title>Symbian frameworks </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1ED4913E-DEB4-40EE-8DD9-4F8B8E97AEFC">Symbian frameworks</h1><div><p>Client applications frequently make use of services provided
+by Symbian servers. This section introduces the role of servers and
+the use of active objects to send requests to servers asynchronously.</p>
+<div id="GUID-B6321D6D-FDB1-4F49-89FC-B8466D9C6BCF"><h3 class="section-title">Symbian servers</h3><p>Most system services, such
+as the file server, are implemented using the <a href="GUID-0F0BCB36-53F0-4C05-AE55-5994441EC777.html">client server framework</a>. Servers run continually in the background providing access to shared
+system resources. The communication channel for passing messages between
+the client and server is known as a session. Clients must create a
+session before sending requests to the server. The session hides the
+details of message passing and data packaging from application code.</p><p>Servers run in a different thread to their clients, and in practice
+they almost always run in a different process. Since the process boundary
+is the point where platform security checks can be enforced, a server
+running in its own process is able to implement a security policy
+controlling access to the server resources.</p></div>
+<div id="GUID-B8CFF2B7-02E2-420E-98BF-B2F7D742434E"><h3 class="section-title">Active objects</h3><p>Clients can send both synchronous
+and asynchronous requests to the server. An asynchronous request includes
+a <code class="codeph">TRequestStatus</code> parameter, which the server will
+complete when the operation has finished. Typically, the client will
+use an active object to handle completion of the request. When the
+server completes the outstanding request, the client-side active object’s <code class="codeph">RunL()</code> is called. See <a href="GUID-116A02BE-F93C-4E2C-8D75-E23B6EE67D2A.html">Introduction to active
+objects</a> for further details on asynchronous requests and active
+objects.</p></div>
+<div id="GUID-04298235-AD53-4E45-93E3-8263DE896A63"><h3 class="section-title">DLLs</h3><p>Dynamic link libraries (DLLs) consist
+of a library of compiled C++ code that may be loaded into a running
+process in the context of an existing thread. In Symbian C++, there
+are two main types of DLL: shared library (static interface) DLLs
+and polymorphic interface (plug-in) DLLs.</p><p>A shared library DLL
+implements library code that may be used by multiple components of
+any type, that is, other libraries or EXEs. The filename extension
+of a shared library is <code class="codeph">.dll</code>.</p><p>A shared library
+exports API functions according to a module definition (<code class="codeph">.def</code>) file. It may have any number of exported functions, each of which
+is an entry point into the DLL. A shared library releases a header
+file (<code class="codeph">.h</code>) for other components to compile against,
+and an import library (<code class="codeph">.lib</code> or <code class="codeph">.dso</code>) to link against, in order to resolve the exported functions.</p><p>The second type of DLL, a polymorphic interface DLL, implements
+an abstract interface that is usually defined separately, for example
+by a framework. It may have a <code class="codeph">.dll</code> filename extension,
+but it can use a different extension to identify the nature of the
+DLL further, for example, <code class="codeph">.fsy</code> for a file system
+plug-in, or <code class="codeph">.prt</code> for a protocol module plug-in.</p><p>Polymorphic DLLs have a single entry-point or 'factory' function,
+which instantiates the concrete class that implements the interface.
+Polymorphic interface DLLs are often used to provide a range of different
+implementations of a single consistent interface. They are loaded
+dynamically, typically by a framework.</p></div>
+<div id="GUID-C7E12B77-A223-4628-BAB0-31F519D2351A"><h3 class="section-title">Copyright note</h3>This topic is based with permission
+on a Symbian Foundation wiki articles <cite>Client-Server Framework</cite> and <cite>Symbian C++ Miscellany</cite> which are part of the series <cite>The Fundamentals of Symbian C++</cite>. The version used was that
+available at <a href="http://developer.symbian.org/" target="_blank">http://developer.symbian.org/</a> on 3 November 2010. The content in this page is licensed
+under the Creative Commons Attribution-Share Alike 2.0 UK: England
+&amp; Wales License (<a href="http://creativecommons.org/licenses/by-sa/2.0/uk" target="_blank">http://creativecommons.org/licenses/by-sa/2.0/uk</a>).</div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-116A02BE-F93C-4E2C-8D75-E23B6EE67D2A.html">Introduction to active objects</a><div class="linkdesc">An active object encapsulates an asynchronous request and
+the behaviour that is required when the request completes. </div></li><li class="ulchildlink"><a href="GUID-46074C81-EECF-41A4-B710-6DDE135DBD1E.html">Active object example</a><div class="linkdesc">A simple 'hello world' style active object.</div></li><li class="ulchildlink"><a href="GUID-0E3EA815-04EA-497F-9610-09F6776B5678.html">Active object developer checklist</a><div class="linkdesc">Common problems with active objects, and how to avoid them.</div></li><li class="ulchildlink"><a href="GUID-0F0BCB36-53F0-4C05-AE55-5994441EC777.html">Using the client server framework</a><div class="linkdesc">Introduction to how clients interact with servers through
+a client side API encapsulated in a session. A complex server may
+also provide subsession classes.</div></li><li class="ulchildlink"><a href="GUID-93086866-F6E1-5715-A3BE-EEACF8A760DB.html">Frameworks, Libraries and DLLs</a></li><li class="ulchildlink"><a href="GUID-46EE47A5-67F1-4520-8D95-F38757B6C28E.html">Shared Library DLLs on Qt for Symbian</a><div class="linkdesc">This article demonstrates how to create and use shared
+library DLLs with Qt on the Symbian platform. It is accompanied by
+a simple code example that populates a label widget with a random
+number from a DLL when a button is pressed. </div></li><li class="ulchildlink"><a href="GUID-7767640D-5DD0-563B-8EE7-5C3EAEDBF859.html">UIDs</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 18th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1ED4913E-DEB4-40EE-8DD9-4F8B8E97AEFC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 08:16:53 GMT -->
+</html>

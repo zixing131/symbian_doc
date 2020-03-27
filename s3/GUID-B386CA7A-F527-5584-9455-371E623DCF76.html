@@ -1,0 +1,155 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B386CA7A-F527-5584-9455-371E623DCF76.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:47 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="System Start Example" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-AF30D941-BFD8-5260-9588-C5DA6983F558" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B386CA7A-F527-5584-9455-371E623DCF76" /><meta name="DC.Language" content="en" /><title> System Start Example </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B386CA7A-F527-5584-9455-371E623DCF76"> System Start Example</h1><div>
+<div id="GUID-1B233701-DF98-46DD-A9F0-1DBBBD8F07E3"><h3 class="section-title">Download</h3> <p>Click on the following link to
+download the example: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/zips/guid-e4fe3134-4d3b-443f-80fe-374972df6f9b.zip" target="_blank"> SysStart.zip</a></p><p>Click: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/guid-e4fe3134-4d3b-443f-80fe-374972df6f9b.html#guid-6013a680-57f9-415b-8851-c4fa63356636/guid-e4fe3134-4d3b-443f-80fe-374972df6f9b.html">browse</a> to view the example code. </p> </div>
+<div id="GUID-F3EFB022-A771-50D2-9C36-FFEFA4924441"><h3 class="section-title"> Description</h3> <p>This example demonstrates the use of resource files at the time
+of System Start-up. System starter is an architecture designed to
+provide a consistent, transparent, easily customisable method of starting
+components (i.e. servers and applications) at device boot. It allows
+an ordering of components according to criticality and dependency
+by means of a Static Start-up Configuration (SSC). </p> </div>
+<div id="GUID-9C5B0C4B-32F9-4F39-8C3E-F5188A6D54AA"><h3 class="section-title">Related APIs</h3><ul>
+<li><p><code class="codeph">egSysStart::E32Main ()</code></p></li>
+<li><p><code class="codeph">egSysStart::Simple ()</code></p></li>
+</ul></div>
+<div id="GUID-693F8259-B441-50F2-8E2A-EB2A57E5665A"><h3 class="section-title">Resource
+files</h3> <p>In this example a resource file <code class="codeph">SSCForStartupMode0.rss</code> is used at Start-up. </p> <p>On a target device booting normally,
+the SSC <code class="codeph">SSCForStartupMode0.rss</code> is always used for
+start-up. This SSC is associated with startup mode zero, which is
+defined as EStartupModeUndefined in e32modes.h.
+The System Starter architecture provides an ability to select between
+a number of static Start-up configurations (rss files) depending on
+the desired Start-up Mode, for example: Full, Emergency, Charging,
+or Test. Each of these modes may require different sets of components
+and order of execution. </p> <p>The start-up process in the resource
+file is staged via an ordering of Start-up States or phases. These
+states cannot be removed or their values altered. They appear in the
+following order: </p> <p> TStartupCommandType::EStartupStateUndefined – Value before the system enters its first state/ undefined state. </p> <p> TStartupCommandType::EStartupStateCriticalStatic – Within this Start-up State all ROM based (static) components or
+resources that are critical to the operation of the phone function
+are started. </p> <p> TStartupCommandType::EStartupStateCriticalDynamic – Within this Start-up State all non-ROM based (dynamic) components
+or resources that are critical to the operation of the phone function
+are started. </p> <p> TStartupCommandType::EStartupStateNonCritical – Within this Start-up State all ROM based (static) or non-ROM based
+(dynamic) components or resources that are non-critical to the operation
+of the phone function are started. All components that have not already
+been started and are required at device boot are started in this Start-up
+State. </p> <p>This allows start-up to be split into separate, distinct
+states with a defined order. Within each state, a <code class="codeph">STATE_INFO</code> structure containing information regarding that state is located.
+This contains the following information: </p> <div class="tablenoborder"><a name="GUID-A370B739-910B-55E5-9C92-FAC72362FDCB"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-A370B739-910B-55E5-9C92-FAC72362FDCB" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">Id</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>The id of the state as defined in the custom header file </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">Name</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>A text string describing the state </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">Command_list</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>The name of the Command array in the SSC which contains
+the list of Commands to invoke in that state </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">Next</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>The name of the Command array corresponding to the next
+state </p> </td>
+</tr>
+</tbody>
+</table></div> <p>Following the <code class="codeph">STATE_INFO</code> structure in
+the SSC is a <code class="codeph">COMMAND_ARRAY</code> structure. This contains
+details of all commands to be executed within that list. Its name
+matches the command_list identifier in the <code class="codeph">STATE_INFO</code> struct and contains one array entry: Commands. The Command entry
+contains a list of all commands to be executed. Each instance in the
+rss file is headed with the <code class="codeph">START_PROCESS_INFO </code> identifier
+and contains any value needed to override the defaults specified in <code class="codeph">startup.rh</code>. </p> <div class="tablenoborder"><a name="GUID-7E7519BC-54C9-59E7-AB07-46748C6F7A44"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-7E7519BC-54C9-59E7-AB07-46748C6F7A44" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><pre class="codeblock">Type</pre> </td>
+<td class="cellrowborder" valign="top"><p>Set by default. Should not be specified in the SSC. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><pre class="codeblock">Path</pre> </td>
+<td class="cellrowborder" valign="top"><p>The location of the binary e.g. path = "Z:\sys\bin\fbserv.exe" </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><pre class="codeblock">Args</pre> </td>
+<td class="cellrowborder" valign="top"><p>Arguments passed to the process. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><pre class="codeblock">start_method</pre> </td>
+<td class="cellrowborder" valign="top"><p>The enum <code class="codeph">TStartupCommandType</code> is defined
+in <code class="codeph">startup.hrh</code>. Currently it takes one of three values: </p> <ul>
+<li id="GUID-EB15D58C-A9FC-5C92-A5F6-23CA7D547C86"><a name="GUID-EB15D58C-A9FC-5C92-A5F6-23CA7D547C86"><!-- --></a><p> EFireAndForget (the default) </p> </li>
+<li id="GUID-FC24705E-4144-5FCA-AA4D-04871C5ED6F9"><a name="GUID-FC24705E-4144-5FCA-AA4D-04871C5ED6F9"><!-- --></a><p> EWaitForStart </p> </li>
+<li id="GUID-BE71C616-0E0B-5916-9058-43B0CA5A278F"><a name="GUID-BE71C616-0E0B-5916-9058-43B0CA5A278F"><!-- --></a><p> EDeferredWaitForStart </p> </li>
+</ul> <p>Use EFireAndForget if there is no need
+for the process to be started serially in other words as soon as the
+process has been invoked, the System Starter can continue with starting
+the next process without waiting for the process to rendezvous. </p> <p>Use EWaitForStart if the process needs to
+get to a certain stage before starting the next process. The starter
+cannot continue with the next Command until a rendezvous has been
+made with the first process. </p> <p>Note that the apparc component
+must be started with mode EWaitForStart to allow
+connection with the server to take place. </p> <p>Use EDeferredWaitForStart if there is no need to start the process serially, but at a later
+stage there is a command which cannot be invoked until this process
+has initialized. Using this value allows a number of commands to be
+started and the System Starter to wait for them all at a later point
+in the SSC. This ensures later on that the initializations of all EDeferredWaitForStart commands have completed. </p> <p> EWaitForStart and EDeferredWaitForStart depend upon receiving a rendezvous from the started process. By
+default this is performed automatically by EikonEnv. If however, you
+wish your component to perform its own rendezvous, then the following
+function should be overridden in your AppUi class and return <code class="codeph">EFalse.</code> </p> <p> <code class="codeph">TBool CCoeAppUi::FrameworkCallsRendezvous();</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><pre class="codeblock">timeout</pre> </td>
+<td class="cellrowborder" valign="top"><p>This field is for use with start_method EWaitForStart only. </p> <p>Indicate if a timer should be started when attempting
+to start the process by filling in this timeout value in milliseconds.
+The value is 0 by default indicating that no timer will be started. </p> <p>Note that if the timer expires before a rendezvous with the component
+is made, the component will be killed. If the component is a critical
+process this will result in a Kern:4 Panic (which on licensee phones
+usually initiates in a system restart). </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><pre class="codeblock">retry_failure_recovery_method</pre> </td>
+<td class="cellrowborder" valign="top"><p>This specifies the action to take if an error is returned
+from an attempt to start the process. </p> <p>It is set to ERestartOS by default. This means if the process fails
+to start the system will restart in the default start-up mode. </p> <p>If it is set to EIgnoreOnFailure then the
+starter will continue with the next Command. This option is intended
+for non-critical components on which nothing critical is dependent. </p> <p>If it is set to ERestartOSWithMode the system
+will be restarted in a specific start-up mode. </p> <p>Note: this
+field has a slightly different use depending on the start mode: in
+modes EFireAndForget and EDeferredWaitForStart a failure will be indicated only if there is an immediate error
+for example the initial process creation/invocation fails. In EWaitForStart a failure will also be indicated if there
+is no successful rendezvous. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><pre class="codeblock">no_of_retries_on_failure</pre> </td>
+<td class="cellrowborder" valign="top"><p>For use with start_method EWaitForStart only. Set to 0 by default. </p> <p>This specifies the maximum number
+of times the starter should try to start a failed process. After the
+process has been retried the specified number of times, the starter
+will act according to the value in the <code class="codeph">retry_failure_recovery_method</code> field. This is used in conjunction with the timeout value. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><pre class="codeblock">monitor</pre> </td>
+<td class="cellrowborder" valign="top"><p>Indicates whether the started process should be monitored
+for failure by the System Monitor component. The value is 0 by default
+indicating that no monitoring will be done. </p> <p>A value of 1 indicates
+monitoring should be performed. The recovery policy set by <code class="codeph">retry_failure_recovery_method</code> (and if applicable retry_failure_recovery_startup_mode)
+will be used by the System Monitor if a failure occurs to this process
+during the lifetime of the system. </p> <p>Note: if the component
+being started is a System Critical process, monitoring must not be
+enabled. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><pre class="codeblock">retry_failure_recovery_startup_mode</pre> </td>
+<td class="cellrowborder" valign="top"><p>For use with retry_failure_recovery_method ERestartOSWithMode only. </p> <p>Used to specify the start-up mode the system should
+restart with. This is set to EStartupModeUndefined by default. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated May 6th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B386CA7A-F527-5584-9455-371E623DCF76.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:52 GMT -->
+</html>

@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_popups_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:31 GMT -->
+<head><title>Popups API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i501"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Popups API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Initialization_of_the_popup_list"><span class="tocnumber">2.1</span> <span class="toctext">Initialization of the popup list</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Basic_Initialization"><span class="tocnumber">2.1.1</span> <span class="toctext">Basic Initialization</span></a></li>
+<li class="toclevel-3"><a href="#Enabling_find_box"><span class="tocnumber">2.1.2</span> <span class="toctext">Enabling find box</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Showing_the_popup_list"><span class="tocnumber">2.2</span> <span class="toctext">Showing the popup list</span></a></li>
+<li class="toclevel-2"><a href="#Retrieving_user_response"><span class="tocnumber">2.3</span> <span class="toctext">Retrieving user response</span></a></li>
+<li class="toclevel-2"><a href="#Dismissing_the_popup_list"><span class="tocnumber">2.4</span> <span class="toctext">Dismissing the popup list</span></a></li>
+<li class="toclevel-2"><a href="#Customizing_popup_lists"><span class="tocnumber">2.5</span> <span class="toctext">Customizing popup lists</span></a></li>
+<li class="toclevel-2"><a href="#Accessing_popup_heading"><span class="tocnumber">2.6</span> <span class="toctext">Accessing popup heading</span></a></li>
+<li class="toclevel-2"><a href="#Setting_text_to_popup_heading"><span class="tocnumber">2.7</span> <span class="toctext">Setting text to popup heading</span></a></li>
+<li class="toclevel-2"><a href="#Manipulation_of_the_image"><span class="tocnumber">2.8</span> <span class="toctext">Manipulation of the image</span></a></li>
+<li class="toclevel-2"><a href="#Manipulation_of_the_animation"><span class="tocnumber">2.9</span> <span class="toctext">Manipulation of the animation</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.10</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.11</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Limitations_of_the_API"><span class="tocnumber">2.12</span> <span class="toctext">Limitations of the API</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Popup controls are UI components that are displayed in a user intrusive
+fashion above the main pane. They in most cases expect user input, in few
+cases they just provide read only information for the user. In this document,
+the uses of popup list and popup heading components are covered.
+</p><p>A popup list is a window-owning host control to many kinds of list or grid
+components with default softkey observer behavior and with automatically calculated
+size that is determined by its contained control. A popup heading is a control
+that is used to display the title in certain S60 dialogs. The popup heading
+component is mainly used by popup lists, message and list queries. More information
+about message and list queries can be found in <a title="sf_mw_classicui_classicui_pub_queries_api.html">Queries API</a> documentation.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>avkon.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/popups_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/popups_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>The API exposes the functionality through which the user can create, initialize,
+change a popup list control as well as retrieve user selection from them.
+Furthermore there is a way to add a find box to the popup list that would
+interact to provide a UI based filtering mechanism.
+</p><p>The main functionality of this API is available through the <span class="plainlinks"><code>CAknPopupList</code> </span> class.
+The class is mostly used in situations when the user is required to select
+an item from a list. There can be cases when a list is just providing read-only
+information to the user (e.g. today's call list).
+</p><p>The <span class="plainlinks"><code>CAknPopupList</code> </span> class furthermore provides the necessary
+framework for adding the listbox to the control stack, attaching commands
+to the CBA relevant to the list box type, and processing all key events. The
+class also removes itself from the control stack and removes the CBA bindings
+when the user dismisses the popup list.
+</p><p>The list placed into the popup list can be of any kind such as a regular
+text list, markable list or multi-selection list as long as they are derived
+from the <span class="plainlinks"><code>CEikListBox</code> </span> class. Popup API does not provide any
+means to register popup list specific observers to it. If it is important
+to observe state changes (e.g. the title needs to be changed as user moves
+the highlight) then registering a list observer to the contained list is recommended.
+</p><p>This API provides also a popup heading component, encapsulated in the <span class="plainlinks"><code>CAknPopupHeadingPane</code> </span> class.
+It provides functions to modify the title text and set header image and animation.
+The <span class="plainlinks"><code>CAknPopupHeadingPane</code> </span> class is used by popup list, message
+and list queries.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Popup API is an SDK API and part of S60 release 3.x.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of Popups API are:
+</p>
+<ul><li> Initialization of the popup list
+</li><li> Basic initialization
+</li><li> Enabling find box
+</li></ul>
+<ul><li> Showing the popup list
+</li><li> Retrieving user response
+</li><li> Dismissing the popup list
+</li><li> Customizing popup lists
+</li><li> Accessing popup heading
+</li><li> Setting text to popup heading
+</li><li> Manipulation of the popup heading image
+</li><li> Manipulation of the popup heading animation
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>AknPopupLayouts <td><span class="plainlinks"><code>/epoc32/include/mw/aknpopuplayout.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAknPopupField</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknPopupField.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknPopupField::CAknPopupFieldBitmapButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknPopupField.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknPopupFieldList</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknPopupFieldList.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknPopupFieldText</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknPopupFieldText.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknPopupHeadingPane</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknPopupHeadingPane.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknPopupList</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknPopup.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknPopupSettingList</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknpopupsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknPopupSettingPage</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknpopupsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknFadedComponent</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknPopupFader.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknPopupFieldObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknPopupField.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknPopupSettingListObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknpopupsettingpage.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TAknPopupFader</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknPopupFader.h</code></span>
+</td></tr>
+<p>A number of classes are directly or indirectly involved when using Popups
+API.
+</p><p>The class diagram in Figure 1 shows that popup uses a <span class="plainlinks"><code>CEikListBox</code> </span> created
+by the client and maintains a reference to it throughout its lifetime. A heading
+of type <span class="plainlinks"><code>CAknPopupHeadingPane</code> </span> is optionally created depending
+on whether the user specified a title or not. A find box ( <span class="plainlinks"><code>CAknSearchField</code> </span>)
+is created optionally while the CBA softkeys are an integral part of the popup
+(the user can specify on construction what CBA structure to use and it can
+be changed later too).
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_PopUps_API_Constituents.png" title="Relevant constituents of Popups API"><img alt="Relevant constituents of Popups API" border="0" height="272" src="images/SPB_10_1_PopUps_API_Constituents.png" width="558" /></a></div>
+<div style="text-align:center"><i>Relevant constituents of Popups API</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Initialization_of_the_popup_list"><h3> <span class="mw-headline">2.1 Initialization of the popup list </span></h3>
+</a><a name="Basic_Initialization"><h4> <span class="mw-headline">2.1.1 Basic Initialization </span></h4>
+</a><p>The first thing a developer needs when dealing with popup list is a list
+(using lists is not a subject of this document, if you want a thorough list
+usage guide then consult the header link <b class="new">List API</b> document.)
+</p><p>As the list itself needs a parent we cannot initialize the list before
+creating the popup list. So the proper order is:
+</p>
+<ul><li> Construct the list using the standard leaving new operator.
+</li><li> Create the popup list using its <span class="plainlinks"><code><font color="darkred">NewL()</font></code> </span> static function.
+</li><li> Finally initialize the list (Call its <span class="plainlinks"><code><font color="darkred">ConstructL()</font></code> </span>)
+</li></ul>
+<p>.
+</p><p>In the code below and hereinafter we will use an imaginary client class
+called <span class="plainlinks"><code>CMyClient</code> </span>.
+</p>
+<pre>CMyClient::ShowMyPopupListL()
+    {
+    // Create a list instance:
+    CEikListBox* list = new( ELeave ) CAknSinglePopupMenuStyleListBox;
+    CleanupStack::PushL( list );//prevent memory leaks
+</pre>
+<pre>    // Couple the popup with the list:
+    // We need to create the popup now as list would need it as a parent.
+    CAknPopupList* popup = CAknPopupList::NewL(
+                 list, // passing our list to the popup
+                       // ownership is not taken
+                 R_AVKON_SOFTKEYS_OK_BACK, // softkey resource id.
+                 AknPopupLayouts::EMenuWindow);// popup layout type
+    CleanupStack::PushL( popup );
+    list-&gt;ConstructL( popup,CEikListBox::ELeftDownInViewRect );
+    // Finish list initialization:
+    list-&gt;View()-&gt;SetListEmptyTextL( _L( "List is empty" ) );
+    list-&gt;CreateScrollBarFrameL( ETrue );
+    list-&gt;ScrollBarFrame()-&gt;SetScrollBarVisibilityL(
+                    CEikScrollBarFrame::EOff,
+                    CEikScrollBarFrame::EAuto);
+    // Add items to the list:
+    CDesCArrayFlat* items = new(ELeave)CDesCArrayFlat( 1 );
+    CleanupStack::PushL( items );
+    for ( TInt ii=0; ii&lt;8; ii++ )
+        {
+        TBuf&lt;80&gt; text;
+        text.Format( _L( "Listbox Item %d" ), ii+1 );
+        items-&gt;AppendL( text );
+        }
+</pre>
+<pre>    CleanupStack::Pop(); // items
+    CTextListBoxModel* model=list-&gt;Model();
+    model-&gt;SetItemTextArray( items );
+    model-&gt;SetOwnershipType( ELbmOwnsItemArray );
+    &#8230;
+    }
+</pre>
+<p>It is important to note that <span class="plainlinks"><code>CAknPopupList::NewL()</code> </span> takes
+an <span class="plainlinks"><code>AknPopupLayouts::TAknPopupLayouts</code> </span> parameter which provides
+the popup with layout info (i.e. how exactly are position and size of the
+popup and the contained components). To avoid an unwanted look you need find
+out the right value based on the list type you use. See header<i> AknPopupLayout.h</i> class <span class="plainlinks"><code>AknPopupLayouts</code> </span>.
+</p>
+<a name="Enabling_find_box"><h4> <span class="mw-headline">2.1.2 Enabling find box </span></h4>
+</a><p>It is also possible to add a find box to the popup. It is mostly important
+when the number of items in the list can be high so the user can filter the
+list items while typing: only the items which match the typed characters are
+shown. This is how the initialization code needs to be augmented.
+</p>
+<pre>CMyClient::ShowMyPopupListL()
+    {
+    &#8230; // code from initialisation section
+    popup-&gt;EnableFind();
+</pre>
+<pre>    }
+</pre>
+<p>The CAknPopupList EnableFind() call returns a <span class="plainlinks"><code>TBool</code> </span> to
+indicate if construction was successful. Use it if you want to have error
+handling code for the failure case.
+</p>
+<a name="Showing_the_popup_list"><h3> <span class="mw-headline">2.2 Showing the popup list </span></h3>
+</a><p>After initialization the popup is ready to be displayed. It is fairly simple
+to do.
+</p>
+<pre>CMyClient::ShowMyPopupListL()
+    {
+    &#8230; // code from initialisation section (with or without the optional part
+    popup-&gt;ExecuteLD();
+    CleanupStack::Pop(); //popup
+    CleanupStack::PopAndDestroy(); //list
+    }
+</pre>
+<p>The code above does not process user input, which is unlikely to be acceptable
+in a real situation.
+</p><p>Notice <span class="plainlinks"><code>CleanupStack::Pop()</code> </span> after <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span>,
+that is required as during the initialization the popup was put on the cleanup
+stack. Removing it from there should be done after <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span>. <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span> deletes
+the popup so <span class="plainlinks"><code><font color="darkred">PopAndDestoy()</font></code> </span> is not recommended). This ensures
+leave-safety. Note if the popup is declared as a member of the class then
+you would need to set it to NULL after the <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span> to
+avoid double deleting in the destructor. Of course in this case the popup
+must not be pushed on the cleanup stack.
+</p><p>The list object has to be destroyed as the popup does not take care of
+that. That is done by the final <span class="plainlinks"><code><font color="darkred">PopAndDestroy()</font></code> </span>.
+</p><p><span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span> displays the popup on the screen and does
+not return until the user dismisses it or a <span class="plainlinks"><code><font color="darkred">CancelPopup()</font></code> </span> is
+called in the code. This however is a non-blocking function from the whole
+application point of view. This means that the application can still receive
+all kinds of events (e.g. network events, timer events). The technique the
+popup uses is the same as with dialogs - it nests a new active scheduler loop.
+Being aware of this is important, another event handling code (i.e. <span class="plainlinks"><code>CActive::RunL()</code> </span>)
+may still be running while the popup is shown. If you need to access the popup
+while its <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span> is running then it should be declared
+as a member variable.
+</p>
+<a name="Retrieving_user_response"><h3> <span class="mw-headline">2.3 Retrieving user response </span></h3>
+</a><p>In a usual scenario it is natural to expect that the client can get hold
+of the user response (let it be the selected item or the marked item). There
+are two aspects of it:
+</p>
+<ul><li> Did the user dismiss the popup indicating a cancellation of a started
+</li></ul>
+<p>operation?
+</p>
+<ul><li> If the user accepted the prompt what was the response?
+</li></ul>
+<p>To find an answer to the first question the return value of <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span> needs
+to be checked. The user response on the other hand can be received from reading
+the list state.
+</p>
+<pre>CMyClient::ShowMyPopupListL()
+    {
+    &#8230; // code from initialisation section (with or without the optional part
+    if ( popup-&gt;ExecuteLD() )
+        {
+        TInt index = iList-&gt;CurrentItemIndex();
+        TBuf&lt;50&gt; text;
+        text.Format(_L(&quot;Item %d selected&quot;), index+1);
+        User::InfoPrint(text);
+        }
+     else
+        {
+        User::InfoPrint(_L(&quot;Listbox Cancelled&quot;));
+        }
+    CleanupStack::Pop(); //popup
+    CleanupStack::PopAndDestroy(); //list
+    }
+</pre>
+<a name="Dismissing_the_popup_list"><h3> <span class="mw-headline">2.4 Dismissing the popup list </span></h3>
+</a><p>While the popup is shown all user events are forwarded to it. However it
+is possible to get other events from the system. Some events would result
+in a new UI state where the popup is not needed anymore. The developer has
+the means to dismiss the popup programmatically. To be able to do that the
+popup has to be accessible through a member variable. We assume that the <span class="plainlinks"><code><font color="darkred">iPopup</font></code> </span> member
+variable points to the popup list object (or <span class="plainlinks"><code>NULL</code> </span> if it is
+dismissed).
+</p>
+<pre>CMyClient::DismissPopupListL()
+    {
+    if ( iPopup )//Checking for NULL is needed because if the popup is dismissed iPopup is set to NULL
+        {
+        iPopup-&gt;CancelPopup();
+        iPopup = NULL;
+        }
+    }
+</pre>
+<p>The <span class="plainlinks"><code><font color="darkred">CancelPopup()</font></code> </span> call makes the <span class="plainlinks"><code><font color="darkred">ExecuteLD()</font></code> </span> call
+return (in the next active scheduler loop) and its return value is <span class="plainlinks"><code>EFalse</code> </span> indicating
+cancellation.
+</p><p><b> Note:</b> It is not possible to use delete <span class="plainlinks"><code><font color="darkred">iPopup</font></code> </span> instead
+of <span class="plainlinks"><code><font color="darkred">iPopup-&gt;CancelPopup()</font></code> </span> because the destructor of <span class="plainlinks"><code>CAknPopupList</code> </span> is
+a protected method.
+</p>
+<a name="Customizing_popup_lists"><h3> <span class="mw-headline">2.5 Customizing popup lists </span></h3>
+</a><p><span class="plainlinks"><code>CAknPopupList</code> </span> may be derived in order to provide a specific
+type of popup list. That is, for a text-only popup selection list, the <span class="plainlinks"><code><font color="darkred">NewL()</font></code> </span> function
+may be overloaded in order to create a listbox of a specific type, before
+passing it to the <span class="plainlinks"><code>CAknPopupList::NewL()</code> </span> function.
+</p><p>It maybe necessary to override the <span class="plainlinks"><code><font color="darkred">AttemptExitL()</font></code> </span> function
+to save the return value in that (e.g. if you do want to store the return
+value in pointer passed on construction).
+</p><p>By overriding <span class="plainlinks"><code><font color="darkred">OfferKeyEventL()</font></code> </span> it is possible to make
+the derived popup list react to key events that the base class ignored (e.g.
+it can delete an item from the list when Clear key is pressed).
+</p><p><span class="plainlinks"><code>ProcessCommandL</code> </span> should be overwritten when new nonstandard
+commandIDs are attached to the CBA in the resource. By default the following
+Avkon command ids are handled as a positive reply (OK) to the popup list: <span class="plainlinks"><code>EAknSoftkeySelect</code> </span>, <span class="plainlinks"><code>EAknSoftkeyYes</code> </span>, <span class="plainlinks"><code>EAknSoftkeyOk</code> </span>, <span class="plainlinks"><code>EAknSoftkeyDone</code> </span>.
+</p><p>Whereas <span class="plainlinks"><code>EAknSoftkeyExit</code> </span>, <span class="plainlinks"><code>EAknSoftkeyClose</code> </span>, <span class="plainlinks"><code>EAknSoftkeyNo</code> </span>, <span class="plainlinks"><code>EAknSoftkeyCancel</code> </span>, <span class="plainlinks"><code>EAknSoftkeyBack</code> </span> are handled as a negative answer from
+the user.
+</p><p><b> Note:</b> If you want to provide a more specific popup list through
+derivation do not forget to hide the functions of the base class that you
+do not intend to expose to the users.
+</p>
+<a name="Accessing_popup_heading"><h3> <span class="mw-headline">2.6 Accessing popup heading </span></h3>
+</a><p>As we said earlier, popup heading is used not only by popup list, but also
+by other UI components. The heading is implemented by the class <span class="plainlinks"><code>CAknPopupHeadingPane</code> </span>.
+</p><p>Typical use-cases for popup heading:
+</p>
+<ul><li> Popup list ( <span class="plainlinks"><code>CAknPopupList</code> </span>),
+</li><li> Queries, especially message and list queries ( <span class="plainlinks"><code>CAknQueryDialog</code> </span>-derived
+</li></ul>
+<p>classes: <span class="plainlinks"><code>CAknMessageQueryDialog</code> </span>, <span class="plainlinks"><code>CAknListQueryDialog</code> </span>).
+</p><p>More information about the query dialogs can be found in <a title="sf_mw_classicui_classicui_pub_queries_api.html">Queries API</a> documentation.
+</p><p>In case of popup list, the heading cannot be set from resource - it can
+be set only from code. After setting the title with <span class="plainlinks"><code><font color="darkred">SetTitleL()</font></code> </span> with
+a non empty text, <span class="plainlinks"><code>CAknPopupList::Heading()</code> </span> should return
+the <span class="plainlinks"><code>CAknPopupHeadingPane</code> </span> object associated with the heading
+of the popup:
+</p>
+<pre>CMyClient::ShowMyPopupListL()
+    {
+    &#8230; // code from initialisation section
+    popup-&gt;SetTitleL( _L( &quot;My popup title&quot; ) );
+    CAknPopupHeadingPane* heading = popup-&gt;Heading();
+    &#8230;
+    }
+</pre>
+<p>In case of queries, <span class="plainlinks"><code>CAknQueryDialog::QueryHeading()</code> </span> should
+return the <span class="plainlinks"><code>CAknPopupHeadingPane</code> </span> object associated with the
+heading of the query (see <a title="sf_mw_classicui_classicui_pub_queries_api.html">Queries API</a> documentation):
+</p>
+<pre>CMyClient::ShowMyMessageQueryL()
+    {
+    &#8230; // initialization of message, heading
+    CAknMessageQueryDialog* dlg = CAknMessageQueryDialog::NewL(*message);
+    dlg-&gt;PrepareLC(R_AVKON_MESSAGE_QUERY_DIALOG);
+    dlg-&gt;QueryHeading()-&gt;SetTextL(*header);
+    dlg-&gt;RunLD();
+    &#8230; // releasing message, heading
+    }
+</pre>
+<a name="Setting_text_to_popup_heading"><h3> <span class="mw-headline">2.7 Setting text to popup heading </span></h3>
+</a><p>In case of queries, heading text is usually defined in the resource (see <a title="sf_mw_classicui_classicui_pub_queries_api.html">Queries API</a> documentation), but there is the possibility to set the text
+from code with the help of the <span class="plainlinks"><code>CAknPopupHeadingPane::SetTextL()</code> </span> method.
+</p><p>In case of popup list, it is optional to add a title to the popup during
+initialization. It will implicitly create a heading object (to which it is
+possible to get a pointer) in the popup.
+</p>
+<pre>CMyClient::ShowMyPopupListL()
+    {
+    &#8230; // code from initialisation section
+    popup-&gt;SetTitleL( _L( &quot;My popup title&quot; ) );
+    &#8230;
+    }
+</pre>
+<a name="Manipulation_of_the_image"><h3> <span class="mw-headline">2.8 Manipulation of the image </span></h3>
+</a><p>We can enhance the look of the popup heading by decorating it with an image.
+</p><p>The following example illustrates the setting of a header image in case
+of a popup list:
+</p>
+<pre>CMyClient::ShowMyPopupListL()
+    {
+    &#8230; // code from initialisation section
+    popup-&gt;SetTitleL( _L( &quot;My popup title&quot; ) );
+    CAknPopupHeadingPane* heading = popup-&gt;Heading();
+    if ( heading )
+        {
+        _LIT( KMyImageLocation, &quot;c:\\flower.mbm&quot; );
+        CEikImage* img = new (ELeave) CEikImage();
+        CleanupStack::PushL( img );
+        img-&gt;CreatePictureFromFileL( KMyImageLocation, 0, 1 );
+        heading-&gt;SetHeaderImageL( img );
+        CleanupStack::PopAndDestroy();//img
+        }
+     &#8230;
+     }
+</pre>
+<p><b> Note:</b> the <span class="plainlinks"><code>CAknPopupHeadingPane</code> </span> object is created
+inside the popup list using a lazy construction method. That is it only is
+constructed when needed. In this particular case that happens after the <span class="plainlinks"><code><font color="darkred">popup-&gt;SetTitleL()</font></code> </span> call.
+</p>
+<a name="Manipulation_of_the_animation"><h3> <span class="mw-headline">2.9 Manipulation of the animation </span></h3>
+</a><p>It is also possible to add an animation to the heading in a similar way.
+There <span class="plainlinks"><code>CAknPopupHeadingPane::SetHeaderAnimationL()</code> </span> needs to
+be passed the resource ID associated with the animation. The animation is
+started automatically but can be controlled externally through <span class="plainlinks"><code>CAknPopupHeadingPane::StartAnimationL</code> </span> and <span class="plainlinks"><code><font color="darkred">CancelAnimation()</font></code> </span> functions.
+</p>
+<a name="Error_handling"><h3> <span class="mw-headline">2.10 Error handling </span></h3>
+</a><p>Popups API uses standard Symbian OS error reporting mechanism. It does
+not define any panic codes of its own. Leaves and system wide error codes
+as the function return values are used if the error is recoverable. A client
+application can handle these errors similarly as a normal Symbian platform
+application.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.11 Memory and Performance Considerations </span></h3>
+</a><p>Memory consumption of popup list largely depends on the list
+added to it and the number of list items that are contained in a static list
+model. A popup list and a popup heading have a very minimal overhead.
+</p>
+<a name="Limitations_of_the_API"><h3> <span class="mw-headline">2.12 Limitations of the API </span></h3>
+</a><p>This API cannot be used by a component without a UI environment (e.g. a
+Symbian OS server process cannot use the API). The API does not have functionality
+for a dedicated Options menu to the popup.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Popups API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> CBA</td><td> Command Button Area
+</td></tr>
+<tr>
+<td> ID</td><td> Identifier
+</td></tr>
+<tr>
+<td> OS</td><td> Operating System
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Popups API definitions</b>
+</caption>
+<tr>
+<td> Popup</td><td> A window owning container control to other controls.
+</td></tr>
+<tr>
+<td> Find box</td><td> A box that can come with a list to provide 'filtering as you type'
+<p>mechanism.
+</p>
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_popups_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:32 GMT -->
+</html>

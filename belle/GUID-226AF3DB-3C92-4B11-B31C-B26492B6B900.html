@@ -1,0 +1,129 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-226AF3DB-3C92-4B11-B31C-B26492B6B900.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using the cleanup stack" /><meta name="abstract" content="Introduction to the basic use of the cleanup stack in Symbian code." /><meta name="description" content="Introduction to the basic use of the cleanup stack in Symbian code." /><meta name="DC.Relation" scheme="URI" content="GUID-6B58FC67-221A-49B5-B2CA-C247A938103F" /><meta name="DC.Relation" scheme="URI" content="GUID-48AD5B98-DBA8-4601-A158-12559985BCEB" /><meta name="DC.Relation" scheme="URI" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-2CA5C27E-A526-4B26-941B-85F0B32E1FFA" /><meta name="DC.Relation" scheme="URI" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Relation" scheme="URI" content="GUID-3642FBBC-53B8-4BA7-926C-09DC50AF1B20" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-226AF3DB-3C92-4B11-B31C-B26492B6B900" /><meta name="DC.Language" content="en" /><title>Using the cleanup stack </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-226AF3DB-3C92-4B11-B31C-B26492B6B900">Using the cleanup stack</h1><div><p>Introduction to the basic use of the cleanup stack in Symbian
+code.</p>
+<div id="GUID-F7A44661-329B-4BFF-8720-98CAAFE20399"><h3 class="section-title">A leave
+may cause a memory leak</h3><p>A Symbian leave is similar to a
+standard C++ exception in that code execution jumps from the point
+where the leave occurs to the point where the leave is trapped using
+the <code class="codeph">TRAP</code> or <code class="codeph">TRAPD</code> macros. For an
+introduction to the trap and leave mechanism see <a href="GUID-6B58FC67-221A-49B5-B2CA-C247A938103F.html">Symbian exception
+handling</a>.</p><div class="p">A function that leaves can have the effect
+of causing a resource leak in a similar way to a standard C++ function
+that throws an exception. The following function illustrates this:<code class="codeph"></code><pre class="codeblock">void LeakingFunctionL()
+  {
+  // Allocate an object on the heap.
+  CExample* ptr = new (ELeave) CExample;
+
+  // Call a function that might leave.
+  // Leaving functions must have an L suffix.
+  ptr-&gt;UseL();
+
+  // Clean up, if execution reaches this point!
+  delete ptr;   
+  }</pre>The function is not leave-safe. If the call to <code class="codeph">CExample::UseL()</code> leaves the heap object pointed at by <code class="codeph">ptr</code> will not be deallocated. In standard C++ you might use
+a smart pointer to solve this problem, ensuring that the destructor
+of the smart pointer deletes the heap object in the event an exception
+is thrown. Instead of this approach we can add the address of the
+heap object to the cleanup stack.</div></div>
+<div id="GUID-CADD3795-4CCE-46F4-9862-37B57C5DB6F0"><h3 class="section-title">Adding
+objects to the cleanup stack</h3>You call <code class="codeph">CleanupStack::PushL(
+CBase* )</code> to add the address of a C object to the cleanup
+stack. The cleanup stack takes ownership of the object and deletes
+it in the event of a leave. For example:<pre class="codeblock">void NonLeakingFunctionL()
+  {
+  // Allocate an object on the heap.
+  CExample* ptr = new (ELeave) CExample;
+
+  // Place the address of the object on the
+  // cleanup stack.
+  CleanupStack::PushL( ptr );
+
+  // Call a function that might leave.
+  // Leaving functions must have an L suffix
+  ptr-&gt;UseL();
+
+  // Delete the heap based object.
+  CleanupStack::PopAndDestroy();   
+  }</pre><div class="p">The function has been made leave safe because the
+address of the heap object that is referenced only by a stack-based
+pointer has been pushed onto the cleanup stack before a leaving function
+is called. If <code class="codeph">CExample::UseL()</code> leaves the cleanup
+stack automatically deletes the heap object. This occurs before execution
+transfers to the trap harness. If there is no leave we call <code class="codeph">PopAndDestroy()</code>. This is a convenience function that is
+equivalent to calling:<pre class="codeblock">  // Remove the address from the cleanup stack.
+  CleanupStack::Pop();
+
+  // Delete the heap object.
+  delete ptr;</pre><strong>Using the cleanup stack to call Close()
+on R objects</strong></div><div class="p">Consider the following function:<pre class="codeblock">void FailToCloseL()
+  {
+  // Create an R object to use a server.
+  RFs fileServerSession;
+
+  // Open the session.
+  User::LeaveIfError( fileServerSession.Connect() );
+
+  // Call a function that might leave.
+  DoSomethingL();
+
+  // Clean up server resources, if execution reaches this point!
+  fileServerSession.Close();
+  }</pre>This is a similar problem to the one in <code class="codeph">LeakingFunctionL()</code> above. If a leave occurs we fail to close the File Server session.
+The solution is to push the session onto the cleanup stack. To ensure
+that <code class="codeph">Close()</code> is called on the object you add it to
+the cleanup stack using <code class="codeph">CleanupClosePushL()</code>:</div><div class="p"><pre class="codeblock">void AlwaysCloseSessionL()
+  {
+  // Create an R object to use a server.
+  RFs fileServerSession;
+
+  // Open the session.
+  User::LeaveIfError( fileServerSession.Connect() );
+
+  // Push the R object onto the cleanup stack.
+  CleanupClosePushL( fileServerSession );
+
+  // Call a function that might leave.
+  DoSomethingL();
+
+  // Clean up.
+  CleanupStack::PopAndDestroy();   
+  }</pre><code class="codeph">Close()</code> is called by the cleanup stack
+if a leave occurs in <code class="codeph">DoSomethingL()</code>, and <code class="codeph">Close()</code> is called at the last line of the function if <code class="codeph">DoSomethingL()</code> does not leave. In this case <code class="codeph">CleanupStack::PopAndDestroy()</code> is equivalent to:<pre class="codeblock">  // Remove the object from the cleanup stack.
+  CleanupStack::Pop();
+
+  // Close the session.
+  fileServerSession.Close();</pre></div></div>
+<div id="GUID-0ACD9D22-C522-48ED-9E94-47119F9B64F9"><h3 class="section-title">Removing
+objects from the cleanup stack</h3><p>As its name suggests the
+cleanup stack is a last in first out container, so for any series
+of pushes, the corresponding pops must occur in reverse order. As
+well as removing objects individually from the cleanup stack you can
+remove multiple objects in a single call to <code class="codeph">Pop()</code> or <code class="codeph">PopAndDestroy()</code>:</p><pre class="codeblock">// Create a C object and add its address
+// to the cleanup stack.
+CExample* ptr = new (ELeave) CExample;
+CleanupStack::PushL( ptr );
+
+// Create an R object and add it to the
+// cleanup stack.
+RFs fileServerSession;
+User::LeaveIfError( fileServerSession.Connect() );
+CleanupClosePushL( fileServerSession );
+...
+
+// Remove both objects from the cleanup stack,
+// and call their respective cleanup functions.
+CleanupStack::PopAndDestroy( 2, ptr );</pre><p>The call to <code class="codeph">CleanupStack::PopAndDestroy( 2, ptr )</code> first removes the
+R object and calls <code class="codeph">Close()</code> on it, then removes the
+C object and deletes it. The second argument is optional. It allows
+you to name the last pointer being removed from the stack. In debug
+builds a panic would result if this is not the same value as <code class="codeph">ptr</code>.</p></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-6B58FC67-221A-49B5-B2CA-C247A938103F.html">Symbian
+exception handling</a></li><li><a href="GUID-48AD5B98-DBA8-4601-A158-12559985BCEB.html">Two-phase
+construction</a></li><li><a href="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18.html">Introduction
+to Symbian C++ development</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 19th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-226AF3DB-3C92-4B11-B31C-B26492B6B900.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:40 GMT -->
+</html>

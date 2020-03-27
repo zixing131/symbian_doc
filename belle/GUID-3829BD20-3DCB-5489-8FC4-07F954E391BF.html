@@ -1,0 +1,35 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3829BD20-3DCB-5489-8FC4-07F954E391BF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:38 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Local and global handles" /><meta name="abstract" content="This document explains the distinction between local and global handles." /><meta name="description" content="This document explains the distinction between local and global handles." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2EAAE194-FAE1-5545-A678-72973E9B72A7" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3829BD20-3DCB-5489-8FC4-07F954E391BF" /><meta name="DC.Language" content="en" /><title>Local
+and global handles </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3829BD20-3DCB-5489-8FC4-07F954E391BF">Local
+and global handles</h1><div><p>This document explains the distinction between local and global
+handles.</p>
+<p>This is the issue of Kernel side object visibility.</p>
+<p>Handles are said to be local or global.</p>
+<p>A handle is <em>local</em>, if the Kernel object which that handle represents
+is only visible to the thread that created it; no other thread can open a
+handle to the same Kernel object.</p>
+<p>Typically, code constructs the appropriate <code class="codeph">RHandleBase</code> derived
+object, e.g. an <code class="codeph">RMutex</code>, and calls its <code class="codeph">Create()</code>, <code class="codeph">CreateLocal()</code> or
+equivalent function to create the corresponding Kernel object.</p>
+<p>A handle is <em>global</em>, if the Kernel object which that handle represents
+is visible to all threads across all processes; any thread in any process
+can open a handle to that same Kernel object. Typically, such a Kernel object
+is intended for sharing.</p>
+<p>For a global handle. the corresponding Kernel object is assigned a name.
+The name gives that Kernel object an identity and is the key property which
+allows other threads to open a handle onto that same object. It is usual to
+use a <code class="codeph">TFindHandleBase</code> <em>derived</em> class to locate a global
+Kernel object. The following diagram shows the general idea.</p>
+<div class="figure" id="GUID-01C60CFA-8CA7-51CC-904E-158EC02959DE"><img src="GUID-5398C2DC-9AFA-5517-BCBF-5964970B9656_d0e308399_href.png" /></div>
+<p>See also:</p>
+<ul>
+<li id="GUID-56D39619-C90C-51DF-9475-3B75FB189258"><a name="GUID-56D39619-C90C-51DF-9475-3B75FB189258"><!-- --></a><p><a href="GUID-FC639517-F138-5E84-B57A-6347F5A47B88.html">Names
+and fullnames</a> in reference counting objects.</p> </li>
+</ul>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3829BD20-3DCB-5489-8FC4-07F954E391BF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:41 GMT -->
+</html>

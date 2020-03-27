@@ -1,0 +1,45 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5B451D6F-1F3D-5B54-BBC4-212D04F9977F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:51 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Data Transfer Performance Guidelines" /><meta name="abstract" content="This section provides some information on how a client application can be optimised to improve data transfer performance." /><meta name="description" content="This section provides some information on how a client application can be optimised to improve data transfer performance." /><meta name="DC.Relation" scheme="URI" content="GUID-12FF05BE-F06E-58F0-909D-05CB6F7FA03E" /><meta name="DC.Relation" scheme="URI" content="GUID-0E6C7017-E430-51C0-A5D6-1798B0DCC6BC" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-9B83CDD4-FC94-51A0-AC67-CD04BCAFEF08" /><meta name="DC.Relation" scheme="URI" content="GUID-152B5CE8-B689-5E99-885F-79FB0654B7D6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5B451D6F-1F3D-5B54-BBC4-212D04F9977F" /><meta name="DC.Language" content="en" /><title>Data Transfer Performance Guidelines </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5B451D6F-1F3D-5B54-BBC4-212D04F9977F">Data Transfer Performance Guidelines</h1><div><p>This section provides some information on how a client application can be optimised to improve data transfer performance.</p>
+<p>This section is not a tutorial because some performance improvements must be balanced with other goals for the application. </p>
+<div id="SECTION_6258FE7CC35C4B3A890A222B9AB9E199"><h3 class="section-title">Buffer size</h3>
+<p>The larger the buffers that are used, the fewer requests required to the Serial Communications Server. Use larger buffers to reduce the application's CPU requirements. </p>
+</div>
+<div id="SECTION_F38ABF941586401C97F20FA66B0B3E15"><h3 class="section-title">Global Buffers</h3>
+<p>To create or destroy a Descriptor requires CPU time to complete the constructor or destructor. Performance is increased by reducing the number of requests to create or destroy a Descriptor. To reduce the number of Descriptor create requests, create a global Descriptor for the data buffer. A global Descriptor is a Descriptor that is available to all functions in the application. </p>
+<p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-B0B6BC5D-4BCD-3A74-9E1C-17BA58BB7B33"><code class="apiname">RComm::Read()</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-27B1F841-8478-33E0-A168-11DC468183C0"><code class="apiname">RComm::Write()</code></a> functions are available in variants that take a length parameter. Use the length parameter when a global descriptor is used. If the length parameter is not used, the <code class="codeph">RComm::Read()</code> and <code class="codeph">RComm::Write()</code> APIs use the length of the Descriptor to define the number of characters to read or write. </p>
+</div>
+<div><h3 class="section-title">Indexing descriptors</h3>
+<p>Descriptors have C [] array indexing operators. Do not use the C [] array indexing operators since pointer arithmetic is faster. </p>
+</div>
+<div id="SECTION_D5C4517ADAF64864B5D0F82481A3B86E"><h3 class="section-title">Read Requests</h3>
+<p>Configure the ports so that the Serial Communications Server manages all the processing: </p>
+<ul id="UL_690FD6E22E7E4A80979940EBC42124A0">
+<li id="GUID-1BB9AB77-C6DB-503B-911F-D7C2580A6C04"><a name="GUID-1BB9AB77-C6DB-503B-911F-D7C2580A6C04"><!-- --></a><p>Set time-outs to trap error conditions </p> </li>
+<li id="GUID-7A230C7F-D781-5197-BC3E-24A58A87108D"><a name="GUID-7A230C7F-D781-5197-BC3E-24A58A87108D"><!-- --></a><p>Set termination characters for the protocol. See <a href="GUID-31E9F790-8A47-588C-A515-D2C8CD367ADE.html">How to Terminate Read Requests Early: Tutorial</a> </p> </li>
+</ul>
+</div>
+<div id="SECTION_9BD41B8E1A8145B18F4B3A01E850C478"><h3 class="section-title">Write Requests</h3>
+<p>Configure the ports so that the Serial Communications Server manages all the processing: </p>
+<ul>
+<li id="GUID-29979D5C-776B-50E7-955A-E955E9B2E075"><a name="GUID-29979D5C-776B-50E7-955A-E955E9B2E075"><!-- --></a>
+<p>Set ports to return early when no response from the remote device is expected, or where there is a lot of processing to prepare the next block of data to be sent. See <a href="GUID-294EF1C3-E7EC-5B93-B4F4-ECA50DD6993F.html">How to Terminate Write Requests Early: Tutorial</a> </p>
+</li>
+</ul>
+</div>
+<div id="SECTION_438F3E6F08D24A0EBC3B3DC6DB77EAEE"><h3 class="section-title">ReadOneOrMore()</h3>
+<p>If <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-D26D6D62-72F0-313C-B3D5-2CE28FDE9BED"><code class="apiname">RComm::ReadOneOrMore()</code></a> is used in a loop, the function may cause slower performance. This slower performance is the result of the loop reading smaller and smaller blocks until on single characters are read. </p>
+<p>The <a href="GUID-35D49549-1F4D-583F-A45D-9B557A207DD2.html">Glass Teletype</a> example uses a time-out of one tenth of a second. This time-out has two purposes: </p>
+<ul id="UL_5D1F37BA3F2B4D9FBD4423F110DBB402">
+<li id="GUID-B7069241-C624-5DBA-BCC4-6D663CF41005"><a name="GUID-B7069241-C624-5DBA-BCC4-6D663CF41005"><!-- --></a><p>The time-out simulates the delay effect of a terminal </p> </li>
+<li id="GUID-D19604EF-F835-5203-8DA6-52FB2D8653FF"><a name="GUID-D19604EF-F835-5203-8DA6-52FB2D8653FF"><!-- --></a><p>The time-out allows the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-B0B6BC5D-4BCD-3A74-9E1C-17BA58BB7B33"><code class="apiname">RComm::Read()</code></a> API to be used while not causing a large load on the CPU </p> </li>
+</ul>
+<p>If the time-out expires, the Glass Teletype example then calls <code class="codeph">ReadOneOrMore()</code>. </p>
+<p>The trade-off is that the <code class="codeph">RComm::Read()</code> call to the Serial Communications Server has to be renewed 10 times every second even when no data is being transferred. This was considered a smaller overhead than that incurred if data were coming in rapidly and as a result <code class="codeph">ReadOneOrMore()</code> was called up to 2000 times every second. </p>
+</div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-12FF05BE-F06E-58F0-909D-05CB6F7FA03E.html">Code efficiency</a></li></ul><h3>Related reference</h3><ul><li><a href="GUID-0E6C7017-E430-51C0-A5D6-1798B0DCC6BC.html">Handshaking</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 10th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5B451D6F-1F3D-5B54-BBC4-212D04F9977F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:51 GMT -->
+</html>

@@ -1,0 +1,197 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B7B7F611-BCA0-498F-BEC1-16B276F680D5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Calling Symbian Asynchronous APIs in Applications" /><meta name="abstract" content="" /><meta name="description" content="" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-C4C85189-BA6F-5F11-ABB3-727D8C1F5984" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B7B7F611-BCA0-498F-BEC1-16B276F680D5" /><meta name="DC.Language" content="en" /><title>Calling
+Symbian Asynchronous APIs in Applications </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B7B7F611-BCA0-498F-BEC1-16B276F680D5">Calling
+Symbian Asynchronous APIs in Applications</h1><div><p></p>
+<div class="p">When porting an P.I.P.S.-based C or C++ application on top of Symbian C++,
+the developer may need to make use of Symbian asynchronous APIs. If asynchronous
+APIs are made use of in an P.I.P.S. application, the application needs to
+wait for the completion of the asynchronous API. This can be done in two ways:
+ <ul>
+<li><p>Wait for the asynchronous request to complete. This can be achieved
+by making use of <code class="codeph">User::WaitForRequest(iStatus)</code>; where <code class="codeph">iStatus</code> is
+the <code class="codeph">TRequestSemaphore</code> used by the asynchronous API. </p></li>
+<li><p>Call the asynchronous API in an active object, run an active scheduler,
+and let the active scheduler wait for the asynchronous operation to complete. </p></li>
+</ul></div>
+<p><strong>The problems with these approaches are: </strong></p>
+<p>The open source application would get blocked till the asynchronous operation
+completes in the first approach. In the second approach, the active scheduler
+would be running in a wait loop, checking for asynchronous API completion.
+Even in this case, the P.I.P.S. application would not be able to perform any
+other operations outside the active scheduler framework.</p>
+<p>The asynchronous APIs could be called in a separate process, and the P.I.P.S.
+application could communicate with this process by making use of the client/server
+framework of Symbian or by making use of other P.I.P.S. IPC mechanisms. However,
+making a different process for calling asynchronous APIs might pose a performance
+hit.</p>
+<p>One of the ways to solve these problems is to call the asynchronous APIs
+in a separate thread.</p>
+<p><strong>Example:</strong></p>
+<pre class="codeblock">class CActiveThread:  public CActive
+{
+public: 
+
+    enum TState
+    {
+    EInitialized = 0x0,
+    EDoFirst = 0x1,
+    EDoSecond = 0x2,
+    EDoThird = 0x4,
+    ECompleted = 0x8
+    };
+ 
+     // thread startup routine
+    static int StartMyThread(void* thisptr);
+    // leaving variant of the thread startup routine
+    static int StartMyThreadL(void* thisptr);
+    // Helper function to start the thread
+    void StartThread();    
+    // Do Function
+    void DoFunction(TState aState );      
+              
+    // CActive Functions
+    void RunL();
+    void DoCancel();
+    		
+    // Constructors and destructor      
+    static CActiveThread* NewL(); 
+    CActiveThread ();
+    void ConstructL();
+    ~ CActiveThread();      
+           
+private:    
+  
+    // Active Scheduler
+    CActiveSchedulerWait *iWait;          
+    // Command/State
+    TInt iState;        	    
+    TRequestStatus iThreadExitWait;	    
+    // my thread handle
+    RThread iActiveThread;    	    
+    sem_t iSem;
+};
+</pre>
+<p>The <code class="codeph">StartThread</code> member function of CActiveThread creates
+the thread which runs the active scheduler. <code class="codeph">StartMyThread</code> is
+the entry point function for the new thread that starts an active scheduler
+and sets up the clean up stack. To call an asynchronous function, <code class="codeph">DoFunction()</code> needs
+to be called with the corresponding state. The parent thread signals the child
+thread using the child thread’s thread request semaphore. When the thread
+request semaphore is signaled, the child thread wakes up, calls the corresponding
+asynchronous API in <code class="codeph">RunL()</code> based on the <code class="codeph">iState</code> and
+again goes back to the active scheduler wait loop.  </p>
+<p>To synchronize between the parent thread and the child thread, a semaphore
+can be used as shown in the following code snippet. </p>
+<pre class="codeblock">CActiveThread* CActiveThread::NewL()
+{
+CActiveThread* self = new (ELeave) CActiveThread();
+self-&gt;ConstructL();
+return self;
+}
+     
+CActiveThread::CActiveThread():CActive(EPriorityStandard),iState(EInitialized)
+{       
+}
+
+void CActiveThread::ConstructL()
+{  
+// semaphore for Synching
+sem_init(&amp;iSem,0,0);  
+}
+     
+void CActiveThread::StartThread()
+{       
+//Create Thread 
+TInt err = iActiveThread.Create( KThreadName(),&amp;CActiveThread::StartMyThread, KDefaultStackSize, NULL, (TAny*)this );
+iActiveThread.Logon( iThreadExitWait );
+iActiveThread.Resume();
+sem_wait(&amp;iSem );    
+}
+ 
+int CActiveThread::StartMyThread( void* ptr )
+{
+CActiveScheduler* scheduler = new (ELeave) CActiveScheduler();
+CActiveScheduler::Install(scheduler);     
+CTrapCleanup* pCleanup = CTrapCleanup::New();
+TRAPD(err, StartMyThreadL(ptr));        
+}
+ 
+int CActiveThread::StartMyThreadL( void* ptr )
+{        
+CActiveThread *thisptr = (CActiveThread*)ptr;    
+CActiveScheduler::Add(thisptr);
+thisptr-&gt;iWait = new (ELeave) CActiveSchedulerWait();	    
+thisptr-&gt;iState = EInitialized;
+thisptr-&gt;iStatus = KRequestPending;
+thisptr-&gt;SetActive();
+sem_post( &amp;(thisptr-&gt;iSem ));    
+thisptr-&gt;iWait-&gt;Start();   
+}
+
+ void CActiveThread::RunL()
+ {
+ switch ( iState )
+     {
+     case  EDoFirst:
+     // Call 1st asynchronous function
+     break;
+     
+     case EDoSecond:
+     // Call 2nd asynchronous function
+     break;
+      
+     case EDoThird:
+     // Call 3rd asynchronous function
+     break;
+     
+     case ECompleted:
+     iWait-&gt;AsyncStop();    
+     return;			
+     }
+	
+iStatus = KRequestPending;
+SetActive();
+// wake up the waiting thread
+sem_post(&amp;iSem);
+}
+
+void CActiveThread::DoCancel()
+{    
+}
+
+void CActiveThread::DoFunction(TState aState )
+{
+iState = aState;
+TRequestStatus *reqPtr = &amp;iStatus;
+iActiveThread.RequestComplete( reqPtr, KErrNone );
+sem_wait(&amp;iSem);
+}    
+ 
+CActiveThread::~CActiveThread()
+{  
+if ( iState != EInitialized )
+    {
+    iState = ECompleted;
+    TRequestStatus *reqPtr = &amp;iStatus;	
+    iActiveThread.RequestComplete( reqPtr, KErrNone ); 
+    User::WaitForRequest( iThreadExitWait);
+    }    
+sem_destroy(&amp;iSem);
+}
+</pre>
+<p><strong>Using CActiveThread:</strong></p>
+<pre class="codeblock">iMyAsyncIf = CActiveThread::NewL();   
+iMyAsyncIf-&gt;StartThread();    
+iMyAsyncIf-&gt;DoFunction(EDoFirst);
+</pre>
+<p><strong>Limitations: </strong></p>
+<p>In this approach, only the parent thread communicates with the child thread.
+There is no way for the child thread to communicate with the parent thread.
+ </p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 7th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B7B7F611-BCA0-498F-BEC1-16B276F680D5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:34 GMT -->
+</html>

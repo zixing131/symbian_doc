@@ -1,0 +1,65 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-08A6A034-5609-58B0-8EA7-943B2A937B40.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Displayable Windows" /><meta name="abstract" content="TheRWindowBase class is the abstract base class for all windows that can be displayed. These windows further subdivide into two types: windows that can be drawn to (RDrawableWindow abstract class), and blank windows (RBlankWindow class)." /><meta name="description" content="TheRWindowBase class is the abstract base class for all windows that can be displayed. These windows further subdivide into two types: windows that can be drawn to (RDrawableWindow abstract class), and blank windows (RBlankWindow class)." /><meta name="DC.Relation" scheme="URI" content="GUID-99AE1D62-571A-5A63-B472-C0FBC0861F52" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-99AE1D62-571A-5A63-B472-C0FBC0861F52" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-08A6A034-5609-58B0-8EA7-943B2A937B40" /><meta name="DC.Language" content="en" /><title>Displayable
+Windows </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-08A6A034-5609-58B0-8EA7-943B2A937B40">Displayable
+Windows</h1><div><p>The<code class="codeph">RWindowBase</code> class is the abstract
+base class for all windows that can be displayed. These windows further subdivide
+into two types: windows that can be drawn to (<code class="codeph">RDrawableWindow</code> abstract
+class), and blank windows (<code class="codeph">RBlankWindow</code> class).</p>
+<p> <strong>Variant</strong>: Both (ScreenPlay and non-ScreenPlay). <strong>Target audience</strong>:
+Application developers. </p>
+<p>Displayable windows introduce several attributes and associated functions: </p>
+<ul>
+<li id="GUID-9432F9B6-29F1-547C-A6B0-8A380C4F3E36"><a name="GUID-9432F9B6-29F1-547C-A6B0-8A380C4F3E36"><!-- --></a><p>All windows have a rectangle
+that defines the area in which they are contained. Most windows fill all of
+this area, but you can set rounded corners or specify any arbitrary region
+for the window's area. </p> </li>
+<li id="GUID-81D8BEA8-5CD8-56A5-8A9C-5B18BA0B44E4"><a name="GUID-81D8BEA8-5CD8-56A5-8A9C-5B18BA0B44E4"><!-- --></a><p>Whether the window is
+visible or not, controlled by the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1460DD8F-9AA1-3B99-8FFD-F309959CCA34.html#GUID-A028954C-B8A7-3954-B0F7-47E79ACF5DD7"><code class="apiname">RWindowBase::SetVisible()</code></a> function. </p> </li>
+<li id="GUID-840930B6-6955-5A43-9A23-8678EA7ADABC"><a name="GUID-840930B6-6955-5A43-9A23-8678EA7ADABC"><!-- --></a><p>For pointer event control,
+see <a href="GUID-CD550DE7-D013-527B-BADE-5CB122C352C8.html">Pointer Handling</a>. </p> </li>
+</ul>
+<p>The Window Server maintains the screen display taking into account the
+region, ordinal position and visibility requirements of all displayable windows. </p>
+<div id="GUID-626A91B0-451B-4034-B3F4-DE024140E76D"><h3 class="section-title">Standard windows</h3> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html"><code class="apiname">RWindow</code></a> class
+is derived from <code class="codeph">RDrawableWindow</code>. These windows require very
+little RAM and are therefore the most common type of window used by Symbian
+applications. </p> <p>Provided drawing operations to an <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html"><code class="apiname">RWindow</code></a> are
+performed as <a href="GUID-8DB1C618-597C-560C-95A2-C0AB2CEBB027.html">redraw
+drawing</a>, the Window Server stores the sequence of drawing commands
+that represent the window contents in redraw stores. Then when the Window
+Server needs to repaint the window (because, for example, a dialog box popped
+up over it and has now closed) it simply replays the sequence of stored commands,
+rather than sending a redraw request to the client. This minimises the number
+of client-server transactions and means that windows are repainted as soon
+as the Window Server detects that they are needed. </p> </div>
+<div id="GUID-1FCF8A1B-36A9-404E-8950-B5E88EC04100"><h3 class="section-title">Backed-up windows</h3> <p>This feature is deprecated in
+Symbian^3. </p> <p>A backed-up window is provided by the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-27A95595-F74D-32B2-A960-0CA290C8A3B3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-27A95595-F74D-32B2-A960-0CA290C8A3B3.html"><code class="apiname">RBackedUpWindow</code></a> class.
+The Window Server stores the window contents in a bitmap rather than as a
+sequence of draw operations in redraw stores. When the window needs to be
+redrawn, the Window Server blits the bitmap to the window. This usually consumes
+much more memory than storing the drawing operations in the redraw store.
+For example, to store the drawing operations for a simple window would typically
+require fewer than 100 bytes. Storing the bitmap for the equivalent window
+would typically require hundreds of kilobytes. </p> <p>There are two different
+approaches to working with backed-up windows: </p> <ul>
+<li id="GUID-45934BD6-928C-5780-AB79-4F53612865D7"><a name="GUID-45934BD6-928C-5780-AB79-4F53612865D7"><!-- --></a><p>The direct bitmap access
+functions allow the application to directly access the bitmap used by the
+Window Server for backing up the window. By default, areas of a backed-up
+window that are currently visible on the screen are not backed up. When a
+region of the window is covered by another window, that region's contents
+are copied to the bitmap before being covered over on the screen. </p> </li>
+<li id="GUID-CA85FC82-8009-5D33-B3B4-669ADBDD8F7F"><a name="GUID-CA85FC82-8009-5D33-B3B4-669ADBDD8F7F"><!-- --></a><p>An alternative approach
+is provided by the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-27A95595-F74D-32B2-A960-0CA290C8A3B3.html#GUID-28A5B6DD-3471-3F74-8D7B-808750018968"><code class="apiname">RBackedUpWindow::MaintainBackup()</code></a> function.
+This causes the backup bitmap to contain a copy of the entire window contents
+at all times. However, it may produce a reduction in performance, because
+the Window Server must subsequently carry out all drawing commands on both
+the screen and the bitmap. The more drawing-intensive an application, the
+more severe this degradation in performance is. </p> </li>
+</ul> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-99AE1D62-571A-5A63-B472-C0FBC0861F52.html">Window Types</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 21st, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-08A6A034-5609-58B0-8EA7-943B2A937B40.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:00 GMT -->
+</html>

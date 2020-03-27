@@ -1,0 +1,129 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-16950F22-F5DE-4D52-8414-544105BA3200.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:54:14 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Hierarchical list" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-CCE6DC36-625C-487C-9AD8-F1BF8E36080A" /><meta name="DC.Relation" scheme="URI" content="GUID-E6803961-14A0-44BD-A94E-5D8A38EA907F" /><meta name="DC.Relation" scheme="URI" content="GUID-114C52FE-C8C5-4418-9C73-CEBB228C7542" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-16950F22-F5DE-4D52-8414-544105BA3200" /><meta name="DC.Language" content="en" /><title>Hierarchical list </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-16950F22-F5DE-4D52-8414-544105BA3200">Hierarchical list</h1><div>
+<p>The hierarchical list component (a "tree list") is available for
+use in dialogs that deal with moving items to and from (or copying
+them) from one folder to another. The main use situation for the component
+is the File Manager folder and file browsing, when the actual data
+is being showed in the same view. The hierarchical list component
+allows users to browse through their folder content by having a list
+and its content available simultaneously: the user can simply expand
+a listed item (folder) to show its content.</p>
+<p>Unlike the other Symbian list types, the hierarchical list component
+is not structured on the A   D column structure. Visually, the hierarchical
+levels are connected with vertical lines (see the figure below), and
+the folders in each hierarchy level are shown before files on that
+same level. Scroll bars function as usual (vertical bar is always
+present, horizontal bar is available when necessary), and the list
+does not loop by default, although it is possible to enable looping.
+Marquee scrolling is supported, but if not used, the names of folders
+and files are truncated where necessary. The height and the vertical
+distribution of the folder/file texts on the list is the same as in
+normal lists. Hierarchical lists can be used both in the main pane
+and as pop-ups.</p>
+<div class="figure" id="GUID-5CC170B7-72AA-422E-8C44-AFB135C596D6"><img src="GUID-9955D228-75CE-45B3-9714-AF635D04E553_d0e79005_href.png" /><p class="figure-title"><strong>Figure: </strong>Hierarchical list component</p></div>
+<p>Owing to the need for horizontal scrolling, it is not possible
+to use tabs in the Navi pane. Typically the hierarchical list component
+is capable of showing three hierarchy levels in portrait orientation,
+but this may vary according to the display sizes and resolutions as
+well as the display orientation. The order of folders (sorting order)
+on each level is defined by the application.</p>
+<p><strong>General navigation:</strong></p>
+<ul>
+<li><p>Arrow keys either expand collapsed folders (Arrow right, the
+focus does not move yet), collapse expanded folders (Arrow left: one
+press to move the focus onto the parent folder when there is one,
+second press to collapse the contents), or move the focus into the
+direction of scrolling. </p></li>
+<li><p>The Selection key expands collapsed (or vice versa) folders
+or opens files under focus. </p></li>
+<li><p>Commands for expanding, collapsing and opening folders or files
+are also available in the <strong>Options</strong> menu.</p></li>
+</ul>
+<div class="tablenoborder"><a name="GUID-7E9F23CF-F8F3-4E51-98DF-5789C447F08F"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-7E9F23CF-F8F3-4E51-98DF-5789C447F08F" frame="border" border="1" rules="all"><caption><strong>Table: </strong>Default
+touch events for hierarchical list items</caption>
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="26.666666666666668%" id="d0e79046"><p>User action</p></th>
+<th class="cellrowborder" valign="top" width="33.666666666666664%" id="d0e79050"><p>State change</p></th>
+<th class="cellrowborder" valign="top" width="39.666666666666664%" id="d0e79054"><p>Feedback</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e79046 "><p>Touch down on collapsed folder</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e79050 "><p>No change</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e79054 "><p>Highlight is shown.</p><p>Tactile: Basic list effect and
+audio feedback is provided with touch down event.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e79046 "><p>Touch release on collapsed folder</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e79050 "><p>Item is expanded. If the folder is empty, the only action
+performed is that the icon is changed to expanded folder indication.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e79054 "><p>Highlight disappears. </p><p>Tactile: Basic list effect
+is provided with touch release event.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e79046 "><p>Touch down on expanded folder</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e79050 "><p>No change</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e79054 "><p>Highlight is shown. </p><p>Tactile: Basic list effect and
+audio feedback is provided with touch release event.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e79046 "><p>Touch release on expanded folder</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e79050 "><p>Item is collapsed. </p><p>If the folder is empty, only action
+is that the icon is changed to collapsed folder indication.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e79054 "><p>Highlight disappears. </p><p>Tactile: Basic list effect
+is provided with touch release event.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e79046 "><p>Touch down and hold on folder</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e79050 "><p>Stylus pop-up menu opens.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e79054 "><p>Highlight is shown. Animation is shown to indicate the opening
+pop-up. </p><p>Tactile: If activates a long touch, then increasing
+long touch effect given with hold event and pop-up effect is provided
+when the pop-up is opened.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e79046 "><p>Touch down on file</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e79050 "><p>No change</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e79054 "><p>Highlight is shown. </p><p>Tactile: Sensitive list effect
+and audio feedback is provided with touch down event.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e79046 "><p>Touch release on file</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e79050 "><p>Item is activated.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e79054 "><p>Highlight disappears. </p><p>Tactile: Sensitive list effect
+is provided with touch down and release event.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e79046 "><p>Touch down and hold on file</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e79050 "><p>Stylus pop-up menu is opened.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e79054 "><p>Highlight is shown. Animation is shown to indicate the opening
+pop-up. </p><p>Tactile: If activates a long touch, then increasing
+long touch effect given with hold event and pop-up effect given when
+the pop-up is opened.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e79046 "><p>Touch down on item and move</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e79050 "><p>Refer to <a href="GUID-28A0E021-C702-4AAF-9C64-B60B09B40176.html">Dragging and flicking</a> events</p><p>Expand and
+collapse functions are not done while dragging.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e79054 "><p>Tactile: Refer to <a href="GUID-28A0E021-C702-4AAF-9C64-B60B09B40176.html">Dragging and flicking</a> events.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e79046 "><p>Touch down on item and move horizontally</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e79050 "><p>Inactive</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e79054 "><p>Tactile: No effect</p></td>
+</tr>
+</tbody>
+</table></div>
+<div id="GUID-E507585F-2B77-49BC-B982-76E143E7BF2A"><h3 class="section-title">Using hierarchical lists
+in applications</h3><p>The API to use for hierarchical lists is
+the <a href="specs/guides/Hierarchical_Lists_API_Specification/Hierarchical_Lists_API_Specification.html#specs/guides/Hierarchical_Lists_API_Specification/Hierarchical_Lists_API_Specification.html">Hierarchical lists API</a>. For implementation information,
+see <a href="specs/guides/Hierarchical_Lists_API_Specification/Hierarchical_Lists_API_Specification.html#Hierarchical_Lists_API_Specification.topic3">Using the Hierarchical lists API</a>.</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 28th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-16950F22-F5DE-4D52-8414-544105BA3200.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:54:15 GMT -->
+</html>

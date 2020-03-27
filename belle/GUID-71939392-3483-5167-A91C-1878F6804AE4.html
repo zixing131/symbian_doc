@@ -1,0 +1,229 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-71939392-3483-5167-A91C-1878F6804AE4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:04:51 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="SpeedView Guide" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DE5CDAD-8D71-5384-9E98-5665D5A4C792" /><meta name="DC.Relation" scheme="URI" content="GUID-3E341F9F-2635-589B-A59A-B999FE7DF9BE" /><meta name="DC.Relation" scheme="URI" content="GUID-7DB86BF1-0485-5CBA-9554-4C474B0EC1FB" /><meta name="DC.Relation" scheme="URI" content="GUID-042868E6-88BF-5797-BB53-8E34283DCF16" /><meta name="DC.Relation" scheme="URI" content="GUID-AD6CF225-CFF9-5F76-AA00-3535EA7D6FF1" /><meta name="DC.Relation" scheme="URI" content="GUID-03866ADB-5916-5B31-BCF0-44F94E12B740" /><meta name="DC.Relation" scheme="URI" content="GUID-9221864E-0CDC-5D75-8306-EDF994EC7E56" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-71939392-3483-5167-A91C-1878F6804AE4" /><meta name="DC.Language" content="en" /><title>SpeedView Guide </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-71939392-3483-5167-A91C-1878F6804AE4">SpeedView Guide</h1><div>
+<p>This document introduces you to SpeedView. </p>
+<div id="GUID-4AEEC702-60CA-4F22-B19B-FD0640045860"><h3 class="section-title">Purpose</h3> <p>SpeedView is a Scalado proprietary
+concept to view images faster on a mobile device. It is only available
+when using Image Processor Plugin with CAPS adaptation. </p> </div>
+<div id="GUID-85EEB8D7-8232-4DEA-86C3-6114419C4425"><h3 class="section-title">Introduction</h3> <p>The SpeedView technology is
+used mainly in a photo album or image gallery application. </p> <p>Mega pixel resolution is standard in high-end mobile camera phones,
+and the development continues towards more pixels. At the same time,
+the screen resolution is also increasing and many phones now have
+a QVGA (Quarter Video Graphics Array) display. </p> <p>The aim of
+SpeedView is to view mega pixel images faster. The decoding process
+of a mega pixel image is a time consuming operation on a mobile phone.
+The JPEG thumbnail, in the EXIF metadata, solves this time consuming
+problem, but the thumbnail is too small to produce a sharp picture
+in full screen mode. So, you either suffer from delays or bad image
+quality. </p> <p>The idea behind SpeedView is to associate a small
+data object with an image to enable very fast access. </p> <p>SpeedView
+is compatible with the basic Image Processor library and switching
+between the data object and source image is done automatically. </p> <p> <strong>Note:</strong> SpeedView is applicable only to JPEG images. </p> </div>
+<div id="GUID-45CAE959-88D5-4503-8352-588C7C6BE105"><h3 class="section-title">Spmo (SpeedView meta object)</h3> <p>The Spmo format
+is the object enabler of SpeedView. The Spmo format has the following
+features: </p> <ul>
+<li id="GUID-6702261E-401D-5EB2-B742-480115C6DE90"><a name="GUID-6702261E-401D-5EB2-B742-480115C6DE90"><!-- --></a><p>It contains
+data for rapid decoding of the JPEG images </p> </li>
+<li id="GUID-DA02F46D-F1DA-5FCD-9FF5-1E3DF9D46305"><a name="GUID-DA02F46D-F1DA-5FCD-9FF5-1E3DF9D46305"><!-- --></a><p>It resides inside
+the JPEG image or is associated with a specific JPEG file in a separate
+database. For a JPEG image, the Spmo object is stored at APP4. (Application
+marker segment). For more information see <a href="http://www.exif.org/" target="_blank">APP4</a>. </p> </li>
+</ul> <p> <strong>Note:</strong> If the images are transferred to another viewing
+device that does not have SpeedView capabilities, Spmo is ignored.
+The output is the image is decoded and treated as any ordinary JPEG
+image. </p> </div>
+<div id="GUID-D3E40493-1079-4E0C-97CF-F07581D82E4D"><h3 class="section-title">Creating Spmo </h3> <p>Spmo is created directly
+in the camera application, but can also be created when transferring
+images to an photo album application or after modifying an image in
+a photo editor. </p> <p>There are two ways to capture images: </p> <ul>
+<li id="GUID-9C99FBB1-2BBA-52B4-989F-AEFA41AFC09F"><a name="GUID-9C99FBB1-2BBA-52B4-989F-AEFA41AFC09F"><!-- --></a><p>From the camera
+chip, which produces a raw image data buffer or a JPEG image. </p> </li>
+<li id="GUID-2FF0F465-01CC-5D88-B4B2-F14B92B87A99"><a name="GUID-2FF0F465-01CC-5D88-B4B2-F14B92B87A99"><!-- --></a><p>From the mega
+pixel resolution camera. </p> </li>
+</ul> <p>The best way to create and insert an Spmo object into a JPEG
+file is using the camera application. </p> <p> <strong> Note:</strong> If it
+is not possible or desirable to store Spmo in the JPEG files directly,
+you have the option to store them in a separate database. </p> <p>The file size of Spmo is dependant on the screen size, it is optimized
+for : the expected file size for a 320 x 240 screen resolution is
+generally in the range of 20-25 kB. In some rare cases, the Spmo file
+size is as large as 60 kB. </p> <p>The high-level steps to create
+an Spmo object are shown below: </p> <ul>
+<li id="GUID-791A22BE-1646-59A0-B628-620B34F8E3DB"><a name="GUID-791A22BE-1646-59A0-B628-620B34F8E3DB"><!-- --></a><p>Create an Spmo
+object by calling CCapsSpmoUtility::NewSpmoL(const TSize&amp;) </p> <p>The size parameter should reflect the most probable viewing
+mode. This is often the size of the screen on the device. </p> </li>
+<li id="GUID-2CC01D6A-E788-526E-8DA6-04D08C59CCC1"><a name="GUID-2CC01D6A-E788-526E-8DA6-04D08C59CCC1"><!-- --></a><p>Set the image
+as input in a buffer, file or as a file handle using the below function: </p> <ul>
+<li id="GUID-32953F1A-D0F8-5B12-A69D-9B0FDA876614"><a name="GUID-32953F1A-D0F8-5B12-A69D-9B0FDA876614"><!-- --></a><p>  
+                    CapsSpmoUtility::CCapsSpmo::SetInputL(TDesC8&amp;) </p> </li>
+<li id="GUID-29F1DF30-AA3A-58CF-B81F-989CD32BDF5D"><a name="GUID-29F1DF30-AA3A-58CF-B81F-989CD32BDF5D"><!-- --></a><p>  CapsSpmoUtility::CCapsSpmo::SetInputL(const
+                     TDesC&amp;) </p> </li>
+<li id="GUID-54B15B98-35DF-56EB-B388-28EB889CA447"><a name="GUID-54B15B98-35DF-56EB-B388-28EB889CA447"><!-- --></a><p> CapsSpmoUtility::CCapsSpmo::SetInputL(RFile&amp;) </p> </li>
+</ul> </li>
+<li id="GUID-AA9FF1AD-25FE-5AAA-B56C-B97694E5BBB1"><a name="GUID-AA9FF1AD-25FE-5AAA-B56C-B97694E5BBB1"><!-- --></a><p>Ignore if client
+reads existing Spmo. </p> </li>
+<li id="GUID-42CF77EB-4BFB-52E5-827F-73BF9768D7EB"><a name="GUID-42CF77EB-4BFB-52E5-827F-73BF9768D7EB"><!-- --></a><p>Either read
+an existing Spmo embedded in the image using CapsSpmoUtility::CCapsSpmo::ReadFromInput(). </p> </li>
+<li id="GUID-50FF7D34-0ED9-5072-81F7-5481AA573513"><a name="GUID-50FF7D34-0ED9-5072-81F7-5481AA573513"><!-- --></a><p>Or generate
+an Spmo from the image using CapsSpmoUtility::CCapsSpmo::GenerateFromInput(). </p> </li>
+<li id="GUID-60C70B90-89BD-551F-96C0-82B3FBAE61B0"><a name="GUID-60C70B90-89BD-551F-96C0-82B3FBAE61B0"><!-- --></a><p>The Spmo object
+can then be add to an image in a buffer or on disk using CapsSpmoUtility::CCapsSpmo::AddToBuffer() or CapsSpmoUtility::CCapsSpmo::AddToFile() or can be inserted into the input image by calling CapsSpmoUtility::CCapsSpmo::InsertIntoInputL(). </p> </li>
+</ul> <p> <strong>Note:</strong> Asynchronous versions of the above steps also
+exist. </p> <p>The example below shows how to take an existing JPEG,
+generate an Spmo based on that file and create a new file which is
+the original image with the embedded Spmo object </p> <pre class="codeblock">
+
+// Start new spmo optimized for QVGA screen size.
+   CCapsSpmo* spmo = CapsSpmoUtility::CCapsSpmoUtility::NewSpmoL(TSize(320, 240));
+   CleanupStack::PushL(spmo);
+
+// Generate spmo data from the input file
+   spmo-&gt;SetInputL(KInputFileName);
+   spmo-&gt;GenerateFromInputL();
+
+// Add the generated Spmo data to the output file.
+   spmo-&gt;AddToFileL(KInputWithSpmoFileName);
+   CleanupStack::PopAndDestroy(spmo);
+
+</pre> </div>
+<div id="GUID-08CBAD4D-E5B1-4FDE-A400-89EFF5F97905"><h3 class="section-title"> Use of Spmo in external file or database</h3> <p>If you do not have permission to modify the original images by embedding
+an SPMO it is possible to store the SPMO separately and supply it
+when processing an image. </p> </div>
+<div id="GUID-1A4A5A38-489A-4886-ADD6-0162591A9300"><h3 class="section-title">Generating iterative Spmo</h3> <p>CAPS Spmo Utility
+can be used to generation an Spmo object from an input asynchronously
+or iteratively. </p> <p> <strong>Note: </strong> Other tasks can be performed
+in-between the iterations and sometimes the whole JPEG image is not
+available at once, but is delivered in chunks as it is encoded to
+the user. </p> <p>The high level steps for iterative Spmo generation
+are shown below: </p> <ul>
+<li id="GUID-326E46DE-7D8A-5A35-88D7-430E6C7B1D15"><a name="GUID-326E46DE-7D8A-5A35-88D7-430E6C7B1D15"><!-- --></a><p>Signal the start
+of the iterative process by calling CCapsSpmo:: BeginInputStreamL(). </p> </li>
+<li id="GUID-D5AA4D1E-5634-5733-8662-899413C4D384"><a name="GUID-D5AA4D1E-5634-5733-8662-899413C4D384"><!-- --></a><p>Add chunk data
+sequentially from a buffer by calling CCapsSpmo::ContinueInputStreamL(TDesC8&amp;). </p> </li>
+<li id="GUID-28EE5FDF-FD74-577C-B92E-4E98217757E6"><a name="GUID-28EE5FDF-FD74-577C-B92E-4E98217757E6"><!-- --></a><p>Finish the operation
+by calling CCapsSpmo::EndInputStreamL(). </p> </li>
+<li id="GUID-5B405371-9435-5502-A69C-75C0327E168A"><a name="GUID-5B405371-9435-5502-A69C-75C0327E168A"><!-- --></a><p>The Spmo object
+can now be embedded in an image or save externally. </p> </li>
+</ul> <p>The code snippets below illustrate the process of creating
+an Spmo iteratively from a camera that delivers JPEGs in chunks of
+8 kB. </p> <pre class="codeblock">
+
+    // Start new spmo optimized for QVGA screen size.
+    CCapsSpmo* spmo = CapsSpmoUtility::CCapsSpmoUtility::NewSpmoL(TSize(320, 240));
+    CleanupStack::PushL(spmo);
+
+    RFile file;
+    TInt fileSize = 0;
+
+    // Open the file for reading.
+    User::LeaveIfError(file.Open(iFs, KInputFileName, EFileRead));
+    CleanupClosePushL(file);
+
+    User::LeaveIfError(file.Size(fileSize));
+
+    // Prepare memory buffer for 8K chunk
+    HBufC8* chunk = HBufC8::NewMaxL(CHUNK_SIZE);
+    TPtr8 chunkPtr = chunk-&gt;Des();
+
+    // We must reorder the cleanupstack.
+    CleanupStack::Pop(); // file
+    CleanupStack::PushL(chunk);
+    CleanupClosePushL(file);
+
+    if (file.SubSessionHandle())
+        {
+        // Begin spmo streaming
+        spmo-&gt;BeginInputStreamL();
+
+        TInt leftToRead = fileSize;
+        while (leftToRead &gt;= CHUNK_SIZE)
+            {
+            leftToRead -= CHUNK_SIZE;
+            User::LeaveIfError(file.Read(chunkPtr, CHUNK_SIZE)); 
+            spmo-&gt;ContinueInputStreamL(chunkPtr);            
+            }    
+
+        if (leftToRead != 0) 
+            {
+            User::LeaveIfError(file.Read(chunkPtr, leftToRead)); 
+            spmo-&gt;ContinueInputStreamL(chunkPtr);
+            }
+
+        spmo-&gt;EndInputStreamL();
+        }
+
+    // Generate spmo data from the processed input stream.
+    spmo-&gt;GenerateFromInputL();
+    
+    CleanupStack::PopAndDestroy(2); // file chunk
+
+    // Get just generated spmo data and save it to a binary file.
+    TPtr8 spmoData = spmo-&gt;BufferL();
+
+    // Open the file for writing.
+    User::LeaveIfError(file.Replace(iFs, KSpmoFileName, EFileWrite));
+    CleanupClosePushL(file);
+
+    User::LeaveIfError(file.Write(spmoData)); 
+    
+    CleanupStack::PopAndDestroy(2,spmo); // file spmo
+
+</pre> </div>
+<div id="GUID-0FA855F5-74F0-4F1A-B79C-85374FBA1590"><h3 class="section-title">SpeedView in Image Processor Plug-in</h3> <p>When
+you specify an input to Image Processor as a JPEG file or a JPEG buffer,
+ImageProcessor will check if an Spmo object exists in the image and
+use it for rendering the preview in order to increase the speed of
+the rendering. </p> <p> <strong>Note:</strong> The SpeedView functionality is
+supported by the Caps Image Processor plug-in and its extensions. </p> <div class="figure" id="GUID-8EC8910A-D8E9-5016-B9DB-7F47E83CFD52"><img src="GUID-8F537310-82E6-549B-95B5-E62ABDDF1F32_d0e396897_href.jpg" /></div> <p>The figure above shows the two ways how the Caps Image Procesor
+plug-in deals with Spmo: either Spmo comes from a JPEG image, or Spmo
+is stored in a database. It is important that you associate an Spmo
+correctly with the image. </p> <p>The Image Processor must get the
+Spmo from the JPEG file or from a separate buffer. If Spmo is located
+in a separate buffer, you must call TCapsImageProcessorExtension::SetSpmoL(TDesC8&amp;,TCapsImageProcessorExtension::TSpmoVerificationMode) from the Caps Image Processor plug-in extension. </p> <p> TCapsImageProcessorExtension::TSpmoVerificationMode checks
+whether Spmo is coherent with the image. If the TCapsImageProcessorExtension::ESpmoVerificationModeDisabled passed, the client must make sure that the Spmo belongs to the JPEG
+image. </p> <p>You can decide to include or remove the regenerated
+Spmo object by calling the TCapsImageProcessorExtension::AddSpmoToOutputL(TBool,
+          const TSize&amp;) function. </p> <p>You get the
+Spmo buffer from the Image Processor input by calling the TCapsImageProcessorExtension::SpmoL(const TSize&amp;) function. </p> <p>The code snippets below illustrate the scenario that adds the
+QVGA size Spmo to the output: </p> <pre class="codeblock">
+
+ ImageProcessor::CImgProcessor* imageProcessor = ImageProcessor::CImgProcessor::NewL(iFs, observer);
+    CleanupStack::PushL(imageProcessor);
+    
+ // Initialize the Image Processor instance. By default the initialization is asynchronous.
+ // (It might take some time to load Image Processor plugin and initialize it).
+       imageProcessor-&gt;InitializeL();
+
+    // Wait for asynchronous callback
+       CActiveScheduler::Start();
+
+    // Set input image. This one does not have Spmo, but it could have.
+       imageProcessor-&gt;SetInputL(KInputFileName, KImageTypeJPGUid);
+       imageProcessor-&gt;SetOutputL(KOutputWithSpmoFileName, KImageTypeJPGUid);
+
+    // transfer exif from the input (this is not mandatory)
+       imageProcessor-&gt;SetOptionsL(ImageProcessor::CImgProcessor::EOptionExifMetadataProcessing);
+
+    // To access Spmo functionality it is necessary to get Caps image processor extension interface @publishedpartner.
+       TCapsImageProcessorExtension* extension = static_cast&lt;TCapsImageProcessorExtension*&gt;(imageProcessor-&gt;Extension(KCapsImageProcessorExtensionUid));
+
+    // Set add Spmo to the output. The Spmo will be optimized for preview at QVGA screen size.
+    // The code below will be commented in when DTW-MM00213 is fixed
+    extension-&gt;SetAddSpmoToOutputL(ETrue, TSize(320, 240));
+
+    // it is not possible to apply effects AND set Speedview object to the output
+    
+    // Process the input image to the output image. 
+       imageProcessor-&gt;ProcessL();
+
+    // Wait for asynchronous callback
+       CActiveScheduler::Start();
+
+ CleanupStack::PopAndDestroy(imageProcessor);     
+
+</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 12th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-71939392-3483-5167-A91C-1878F6804AE4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:04:52 GMT -->
+</html>

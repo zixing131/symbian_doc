@@ -1,0 +1,90 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-8ABE1162-35C2-4AA4-9E6C-0618BA534ADA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Case study" /><meta name="abstract" content="This section provides the implementation details of the telephony example to show certain use cases of telephony." /><meta name="description" content="This section provides the implementation details of the telephony example to show certain use cases of telephony." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-D1F69FDA-6ED7-4E29-BCD4-250DF3C4841B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-8ABE1162-35C2-4AA4-9E6C-0618BA534ADA" /><meta name="DC.Language" content="en" /><title>Case study </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-8ABE1162-35C2-4AA4-9E6C-0618BA534ADA">Case study</h1><div><p>This section provides the implementation details of the
+telephony example to show certain use cases of telephony. </p>
+<div id="GUID-1A7992EB-918D-44F9-92F9-C00A7A8F57A4"><h3 class="section-title">Understanding
+the code</h3><p>This explanation assumes you have a working knowledge
+of Qt and QML.</p><p>The application code structure was created by
+the Qt Creator Qt Quick application wizard.</p><p>The application
+contains three QML files and one JavaScript file:</p><ul>
+<li><p><code>main.qml</code> contains the UI layout and <code class="codeph">state</code> sections to define portrait and landscape layouts
+for different device orientations and states called “idle”, “dialling”
+and “connecting” to change the colour and text of the <strong class="uicontrol">Call</strong> button.</p></li>
+<li><p><code>Button.qml</code> contains the definition of
+a keypad button, which can react to touch screen tap events.</p></li>
+<li><p><code>Display.qml</code> contains the definition of
+the display that shows the telephone number at the top of the screen.</p></li>
+<li><p><code>telephony.js</code> contains the user interface
+logic to add digits to the display and to call a Qt object to begin
+and end a phone call:</p> <pre class="codeblock">// Part of telephony.js
+
+...
+
+// Call the telephony object to start a phone call and change the call button
+else if (op == "Call") {
+   telephony.startCall(display.text);
+}
+// End the phone call
+else if (op == "End Call") {
+   telephony.endCall();
+}
+
+...
+</pre><p>The functions <code class="codeph">startCall()</code> and <code class="codeph">endCall()</code> are slots on a Qt Telephony interface
+object defined in <code>telephony.h</code>. This is a Qt interface
+wrapper class that uses an implementation defined in <code>telephony_symbian.h</code> to call the native Symbian C++ Telephony API to manage a phone call.</p></li>
+</ul><p>The <code class="codeph">main.cpp</code> file is simple:</p><pre class="codeblock">#include &lt;QtGui/QApplication&gt;
+#include &lt;QtDeclarative/QDeclarativeContext&gt;
+#include "qmlapplicationviewer.h"
+#include "telephony.h"
+
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+
+    QmlApplicationViewer viewer;
+    viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
+    viewer.setMainQmlFile(QLatin1String("qml/Dialpad/main.qml"));
+
+    // Create a Telephony object and add it to the root context
+    // This allows QML elements to use the telephony object's signals and slots
+    viewer.rootContext()-&gt;setContextProperty("telephony", new Telephony);
+    viewer.showExpanded();
+
+    return app.exec();
+}</pre><p><code class="codeph">QmlApplicationViewer</code> is the class
+that shows a QML file on the mobile device display.</p><p>The <code class="codeph">setContextProperty()</code> call creates a Qt Telephony interface
+object and adds it to the context so it can be used from within the
+QML and JavaScript UI elements. The <code class="codeph">Connections</code> QML
+in main.qml connects signals from the telephony object to UI state
+change events.</p><pre class="codeblock">    // Receive signals from the telephony object in the page context
+    // and change the UI state
+    Connections {
+        target: telephony
+        onCallDialling: main.state = "dialling"
+        onCallConnected: main.state = "connected"
+        onCallDisconnected: main.state = "idle"
+        onError: main.state = "idle"
+    }
+</pre><p>Note that there is no Symbian C++ code in the UI layer.
+All access to the native Symbian Telephony API is hidden behind the
+Qt Telephony interface object.</p><p>For more information about how
+to design and implement code to use the native Symbian APIs in your
+applications read the documents in the section <a href="GUID-D1F69FDA-6ED7-4E29-BCD4-250DF3C4841B.html">Creating an application
+using both Qt and Symbian C++</a>. </p><p>Further information about
+the design and implementation of the Dialpad example can be found
+in the section documents <a href="GUID-123ED0A9-2F1C-4DDD-9D90-E8DDADF673DB.html">Mixing Qt and Symbian
+C++ in your application</a> and <a href="GUID-1D726592-A754-4212-B77D-54A1168403A8.html">Converting Active
+Objects to Signals and Slots</a>.</p></div>
+<div id="GUID-950CCF95-2D37-4F2B-85DB-0B3642E637B2"><h3 class="section-title">Where to next?</h3><p>Read <a href="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18.html">Introduction to Symbian
+C++ development</a> if you are new to Symbian C++ and need to learn
+the essentials before you can use it in your applications.</p><p>Read
+the material in <a href="GUID-D1F69FDA-6ED7-4E29-BCD4-250DF3C4841B.html">Creating an application using both Qt and Symbian C++</a> if you
+already know some Symbian C++ and want guidance on how to use Qt and
+Symbian C++ together.</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 25th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-8ABE1162-35C2-4AA4-9E6C-0618BA534ADA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:00 GMT -->
+</html>

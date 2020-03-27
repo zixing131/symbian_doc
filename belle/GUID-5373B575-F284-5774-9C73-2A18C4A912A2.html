@@ -1,0 +1,44 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5373B575-F284-5774-9C73-2A18C4A912A2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using Standard Names and MIB enums (SNM)" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DCA2F4D-ABE6-52A0-AC4E-5AAC1AB5909D" /><meta name="DC.Relation" scheme="URI" content="GUID-F3406651-0B57-50FD-81CA-A3D4000D5625" /><meta name="DC.Relation" scheme="URI" content="GUID-E64C06D7-B138-5BCC-A814-3F9E2C517404" /><meta name="DC.Relation" scheme="URI" content="GUID-5BE31242-78A2-584B-BF00-B7805C219E40" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5373B575-F284-5774-9C73-2A18C4A912A2" /><meta name="DC.Language" content="en" /><title>Using Standard Names and MIB enums (SNM)  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5373B575-F284-5774-9C73-2A18C4A912A2">Using Standard Names and MIB enums (SNM) </h1><div><p>Internet names, standard names and MIB enums (SNM) are widely used for character sets. This section describes how to use these names and values during character conversion. </p> <div id="GUID-E3BEB74D-79C7-59A9-9366-CCD8B52DB7F8"><h3 class="section-title"><!--no section title--></h3><p>Before you start, you must understand: </p> <ul><li id="GUID-6834352F-169B-55B6-9A25-7E2D2EFB62E4"><a name="GUID-6834352F-169B-55B6-9A25-7E2D2EFB62E4"><!-- --></a><p> <a href="http://www.iana.org/assignments/character-sets" target="_blank">Standard names and MIB enums </a> (SNM) </p> </li> <li id="GUID-44A0D093-E7DE-5A99-9035-E17FCC0B35EB"><a name="GUID-44A0D093-E7DE-5A99-9035-E17FCC0B35EB"><!-- --></a><p><a href="GUID-325D8E31-584B-5B10-902C-F004641A614D.html">Charconv framework conversion APIs</a>. </p> </li> </ul> </div> <div><h3 class="section-title">Introduction</h3> <p>To convert text between a foreign encoding and Unicode you must know the UID of the character converter. </p> <p>Device creators can create files which map SNM information of character sets to the UIDs of their character converters. Application developers can then use the MIB enum value or an alias of a character set without knowing its UID. </p> </div> <div><h3 class="section-title">Procedure</h3> <p> <strong>Creating an SNM source file</strong> </p> <p>Device creators can create an SNM mapping file in the ROM as follows: </p> <ol id="GUID-B3316083-E593-5160-919F-98CED9E8AFDD"><li id="GUID-01555850-9692-5FAD-97CF-F4A2E944C6DA"><a name="GUID-01555850-9692-5FAD-97CF-F4A2E944C6DA"><!-- --></a><p>Create an SNM source file using a text editor on a PC and save it. For example d:\charconvfiles\basicsnm.txt. </p> <p>This file must define the mapping between Symbian-specific character set UIDs and one or more standard names and MIB enums. Refer to <a href="GUID-CD3B2B7D-BAE5-5F99-A5F5-74AFC678D986.html">SNM Source File Reference</a> for the file syntax. For information about Symbian UIDs, refer to the <code>charconv.h</code> header file. </p> <pre class="codeblock">
+...
+CharacterSet 0x10004cc6
+    StandardName    "US-ASCII"
+    StandardName    "ASCII"
+    StandardName    "ANSI_X3.4-1968"
+    StandardName    "iso-ir-6"
+    StandardName    "ANSI_X3.4-1986"
+    StandardName    "ISO_646.irv:1991"
+    StandardName    "ISO646-US"
+    StandardName    "us"
+    StandardName    "IBM367"
+    StandardName    "cp367"
+    StandardName    "csASCII"
+    MibEnum            3
+
+CharacterSet 0x10003b10
+    StandardName    "ISO-8859-1"
+    StandardName    "ISO_8859-1"
+    StandardName    "latin1"
+    StandardName    "iso-ir-100"
+    StandardName    "l1"
+    StandardName    "IBM819"
+    StandardName    "CP819"
+    StandardName    "csISOLatin1"
+    MibEnum            4
+...
+</pre> </li> <li id="GUID-65593A6B-21F3-5416-AE81-7D81AB771C95"><a name="GUID-65593A6B-21F3-5416-AE81-7D81AB771C95"><!-- --></a><p>Use the <code class="codeph">snmtool</code> to generate an SNM file from the source SNM file. </p> <p>From a command line, run the following commands to go to the Symbian tools directory and execute <code class="codeph">snmtool</code>: </p> <p><kbd class="userinput">cd d:\Symbian\epoc32\tools</kbd> </p> <p><kbd class="userinput">snmtool.bat d:\charconvfiles\basicsnm.txt d:\charconvfiles\basic.snm</kbd> </p> </li> <li id="GUID-29001446-1A91-5694-886C-EA57AFEE51EC"><a name="GUID-29001446-1A91-5694-886C-EA57AFEE51EC"><!-- --></a><p>Copy the SNM file to the <code>\system\charconv\</code> directory. </p> </li> </ol> <p> <strong>Retrieving a Character Converter UID using an SNM standard name or MIB enum</strong> </p> <ol id="GUID-7A861BDF-B0E8-53F8-B14F-5E69477F79E3"><li id="GUID-0A625B0A-6D8A-5D20-9DB6-E88B7CA83B86"><a name="GUID-0A625B0A-6D8A-5D20-9DB6-E88B7CA83B86"><!-- --></a><p>Use an SNM standard name or MIB enum value to retrieve the UID of the character converter. </p> <pre class="codeblock">RFs fileServerSession;
+CCnvCharacterSetConverter* characterSetConverter = CCnvCharacterSetConverter::NewLC();
+
+TUint characterSetUid = 
+    characterSetConverter-&gt;ConvertStandardNameOfCharacterSetToIdentifierL(_L8("ASCII"), fileServerSession);
+
+    // use the UID to load the converter.
+CCnvCharacterSetConverter::TAvailability available = 
+    characterSetConverter-&gt;PrepareToConvertToOrFromL(characterSetUid, fileServerSession);
+...</pre> </li> </ol> <p>There are two functions for getting a UID: </p> <ul><li id="GUID-B5DC4C12-C0F6-5A66-B4EA-68A154F777FA"><a name="GUID-B5DC4C12-C0F6-5A66-B4EA-68A154F777FA"><!-- --></a><p> <code class="codeph">CCnvCharacterSetConverter::ConvertStandardNameOfCharacterSetToIdentifierL()</code> takes a standard name as a parameter. </p> </li> <li id="GUID-E0F345C4-22D9-5090-B4C2-97071EBBB49A"><a name="GUID-E0F345C4-22D9-5090-B4C2-97071EBBB49A"><!-- --></a><p> <code class="codeph">CCnvCharacterSetConverter::ConvertMibEnumOfCharacterSetToIdentifierL()</code> takes a MIB enum value as a parameter. </p> </li> </ul> <p>These functions read the SNM file to get the UID. The UID can then be passed to <code class="codeph">PrepareToConvertToOrFromL()</code> to load the right converter. </p> <p> <strong>Note</strong>: If there are multiple SNM files, the contents are combined. </p> </div> </div></div></div><div class="footer"><p class="metadata">Last updated October 9th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-5373B575-F284-5774-9C73-2A18C4A912A2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:09 GMT -->
+</html>

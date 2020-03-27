@@ -1,0 +1,42 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FB185094-9868-5CBB-9CDE-51D7AB029450.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:43 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Creating Email Messages in Plain Text Format" /><meta name="abstract" content="This tutorial explain the steps to create email messages in plain text format." /><meta name="description" content="This tutorial explain the steps to create email messages in plain text format." /><meta name="DC.Relation" scheme="URI" content="GUID-2C8653F9-8873-59E8-9FD2-4215F6877ABC" /><meta name="DC.Relation" scheme="URI" content="GUID-D73AD200-BE4D-50BF-BCF9-14627DE530B7" /><meta name="DC.Relation" scheme="URI" content="GUID-BB35DBCC-FE56-547F-BADA-9EF854691ADC" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-DD27A452-8B0F-5C6D-A2E6-FC21145468B6" /><meta name="DC.Relation" scheme="URI" content="GUID-179099DA-1CD9-5912-B41B-363C132C7A86" /><meta name="DC.Relation" scheme="URI" content="GUID-9A3E0279-4F87-594D-A987-66DC77F408A0" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FB185094-9868-5CBB-9CDE-51D7AB029450" /><meta name="DC.Language" content="en" /><title>Creating
+Email Messages in Plain Text Format  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FB185094-9868-5CBB-9CDE-51D7AB029450">Creating
+Email Messages in Plain Text Format </h1><div><p>This tutorial explain the steps to create email messages in plain
+text format.</p>
+<div><h3 class="section-title">Procedure</h3> <ol id="GUID-0FD28B0A-8F8F-5CFC-862D-A152F8608F80">
+<li id="GUID-0762A353-D7CB-5657-881B-6729883117C3"><a name="GUID-0762A353-D7CB-5657-881B-6729883117C3"><!-- --></a><p>Create an email entry
+in the message store using the CImEmailOperation::CreateNewL() function,
+which takes all the following nine parameters: </p> <div class="p"><pre class="codeblock">static IMPORT_C CImEmailOperation *CreateNewL(TRequestStatus &amp;aObserverRequestStatus,
+CMsvSession &amp;aMsvSession, TMsvId aDestination, TMsvId aSmtpServiceId,
+TMsvPartList aPartList, const TMsvEmailTypeList &amp;aMsvEmailTypeList,
+TUid aMsgType, TInt aPriority, TBool aUsePlainTextStorage);</pre> </div> </li>
+<li id="GUID-76F4DD60-16AB-52A4-9B62-C4B9EC8163EB"><a name="GUID-76F4DD60-16AB-52A4-9B62-C4B9EC8163EB"><!-- --></a><p>Set the TBool parameter
+to <code class="codeph">ETrue</code>. </p> </li>
+<li id="GUID-8415BB5F-548F-50DD-A0D8-1AFDE6F143FB"><a name="GUID-8415BB5F-548F-50DD-A0D8-1AFDE6F143FB"><!-- --></a><p>Use the CImEmailOperation::ProgressL() method
+to obtain the TMsvId parameter of the newly created email.
+This is returned through a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-36B29964-420D-38D0-AF08-4DA70BED8B6E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-36B29964-420D-38D0-AF08-4DA70BED8B6E.html"><code class="apiname">TPckgC</code></a> &lt;TMsvId &gt;
+descriptor. </p> </li>
+<li id="GUID-9AC68E88-CC88-57F7-A12B-736A6899B2E8"><a name="GUID-9AC68E88-CC88-57F7-A12B-736A6899B2E8"><!-- --></a><p>Create a CMsvEntry object
+using the TMsvId <code class="codeph">aMessageId</code> parameter
+of the newly created email. </p> </li>
+<li id="GUID-6307128A-46A4-51F6-A62D-210746612D28"><a name="GUID-6307128A-46A4-51F6-A62D-210746612D28"><!-- --></a><p>Use the CMsvEntry object
+to create a CImEmailMessage object. </p> </li>
+<li id="GUID-6DD75AFF-D0C5-5C81-BC2C-0B7534695155"><a name="GUID-6DD75AFF-D0C5-5C81-BC2C-0B7534695155"><!-- --></a><p>Call the CImEmailMessage::OpenPlainBodyTextForWriteL() function
+to get a new instance of CImPlainBodyText. </p> </li>
+<li id="GUID-F9A64E3C-67D9-56B0-9BC6-E2A108D214BC"><a name="GUID-F9A64E3C-67D9-56B0-9BC6-E2A108D214BC"><!-- --></a><p>If there are more than
+one chunk, use the StoreChunkL() function repeatedly to
+store the body text in chunks. </p> </li>
+<li id="GUID-794562BA-D887-5C68-AE8A-625DF45F21C2"><a name="GUID-794562BA-D887-5C68-AE8A-625DF45F21C2"><!-- --></a><p>When the message body
+text is completely stored, call the CImPlainBodyText::CommitL() function
+to complete the email creation operation. </p> </li>
+</ol> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-2C8653F9-8873-59E8-9FD2-4215F6877ABC.html">Chunk Method
+to Process Emails</a></li><li><a href="GUID-D73AD200-BE4D-50BF-BCF9-14627DE530B7.html">Imap4Example:
+An Email manager using IMAP4 and SMTP</a></li><li><a href="GUID-BB35DBCC-FE56-547F-BADA-9EF854691ADC.html">Pop3Example:
+An Email manager using POP3 and SMTP</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 21st, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FB185094-9868-5CBB-9CDE-51D7AB029450.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:43 GMT -->
+</html>

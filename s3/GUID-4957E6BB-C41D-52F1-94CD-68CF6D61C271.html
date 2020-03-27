@@ -1,0 +1,38 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-4957E6BB-C41D-52F1-94CD-68CF6D61C271.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:21 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Format layering" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DCA2F4D-ABE6-52A0-AC4E-5AAC1AB5909D" /><meta name="DC.Relation" scheme="URI" content="GUID-4F901F56-7F0E-4869-85CA-6109ED0AF5B7" /><meta name="DC.Relation" scheme="URI" content="GUID-533EC918-BF5B-5D0B-8860-1E8746A05EE3" /><meta name="DC.Relation" scheme="URI" content="GUID-2DDEF473-B804-51DF-874F-ADF46CB03ABA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4957E6BB-C41D-52F1-94CD-68CF6D61C271" /><meta name="DC.Language" content="en" /><title>Format
+layering </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4957E6BB-C41D-52F1-94CD-68CF6D61C271">Format
+layering</h1><div>
+<p>The Symbian platform uses the principle of format layering
+in which new formatting is added as a layer onto the previous layer of formatting.
+The following diagram shows a less efficient technique for applying format
+layering to text. The inefficiency arises because each format layer stores
+not only the new attribute which it introduces, but also every attribute which
+it inherits from the preceding format layer. </p>
+<div class="figure" id="GUID-DBA21807-9BC8-5FFB-962A-4CDCD9A72359"><img src="GUID-CFD3CD78-D99A-57B8-80EB-8C67899E5D27_d0e493021_href.png" /></div>
+<p>The Symbian platform avoids this inefficiency by using the system of <em>based-on
+links</em>. Here, each new layer adds attributes in a natural way without
+restating all attributes previously set. A based-on link is a pointer to the
+format layer whose attributes are inherited by another layer. For example,
+when the italic attribute is applied to a region of bold text, the new layer
+stores only the italic attribute and a pointer to the previous attribute layer.
+Chains of format layers can thus be formed, with each layer based on the previous
+one. In order to determine a character or paragraph’s <em>effective format</em>,
+a chain of format layers must typically be examined. The final layer in the
+chain of based on links is the one whose based on link is NULL and is not
+therefore based upon any other layer.</p>
+<p>This method is demonstrated in the following two diagrams, in which each
+arrow represents a based-on link.</p>
+<div class="figure" id="GUID-3BE6B9A3-D8DB-543C-AA88-DD519B991B62"><img src="GUID-52743192-B1E0-5B71-B85B-43487F18F412_d0e493041_href.png" /><p class="figure-title"><strong>Figure: </strong>Format layering</p></div>
+<p>The following diagram demonstrates the system of based-on links when attributes
+are applied to different parts of text rather than added on top of existing
+attribute layers.</p>
+<div class="figure" id="GUID-1E0E17F0-BE93-5403-8474-ED612E118C8F"><img src="GUID-F99938E9-9E06-53C0-B762-2CE51BC5F1E2_d0e493049_href.png" /></div>
+<p>In this case, several format layers are required, all of which are based
+on the normal layer.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated February 25th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-4957E6BB-C41D-52F1-94CD-68CF6D61C271.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:25 GMT -->
+</html>

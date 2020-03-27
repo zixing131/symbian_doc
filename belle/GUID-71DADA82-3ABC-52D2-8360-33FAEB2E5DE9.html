@@ -1,0 +1,99 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-71DADA82-3ABC-52D2-8360-33FAEB2E5DE9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:31 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="The Font and Bitmap Server Overview" /><meta name="abstract" content="The Font and Bitmap Server (FBServ) provides a memory efficient way of using bitmaps and fonts. It stores a single instance of each bitmap in either a shared heap or in eXecute In Place (XIP) ROM and provides clients with read and (when appropriate) write access." /><meta name="description" content="The Font and Bitmap Server (FBServ) provides a memory efficient way of using bitmaps and fonts. It stores a single instance of each bitmap in either a shared heap or in eXecute In Place (XIP) ROM and provides clients with read and (when appropriate) write access." /><meta name="DC.Relation" scheme="URI" content="GUID-A03FB1BF-F67B-519D-A904-74CA3F8375D9" /><meta name="DC.Relation" scheme="URI" content="GUID-90644B52-69D7-595C-95E3-D6F7A30C060D" /><meta name="DC.Relation" scheme="URI" content="GUID-416A3756-B5D5-5BCD-830E-2371C5F6B502" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-A03FB1BF-F67B-519D-A904-74CA3F8375D9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-71DADA82-3ABC-52D2-8360-33FAEB2E5DE9" /><meta name="DC.Language" content="en" /><title>The Font and Bitmap Server Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-71DADA82-3ABC-52D2-8360-33FAEB2E5DE9">The Font and Bitmap Server Overview</h1><div><p>The Font and Bitmap Server (FBServ) provides a memory efficient
+way of using bitmaps and fonts. It stores a single instance of each
+bitmap in either a shared heap or in eXecute In Place (XIP) ROM and
+provides clients with read and (when appropriate) write access. </p>
+<p>RAM-based fonts and bitmaps are reference counted and retained
+in RAM while they are being used. When they are no longer required
+they are automatically deleted. </p>
+<div id="GUID-0EA6C402-744F-48E4-AF4A-77766EEAC550"><h3 class="section-title">Key terms</h3> <dl>
+<dt class="dlterm">Bitmap</dt>
+<dd><p>A two-dimensional (2D) buffer (in memory) that contains the
+color values for individual pixels and is encapsulated by the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html"><code class="apiname">CFbsBitmap</code></a> class. </p> </dd>
+<dt class="dlterm">Extended bitmap</dt>
+<dd><p>A bitmap that contains data compressed using proprietary formats. </p> </dd>
+<dt class="dlterm">Raster image</dt>
+<dd><p>A data structure representing a rectangular grid of pixels.
+Scaling raster images usually leads to a loss of quality. </p> </dd>
+<dt class="dlterm"> Vector image</dt>
+<dd><p>The use of geometrical primitives such as points, lines, curves
+and polygons to represent an image. Vector images can be scaled without
+loss of quality. </p> </dd>
+<dt class="dlterm">Rasterization</dt>
+<dd><p>The process of converting vector image drawing instructions
+into a raster image that can be displayed on the screen. </p> </dd>
+<dt class="dlterm">Scan line</dt>
+<dd><p>A row of pixels in a raster image. This use of the term is
+derived from its original use in a raster scanning pattern, such as
+a video line on the cathode ray tube (CRT) display of a television. </p> </dd>
+</dl> <p>For font-related terms, see <a href="GUID-90644B52-69D7-595C-95E3-D6F7A30C060D.html">Font and Text Services
+Collection Overview</a>. </p> </div>
+<div id="GUID-B05FE02D-4138-46C0-9572-63F77B0B8375"><h3 class="section-title">Architectural relationships</h3> <p>The Font and
+Bitmap Server is tightly integrated with the BitGDI and Window Server
+components. It provides client-side classes for fonts, bitmaps and
+the typeface store. </p> <p>In use the Font and Bitmap Server is largely
+transparent. When a client of the Window Server opens a Window Server
+session, that session silently creates an <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5B29AC0-4953-385F-84C5-13EE6CB77D46.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5B29AC0-4953-385F-84C5-13EE6CB77D46.html"><code class="apiname">RFbsSession</code></a> and stores it in Thread Local Storage (TLS). Client-side font and
+bitmap classes such as <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DE966D8B-6E00-39B6-B136-6CF29EA384D3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DE966D8B-6E00-39B6-B136-6CF29EA384D3.html"><code class="apiname">CFbsFont</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html"><code class="apiname">CFbsBitmap</code></a> automatically find the session in TLS when they are constructed.
+(These are client-side objects that refer to objects in the server.
+Because they are heap-based classes, they have names beginning with
+C.) </p> <p>The Font and Bitmap Server contains the font store, which
+is a separate DLL provided by the <a href="GUID-B798C19D-4030-564A-A208-D84738259D72.html">Font Store (FntStore)
+component</a>. Client-side access to the font store is through <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5E287BF6-08C1-36A2-9085-F6B61CC52550.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5E287BF6-08C1-36A2-9085-F6B61CC52550.html"><code class="apiname">CFbsTypefaceStore</code></a>. </p> </div>
+<div id="GUID-23033D81-6D4C-4E04-A5E6-B11832266F51"><h3 class="section-title">Description</h3> <p>The Font and Bitmap Server
+is a singleton process that owns fonts and bitmaps. <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DE966D8B-6E00-39B6-B136-6CF29EA384D3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DE966D8B-6E00-39B6-B136-6CF29EA384D3.html"><code class="apiname">CFbsFont</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html"><code class="apiname">CFbsBitmap</code></a> objects are actually client-side
+handles to the font and bitmap objects, which are stored on a globally
+accessible heap while they are in use. Bitmap data is stored separately
+in a globally accessible disconnected chunk. </p> <div class="figure" id="GUID-51E1E299-6F2C-561F-8009-E4AF2B58A745"><img src="GUID-C3D0BA4A-AEC5-5002-916E-CB3F9FE5AC27_d0e263875_href.png" /></div> <p>When the reference count of clients using a font or bitmap
+that is resident in RAM falls to zero, the server can delete it and
+free the memory. XIP ROM based bitmaps are accessed in place, not
+copied into RAM. </p> <p>Open fonts, which are stored in font files
+as vector data, must be rasterized into the Font and Bitmap Server's
+shared heap. Rasterizers are plug-ins to the Font Store component.
+There is a performance overhead to rasterizing an open font and a
+memory overhead for storing it. </p> </div>
+<div id="GUID-8E41C4C2-8983-4B88-9206-99826C61140E"><h3 class="section-title">API summary</h3> <p>The Font and Bitmap Server
+presents a conventional client API through <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5B29AC0-4953-385F-84C5-13EE6CB77D46.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5B29AC0-4953-385F-84C5-13EE6CB77D46.html"><code class="apiname">RFbsSession</code></a>, which represents the handle to a server-side session. The classes <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DE966D8B-6E00-39B6-B136-6CF29EA384D3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DE966D8B-6E00-39B6-B136-6CF29EA384D3.html"><code class="apiname">CFbsFont</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html"><code class="apiname">CFbsBitmap</code></a> are client-side
+representations of font and bitmap classes. </p> <ul>
+<li id="GUID-80C1D158-E216-57E2-BB6E-1CD8C208FC92"><a name="GUID-80C1D158-E216-57E2-BB6E-1CD8C208FC92"><!-- --></a><p>The <code class="codeph">CFbsFont</code> class represents fonts managed by the Font and
+Bitmap Server, both bitmap fonts and OpenType fonts. </p> </li>
+<li id="GUID-D0629C81-48F5-5A9F-9D63-EC5B9D5D624B"><a name="GUID-D0629C81-48F5-5A9F-9D63-EC5B9D5D624B"><!-- --></a><p>The <code class="codeph">CFbsBitmap</code> class represents bitmaps managed by the Font
+and Bitmap Server, both RAM and XIP ROM-based bitmaps. For RAM-based
+bitmaps, this class provides facilities for creating, loading, saving,
+and resizing bitmaps. RAM-based bitmaps are commonly loaded from a
+multi-bitmap file (.<code>mbm</code>) file or created as off-screen
+bitmaps, and then blitted to a window. For XIP ROM-based bitmaps, <code class="codeph">CFbsBitmap</code> provides facilities for accessing the data. </p> </li>
+</ul> <p>The Font and Bitmap Server is unusual in that the <code class="codeph">RFbsSession</code> is stored in client-side thread local storage
+(TLS). The constructors for <code class="codeph">CFbsFont</code> and <code class="codeph">CFbsBitmap</code> find this session handle automatically: the client
+program does not have to pass it as a parameter. Therefore, to most
+client programs, the client/server nature of using fonts and bitmaps
+is hidden from the API. </p> <p>The <code class="codeph">RFbsSession</code> is
+created for clients by the Window Server’s client-side API when a
+Window Server session, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html"><code class="apiname">RWsSession</code></a>, is constructed.
+A Window Server client is therefore also a client of the Font and
+Bitmap Server. </p> <p>When a client calls, for example, the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AEE5955-C530-35F1-A904-69183331B294.html#GUID-1A360BAF-D2EF-3D96-8E6A-C399631EFBB9"><code class="apiname">CWindowGc::DrawBitmap()</code></a> function, the handle number of
+the bitmap is passed to the Window Server through inter-process communication
+(IPC). Like all <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AEE5955-C530-35F1-A904-69183331B294.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AEE5955-C530-35F1-A904-69183331B294.html"><code class="apiname">CWindowGc</code></a> drawing commands, the
+handle number is stored in a client-side command buffer, which by
+default is flushed to the server side only when it is full. Once flushed
+to the server-side, the command buffer is processed by the <a href="GUID-22093E74-EFE7-5642-93DE-1573E18F7C08.html">Window Server rendering
+loop</a>. Consider the scenario where an application calls <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AEE5955-C530-35F1-A904-69183331B294.html#GUID-1A360BAF-D2EF-3D96-8E6A-C399631EFBB9"><code class="apiname">CWindowGc::DrawBitmap()</code></a> and then closes the bitmap before
+the client-side buffer is flushed. There needs to be some mechanism
+to prevent the bitmap’s reference count from reaching zero and hence
+being deleted before the Window Server can render it. For this reason, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5B29AC0-4953-385F-84C5-13EE6CB77D46.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5B29AC0-4953-385F-84C5-13EE6CB77D46.html"><code class="apiname">RFbsSession</code></a> has a callback, which is invoked whenever a
+client closes a bitmap handle. The callback causes an immediate flush
+of the Window Server client-side command buffer. The Window Server
+then creates on the server side a duplicate <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html"><code class="apiname">CFbsBitmap</code></a> for the bitmap. This increases the bitmap's reference count and
+therefore prevents it from being deleted before the Window Server
+attempts to render it. The same mechanism applies to font handles.
+This mechanism is transparent to clients of the Window Server. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-A03FB1BF-F67B-519D-A904-74CA3F8375D9.html">Font
+and Bitmap Server Collection</a></li><li><a href="GUID-90644B52-69D7-595C-95E3-D6F7A30C060D.html">Font
+and Text Services Collection                 Overview </a></li><li><a href="GUID-416A3756-B5D5-5BCD-830E-2371C5F6B502.html">Font
+Store Component Overview </a></li></ul></div></div><div class="footer"><p class="metadata">Last updated August 4th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-71DADA82-3ABC-52D2-8360-33FAEB2E5DE9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:33 GMT -->
+</html>

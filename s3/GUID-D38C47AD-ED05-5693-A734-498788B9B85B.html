@@ -1,0 +1,31 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D38C47AD-ED05-5693-A734-498788B9B85B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:29 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using Relative and Sequential Drawing" /><meta name="DC.Relation" scheme="URI" content="GUID-55C8C429-1BEC-5A58-94EC-DA1E51F62867" /><meta name="DC.Relation" scheme="URI" content="GUID-E3AC8F3E-9D5C-5E7D-9760-023B77C7C8A8" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-E89F034F-C807-5FF9-B06B-F7CCD2441041" /><meta name="DC.Relation" scheme="URI" content="GUID-1E68A78A-52E5-5DF7-B540-85C7194E4617" /><meta name="DC.Relation" scheme="URI" content="GUID-55C8C429-1BEC-5A58-94EC-DA1E51F62867" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D38C47AD-ED05-5693-A734-498788B9B85B" /><meta name="DC.Language" content="en" /><title>Using Relative and Sequential Drawing </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D38C47AD-ED05-5693-A734-498788B9B85B">Using Relative and Sequential Drawing</h1><div><p>This topic provides examples that demonstrate how to draw a triangle first using relative drawing with a thin solid line, then using relative drawing and a wide line (illustrating curved corners) and finally using sequential drawing between points, with a dot dash line, illustrating line pattern continuation. </p> <p>Note that there is a third way to draw a triangle, using <code class="codeph">DrawPolygon()</code>. This must be to used to draw a filled triangle. </p> <div><h3 class="section-title">Drawing a triangle using relative drawing (thin lines)</h3> <p>You can draw a triangle of thin lines, using relative drawing, <code class="codeph">MoveTo()</code> and <code class="codeph">DrawLineBy()</code>. </p> <pre class="codeblock">...
+// draw a triangle by relative drawing
+gc.MoveTo(TPoint(300,50)); // drawing position (300,50)
+gc.DrawLineBy(TPoint(205,100)); // drawing position (505,150)
+gc.DrawLineBy(TPoint(-410,0)); // drawing position (95,150)
+gc.DrawLineBy(TPoint(205,-100)); // drawing position (300,50)
+...</pre> <p> <strong>Note</strong>: The sum of the three <code class="codeph">TPoint</code> vectors used by the <code class="codeph">DrawLineBy()</code> calls comes to <code class="codeph">(0,0)</code>, thus creating a closed shape. </p> </div> <div><h3 class="section-title">Drawing a triangle using relative drawing (thick lines)</h3> <p>You can draw a triangle of thick lines, using relative drawing, <code class="codeph">MoveTo()</code> and <code class="codeph">DrawLineBy()</code>. </p> <pre class="codeblock">...
+// draw a triangle, by relative drawing
+// illustrating rounded ends at corners when using very wide lines
+gc.SetPenWidth(penSizeFat);
+gc.MoveTo(TPoint(300,50)); // drawing position (300,50)
+gc.DrawLineBy(TPoint(205,100)); // drawing position (505,150)
+gc.DrawLineBy(TPoint(-410,0)); // drawing position (95,150)
+gc.DrawLineBy(TPoint(205,-100)); // drawing position (300,50)
+...</pre> </div> <div><h3 class="section-title">Drawing a triangle using sequential drawing between points</h3> <p>This topic provides an example that demonstrates how to draw a triangle of dot dash lines, using sequential drawing between points, <code class="codeph">DrawLineTo()</code>. </p> <pre class="codeblock">...
+// draw a triangle by sequential drawing between specified points,
+// using dot-dash line style, illustrating line pattern continuation 
+gc.SetPenStyle(CGraphicsContext::EDotDashPen);
+gc.MoveTo(TPoint(300,50)); // drawing position (300,50)
+gc.DrawLineTo(TPoint(505,150)); // drawing position (505,150)
+gc.DrawLineTo(TPoint(95,150)); // drawing position (95,150)
+gc.DrawLineTo(TPoint(300,50)); // drawing position (300,50)
+...</pre> <p> <strong>Note</strong>: The final point drawn to is the same as the point originally moved to, thus creating a closed shape. </p> </div> </div><h3>Related concepts</h3><ul><li><a href="GUID-55C8C429-1BEC-5A58-94EC-DA1E51F62867.html">Drawing
+                to a Graphics Context Tutorials</a></li><li><a href="GUID-E3AC8F3E-9D5C-5E7D-9760-023B77C7C8A8.html">Drawing and Graphics Contexts</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 8th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D38C47AD-ED05-5693-A734-498788B9B85B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:29 GMT -->
+</html>

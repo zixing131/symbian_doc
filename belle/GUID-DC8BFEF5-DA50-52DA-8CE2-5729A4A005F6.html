@@ -1,0 +1,90 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DC8BFEF5-DA50-52DA-8CE2-5729A4A005F6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:57 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="EGL Collection Overview" /><meta name="abstract" content="EGL is an interface between EGL client APIs (such as OpenGL ES and OpenVG) and an underlying native platform window system. EGL is independent of definitions and concepts specific to any native window system or rendering API." /><meta name="description" content="EGL is an interface between EGL client APIs (such as OpenGL ES and OpenVG) and an underlying native platform window system. EGL is independent of definitions and concepts specific to any native window system or rendering API." /><meta name="DC.Relation" scheme="URI" content="GUID-8C6D4350-A38D-57A1-8C8D-C777EA7E8A3E" /><meta name="DC.Relation" scheme="URI" content="GUID-1B1C6D35-FFDF-55B3-BCE2-DD0295858E49" /><meta name="DC.Relation" scheme="URI" content="GUID-AB93B01C-B6C2-5B24-ADEF-95706584D625" /><meta name="DC.Relation" scheme="URI" content="GUID-859CAA08-59C9-5FD3-98DE-6BDD0D6ED50B" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-8C6D4350-A38D-57A1-8C8D-C777EA7E8A3E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-DC8BFEF5-DA50-52DA-8CE2-5729A4A005F6" /><meta name="DC.Language" content="en" /><title>EGL Collection Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-DC8BFEF5-DA50-52DA-8CE2-5729A4A005F6">EGL Collection Overview</h1><div><p>EGL is an interface between EGL client APIs (such as OpenGL
+ES and OpenVG) and an underlying native platform window system. EGL
+is independent of definitions and concepts specific to any native
+window system or rendering API. </p>
+<p>EGL is an open standard developed by the Khronos Group, which is
+a member-funded industry consortium. Khronos creates open standard,
+royalty-free APIs to help write and execute dynamic media on a wide
+variety of platforms and devices. For more information about EGL operations,
+functions, errors, versions and header files, see <a href="http://www.khronos.org/egl/" target="_blank">http://www.khronos.org/egl/</a>. </p>
+<p>In this documentation the term <strong>EGL client API</strong> is used to
+mean a rendering API, such as OpenGL ES or OpenVG, that is a client
+of EGL. </p>
+<div id="GUID-D214F4FF-FB17-4427-A301-B4ADE03DE261"><h3 class="section-title">Introduction
+to EGL on the Symbian platform</h3> <p>EGL provides: </p> <ul>
+<li id="GUID-DEBBBE4F-8B61-58EF-A4FE-CFC3C63B0223"><a name="GUID-DEBBBE4F-8B61-58EF-A4FE-CFC3C63B0223"><!-- --></a><p>Mechanisms that
+create rendering surfaces onto which EGL client APIs can draw and
+which they can share. </p> </li>
+<li id="GUID-1D0D4366-D8B7-50B1-9D5B-1C7BFAC11C94"><a name="GUID-1D0D4366-D8B7-50B1-9D5B-1C7BFAC11C94"><!-- --></a><p>Methods that
+create and manage graphics contexts for EGL client APIs. </p> </li>
+<li id="GUID-67AC4C95-E548-5275-A151-13AE9F4AFFCB"><a name="GUID-67AC4C95-E548-5275-A151-13AE9F4AFFCB"><!-- --></a><p>Methods that
+synchronize drawing by EGL client APIs and Symbian APIs (such as <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AEE5955-C530-35F1-A904-69183331B294.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AEE5955-C530-35F1-A904-69183331B294.html"><code class="apiname">CWindowGc</code></a>). </p> </li>
+</ul> <p>One of the purposes of EGL is to provide a means to create
+EGL client API rendering contexts, and associate them with drawing
+surfaces. EGL defines three types of drawing surfaces collectively
+referred to as <code class="codeph">EGLSurfaces</code>. These are: </p> <ul>
+<li id="GUID-21914FD1-9A21-536D-AD5B-09CC15B70ADA"><a name="GUID-21914FD1-9A21-536D-AD5B-09CC15B70ADA"><!-- --></a><p> <strong>Window surfaces</strong>, which are used for on-screen rendering into windows that are provided
+by the Symbian platform (rather than EGL) .</p> </li>
+<li id="GUID-230C6E2A-FC78-57C4-8F58-DDB8684D2385"><a name="GUID-230C6E2A-FC78-57C4-8F58-DDB8684D2385"><!-- --></a><p> <strong>Pbuffer
+surfaces</strong>, which are used for off screen rendering and are entirely
+provided by EGL. </p> </li>
+<li id="GUID-76001CBC-8E7C-552A-AAC2-76E159FB0FF4"><a name="GUID-76001CBC-8E7C-552A-AAC2-76E159FB0FF4"><!-- --></a><p> <strong>Pixmap surfaces</strong>, which are used for off screen rendering into pixmap buffers that
+are provided by the Symbian platform (rather than EGL). </p> </li>
+</ul> <p>Some key points to note include: </p> <ul>
+<li id="GUID-6CD11A9A-FF10-5939-9C38-F443397DDD01"><a name="GUID-6CD11A9A-FF10-5939-9C38-F443397DDD01"><!-- --></a><p>EGL objects
+and their related context state cannot be used outside of the address
+space in which they are created. </p> </li>
+<li id="GUID-E8A666F7-1B08-5F18-B117-29B6E35D31C0"><a name="GUID-E8A666F7-1B08-5F18-B117-29B6E35D31C0"><!-- --></a><p>EGL enables
+sharing of certain types of context state among contexts existing
+in a single address space. </p> </li>
+</ul> <p><strong>Thread-safety </strong> </p> <p>Currently EGL and its client
+APIs are only guaranteed to work correctly on the Symbian platform
+when they are within a single thread. EGL guarantees sequential ordering
+within a command stream for each of the EGL client APIs. However,
+there is no guarantee of sequential ordering between EGL client APIs
+and Symbian APIs which render into the same surface. </p> <p>EGL client
+API commands may be asynchronous, in order to prevent impairing the
+interactive use of the windowing system by the user. For example,
+otherwise rendering a large texture mapped polygon on a system with
+no graphics hardware, or drawing a large OpenGL ES vertex array, could
+prevent a user from invoking a menu soon enough to be usable. </p> <p>Synchronization depends on the client—it can be maintained at
+moderate cost with the careful use of commands such as <code class="codeph">glFinish</code>, <code class="codeph">vgFinish</code>, <code class="codeph">eglWaitClient</code>, and <code class="codeph">eglWaitNative</code>, as well as synchronization commands present
+in the Symbian APIs. The EGL client API and Symbian API rendering
+can be done in parallel if the client does not prevent it with explicit
+synchronization calls. Some performance degradation may be experienced
+when there is unnecessary switching between EGL client APIs and Symbian
+API rendering. </p> </div>
+<div id="GUID-483A8427-D740-477D-9357-957C755E053D"><h3 class="section-title">Architectural
+relationships</h3> <p>The following diagram shows the key EGL relationships
+and dependencies within the Symbian platform. On the Symbian platform,
+OpenGL ES, OpenVG and EGL all have a component (shown in blue) that
+declares the interface, and all require an implementation that implements
+that interface (shown in green). </p> <div class="figure" id="GUID-BF9F0E84-F1DA-5D9D-9D4B-14AA55C7DA07"><img src="GUID-CBF1D046-92D4-5936-9946-71BB8FC51AB2_d0e271283_href.png" /><p class="figure-title"><strong>Figure: </strong>              Key EGL relationships and dependencies      
+     </p></div> <p>The <a href="GUID-D252E75C-C8CA-5C51-8DA3-95B937A1295C.html">EGL Interface component</a> provides a consistent interface to
+EGL on the Symbian platform, enabling cross-device compatibility.
+The component includes the Khronos-released header files (which incorporate
+some minor changes, such as to the comments). It also provides some
+Symbian-specific header files and some other files (such as LIB, DEF
+and MMP files) and UIDs. It does not provide any implementations of
+the APIs. </p> <p>The EGL Interface component includes
+the header files for EGL 1.2, 1.3 and 1.4 (which is used by default).
+The main advantage of EGL 1.4 over previous versions is the introduction
+of a <strong>preserve buffer</strong> flag. When supported by the implementation,
+an EGL window surface can have its color buffer preserved from one
+frame to the next. This means that the client does not need to send
+the entire drawing instructions for each frame. Instead the client
+can simply send the drawing operations for what changes in each frame
+compared to the previous one. This can reduce the memory footprint
+and the CPU overhead when an EGL client API renders successive frames. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-8C6D4350-A38D-57A1-8C8D-C777EA7E8A3E.html">EGL
+                Collection</a></li><li><a href="GUID-1B1C6D35-FFDF-55B3-BCE2-DD0295858E49.html">OpenVG
+Collection</a></li><li><a href="GUID-AB93B01C-B6C2-5B24-ADEF-95706584D625.html">OpenGLES
+Collection</a></li><li><a href="GUID-859CAA08-59C9-5FD3-98DE-6BDD0D6ED50B.html">Graphics
+Composition</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated April 27th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DC8BFEF5-DA50-52DA-8CE2-5729A4A005F6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:58 GMT -->
+</html>

@@ -1,0 +1,63 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-930A3ABD-84FB-5D76-938C-79383273DAE6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:22 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Processing System Events" /><meta name="DC.Relation" scheme="URI" content="GUID-930A3ABD-84FB-5D76-938C-79383273DAE6" /><meta name="DC.Relation" scheme="URI" content="GUID-B830A1F7-9220-5879-80BE-C494A4CD155B" /><meta name="DC.Relation" scheme="URI" content="GUID-B7FF0B9C-3A17-5AAA-A986-7BA4F44DBD41" /><meta name="DC.Relation" scheme="URI" content="GUID-A51D3749-442A-54E8-8EB5-BF907694CD8C" /><meta name="DC.Relation" scheme="URI" content="GUID-E1E11C95-3400-548B-AEEE-577DA8FB9ECB" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-08427065-B8E5-5194-B095-3B5213836BED" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-930A3ABD-84FB-5D76-938C-79383273DAE6" /><meta name="DC.Language" content="en" /><title>Processing System Events </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-930A3ABD-84FB-5D76-938C-79383273DAE6">Processing System Events</h1><div><p>The following examples give some suggestions about how to process events related to the whole system, rather than individual windows or window groups. </p> <p> <strong>Variant</strong>: <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay</a> and <a href="GUID-F64E6551-670E-5E12-8103-DE504D3EC94F.html">non-ScreenPlay</a>. <strong>Target audience</strong>: Application developers. </p> <div><h3 class="section-title">Window group with focus changes</h3> <p>To detect if the window group with focus has changed, use the <code class="codeph">EEventFocusGroupChanged</code> event type. </p> <p>You can get the handle of the window group with focus by calling the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html#GUID-1B9B5EE1-A999-3E5D-BAC5-96438BD27308"><code class="apiname">RWsSession::GetFocusWindowGroup()</code></a> function for the <code class="codeph">iWs</code> Window Server session. </p> <pre class="codeblock">    // Window group with focus changes
+    case EEventFocusGroupChanged:
+        {
+        // Get the handle of the group with focus
+        TInt handle = iWs.GetFocusWindowGroup();
+        break;
+    }</pre> </div> <div><h3 class="section-title">Window group destroyed, or changes name</h3> <p>To detect if the window group has been destroyed or changed name, use the <code class="codeph">EEventWindowGroupsChanged</code> event type. </p> <p>You can get a list of identifiers of window groups in the Window Server session by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html#GUID-8428FE72-E59F-3350-AE45-81ACB0463FAA"><code class="apiname">RWsSession::WindowGroupList()</code></a>. Call the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html#GUID-D9A204BF-192D-3B94-803B-3DABC7E0E074"><code class="apiname">RWsSession::GetWindowGroupNameFromIdentifier()</code></a> function to get the window group name passed to it in the <code class="codeph">windowName</code> buffer. </p> <pre class="codeblock">    // Window group destroyed, or changes name
+    case EEventWindowGroupsChanged:
+        {
+        // Get a list of the names and IDs of the all the window groups
+        CArrayFixFlat&lt;Tint&gt;* windowList = new CArrayFixFlat&lt;TInt&gt;(4);
+        CleanupStack::PushL(windowList);
+
+        // Get a list of window group IDs
+        User::LeaveIfError(iWs.WindowGroupList(windowList));
+        TBuf&lt;50&gt;windowName;
+        for (TInt I = 0; I&lt; windowList -&gt; Count(); I++)
+            {
+            // Get the window name for each window group ID
+            iWs.GetWindowGroupNameFromIdentifier( (*windowList)[I], windowName );
+
+            // do something with windowName...
+            // ..
+            }
+            CleanupStack::PopAndDestroy(); // windowList
+            break;
+        }</pre> </div> <div><h3 class="section-title">Screen size mode changed</h3> <p>To detect if screen size or mode changed event has been issued, use the <code class="codeph">EEventScreenDeviceChanged</code> event type. </p> <p>You can get the screen rotation and size by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-30479BE3-296E-3B4D-914D-B080ABD733E4.html#GUID-45FC8DC7-B17F-34E6-806C-B8BA585F4FD6"><code class="apiname">CWsScreenDevice::GetScreenModeSizeAndRotation()</code></a>. Pass as parameters the current screen mode and a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1AC86B43-CEAF-337D-A56C-0FFC42D435FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1AC86B43-CEAF-337D-A56C-0FFC42D435FD.html"><code class="apiname">TPixelsTwipsAndRotation</code></a> object to get the orientation of the specified screen mode, and its size in both pixels and twips. </p> <pre class="codeblock">    // Screen size mode changed
+    case EEventScreenDeviceChanged:
+        {
+        // Get the new screen mode and size
+        TInt newMode = iScreen.CurrentScreenMode();
+        TPixelsTwipsAndRotation sizeAndRotation;
+        iScreen.GetScreenModeSizeAndRotation(newMode, sizeAndRotation);
+        break;
+        }</pre> <p>Note that for screen size mode changed events, often after having got the new size and rotation you would set it back on your screen device. </p> <p>In ScreenPlay this event is related to the EEventDisplayChanged event. See <a href="GUID-B1CB6374-2C2B-5D6C-9A7C-6E49D8F235B8.html">Display Control and Mapping in the Window Server Client</a> for more information. </p> </div> <div><h3 class="section-title">Power on/off events</h3> <p>To detect if power on/off events have been issued, use the <code class="codeph">EEventSwitchOn</code>, <code class="codeph">EEventSwitchOff</code> or <code class="codeph">EEventKeySwitchOff</code> event types. </p> <pre class="codeblock">    // Power on/off events
+    case EEventSwitchOn:
+    case EEventSwitchOff:
+    case EEventKeySwitchOff:
+        {
+        break;
+        }</pre> </div> <div><h3 class="section-title">Case open/closed events</h3> <p>To detect if case open/closed events have been issued, use the <code class="codeph">EEventCaseOpened</code>, <code class="codeph">EEventCaseClosed</code> event types. </p> <pre class="codeblock">    // Case open/closed events
+    case EEventCaseOpened:
+    case EEventCaseClosed:
+        {
+        break;
+        }</pre> </div> <div><h3 class="section-title">A Window Server error event message</h3> <p>To detect if an error event message has been issued, use the <code class="codeph">EEventErrorMessage</code> event type. </p> <p>You can get information about the error event by calling the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html#GUID-61587DF0-0AA7-3287-B398-C83E5902E8C4"><code class="apiname">TWsEvent::ErrorMessage()</code></a> function. </p> <pre class="codeblock">    // A Window Server error event message
+    case EEventErrorMessage:
+        {
+        // Get error category and code
+        TWsErrorMessage* msg = iWsEvent.ErrorMessage();
+        TWsErrorMessage::TErrorCategory errorCategory = msg -&gt; iErrorCategory;
+        TUint code = msg -&gt; iError;
+        break;
+        }</pre> </div> </div><h3>Related concepts</h3><ul><li><a href="#GUID-930A3ABD-84FB-5D76-938C-79383273DAE6">Handling General Events</a></li><li><a href="GUID-B830A1F7-9220-5879-80BE-C494A4CD155B.html">General Events</a></li><li><a href="GUID-B7FF0B9C-3A17-5AAA-A986-7BA4F44DBD41.html">Declaring a
+                Window Server Event-Handling Class</a></li><li><a href="GUID-A51D3749-442A-54E8-8EB5-BF907694CD8C.html">Processing Window-Group
+                Events</a></li><li><a href="GUID-E1E11C95-3400-548B-AEEE-577DA8FB9ECB.html">Processing Window Events</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 8th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-930A3ABD-84FB-5D76-938C-79383273DAE6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:22 GMT -->
+</html>

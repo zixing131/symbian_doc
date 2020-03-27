@@ -1,0 +1,298 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-66C1493D-5B85-558A-9A39-454E6EBA307B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Signal Emulation on the Symbian Platform" /><meta name="DC.Relation" scheme="URI" content="GUID-E65D91AE-482F-5592-B83C-0F29126C2EFA" /><meta name="DC.Relation" scheme="URI" content="GUID-186B9876-2A08-5F23-BB49-49EC34C51507" /><meta name="DC.Relation" scheme="URI" content="GUID-6CF8A41B-C2DD-5D57-A71D-6405CE08A06B" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-C4C85189-BA6F-5F11-ABB3-727D8C1F5984" /><meta name="DC.Relation" scheme="URI" content="GUID-41F33130-7968-5016-9ACE-9E9F906118DB" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-66C1493D-5B85-558A-9A39-454E6EBA307B" /><meta name="DC.Language" content="en" /><title>Signal
+Emulation on the Symbian Platform </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-66C1493D-5B85-558A-9A39-454E6EBA307B">Signal
+Emulation on the Symbian Platform</h1><div>
+<p>The <code class="codeph">libc</code> library of P.I.P.S. provides support for POSIX
+signals, thereby facilitating the porting of applications that use signals
+for exception handling and as control IPC. </p>
+<p>P.I.P.S. supports POSIX signals by emulating them in user-side code. This
+is different from the UNIX architecture, where the kernel manages the generation
+and delivery of signals, and has important implications. </p>
+<ul>
+<li id="GUID-22658912-1F1E-5C77-9DE1-5210B898CFF0"><a name="GUID-22658912-1F1E-5C77-9DE1-5210B898CFF0"><!-- --></a><p>Signals are always handled
+in the context of a signal-handler thread created by the P.I.P.S. backend.
+For this reason, signals cannot be directed to a particular thread. </p> </li>
+<li id="GUID-4EFC9E19-4031-553B-AF88-546665FA37DB"><a name="GUID-4EFC9E19-4031-553B-AF88-546665FA37DB"><!-- --></a><p>Before the handler function
+of a signal is invoked in the signal-handler thread, all other threads are
+suspended. When the handler function returns, the other threads resume. This
+is done to mirror the UNIX behaviour of process execution being suspended
+when a signal is being handled. </p> </li>
+<li id="GUID-177E6544-106B-5E8B-94C6-B0AAD6437C4C"><a name="GUID-177E6544-106B-5E8B-94C6-B0AAD6437C4C"><!-- --></a><p>There might be a considerable
+amount of latency when you send or receive signals. </p> </li>
+</ul>
+<div id="GUID-BD44C679-553C-402B-AF78-8922E15884E4"><h3 class="section-title">Sending signals</h3> <p>Signals can be sent between P.I.P.S.
+processes using kill(), raise() or sigqueue(). </p> <p>You
+can use these functions to send any of the supported signals (refer to the
+following table). </p> <p>The P.I.P.S. runtime sends the following signals
+to P.I.P.S. processes: </p> <ul>
+<li id="GUID-6F1D5A0A-4562-55B4-8E70-BAFF45F3EFA9"><a name="GUID-6F1D5A0A-4562-55B4-8E70-BAFF45F3EFA9"><!-- --></a><p> <strong>SIGPIPE:</strong> This
+signal is sent to a process which attempts to write to a broken pipe(). </p> </li>
+<li id="GUID-99788FD7-4E26-5979-8E39-BA12F24D1DA9"><a name="GUID-99788FD7-4E26-5979-8E39-BA12F24D1DA9"><!-- --></a><p> <strong>SIGCHLD:</strong> This
+signal is sent to a parent process when a child process exits. </p> </li>
+<li id="GUID-D41E5F22-0893-5F61-A4F6-E72239205928"><a name="GUID-D41E5F22-0893-5F61-A4F6-E72239205928"><!-- --></a><p> <strong> SIGALRM:</strong> This
+signal is sent to a process when an alarm registered by the process times
+out. </p> </li>
+</ul> <p> <strong>Note:</strong> Always ensure that you handle <code class="codeph">SIGPIPE</code>, <code class="codeph">SIGCHLD</code> or <code class="codeph">SIGALRM</code> using
+a signal handler to avoid the termination of the process receiving these signals.
+For more information about handling signals, see the following section. </p> </div>
+<div id="GUID-E244317F-3B69-4B10-8156-03F4A807E663"><h3 class="section-title">Handling signals</h3> <p>A signal can be received by a
+process at any time and is handled immediately, unless it is currently blocked.
+You can handle a signal in the following ways: </p> <ol id="GUID-F03B299F-A527-5365-81D3-DDDC607A4094">
+<li id="GUID-DF0E70C8-74C2-5ACC-B556-8D216275C554"><a name="GUID-DF0E70C8-74C2-5ACC-B556-8D216275C554"><!-- --></a><p> <strong>Use default handling:</strong> The
+default action for each signal supported on the Symbian platform
+is listed in the following table. </p> <p> <strong>Note:</strong> The default action
+for all of the signals sent by the P.I.P.S. runtime (<code class="codeph">SIGPIPE</code>, <code class="codeph">SIGCHLD</code> or <code class="codeph">SIGALRM</code>)
+is process termination. You must provide a custom handler for each of these
+signals. </p> <div class="tablenoborder"><a name="GUID-7101041B-CC50-5367-A3A2-6D15FB15C3DD"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-7101041B-CC50-5367-A3A2-6D15FB15C3DD" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e208794">Signal </th>
+<th class="cellrowborder" valign="top" id="d0e208797">Default Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph">SIGHUP</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGINT</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph">SIGQUIT</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGILL</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGTRAP</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGABRT</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGIOT</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGEMT</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGFPE</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGKILL</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Process termination </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGBUS</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGSEGV</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGSYS</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGPIPE</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Process termination </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGALRM</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Process termination </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGTERM</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Process termination </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGURG</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGSTOP</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGTSTP</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGCONT</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGCHLD</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGTTIN</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGTTOU </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph">SIGIO</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGXCPU</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGXFSZ</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGVTALRM</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGPROF</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGWINCH</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGINFO</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGUSR1</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGUSR2</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGTHR</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGRTMIN</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e208794 "><p> <code class="codeph"> SIGRTMAX</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e208797 "><p>Ignore </p> </td>
+</tr>
+</tbody>
+</table></div> </li>
+<li id="GUID-5FEF9FD7-22C1-5722-AB35-56C6EC27713D"><a name="GUID-5FEF9FD7-22C1-5722-AB35-56C6EC27713D"><!-- --></a><p> <strong> Ignore the signal:</strong> You
+can choose to ignore a signal when it is delivered. </p> </li>
+<li id="GUID-83529703-4593-51B6-ACFD-78AF3634B3E5"><a name="GUID-83529703-4593-51B6-ACFD-78AF3634B3E5"><!-- --></a><p> <strong> Use a custom signal
+handler function:</strong> You can set a custom signal handler function to be invoked
+when the signal arrives. </p> <p>The following example code demonstrates how
+you can handle a <code class="codeph">SIGCHLD</code> signal by setting a custom signal
+handler function: </p> <pre class="codeblock">#include &lt;signal.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+void sighandler(int signum)
+    {
+    if(signum == SIGCHLD)
+        {
+        // Program logic for custom signal handling
+        }
+    else
+        printf(“Error: Unknown signal”);
+    }
+int main()
+    {
+    // When SIGCHLD arrives, invoke sighandler()
+    signal(SIGCHLD,sighandler);
+    // program logic
+    return 0;
+    }</pre> </li>
+</ol> </div>
+<div id="GUID-252E0621-51F1-443A-A4FC-689BD27597E3"><h3 class="section-title">Blocking signals</h3> <p>A P.I.P.S. process can choose
+to block (and subsequently unblock) signals to itself using sighold(), sigset(), sigrelse() and sigprocmask(). Signals that are blocked on a P.I.P.S.
+process are not be delivered for handling. Instead, they are queued to be
+handled when they are unblocked. </p> <p>Non-realtime signals are queued only
+once, even when they are delivered multiple times. However, real-time signals
+are queued every time they are delivered. </p> <p> <strong> Note:</strong> You can force
+non-realtime signals to be queued multiple times by sending the signal using sigqueue(). </p> <p><strong>Examples</strong> </p> <p>The
+following example code demonstrates how real-time signals are queued when
+they are blocked: </p> <pre class="codeblock">#include &lt;stdio.h&gt;
+#include &lt;signal.h&gt;
+void func(int sig)
+    {
+    printf("Signal was received");
+    }
+int main(void)
+    {
+    signal(SIGRTMIN+3,func);
+    sighold(SIGRTMIN+3);
+    raise(SIGRTMIN+3);
+    raise(SIGRTMIN+3);
+    raise(SIGRTMIN+3);
+    //This will cause func() to be called thrice
+    sigrelse(SIGRTMIN+3);
+    return 0;
+    }</pre> <p>The output displayed is: </p> <pre class="codeblock">Signal was received
+Signal was received
+Signal was received</pre> <p>The following example code demonstrates
+how non-realtime signals are queued when they are blocked: </p> <pre class="codeblock">#include &lt;stdio.h&gt;
+#include &lt;signal.h&gt;
+void func(int sig)
+    {
+    printf("Signal was received");
+    }
+int main(void)
+    {
+    signal(SIGINT,func);
+    sighold(SIGINT);
+    raise(SIGINT);
+    raise(SIGINT);
+    raise(SIGINT);
+    // This will cause func() to be called only ONCE, since SIGINT is a non-realtime signal.
+    sigrelse(SIGINT);
+    return 0;
+    }</pre> <p>The output displayed is: </p> <pre class="codeblock">Signal was received</pre> <p>The
+following example code demonstrates how you can force a non-realtime signal
+to be queued multiple times by sending the signal using sigqueue(): </p> <pre class="codeblock">#include &lt;stdio.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+void func(int sig)
+    {
+    printf("Signal was received");
+    }
+int main(void)
+    {
+    union sigval val;
+    val.sigval_int = 0;
+    signal(SIGINT,func);
+    sighold(SIGINT);
+    sigqueue(getpid(), SIGINT,val);
+    sigqueue(getpid(), SIGINT,val);
+    sigqueue(getpid(), SIGINT,val);
+    // This will cause func() to be called thrice
+    sigrelse(SIGINT);
+    return 0;
+    }</pre> <p>The output displayed is: </p> <pre class="codeblock">Signal was received
+Signal was received
+Signal was received</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-E65D91AE-482F-5592-B83C-0F29126C2EFA.html">Using Signals
+to Handle Exceptions</a></li><li><a href="GUID-186B9876-2A08-5F23-BB49-49EC34C51507.html">Using Signals
+to Terminate Processes</a></li><li><a href="GUID-6CF8A41B-C2DD-5D57-A71D-6405CE08A06B.html">Using Signals
+to Handle Asynchronous Events</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 28th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-66C1493D-5B85-558A-9A39-454E6EBA307B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+</html>

@@ -1,0 +1,49 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-9473F793-29ED-42ED-933B-A995E56E71CB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:57 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Creating a Certificate Store" /><meta name="abstract" content="certapp helps you create certificate stores. The following is an example for creating a certificate store." /><meta name="description" content="certapp helps you create certificate stores. The following is an example for creating a certificate store." /><meta name="DC.Relation" scheme="URI" content="GUID-7C96B363-7891-50D3-A40F-92B9CBC4624C" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-315452C2-A1E2-5888-A694-6D2DE73A3F5E" /><meta name="DC.Relation" scheme="URI" content="GUID-A40376B6-8B2B-551A-B72F-CFCADBC84BE7" /><meta name="DC.Relation" scheme="URI" content="GUID-4B03733F-D84D-5A28-B772-2E256D86ABC7" /><meta name="DC.Relation" scheme="URI" content="GUID-7C96B363-7891-50D3-A40F-92B9CBC4624C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9473F793-29ED-42ED-933B-A995E56E71CB" /><meta name="DC.Language" content="en" /><title>Creating
+a Certificate Store </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-9473F793-29ED-42ED-933B-A995E56E71CB">Creating
+a Certificate Store</h1><div><p>certapp helps you create certificate stores. The following is an
+example for creating a certificate store. </p>
+<h3>Steps</h3><ol id="GUID-96BC4EFA-5D97-5125-82F3-8EFF6CB590D5"><a name="GUID-96BC4EFA-5D97-5125-82F3-8EFF6CB590D5"><!-- --></a>
+<li id="GUID-C87DB19B-8443-5F13-B623-2FF2839C44B6"><a name="GUID-C87DB19B-8443-5F13-B623-2FF2839C44B6"><!-- --></a><p>Create a configuration
+file, <code class="codeph">certclients.txt</code>, which maps application name text strings
+to application UIDs. </p>
+Make sure that only one application name maps to a UID. 
+ <strong>Note:</strong> Although no error is displayed when you map more than
+one application name to a UID, this is not recommended. 
+The following is an example of a configuration file: 
+ <pre class="codeblock">
+StartClientInfo
+    # Entry 1
+        Uid 0x100042ab
+        Name "SW Install"
+    # Entry 2
+        Uid 0x1000a8b6
+        Name "SW Install OCSP Signing"
+EndClientInfo
+</pre>
+</li>
+<li id="GUID-10DCCA68-8018-5C5E-8659-2EEE13C6D663"><a name="GUID-10DCCA68-8018-5C5E-8659-2EEE13C6D663"><!-- --></a><p></p>
+Convert <code class="codeph">certclients.txt</code> to a binary file using the
+following command: 
+<p><code>&gt; certapp --hcertclients=certclients.txt --out --bcertclients=certclients.dat</code></p>
+</li>
+<li id="GUID-C1959BB6-6EA7-5D3F-AB72-6FC0632D8BBC"><a name="GUID-C1959BB6-6EA7-5D3F-AB72-6FC0632D8BBC"><!-- --></a><p></p>
+Generate the file certificate store (<code class="codeph">cacerts.dat</code>) and
+SWI certificate store (<code class="codeph">swicertstore.dat</code>) files. 
+<p><code>&gt; certapp --hcertclients=certclients.txt --hfilecertstore=cacerts.txt
+--out --bfilecertstore=cacerts.dat</code></p>
+<p><code>&gt; certapp --hcertclients=certclients.txt --hswicertstore=swicertstore.txt
+--out --bswicertstore=swicertstore.dat </code></p>
+<p><strong>Note:</strong> You can use the following command to combine the listed
+commands into a single command and create a certificate store.   </p><p><code>&gt;
+certapp --hcertclients=certclients.txt --hfilecertstore=cacerts.txt --hswicertstore=swicertstore.txt
+--out --bcertclients=certclients.dat --bfilecertstore=cacerts.dat --bswicertstore=swicertstore.dat </code></p>
+</li>
+</ol>
+</div><h3>Related tasks</h3><ul><li><a href="GUID-7C96B363-7891-50D3-A40F-92B9CBC4624C.html">Using certapp</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 19th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-9473F793-29ED-42ED-933B-A995E56E71CB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:57 GMT -->
+</html>

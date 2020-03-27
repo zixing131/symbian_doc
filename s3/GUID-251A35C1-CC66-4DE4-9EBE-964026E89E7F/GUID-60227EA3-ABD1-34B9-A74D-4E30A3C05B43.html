@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:53:17 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2011"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2011"/>
+<meta name="DC.Type" content="cxxFile"/>
+<meta name="DC.Title" content="zlib.html"/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43"/>
+<link rel="stylesheet" type="text/css" href="css/commonltr.css"/>
+<title>zlib.h</title>
+<meta name="keywords" content="api"/><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css"/><link href="css/html.css" rel="stylesheet" type="text/css"/><link href="css/style.css" rel="stylesheet" type="text/css"/><link href="css/nwg.css" rel="stylesheet" type="text/css"/><link href="css/eclipse.css" rel="stylesheet" type="text/css"/></head>
+<body id="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43"><a name="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+
+	<h1 class="sectiontitle">zlib.h File Reference</h1><div class="section include"><p>#include 
+            
+                    &lt;stdapis/zlib.h&gt;
+                </p></div>
+
+	<div class="nested1" id="GUID-61B77B42-AFBF-3CF7-80CE-87CEB9DA165C"><a name="GUID-61B77B42-AFBF-3CF7-80CE-87CEB9DA165C"><!-- --></a>
+		<h3 class="sectiontitle">Typedef alloc_func</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>typedef 
+					<a href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">voidpf</a>(*</td><td>alloc_func</td></tr></table></div><div class="section apidesc">
+				<p>The 'zlib' compression library provides in-memory compression and decompression functions, including integrity checks of the uncompressed data. This version of the library supports only one compression method (deflation) but other algorithms will be added later and will have the same stream interface.</p>
+
+				<p>Compression can be done in a single step if the buffers are large enough (for example if an input file is mmap'ed), or can be done by repeated calls of the compression function. In the latter case, the application must provide more input and/or consume the output (providing more output space) before each call.</p>
+
+				<p>The compressed data format used by default by the in-memory functions is the zlib format, which is a zlib wrapper documented in RFC 1950, wrapped around a deflate stream, which is itself documented in RFC 1951.</p>
+
+				<p>The library also supports reading and writing files in gzip (.gz) format with an interface similar to that of stdio using the functions that start with "gz". The gzip format is different from the zlib format. gzip is a gzip wrapper, documented in RFC 1952, wrapped around a deflate stream.</p>
+
+				<p>This library can optionally read and write gzip streams in memory as well.</p>
+
+				<p>The zlib format was designed to be compact and fast for use in memory and on communications channels. The gzip format was designed for single- file compression on file systems, has a larger header than zlib to maintain directory information, and uses a different, slower check method than zlib.</p>
+
+				<p>The library does not install any signal handler. The decoder checks the consistency of the compressed data, so the library should never crash even in case of corrupted input. Function pointer - used to allocate the internal state </p>
+
+			</div>
+
+	</div>
+
+	<div class="nested1" id="GUID-25C4536D-6CA5-3C06-A805-EB9E127CAC72"><a name="GUID-25C4536D-6CA5-3C06-A805-EB9E127CAC72"><!-- --></a>
+		<h3 class="sectiontitle">Typedef free_func</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>typedef void(*</td><td>free_func</td></tr></table></div><div class="section apidesc">
+				<p>Function pointer - used to free the internal state </p>
+
+			</div>
+
+	</div>
+
+	<div class="nested1" id="GUID-37A68F56-D2DF-342D-99F5-F3601070A3FB"><a name="GUID-37A68F56-D2DF-342D-99F5-F3601070A3FB"><!-- --></a>
+		<h3 class="sectiontitle">Typedef z_stream</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>typedef struct <a href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_stream_s</a></td><td>z_stream</td></tr></table></div><div class="section apidesc">
+				<p>Encapsulates a zip stream </p>
+
+			</div>
+
+	</div>
+
+	<div class="nested1" id="GUID-2FE7C8F0-5AED-367D-9E14-67A5EFFD053C"><a name="GUID-2FE7C8F0-5AED-367D-9E14-67A5EFFD053C"><!-- --></a>
+		<h3 class="sectiontitle">Typedef z_streamp</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>typedef 
+					<a href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_stream</a> FAR *</td><td>z_streamp</td></tr></table></div><div class="section apidesc">
+				<p>typedef z_stream* as z_streamp. Refer to <a href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html#GUID-E52C3FDD-B823-3997-85D2-FB14065267DE">z_stream_s</a> for more details </p>
+
+			</div>
+
+	</div>
+
+	<div class="nested1" id="GUID-6E8EA44B-DCB5-3CBF-8E45-DA1085362AB4"><a name="GUID-6E8EA44B-DCB5-3CBF-8E45-DA1085362AB4"><!-- --></a>
+		<h3 class="sectiontitle">Typedef gz_header</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>typedef struct <a href="GUID-76BB28CA-E1F2-3FD6-9BEF-AFA252E2EC39.html">gz_header_s</a></td><td>gz_header</td></tr></table></div><div class="section apidesc">
+				<p>gzip header information passed to and from zlib routines. See RFC 1952 for more details on the meanings of these fields. </p>
+
+			</div>
+
+	</div>
+
+	<div class="nested1" id="GUID-D1F79375-C08A-3E35-B09F-DB3085FD5DE1"><a name="GUID-D1F79375-C08A-3E35-B09F-DB3085FD5DE1"><!-- --></a>
+		<h3 class="sectiontitle">Typedef gz_headerp</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>typedef 
+					<a href="GUID-76BB28CA-E1F2-3FD6-9BEF-AFA252E2EC39.html">gz_header</a> FAR *</td><td>gz_headerp</td></tr></table></div><div class="section apidesc">
+				<p>gz_headerp is typedef gz_header* </p>
+
+			</div>
+
+	</div>
+
+	<div class="nested1" id="GUID-98ECB353-3C86-35A3-8DF2-746C9859D0DB"><a name="GUID-98ECB353-3C86-35A3-8DF2-746C9859D0DB"><!-- --></a>
+		<h3 class="sectiontitle">Typedef in_func</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>typedef unsigned(*</td><td>in_func</td></tr></table></div><div class="section apidesc">
+				<p>Input function pointer defined to be used in inflateBack </p>
+
+			</div>
+
+	</div>
+
+	<div class="nested1" id="GUID-693F7979-1CBC-31E7-B571-98F8FF7A7ECF"><a name="GUID-693F7979-1CBC-31E7-B571-98F8FF7A7ECF"><!-- --></a>
+		<h3 class="sectiontitle">Typedef out_func</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>typedef int(*</td><td>out_func</td></tr></table></div><div class="section apidesc">
+				<p>Output function pointer defined to be used in inflateBack </p>
+
+			</div>
+
+	</div>
+
+	<div class="nested1" id="GUID-C3188DC2-5960-37DC-9F70-7391C45B228D"><a name="GUID-C3188DC2-5960-37DC-9F70-7391C45B228D"><!-- --></a>
+		<h3 class="sectiontitle">Typedef gzFile</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>typedef 
+					<a href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">voidp</a>
+				</td><td>gzFile</td></tr></table></div><div class="section apidesc">
+				<p>gzfile is typedef to voidp i.e. void pointer(void*) </p>
+
+			</div>
+
+	</div>
+
+	
+</div></div><div class="footer"><hr/><div class="copy">© Nokia 2011.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:53:17 GMT -->
+</html>

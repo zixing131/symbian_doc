@@ -1,0 +1,712 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_notifiers_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:27 GMT -->
+<head><title>Notifiers API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i499"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Notifiers API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Emulator_support"><span class="tocnumber">1.1.1</span> <span class="toctext">Emulator support</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Showing_global_notes"><span class="tocnumber">2.1</span> <span class="toctext">Showing global notes</span></a></li>
+<li class="toclevel-2"><a href="#Getting_global_notes_responses"><span class="tocnumber">2.2</span> <span class="toctext">Getting global notes responses</span></a></li>
+<li class="toclevel-2"><a href="#Canceling_global_notes"><span class="tocnumber">2.3</span> <span class="toctext">Canceling global notes</span></a></li>
+<li class="toclevel-2"><a href="#Enhancing_global_notes"><span class="tocnumber">2.4</span> <span class="toctext">Enhancing global notes</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Setting_the_note_text_processing"><span class="tocnumber">2.4.1</span> <span class="toctext">Setting the note text processing</span></a></li>
+<li class="toclevel-3"><a href="#Setting_the_note_softkeys"><span class="tocnumber">2.4.2</span> <span class="toctext">Setting the note softkeys</span></a></li>
+<li class="toclevel-3"><a href="#Setting_the_note_graphic"><span class="tocnumber">2.4.3</span> <span class="toctext">Setting the note graphic</span></a></li>
+<li class="toclevel-3"><a href="#Setting_the_note_animation"><span class="tocnumber">2.4.4</span> <span class="toctext">Setting the note animation</span></a></li>
+<li class="toclevel-3"><a href="#Setting_the_note_tone"><span class="tocnumber">2.4.5</span> <span class="toctext">Setting the note tone</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Showing_global_queries"><span class="tocnumber">2.5</span> <span class="toctext">Showing global queries</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Showing_a_confirmation_query"><span class="tocnumber">2.5.1</span> <span class="toctext">Showing a confirmation query</span></a></li>
+<li class="toclevel-3"><a href="#Showing_a_list_query"><span class="tocnumber">2.5.2</span> <span class="toctext">Showing a list query</span></a></li>
+<li class="toclevel-3"><a href="#Showing_a_message_query"><span class="tocnumber">2.5.3</span> <span class="toctext">Showing a message query</span></a></li>
+<li class="toclevel-3"><a href="#Showing_a_list_message_query"><span class="tocnumber">2.5.4</span> <span class="toctext">Showing a list message query</span></a></li>
+<li class="toclevel-3"><a href="#Showing_and_updating_a_progress_dialog"><span class="tocnumber">2.5.5</span> <span class="toctext">Showing and updating a progress dialog</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Updating_a_confirmation_or_message_query"><span class="tocnumber">2.6</span> <span class="toctext">Updating a confirmation or message query</span></a></li>
+<li class="toclevel-2"><a href="#Manipulating_the_selection_in_a_list_or_list_message_query"><span class="tocnumber">2.7</span> <span class="toctext">Manipulating the selection in a list or list message query</span></a></li>
+<li class="toclevel-2"><a href="#Canceling_global_queries"><span class="tocnumber">2.8</span> <span class="toctext">Canceling global queries</span></a></li>
+<li class="toclevel-2"><a href="#Enhancing_global_queries"><span class="tocnumber">2.9</span> <span class="toctext">Enhancing global queries</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.10</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.11</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Extensions_to_the_API"><span class="tocnumber">2.12</span> <span class="toctext">Extensions to the API</span></a></li>
+<li class="toclevel-2"><a href="#Limitations_of_the_API"><span class="tocnumber">2.13</span> <span class="toctext">Limitations of the API</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#References"><span class="tocnumber">4</span> <span class="toctext">References</span></a></li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Notifiers API includes a number of global notes and global queries that
+are used by applications and engine components to display notes or query the
+user for information globally on top of other applications.
+</p><p>Using the notes is suggested if the client does not have its own UI context
+(an instance of <span class="plainlinks"><code>CCoeEnv</code> </span>). Such clients are usually engine
+components that do not have an UI environment at all.
+</p><p>It is important to note that they are shown on top of all applications,
+thus they should be used sparingly.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>aknnotify.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/notifiers_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/notifiers_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Global notes and queries are able to be driven from applications or engines
+without access to any other UI components or UI environments. They hide the <span class="plainlinks"><code>RNotifier</code> </span> API
+and provide helper classes on top of that.
+</p><p>Global notes provide a simple notification UI with optional soft keys,
+graphic, animation and tones. They display textual information in a given
+format. The format or rather the note type is defined by <span class="plainlinks"><code>TAknGlobalNoteType</code> </span>.
+The notes are provided by one class, namely <span class="plainlinks"><code>CAknGlobalNote</code> </span>.
+</p><p>One interesting aspect of the global notes is that each note is identified
+by a <span class="plainlinks"><code>TInt</code> </span> ID, and the client can refer to a note with the
+help of such an ID.
+</p><p>Global queries provide a slightly more complex UI. For example, in case <span class="plainlinks"><code>CAknGlobalMsgQuery</code> </span> is
+located beside the text, a header text and image can also be specified. The
+following global queries exist:
+</p>
+<ul><li> The confirmation query <span class="plainlinks"><code><font color="darkred">(CAknGlobalConfirmationQuery)</font></code> </span>.
+</li><li> The list query <span class="plainlinks"><code><font color="darkred">(CAknGlobalListQuery)</font></code> </span>.
+</li><li> The message query <span class="plainlinks"><code><font color="darkred">(CAknGlobalMsgQuery)</font></code> </span>.
+</li><li> The list message query <span class="plainlinks"><code>CAknGlobalListMsgQuery</code> </span>).(
+</li><li> The progress dialog <span class="plainlinks"><code><font color="darkred">(CAknGlobalProgressDialog)</font></code> </span>, which
+</li></ul>
+<p>is a global query in a way.
+</p><p>The displaying order of the global notes and queries (in case of components
+that have no time-out) is LIFO (last in, first out).
+</p><p>The global notes and queries interact correctly with the key lock mechanism,
+and hide themselves from the display automatically when a call is active.
+They reappear once a call has been disconnected. All global notes and queries
+can be canceled (simultaneously in case several notifiers exist) by pressing
+the End key while a call is not active. Note that task switching (using the
+Applications key) is not possible when a global note or query is visible.
+</p><p>Global notes and queries support skins. For more information on skins,
+refer to Skins API Specification [Notifiers_API_Specification.topic5 (1)].
+</p>
+<a name="Emulator_support"><h4> <span class="mw-headline">1.1.1 Emulator support </span></h4>
+</a><p>This API is fully supported in the WINS/WINSCW emulator environment.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Notifiers API is an SDK API and a part of S60 Third Edition. This document
+is valid from S60 release 3.2 onwards.
+</p><p>There are no constraints.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of Notifiers API are:
+</p>
+<ul><li> Showing global notes.
+</li><li> Getting global note responses.
+</li><li> Canceling global notes.
+</li><li> Enhancing global notes.
+</li><li> Setting the note text processing.
+</li><li> Setting the note soft keys.
+</li><li> Setting the note graphic.
+</li><li> Setting the note animation.
+</li><li> Setting the note tone.
+</li></ul>
+<ul><li> Showing global queries.
+</li><li> Showing a confirmation query.
+</li><li> Showing a list query.
+</li><li> Showing a message query.
+</li><li> Showing a list message query.
+</li><li> Showing and updating a progress dialog.
+</li></ul>
+<ul><li> Updating a confirmation or message query.
+</li><li> Manipulating the selection in a list or list message query.
+</li><li> Canceling global queries.
+</li><li> Enhancing global queries.
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknGlobalConfirmationQuery <td><span class="plainlinks"><code>/epoc32/include/mw/AknGlobalConfirmationQuery.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAknGlobalListMsgQuery</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknGlobalListMsgQuery.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknGlobalListQuery</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknGlobalListQuery.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknGlobalMsgQuery</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknGlobalMsgQuery.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknGlobalNote</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknGlobalNote.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknGlobalProgressDialog</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknGlobalProgressDialog.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknNotifyBase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknNotify.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknPopupNotify</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknPopupNotify.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknUINotifierBase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknNotifyStd.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>RNotifier2</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknNotify.h</code></span>
+</td></tr>
+<p>Generally all the classes use the Symbian OS Notifier framework, which
+is a client-server framework to show notes and queries globally. This functionality
+is provided by the <span class="plainlinks"><code>RNotifier</code> </span>, to which all classes connect.
+</p><p>The figure below shows the UML diagram of a global note which is a part
+of the Notifiers API.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_UML_globalnote.png" title="UML diagram of the global note"><img alt="UML diagram of the global note" border="0" height="226" src="images/SPB_10_1_UML_globalnote.png" width="404" /></a></div>
+<div style="text-align:center"><i>UML diagram of the global note</i></div>
+<p>The figure below and the figures after that show the UML diagrams of the
+different global queries, including the global progress dialog.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_UML_globalconfirmation.png" title="UML diagram of the global confirmation query"><img alt="UML diagram of the global confirmation query" border="0" height="223" src="images/SPB_10_1_UML_globalconfirmation.png" width="237" /></a></div>
+<div style="text-align:center"><i>UML diagram of the global confirmation query</i></div>
+<p>The global list query requires a descriptor array of the list items.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_UML_globallistquery.png" title="UML diagram of the global list query"><img alt="UML diagram of the global list query" border="0" height="221" src="images/SPB_10_1_UML_globallistquery.png" width="239" /></a></div>
+<div style="text-align:center"><i>UML diagram of the global list query</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_UML_globalmessagequery.png" title="UML diagram of the global message query"><img alt="UML diagram of the global message query" border="0" height="224" src="images/SPB_10_1_UML_globalmessagequery.png" width="181" /></a></div>
+<div style="text-align:center"><i>UML diagram of the global message query</i></div>
+<p>The global list message query requires a descriptor array of the list items.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_UML_globallistmsgquery.png" title="The UML diagram of the global list message query"><img alt="The UML diagram of the global list message query" border="0" height="282" src="images/SPB_10_1_UML_globallistmsgquery.png" width="255" /></a></div>
+<div style="text-align:center"><i>The UML diagram of the global list message query</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_UML_globalprocessdialog.png" title="UML diagram of the global progress dialog"><img alt="UML diagram of the global progress dialog" border="0" height="223" src="images/SPB_10_1_UML_globalprocessdialog.png" width="205" /></a></div>
+<div style="text-align:center"><i>UML diagram of the global progress dialog</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Showing_global_notes"><h3> <span class="mw-headline">2.1 Showing global notes </span></h3>
+</a><p>All the following use cases use the <span class="plainlinks"><code><font color="darkred">ShowNoteL()</font></code> </span> method
+of the <span class="plainlinks"><code>CAknGlobalNote</code> </span> class without <span class="plainlinks"><code>TRequestStatus</code> </span>.
+It means that the client is not notified when any action has been taken by
+the user. In cases where there are no soft keys defined for the note, it is
+not reasonable to wait for some kind of response in <span class="plainlinks"><code>TRequestStatus</code> </span>.
+</p><p>An information note can be shown with the type <span class="plainlinks"><code>EAknGlobalInformationNote</code> </span>.
+</p>
+<pre>CAknGlobalNote* note = CAknGlobalNote::NewLC();
+_LIT(KInfoText, "Information");
+note-&gt;ShowNoteL(EAknGlobalInformationNote, KInfoText);
+CleanupStack::PopAndDestroy(note);
+</pre>
+<p>The following global note types are also supported:
+</p>
+<ul><li> <span class="plainlinks"><code>EAknGlobalWarningNote</code> </span>.
+</li><li> <span class="plainlinks"><code>EAknGlobalConfirmationNote</code> </span>.
+</li><li> <span class="plainlinks"><code>EAknGlobalErrorNote</code> </span>.
+</li><li> <span class="plainlinks"><code>EAknGlobalWaitNote</code> </span>.
+</li><li> <span class="plainlinks"><code>EAknGlobalTextNote</code> </span>.
+</li></ul>
+<p><span class="plainlinks"><code>TAknGlobalNoteType</code> </span> defines more global note types, but
+the other notes are not recommended for use.
+</p><p>All the listed notes have a short time-out - the note is dismissed by the
+system automatically if there is no softkey defined for the note. However,
+in case of wait notes this is not true because the note displays the Cancel
+softkey by default and remains on the screen with a progress bar until the
+user or the client code cancels it.
+</p><p>The text note is a simplified note by default without any predefined graphics
+in it. Of course, as with other notes, enhancements (softkeys, a graphic,
+an animation, a tone) can be added to it.
+</p><p>The note remains on the screen even if it has just been deleted. This means
+that deleting the actual note object does not dismiss the note itself. If
+the note must be dismissed, it must be canceled by the client code (or the
+user). This is discussed in Section [Notifiers_API_Specification.topic3.3 Canceling global notes].
+</p>
+<a name="Getting_global_notes_responses"><h3> <span class="mw-headline">2.2 Getting global notes responses </span></h3>
+</a><p>It is possible to observe the outcome of a global note. It requires a <span class="plainlinks"><code>TRequestStatus</code> </span> to
+be passed to <span class="plainlinks"><code><font color="darkred">ShowNoteL()</font></code> </span> as a parameter. The completed status
+holds the ID of the pressed softkey or a Symbian OS error code.
+</p><p>The following example defines an observer active object ( <span class="plainlinks"><code>CGlobalObserver</code> </span>)
+which prints the content of the completed <span class="plainlinks"><code>TRequestStatus</code> </span> to
+the screen.
+</p>
+<pre>class CGlobalObserver : public CActive
+    {
+    public:
+        CGlobalObserver(CEikonEnv* aEnv);
+        virtual ~CGlobalObserver();
+        void Start();
+    protected: // from CActive
+        void RunL() ;
+        void DoCancel();
+    private: // data
+        CEikonEnv* iEnv;
+    };
+</pre>
+<pre>CGlobalObserver:: CGlobalObserver(CEikonEnv* aEnv)
+    : CActive(0), iEnv(aEnv)
+    {
+    CActiveScheduler::Add(this);
+    }
+</pre>
+<pre>CGlobalObserver::~CGlobalObserver()
+    {
+    Cancel();
+    }
+</pre>
+<pre>void CGlobalObserver::RunL()
+    {
+    TBuf&lt;120&gt; msg = _L("Received: ");
+    msg.AppendNum(iStatus.Int());
+    iEnv-&gt;InfoMsg(msg);
+    }
+</pre>
+<pre>void CGlobalObserver::DoCancel()
+    {
+    }
+</pre>
+<pre>void CGlobalObserver::Start()
+    {
+    SetActive();
+    }
+</pre>
+<pre>void CMyClient::ShowGlobaNoteL()
+    {
+    _LIT(KInformationText, "Information");
+    delete iNote;
+    iNote = NULL;
+    iNote = CAknGlobalNote::NewL();
+    delete iObserver;
+    iObserver = NULL;
+    iObserver = new (ELeave) CGlobalObserver(iEikonEnv);
+    iNote-&gt;SetSoftkeys(R_AVKON_SOFTKEYS_ANSWER_EXIT);
+    iObserver-&gt;iStatus = KRequestPending;
+    iObserver-&gt;Start();
+    iNote-&gt;ShowNoteL(
+        iObserver-&gt;iStatus,
+        EAknGlobalInformationNote,
+        KInformationText);
+    }
+</pre>
+<pre>void CMyClient::~CMyClient()
+    {
+    delete iNote;
+    delete iObserver;
+    }
+</pre>
+<a name="Canceling_global_notes"><h3> <span class="mw-headline">2.3 Canceling global notes </span></h3>
+</a><p>A note can be canceled with its ID. The following example shows how this
+is done:
+</p>
+<pre>void CMyClient::ShowBusyNoteL()
+    {
+    CAknGlobalNote* note = CAknGlobalNote::NewLC();
+    _LIT(KWaitingText, "Busy");
+    TInt id = note-&gt;ShowNoteL(EAknGlobalWaitNote, KWaitingText);
+    User::After(5000000);
+    note-&gt;CancelNoteL(id);
+    CleanupStack::PopAndDestroy(note);
+    }
+</pre>
+<p>The canceling note object does not have to be the same object that showed
+the note.
+</p>
+<a name="Enhancing_global_notes"><h3> <span class="mw-headline">2.4 Enhancing global notes </span></h3>
+</a><a name="Setting_the_note_text_processing"><h4> <span class="mw-headline">2.4.1 Setting the note text processing </span></h4>
+</a><p>It is possible to enable or disable all text processing done by the dialog.
+This can be done with the <span class="plainlinks"><code><font color="darkred">SetTextProcessing()</font></code> </span> method of <span class="plainlinks"><code>CAknGlobalNote</code> </span>.
+</p>
+<a name="Setting_the_note_softkeys"><h4> <span class="mw-headline">2.4.2 Setting the note softkeys </span></h4>
+</a><p>Any kind of a softkey (pair) can be added to the note before showing it
+with the <span class="plainlinks"><code><font color="darkred">SetSoftkeys()</font></code> </span> method:
+</p>
+<pre>note-&gt;SetSoftkeys(R_AVKON_SOFTKEYS_CLOSE);
+note-&gt;ShowNoteL(EAknGlobalWaitNote, KWaitingText);
+</pre>
+<a name="Setting_the_note_graphic"><h4> <span class="mw-headline">2.4.3 Setting the note graphic </span></h4>
+</a><p>A graphic and the corresponding mask can be set to global notes with the <span class="plainlinks"><code><font color="darkred">SetGraphic()</font></code> </span> method
+of <span class="plainlinks"><code>CAknGlobalNote</code> </span>.
+</p>
+<pre>void CMyClient::TestNoteGraphicL()
+    {
+    _LIT(KGraphicText, "New Graphic");
+    CAknGlobalNote* note = CAknGlobalNote::NewL();
+    CleanupStack::PushL(note);
+    note-&gt;SetGraphic(
+        EMbmAvkonQgn_note_alarm_misc,
+        EMbmAvkonQgn_note_alarm_misc_mask);
+    note-&gt;ShowNoteL(EAknGlobalInformationNote, KGraphicText);
+    CleanupStack::PopAndDestroy(note);
+    }
+</pre>
+<a name="Setting_the_note_animation"><h4> <span class="mw-headline">2.4.4 Setting the note animation </span></h4>
+</a><p>Animation can be set to global notes with the <span class="plainlinks"><code><font color="darkred">SetAnimation()</font></code> </span> method
+of <span class="plainlinks"><code>CAknGlobalNote</code> </span>. It requires a <span class="plainlinks"><code>BMPANIM_DATA</code> </span> resource
+structure.
+</p>
+<a name="Setting_the_note_tone"><h4> <span class="mw-headline">2.4.5 Setting the note tone </span></h4>
+</a><p>A tone can be set to notes as well with the <span class="plainlinks"><code><font color="darkred">SetTone()</font></code> </span> method
+of <span class="plainlinks"><code>CAknGlobalNote</code> </span>.
+</p>
+<a name="Showing_global_queries"><h3> <span class="mw-headline">2.5 Showing global queries </span></h3>
+</a><p>Global queries are provided by several classes, such as:
+</p>
+<ul><li> <span class="plainlinks"><code>CAknGlobalConfirmationQuery</code> </span>.
+</li><li> <span class="plainlinks"><code>CAknGlobalListQuery</code> </span>.
+</li><li> <span class="plainlinks"><code>CAknGlobalMsgQuery</code> </span>.
+</li><li> <span class="plainlinks"><code>CAknGlobalListMsgQuery</code> </span>.
+</li><li> <span class="plainlinks"><code>CAknGlobalProgressDialog</code> </span>.
+</li></ul>
+<p>The query objects must exist until the user or the client code dismisses
+the query because they were designed to process user input. This is why all
+the <span class="plainlinks"><code><font color="darkred">Show&#8230;()</font></code> </span> methods expect a <span class="plainlinks"><code>TRequestStatus</code> </span>.
+This status holds the user response. This is described in more detail below.
+</p>
+<a name="Showing_a_confirmation_query"><h4> <span class="mw-headline">2.5.1 Showing a confirmation query </span></h4>
+</a><p>The following example illustrates the creation of a global confirmation
+query, and also how it is shown to the user.
+</p>
+<pre>void CMyClient::ShowGlobaConfirmationQueryL()
+    {
+    _LIT(KConfirmationText, "Please confirm!");
+    delete iGlobalConfirmationQuery;
+    iGlobalConfirmationQuery = 0;
+    iGlobalConfirmationQuery = CAknGlobalConfirmationQuery::NewL();
+</pre>
+<pre>    delete iConfirmationObserver;
+    iConfirmationObserver = 0;
+    iConfirmationObserver = new (ELeave) CGlobalObserver(iEikonEnv);
+    iConfirmationObserver-&gt;iStatus = KRequestPending;
+    iConfirmationObserver-&gt;Start();
+</pre>
+<pre>    iGlobalConfirmationQuery-&gt;ShowConfirmationQueryL(
+         iConfirmationObserver-&gt;iStatus,
+         KConfirmationText,
+         R_AVKON_SOFTKEYS_CLOSE);
+    }
+</pre>
+<a name="Showing_a_list_query"><h4> <span class="mw-headline">2.5.2 Showing a list query </span></h4>
+</a><p>A global list query displays a list. When the user selects a list item,
+the completed request status passed to the <span class="plainlinks"><code><font color="darkred">ShowListQueryL()</font></code> </span> of <span class="plainlinks"><code>CAknGlobalListQuery</code> </span> holds
+the non-negative index (starting from zero) of the selected item or a Symbian
+OS error code if the query was rejected or canceled.
+</p>
+<pre>void CMyClient::ShowGlobalListQueryL()
+    {
+    delete iGlobalListQuery;
+    iGlobalListQuery = NULL;
+    iGlobalListQuery = CAknGlobalListQuery::NewL();
+</pre>
+<pre>    CDesCArray* textArray = iCoeEnv-&gt;ReadDesCArrayResourceL(
+        R_GLOBAL_LIST_ARRAY);
+    CleanupStack::PushL(textArray);
+</pre>
+<pre>    delete iListObserver;
+    iListObserver = 0;
+    iListObserver = new (ELeave) CGlobalObserver(iEikonEnv);
+    iListObserver-&gt;iStatus = KRequestPending;
+    iListObserver-&gt;Start();
+</pre>
+<pre>    iGlobalListQuery-&gt;ShowListQueryL(textArray, iListObserver-&gt;iStatus);
+    CleanupStack::PopAndDestroy(textArray);
+    }
+</pre>
+<p>In the previous example <span class="plainlinks"><code>R_GLOBAL_LIST_ARRAY</code> </span> is an <span class="plainlinks"><code>ARRAY</code> </span> resource
+structure. <span class="plainlinks"><code>CAknGlobalListQuery</code> </span> is allowed to hold only simple
+list items (no tabulators are allowed in the items). For more information
+on lists, see Lists API Specification [Notifiers_API_Specification.topic5 (2)].
+</p><p>The following extract gives an example of the array resource structure:
+</p>
+<pre>RESOURCE ARRAY r_global_list_array
+    {
+    items =
+        {
+        LBUF {txt = "Switch off";},
+        LBUF {txt = "General";},
+        LBUF {txt = "Silent";},
+        LBUF {txt = "Meeting";},
+        LBUF {txt = "Flight";}
+        };
+    }
+</pre>
+<p>Note that it is possible to set a heading for the list query with the <span class="plainlinks"><code><font color="darkred">SetHeadingL()</font></code> </span> method.
+</p>
+<a name="Showing_a_message_query"><h4> <span class="mw-headline">2.5.3 Showing a message query </span></h4>
+</a><p>Global message queries enable specifying a query header text, a separate
+query message below the header, softkeys, and a header image and a tone.
+</p><p>The following example illustrates the construction and displaying of a
+message query:
+</p>
+<pre>void CMyClient::ShowGlobalMsgQueryL()
+    {
+    _LIT(KHeaderText, "Header text");
+    _LIT(KMsgText, "Hello, I'm a global message query as you can see.");
+    delete iGlobalMsgQuery;
+    iGlobalMsgQuery = NULL;
+    iGlobalMsgQuery = CAknGlobalMsgQuery::NewL();
+</pre>
+<pre>    delete iMsgObserver;
+    iMsgObserver = 0;
+    iMsgObserver = new (ELeave) CGlobalObserver(iEikonEnv);
+    iMsgObserver-&gt;iStatus = KRequestPending;
+    iMsgObserver-&gt;Start();
+</pre>
+<pre>    iGlobalMsgQuery-&gt;ShowMsgQueryL(
+        iMsgObserver-&gt;iStatus,
+        KMsgText,
+        R_AVKON_SOFTKEYS_ANSWER_EXIT,
+        KHeaderText,
+        KNullDesC);
+    }
+</pre>
+<a name="Showing_a_list_message_query"><h4> <span class="mw-headline">2.5.4 Showing a list message query </span></h4>
+</a><p>A global list message query displays a list with message. When the user
+selects a list item and chooses the accepting softkey, the completed request
+status passed to <span class="plainlinks"><code>CAknGlobalListMsgQuery</code> </span>'s <span class="plainlinks"><code><font color="darkred">ShowListMsgQueryL()</font></code> </span> holds
+the non-negative index (starting from zero) of the selected item. If the user
+selects the canceling softkey, the index contains the softkey ID, which is
+either a negative value or a positive value starting from 3000. The default
+accepting and canceling softkeys are OK and Cancel, but those can be defined
+by the user.
+</p>
+<pre>void CMyClient::ShowGlobalListMsgQueryL()
+    {
+    _LIT(KHeaderText, "Header text");
+    _LIT(KMsgText, "Hello, I am a global list message query as you can see.");
+    delete iGlobalListMsgQuery;
+    iGlobalListMsgQuery = NULL;
+    iGlobalListMsgQuery = CAknGlobalListMsgQuery::NewL();
+</pre>
+<pre>    CDesCArray* textArray = iCoeEnv-&gt;ReadDesCArrayResourceL(
+        R_GLOBAL_LIST_ARRAY);
+    CleanupStack::PushL(textArray);
+</pre>
+<pre>    delete iListMsgObserver;
+    iListMsgObserver = 0;
+    iListMsgObserver = new (ELeave) CGlobalObserver(iEikonEnv);
+    iListMsgObserver-&gt;iStatus = KRequestPending;
+    iListMsgObserver-&gt;Start();
+    TInt index = 0;
+</pre>
+<pre>    iGlobalListMsgQuery-&gt;ShowListMsgQueryL(
+        textArray,
+        iListMsgObserver-&gt;iStatus,
+        KHeaderText,
+        KMsgText);
+    CleanupStack::PopAndDestroy(textArray);
+    }
+</pre>
+<p>Defining the list array resource for global list message query is identical
+to the global list query. For details, refer to [Notifiers_API_Specification.topic3.5.2 Showing a list query].
+</p>
+<a name="Showing_and_updating_a_progress_dialog"><h4> <span class="mw-headline">2.5.5 Showing and updating a progress dialog </span></h4>
+</a><p>The global progress dialog displays a message to the user together with
+a progress bar. The dialog is implemented in the class <span class="plainlinks"><code>CAknGlobalProgressDialog</code> </span> and
+can be shown with the <span class="plainlinks"><code><font color="darkred">ShowProgressDialogL()</font></code> </span> method. This
+method displays a null progress, so the progress bar stands on 0%. To update
+progress info, the <span class="plainlinks"><code><font color="darkred">UpdateProgressDialog()</font></code> </span> method must be
+called specifying the current and final value.
+</p><p>The following example shows a progress dialog and uses a periodic timer
+object ( <span class="plainlinks"><code>CPeriodic</code> </span>) that updates the progress bar:
+</p>
+<pre>const TInt KFinalValue = 50;
+</pre>
+<pre>void CMyClient::ShowGlobalProgressDialogL()
+    {
+    _LIT(KMsgText, "Hello, I'm a global progress dialog.");
+    delete iGlobalProgressDialog;
+    iGlobalProgressDialog = 0;
+    iGlobalProgressDialog = CAknGlobalProgressDialog::NewL();
+</pre>
+<pre>    delete iProgressObserver;
+    iProgressObserver = 0;
+    iProgressObserver = new (ELeave) CGlobalObserver(iEikonEnv);
+    iProgressObserver-&gt;iStatus = KRequestPending;
+    iProgressObserver-&gt;Start();
+</pre>
+<pre>    iCurrentValue = 0;
+    iGlobalProgressDialog-&gt;ShowProgressDialogL(
+        iProgressObserver-&gt;iStatus,
+        KMsgText,
+        R_AVKON_SOFTKEYS_CANCEL);
+</pre>
+<pre>    StartTimerL(10000, 10000);
+    }
+</pre>
+<pre>void CMyClient::StartTimerL(TInt aStart, TInt aInterval)
+    {
+    delete iTimer;
+    iTimer = 0;
+    iTimer = CPeriodic::NewL(EPriorityLow);
+    iTimer-&gt;Start(aStart, aInterval, TCallBack(TimerCallback, this));
+    }
+</pre>
+<pre>// Declare this method as static.
+TInt CMyClient::TimerCallback(TAny* aThis)
+    {
+    static_cast&lt;CMyClient*&gt;(aThis)-&gt;GlobalNoteProcessTimerEvent();
+    return 0;
+    }
+</pre>
+<pre>void CMyClient::GlobalNoteProcessTimerEvent()
+    {
+    if (!iGlobalProgressDialog)
+        {
+        return;
+        }
+    iCurrentValue++;
+    if (iCurrentValue &lt;= KFinalValue)
+        {
+        iGlobalProgressDialog-&gt;UpdateProgressDialog(iCurrentValue, KFinalValue);
+        }
+    else
+        {
+        iGlobalProgressDialog-&gt;ProcessFinished();
+        iTimer-&gt;Cancel();
+        }
+    }
+</pre>
+<a name="Updating_a_confirmation_or_message_query"><h3> <span class="mw-headline">2.6 Updating a confirmation or message query </span></h3>
+</a><p>Only the softkeys of the global confirmation or message query can be changed
+while the query is being displayed. This can be achieved with the <span class="plainlinks"><code><font color="darkred">UpdateConfirmationQuery()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">UpdateMsgQuery()</font></code> </span> methods.
+</p>
+<a name="Manipulating_the_selection_in_a_list_or_list_message_query"><h3> <span class="mw-headline">2.7 Manipulating the selection in a list or list message query </span></h3>
+</a><p>The selection (the highlight) can be moved in a list or list message query
+while it is being displayed with the <span class="plainlinks"><code><font color="darkred">MoveSelectionUp()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">MoveSelectionDown()</font></code> </span> methods.
+The list API does not allow moving the selection to a particular position
+or getting the position of the currently selected item. However, the highlighted
+list item can be selected from the client code with the <span class="plainlinks"><code><font color="darkred">SelectItem()</font></code> </span> method.
+</p>
+<a name="Canceling_global_queries"><h3> <span class="mw-headline">2.8 Canceling global queries </span></h3>
+</a><p>Global queries can be canceled from the client code:
+</p>
+<ul><li> A confirmation query can be canceled with <span class="plainlinks"><code><font color="darkred">CancelConfirmationQuery()</font></code> </span>.
+</li><li> A list query can be canceled with <span class="plainlinks"><code><font color="darkred">CancelListQuery()</font></code> </span>.
+</li><li> A message query can be canceled with <span class="plainlinks"><code><font color="darkred">CancelMsgQuery()</font></code> </span>.
+</li><li> A list message query can be canceled with <span class="plainlinks"><code><font color="darkred">CancelListMsgQuery()</font></code> </span>.
+</li><li> A progress dialog can be canceled with <span class="plainlinks"><code><font color="darkred">CancelProgressDialog()</font></code> </span>.
+</li></ul>
+<p>When a query is canceled with one of the methods above, the corresponding
+observer's request status ( <span class="plainlinks"><code>TRequestStatus</code> </span>) is completed with <span class="plainlinks"><code>KErrCancel</code> </span>.
+</p>
+<a name="Enhancing_global_queries"><h3> <span class="mw-headline">2.9 Enhancing global queries </span></h3>
+</a><p>There is only a limited way to enhance global queries. Such enhancements
+are adding an animation, image or a tone to a confirmation query or adding
+an image or a tone (or both) to a message query.
+</p><p>The following example replaces the default image of the confirmation query:
+</p>
+<pre>    iGlobalConfirmationQuery-&gt;ShowConfirmationQueryL(
+        iConfirmationObserver-&gt;iStatus,
+        KConfirmationText,
+        0,
+        0,
+        AknIconUtils::AvkonIconFileName(),
+        EMbmAvkonQgn_note_call,
+        EMbmAvkonQgn_note_call_mask);
+</pre>
+<p>The following example replaces the image with an animation:
+</p>
+<pre>    iGlobalConfirmationQuery-&gt;ShowConfirmationQueryL(
+        iConfirmationObserver-&gt;iStatus,
+        KConfirmationText,
+        R_AVKON_SOFTKEYS_CLOSE,
+        R_QGN_NOTE_ERROR_ANIM);
+</pre>
+<p>The global progress dialogs can also be enhanced with an image, icon and
+a text appearing beside the icon. The example below illustrates this. <span class="plainlinks"><code><font color="darkred">SetImageL()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">SetIconL()</font></code> </span> methods
+must be called before showing the dialog with <span class="plainlinks"><code><font color="darkred">ShowProgressDialogL()</font></code> </span>.
+</p>
+<pre>    iGlobalProgressDialog-&gt;SetImageL(
+        AknIconUtils::AvkonIconFileName(),
+        EMbmAvkonQgn_note_voice,
+        EMbmAvkonQgn_note_voice_mask);
+</pre>
+<pre>    iGlobalProgressDialog-&gt;SetIconL(
+        _L("1234567890"),
+        AknIconUtils::AvkonIconFileName(),
+        EMbmAvkonQgn_prop_nrtyp_home,
+        EMbmAvkonQgn_prop_nrtyp_home_mask);
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.10 Error handling </span></h3>
+</a><p>Notifiers API uses the standard Symbian OS error reporting mechanism. Leaves
+and system wide error codes as function return values are used if the error
+is recoverable. A client application can handle these errors similarly as
+a normal Symbian OS platform application.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.11 Memory and Performance Considerations </span></h3>
+</a><p>The RAM usage depends on the Notifier component used: a note, confirmation
+query, list query, message query, list message query or progress dialog. In
+case of the list and list message queries the memory usage is bigger compared
+to other notes and queries due to the array of list items. In any case, the
+classes communicate with the notifier server through the <span class="plainlinks"><code>RNotifier</code> </span> API.
+This communication requires serializing the parameters and sending the serialized
+data through a client-server session. Then the server instantiates the necessary
+UI component and initializes and displays it in its UI context on top of all
+applications.
+</p>
+<a name="Extensions_to_the_API"><h3> <span class="mw-headline">2.12 Extensions to the API </span></h3>
+</a><p>There are no extensions to the API.
+</p>
+<a name="Limitations_of_the_API"><h3> <span class="mw-headline">2.13 Limitations of the API </span></h3>
+</a><p>There are no limitations to the API.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><p>There is no glossary.
+</p>
+<a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Notifiers API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> ID</td><td> Identifier
+</td></tr>
+<tr>
+<td> OS</td><td> Operating System
+</td></tr></table>
+</a><a name="References"><h2> <span class="mw-headline">4 References </span></h2>
+<table border="1" cellspacing="0">
+<tr>
+<td> (1) S60 Skins API Specification Document</td><td>
+</td></tr>
+<tr>
+<td> (2) S60 Lists API Specification Document</td><td>
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_notifiers_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:31 GMT -->
+</html>

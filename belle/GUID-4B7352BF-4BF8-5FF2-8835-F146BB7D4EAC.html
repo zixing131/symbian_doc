@@ -1,0 +1,73 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4B7352BF-4BF8-5FF2-8835-F146BB7D4EAC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:28 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Generating a File Name from the URI" /><meta name="DC.Relation" scheme="URI" content="GUID-795B41AF-FBEA-56CE-AE20-EF17BE754723" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-94215E49-605B-51BA-B215-10BDA1A0C013" /><meta name="DC.Relation" scheme="URI" content="GUID-A602E35E-69BE-5F8C-A7E6-4B98E67BF382" /><meta name="DC.Relation" scheme="URI" content="GUID-96837414-3041-5E1E-A2E9-C18EECCF86D9" /><meta name="DC.Relation" scheme="URI" content="GUID-5D4616AC-42AB-52C3-9092-4463C3687E58" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4B7352BF-4BF8-5FF2-8835-F146BB7D4EAC" /><meta name="DC.Language" content="en" /><title>Generating
+a File Name from the URI </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4B7352BF-4BF8-5FF2-8835-F146BB7D4EAC">Generating
+a File Name from the URI</h1><div>
+<p>This tutorial describes the steps to generate a file name from URI. </p>
+<div><h3 class="section-title">Introduction</h3> <p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html"><code class="apiname">TUriC8</code></a> provides
+functionality to generate a fully qualified file name from a file URI object.
+This function supports only URIs with file scheme. </p> <p><strong> URI path component </strong> </p> <p>The <code class="codeph">path</code> component
+encodes the file's location on the file system. The generic path component
+is of the form: </p> <p>"/" [<em>keyword</em> "/" ] [<em>drive</em> *("/"<em>keyword</em>)["/"<em>filename</em> ]] </p> <p>where, </p> <ul>
+<li id="GUID-44ABA994-B265-50EB-9529-D8D319C27CDD"><a name="GUID-44ABA994-B265-50EB-9529-D8D319C27CDD"><!-- --></a><p> <em>keyword</em> indicates
+path limitations. The only valid value of this is <em>private</em>, which indicates
+that the path is to be resolved relative to the application’s private directory. </p> </li>
+<li id="GUID-FCFB99C0-8331-5D20-989E-384DC5B9B395"><a name="GUID-FCFB99C0-8331-5D20-989E-384DC5B9B395"><!-- --></a><p> <em>drive</em> is either
+the drive letter (upper or lowercase), or the term “ext-media”, indicating
+that the file is on a removable drive. </p> </li>
+</ul> <p>Examples of file names resolved from variants of URIs using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-AD8DC94E-743B-3347-9AC4-B37AE23AA786"><code class="apiname">TUriC8::GetFileNameL()</code></a> are
+as follows: </p> <div class="tablenoborder"><a name="GUID-EBAA947D-9DC1-5727-BFE1-7071E23ACCB6"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-EBAA947D-9DC1-5727-BFE1-7071E23ACCB6" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e224474">File type</th>
+<th class="cellrowborder" valign="top" id="d0e224477">File URI</th>
+<th class="cellrowborder" valign="top" id="d0e224480">File name after resolving</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e224474 "><p>File on a fixed drive </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e224477 "><p> <code>file:///c/path/to/file/name.ext</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e224480 "><p> <code>c:\path\to\file\name.ext</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e224474 "><p>File on a removable media drive </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e224477 "><p> <code> file:///ext-media/path/to/file/name.ext</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e224480 "><p> <code>f:\path\to\file\name.ext</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e224474 "><p>Private file on a fixed drive </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e224477 "><p> <code>file:///private/c/path/to/file/name.ext</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e224480 "><p> <code>c:\private\0x1001234f\path\to\file\name.ext</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e224474 "><p>Private file on a removable drive </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e224477 "><p>f<code>ile:///private/ext-media/path/to/file/name.ext</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e224480 "><p> <code> h:\private\0x1001234f\path\to\file\name.ext</code> </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div><h3 class="section-title">Procedure </h3> <p>The following code generates the file
+name from the file URI provided. </p> <pre class="codeblock">//Parse the URI descriptor
+TUriParser8* uriComponent; 
+_LIT8( KUriDes,"http://web.intra/Dev/SysDoc/devlib.htm" );  
+uriComponent-&gt;Parse( KUriDes );
+// Extract the file name from the file URI
+HBufC* fileName = uriComponent-&gt;GetFileNameL();  //returns the string 'devlib.htm'</pre> <p>Another
+variant of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-AD8DC94E-743B-3347-9AC4-B37AE23AA786"><code class="apiname">TUriC8::GetFileNameL()</code></a> is used to get either
+the full file name, only the file path or only the file name. </p> <pre class="codeblock">HBufC16* filename = HBufC* TUriC8::GetFileNameL( EUriFileNameFull )    </pre> <p>The
+code returns a full file name. </p> <p> <strong>Note</strong>: UriC8::GetFileNameL() can
+be used only for file URIs and will leave if used on any other scheme. </p> <p>Other
+two options available are as follows: </p> <ol id="GUID-CEA2464C-5273-50D3-B1FA-2918A5660368">
+<li id="GUID-83ECAC38-CF24-5980-8C62-8B52DBF6FF89"><a name="GUID-83ECAC38-CF24-5980-8C62-8B52DBF6FF89"><!-- --></a><p> <code class="codeph">EUriFileNamePath</code> generates
+the filename containing only the path component. </p> <p>For example, <code class="codeph">http://www.foo.com/MyDir/MyFiles/MyFile.doc;param1;param2</code> retrieves <code>MyDir\MyFiles\MyFile.doc</code>. </p> </li>
+<li id="GUID-722BEC57-07AF-5B32-8C30-FE0B0C738CB1"><a name="GUID-722BEC57-07AF-5B32-8C30-FE0B0C738CB1"><!-- --></a><p> <code class="codeph">EUriFileNameTail</code> generates
+the file name containing just the file name. </p> <p>For example, <code class="codeph">http://www.foo.com/MyDir/MyFiles/MyFile.doc;param1;param2</code> retrieves <code>MyFile.doc</code>. </p> </li>
+</ol> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-795B41AF-FBEA-56CE-AE20-EF17BE754723.html">HTTP Utilities
+Library Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 27th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4B7352BF-4BF8-5FF2-8835-F146BB7D4EAC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:28 GMT -->
+</html>

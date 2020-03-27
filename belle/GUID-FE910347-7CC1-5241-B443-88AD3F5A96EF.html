@@ -1,0 +1,419 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FE910347-7CC1-5241-B443-88AD3F5A96EF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:58 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using Publish and Subscribe" /><meta name="abstract" content="This topic explains the operations that can be performed using publish and subscribe." /><meta name="description" content="This topic explains the operations that can be performed using publish and subscribe." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-A81C65CF-CF4E-571C-8080-9D387F46AAD6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FE910347-7CC1-5241-B443-88AD3F5A96EF" /><meta name="DC.Language" content="en" /><title>Using
+Publish and Subscribe </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FE910347-7CC1-5241-B443-88AD3F5A96EF">Using
+Publish and Subscribe</h1><div><p>This topic explains the operations that can be performed using
+publish and subscribe.</p>
+<ul>
+<li id="GUID-AE4CAAA9-9EB2-5AA0-ACB9-073EAAA9D2C1"><a name="GUID-AE4CAAA9-9EB2-5AA0-ACB9-073EAAA9D2C1"><!-- --></a><p> <a href="#GUID-383A6127-FCE0-5B0E-BD54-3AAFEB097AC9">Creating and closing a handle to a property</a> </p> </li>
+<li id="GUID-3F0622EC-8490-585A-8CA8-09A3925E842E"><a name="GUID-3F0622EC-8490-585A-8CA8-09A3925E842E"><!-- --></a><p> <a href="#GUID-75BCC783-8DA2-519F-9E4A-B597BDC90E79">Defining a property</a> </p> </li>
+<li id="GUID-D6C38BDD-02CD-5D9F-8872-DD621D58DB85"><a name="GUID-D6C38BDD-02CD-5D9F-8872-DD621D58DB85"><!-- --></a><p> <a href="#GUID-D942B400-37F8-5C02-AC95-2BD195D3348D">Deleting a property</a> </p> </li>
+<li id="GUID-ED1DE72F-9111-51A5-9AB2-D7112D947465"><a name="GUID-ED1DE72F-9111-51A5-9AB2-D7112D947465"><!-- --></a><p> <a href="#GUID-3B2B63B8-EB2A-5845-A738-A10012A7C896">Publishing a property value</a> </p> </li>
+<li id="GUID-360F7C12-4909-52EE-9468-E40A3ABC944A"><a name="GUID-360F7C12-4909-52EE-9468-E40A3ABC944A"><!-- --></a><p> <a href="#GUID-CD731DD7-E833-5C67-9B90-0357C9552450">Retrieving a property value</a> </p> </li>
+<li id="GUID-57301501-34C1-5BE1-9AAB-36F97DBCF5C0"><a name="GUID-57301501-34C1-5BE1-9AAB-36F97DBCF5C0"><!-- --></a><p> <a href="#GUID-A17955E9-FC4C-5FF9-8CC4-2425931E1DEB">Subscribing to, and unsubscribing from, a property</a> </p> </li>
+<li id="GUID-AAA0B4BB-4B01-5F5E-8617-6D02B36DCEF2"><a name="GUID-AAA0B4BB-4B01-5F5E-8617-6D02B36DCEF2"><!-- --></a><p> <a href="#GUID-EF683969-CED9-5986-938D-3D887E3B39BD">Usage patterns</a> </p> </li>
+<li id="GUID-E2D3A0BE-1FD9-5B56-928A-4265940E0DEA"><a name="GUID-E2D3A0BE-1FD9-5B56-928A-4265940E0DEA"><!-- --></a><p> <a href="#GUID-2B022BE9-2004-54E8-962E-5AB38DDC4222">Making efficient use of the user side API</a> </p> </li>
+</ul>
+<div id="GUID-383A6127-FCE0-5B0E-BD54-3AAFEB097AC9"><h3 class="section-title">Creating and
+closing a handle to a property</h3> <p>Some property operations require
+a reference to the property to be established first. This is done using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-3F65DD85-6061-3370-9618-ECC0400323D1"><code class="apiname">RProperty::Attach()</code></a> member
+function. After a call to this function, the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html"><code class="apiname">RProperty</code></a> object
+acts like a standard handle to a kernel resource. When this handle is no longer
+required, it can be released in the standard way by calling the inherited <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-727D2B62-09A9-3CBC-AB6F-591E52EC68EB.html#GUID-4B2775FD-AB61-3850-86C5-780CE8C97573"><code class="apiname">RHandleBase::Close()</code></a> member
+function. </p> <p>Note that releasing the handle does not cause the property
+to disappear. This only happens if the property is deleted. </p> <p>Note also
+that it is quite legitimate to attach to a property that has not been defined,
+and in this case no error will be returned either. This enables the lazy definition
+of properties as used in some of the usage patterns. </p> <pre class="codeblock">// attach to the ‘counter’ property
+RProperty counter;
+TInt r=counter.Attach(KMyPropertyCat,EMyPropertyName,EOwnerThread);
+User::LeaveIfError(r);
+
+// use the counter object...
+
+// when finished, release the handle
+counter.Close();
+    </pre> </div>
+<div id="GUID-75BCC783-8DA2-519F-9E4A-B597BDC90E79"><h3 class="section-title">Defining a
+property</h3> <p>A property is defined using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-58C54D2A-91E0-359B-AA31-69C6C4050173"><code class="apiname">RProperty::Define()</code></a> function,
+specifying the attributes of that property. </p> <p>A property does not need
+to be defined before it can be accessed. This supports programming patterns
+where both publishers and subscribers may define the property. Note, however
+that for security reasons, there are restrictions on the category that can
+be used when defining a property; see <a href="GUID-DAF86036-CC40-5F26-9F15-2F2093F59C03.html">security
+issues</a> for more information. </p> <p>Once defined, a property persists
+in the kernel until the system reboots, or the property is explicitly deleted.
+Its lifetime is not tied to that of the thread or process that originally
+defined it. This means that, when defining a property, it is important to
+check the return code from the call <code class="codeph">RProperty::Define()</code> to
+deal with the possibility that the property has previously been defined, but
+not deleted. </p> <p>The following code shows the definition of two properties: </p> <pre class="codeblock">enum TMyPropertyKeys={EMyPropertyCounter,EMyPropertyName};
+
+static _LIT_SECURITY_POLICY_PASS(KAllowAllPolicy);
+static _LIT_SECURITY_POLICY_C1(KPowerMgmtPolicy,ECapabilityPowerMgmt);
+
+// define first property to be integer type
+TInt r=RProperty::Define(EMyPropertyCounter,RProperty::EInt,KAllowAllPolicy,KPowerMgmtPolicy);
+if (r!=KErrAlreadyExists)
+    {
+    User::LeaveIfError(r);
+    }
+
+// define second property to be a byte array, allocating 100 bytes
+r=RProperty::Define(EMyPropertyName,RProperty::EByteArray,KAllowAllPolicy,KPowerMgmtPolicy,100);
+if (r!=KErrAlreadyExists)
+    {
+    User::LeaveIfError(r);
+    }
+. . .
+    </pre> <p>Once defined, a property value can change, but the property
+type cannot. Byte-array type properties can also change length provided the
+length does not exceed the maximum value of 512 bytes. The limit on the size
+of a property ensures some limit on RAM usage. </p> <p>The API allows byte-array
+and Unicode text type properties to be pre-allocated when they are defined.
+This means that the time taken to set the values is bounded. However, if the
+length of these property types subsequently increases, then memory allocation
+may take place, and no guarantees can then be made on the time taken to set
+them. </p> <p>There are further <a href="GUID-DAF86036-CC40-5F26-9F15-2F2093F59C03.html">security
+issues</a> to be considered when defining a property. You need to provide
+two security policies - one to govern which processes can publish the property
+value, and the other to govern which processes can retrieve the property value.
+Security policies are instances of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-81A285F6-3F87-3E77-9426-61BB16BC7109.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-81A285F6-3F87-3E77-9426-61BB16BC7109.html"><code class="apiname">TSecurityPolicy</code></a> objects,
+although for efficiency reasons, you will almost always use the <code class="codeph">_LIT_SECURITY_POLICY_...</code> macros
+to generate constant objects that behave like <code class="codeph">TSecurityPolicy</code> objects.
+The API reference for <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-81A285F6-3F87-3E77-9426-61BB16BC7109.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-81A285F6-3F87-3E77-9426-61BB16BC7109.html"><code class="apiname">TSecurityPolicy</code></a> provides far more
+detail on this. </p> <p>In this example, all processes will be allowed to
+retrieve the property value, but only those processes having the power management
+system capability (ECapabilityPowerMgmt) will be allowed
+to publish the property value. </p> <p>Note that a process that defines a
+property does not have automatic rights of access to that property, other
+than to delete it. If the defining process also wishes to publish and/or subscribe
+to that property, then it must ensure that it satisfies the security policies
+that it itself has put in place when defining the property. </p> </div>
+<div id="GUID-D942B400-37F8-5C02-AC95-2BD195D3348D"><h3 class="section-title">Deleting a
+property</h3> <p>A defined property is deleted by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-226BC411-A2D2-30D1-BD86-9DDBD855C1E4"><code class="apiname">RProperty::Delete()</code></a>.
+Any outstanding subscriptions for this property will complete with KErrNotFound.
+Only the process with the correct secure ID is allowed to delete it. </p> <p>For
+example, extending the code fragment introduced above: </p> <pre class="codeblock">enum TMyPropertyKeys={EMyPropertyCounter,EMyPropertyName};
+
+// define first property to be integer type
+TInt r=RProperty::Define(EMyPropertyCounter,RProperty::EInt);
+if (r!=KErrAlreadyExists)
+    {
+    User::LeaveIfError(r);
+    }
+
+// define second property to be a byte array, allocating 100 bytes
+r=RProperty::Define(EMyPropertyName,RProperty::EByteArray,100);
+if (r!=KErrAlreadyExists)
+    {
+    User::LeaveIfError(r);
+    }
+. . .
+
+// much later on
+
+. . .
+// delete the ‘name’ property
+r=RProperty::Delete(EMyPropertyName);
+if (r!=KErrNotFound)
+    {
+    User::LeaveIfError(r);
+    }
+    </pre> </div>
+<div id="GUID-3B2B63B8-EB2A-5845-A738-A10012A7C896"><h3 class="section-title">Publishing
+a property value</h3> <p>A property is published using the <code class="codeph">RProperty::Set()</code> family
+of functions. Properties can be published: </p> <ul>
+<li id="GUID-3A136703-587F-55B9-9EE6-EE512845956A"><a name="GUID-3A136703-587F-55B9-9EE6-EE512845956A"><!-- --></a><p>using a previously attached <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html"><code class="apiname">RProperty</code></a> handle, </p> </li>
+</ul> <p>or </p> <ul>
+<li id="GUID-126B0DC1-D4FC-520C-9583-50E64CBC7B80"><a name="GUID-126B0DC1-D4FC-520C-9583-50E64CBC7B80"><!-- --></a><p>by specifying the property
+category and key with the new value. </p> </li>
+</ul> <p>The former mode is guaranteed to have bounded execution time, suitable
+for high-priority, real-time tasks, except when publishing a byte-array property
+that requires the allocation of a larger space for the new value. </p> <p>The
+latter mode offers no real-time guarantees. </p> <p>Property values are written
+atomically. This means that it is not possible for threads reading a property
+to get a garbled value. </p> <p>All outstanding subscriptions for a property
+are completed when the value is published, even if it is exactly the same
+as the existing value. This means that a property can be used as a simple
+broadcast notification service. </p> <p>Publishing a property that is not
+defined is not necessarily a programming error. The <code class="codeph">Set()</code> functions
+just return an error. If this is not expected for any particular usage, then
+the error must be checked and processed by the caller. </p> <p>See the code
+fragment in the section <a href="#GUID-CD731DD7-E833-5C67-9B90-0357C9552450">Retrieving
+a property value</a> </p> </div>
+<div id="GUID-CD731DD7-E833-5C67-9B90-0357C9552450"><h3 class="section-title">Retrieving
+a property value</h3> <p>The current value of a property is read using
+the <code class="codeph">RProperty::Get()</code> family of functions. Properties can
+be retrieved: </p> <ul>
+<li id="GUID-81AD34BF-9A45-5DEE-AD20-AA908F5BF94A"><a name="GUID-81AD34BF-9A45-5DEE-AD20-AA908F5BF94A"><!-- --></a><p>using a previously attached <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html"><code class="apiname">RProperty</code></a> handle, </p> </li>
+</ul> <p>or </p> <ul>
+<li id="GUID-1163D9F2-BDEA-55E1-B6FB-D9A353F4D53E"><a name="GUID-1163D9F2-BDEA-55E1-B6FB-D9A353F4D53E"><!-- --></a><p>by specifying the property
+category and key with the new value. </p> </li>
+</ul> <p>The former mode is guaranteed to have bounded execution time, suitable
+for high-priority, real-time tasks. </p> <p>The latter mode offers no real-time
+guarantees. </p> <p>Property values are read atomically. This means that it
+is not possible for threads reading a property to get a garbled value. </p> <p>Retrieving
+a property that is not defined is not necessarily a programming error. The <code class="codeph">Get()</code> functions
+just return an error. If this is not expected for any particular usage, then
+the error must be checked and processed by the caller. </p> <p>Integer properties
+must be accessed using the overloads that take an integer or integer reference
+value, whereas byte-array properties can be accessed using the overloads that
+take a descriptor reference. </p> <p>The following code fragment shows publication
+and retrieval of a property. Note that it uses the idea of attaching to a
+property. Note also that it contains a race condition, especially if another
+thread is executing the same sequence to increment the ‘counter’ value. </p> <pre class="codeblock">const TUid KMyPropertyCat={0x10012345};
+enum TMyPropertyKeys={EMyPropertyCounter,EMyPropertyName};
+
+// attach to the ‘counter’ property
+RProperty counter;
+TInt r=counter.Attach(KMyPropertyCat,EMyPropertyCounter,EOwnerThread);
+User::LeaveIfError(r);
+
+// publish a new name value
+TFileName n;
+RProcess().Filename(n);
+r=RProperty::Set(KMyPropertyCat,EMyPropertyName,n);
+User::LeaveIfError(r);
+
+// retrieve the first 10 characters of the name value
+TBuf&lt;10&gt; name;
+r=RProperty::Get(KMyPropertyCat,EMyPropertyName,name);
+if (r!=KErrOverflow)
+    {
+    User::LeaveIfError(r);
+    }
+
+// retrieve and publish a new value using the attached ‘counter’ property
+TInt count;
+r=counter.Get(count);
+if (r==KErrNone)
+    {
+    r=counter.Set(++count);
+    }
+User::LeaveIfError(r);
+
+// when finised, release the handle
+counter.Close();
+    </pre> </div>
+<div id="GUID-A17955E9-FC4C-5FF9-8CC4-2425931E1DEB"><h3 class="section-title">Subscribing
+to, and unsubscribing from, a property</h3> <p>Subscribing to a property
+is the act of making an asynchronous request to be notified of a change to
+that property. </p> <p>A thread makes a request for notification of a change
+to a property by calling the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-21A2FEB7-AAF1-3AC0-84B9-AB30E6CFFF99"><code class="apiname">RProperty::Subscribe()</code></a> member
+function on an already attached property object. Only one subscription request
+can be outstanding at any one time for a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html"><code class="apiname">RProperty</code></a> instance. </p> <p>An
+outstanding subscription request can be cancelled by calling the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-326D75D3-9D54-3BD2-8B78-FAD1EEA1A1A5"><code class="apiname">RProperty::Cancel()</code></a> member
+function. This is unsubscribing from the property. </p> <p>Subscribing to
+a property is a single request to be notified when the property is next updated,
+it does not generate an ongoing sequence of notifications for every change
+to that property's value. Neither does it provide the caller with the new
+value. In essence, the act of notification should be interpreted as “Property
+X has changed” rather than “Property X has changed to Y”. This means that
+the new value must be explicitly retrieved, if required. As a result, multiple
+updates may be collapsed into one notification, and subscribers may not have
+visibility of all intermediate values. </p> <p>This might appear to introduce
+a window of opportunity for a subscriber to be out of synchronisation with
+the property value – in particular, if the property is updated again before
+the subscriber thread has had the chance to process the original notification.
+However, a simple programming pattern, outlined in the second example below
+ensures this does not happen. The principle is that, before dealing with a
+subscription completion event, an active object should re-issue the subscription
+request. </p> <p>Note that if the property has not been defined, then a subscription
+request does not complete until the property is subsequently defined and published.
+Note that the request will complete with KErrPermissionDenied if
+the subscribing process does not have sufficient capability as defined by
+the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-81A285F6-3F87-3E77-9426-61BB16BC7109.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-81A285F6-3F87-3E77-9426-61BB16BC7109.html"><code class="apiname">TSecurityPolicy</code></a> object supplied by the process defining
+the property. </p> <p>If the property is already defined, then the request
+completes immediately with KErrPermissionDenied if the
+subscribing process does not have sufficient capability. </p> <pre class="codeblock">const TUid KMyPropertyCat={0x10012345};
+enum TMyPropertyKeys={EMyPropertyCounter,EMyPropertyName};
+
+// attach to the ‘counter’ property
+RProperty counter;
+TInt r=counter.Attach(KMyPropertyCat,EMyPropertyCounter,EOwnerThread);
+User::LeaveIfError(r);
+
+// wait for the previously attached ‘counter’ property to be updated
+TRequestStatus s;
+counter.Subscribe(s);
+User::WaitForRequest(s);
+
+// Notification complete, retrieve the counter value.
+TInt count;
+counter.Get(count);
+. . .
+    </pre> <pre class="codeblock">const TUid KMyPropertyCat={0x10012345};
+enum TMyPropertyKeys={EMyPropertyCounter,EMyPropertyName};
+
+// Active object that tracks changes to the ‘name’ property
+class CPropertyWatch : public CActive
+    {
+    enum {EPriority=0};
+public:
+    static CPropertyWatch* NewL();
+private:
+    CPropertyWatch();
+    void ConstructL();
+    ~CPropertyWatch();
+    void RunL();
+    void DoCancel();
+private:
+    RProperty iProperty;
+    };
+
+CPropertyWatch* CPropertyWatch::NewL()
+    {
+    CPropertyWatch* me=new(ELeave) CPropertyWatch;
+    CleanupStack::PushL(me);
+    me-&gt;ConstructL();
+    CleanupStack::Pop(me);
+    return me;
+    }
+
+CPropertyWatch::CPropertyWatch()
+    :CActive(EPriority)
+    {}
+
+void CPropertyWatch::ConstructL()
+    {
+    User::LeaveIfError(iProperty.Attach(KMyPropertyCat,KMyPropertyName));
+    CActiveScheduler::Add(this);
+    // initial subscription and process current property value
+    RunL();
+    }
+
+CPropertyWatch::~CPropertyWatch()
+    {
+    Cancel();
+    iProperty.Close();
+    }
+
+void CPropertyWatch::DoCancel()
+    {
+    iProperty.Cancel();
+    }
+
+void CPropertyWatch::RunL()
+    {
+    // resubscribe before processing new value to prevent missing updates
+    iProperty.Subscribe(iStatus);
+    SetActive();
+
+    // property updated, get new value
+    TFileName n;
+    if (iProperty.Get(n)==KErrNotFound)
+        {
+        // property deleted, do necessary actions here...
+        NameDeleted();
+        }
+    else
+        {
+        // use new value ...
+        NameChanged(n);
+        }
+    }
+    </pre> </div>
+<div id="GUID-EF683969-CED9-5986-938D-3D887E3B39BD"><h3 class="section-title">Usage patterns</h3> <p>There
+are three usage patterns that can easily be identified, labelled as: standard
+state, pure event distribution, and speculative publishing. </p> <p id="GUID-0DFB902E-FCE1-52CF-8523-C7AE7B6768CE"><a name="GUID-0DFB902E-FCE1-52CF-8523-C7AE7B6768CE"><!-- --></a><strong>Standard state</strong> </p> <p>This
+pattern is used for events and state that are known to be used widely in the
+system. Examples of this might be battery level and signal strength, which
+are important in every phone. </p> <p>The publisher calls <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-58C54D2A-91E0-359B-AA31-69C6C4050173"><code class="apiname">RProperty::Define()</code></a> to
+create the appropriate property. For byte array or text properties, a size
+sufficient for all possible values should be reserved. An error of KErrAlreadyExists should
+be ignored. The publisher then publishes the property values as, and when,
+appropriate. If the <code class="codeph">RProperty::Set()</code> call fails, this should
+be treated as a serious error, since it indicates that important system state
+is not getting through. Appropriate action might include panicking or rebooting
+the system. Subscribers will use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-21A2FEB7-AAF1-3AC0-84B9-AB30E6CFFF99"><code class="apiname">RProperty::Subscribe()</code></a> to
+request notification, and <code class="codeph">RProperty::Get()</code> to retrieve the
+property value on notification. </p> <p>The memory to store the property value
+will be permanently allocated, even if it turns out that no-one in the system
+needs that value. This does ensure that the value can always be published,
+even if the system is in an out of memory situation. For this reason, this
+approach should be limited to widely used and important state. The <a href="#GUID-01254366-696D-598F-9670-6A178F4E69F7">Speculative publishing</a> pattern offers an approach for dealing with
+less important state. </p> <p id="GUID-F2A60E64-C279-5E08-8AA8-52DF1EEA32BD"><a name="GUID-F2A60E64-C279-5E08-8AA8-52DF1EEA32BD"><!-- --></a><strong>Pure event distribution</strong> </p> <p>This
+pattern is used when events need to be distributed, not values. </p> <p>The
+publisher of the event simply uses an integer property, and calls RProperty::Set()
+with any value. Even if the value of the property is not changed by this operation,
+all subscribers will be notified that a Set() has occurred, and by implication
+that the related event has occurred. </p> <p>Subscribers will be able to detect
+that an event has occurred, but will get no other information. The minimum
+possible memory is wasted on storage for the dummy value. </p> <p id="GUID-01254366-696D-598F-9670-6A178F4E69F7"><a name="GUID-01254366-696D-598F-9670-6A178F4E69F7"><!-- --></a><strong>Speculative publishing</strong> </p> <p>This
+pattern is used when it is not known whether a value will be of interest to
+others or not. Unlike the <a href="#GUID-0DFB902E-FCE1-52CF-8523-C7AE7B6768CE">standard
+state</a> pattern, the publisher of the event does not call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-58C54D2A-91E0-359B-AA31-69C6C4050173"><code class="apiname">RProperty::Define()</code></a> to
+create the property. Instead, it simply calls <code class="codeph">RProperty::Set()</code> as
+appropriate, and ignores any KErrNotFound error. </p> <p>When
+other code in the system, i.e. a potential subscriber, is interested in the
+state, it calls <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-58C54D2A-91E0-359B-AA31-69C6C4050173"><code class="apiname">RProperty::Define()</code></a> to create the property
+and allocate the memory for the value. An error of KErrAlreadyExists should
+be ignored, as this only indicates that some other code in the system is also
+interested in the value and has already created the property. </p> <p>The
+subscriber then calls <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-21A2FEB7-AAF1-3AC0-84B9-AB30E6CFFF99"><code class="apiname">RProperty::Subscribe()</code></a> and <code class="codeph">RProperty::Get()</code> as
+usual to interact with the property. On the first <code class="codeph">Get()</code>,
+the subscriber may retrieve the property default value (zero, or a zero length
+descriptor). This must be substituted with a sensible default value for the
+property in question. </p> <p>Using this pattern, no memory is wasted on properties
+that have no subscribers, while the publisher code is simpler as there is
+no need for configuration as to which properties to publish. </p> <p>The publisher,
+however, wastes some time attempting to publish unneeded values, but this
+should not be an issue unless the value is very frequently updated. </p> <p>Where
+events are published very infrequently, the subscriber could have a dummy
+value for a long time, until the next publish event updates the value. Often
+this is not a problem as a default value can be substituted. For example a
+full/empty indicator for a battery level, none for signal strength etc. This
+pattern is unlikely to be useful if there is no suitable default value. </p> </div>
+<div id="GUID-2B022BE9-2004-54E8-962E-5AB38DDC4222"><h3 class="section-title">Making efficient
+use of the user side API</h3> <p>While the Publish and Subscribe API, as
+represented by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html"><code class="apiname">RProperty</code></a> is designed to be efficient, there
+are certain usage patterns that can improve performance. </p> <p><strong>Use
+the attached version of the API calls if possible</strong> </p> <p>If you intend
+to call <code class="codeph">Set()</code> or <code class="codeph">Get()</code> repeatedly, it is
+preferable to use the attached forms of the calls. The attached forms are
+the ones that do not take a UID/Key parameter, and that can only be called
+after calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C4776034-D190-3FC4-AF45-C7F195093AC3.html#GUID-3F65DD85-6061-3370-9618-ECC0400323D1"><code class="apiname">RProperty::Attach()</code></a>. The attached variants
+are constant time operations, and execute much faster than the corresponding
+unattached versions. </p> <p><strong>Only
+preallocate space if the publishing is time critical</strong> </p> <p>For byte-array
+and text properties, it is possible to pre-allocate space for the data. Doing
+this results in <code class="codeph">Set()</code> operations that do not exceed the preallocated
+space, avoiding the need to do a memory allocation. However, if the data is
+shorter than the reserved space, the excess is wasted. Since <code class="codeph">Set()</code> automatically
+extends the data area if needed, then the only reason to pre-allocate space
+is if the <code class="codeph">Set()</code> operation has to be real-time, i.e. has to
+have known execution time. </p> <p><strong>Always
+consider using Speculative Publishing</strong> </p> <p>Even in situations where
+the <a href="#GUID-0DFB902E-FCE1-52CF-8523-C7AE7B6768CE">Standard
+State</a> pattern may seem appropriate, speculative publishing may be a
+better choice, specially for low-level components that know little about how
+they are used or what the wider system configuration may be. The onus is then
+on the UI/Policy layer to ensure that the appropriate properties are defined
+early on in device boot according to policy rules it can define. This ensures
+that the policy layers in the system maintain control and can implement a
+wide variety of policies. </p> <p>Standard state is only relevant for properties
+that are essential to every Symbian device. Battery level probably falls into
+this category, signal strength may well not. </p> <p><strong>Define the expected update frequency</strong> </p> <p>When a property is changed,
+all subscribers are notified. This leads to their threads running to service
+the notification. If a property changes value frequently, it would be wasteful
+for subscribers to perform substantial processing for each notification. </p> <p>Take
+a property representing signal strength as an example. Potentially, this could
+be updated several times a second. If a change in value were only used to
+update the UI signal bar, it would not be harmful. However, if it were used
+by many entities for serious processing (e.g. polling for email, sending unsent
+SMSes, re-connecting to the internet), then such frequent updates would have
+a severe effect on battery life. </p> <p>Nevertheless, it is obviously desirable
+for many parts of a phone OS to know about the state of network coverage,
+and to take appropriate action. In cases like this, it may be worth the publisher
+defining multiple properties with associated update characteristics. For example,
+raw signal strength (updated &gt; 1 time/sec), periodic signal strength (updated
+once every 10s) and network coverage (updated only when moving between some
+signal and none). Each subscriber can then monitor the appropriate notification
+and so reduce the number of threads that run when the underlying value changes. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FE910347-7CC1-5241-B443-88AD3F5A96EF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:58 GMT -->
+</html>

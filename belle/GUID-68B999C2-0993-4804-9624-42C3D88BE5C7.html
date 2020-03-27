@@ -1,0 +1,70 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-68B999C2-0993-4804-9624-42C3D88BE5C7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="View architecture" /><meta name="DC.Relation" scheme="URI" content="GUID-89B12BB4-877E-4157-9BD1-81AD02EE3543" /><meta name="DC.Relation" scheme="URI" content="GUID-BCC6F8D1-9F6C-41C4-A2FB-AB7528B03F8D" /><meta name="DC.Relation" scheme="URI" content="GUID-95C188D0-EDB2-46D0-ACDE-19AAD524C9F4" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Relation" scheme="URI" content="GUID-E50EC0B4-A434-4C30-A1A9-1A976185FF28" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-68B999C2-0993-4804-9624-42C3D88BE5C7" /><title>View architecture </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-68B999C2-0993-4804-9624-42C3D88BE5C7">View architecture</h1><div>
+<p>The following image illustrates the components of the view architecture
+approach.</p>
+<div class="figure" id="GUID-A4D968BE-B048-424C-94B5-FAAA7B14C5D5"><img src="GUID-2B50C6B1-E1E8-44E6-840B-7FAA206E6C26_d0e84104_href.png" /><p class="figure-title"><strong>Figure: </strong>View architecture classes</p></div>
+<p>Symbian platform applications that follow the view architecture
+require:</p>
+<ul>
+<li><p>a <a href="GUID-FD2CDEB8-0784-4BE5-A775-170F57D71BBC.html">UI controller</a> derived from CAknViewAppUi</p></li>
+<li><p>a <a href="GUID-DAC32BB9-C0EB-42FF-A596-C2F1A90A4BD7.html">view controller</a> derived from CAknView</p>
+</li>
+<li><p>a <a href="GUID-DAC32BB9-C0EB-42FF-A596-C2F1A90A4BD7.html">view</a> or views derived from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a></p>
+</li>
+</ul>
+<p>The view architecture only allows one view to be active in each
+application. If a new view is switched to within an application, the
+current view is immediately deactivated, so this architectural approach
+is <em>not</em> appropriate in the following cases:</p>
+<ul>
+<li><p>Applications with any view that cannot cleanly handle
+unexpected activation of another view in that application.</p>
+</li>
+<li><p>Applications that provide views that can be nested
+over other applications, except where embedding is used.</p>
+</li>
+<li><p>Applications that provide controls that can be used
+inside other applications (for example, using a Web control inside
+an e-mail viewer to show an e‑mail with HTML content).</p>
+</li>
+</ul>
+<p>Typical responsibilities in this architecture are:</p>
+<ul>
+<li><p><code class="parname">CAknViewAppUi</code>-derived class
+acts as a <a href="GUID-FD2CDEB8-0784-4BE5-A775-170F57D71BBC.html">UI
+controller</a>:</p>
+<ul>
+<li><p>It creates one or more <code class="parname">CAknView</code>-derived view controllers.</p></li>
+<li><p>It handles <a href="GUID-EF7FF39E-929F-4767-B475-5D582D37BB32.html">events</a> that
+are not handled by the view controllers.</p></li>
+<li><p>To switch between views, it activates and deactivates
+views.</p></li>
+<li><p>It handles menu <a href="GUID-4941C035-C359-4968-9BD5-31F44EE5F810.html">commands</a> passed
+to it by the view controllers.</p></li>
+<li><p>It receives events such as <a href="GUID-DD15F24B-0786-4531-A6C5-A5E70EBE2732.html">layout</a> and <a href="GUID-3B441CDC-AB7A-4D8D-A595-57C21E1D426C.html">foreground</a> notifications from the run-time environment.</p></li>
+</ul>
+</li>
+<li><p>CAknView-derived class acts as
+a <a href="GUID-FD2CDEB8-0784-4BE5-A775-170F57D71BBC.html">view controller</a></p>
+<ul>
+<li><p>It creates one of more <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a>-derived views.</p></li>
+<li><p>It handles registering controls for <a href="GUID-E402616A-7ED8-45AC-B836-99C3A3760B33.html">key event handling</a>.</p></li>
+<li><p>It handles menu <a href="GUID-4941C035-C359-4968-9BD5-31F44EE5F810.html">commands</a>.</p>
+</li>
+</ul>
+</li>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a>-derived view:</p>
+<ul>
+<li><p>Shows application data and state on the screen.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>For information on the CAknApplication and CAknDocument-derived classes, see <a href="GUID-BDDDF68F-F7C3-43AF-8B6C-C77C701FD2A9.html">Framework requirements for GUI applications</a>.</p>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-89B12BB4-877E-4157-9BD1-81AD02EE3543.html">Constructing the UI controller in the view architecture</a></li><li class="ulchildlink"><a href="GUID-BCC6F8D1-9F6C-41C4-A2FB-AB7528B03F8D.html">View controller in the view architecture</a></li><li class="ulchildlink"><a href="GUID-95C188D0-EDB2-46D0-ACDE-19AAD524C9F4.html">Views in the view architecture</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 31st, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-68B999C2-0993-4804-9624-42C3D88BE5C7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:57 GMT -->
+</html>

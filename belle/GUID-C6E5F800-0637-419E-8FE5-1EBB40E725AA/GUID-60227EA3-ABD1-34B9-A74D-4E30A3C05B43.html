@@ -1,0 +1,1141 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:18:43 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="zlib.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43" />
+<title>zlib.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43"><a name="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">zlib.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-0EE817FA-4901-349D-8D6B-E68187D3D6CF"><a name="GUID-0EE817FA-4901-349D-8D6B-E68187D3D6CF"><!-- --></a>
+<h3 class="sectiontitle">ZLIB_VERSION</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Zlib version </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-6277703F-8BD6-37AF-93A4-31BE733BC8C0"><a name="GUID-6277703F-8BD6-37AF-93A4-31BE733BC8C0"><!-- --></a>
+<h3 class="sectiontitle">ZLIB_VERNUM</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Zlib version Number </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-61B77B42-AFBF-3CF7-80CE-87CEB9DA165C"><a name="GUID-61B77B42-AFBF-3CF7-80CE-87CEB9DA165C"><!-- --></a>
+<h3 class="sectiontitle">Typedef alloc_func</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef 
+					<a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">voidpf</a>(*</td><td>alloc_func</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The 'zlib' compression library provides in-memory compression and decompression functions, including integrity checks of the uncompressed data. This version of the library supports only one compression method (deflation) but other algorithms will be added later and will have the same stream interface.</p>
+<p class="p">Compression can be done in a single step if the buffers are large enough (for example if an input file is mmap'ed), or can be done by repeated calls of the compression function. In the latter case, the application must provide more input and/or consume the output (providing more output space) before each call.</p>
+<p class="p">The compressed data format used by default by the in-memory functions is the zlib format, which is a zlib wrapper documented in RFC 1950, wrapped around a deflate stream, which is itself documented in RFC 1951.</p>
+<p class="p">The library also supports reading and writing files in gzip (.gz) format with an interface similar to that of stdio using the functions that start with "gz". The gzip format is different from the zlib format. gzip is a gzip wrapper, documented in RFC 1952, wrapped around a deflate stream.</p>
+<p class="p">This library can optionally read and write gzip streams in memory as well.</p>
+<p class="p">The zlib format was designed to be compact and fast for use in memory and on communications channels. The gzip format was designed for single- file compression on file systems, has a larger header than zlib to maintain directory information, and uses a different, slower check method than zlib.</p>
+<p class="p">The library does not install any signal handler. The decoder checks the consistency of the compressed data, so the library should never crash even in case of corrupted input. Function pointer - used to allocate the internal state </p>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-25C4536D-6CA5-3C06-A805-EB9E127CAC72"><a name="GUID-25C4536D-6CA5-3C06-A805-EB9E127CAC72"><!-- --></a>
+<h3 class="sectiontitle">Typedef free_func</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef void(*</td><td>free_func</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Function pointer - used to free the internal state </p>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-37A68F56-D2DF-342D-99F5-F3601070A3FB"><a name="GUID-37A68F56-D2DF-342D-99F5-F3601070A3FB"><!-- --></a>
+<h3 class="sectiontitle">Typedef z_stream</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef struct <a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_stream_s</a></td><td>z_stream</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Encapsulates a zip stream </p>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-2FE7C8F0-5AED-367D-9E14-67A5EFFD053C"><a name="GUID-2FE7C8F0-5AED-367D-9E14-67A5EFFD053C"><!-- --></a>
+<h3 class="sectiontitle">Typedef z_streamp</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef 
+					<a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_stream</a> *</td><td>z_streamp</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">typedef z_stream* as z_streamp. Refer to <a class="xref" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html#GUID-E52C3FDD-B823-3997-85D2-FB14065267DE">z_stream_s</a> for more details </p>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-6E8EA44B-DCB5-3CBF-8E45-DA1085362AB4"><a name="GUID-6E8EA44B-DCB5-3CBF-8E45-DA1085362AB4"><!-- --></a>
+<h3 class="sectiontitle">Typedef gz_header</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef struct <a class="xref xref apiRelation" href="GUID-76BB28CA-E1F2-3FD6-9BEF-AFA252E2EC39.html">gz_header_s</a></td><td>gz_header</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">gzip header information passed to and from zlib routines. See RFC 1952 for more details on the meanings of these fields. </p>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-D1F79375-C08A-3E35-B09F-DB3085FD5DE1"><a name="GUID-D1F79375-C08A-3E35-B09F-DB3085FD5DE1"><!-- --></a>
+<h3 class="sectiontitle">Typedef gz_headerp</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef 
+					<a class="xref xref apiRelation" href="GUID-76BB28CA-E1F2-3FD6-9BEF-AFA252E2EC39.html">gz_header</a> *</td><td>gz_headerp</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">gz_headerp is typedef gz_header* </p>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-927EC0CD-A2D6-3F66-B1AD-2855D8ABD9B4"><a name="GUID-927EC0CD-A2D6-3F66-B1AD-2855D8ABD9B4"><!-- --></a>
+<h3 class="sectiontitle">Z_NO_FLUSH</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Allowed flush values; see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> and <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> below for details </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-DC27F263-6372-3E9C-BB69-B592DDD6225E"><a name="GUID-DC27F263-6372-3E9C-BB69-B592DDD6225E"><!-- --></a>
+<h3 class="sectiontitle">Z_PARTIAL_FLUSH</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Allowed flush values; see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> and <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> below for details. This constant will be removed, use Z_SYNC_FLUSH instead </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-51CE670A-9F2E-35C0-A459-E5C5E92A2FB6"><a name="GUID-51CE670A-9F2E-35C0-A459-E5C5E92A2FB6"><!-- --></a>
+<h3 class="sectiontitle">Z_SYNC_FLUSH</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Allowed flush values; see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> and <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> below for details </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-081B0BF1-8C17-3D91-9607-4FCCB56AB3C8"><a name="GUID-081B0BF1-8C17-3D91-9607-4FCCB56AB3C8"><!-- --></a>
+<h3 class="sectiontitle">Z_FULL_FLUSH</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Allowed flush values; see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> and <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> below for details </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-F1AEC66C-3E2B-34A1-80F4-C26EC8ED9887"><a name="GUID-F1AEC66C-3E2B-34A1-80F4-C26EC8ED9887"><!-- --></a>
+<h3 class="sectiontitle">Z_FINISH</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Allowed flush values; see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> and <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> below for details </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-5DE13B2F-8B77-309F-9142-9763B418833E"><a name="GUID-5DE13B2F-8B77-309F-9142-9763B418833E"><!-- --></a>
+<h3 class="sectiontitle">Z_BLOCK</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Allowed flush values; see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> and <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> below for details </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-C9477A5B-085F-3166-9336-15C286257CC5"><a name="GUID-C9477A5B-085F-3166-9336-15C286257CC5"><!-- --></a>
+<h3 class="sectiontitle">Z_OK</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Return codes for the compression/decompression functions. Negative values are errors, positive values are used for special but normal events. </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-7594AC03-E83A-3053-B704-D3E82BE47A83"><a name="GUID-7594AC03-E83A-3053-B704-D3E82BE47A83"><!-- --></a>
+<h3 class="sectiontitle">Z_STREAM_END</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Return codes for the compression/decompression functions. Negative values are errors, positive values are used for special but normal events. </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-2F39CC2D-7059-3D0F-9079-FF3ABDF13A35"><a name="GUID-2F39CC2D-7059-3D0F-9079-FF3ABDF13A35"><!-- --></a>
+<h3 class="sectiontitle">Z_NEED_DICT</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Return codes for the compression/decompression functions. Negative values are errors, positive values are used for special but normal events. </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-BF99D982-7212-321D-BF22-BE5E3B513DE5"><a name="GUID-BF99D982-7212-321D-BF22-BE5E3B513DE5"><!-- --></a>
+<h3 class="sectiontitle">Z_ERRNO</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Return codes for the compression/decompression functions. Negative values are errors, positive values are used for special but normal events. </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-80D1F278-2268-3166-ACD1-54567C87FD2E"><a name="GUID-80D1F278-2268-3166-ACD1-54567C87FD2E"><!-- --></a>
+<h3 class="sectiontitle">Z_STREAM_ERROR</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Return codes for the compression/decompression functions. Negative values are errors, positive values are used for special but normal events. </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-489C6FE4-52D9-3CDE-8EF6-FD7341909378"><a name="GUID-489C6FE4-52D9-3CDE-8EF6-FD7341909378"><!-- --></a>
+<h3 class="sectiontitle">Z_DATA_ERROR</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Return codes for the compression/decompression functions. Negative values are errors, positive values are used for special but normal events. </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-B5081DDC-E84A-39EF-83BA-AF9CDA92192E"><a name="GUID-B5081DDC-E84A-39EF-83BA-AF9CDA92192E"><!-- --></a>
+<h3 class="sectiontitle">Z_MEM_ERROR</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Return codes for the compression/decompression functions. Negative values are errors, positive values are used for special but normal events. </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-EE7B9E1B-9009-3653-BB3F-6B347F893064"><a name="GUID-EE7B9E1B-9009-3653-BB3F-6B347F893064"><!-- --></a>
+<h3 class="sectiontitle">Z_BUF_ERROR</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Return codes for the compression/decompression functions. Negative values are errors, positive values are used for special but normal events. </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-3EE47542-C082-3140-96EB-73DE443AE897"><a name="GUID-3EE47542-C082-3140-96EB-73DE443AE897"><!-- --></a>
+<h3 class="sectiontitle">Z_VERSION_ERROR</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Return codes for the compression/decompression functions. Negative values are errors, positive values are used for special but normal events. </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-B83F7971-2AE2-35C8-8642-958CE1827331"><a name="GUID-B83F7971-2AE2-35C8-8642-958CE1827331"><!-- --></a>
+<h3 class="sectiontitle">Z_NO_COMPRESSION</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Compression level as no compression </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-8152E1F7-DCA3-3F4B-80D4-46673E995D3E"><a name="GUID-8152E1F7-DCA3-3F4B-80D4-46673E995D3E"><!-- --></a>
+<h3 class="sectiontitle">Z_BEST_SPEED</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Compression level for best speed </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-CA665AEE-B7AF-3FB4-932E-FF40D6ED28AB"><a name="GUID-CA665AEE-B7AF-3FB4-932E-FF40D6ED28AB"><!-- --></a>
+<h3 class="sectiontitle">Z_BEST_COMPRESSION</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Compression level for best compression </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-3A47B844-5079-30B4-A488-FA441C23031F"><a name="GUID-3A47B844-5079-30B4-A488-FA441C23031F"><!-- --></a>
+<h3 class="sectiontitle">Z_DEFAULT_COMPRESSION</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Compression level for default compression </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-8C3EFB75-93CE-3829-B19F-05AF29608B6F"><a name="GUID-8C3EFB75-93CE-3829-B19F-05AF29608B6F"><!-- --></a>
+<h3 class="sectiontitle">Z_FILTERED</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Compression strategy; see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a> below for details </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-006BF83F-001C-376E-8C95-13057B0461D3"><a name="GUID-006BF83F-001C-376E-8C95-13057B0461D3"><!-- --></a>
+<h3 class="sectiontitle">Z_HUFFMAN_ONLY</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Compression strategy; see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a> below for details </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-81E16C14-5B21-3766-B438-46DD73BF6B53"><a name="GUID-81E16C14-5B21-3766-B438-46DD73BF6B53"><!-- --></a>
+<h3 class="sectiontitle">Z_RLE</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Compression strategy; see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a> below for details </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-E0B6F616-CD1A-3C04-B242-5979715284EF"><a name="GUID-E0B6F616-CD1A-3C04-B242-5979715284EF"><!-- --></a>
+<h3 class="sectiontitle">Z_FIXED</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Compression strategy; see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a> below for details </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-79F4D0B5-9EDD-346C-9179-CEADC880B7B9"><a name="GUID-79F4D0B5-9EDD-346C-9179-CEADC880B7B9"><!-- --></a>
+<h3 class="sectiontitle">Z_DEFAULT_STRATEGY</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Compression strategy; see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a> below for details </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-16F4C5C0-F439-3EF9-8C32-873ED2E5731C"><a name="GUID-16F4C5C0-F439-3EF9-8C32-873ED2E5731C"><!-- --></a>
+<h3 class="sectiontitle">Z_BINARY</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Possible values of the data_type field (though see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>) </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-EF4496E5-F5E0-31AC-80E2-1CA4C54F6ABD"><a name="GUID-EF4496E5-F5E0-31AC-80E2-1CA4C54F6ABD"><!-- --></a>
+<h3 class="sectiontitle">Z_TEXT</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Possible values of the data_type field (though see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>) </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-E5991D9B-B7F2-3B30-AE3D-540F909640B8"><a name="GUID-E5991D9B-B7F2-3B30-AE3D-540F909640B8"><!-- --></a>
+<h3 class="sectiontitle">Z_ASCII</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Possible values of the data_type field (though see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>). It is used for compatibility with 1.2.2 and earlier </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-12A61E52-E618-39B7-A30E-3E95833565D9"><a name="GUID-12A61E52-E618-39B7-A30E-3E95833565D9"><!-- --></a>
+<h3 class="sectiontitle">Z_UNKNOWN</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Possible values of the data_type field (though see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>) </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-7E1389E2-D4DD-3CE4-A72B-167C44B01380"><a name="GUID-7E1389E2-D4DD-3CE4-A72B-167C44B01380"><!-- --></a>
+<h3 class="sectiontitle">Z_DEFLATED</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">The deflate compression method (the only one supported in this version) </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-22DD9C12-FAD0-33B5-99DE-8F523CF463AB"><a name="GUID-22DD9C12-FAD0-33B5-99DE-8F523CF463AB"><!-- --></a>
+<h3 class="sectiontitle">Z_NULL</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">For initializing zalloc, zfree, opaque </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-C0511376-B471-342D-A95F-1EC68AA63459"><a name="GUID-C0511376-B471-342D-A95F-1EC68AA63459"><!-- --></a>
+<h3 class="sectiontitle">zlib_version</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">For compatibility with versions &lt; 1.0.2 </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-B4FE0F2D-002D-31B7-AB3C-1F7478116C01"><a name="GUID-B4FE0F2D-002D-31B7-AB3C-1F7478116C01"><!-- --></a>
+<a name="GUID-3B2525EF-3EEF-3106-B909-FC43FB18E289"><!-- --></a><h3 class="sectiontitle">zlibVersion ( void )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>const char *ZEXPORT</td><td>zlibVersion</td><td>(</td><td>void</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The application can compare zlibVersion and ZLIB_VERSION for consistency. If the first character differs, the library code actually used is not compatible with the zlib.h header file used by the application. This check is automatically made by deflateInit and inflateInit. </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>returns zlib version </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17"><a name="GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17"><!-- --></a>
+<a name="GUID-403723F9-F62C-3397-BEB0-D56FBCA82786"><!-- --></a><h3 class="sectiontitle">deflate ( z_streamp, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>deflate</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">flush</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">deflate compresses as much data as possible, and stops when the input buffer becomes empty or the output buffer becomes full. It may introduce some output latency (reading input without producing any output) except when forced to flush.</p>
+<p class="p">The detailed semantics are as follows. deflate performs one or both of the following actions:</p>
+<div class="p">
+<ul class="ul">
+<li class="li">
+<p class="p">Compress more input starting at next_in and update next_in and avail_in accordingly. If not all input can be processed (because there is not enough room in the output buffer), next_in and avail_in are updated and processing will resume at this point for the next call of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a>.</p>
+</li>
+</ul>
+</div>
+<div class="p">
+<ul class="ul">
+<li class="li">
+<p class="p">Provide more output starting at next_out and update next_out and avail_out accordingly. This action is forced if the parameter flush is non zero. Forcing flush frequently degrades the compression ratio, so this parameter should be set only when necessary (in interactive applications). Some output may be provided even if flush is not set.</p>
+</li>
+</ul>
+</div>
+<p class="p">Before the call of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a>, the application should ensure that at least one of the actions is possible, by providing more input and/or consuming more output, and updating avail_in or avail_out accordingly; avail_out should never be zero before the call. The application can consume the compressed output when it wants, for example when the output buffer is full (avail_out == 0), or after each call of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a>. If deflate returns Z_OK and with zero avail_out, it must be called again after making room in the output buffer because there might be more output pending.</p>
+<p class="p">Normally the parameter flush is set to Z_NO_FLUSH, which allows deflate to decide how much data to accumualte before producing output, in order to maximize compression.</p>
+<p class="p">If the parameter flush is set to Z_SYNC_FLUSH, all pending output is flushed to the output buffer and the output is aligned on a byte boundary, so that the decompressor can get all input data available so far. (In particular avail_in is zero after the call if enough output space has been provided before the call.) Flushing may degrade compression for some compression algorithms and so it should be used only when necessary.</p>
+<p class="p">If flush is set to Z_FULL_FLUSH, all output is flushed as with Z_SYNC_FLUSH, and the compression state is reset so that decompression can restart from this point if previous compressed data has been damaged or if random access is desired. Using Z_FULL_FLUSH too often can seriously degrade compression.</p>
+<p class="p">If deflate returns with avail_out == 0, this function must be called again with the same value of the flush parameter and more output space (updated avail_out), until the flush is complete (deflate returns with non-zero avail_out). In the case of a Z_FULL_FLUSH or Z_SYNC_FLUSH, make sure that avail_out is greater than six to avoid repeated flush markers due to avail_out == 0 on return.</p>
+<p class="p">If the parameter flush is set to Z_FINISH, pending input is processed, pending output is flushed and deflate returns with Z_STREAM_END if there was enough output space; if deflate returns with Z_OK, this function must be called again with Z_FINISH and more output space (updated avail_out) but no more input data, until it returns with Z_STREAM_END or an error. After deflate has returned Z_STREAM_END, the only possible operations on the stream are deflateReset or deflateEnd.</p>
+<p class="p">Z_FINISH can be used immediately after deflateInit if all the compression is to be done in a single step. In this case, avail_out must be at least the value returned by deflateBound (see below). If deflate does not return Z_STREAM_END, then it must be called again as described above.</p>
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> sets strm-&gt;adler to the adler32 checksum of all input read so far (that is, total_in bytes).</p>
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> may update strm-&gt;data_type if it can make a good guess about the input data type (Z_BINARY or Z_TEXT). In doubt, the data is considered binary. This field is only for information purposes and does not affect the compression algorithm in any manner.</p>
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> returns Z_OK if some progress has been made (more input processed or more output produced), Z_STREAM_END if all input has been consumed and all output has been produced (only when flush is set to Z_FINISH), Z_STREAM_ERROR if the stream state was inconsistent (for example if next_in or next_out was NULL), Z_BUF_ERROR if no progress is possible (for example avail_in or avail_out was zero). Note that Z_BUF_ERROR is not fatal, and <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> can be called again with more input and more output space to continue compressing.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>Stream of data  </td></tr><tr class="bg"><td class="parameter">flush</td><td>Normally the parameter flush is set to Z_NO_FLUSH, which allows deflate to decide how much data to accumualte before producing output, in order to maximize compression. Refer to the description above for more details.  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflate returns Z_OK on success. Refer to the description above for more details. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-ACF38985-B14A-34F9-8F86-2FC1CCCED17F"><a name="GUID-ACF38985-B14A-34F9-8F86-2FC1CCCED17F"><!-- --></a>
+<a name="GUID-4547DF03-C9DD-315F-A553-128A5DFE4A61"><!-- --></a><h3 class="sectiontitle">deflateEnd ( z_streamp )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>deflateEnd</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">All dynamically allocated data structures for this stream are freed. This function discards any unprocessed input and does not flush any pending output.</p>
+<p class="p">deflateEnd returns Z_OK if success, Z_STREAM_ERROR if the stream state was inconsistent, Z_DATA_ERROR if the stream was freed prematurely (some input or output was discarded). In the error case, msg may be set but then points to a static string (which must not be deallocated).</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>Stream of data  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflateEnd returns Z_OK on success. Refer to the description above for more details. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A"><a name="GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A"><!-- --></a>
+<a name="GUID-EF9DC65D-C5DF-3767-B684-93548B8DF936"><!-- --></a><h3 class="sectiontitle">inflate ( z_streamp, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflate</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">flush</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">inflate decompresses as much data as possible, and stops when the input buffer becomes empty or the output buffer becomes full. It may introduce some output latency (reading input without producing any output) except when forced to flush.</p>
+<p class="p">The detailed semantics are as follows. inflate performs one or both of the following actions:</p>
+<div class="p">
+<ul class="ul">
+<li class="li">
+<p class="p">Decompress more input starting at next_in and update next_in and avail_in accordingly. If not all input can be processed (because there is not enough room in the output buffer), next_in is updated and processing will resume at this point for the next call of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>.</p>
+</li>
+</ul>
+</div>
+<div class="p">
+<ul class="ul">
+<li class="li">
+<p class="p">Provide more output starting at next_out and update next_out and avail_out accordingly. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> provides as much output as possible, until there is no more input data or no more space in the output buffer (see below about the flush parameter).</p>
+</li>
+</ul>
+</div>
+<p class="p">Before the call of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>, the application should ensure that at least one of the actions is possible, by providing more input and/or consuming more output, and updating the next_* and avail_* values accordingly. The application can consume the uncompressed output when it wants, for example when the output buffer is full (avail_out == 0), or after each call of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>. If inflate returns Z_OK and with zero avail_out, it must be called again after making room in the output buffer because there might be more output pending.</p>
+<p class="p">The flush parameter of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> can be Z_NO_FLUSH, Z_SYNC_FLUSH, Z_FINISH, or Z_BLOCK. Z_SYNC_FLUSH requests that <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> flush as much output as possible to the output buffer. Z_BLOCK requests that <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> stop if and when it gets to the next deflate block boundary. When decoding the zlib or gzip format, this will cause <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> to return immediately after the header and before the first block. When doing a raw inflate, <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> will go ahead and process the first block, and will return when it gets to the end of that block, or when it runs out of data.</p>
+<p class="p">The Z_BLOCK option assists in appending to or combining deflate streams. Also to assist in this, on return <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> will set strm-&gt;data_type to the number of unused bits in the last byte taken from strm-&gt;next_in, plus 64 if <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> is currently decoding the last block in the deflate stream, plus 128 if <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> returned immediately after decoding an end-of-block code or decoding the complete header up to just before the first byte of the deflate stream. The end-of-block will not be indicated until all of the uncompressed data from that block has been written to strm-&gt;next_out. The number of unused bits may in general be greater than seven, except when bit 7 of data_type is set, in which case the number of unused bits will be less than eight.</p>
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> should normally be called until it returns Z_STREAM_END or an error. However if all decompression is to be performed in a single step (a single call of inflate), the parameter flush should be set to Z_FINISH. In this case all pending input is processed and all pending output is flushed; avail_out must be large enough to hold all the uncompressed data. (The size of the uncompressed data may have been saved by the compressor for this purpose.) The next operation on this stream must be inflateEnd to deallocate the decompression state. The use of Z_FINISH is never required, but can be used to inform inflate that a faster approach may be used for the single <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> call.</p>
+<p class="p">In this implementation, <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> always flushes as much output as possible to the output buffer, and always uses the faster approach on the first call. So the only effect of the flush parameter in this implementation is on the return value of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>, as noted below, or when it returns early because Z_BLOCK is used.</p>
+<p class="p">If a preset dictionary is needed after this call (see inflateSetDictionary below), inflate sets strm-&gt;adler to the adler32 checksum of the dictionary chosen by the compressor and returns Z_NEED_DICT; otherwise it sets strm-&gt;adler to the adler32 checksum of all output produced so far (that is, total_out bytes) and returns Z_OK, Z_STREAM_END or an error code as described below. At the end of the stream, <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> checks that its computed adler32 checksum is equal to that saved by the compressor and returns Z_STREAM_END only if the checksum is correct.</p>
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> will decompress and check either zlib-wrapped or gzip-wrapped deflate data. The header type is detected automatically. Any information contained in the gzip header is not retained, so applications that need that information should instead use raw inflate, see <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-7B71BE2D-2A7E-3C73-8934-33B3396A5E07">inflateInit2()</a> below, or <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> and perform their own processing of the gzip header and trailer.</p>
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> returns Z_OK if some progress has been made (more input processed or more output produced), Z_STREAM_END if the end of the compressed data has been reached and all uncompressed output has been produced, Z_NEED_DICT if a preset dictionary is needed at this point, Z_DATA_ERROR if the input data was corrupted (input stream not conforming to the zlib format or incorrect check value), Z_STREAM_ERROR if the stream structure was inconsistent (for example if next_in or next_out was NULL), Z_MEM_ERROR if there was not enough memory, Z_BUF_ERROR if no progress is possible or if there was not enough room in the output buffer when Z_FINISH is used. Note that Z_BUF_ERROR is not fatal, and <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> can be called again with more input and more output space to continue decompressing. If Z_DATA_ERROR is returned, the application may then call <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-467414B2-5FD1-345B-81EB-9B4460EACCF0">inflateSync()</a> to look for a good compression block if a partial recovery of the data is desired.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>Stream of data  </td></tr><tr class="bg"><td class="parameter">flush</td><td>This parameter of inflate() can be Z_NO_FLUSH, Z_SYNC_FLUSH, Z_FINISH, or Z_BLOCK. Refer to the description for more details.  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflate returns Z_OK on success. Refer to the description above for more details. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-654CD9A8-C649-31E7-BC5B-8B22A27846B4"><a name="GUID-654CD9A8-C649-31E7-BC5B-8B22A27846B4"><!-- --></a>
+<a name="GUID-40392FF6-4F26-39E2-9005-46CAF7BBAA8C"><!-- --></a><h3 class="sectiontitle">inflateEnd ( z_streamp )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateEnd</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">All dynamically allocated data structures for this stream are freed. This function discards any unprocessed input and does not flush any pending output.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>Stream of data  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflateEnd returns Z_OK if success, Z_STREAM_ERROR if the stream state was inconsistent. In the error case, msg may be set but then points to a static string (which must not be deallocated). </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-8BE4289F-E66B-3FB1-8D7D-9D34B4E68938"><a name="GUID-8BE4289F-E66B-3FB1-8D7D-9D34B4E68938"><!-- --></a>
+<a name="GUID-9F40DE3D-B38C-37A3-B66D-66D6CB8A8C34"><!-- --></a><h3 class="sectiontitle">deflateSetDictionary ( z_streamp, const Bytef *, uInt )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>deflateSetDictionary</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>const <a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">Bytef</a> *</td><td><span class="parameter">dictionary</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uInt</a></td><td><span class="parameter">dictLength</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Initializes the compression dictionary from the given byte sequence without producing any compressed output. This function must be called immediately after deflateInit, deflateInit2 or deflateReset, before any call of deflate. The compressor and decompressor must use exactly the same dictionary (see inflateSetDictionary).</p>
+<p class="p">The dictionary should consist of strings (byte sequences) that are likely to be encountered later in the data to be compressed, with the most commonly used strings preferably put towards the end of the dictionary. Using a dictionary is most useful when the data to be compressed is short and can be predicted with good accuracy; the data can then be compressed better than with the default empty dictionary.</p>
+<p class="p">Depending on the size of the compression data structures selected by deflateInit or deflateInit2, a part of the dictionary may in effect be discarded, for example if the dictionary is larger than the window size in deflate or deflate2. Thus the strings most likely to be useful should be put at the end of the dictionary, not at the front. In addition, the current implementation of deflate will use at most the window size minus 262 bytes of the provided dictionary.</p>
+<p class="p">Upon return of this function, strm-&gt;adler is set to the adler32 value of the dictionary; the decompressor may later use this value to determine which dictionary has been used by the compressor. (The adler32 value applies to the whole dictionary even if only a subset of the dictionary is actually used by the compressor.) If a raw deflate was requested, then the adler32 value is not computed and strm-&gt;adler is not set.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>Stream of data  </td></tr><tr class="bg"><td class="parameter">dictionary</td><td>Pointer to the dictionary. Refer to the description above for more details.  </td></tr><tr><td class="parameter">dictLength</td><td>Dictionay Length  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflateSetDictionary returns Z_OK if success, or Z_STREAM_ERROR if a parameter is invalid (such as NULL dictionary) or the stream state is inconsistent (for example if deflate has already been called for this stream or if the compression method is bsort). deflateSetDictionary does not perform any compression: this will be done by deflate(). </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-FB3788CC-C79F-370E-83F4-6F334DD52182"><a name="GUID-FB3788CC-C79F-370E-83F4-6F334DD52182"><!-- --></a>
+<a name="GUID-D4F6D536-D802-3EFF-9B08-2950091A6371"><!-- --></a><h3 class="sectiontitle">deflateCopy ( z_streamp, z_streamp )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>deflateCopy</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">dest</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">source</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Sets the destination stream as a complete copy of the source stream.</p>
+<p class="p">This function can be useful when several compression strategies will be tried, for example when there are several ways of pre-processing the input data with a filter. The streams that will be discarded should then be freed by calling deflateEnd. Note that deflateCopy duplicates the internal compression state which can be quite large, so this strategy is slow and can consume lots of memory.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">dest</td><td>destination stream  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflateCopy returns Z_OK if success, Z_MEM_ERROR if there was not enough memory, Z_STREAM_ERROR if the source stream state was inconsistent (such as zalloc being NULL). msg is left unchanged in both source and destination. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-A780FE8C-9CFC-3A5F-B22D-B728A99F6ABB"><a name="GUID-A780FE8C-9CFC-3A5F-B22D-B728A99F6ABB"><!-- --></a>
+<a name="GUID-4E4C54A2-CDFC-3F74-A2A4-8C5502E32E4F"><!-- --></a><h3 class="sectiontitle">deflateReset ( z_streamp )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>deflateReset</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">This function is equivalent to deflateEnd followed by deflateInit, but does not free and reallocate all the internal compression state. The stream will keep the same compression level and any other attributes that may have been set by deflateInit2.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflateReset returns Z_OK if success, or Z_STREAM_ERROR if the source stream state was inconsistent (such as zalloc or state being NULL). </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-BCCCA9C9-C258-3EA7-8984-CBA238765388"><a name="GUID-BCCCA9C9-C258-3EA7-8984-CBA238765388"><!-- --></a>
+<a name="GUID-CC687E52-380D-3EA9-A215-D69D7B15CD63"><!-- --></a><h3 class="sectiontitle">deflateParams ( z_streamp, int, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>deflateParams</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">level</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">strategy</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Dynamically update the compression level and compression strategy. The interpretation of level and strategy is as in deflateInit2. This can be used to switch between compression and straight copy of the input data, or to switch to a different kind of input data requiring a different strategy. If the compression level is changed, the input available so far is compressed with the old level (and may be flushed); the new level will take effect only at the next call of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a>.</p>
+<p class="p">Before the call of deflateParams, the stream state must be set as for a call of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a>, since the currently available input may have to be compressed and flushed. In particular, strm-&gt;avail_out must be non-zero.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">level</td><td>compression level  </td></tr><tr><td class="parameter">strategy</td><td>compression algorithm  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflateParams returns Z_OK if success, Z_STREAM_ERROR if the source stream state was inconsistent or if a parameter was invalid, Z_BUF_ERROR if strm-&gt;avail_out was zero. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-5034BB1B-20E9-3DFE-AAA6-0F6AD3F0995F"><a name="GUID-5034BB1B-20E9-3DFE-AAA6-0F6AD3F0995F"><!-- --></a>
+<a name="GUID-CBECB15E-548A-3405-9E5B-24E245AE5E3C"><!-- --></a><h3 class="sectiontitle">deflateTune ( z_streamp, int, int, int, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>deflateTune</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">good_length</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">max_lazy</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">nice_length</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">max_chain</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Fine tune deflate's internal compression parameters. This should only be used by someone who understands the algorithm used by zlib's deflate for searching for the best matching string, and even then only by the most fanatic optimizer trying to squeeze out the last compressed bit for their specific input data. Read the deflate.c source code for the meaning of the max_lazy, good_length, nice_length, and max_chain parameters.</p>
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-5034BB1B-20E9-3DFE-AAA6-0F6AD3F0995F">deflateTune()</a> can be called after <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-A6102369-6D7A-305E-92F9-3AABAF550A12">deflateInit()</a> or <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a></p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">good_length</td><td>reduce lazy search above this match length  </td></tr><tr><td class="parameter">max_lazy</td><td>do not perform lazy search above this match length  </td></tr><tr class="bg"><td class="parameter">nice_length</td><td>quit search above this match length  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflateTune returns Z_OK on success, or Z_STREAM_ERROR for an invalid deflate stream. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-0E6A4B36-01C2-3530-AB69-C84486401187"><a name="GUID-0E6A4B36-01C2-3530-AB69-C84486401187"><!-- --></a>
+<a name="GUID-FC4B03B3-1F46-3DA5-ACED-6CDC4F69982F"><!-- --></a><h3 class="sectiontitle">deflateBound ( z_streamp, uLong )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a> ZEXPORT</td><td>deflateBound</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a></td><td><span class="parameter">sourceLen</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-0E6A4B36-01C2-3530-AB69-C84486401187">deflateBound()</a> returns an upper bound on the compressed size after deflation of sourceLen bytes. It must be called after <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-A6102369-6D7A-305E-92F9-3AABAF550A12">deflateInit()</a> or <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a>. This would be used to allocate an output buffer for deflation in a single pass, and so would be called before <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a>.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">sourceLen</td><td>source length  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflateBound returns an upper bound on the compressed size after deflation of sourceLen bytes. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-7651E6B4-B20A-3FCA-843F-24F832C4EFBD"><a name="GUID-7651E6B4-B20A-3FCA-843F-24F832C4EFBD"><!-- --></a>
+<a name="GUID-354A32B8-4B8B-3C81-85FC-D6D64FEFF4FB"><!-- --></a><h3 class="sectiontitle">deflatePrime ( z_streamp, int, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>deflatePrime</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">bits</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">value</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-7651E6B4-B20A-3FCA-843F-24F832C4EFBD">deflatePrime()</a> inserts bits in the deflate output stream. The intent is that this function is used to start off the deflate output with the bits leftover from a previous deflate stream when appending to it. As such, this function can only be used for raw deflate, and must be used before the first <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> call after a <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a> or <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-A780FE8C-9CFC-3A5F-B22D-B728A99F6ABB">deflateReset()</a>. bits must be less than or equal to 16, and that many of the least significant bits of value will be inserted in the output.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">bits</td><td>bits must be less than or equal to 16, and that many of the least significant bits of value will be inserted in the output.  </td></tr><tr><td class="parameter">value</td><td>represents value of the bits to be inserted  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflatePrime returns Z_OK if success, or Z_STREAM_ERROR if the source stream state was inconsistent. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-966FFCE8-8828-3EBD-ADD0-8ADA55D318F9"><a name="GUID-966FFCE8-8828-3EBD-ADD0-8ADA55D318F9"><!-- --></a>
+<a name="GUID-266E6592-6220-3848-9E36-384DF277E219"><!-- --></a><h3 class="sectiontitle">deflateSetHeader ( z_streamp, gz_headerp )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>deflateSetHeader</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-76BB28CA-E1F2-3FD6-9BEF-AFA252E2EC39.html">gz_headerp</a></td><td><span class="parameter">head</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-966FFCE8-8828-3EBD-ADD0-8ADA55D318F9">deflateSetHeader()</a> provides gzip header information for when a gzip stream is requested by <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a>. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-966FFCE8-8828-3EBD-ADD0-8ADA55D318F9">deflateSetHeader()</a> may be called after <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a> or <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-A780FE8C-9CFC-3A5F-B22D-B728A99F6ABB">deflateReset()</a> and before the first call of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a>. The text, time, os, extra field, name, and comment information in the provided gz_header structure are written to the gzip header (xflag is ignored -- the extra flags are set according to the compression level). The caller must assure that, if not Z_NULL, name and comment are terminated with a zero byte, and that if extra is not Z_NULL, that extra_len bytes are available there. If hcrc is true, a gzip header crc is included. Note that the current versions of the command-line version of gzip (up through version 1.3.x) do not support header crc's, and will report that it is a "multi-part
+   gzip file" and give up.</p>
+<p class="p">If deflateSetHeader is not used, the default gzip header has text false, the time set to zero, and os set to 3, with no extra, name, or comment fields. The gzip header is returned to the default state by <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-A780FE8C-9CFC-3A5F-B22D-B728A99F6ABB">deflateReset()</a>.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">head</td><td>gzip header  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflateSetHeader returns Z_OK if success, or Z_STREAM_ERROR if the source stream state was inconsistent. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-919FE900-1DAD-3589-B268-22F9B2F7AB7C"><a name="GUID-919FE900-1DAD-3589-B268-22F9B2F7AB7C"><!-- --></a>
+<a name="GUID-9C51379B-1F38-30E4-99D9-47027FC17733"><!-- --></a><h3 class="sectiontitle">inflateSetDictionary ( z_streamp, const Bytef *, uInt )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateSetDictionary</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>const <a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">Bytef</a> *</td><td><span class="parameter">dictionary</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uInt</a></td><td><span class="parameter">dictLength</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Initializes the decompression dictionary from the given uncompressed byte sequence. This function must be called immediately after a call of inflate, if that call returned Z_NEED_DICT. The dictionary chosen by the compressor can be determined from the adler32 value returned by that call of inflate. The compressor and decompressor must use exactly the same dictionary (see deflateSetDictionary). For raw inflate, this function can be called immediately after <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-7B71BE2D-2A7E-3C73-8934-33B3396A5E07">inflateInit2()</a> or <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-036E6979-780B-3723-9ED6-446D6E68EA66">inflateReset()</a> and before any call of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> to set the dictionary. The application must insure that the dictionary that was used for compression is provided.</p>
+<p class="p">inflateSetDictionary does not perform any decompression: this will be done by subsequent calls of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">dictionary</td><td>Pointer to dictionary  </td></tr><tr><td class="parameter">dictLength</td><td>Dictionary Length  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflateSetDictionary returns Z_OK if success, Z_STREAM_ERROR if a parameter is invalid (such as NULL dictionary) or the stream state is inconsistent, Z_DATA_ERROR if the given dictionary doesn't match the expected one (incorrect adler32 value). </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-467414B2-5FD1-345B-81EB-9B4460EACCF0"><a name="GUID-467414B2-5FD1-345B-81EB-9B4460EACCF0"><!-- --></a>
+<a name="GUID-1CBB1186-BF43-3BFD-B468-90F6C83E6F53"><!-- --></a><h3 class="sectiontitle">inflateSync ( z_streamp )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateSync</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Skips invalid compressed data until a full flush point (see above the description of deflate with Z_FULL_FLUSH) can be found, or until all available input is skipped. No output is provided.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>Stream of data  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflateSync returns Z_OK if a full flush point has been found, Z_BUF_ERROR if no more input was provided, Z_DATA_ERROR if no flush point has been found, or Z_STREAM_ERROR if the stream structure was inconsistent. In the success case, the application may save the current current value of total_in which indicates where valid compressed data was found. In the error case, the application may repeatedly call inflateSync, providing more input each time, until success or end of the input data. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-EDD9CEDA-3008-3392-A4AC-BD723D3603D8"><a name="GUID-EDD9CEDA-3008-3392-A4AC-BD723D3603D8"><!-- --></a>
+<a name="GUID-3EA67967-A598-36FE-B333-34F35A5A13F0"><!-- --></a><h3 class="sectiontitle">inflateCopy ( z_streamp, z_streamp )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateCopy</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">dest</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">source</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Sets the destination stream as a complete copy of the source stream.</p>
+<p class="p">This function can be useful when randomly accessing a large stream. The first pass through the stream can periodically record the inflate state, allowing restarting inflate at those points when randomly accessing the stream.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">dest</td><td>destination stream  </td></tr><tr class="bg"><td class="parameter">source</td><td>source stream of data  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflateCopy returns Z_OK if success, Z_MEM_ERROR if there was not enough memory, Z_STREAM_ERROR if the source stream state was inconsistent (such as zalloc being NULL). msg is left unchanged in both source and destination. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-036E6979-780B-3723-9ED6-446D6E68EA66"><a name="GUID-036E6979-780B-3723-9ED6-446D6E68EA66"><!-- --></a>
+<a name="GUID-6E0D15BC-9B5A-3D8A-8F9E-DA8008F23512"><!-- --></a><h3 class="sectiontitle">inflateReset ( z_streamp )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateReset</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">This function is equivalent to inflateEnd followed by inflateInit, but does not free and reallocate all the internal decompression state. The stream will keep attributes that may have been set by inflateInit2.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>Stream of data  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflateReset returns Z_OK if success, or Z_STREAM_ERROR if the source stream state was inconsistent (such as zalloc or state being NULL). </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-99D89EAE-E504-3CCA-804C-CF91C3257D83"><a name="GUID-99D89EAE-E504-3CCA-804C-CF91C3257D83"><!-- --></a>
+<a name="GUID-B6ADD79B-3FC9-355A-9F13-ECA710A66565"><!-- --></a><h3 class="sectiontitle">inflatePrime ( z_streamp, int, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflatePrime</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">bits</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">value</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">This function inserts bits in the inflate input stream. The intent is that this function is used to start inflating at a bit position in the middle of a byte. The provided bits will be used before any bytes are used from next_in. This function should only be used with raw inflate, and should be used before the first <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> call after <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-7B71BE2D-2A7E-3C73-8934-33B3396A5E07">inflateInit2()</a> or <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-036E6979-780B-3723-9ED6-446D6E68EA66">inflateReset()</a>. bits must be less than or equal to 16, and that many of the least significant bits of value will be inserted in the input.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">bits</td><td>bits must be less than or equal to 16, and that many of the least significant bits of value will be inserted in the input.  </td></tr><tr><td class="parameter">value</td><td>represents value of the bits to be inserted  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflatePrime returns Z_OK if success, or Z_STREAM_ERROR if the source stream state was inconsistent. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-713B2BF2-2566-38BA-A77B-A2D14DBF9A17"><a name="GUID-713B2BF2-2566-38BA-A77B-A2D14DBF9A17"><!-- --></a>
+<a name="GUID-86D07EE9-E8DB-362F-8367-6943E977F31F"><!-- --></a><h3 class="sectiontitle">inflateGetHeader ( z_streamp, gz_headerp )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateGetHeader</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-76BB28CA-E1F2-3FD6-9BEF-AFA252E2EC39.html">gz_headerp</a></td><td><span class="parameter">head</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-713B2BF2-2566-38BA-A77B-A2D14DBF9A17">inflateGetHeader()</a> requests that gzip header information be stored in the provided gz_header structure. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-713B2BF2-2566-38BA-A77B-A2D14DBF9A17">inflateGetHeader()</a> may be called after <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-7B71BE2D-2A7E-3C73-8934-33B3396A5E07">inflateInit2()</a> or <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-036E6979-780B-3723-9ED6-446D6E68EA66">inflateReset()</a>, and before the first call of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>. As <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> processes the gzip stream, head-&gt;done is zero until the header is completed, at which time head-&gt;done is set to one. If a zlib stream is being decoded, then head-&gt;done is set to -1 to indicate that there will be no gzip header information forthcoming. Note that Z_BLOCK can be used to force <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> to return immediately after header processing is complete and before any actual data is decompressed.</p>
+<p class="p">The text, time, xflags, and os fields are filled in with the gzip header contents. hcrc is set to true if there is a header CRC. (The header CRC was valid if done is set to one.) If extra is not Z_NULL, then extra_max contains the maximum number of bytes to write to extra. Once done is true, extra_len contains the actual extra field length, and extra contains the extra field, or that field truncated if extra_max is less than extra_len. If name is not Z_NULL, then up to name_max characters are written there, terminated with a zero unless the length is greater than name_max. If comment is not Z_NULL, then up to comm_max characters are written there, terminated with a zero unless the length is greater than comm_max. When any of extra, name, or comment are not Z_NULL and the respective field is not present in the header, then that field is set to Z_NULL to signal its absence. This allows the use of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-966FFCE8-8828-3EBD-ADD0-8ADA55D318F9">deflateSetHeader()</a> with the returned structure to duplicate the header. However if those fields are set to allocated memory, then the application will need to save those pointers elsewhere so that they can be eventually freed.</p>
+<p class="p">If inflateGetHeader is not used, then the header information is simply discarded. The header is always checked for validity, including the header CRC if present. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-036E6979-780B-3723-9ED6-446D6E68EA66">inflateReset()</a> will reset the process to discard the header information. The application would need to call <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-713B2BF2-2566-38BA-A77B-A2D14DBF9A17">inflateGetHeader()</a> again to retrieve the header from the next gzip stream.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr class="bg"><td class="parameter">head</td><td>gzip header  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflateGetHeader returns Z_OK if success, or Z_STREAM_ERROR if the source stream state was inconsistent. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-98ECB353-3C86-35A3-8DF2-746C9859D0DB"><a name="GUID-98ECB353-3C86-35A3-8DF2-746C9859D0DB"><!-- --></a>
+<h3 class="sectiontitle">Typedef in_func</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef unsigned(*</td><td>in_func</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Input function pointer defined to be used in inflateBack </p>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-693F7979-1CBC-31E7-B571-98F8FF7A7ECF"><a name="GUID-693F7979-1CBC-31E7-B571-98F8FF7A7ECF"><!-- --></a>
+<h3 class="sectiontitle">Typedef out_func</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef 
+					int(*</td><td>out_func</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Output function pointer defined to be used in inflateBack </p>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323"><a name="GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323"><!-- --></a>
+<a name="GUID-365E533B-4418-3E9B-94FC-AB104C0E4949"><!-- --></a><h3 class="sectiontitle">inflateBack ( z_streamp, in_func, void *, out_func, void * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateBack</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">in_func</a></td><td><span class="parameter">in</span>,</td></tr><tr><td colspan="3"> </td><td>void *</td><td><span class="parameter">in_desc</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">out_func</a></td><td><span class="parameter">out</span>,</td></tr><tr><td colspan="3"> </td><td>void *</td><td><span class="parameter">out_desc</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> does a raw inflate with a single call using a call-back interface for input and output. This is more efficient than <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> for file i/o applications in that it avoids copying between the output and the sliding window by simply making the window itself the output buffer. This function trusts the application to not change the output buffer passed by the output function, at least until <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> returns.</p>
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-B95E43DA-754B-389C-8F71-5F2FF2EF21C8">inflateBackInit()</a> must be called first to allocate the internal state and to initialize the state with the user-provided window buffer. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> may then be used multiple times to inflate a complete, raw deflate stream with each call. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-39A51BD3-FDE4-37B9-8DB2-6DA3EF5FF9BC">inflateBackEnd()</a> is then called to free the allocated state.</p>
+<p class="p">A raw deflate stream is one with no zlib or gzip header or trailer. This routine would normally be used in a utility that reads zip or gzip files and writes out uncompressed files. The utility would decode the header and process the trailer on its own, hence this routine expects only the raw deflate stream to decompress. This is different from the normal behavior of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>, which expects either a zlib or gzip header and trailer around the deflate stream.</p>
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> uses two subroutines supplied by the caller that are then called by <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> for input and output. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> calls those routines until it reads a complete deflate stream and writes out all of the uncompressed data, or until it encounters an error. The function's parameters and return types are defined above in the in_func and out_func typedefs. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> will call in(in_desc, &amp;buf) which should return the number of bytes of provided input, and a pointer to that input in buf. If there is no input available, in() must return zero--buf is ignored in that case--and <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> will return a buffer error. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> will call out(out_desc, buf, len) to write the uncompressed data buf[0..len-1]. out() should return zero on success, or non-zero on failure. If out() returns non-zero, <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> will return with an error. Neither in() nor out() are permitted to change the contents of the window provided to <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-B95E43DA-754B-389C-8F71-5F2FF2EF21C8">inflateBackInit()</a>, which is also the buffer that out() uses to write from. The length written by out() will be at most the window size. Any non-zero amount of input may be provided by in().</p>
+<p class="p">For convenience, <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> can be provided input on the first call by setting strm-&gt;next_in and strm-&gt;avail_in. If that input is exhausted, then in() will be called. Therefore strm-&gt;next_in must be initialized before calling <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a>. If strm-&gt;next_in is Z_NULL, then in() will be called immediately for input. If strm-&gt;next_in is not Z_NULL, then strm-&gt;avail_in must also be initialized, and then if strm-&gt;avail_in is not zero, input will initially be taken from strm-&gt;next_in[0 .. strm-&gt;avail_in - 1].</p>
+<p class="p">The in_desc and out_desc parameters of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> is passed as the first parameter of in() and out() respectively when they are called. These descriptors can be optionally used to pass any information that the caller- supplied in() and out() functions need to do their job.</p>
+<p class="p">On return, <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> will set strm-&gt;next_in and strm-&gt;avail_in to pass back any unused input that was provided by the last in() call. The return values of <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> can be Z_STREAM_END on success, Z_BUF_ERROR if in() or out() returned an error, Z_DATA_ERROR if there was a format error in the deflate stream (in which case strm-&gt;msg is set to indicate the nature of the error), or Z_STREAM_ERROR if the stream was not properly initialized. In the case of Z_BUF_ERROR, an input or output error can be distinguished using strm-&gt;next_in which will be Z_NULL only if in() returned an error. If strm-&gt;next is not Z_NULL, then the Z_BUF_ERROR was due to out() returning non-zero. (in() will always be called before out(), so strm-&gt;next_in is assured to be defined if out() returns non-zero.) Note that <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> cannot return Z_OK.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">in</td><td>input function pointer  </td></tr><tr><td class="parameter">in_desc</td><td>input parameters for in_func  </td></tr><tr class="bg"><td class="parameter">out</td><td>output function pointer  </td></tr><tr><td class="parameter">out_desc</td><td>output parameters for out_func  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>Refer to the above description for detailed explanation </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-39A51BD3-FDE4-37B9-8DB2-6DA3EF5FF9BC"><a name="GUID-39A51BD3-FDE4-37B9-8DB2-6DA3EF5FF9BC"><!-- --></a>
+<a name="GUID-130D8BDE-E127-3273-A83A-9F424D2AE68A"><!-- --></a><h3 class="sectiontitle">inflateBackEnd ( z_streamp )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateBackEnd</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">All memory allocated by <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-B95E43DA-754B-389C-8F71-5F2FF2EF21C8">inflateBackInit()</a> is freed.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflateBackEnd returns Z_OK on success, or Z_STREAM_ERROR if the stream state was inconsistent. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-86111395-1968-3196-BD1D-4FA0003DC3CF"><a name="GUID-86111395-1968-3196-BD1D-4FA0003DC3CF"><!-- --></a>
+<a name="GUID-57D5B923-99AB-3AB8-A2CD-CB2EB73D819B"><!-- --></a><h3 class="sectiontitle">zlibCompileFlags ( void )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a> ZEXPORT</td><td>zlibCompileFlags</td><td>(</td><td>void</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Return flags indicating compile-time options.</p>
+<p class="p">Type sizes, two bits each, 00 = 16 bits, 01 = 32, 10 = 64, 11 = other: 1.0: size of uInt 3.2: size of uLong 5.4: size of voidpf (pointer) 7.6: size of z_off_t</p>
+<p class="p">Compiler, assembler, and debug options: 8: DEBUG 9: ASMV or ASMINF -- use ASM code 10: ZLIB_WINAPI -- exported functions use the WINAPI calling convention 11: 0 (reserved)</p>
+<p class="p">One-time table building (smaller code, but not thread-safe if true): 12: BUILDFIXED -- build static block decoding tables when needed 13: DYNAMIC_CRC_TABLE -- build CRC calculation tables when needed 14,15: 0 (reserved)</p>
+<p class="p">Library content (indicates missing functionality): 16: NO_GZCOMPRESS -- gz* functions cannot compress (to avoid linking deflate code when not needed) 17: NO_GZIP -- deflate can't write gzip streams, and inflate can't detect and decode gzip streams (to avoid linking crc code) 18-19: 0 (reserved)</p>
+<p class="p">Operation variations (changes in library functionality): 20: PKZIP_BUG_WORKAROUND -- slightly more permissive inflate 21: FASTEST -- deflate algorithm with only one, lowest compression level 22,23: 0 (reserved)</p>
+<p class="p">The sprintf variant used by gzprintf (zero is best): 24: 0 = vs*, 1 = s* -- 1 means limited to 20 arguments after the format 25: 0 = *nprintf, 1 = *printf -- 1 means <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-725DAC9B-FF0A-3D0B-9EFF-63AD55DD913D">gzprintf()</a> not secure! 26: 0 = returns value, 1 = void -- 1 means inferred string length returned</p>
+<p class="p">Remainder: 27-31: 0 (reserved)</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>Refer to the above description for detailed explanation </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-5DE25D25-6A58-3C25-B672-6BADC1D4BFDD"><a name="GUID-5DE25D25-6A58-3C25-B672-6BADC1D4BFDD"><!-- --></a>
+<a name="GUID-B8B2AD36-679B-3A61-9B26-8460BBA2E58D"><!-- --></a><h3 class="sectiontitle">compress ( Bytef *, uLongf *, const Bytef *, uLong )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>compress</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">Bytef</a> *</td><td><span class="parameter">dest</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLongf</a> *</td><td><span class="parameter">destLen</span>,</td></tr><tr><td colspan="3"> </td><td>const <a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">Bytef</a> *</td><td><span class="parameter">source</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a></td><td><span class="parameter">sourceLen</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Compresses the source buffer into the destination buffer. sourceLen is the byte length of the source buffer. Upon entry, destLen is the total size of the destination buffer, which must be at least the value returned by compressBound(sourceLen). Upon exit, destLen is the actual size of the compressed buffer. This function can be used to compress a whole file at once if the input file is mmap'ed.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">dest</td><td>destination buffer  </td></tr><tr class="bg"><td class="parameter">destLen</td><td>byte length of destination buffer  </td></tr><tr><td class="parameter">source</td><td>source buffer  </td></tr><tr class="bg"><td class="parameter">sourceLen</td><td>byte length of source buffer  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>compress returns Z_OK if success, Z_MEM_ERROR if there was not enough memory, Z_BUF_ERROR if there was not enough room in the output buffer. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-59E8B656-5D18-3DB4-83B4-A6BF75BD7940"><a name="GUID-59E8B656-5D18-3DB4-83B4-A6BF75BD7940"><!-- --></a>
+<a name="GUID-6125F21D-5004-3273-A890-0D208928DDB3"><!-- --></a><h3 class="sectiontitle">compress2 ( Bytef *, uLongf *, const Bytef *, uLong, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>compress2</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">Bytef</a> *</td><td><span class="parameter">dest</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLongf</a> *</td><td><span class="parameter">destLen</span>,</td></tr><tr><td colspan="3"> </td><td>const <a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">Bytef</a> *</td><td><span class="parameter">source</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a></td><td><span class="parameter">sourceLen</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">level</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Compresses the source buffer into the destination buffer. The level parameter has the same meaning as in deflateInit. sourceLen is the byte length of the source buffer. Upon entry, destLen is the total size of the destination buffer, which must be at least the value returned by compressBound(sourceLen). Upon exit, destLen is the actual size of the compressed buffer.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">dest</td><td>destination buffer  </td></tr><tr class="bg"><td class="parameter">destLen</td><td>byte length of destination buffer  </td></tr><tr><td class="parameter">source</td><td>source buffer  </td></tr><tr class="bg"><td class="parameter">sourceLen</td><td>byte length of source buffer  </td></tr><tr><td class="parameter">level</td><td>Compression level  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>compress2 returns Z_OK if success, Z_MEM_ERROR if there was not enough memory, Z_BUF_ERROR if there was not enough room in the output buffer, Z_STREAM_ERROR if the level parameter is invalid. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-DF42745C-7CED-35D9-8514-A363D9EC938C"><a name="GUID-DF42745C-7CED-35D9-8514-A363D9EC938C"><!-- --></a>
+<a name="GUID-E3E83C39-82C6-3C96-B7D3-F6388F820E13"><!-- --></a><h3 class="sectiontitle">compressBound ( uLong )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a> ZEXPORT</td><td>compressBound</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a></td><td><span class="parameter">sourceLen</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-DF42745C-7CED-35D9-8514-A363D9EC938C">compressBound()</a> returns an upper bound on the compressed size after <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-5DE25D25-6A58-3C25-B672-6BADC1D4BFDD">compress()</a> or <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-59E8B656-5D18-3DB4-83B4-A6BF75BD7940">compress2()</a> on sourceLen bytes. It would be used before a <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-5DE25D25-6A58-3C25-B672-6BADC1D4BFDD">compress()</a> or <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-59E8B656-5D18-3DB4-83B4-A6BF75BD7940">compress2()</a> call to allocate the destination buffer.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>compressBound returns an upper bound on the compressed size after compress() or compress2() on sourceLen bytes. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-4B4135FC-0541-379B-AF31-02CC6DCA2392"><a name="GUID-4B4135FC-0541-379B-AF31-02CC6DCA2392"><!-- --></a>
+<a name="GUID-7B87E186-8283-3756-B0BA-3B6F9DC449C0"><!-- --></a><h3 class="sectiontitle">uncompress ( Bytef *, uLongf *, const Bytef *, uLong )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>uncompress</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">Bytef</a> *</td><td><span class="parameter">dest</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLongf</a> *</td><td><span class="parameter">destLen</span>,</td></tr><tr><td colspan="3"> </td><td>const <a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">Bytef</a> *</td><td><span class="parameter">source</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a></td><td><span class="parameter">sourceLen</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Decompresses the source buffer into the destination buffer. sourceLen is the byte length of the source buffer. Upon entry, destLen is the total size of the destination buffer, which must be large enough to hold the entire uncompressed data. (The size of the uncompressed data must have been saved previously by the compressor and transmitted to the decompressor by some mechanism outside the scope of this compression library.) Upon exit, destLen is the actual size of the compressed buffer. This function can be used to decompress a whole file at once if the input file is mmap'ed.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">dest</td><td>destination buffer  </td></tr><tr class="bg"><td class="parameter">destLen</td><td>byte length of destination buffer  </td></tr><tr><td class="parameter">source</td><td>source buffer  </td></tr><tr class="bg"><td class="parameter">sourceLen</td><td>byte length of source buffer  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>uncompress returns Z_OK if success, Z_MEM_ERROR if there was not enough memory, Z_BUF_ERROR if there was not enough room in the output buffer, or Z_DATA_ERROR if the input data was corrupted or incomplete. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-C3188DC2-5960-37DC-9F70-7391C45B228D"><a name="GUID-C3188DC2-5960-37DC-9F70-7391C45B228D"><!-- --></a>
+<h3 class="sectiontitle">Typedef gzFile</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef 
+					<a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">voidp</a>
+</td><td>gzFile</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">gzfile is typedef to voidp i.e. void pointer(void*) </p>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-FB5BC7FF-40A4-3460-A154-434B13A318A3"><a name="GUID-FB5BC7FF-40A4-3460-A154-434B13A318A3"><!-- --></a>
+<a name="GUID-2231ADA7-2990-31ED-B71A-0B023AC9297E"><!-- --></a><h3 class="sectiontitle">gzopen ( const char *, const char * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a> ZEXPORT</td><td>gzopen</td><td>(</td><td>const char *</td><td><span class="parameter">path</span>,</td></tr><tr><td colspan="3"> </td><td>const char *</td><td><span class="parameter">mode</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Opens a gzip (.gz) file for reading or writing. The mode parameter is as in fopen ("rb" or "wb") but can also include a compression level ("wb9") or a strategy: 'f' for filtered data as in "wb6f", 'h' for Huffman only compression as in "wb1h", or 'R' for run-length encoding as in "wb1R". (See the description of deflateInit2 for more information about the strategy parameter.)</p>
+<p class="p">gzopen can be used to read a file which is not in gzip format; in this case gzread will directly read from the file without decompression.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">path</td><td>location of the file  </td></tr><tr class="bg"><td class="parameter">mode</td><td>refer to above description  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzopen returns NULL if the file could not be opened or if there was insufficient memory to allocate the (de)compression state; errno can be checked to distinguish the two cases (if errno is zero, the zlib error is Z_MEM_ERROR). </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-ACB9C00F-AA63-352B-90F8-E265F9330FCC"><a name="GUID-ACB9C00F-AA63-352B-90F8-E265F9330FCC"><!-- --></a>
+<a name="GUID-696EDB33-D23F-3446-93B1-78B320CF06D5"><!-- --></a><h3 class="sectiontitle">gzdopen ( int, const char * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a> ZEXPORT</td><td>gzdopen</td><td>(</td><td>int</td><td><span class="parameter">fd</span>,</td></tr><tr><td colspan="3"> </td><td>const char *</td><td><span class="parameter">mode</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">
+<a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-ACB9C00F-AA63-352B-90F8-E265F9330FCC">gzdopen()</a> associates a gzFile with the file descriptor fd. File descriptors are obtained from calls like open, dup, creat, pipe or fileno (in the file has been previously opened with fopen). The mode parameter is as in gzopen. The next call of gzclose on the returned gzFile will also close the file descriptor fd, just like fclose(fdopen(fd), mode) closes the file descriptor fd. If you want to keep fd open, use gzdopen(dup(fd), mode).</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">fd</td><td>file descriptor  </td></tr><tr class="bg"><td class="parameter">mode</td><td>The mode parameter is as in gzopen  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzdopen returns NULL if there was insufficient memory to allocate the (de)compression state. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-88774C86-54BE-314F-BE7A-87DA95DD9C30"><a name="GUID-88774C86-54BE-314F-BE7A-87DA95DD9C30"><!-- --></a>
+<a name="GUID-8FD31525-C19C-3AB0-A41D-398A797F724F"><!-- --></a><h3 class="sectiontitle">gzsetparams ( gzFile, int, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzsetparams</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">level</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">strategy</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Dynamically update the compression level or strategy. See the description of deflateInit2 for the meaning of these parameters.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr><tr class="bg"><td class="parameter">level</td><td>compression level  </td></tr><tr><td class="parameter">strategy</td><td>compression algorithm  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzsetparams returns Z_OK if success, or Z_STREAM_ERROR if the file was not opened for writing. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-4BC107D2-7CC6-3915-9F9C-0160FC227433"><a name="GUID-4BC107D2-7CC6-3915-9F9C-0160FC227433"><!-- --></a>
+<a name="GUID-4EBEC8EA-79A4-3D8C-A0DE-5E117720AA5D"><!-- --></a><h3 class="sectiontitle">gzread ( gzFile, voidp, unsigned )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzread</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">voidp</a></td><td><span class="parameter">buf</span>,</td></tr><tr><td colspan="3"> </td><td>unsigned</td><td><span class="parameter">len</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Reads the given number of uncompressed bytes from the compressed file. If the input file was not in gzip format, gzread copies the given number of bytes into the buffer.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr><tr class="bg"><td class="parameter">buf</td><td>buffer to store the copied data from the gzip file  </td></tr><tr><td class="parameter">len</td><td>length of the data to be copied  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzread returns the number of uncompressed bytes actually read (0 for end of file, -1 for error). </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-426E41C5-F68B-3876-8143-EFC00E723740"><a name="GUID-426E41C5-F68B-3876-8143-EFC00E723740"><!-- --></a>
+<a name="GUID-D819942C-AC5A-3655-AD3A-3BBA0853C215"><!-- --></a><h3 class="sectiontitle">gzwrite ( gzFile, voidpc, unsigned )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzwrite</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">voidpc</a></td><td><span class="parameter">buf</span>,</td></tr><tr><td colspan="3"> </td><td>unsigned</td><td><span class="parameter">len</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Writes the given number of uncompressed bytes into the compressed file. gzwrite returns the number of uncompressed bytes actually written (0 in case of error).</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr><tr class="bg"><td class="parameter">buf</td><td>buffer containing data to be written to the gzip file  </td></tr><tr><td class="parameter">len</td><td>length of the data  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzwrite returns the number of uncompressed bytes actually written (0 in case of error) </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-725DAC9B-FF0A-3D0B-9EFF-63AD55DD913D"><a name="GUID-725DAC9B-FF0A-3D0B-9EFF-63AD55DD913D"><!-- --></a>
+<a name="GUID-C8E3111F-7611-30EB-9E8A-B2B77D12EE83"><!-- --></a><h3 class="sectiontitle">gzprintf ( gzFile, const char *, ... )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORTVA</td><td>gzprintf</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span>,</td></tr><tr><td colspan="3"> </td><td>const char *</td><td><span class="parameter">format</span>,</td></tr><tr><td colspan="3"> </td><td>...</td><td><span class="parameter"></span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Converts, formats, and writes the args to the compressed file under control of the format string, as in fprintf. gzprintf returns the number of uncompressed bytes actually written (0 in case of error). The number of uncompressed bytes written is limited to 4095. The caller should assure that this limit is not exceeded. If it is exceeded, then <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-725DAC9B-FF0A-3D0B-9EFF-63AD55DD913D">gzprintf()</a> will return return an error (0) with nothing written. In this case, there may also be a buffer overflow with unpredictable consequences, which is possible only if zlib was compiled with the insecure functions <a class="xref" href="GUID-1A848FAD-DE4F-3902-817D-D1C579C9746E.html#GUID-1678F863-9C2C-3FC9-85C1-3C4CEBE083E1">sprintf()</a> or <a class="xref" href="GUID-1A848FAD-DE4F-3902-817D-D1C579C9746E.html#GUID-2DFC4995-1654-392E-89DE-B593745AC621">vsprintf()</a> because the secure <a class="xref" href="GUID-1A848FAD-DE4F-3902-817D-D1C579C9746E.html#GUID-5E5500A8-739F-3F5A-8FAA-8D10810160FE">snprintf()</a> or <a class="xref" href="GUID-1A848FAD-DE4F-3902-817D-D1C579C9746E.html#GUID-F7F1CA60-B0C0-3CD9-8DD8-5687B104FBF8">vsnprintf()</a> functions were not available.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr><tr class="bg"><td class="parameter">format</td><td>format string  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>refer to the description above </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-5CA138B9-1F51-305E-A003-926323D240E5"><a name="GUID-5CA138B9-1F51-305E-A003-926323D240E5"><!-- --></a>
+<a name="GUID-2A5A0B35-9330-3DC5-9325-A7202618CDC8"><!-- --></a><h3 class="sectiontitle">gzputs ( gzFile, const char * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzputs</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span>,</td></tr><tr><td colspan="3"> </td><td>const char *</td><td><span class="parameter">s</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Writes the given null-terminated string to the compressed file, excluding the terminating null character.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr><tr class="bg"><td class="parameter">s</td><td>null-terminated string  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzputs returns the number of characters written, or -1 in case of error. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-F0E1D4C8-184E-3C2E-A2FF-684581B479EC"><a name="GUID-F0E1D4C8-184E-3C2E-A2FF-684581B479EC"><!-- --></a>
+<a name="GUID-E0A778AA-9EDF-34D1-9D06-B3D4EE1E4CEE"><!-- --></a><h3 class="sectiontitle">gzgets ( gzFile, char *, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>char *ZEXPORT</td><td>gzgets</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span>,</td></tr><tr><td colspan="3"> </td><td>char *</td><td><span class="parameter">buf</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">len</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Reads bytes from the compressed file until len-1 characters are read, or a newline character is read and transferred to buf, or an end-of-file condition is encountered. The string is then terminated with a null character.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr><tr class="bg"><td class="parameter">buf</td><td>buffer to store the copied data from the gzip file  </td></tr><tr><td class="parameter">len</td><td>number of characters to be read (len-1)  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzgets returns buf, or Z_NULL in case of error. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-24AEAACB-71E9-3862-8B22-4790C0852BBF"><a name="GUID-24AEAACB-71E9-3862-8B22-4790C0852BBF"><!-- --></a>
+<a name="GUID-4700F6AD-6575-3FCB-A472-60C5DD8ED013"><!-- --></a><h3 class="sectiontitle">gzputc ( gzFile, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzputc</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">c</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Writes c, converted to an unsigned char, into the compressed file. gzputc returns the value that was written, or -1 in case of error.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr><tr class="bg"><td class="parameter">c</td><td>character  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzputc returns the value that was written, or -1 in case of error. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-0D13B514-9B75-33B7-817A-D8DB03B1C330"><a name="GUID-0D13B514-9B75-33B7-817A-D8DB03B1C330"><!-- --></a>
+<a name="GUID-188E7F36-60E7-3742-A562-E87DDFA51A86"><!-- --></a><h3 class="sectiontitle">gzgetc ( gzFile )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzgetc</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Reads one byte from the compressed file. gzgetc returns this byte or -1 in case of end of file or error.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzgetc returns this byte or -1 in case of end of file or error. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-9FF80B6B-607D-3453-94F4-6CC16BD39755"><a name="GUID-9FF80B6B-607D-3453-94F4-6CC16BD39755"><!-- --></a>
+<a name="GUID-03B8B2EB-53FE-380E-8471-36495924E485"><!-- --></a><h3 class="sectiontitle">gzungetc ( int, gzFile )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzungetc</td><td>(</td><td>int</td><td><span class="parameter">c</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Push one character back onto the stream to be read again later. Only one character of push-back is allowed. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9FF80B6B-607D-3453-94F4-6CC16BD39755">gzungetc()</a> returns the character pushed, or -1 on failure. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9FF80B6B-607D-3453-94F4-6CC16BD39755">gzungetc()</a> will fail if a character has been pushed but not read yet, or if c is -1. The pushed character will be discarded if the stream is repositioned with <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-F0290E0B-3565-3025-AB97-CC060E018151">gzseek()</a> or <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-175F6E5E-713E-3C4B-8688-21B8C87DBF00">gzrewind()</a>.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">c</td><td>character  </td></tr><tr class="bg"><td class="parameter">file</td><td>gzip file  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzungetc returns the character pushed, or -1 on failure. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-3B0A5B67-14D6-38DC-818B-3894E2232F0C"><a name="GUID-3B0A5B67-14D6-38DC-818B-3894E2232F0C"><!-- --></a>
+<a name="GUID-AEA1BCCE-C9F1-327B-B340-C118B88D562F"><!-- --></a><h3 class="sectiontitle">gzflush ( gzFile, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzflush</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">flush</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Flushes all pending output into the compressed file. The parameter flush is as in the <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> function. The return value is the zlib error number (see function gzerror below). gzflush returns Z_OK if the flush parameter is Z_FINISH and all output could be flushed. gzflush should be called only when strictly necessary because it can degrade compression.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr><tr class="bg"><td class="parameter">flush</td><td>parameter flush is as in the deflate() function  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzflush returns Z_OK if the flush parameter is Z_FINISH and all output could be flushed. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-F0290E0B-3565-3025-AB97-CC060E018151"><a name="GUID-F0290E0B-3565-3025-AB97-CC060E018151"><!-- --></a>
+<a name="GUID-363B3048-EE2F-3A96-A917-1A965EA1EE83"><!-- --></a><h3 class="sectiontitle">gzseek ( gzFile, long, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>long ZEXPORT</td><td>gzseek</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span>,</td></tr><tr><td colspan="3"> </td><td>long</td><td><span class="parameter">offset</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">whence</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Sets the starting position for the next gzread or gzwrite on the given compressed file. The offset represents a number of bytes in the uncompressed data stream. The whence parameter is defined as in lseek(2); the value SEEK_END is not supported. If the file is opened for reading, this function is emulated but can be extremely slow. If the file is opened for writing, only forward seeks are supported; gzseek then compresses a sequence of zeroes up to the new starting position.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr><tr class="bg"><td class="parameter">offset</td><td>represents a number of bytes in the uncompressed data stream  </td></tr><tr><td class="parameter">whence</td><td>defined as in lseek(2); the value SEEK_END is not supported.  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzseek returns the resulting offset location as measured in bytes from the beginning of the uncompressed stream, or -1 in case of error, in particular if the file is opened for writing and the new starting position would be before the current position. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-175F6E5E-713E-3C4B-8688-21B8C87DBF00"><a name="GUID-175F6E5E-713E-3C4B-8688-21B8C87DBF00"><!-- --></a>
+<a name="GUID-B9B66C20-A877-3208-A153-BFDC60692E8B"><!-- --></a><h3 class="sectiontitle">gzrewind ( gzFile )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzrewind</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Rewinds the given file. This function is supported only for reading.</p>
+<p class="p">gzrewind(file) is equivalent to (int)gzseek(file, 0L, SEEK_SET)</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>refer to gzseek() return value &amp; description </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-D5203B24-CF50-3A8A-B18A-5E2FC9CB3B47"><a name="GUID-D5203B24-CF50-3A8A-B18A-5E2FC9CB3B47"><!-- --></a>
+<a name="GUID-9CC7EF8B-A77A-3265-8209-B97F0019FAEE"><!-- --></a><h3 class="sectiontitle">gztell ( gzFile )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>long ZEXPORT</td><td>gztell</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Returns the starting position for the next gzread or gzwrite on the given compressed file. This position represents a number of bytes in the uncompressed data stream.</p>
+<p class="p">gztell(file) is equivalent to gzseek(file, 0L, SEEK_CUR)</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gztell returns the starting position for the next gzread or gzwrite on the given compressed file </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-F84B5D71-B1E8-39F8-AFE0-C369119840D3"><a name="GUID-F84B5D71-B1E8-39F8-AFE0-C369119840D3"><!-- --></a>
+<a name="GUID-28734D11-FAB7-30C2-BF9C-EF51E96F81EE"><!-- --></a><h3 class="sectiontitle">gzeof ( gzFile )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzeof</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Returns 1 when EOF has previously been detected reading the given input stream, otherwise zero.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzeof returns 1 when EOF has previously been detected reading the given input stream, otherwise zero. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-4EFEBA9D-200B-3609-8CE6-8D74C9254887"><a name="GUID-4EFEBA9D-200B-3609-8CE6-8D74C9254887"><!-- --></a>
+<a name="GUID-12F79270-09BF-37CA-87F9-55A07A256A94"><!-- --></a><h3 class="sectiontitle">gzdirect ( gzFile )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzdirect</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Returns 1 if file is being read directly without decompression, otherwise zero.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzdirect returns 1 if file is being read directly without decompression, otherwise zero. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-D6CCE714-EC0F-3A54-B587-4A67337F277B"><a name="GUID-D6CCE714-EC0F-3A54-B587-4A67337F277B"><!-- --></a>
+<a name="GUID-B6097938-29E7-36B8-B306-90EECA73C2FE"><!-- --></a><h3 class="sectiontitle">gzclose ( gzFile )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>gzclose</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Flushes all pending output if necessary, closes the compressed file and deallocates all the (de)compression state. The return value is the zlib error number (see function gzerror below).</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzclose returns the zlib error number (see function gzerror below). </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-F4C29659-92B2-3389-BD34-54B44E937FFB"><a name="GUID-F4C29659-92B2-3389-BD34-54B44E937FFB"><!-- --></a>
+<a name="GUID-215C8ECA-1033-3C73-B519-6266D6A8D219"><!-- --></a><h3 class="sectiontitle">gzerror ( gzFile, int * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>const char *ZEXPORT</td><td>gzerror</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span>,</td></tr><tr><td colspan="3"> </td><td>int *</td><td><span class="parameter">errnum</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Returns the error message for the last error which occurred on the given compressed file. errnum is set to zlib error number. If an error occurred in the file system and not in the compression library, errnum is set to Z_ERRNO and the application may consult errno to get the exact error code.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr><tr class="bg"><td class="parameter">errnum</td><td>error number  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>gzerror returns the error message for the last error which occurred on the given compressed file. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-A188B6EC-2672-371D-9326-736A4D2D1911"><a name="GUID-A188B6EC-2672-371D-9326-736A4D2D1911"><!-- --></a>
+<a name="GUID-63E34466-629C-3EDA-81AD-4458CBD9C2E0"><!-- --></a><h3 class="sectiontitle">gzclearerr ( gzFile )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void ZEXPORT</td><td>gzclearerr</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html">gzFile</a></td><td><span class="parameter">file</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Clears the error and end-of-file flags for file. This is analogous to the <a class="xref" href="GUID-1A848FAD-DE4F-3902-817D-D1C579C9746E.html#GUID-5A97485F-794F-341F-A720-532B31DFEDCC">clearerr()</a> function in stdio. This is useful for continuing to read a gzip file that is being written concurrently.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">file</td><td>gzip file  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-F5B6A6D1-7B16-31E3-8809-34DBF7A897F8"><a name="GUID-F5B6A6D1-7B16-31E3-8809-34DBF7A897F8"><!-- --></a>
+<a name="GUID-4F78511D-559C-32C3-92DB-FECA2C1541B7"><!-- --></a><h3 class="sectiontitle">adler32 ( uLong, const Bytef *, uInt )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a> ZEXPORT</td><td>adler32</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a></td><td><span class="parameter">adler</span>,</td></tr><tr><td colspan="3"> </td><td>const <a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">Bytef</a> *</td><td><span class="parameter">buf</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uInt</a></td><td><span class="parameter">len</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Update a running Adler-32 checksum with the bytes buf[0..len-1] and return the updated checksum. If buf is NULL, this function returns the required initial value for the checksum. An Adler-32 checksum is almost as reliable as a CRC32 but can be computed much faster. Usage example:</p>
+<p class="p">uLong adler = adler32(0L, Z_NULL, 0);</p>
+<p class="p">while (read_buffer(buffer, length) != EOF) { adler = adler32(adler, buffer, length); } if (adler != original_adler) error();</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">adler</td><td>Adler-32 checksum  </td></tr><tr class="bg"><td class="parameter">buf</td><td>pointer to buffer  </td></tr><tr><td class="parameter">len</td><td>length of buffer  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>If buf is NULL, this function returns the required initial value for the checksum. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-812AE66E-D9EA-3A72-9035-60F919E7D5F7"><a name="GUID-812AE66E-D9EA-3A72-9035-60F919E7D5F7"><!-- --></a>
+<a name="GUID-C49A5291-0228-399A-8A4B-E1F70ED8AD18"><!-- --></a><h3 class="sectiontitle">adler32_combine ( uLong, uLong, long )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a> ZEXPORT</td><td>adler32_combine</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a></td><td><span class="parameter">adler1</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a></td><td><span class="parameter">adler2</span>,</td></tr><tr><td colspan="3"> </td><td>long</td><td><span class="parameter">len2</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Combine two Adler-32 checksums into one. For two sequences of bytes, seq1 and seq2 with lengths len1 and len2, Adler-32 checksums were calculated for each, adler1 and adler2.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">adler1</td><td>Adler-32 checksum  </td></tr><tr class="bg"><td class="parameter">adler2</td><td>Adler-32 checksum  </td></tr><tr><td class="parameter">len2</td><td>length  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>adler32_combine returns the Adler-32 checksum of seq1 and seq2 concatenated, requiring only adler1, adler2, and len2. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-C0DE775A-B8EE-33B8-83B7-1EEAC5D21AF8"><a name="GUID-C0DE775A-B8EE-33B8-83B7-1EEAC5D21AF8"><!-- --></a>
+<a name="GUID-953B814C-31C7-385C-8A4B-05545B3B3892"><!-- --></a><h3 class="sectiontitle">crc32 ( uLong, const Bytef *, uInt )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a> ZEXPORT</td><td>crc32</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a></td><td><span class="parameter">crc</span>,</td></tr><tr><td colspan="3"> </td><td>const <a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">Bytef</a> *</td><td><span class="parameter">buf</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uInt</a></td><td><span class="parameter">len</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Update a running CRC-32 with the bytes buf[0..len-1] and return the updated CRC-32. If buf is NULL, this function returns the required initial value for the for the crc. Pre- and post-conditioning (one's complement) is performed within this function so it shouldn't be done by the application. Usage example:</p>
+<p class="p">uLong crc = crc32(0L, Z_NULL, 0);</p>
+<p class="p">while (read_buffer(buffer, length) != EOF) { crc = crc32(crc, buffer, length); } if (crc != original_crc) error();</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">crc</td><td>CRC-32 check value  </td></tr><tr class="bg"><td class="parameter">buf</td><td>pointer to buffer  </td></tr><tr><td class="parameter">len</td><td>length of buffer  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>If buf is NULL, this function returns the required initial value for the for the crc. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-6DDEB063-4751-3F13-8101-F91F29965909"><a name="GUID-6DDEB063-4751-3F13-8101-F91F29965909"><!-- --></a>
+<a name="GUID-BCD41CE2-AB48-39F9-98EC-9F70C2B4ED34"><!-- --></a><h3 class="sectiontitle">crc32_combine ( uLong, uLong, long )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a> ZEXPORT</td><td>crc32_combine</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a></td><td><span class="parameter">crc1</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLong</a></td><td><span class="parameter">crc2</span>,</td></tr><tr><td colspan="3"> </td><td>long</td><td><span class="parameter">len2</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Combine two CRC-32 check values into one. For two sequences of bytes, seq1 and seq2 with lengths len1 and len2, CRC-32 check values were calculated for each, crc1 and crc2.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">crc1</td><td>CRC-32 check value  </td></tr><tr class="bg"><td class="parameter">crc2</td><td>CRC-32 check value  </td></tr><tr><td class="parameter">len2</td><td>length  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>crc32_combine returns the CRC-32 check value of seq1 and seq2 concatenated, requiring only crc1, crc2, and len2. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-E00922EC-45BC-3B53-B76B-772D1BB35300"><a name="GUID-E00922EC-45BC-3B53-B76B-772D1BB35300"><!-- --></a>
+<a name="GUID-28A0CB35-30D9-3FA4-93BC-2AC90235BB40"><!-- --></a><h3 class="sectiontitle">deflateInit_ ( z_streamp, int, const char *, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>deflateInit_</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">level</span>,</td></tr><tr><td colspan="3"> </td><td>const char *</td><td><span class="parameter">version</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">stream_size</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Initializes the internal stream state for compression. The fields zalloc, zfree and opaque must be initialized before by the caller. If zalloc and zfree are set to Z_NULL, deflateInit updates them to use default allocation functions.</p>
+<p class="p">The compression level must be Z_DEFAULT_COMPRESSION, or between 0 and 9: 1 gives best speed, 9 gives best compression, 0 gives no compression at all (the input data is simply copied a block at a time). Z_DEFAULT_COMPRESSION requests a default compromise between speed and compression (currently equivalent to level 6).</p>
+<p class="p">deflateInit does not perform any compression: this will be done by <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a>.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">level</td><td>compression level  </td></tr><tr><td class="parameter">version</td><td>version of library  </td></tr><tr class="bg"><td class="parameter">stream_size</td><td>stream size  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflateInit_ returns Z_OK if success, Z_MEM_ERROR if there was not enough memory, Z_STREAM_ERROR if level is not a valid compression level, Z_VERSION_ERROR if the zlib library version (zlib_version) is incompatible with the version assumed by the caller (ZLIB_VERSION). msg is set to null if there is no error message. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-89288E42-C5DB-394B-9A6E-4DEC80195FBC"><a name="GUID-89288E42-C5DB-394B-9A6E-4DEC80195FBC"><!-- --></a>
+<a name="GUID-2077824C-E7A0-314F-BBF2-BB9F2F01A6AD"><!-- --></a><h3 class="sectiontitle">inflateInit_ ( z_streamp, const char *, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateInit_</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>const char *</td><td><span class="parameter">version</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">stream_size</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Initializes the internal stream state for decompression. The fields next_in, avail_in, zalloc, zfree and opaque must be initialized before by the caller. If next_in is not Z_NULL and avail_in is large enough (the exact value depends on the compression method), inflateInit determines the compression method from the zlib header and allocates all data structures accordingly; otherwise the allocation will be deferred to the first call of inflate. If zalloc and zfree are set to Z_NULL, inflateInit updates them to use default allocation functions.</p>
+<p class="p">inflateInit does not perform any decompression apart from reading the zlib header if present: this will be done by <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>. (So next_in and avail_in may be modified, but next_out and avail_out are unchanged.)</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">version</td><td>version of library  </td></tr><tr><td class="parameter">stream_size</td><td>stream size  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflateInit_ returns Z_OK if success, Z_MEM_ERROR if there was not enough memory, Z_VERSION_ERROR if the zlib library version is incompatible with the version assumed by the caller. msg is set to null if there is no error message. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-FF7DADCE-E256-3ECC-AA82-58C515FFB23F"><a name="GUID-FF7DADCE-E256-3ECC-AA82-58C515FFB23F"><!-- --></a>
+<a name="GUID-80B6BD9B-71A0-30B1-84CB-2AEC4AE45CB5"><!-- --></a><h3 class="sectiontitle">deflateInit2_ ( z_streamp, int, int, int, int, int, const char *, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>deflateInit2_</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">level</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">method</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">windowBits</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">memLevel</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">strategy</span>,</td></tr><tr><td colspan="3"> </td><td>const char *</td><td><span class="parameter">version</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">stream_size</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">This is another version of deflateInit with more compression options. The fields next_in, zalloc, zfree and opaque must be initialized before by the caller.</p>
+<p class="p">The method parameter is the compression method. It must be Z_DEFLATED in this version of the library.</p>
+<p class="p">The windowBits parameter is the base two logarithm of the window size (the size of the history buffer). It should be in the range 8..15 for this version of the library. Larger values of this parameter result in better compression at the expense of memory usage. The default value is 15 if deflateInit is used instead.</p>
+<p class="p">Note: In this version of the library a windowBits value of 8 is unsupported due to a problem with the window size being set to 256 bytes. Although a value of 8 will be accepted by <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a>, as it is being changed internally from 8 to 9, it will not be possible to use the same value when it comes to decompression. This is because <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-7B71BE2D-2A7E-3C73-8934-33B3396A5E07">inflateInit2()</a> does not make the same change internally and as a result a Z_DATA_ERROR is returned when calling <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>. It is therefore advised that for this version of the library windowBits of 9 is used in place of 8.</p>
+<p class="p">windowBits can also be -8..-15 for raw deflate. In this case, -windowBits determines the window size. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a> will then generate raw deflate data with no zlib header or trailer, and will not compute an adler32 check value.</p>
+<p class="p">windowBits can also be greater than 15 for optional gzip encoding. Add 16 to windowBits to write a simple gzip header and trailer around the compressed data instead of a zlib wrapper. The gzip header will have no file name, no extra data, no comment, no modification time (set to zero), no header crc, and the operating system will be set to 3 (UNIX). If a gzip stream is being written, strm-&gt;adler is a crc32 instead of an adler32.</p>
+<p class="p">The memLevel parameter specifies how much memory should be allocated for the internal compression state. memLevel=1 uses minimum memory but is slow and reduces compression ratio; memLevel=9 uses maximum memory for optimal speed. The default value is 8. See zconf.h for total memory usage as a function of windowBits and memLevel.</p>
+<p class="p">The strategy parameter is used to tune the compression algorithm. Use the value Z_DEFAULT_STRATEGY for normal data, Z_FILTERED for data produced by a filter (or predictor), Z_HUFFMAN_ONLY to force Huffman encoding only (no string match), or Z_RLE to limit match distances to one (run-length encoding). Filtered data consists mostly of small values with a somewhat random distribution. In this case, the compression algorithm is tuned to compress them better. The effect of Z_FILTERED is to force more Huffman coding and less string matching; it is somewhat intermediate between Z_DEFAULT and Z_HUFFMAN_ONLY. Z_RLE is designed to be almost as fast as Z_HUFFMAN_ONLY, but give better compression for PNG image data. The strategy parameter only affects the compression ratio but not the correctness of the compressed output even if it is not set appropriately. Z_FIXED prevents the use of dynamic Huffman codes, allowing for a simpler decoder for special applications. deflateInit2 does not perform any compression: this will be done by <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-AA4B8681-663B-3E7D-B121-BD09A4924A17">deflate()</a>.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">level</td><td>compression level  </td></tr><tr><td class="parameter">method</td><td>compression method  </td></tr><tr class="bg"><td class="parameter">windowBits</td><td>refer to above note &amp; description for window bits value  </td></tr><tr><td class="parameter">memLevel</td><td>memory level (i.e. how much memory should be allocated). refer to above description for more detail  </td></tr><tr class="bg"><td class="parameter">strategy</td><td>compression algorithm  </td></tr><tr><td class="parameter">version</td><td>version of library  </td></tr><tr class="bg"><td class="parameter">stream_size</td><td>size of stream  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>deflateInit2_ returns Z_OK if success, Z_MEM_ERROR if there was not enough memory, Z_STREAM_ERROR if a parameter is invalid (such as an invalid method). msg is set to null if there is no error message. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-BE0B0F0C-C4AC-35C9-A12D-915DAEBFE326"><a name="GUID-BE0B0F0C-C4AC-35C9-A12D-915DAEBFE326"><!-- --></a>
+<a name="GUID-6945B0F9-E841-3626-B5CA-CE5AF474612F"><!-- --></a><h3 class="sectiontitle">inflateInit2_ ( z_streamp, int, const char *, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateInit2_</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">windowBits</span>,</td></tr><tr><td colspan="3"> </td><td>const char *</td><td><span class="parameter">version</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">stream_size</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">This is another version of inflateInit with an extra parameter. The fields next_in, avail_in, zalloc, zfree and opaque must be initialized before by the caller.</p>
+<p class="p">The windowBits parameter is the base two logarithm of the maximum window size (the size of the history buffer). It should be in the range 8..15 for this version of the library. The default value is 15 if inflateInit is used instead. windowBits must be greater than or equal to the windowBits value provided to <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a> while compressing, or it must be equal to 15 if <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a> was not used. If a compressed stream with a larger window size is given as input, <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> will return with the error code Z_DATA_ERROR instead of trying to allocate a larger window.</p>
+<p class="p">Note: In this version of the library a windowBits value of 8 is unsupported due to a problem with the window size being set to 256 bytes. Although a value of 8 will be accepted by <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a>, as it is being changed internally from 8 to 9, it will not be possible to use the same value when it comes to decompression. This is because <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-7B71BE2D-2A7E-3C73-8934-33B3396A5E07">inflateInit2()</a> does not make the same change internally and as a result a Z_DATA_ERROR is returned when calling <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>. It is therefore advised that for this version of the library windowBits of 9 is used in place of 8.</p>
+<p class="p">windowBits can also be -8..-15 for raw inflate. In this case, -windowBits determines the window size. <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a> will then process raw deflate data, not looking for a zlib or gzip header, not generating a check value, and not looking for any check values for comparison at the end of the stream. This is for use with other formats that use the deflate compressed data format such as zip. Those formats provide their own check values. If a custom format is developed using the raw deflate format for compressed data, it is recommended that a check value such as an adler32 or a crc32 be applied to the uncompressed data as is done in the zlib, gzip, and zip formats. For most applications, the zlib format should be used as is. Note that comments above on the use in <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a> applies to the magnitude of windowBits.</p>
+<p class="p">windowBits can also be greater than 15 for optional gzip decoding. Add 32 to windowBits to enable zlib and gzip decoding with automatic header detection, or add 16 to decode only the gzip format (the zlib format will return a Z_DATA_ERROR). If a gzip stream is being decoded, strm-&gt;adler is a crc32 instead of an adler32.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">windowBits</td><td>refer to above note &amp; description for window bits value  </td></tr><tr><td class="parameter">version</td><td>version of library  </td></tr><tr class="bg"><td class="parameter">stream_size</td><td>size of stream  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflateInit2_ returns Z_OK if success, Z_MEM_ERROR if there was not enough memory, Z_STREAM_ERROR if a parameter is invalid (such as a null strm). msg is set to null if there is no error message. inflateInit2 does not perform any decompression apart from reading the zlib header if present: this will be done by inflate(). (So next_in and avail_in may be modified, but next_out and avail_out are unchanged.) </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-2CE0827F-9322-399B-889C-4410D26555F3"><a name="GUID-2CE0827F-9322-399B-889C-4410D26555F3"><!-- --></a>
+<a name="GUID-45831115-FAEC-341F-82AD-7D8FC854A3AE"><!-- --></a><h3 class="sectiontitle">inflateBackInit_ ( z_streamp, int, unsigned char *, const char *, int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateBackInit_</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">strm</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">windowBits</span>,</td></tr><tr><td colspan="3"> </td><td>unsigned char *</td><td><span class="parameter">window</span>,</td></tr><tr><td colspan="3"> </td><td>const char *</td><td><span class="parameter">version</span>,</td></tr><tr><td colspan="3"> </td><td>int</td><td><span class="parameter">stream_size</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Initialize the internal stream state for decompression using <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> calls. The fields zalloc, zfree and opaque in strm must be initialized before the call. If zalloc and zfree are Z_NULL, then the default library- derived memory allocation routines are used. windowBits is the base two logarithm of the window size, in the range 8..15. window is a caller supplied buffer of that size. Except for special applications where it is assured that deflate was used with small window sizes, windowBits must be 15 and a 32K byte window must be supplied to be able to decompress general deflate streams.</p>
+<p class="p">Note: In this version of the library a windowBits value of 8 is unsupported due to a problem with the window size being set to 256 bytes. Although a value of 8 will be accepted by <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-3A47DC87-C36A-3965-8F62-17020D61AF42">deflateInit2()</a>, as it is being changed internally from 8 to 9, it will not be possible to use the same value when it comes to decompression. This is because <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-7B71BE2D-2A7E-3C73-8934-33B3396A5E07">inflateInit2()</a> does not make the same change internally and as a result a Z_DATA_ERROR is returned when calling <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF2A0BEF-1AAB-380C-9407-960C20F4754A">inflate()</a>. It is therefore advised that for this version of the library windowBits of 9 is used in place of 8.</p>
+<p class="p">See <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-9C5656BC-AD0E-3B48-AD69-79E45580E323">inflateBack()</a> for the usage of these routines.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">strm</td><td>stream of data  </td></tr><tr class="bg"><td class="parameter">windowBits</td><td>refer to above note for window bits value  </td></tr><tr><td class="parameter">window</td><td>window is a caller supplied buffer of that size  </td></tr><tr class="bg"><td class="parameter">version</td><td>version of library  </td></tr><tr><td class="parameter">stream_size</td><td>size of stream  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflateBackInit_ returns Z_OK on success, Z_STREAM_ERROR if any of the paramaters are invalid, Z_MEM_ERROR if the internal state could not be allocated, or Z_VERSION_ERROR if the version of the library does not match the version of the header file. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-A6102369-6D7A-305E-92F9-3AABAF550A12"><a name="GUID-A6102369-6D7A-305E-92F9-3AABAF550A12"><!-- --></a>
+<h3 class="sectiontitle">deflateInit</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Macro deflateInit defined for <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-E00922EC-45BC-3B53-B76B-772D1BB35300">deflateInit_()</a> </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-C4471975-B8FA-3C79-812C-491CF54512A0"><a name="GUID-C4471975-B8FA-3C79-812C-491CF54512A0"><!-- --></a>
+<h3 class="sectiontitle">inflateInit</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Macro inflateInit defined for <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-89288E42-C5DB-394B-9A6E-4DEC80195FBC">inflateInit_()</a> </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-3A47DC87-C36A-3965-8F62-17020D61AF42"><a name="GUID-3A47DC87-C36A-3965-8F62-17020D61AF42"><!-- --></a>
+<h3 class="sectiontitle">deflateInit2</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Macro deflateInit2 defined for <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-FF7DADCE-E256-3ECC-AA82-58C515FFB23F">deflateInit2_()</a> </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-7B71BE2D-2A7E-3C73-8934-33B3396A5E07"><a name="GUID-7B71BE2D-2A7E-3C73-8934-33B3396A5E07"><!-- --></a>
+<h3 class="sectiontitle">inflateInit2</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Macro inflateInit2 defined for <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-BE0B0F0C-C4AC-35C9-A12D-915DAEBFE326">inflateInit2_()</a> </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-B95E43DA-754B-389C-8F71-5F2FF2EF21C8"><a name="GUID-B95E43DA-754B-389C-8F71-5F2FF2EF21C8"><!-- --></a>
+<h3 class="sectiontitle">inflateBackInit</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Macro inflateBackInit defined for <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-2CE0827F-9322-399B-889C-4410D26555F3">inflateBackInit_()</a> </p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-2F9DC53C-0A3F-3E1B-BE15-BB1A606F8AD3"><a name="GUID-2F9DC53C-0A3F-3E1B-BE15-BB1A606F8AD3"><!-- --></a>
+<a name="GUID-2192CB13-B97C-361A-AD51-E925E297841B"><!-- --></a><h3 class="sectiontitle">zError ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>const char *ZEXPORT</td><td>zError</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Returns the string representing the error code</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>zError returns string representing the error code </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-00F114C9-1F1A-3752-9B74-E906D6680F38"><a name="GUID-00F114C9-1F1A-3752-9B74-E906D6680F38"><!-- --></a>
+<a name="GUID-D0DD28C8-4268-38FB-9B5C-F476F0816462"><!-- --></a><h3 class="sectiontitle">inflateSyncPoint ( z_streamp )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+int ZEXPORT</td><td>inflateSyncPoint</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-E52C3FDD-B823-3997-85D2-FB14065267DE.html">z_streamp</a></td><td><span class="parameter">z</span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Checks whether inflate is currently at the end of a block generated by Z_SYNC_FLUSH or Z_FULL_FLUSH</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">z</td><td>stream of data  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>inflateSyncPoint returns true(1) if inflate is currently at the end of a block. Otherwise false(0) </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-F085FC2E-AC49-3BA1-8AB1-7EADF850238D"><a name="GUID-F085FC2E-AC49-3BA1-8AB1-7EADF850238D"><!-- --></a>
+<a name="GUID-D87429A4-B8BF-3819-90C9-733E007DC285"><!-- --></a><h3 class="sectiontitle">get_crc_table ( void )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>const <a class="xref xref apiRelation" href="GUID-C313988C-F503-3608-8B3E-42B2D42D18E1.html">uLongf</a> *ZEXPORT</td><td>get_crc_table</td><td>(</td><td>void</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Initialize the tables before allowing more than one thread to use <a class="xref" href="GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html#GUID-C0DE775A-B8EE-33B8-83B7-1EEAC5D21AF8">crc32()</a></p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>get_crc_table returns pointer to the crc table after initialisation </dd></dl></div>
+</div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></div></p></div></div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-60227EA3-ABD1-34B9-A74D-4E30A3C05B43.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:18:44 GMT -->
+</html>

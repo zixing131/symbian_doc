@@ -1,0 +1,65 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-27897E0D-D9D6-4007-A45E-62C366F1267C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:23 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using direct feedback" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-8C40E993-C9A0-423D-979D-7BB11CE091C1" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-FA9679A1-6FD7-4FB6-883A-D5719388A2B6" /><meta name="DC.Relation" scheme="URI" content="GUID-8661A7E0-F19A-41F8-9062-FBFAE70CF658" /><meta name="DC.Relation" scheme="URI" content="GUID-786D76B7-B827-43B7-8202-BA7A7E5EE03E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-27897E0D-D9D6-4007-A45E-62C366F1267C" /><meta name="DC.Language" content="en" /><title>Using
+direct feedback </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-27897E0D-D9D6-4007-A45E-62C366F1267C">Using
+direct feedback</h1><div>
+<div class="p">Direct feedback means that the application triggers feedback itself based
+on received pointer events. This approach is in general necessary in three
+cases:<ol>
+<li id="GUID-23A79B78-9228-4FD9-ACF9-8031E09A036B"><a name="GUID-23A79B78-9228-4FD9-ACF9-8031E09A036B"><!-- --></a>The triggering of feedback
+depends on the state of the control (or application) in such a way that the
+area registry cannot be used. For example: feedback is triggered from each
+new character when the user selects text with the stylus.</li>
+<li id="GUID-85A0716A-15ED-4E02-8E9D-57D2280E00F4"><a name="GUID-85A0716A-15ED-4E02-8E9D-57D2280E00F4"><!-- --></a>Feedback area is non-rectangular
+and thus area registry cannot be used. For example: the user taps a tab of
+a non-focused view in a view-based application.</li>
+<li id="GUID-5296912E-A665-45E5-A7A5-CD323C449C42"><a name="GUID-5296912E-A665-45E5-A7A5-CD323C449C42"><!-- --></a>Feedback is triggered from
+pointer repeat events.</li>
+</ol></div>
+<div class="note"><p><strong class="note_title">Note: </strong>In the first two cases the feedback must be generated on the pointer
+down event, even though the related action itself would be done only on the
+pointer up event.</p></div>
+<p>In a lot of cases, you may want to use both <a href="GUID-10A03A8E-E967-4F9C-B911-2F06031C6ADC.html">area
+registry based feedback</a> and direct feedback in your application. In
+this case you must ensure these two do not overlap, so that direct feedback
+would be generated for some pointer events, which have already triggered feedback
+from the area registry.</p>
+<p>Use the <code class="codeph">InstantFeedback</code> function to generate direct feedback.
+This always causes a synchronous client-server transaction immediately. (If
+tactile feedback is not supported in the device, the API implementation ignores
+the function call.)</p>
+<pre class="codeblock">void CMyTactileEnabledControl::HandlePointerEventL(
+    const TPointerEvent&amp; aPointerEvent )
+    {
+    TBool stateChanged;
+
+    // (your code here)
+
+    if(aPointerEvent.iType == TPointerEvent::EDrag &amp;&amp; stateChanged)
+        {
+        // Produce sensitive feedback when dragging causes a state
+        // change (this kind of feedback triggering is not possible  
+        // by using area registry).
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
+        if ( feedback )
+            {
+            feedback-&gt;InstantFeedback( ETouchFeedbackSensitive );
+            }
+        }
+    }
+</pre>
+<p>Also notice that there are two overloads of the <code class="codeph">InstantFeedback</code> function:
+The first one only takes the logical feedback type as parameter, and can be
+used for generating feedback at any time, even when no UI controls are involved
+(for e.g. if the AppUi class wants to generate feedback). The second overload
+takes a <code class="codeph">CCoeControl</code> pointer as parameter, and it does nothing
+in case feedback is disabled for the given control.</p>
+<p>The latter overload is recommended to be used from UI controls, because
+that gives the owner of the control a possibility to disable both area registry
+based and direct feedback if needed.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 23rd, 2008</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-27897E0D-D9D6-4007-A45E-62C366F1267C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:23 GMT -->
+</html>

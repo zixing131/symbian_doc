@@ -1,0 +1,31 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E1E11C95-3400-548B-AEEE-577DA8FB9ECB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:22 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Processing Window Events" /><meta name="DC.Relation" scheme="URI" content="GUID-CD550DE7-D013-527B-BADE-5CB122C352C8" /><meta name="DC.Relation" scheme="URI" content="GUID-A12A66ED-2C8F-5CE6-8F3E-332B045A35B4" /><meta name="DC.Relation" scheme="URI" content="GUID-B830A1F7-9220-5879-80BE-C494A4CD155B" /><meta name="DC.Relation" scheme="URI" content="GUID-A51D3749-442A-54E8-8EB5-BF907694CD8C" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-08427065-B8E5-5194-B095-3B5213836BED" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E1E11C95-3400-548B-AEEE-577DA8FB9ECB" /><meta name="DC.Language" content="en" /><title>Processing Window Events </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E1E11C95-3400-548B-AEEE-577DA8FB9ECB">Processing Window Events</h1><div><p>The following examples demonstrate how to process window-related event types, which are events local to specific windows and include pointer events. </p> <p> <strong>Variant</strong>: <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay</a> and <a href="GUID-F64E6551-670E-5E12-8103-DE504D3EC94F.html">non-ScreenPlay</a>. <strong>Target audience</strong>: Application developers. </p> <div><h3 class="section-title">Pointer events</h3> <p>To detect if a pointer event has been issued, use the <code class="codeph">EEventPointerEnter</code>, <code class="codeph">EEventPointerExit</code>, <code class="codeph">EEventPointer</code> and <code class="codeph">EEventDragDrop</code> event types. </p> <p>You can request information about the pointer event type by calling the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html"><code class="apiname">TWsEvent::Pointer()</code></a> function. </p> <pre class="codeblock">    // Pointer events
+    case EEventPointer:
+    case EEventDragDrop:
+    {
+    // Gets the pointer position
+    TPointerEvent&amp; pointerEvent = *iWsEvent.Pointer();
+    TPoint point = pointerEvent.iPosition;
+    break;
+    }</pre> </div> <div><h3 class="section-title">Pointer events are ready to retrieve from a buffer</h3> <p>To detect whether pointer events are ready to retrieve from a buffer, use the <code class="codeph">EEventPointerBufferReady</code> event type. </p> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html"><code class="apiname">RWindowBase::EnablePointerMoveBuffer()</code></a> function instructs the Window Server to begin putting pointer events into the pointer move buffer. </p> <p>You can get the buffer containing the stored pointer events by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html"><code class="apiname">RWindowBase::RetrievePointerMoveBuffer()</code></a>. </p> <pre class="codeblock">    // Pointer events are ready to retrieve from a buffer
+    case EEventPointerBufferReady:
+    {
+    const TInt KPointerMoveBufferSize = 20;
+
+    // Gets the window
+    RWindow* window = (RWindow*)(iWsEvent.Handle());
+
+    // Set up an array of TPoints into which to read the buffer
+    TPoint pnts[KPointerMoveBufferSize];
+    TPtr8 ptr((TUint8 *)&amp;pnts;,sizeof(pnts));
+    TInt numPts = window -&gt; RetrievePointerMoveBuffer(ptr);
+    break;
+    }
+</pre> <p>Note that the way to map the handle to a window depends on the environment that you are working in, usually this will be the UI Control Framework which will have to do this mapping a different way. </p> </div> </div><h3>Related concepts</h3><ul><li><a href="GUID-CD550DE7-D013-527B-BADE-5CB122C352C8.html">Pointer Handling</a></li><li><a href="GUID-A12A66ED-2C8F-5CE6-8F3E-332B045A35B4.html">Advanced Pointers</a></li><li><a href="GUID-B830A1F7-9220-5879-80BE-C494A4CD155B.html">General Events</a></li><li><a href="GUID-A51D3749-442A-54E8-8EB5-BF907694CD8C.html">Processing Window-Group
+                Events</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 8th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E1E11C95-3400-548B-AEEE-577DA8FB9ECB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:22 GMT -->
+</html>

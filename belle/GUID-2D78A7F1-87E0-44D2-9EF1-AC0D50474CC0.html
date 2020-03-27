@@ -1,0 +1,182 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2D78A7F1-87E0-44D2-9EF1-AC0D50474CC0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Languages and writing systems" /><meta name="abstract" content="This topic describes the basic elements of writing systems, the differences between a language and a writing system, why and how writing system impacts software development. Writing system is a set of rules for using one or more scripts to write a particular language. Examples of different writing systems include: Chinese (logographic/ideographic), Japanese (syllabic), English (Latin), Russian (Cyrillic), Greek (Greek), Arabic (Bi-directional), Thai (Thai)." /><meta name="description" content="This topic describes the basic elements of writing systems, the differences between a language and a writing system, why and how writing system impacts software development. Writing system is a set of rules for using one or more scripts to write a particular language. Examples of different writing systems include: Chinese (logographic/ideographic), Japanese (syllabic), English (Latin), Russian (Cyrillic), Greek (Greek), Arabic (Bi-directional), Thai (Thai)." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-9F54E3BC-E902-4DB8-A653-0A10A76DAA0C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-2D78A7F1-87E0-44D2-9EF1-AC0D50474CC0" /><meta name="DC.Language" content="en" /><title>Languages and writing systems </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-2D78A7F1-87E0-44D2-9EF1-AC0D50474CC0">Languages and writing systems</h1><div><p>This topic describes the basic elements of writing systems,
+the differences between a language and a writing system, why and how
+writing system impacts software development. Writing system is a set
+of rules for using one or more scripts to write a particular language.
+Examples of different writing systems include: Chinese (logographic/ideographic),
+Japanese (syllabic), English (Latin), Russian (Cyrillic), Greek (Greek),
+Arabic (Bi-directional), Thai (Thai).</p>
+<p>A natural language refers to the spoken and written forms of languages.
+The Symbian platform language portfolio supports over 40 base languages
+included at the time of the writing.</p>
+<p>It is common to confuse language and writing system. Writing system
+is something that is used to represent a language (or languages) in
+written form. There are a number of languages that can be written
+with more than one writing system, for instance, Japanese language
+is written using four different scripts that form the Japanese writing
+system. The four scripts are <em>hiragana</em>, <em>katakana</em>, <em>kanji</em> and <em>romaji</em>. Each script answers different needs
+when writing Japanese. They are used for different purposes to present
+the Japanese language. On the other hand, for example Serbian can
+be written using either Latin or Cyrillic script, but they are not
+used simultaneously – the writer decides which one to use. In some
+cases, the choice of a writing system can be a political statement.</p>
+<p>In some cases internationalization is simple, for example, making
+a US application accessible to Australian or British users may require
+little more than a few spelling corrections. But to make a US application
+usable by Japanese users, or a Korean application usable by German
+users, will require that the software operate not only in  different
+languages, but use different input techniques, character encodings
+and presentation conventions.</p>
+<p>Qt tries to make internationalization as painless as possible for
+developers. All input widgets and text drawing methods in Qt offer
+built-in support for all supported languages. The built-in font engine
+is capable of correctly and attractively rendering text that contains
+characters from a variety of different writing systems at the same
+time.</p>
+<p>Qt supports most languages in use today, in particular:</p>
+<ul>
+<li><p>All East Asian languages (Chinese, Japanese and Korean)</p></li>
+<li><p>All Western languages (using Latin script)</p></li>
+<li><p>Arabic</p></li>
+<li><p>Cyrillic languages (Russian, Ukrainian, etc.)</p></li>
+<li><p>Greek</p></li>
+<li><p>Hebrew</p></li>
+<li><p>Thai and Lao</p></li>
+<li><p>All scripts in Unicode 5.1 that do not require special processing</p></li>
+</ul>
+<p>On Windows, Unix/X11 with FontConfig (client side font support)
+and Qt for Embedded Linux the following languages are also supported:</p>
+<ul>
+<li><p>Bengali</p></li>
+<li><p>Devanagari</p></li>
+<li><p>Dhivehi (Thaana)</p></li>
+<li><p>Gujarati</p></li>
+<li><p>Gurmukhi</p></li>
+<li><p>Kannada</p></li>
+<li><p>Khmer</p></li>
+<li><p>Malayalam</p></li>
+<li><p>Myanmar</p></li>
+<li><p>Syriac</p></li>
+<li><p>Tamil</p></li>
+<li><p>Telugu</p></li>
+<li><p>Tibetan</p></li>
+<li><p>N'Ko</p></li>
+</ul>
+<p>Many of these writing systems exhibit special features:</p>
+<ul>
+<li><p>Special line breaking behavior: Some of the Asian languages
+are written without spaces between words. Line breaking can occur
+either  after every character (with exceptions) as in Chinese, Japanese
+and  Korean, or after logical word boundaries as in Thai.</p></li>
+<li><p>Bidirectional writing: Arabic and Hebrew are written from right
+to  left, except for numbers and embedded English text which is written
+left to right. The exact behavior is defined in <a href="http://www.unicode.org/reports/tr9/" target="_blank">Unicode
+Bidirectional Algorithm</a>.</p></li>
+<li><p>Non-spacing or diacritical marks (accents or umlauts in European
+ languages): Some languages such as Vietnamese make extensive use
+of  these marks and some characters can have more than one mark at
+the  same time to clarify pronunciation.</p></li>
+<li><p>Ligatures: In special contexts, some pairs of characters get
+ replaced by a combined glyph forming a ligature. Common examples
+are  the fl and fi ligatures used in typesetting US and European books.</p></li>
+</ul>
+<p>Qt tries to take care of all the special features listed above.
+You  usually don't have to worry about these features so long as you
+use  Qt's input widgets (for example, <code class="codeph">QLineEdit</code>, <code class="codeph">QTextEdit</code> and derived classes) and Qt's display widgets
+(for example, <code class="codeph">QLabel</code>).</p>
+<p> Support for these writing systems is transparent to the programmer
+and completely encapsulated in Qt's text engine. This means that you
+don't need to  have any knowledge about the writing system used in
+a particular  language, except for the following small points:</p>
+<ul>
+<li><p><code class="codeph">QPainter::drawText(int x, int y, const QString &amp;str)</code> will always  draw the string with its left edge at the position
+specified with  the x, y parameters. This will usually give you left
+aligned strings.  Arabic and Hebrew application strings are usually
+right  aligned, so for these languages use the version of <code class="codeph">drawText()</code> that  takes a <code class="codeph">QRect</code> since this
+will align in accordance with the language.</p></li>
+<li><p>When you write your own text input controls, use <code class="codeph">QTextLayout</code>.  In some languages (for example, Arabic or languages from the Indian
+ subcontinent), the width and shape of a glyph changes depending on
+the  surrounding characters, which <code class="codeph">QTextLayout</code> takes
+into account.  Writing input controls usually requires a certain knowledge
+of the  scripts it is going to be used in. Usually the easiest way
+is to  subclass <code class="codeph">QLineEdit</code> or <code class="codeph">QTextEdit</code>.</p></li>
+</ul>
+<p>Below is a table listing languages and related writing systems.
+Some languages may use more than one writing system.</p>
+<p>In the table below there are also languages listed that are not
+included in the Symbian platform language portfolio, and they are
+indicated by the italic typeface. These languages are included here
+for reference only as to indicate which languages would basically
+require only localization and variant testing, and no major changes
+into the generic code.</p>
+<p>Please note that the following table does not contain a full list
+of writing systems in the world, but only writing systems typically
+implemented in the IT industry are covered.</p>
+<div class="tablenoborder"><a name="GUID-202EC9FE-74C0-441E-AF51-125FA4ABF4B5"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-202EC9FE-74C0-441E-AF51-125FA4ABF4B5" frame="border" border="1" rules="all"><caption><strong>Table: </strong>Writing
+systems and languages</caption>
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="27%" id="d0e23877"><p>Writing system</p></th>
+<th class="cellrowborder" valign="top" width="73%" id="d0e23881"><p>Languages using this writing system</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="27%" headers="d0e23877 "><p>Arabic</p></td>
+<td class="cellrowborder" valign="top" width="73%" headers="d0e23881 "><p>Arabic, Urdu, Farsi (= Persian), Kashmiri, Pashto, Sindhi</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="27%" headers="d0e23877 "><p>Chinese </p></td>
+<td class="cellrowborder" valign="top" width="73%" headers="d0e23881 "><p>Simplified Chinese, Traditional Chinese (Hong Kong), Traditional
+Chinese (Taiwan)</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="27%" headers="d0e23877 "><p>Cyrillic</p></td>
+<td class="cellrowborder" valign="top" width="73%" headers="d0e23881 "><p>Russian, Bulgarian, Ukrainian, Macedonian, Belarusian, Serbian
+(Serbian in Symbian platform is done with Latin writing system, which
+is another option for writing Serbian)</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="27%" headers="d0e23877 "><p>Devanagari</p></td>
+<td class="cellrowborder" valign="top" width="73%" headers="d0e23881 "><p>Hindi, Marathi, Sindhi, Nepalese</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="27%" headers="d0e23877 "><p>Dravidian</p></td>
+<td class="cellrowborder" valign="top" width="73%" headers="d0e23881 "><p>Tamil, Malayalam, Telugu</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="27%" headers="d0e23877 "><p>Greek</p></td>
+<td class="cellrowborder" valign="top" width="73%" headers="d0e23881 "><p>Greek</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="27%" headers="d0e23877 "><p>Hebrew</p></td>
+<td class="cellrowborder" valign="top" width="73%" headers="d0e23881 "><p>Hebrew, Ladino, Yiddish</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="27%" headers="d0e23877 "><p>Japanese</p></td>
+<td class="cellrowborder" valign="top" width="73%" headers="d0e23881 "><p>Japanese</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="27%" headers="d0e23877 "><p>Hangul</p></td>
+<td class="cellrowborder" valign="top" width="73%" headers="d0e23881 "><p>Korean</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="27%" headers="d0e23877 "><p>Latin</p></td>
+<td class="cellrowborder" valign="top" width="73%" headers="d0e23881 "><p>Most European and African languages, and some of APAC languages
+(Vietnamese: Latin-Extended)</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="27%" headers="d0e23877 "><p>Thai</p></td>
+<td class="cellrowborder" valign="top" width="73%" headers="d0e23881 "><p>Thai</p></td>
+</tr>
+</tbody>
+</table></div>
+<div class="p"><div class="note"><p><strong class="note_title">Note: </strong>Dialects are not listed in the table, for example, in Chinese,
+there are Chinese Mandarin, Chinese Cantonese, and so on.</p></div></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2D78A7F1-87E0-44D2-9EF1-AC0D50474CC0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:09 GMT -->
+</html>

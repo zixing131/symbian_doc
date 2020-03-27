@@ -1,0 +1,59 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-21740D07-5F49-5D9C-9FEA-92958AF3805B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:21 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Creating an Absolute Timer" /><meta name="DC.Relation" scheme="URI" content="GUID-29AE56A8-DA08-5FB3-89F1-26B4308336BC" /><meta name="DC.Relation" scheme="URI" content="GUID-B4039418-6499-555D-AC24-9B49161299F2" /><meta name="DC.Relation" scheme="URI" content="GUID-04F076C4-AFFF-571C-8B73-B8589B58EC56" /><meta name="DC.Relation" scheme="URI" content="GUID-8B37D53D-77E1-58C6-9A44-3376A450228B" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-E21287EF-7211-590B-A1E3-E0B37069FCB2" /><meta name="DC.Relation" scheme="URI" content="GUID-6565B222-4036-5C3D-8319-4CDDA3F2098D" /><meta name="DC.Relation" scheme="URI" content="GUID-66402932-5C44-556B-A7AC-1C2D245C8B05" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-21740D07-5F49-5D9C-9FEA-92958AF3805B" /><meta name="DC.Language" content="en" /><title>Creating an Absolute Timer </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-21740D07-5F49-5D9C-9FEA-92958AF3805B">Creating an Absolute Timer</h1><div><p>You can use an absolute timer to signal a process at an absolute time, for example at 10:00am tomorrow. </p> <p>When you create an absolute timer (or a periodic timer) you can set the timer expiry mechanism as one of the following using the <code class="codeph">sigev_notify</code> member of the <a href="http://opengroup.org/onlinepubs/007908799/xsh/signal.h.html" target="_blank">sigevent</a> structure: </p> <ul><li id="GUID-039A6CB0-2A59-5CFF-A6D3-D98D76BFD7F4"><a name="GUID-039A6CB0-2A59-5CFF-A6D3-D98D76BFD7F4"><!-- --></a><p> <strong>A notification function:</strong> Using the notification type, <code class="codeph">SIGEV_THREAD</code>. For example, you can configure a thread function as an expiry notification. </p> </li> <li id="GUID-5B5AB3FD-25DA-530C-B1F3-23E3A1C09E47"><a name="GUID-5B5AB3FD-25DA-530C-B1F3-23E3A1C09E47"><!-- --></a><p> <strong>A queued signal:</strong> Using the notification type, <code class="codeph">SIGEV_SIGNAL</code>. For example, you can configure a <code class="codeph">SIGUSR1</code> signal as an expiry notification. </p> <p> <strong>Note:</strong> For more information about using signals, see <a href="GUID-41F33130-7968-5016-9ACE-9E9F906118DB.html">POSIX Signals</a>. </p> </li> <li id="GUID-D17F4247-D449-56F0-8C6E-E71CA5660362"><a name="GUID-D17F4247-D449-56F0-8C6E-E71CA5660362"><!-- --></a><p> <strong>No asynchronous notification:</strong> Using the notification type, <code class="codeph">SIGEV_NONE</code>. In this case nothing happens after timer expiry. </p> </li> </ul> <p> <strong>Note:</strong> For more information about these notification types, see <a href="http://opengroup.org/onlinepubs/007908799/xsh/signal.h.html" target="_blank">Open Group</a>. </p> <p>The following example code demonstrates how to create an absolute timer that expires after ten seconds from the time it is set. It also configures the <code class="codeph">SIGUSR1</code> signal as an expiry notification using <code class="codeph">SIGEV_SIGNAL</code>. </p> <p>The following example code performs the following tasks: </p> <ol id="GUID-FCB2E7FA-0C97-5041-BAA0-00BDE025493D"><li id="GUID-6A563E0E-B9AE-5141-AEE5-4C66B0FD4E28"><a name="GUID-6A563E0E-B9AE-5141-AEE5-4C66B0FD4E28"><!-- --></a><p>Creates a signal handling function that must be invoked after timer expiry. </p> </li> <li id="GUID-6DCC64B3-77F7-5ADE-A006-5E5D41183E7A"><a name="GUID-6DCC64B3-77F7-5ADE-A006-5E5D41183E7A"><!-- --></a><p>Creates a timer based on the current system time (<code class="codeph">CLOCK_REALTIME</code>) and an asynchronous signal (<code class="codeph">struct sigevent
+             sig</code>) that must be invoked when the timer expires. </p> </li> <li id="GUID-09F2C14C-2B04-564A-BB55-1C280DCDC0A5"><a name="GUID-09F2C14C-2B04-564A-BB55-1C280DCDC0A5"><!-- --></a><p>Gets the current system time and stores it in <code class="codeph">newtime</code>. </p> </li> <li id="GUID-7192B210-FE9E-5484-91BF-8FD38F9F0A9D"><a name="GUID-7192B210-FE9E-5484-91BF-8FD38F9F0A9D"><!-- --></a><p>Defines the input values for timer_settime(). (Sets an alarm that expires after ten seconds from the time it is set) </p> </li> <li id="GUID-746DA2F6-9248-5D27-B2EE-E8D7FF44C22D"><a name="GUID-746DA2F6-9248-5D27-B2EE-E8D7FF44C22D"><!-- --></a><p>Sets the absolute timer using timer_settime(). </p> </li> <li id="GUID-9482E2CC-4CB9-5B4C-A7EA-BF600ED85C95"><a name="GUID-9482E2CC-4CB9-5B4C-A7EA-BF600ED85C95"><!-- --></a><p>Uses <code class="codeph">sleep()</code> to pause execution until the timer expires. </p> </li> </ol> <pre class="codeblock">#include &lt;time.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;string.h&gt;
+static int I = 0;
+
+//Signal handler function to be invoked when the absolute timer expires
+void sig_handler (int val)
+    {
+    printf("The timer expired and has entered signal handler: Value: %d\n", val);
+    }
+int main()
+    {
+    int Ret;
+
+    struct sigevent sig;
+    sig.sigev_notify = SIGEV_SIGNAL;
+    sig.sigev_signo = SIGUSR1;
+    signal(SIGUSR1, sig_handler);
+    
+    //create a new timer.
+    timer_t timerid; //Stores the ID of the timer
+    Ret = timer_create(CLOCK_REALTIME, &amp;sig, &amp;timerid);
+    if (Ret == 0)
+        {
+        struct timespec newtime; //Stores the current system time
+        struct itimerspec in, out; //Input values for the timer
+        memset(&amp;newtime, 0, sizeof (struct timespec)); 
+        clock_gettime(CLOCK_REALTIME, &amp;newtime);
+        in.it_value.tv_sec = newtime.tv_sec + 10;
+        in.it_value.tv_nsec = 0;
+        in.it_interval.tv_sec = 0;
+        in.it_interval.tv_nsec = 0;
+        
+        //issue the absolute timer request here.
+        Ret = timer_settime(timerid, 1, &amp;in, &amp;out);
+        if(Ret == 0)
+            sleep(11);
+        else
+            printf("timer_settime() failed with %d\n", errno);
+        //delete the timer.
+        timer_delete(timerid);
+        }
+    else
+    printf("timer_create() failed with %d\n", errno);
+    return Ret;
+}</pre> <p>The output of the above program is: </p> <pre class="codeblock">The timer expired and has entered signal handler: Value: 30</pre> </div><h3>Related concepts</h3><ul><li><a href="GUID-29AE56A8-DA08-5FB3-89F1-26B4308336BC.html">Modifying a Clock Time</a></li><li><a href="GUID-B4039418-6499-555D-AC24-9B49161299F2.html">Creating a Periodic Timer</a></li><li><a href="GUID-04F076C4-AFFF-571C-8B73-B8589B58EC56.html">Limitations of Clocks and
+                Timers</a></li><li><a href="GUID-8B37D53D-77E1-58C6-9A44-3376A450228B.html">Shared Memory Tutorial</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 9th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-21740D07-5F49-5D9C-9FEA-92958AF3805B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:21 GMT -->
+</html>

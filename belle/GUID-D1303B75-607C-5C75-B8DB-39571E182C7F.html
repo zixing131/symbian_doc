@@ -1,0 +1,32 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D1303B75-607C-5C75-B8DB-39571E182C7F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:51 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Disabling the Bearer Mobility" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1A43A45B-80AE-56A0-A94C-64BA75519C67" /><meta name="DC.Relation" scheme="URI" content="GUID-4384066E-158A-5F63-A823-7793DAE680BF" /><meta name="DC.Relation" scheme="URI" content="GUID-8832AED4-6B9F-5B35-8211-0C6661CD6DCA" /><meta name="DC.Relation" scheme="URI" content="GUID-7965B998-0D1A-50F8-B2F9-D2A71744DF86" /><meta name="DC.Relation" scheme="URI" content="GUID-786984BD-ADE8-5EF1-A819-F402F5703A80" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D1303B75-607C-5C75-B8DB-39571E182C7F" /><meta name="DC.Language" content="en" /><title>Disabling
+the Bearer Mobility </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D1303B75-607C-5C75-B8DB-39571E182C7F">Disabling
+the Bearer Mobility</h1><div>
+<p>This tutorial explains how to disable the bearer mobility for an email
+account. </p>
+<div><h3 class="section-title">Procedure</h3> <ol id="GUID-F7FEEDDB-DD81-5140-929D-A8E3ED70CFAD">
+<li id="GUID-37C2B2CD-A2F8-5180-9698-0263B48C5E66"><a name="GUID-37C2B2CD-A2F8-5180-9698-0263B48C5E66"><!-- --></a><p>Create an instance of
+the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A7EF08E6-82AF-3577-B942-ABD532EDB7FE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A7EF08E6-82AF-3577-B942-ABD532EDB7FE.html"><code class="apiname">CEmailAccounts</code></a> class. </p> </li>
+<li id="GUID-00338EB2-D135-5482-8E5B-EEFF98F46131"><a name="GUID-00338EB2-D135-5482-8E5B-EEFF98F46131"><!-- --></a><p>Create an instance of
+the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9CAB9BE5-7233-3A01-A906-756177CF4460.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9CAB9BE5-7233-3A01-A906-756177CF4460.html"><code class="apiname">CImIAPPreferences</code></a> class to be used by the email service. </p> </li>
+<li id="GUID-FD3D23A3-0389-51CC-BE1F-7E1974E64902"><a name="GUID-FD3D23A3-0389-51CC-BE1F-7E1974E64902"><!-- --></a><p>Create an instance of
+the <code class="codeph">CIm&lt;protocol&gt;Settings</code> class. </p> <p>Where, &lt;protocol&gt;
+is either Imap4, Pop3, or Smtp. </p> </li>
+<li id="GUID-729D8E33-7B9A-50CF-AF06-356B164CBF92"><a name="GUID-729D8E33-7B9A-50CF-AF06-356B164CBF92"><!-- --></a><p>Populate the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9CAB9BE5-7233-3A01-A906-756177CF4460.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9CAB9BE5-7233-3A01-A906-756177CF4460.html"><code class="apiname">CImIAPPreferences</code></a> class
+and the <code class="codeph">CIm&lt;protocol&gt;Settings</code> class from central repository
+(CenRep) using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A7EF08E6-82AF-3577-B942-ABD532EDB7FE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A7EF08E6-82AF-3577-B942-ABD532EDB7FE.html"><code class="apiname">CEmailAccounts</code></a> <code class="codeph">::Load&lt;protocol&gt;IapSettingsL</code> function. </p> </li>
+<li id="GUID-E84DE5DC-83D9-55CD-AEF6-FB5117A9C4B6"><a name="GUID-E84DE5DC-83D9-55CD-AEF6-FB5117A9C4B6"><!-- --></a><p>Use the <code class="codeph">CIm&lt;protocol&gt;Settings::</code> SetBearerMobility function
+to set the TBool parameter to <code class="codeph">EFalse</code>. </p> </li>
+<li id="GUID-73D82478-9A4D-5892-9558-BD357155DB00"><a name="GUID-73D82478-9A4D-5892-9558-BD357155DB00"><!-- --></a><p>Store the updated settings
+classes to CenRep using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A7EF08E6-82AF-3577-B942-ABD532EDB7FE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A7EF08E6-82AF-3577-B942-ABD532EDB7FE.html"><code class="apiname">CEmailAccounts</code></a> <code class="codeph">::Save&lt;protocol&gt;IapSettingsL</code> function. </p> </li>
+</ol> <div class="note"><p><strong class="note_title">Note: </strong> All instances of &lt;protocol&gt; </p>in the preceding
+steps are either <code class="codeph">Imap4</code>, <code class="codeph">Pop3</code>, or<code class="codeph"> Smtp</code>. </div></div>
+<div><h3 class="section-title">See also</h3> <p><a href="GUID-24860917-0FE2-5C8F-B436-96928350996E.html">Bearer
+Mobility Overview</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 13th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D1303B75-607C-5C75-B8DB-39571E182C7F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:51 GMT -->
+</html>

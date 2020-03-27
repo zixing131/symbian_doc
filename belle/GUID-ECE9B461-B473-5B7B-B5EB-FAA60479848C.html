@@ -1,0 +1,29 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-ECE9B461-B473-5B7B-B5EB-FAA60479848C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:28 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Passing Arguments from Client to Server Classes" /><meta name="DC.Relation" scheme="URI" content="GUID-FAF1B60A-A4B5-5E45-B9B9-84DA982F2E2B" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-FAF1B60A-A4B5-5E45-B9B9-84DA982F2E2B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-ECE9B461-B473-5B7B-B5EB-FAA60479848C" /><meta name="DC.Language" content="en" /><title>Passing Arguments from Client to Server Classes </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-ECE9B461-B473-5B7B-B5EB-FAA60479848C">Passing Arguments from Client to Server Classes</h1><div><p>To make the animation architecture work, some mechanism is required to pass arguments across the client/server boundary. The Window Server acts as courier, but a packaging mechanism is still required if arbitrary information is to be passed through it. The following example is taken from an anim DLL, which deals with handwriting. </p> <p>On the client side, a struct (<code class="codeph">THandwritingDrawData</code>) is packaged in a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-029C644B-BE0F-37C6-95E2-D27F974E6AD3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-029C644B-BE0F-37C6-95E2-D27F974E6AD3.html"><code class="apiname">TPckgBuf</code></a> templated argument descriptor and passed to the server-side <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-029C644B-BE0F-37C6-95E2-D27F974E6AD3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-029C644B-BE0F-37C6-95E2-D27F974E6AD3.html"><code class="apiname">CAnim</code></a> instance via the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-029C644B-BE0F-37C6-95E2-D27F974E6AD3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-029C644B-BE0F-37C6-95E2-D27F974E6AD3.html"><code class="apiname">RAnim::Command()</code></a> function. </p> <p>An opcode, <code class="codeph">EHwOpSetDrawData</code>, is used by the server-side <code class="codeph">CAnim</code> derived class to carry out some functionality. </p> <p>The <code class="codeph">param()=</code> expression sets the value of the <code class="codeph">THandwritingDrawData</code> object inside the package to <code class="codeph">aDrawData</code>. </p> <pre class="codeblock">void RHandWritingAnim::SetDrawData(const THandwritingDrawData&amp; aDrawData)
+    {
+    TPckgBuf&lt;THandwritingDrawData&gt; param;
+    param()=aDrawData;
+    Command(EHwOpSetDrawData,param);
+    }</pre> <p>The Window Server calls the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-029C644B-BE0F-37C6-95E2-D27F974E6AD3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-029C644B-BE0F-37C6-95E2-D27F974E6AD3.html"><code class="apiname">CAnim::Command()</code></a> function in response to application calls to the client side command function <code class="codeph">RAnim::Command()</code>. The arguments passed to the function by the Window Server are the same as were used on the client side function call. </p> <pre class="codeblock">void CHandWritingAnim::Command(TInt aOpcode,TAny *aParams)
+    {
+    switch (aOpcode)
+        {
+        case EHwOpActivate:
+            Activate();
+            break;
+        case EHwOpDeactivate:
+            Deactivate();
+            break;
+        case EHwOpSetDrawData:;
+            SetDrawData(STATIC_CAST(THandwritingDrawData*,aParams));
+            break;
+        default:
+            iFunctions-&gt;Panic();
+        }
+    }</pre> </div><h3>Related concepts</h3><ul><li><a href="GUID-FAF1B60A-A4B5-5E45-B9B9-84DA982F2E2B.html">Animations</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 8th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-ECE9B461-B473-5B7B-B5EB-FAA60479848C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:28 GMT -->
+</html>

@@ -1,0 +1,35 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1171C47F-D7F3-5A49-B191-DB6CB7C84DC8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Where to put trap harnesses?" /><meta name="abstract" content="Describes the criteria that should be taken into account when deciding where to put a trap harness." /><meta name="description" content="Describes the criteria that should be taken into account when deciding where to put a trap harness." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-61DEE78D-4E78-5367-BC8A-F99D3B4E9D5A" /><meta name="DC.Relation" scheme="URI" content="GUID-26D7BC6E-509C-51C5-9B86-437F3AEEB2EA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1171C47F-D7F3-5A49-B191-DB6CB7C84DC8" /><meta name="DC.Language" content="en" /><title>Where
+to put trap harnesses? </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1171C47F-D7F3-5A49-B191-DB6CB7C84DC8">Where
+to put trap harnesses?</h1><div><p>Describes the criteria that should be taken into account when deciding
+where to put a trap harness.</p>
+<p>Trap harnesses can be nested. If a function leaves, control goes to the
+most recent trap harness in the call stack. This allows independent sub-modules
+to do their own exception handling. Effective trap programming requires that
+the unit of recovery be correctly identified. </p>
+<p>The most basic option is to rely on the top-level trap harness provided
+as part of the application framework for all GUI programs. If a leave occurs,
+and it is not handled by any explicitly coded harness, the framework displays
+an error message corresponding to the leave code.</p>
+<p>For some applications, the unit of recovery may be the processing of any
+user command. In a particular application, the unit of recovery may be associated
+with part of the processing of a particular command — a much finer-grain
+approach.</p>
+<p>Coding a coarse-grain unit of recovery has the advantage of only one trap
+harness and recovery code, but the disadvantage that recovery code may be
+general and complex, and the danger that a small error leads to catastrophic
+results for a user (e.g. if not enough memory to apply bold formatting resulted
+in termination of the word processor with loss of data!).</p>
+<p>Coding too fine-grain units of recovery results in many trap harnesses,
+lots of recovery code which may require individual attention in each case,
+and potentially significantly increased code size.</p>
+<p>The correct choice is application-specific. For large applications, there
+may be a single course-grain unit of recovery, with other harnesses in particular
+places. </p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1171C47F-D7F3-5A49-B191-DB6CB7C84DC8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:55 GMT -->
+</html>

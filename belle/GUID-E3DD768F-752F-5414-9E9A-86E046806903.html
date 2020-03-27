@@ -1,0 +1,40 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E3DD768F-752F-5414-9E9A-86E046806903.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:29 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Space management and granularity" /><meta name="abstract" content="Explains how to manage space and granularity in dynamic buffers." /><meta name="description" content="Explains how to manage space and granularity in dynamic buffers." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Relation" scheme="URI" content="GUID-112AAFA5-B4C9-5B62-A106-FB5097C13A0E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E3DD768F-752F-5414-9E9A-86E046806903" /><meta name="DC.Language" content="en" /><title>Space
+management and granularity </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E3DD768F-752F-5414-9E9A-86E046806903">Space
+management and granularity</h1><div><p>Explains how to manage space and granularity in dynamic buffers.</p>
+<p>As the buffer expands, extra space must be allocated. As it contracts,
+space may be released. In order to tune the management of space, a <em>granularity</em> is
+specified to the buffer’s constructor. Space is always allocated and freed
+in multiples of this granularity.</p>
+<p>The granularity should be carefully chosen. Too small a value will result
+in too many re-allocations with a cost in time and, due to fragmentation and
+segmentation overheads, some waste of space also. Too large a value will result
+in over-allocation of space: the extent of the waste of space depends on the
+type of data in the buffer: decisions must be made on a case-by-case basis.</p>
+<p>For flat buffers, the buffer’s single alloc cell is guaranteed to be a
+multiple of the granularity in length. When the buffer must be extended, just
+sufficient space is allocated to cover the immediate space need (rounded up,
+if necessary, to the nearest multiple of the granularity). When data is deleted,
+no automatic space reclamation is performed. The <code class="codeph">Compress()</code> function
+may be used to compress the allocation to the smallest possible multiple of
+the granularity necessary for the data currently held in the buffer.</p>
+<p>For segmented buffers, the granularity is the number of data bytes in each
+segment. Segments additionally have a 16-byte overhead. Therefore, the granularity
+of segmented buffers should always be considerably greater than 16, to avoid
+significant space waste. When a segmented buffer is extended, enough extra
+segments are allocated to contain all the data. When data is deleted from
+a segmented buffer, segments are deleted if they contain no data. Segments
+whose content is partially deleted may be amalgamated with neighbouring segments,
+but usually they are left partially full. If the pattern of insertions and
+deletions into a segmented buffer is arbitrary, nothing can be said about
+the extent of <em>data</em> in each segment: it may range from a single byte
+up to the entire segment length — which is the granularity of the buffer.
+The <code class="codeph">Compress()</code> function may be used with segmented buffers
+to cause a more efficient allocation of space to its segments.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 17th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E3DD768F-752F-5414-9E9A-86E046806903.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:29 GMT -->
+</html>

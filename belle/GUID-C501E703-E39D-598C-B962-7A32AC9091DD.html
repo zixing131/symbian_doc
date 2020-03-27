@@ -1,0 +1,102 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C501E703-E39D-598C-B962-7A32AC9091DD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:20 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Folding and collation (comparing strings)" /><meta name="abstract" content="Describes descriptor folding and descriptor collation." /><meta name="description" content="Describes descriptor folding and descriptor collation." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Relation" scheme="URI" content="GUID-11EEFB3D-0414-5BEB-9D78-56A4B9154008" /><meta name="DC.Relation" scheme="URI" content="GUID-79BAF19D-F003-5468-9C01-6E918B06C36D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C501E703-E39D-598C-B962-7A32AC9091DD" /><meta name="DC.Language" content="en" /><title>Folding
+and collation (comparing strings) </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C501E703-E39D-598C-B962-7A32AC9091DD">Folding
+and collation (comparing strings)</h1><div><p>Describes descriptor folding and descriptor collation.</p>
+<p>There are two techniques that may be used to modify the characters in a
+descriptor prior to performing operations such as comparisons on text strings: </p>
+<ul>
+<li id="GUID-C550B19E-0312-52F4-936C-95C53D4D4FA9"><a name="GUID-C550B19E-0312-52F4-936C-95C53D4D4FA9"><!-- --></a><p>folding </p> </li>
+<li id="GUID-77D0249A-F9B7-5189-808F-C4FB88BED5B3"><a name="GUID-77D0249A-F9B7-5189-808F-C4FB88BED5B3"><!-- --></a><p>collation </p> </li>
+</ul>
+<div id="GUID-4AD769A8-A90B-4BE5-B514-DCE9C808C4A8"><h3 class="section-title">Folding</h3> <p>Folding is a relatively simple way of normalising
+text for comparison by removing case distinctions, converting accented characters
+to characters without accents etc. Folding is used for tolerant comparisons,
+i.e. comparisons that are biased towards a match. </p> <p>For example, the
+file system uses folding to decide whether two file names are identical or
+not. Folding is locale-independent behaviour, and means that the file system,
+for example, can be locale-independent. </p> <p> <em> It is important to note
+that there can be no guarantee that folding is in any way culturally appropriate,
+and should not be used for comparing strings in natural language; </em> <a href="#GUID-F93D3C40-FDB4-5D92-A90C-736BB0225982">collation</a> <em>is
+the correct functionality for this.</em> </p> <p>Variants of member functions
+that fold are provided where appropriate. For example, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-7BDF7FA1-39FF-35D2-97DE-12A223514345"><code class="apiname">TDesC16::CompareF()</code></a> for
+folded comparison. </p> <p>See also: </p><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-7BDF7FA1-39FF-35D2-97DE-12A223514345"><code class="apiname">TDesC16::CompareF()</code></a><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-57DED784-A51D-308B-888C-968EFB35B732"><code class="apiname">TDesC16::MatchF()</code></a><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-D4BDA3FC-E11A-392B-A8A5-B468AC800396"><code class="apiname">TDesC16::FindF()</code></a><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-F88740FB-C90A-30AF-AA19-E2260EB39A47"><code class="apiname">TDesC16::LocateF()</code></a> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-F88740FB-C90A-30AF-AA19-E2260EB39A47"><code class="apiname">TDesC16::LocateF()</code></a> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-BE28DE82-AEF1-3E71-A0E1-7A053095B5B0"><code class="apiname">TDesC16::LocateReverseF()</code></a></p> </div>
+<div id="GUID-F93D3C40-FDB4-5D92-A90C-736BB0225982"><h3 class="section-title">Collation</h3> <p>Collation
+is a much better and more powerful way to compare strings and produces a dictionary-like
+('lexicographic') ordering. Folding cannot remove piece accents or deal with
+correspondences that are not one-to-one like the mapping from German upper
+case SS to lower case ß. In addition, folding cannot optionally ignore punctuation. </p> <p>For
+languages using the Latin script, for example, collation is about deciding
+whether to ignore punctuation, whether to fold upper and lower case, how to
+treat accents, and so on. In a given locale there is usually a standard set
+of collation rules that can be used. </p> <p> <em>Collation should always be
+used for comparing strings in natural language.</em> </p> <p>Variants of member
+functions that use collation are provided where appropriate. For example, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-8B44C890-6E64-37CF-B3D9-AEF9EFCBA284"><code class="apiname">TDesC16::CompareC()</code></a> for
+collated comparison. </p> <p><strong>Comparing
+and sorting strings</strong> </p> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-8B44C890-6E64-37CF-B3D9-AEF9EFCBA284"><code class="apiname">TDesC16::CompareC()</code></a> variant
+prototyped as: </p> <pre class="codeblock">TInt CompareC(const TDesC16&amp; aDes, TInt aMaxLevel, const TCollationMethod* aCollationMethod) const;</pre> <p>returns 0, if two strings match. </p> <p>There are many ways in which
+two strings can match, even when they do not have the same length: </p> <ul>
+<li id="GUID-8BD9DEF8-3B24-576D-B634-0E38BA2D5859"><a name="GUID-8BD9DEF8-3B24-576D-B634-0E38BA2D5859"><!-- --></a><p>if one string includes
+combining characters, but the collation level is set to 0 (which means that
+accents are ignored) </p> </li>
+<li id="GUID-999CCABF-D8DC-5967-90F1-7739EDCAEFF9"><a name="GUID-999CCABF-D8DC-5967-90F1-7739EDCAEFF9"><!-- --></a><p>if one string contains
+"pre-composed" versions of accented characters and the other contains "decomposed"
+versions of the same character </p> </li>
+<li id="GUID-9491E1CF-9BA3-52D6-8996-FC32BB54538A"><a name="GUID-9491E1CF-9BA3-52D6-8996-FC32BB54538A"><!-- --></a><p>if one string contains
+a ligature that, in a collation table, matches multiple characters in the
+other string and the collation level is set to less than 3 (for example "æ"
+might match "ae") </p> </li>
+<li id="GUID-2D4FF198-7C41-5838-97FB-8A23A2D3DD49"><a name="GUID-2D4FF198-7C41-5838-97FB-8A23A2D3DD49"><!-- --></a><p>if one string contains
+a "surrogate pair" (a 32-bit encoded character) which happens to match a normal
+character at the level specified </p> </li>
+<li id="GUID-66B770C7-3215-559A-B70D-68FF3AC9DDAC"><a name="GUID-66B770C7-3215-559A-B70D-68FF3AC9DDAC"><!-- --></a><p>if the collation method
+does not have its "ignore none" flag set and the collation level is set to
+less than 3, then spaces and punctuation are ignored; this means that one
+string could be much longer than the other just by adding a large number of
+spaces </p> </li>
+<li id="GUID-33026C64-3740-527A-97E0-DCBB6D7F087D"><a name="GUID-33026C64-3740-527A-97E0-DCBB6D7F087D"><!-- --></a><p>if one string were to
+contain the Hangul representation of Korean and the other were to contain
+the Jamo representation of the same Korean and the collation level is set
+to less than 3. </p> </li>
+</ul> <p>The collation level is an integer that can take one of the values:
+0, 1, 2 or 3, and determines how tightly the matching of two strings should
+be. This value is passed as the second parameter to <code class="codeph">CompareC()</code>.
+The values have the following meanings: </p> <ul>
+<li id="GUID-EDA2DAB4-E6B4-5815-ADC1-1BDF216D0C2E"><a name="GUID-EDA2DAB4-E6B4-5815-ADC1-1BDF216D0C2E"><!-- --></a><p>0 - only test the character
+identity; accents and case are ignored </p> </li>
+<li id="GUID-B0300A5F-6AF5-5722-B538-E0DBDE25576B"><a name="GUID-B0300A5F-6AF5-5722-B538-E0DBDE25576B"><!-- --></a><p>1 - test the character
+identity and accents; case is ignored </p> </li>
+<li id="GUID-B6B7E302-120D-5240-B2AE-C14B19A36FF6"><a name="GUID-B6B7E302-120D-5240-B2AE-C14B19A36FF6"><!-- --></a><p>2 - test the character
+identity, accents and case </p> </li>
+<li id="GUID-22E919E8-819D-5DE2-BABA-ECCC6F105B3C"><a name="GUID-22E919E8-819D-5DE2-BABA-ECCC6F105B3C"><!-- --></a><p>3 - test the Unicode
+value as well as the character identity, accents and case. </p> </li>
+</ul> <p>At levels 0-2: </p> <ul>
+<li id="GUID-E08F7C36-2E53-5348-A8D4-6A1E420CEB76"><a name="GUID-E08F7C36-2E53-5348-A8D4-6A1E420CEB76"><!-- --></a><p>ligatures (e.g. "æ")
+are the same as their decomposed equivalents (e.g. "ae") </p> </li>
+<li id="GUID-937B9898-878A-59BE-B185-A5347038F14C"><a name="GUID-937B9898-878A-59BE-B185-A5347038F14C"><!-- --></a><p>script variants are
+the same (for example "R" matches the mathematical real number symbol (Unicode
+211D) </p> </li>
+<li id="GUID-6D1AF8EB-E8E8-565E-BA1E-CAED0382D801"><a name="GUID-6D1AF8EB-E8E8-565E-BA1E-CAED0382D801"><!-- --></a><p>the "micro" symbol (Unicode
+00B5) matches Greek "mu" (Unicode 03BC)). </p> </li>
+</ul> <p>At level 3 these are treated differently. </p> <p>If the aim is to <strong>sort</strong> strings,
+then <strong>level 3 must be used</strong>. For any strings <code class="codeph">a</code> and <code class="codeph">b</code>,
+if <code class="codeph">a</code> &lt; <code class="codeph">b</code> for some level of collation,
+then <code class="codeph">              a</code> &lt; <code class="codeph">b</code> for all higher
+levels of collation as well. It is impossible, therefore, to affect the order
+that is generated by using lower collation levels than 3. This just causes
+similar strings to sort in a random order. In standard English, sorting at
+level 3 gives the following order: </p> <p>bat &lt; bee &lt; BEE &lt; bus </p> <p>The
+case of the B only affects the comparison after all the letter identities
+have been found to be the same - this is usually what people are trying to
+achieve by using lower collation levels than 3 for sorting. It is never necessary. </p> <p>The
+sort order can be affected by setting flags in the TCollationMethod object. </p> <p>Note
+that when strings match at level 3, they do not necessarily have the same
+binary representation, or even the same length. Unicode contains many strings
+that are regarded as equivalent, even though they have different binary representations. </p><p> 
+       See also:  </p><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-8B44C890-6E64-37CF-B3D9-AEF9EFCBA284"><code class="apiname">TDesC16::CompareC()</code></a><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-ACEEA02F-2594-3C61-B7A9-E96F0737C3AE"><code class="apiname">TDesC16::MatchC()</code></a><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-440FF2B4-353B-3097-A2BA-5887D10B8B23.html#GUID-33D33034-0757-31F9-B3A2-BA351AADC816"><code class="apiname">TDesC16::FindC()</code></a></p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C501E703-E39D-598C-B962-7A32AC9091DD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:20 GMT -->
+</html>

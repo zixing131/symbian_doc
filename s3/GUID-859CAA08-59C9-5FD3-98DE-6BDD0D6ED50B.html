@@ -1,0 +1,122 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-859CAA08-59C9-5FD3-98DE-6BDD0D6ED50B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:03:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Graphics Composition" /><meta name="DC.Relation" scheme="URI" content="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C" /><meta name="DC.Relation" scheme="URI" content="GUID-EF62BF88-3687-505D-8BD7-EEDF36246E56" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-99BC101A-9466-59EE-B5C9-7622BAF6E6FF" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-859CAA08-59C9-5FD3-98DE-6BDD0D6ED50B" /><meta name="DC.Language" content="en" /><title>Graphics
+Composition </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-859CAA08-59C9-5FD3-98DE-6BDD0D6ED50B">Graphics
+Composition</h1><div>
+<p>Composition is the process of putting together the output elements from
+various different sources to create the screen display that the end user sees
+on the device. </p>
+<p> <strong>Variant</strong>: ScreenPlay. </p>
+<p>In a multi-tasking device many of the activities taking place simultaneously
+generate output for display on the screen. Their output can include words,
+pictures, video, games and the screen furniture (scroll bars, buttons, icons,
+borders, tabs, menus, title bars) familiar to every computer user. </p>
+<p>Many of these output elements can appear at the same time, either next
+to each other or overlapping each other. They can be opaque, such that they
+obscure anything behind, or semi-transparent such that the elements underneath
+are partially visible. </p>
+<p>The diagram below illustrates how the display that the viewer sees (looking
+down from the top) is a two-dimensional representation composed from a series
+of layers. </p>
+<div class="figure" id="GUID-19D41F69-1264-5726-9CDD-C4DD0F231BE3"><img src="GUID-7F3F89C0-999A-552E-90BB-17D720C53DE6_d0e230049_href.png" /><p class="figure-title"><strong>Figure: </strong>           The display is an orthogonal view of a series of layers.
+         </p></div>
+<p>Composition requires: </p>
+<ul>
+<li id="GUID-7C593A87-268F-59E1-B295-9DE2A0DF3092"><a name="GUID-7C593A87-268F-59E1-B295-9DE2A0DF3092"><!-- --></a><p>Calculations based on
+the size, position, visibility, transparency and ordering of the layers to
+determine what will be displayed. This is a <strong>logic</strong> exercise referred
+to as UI Composition. </p> </li>
+<li id="GUID-B10758D4-8C30-5446-958D-0B81530B69BF"><a name="GUID-B10758D4-8C30-5446-958D-0B81530B69BF"><!-- --></a><p>Handling of image content,
+which is a <strong>data processing</strong> exercise referred to as Image Composition. </p> </li>
+</ul>
+<p>For this reason the two are handled separately. </p>
+<p><strong>UI Composition </strong> </p>
+<p>UI Composition is performed by the Window Server. Each application has
+its own window group containing all of its child windows. The Window Server
+keeps track of the windows' positions, sizes, visibilities, transparencies
+and z-order and is able to establish which windows, and which bits of each
+window, are visible. It ensures that each visible bit of window is kept up-to-date
+by calling its application when necessary. </p>
+<p><strong>Image composition </strong> </p>
+<p>Prior to the introduction of ScreenPlay the Window Server did rudimentary
+composition in its main thread and rendered composited output to the screen
+buffer using the GDI (Graphics Device Interface). To achieve high frame rates,
+applications typically bypassed the Window Server using Direct Screen Access
+(DSA) and animation DLLs. </p>
+<p>In <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay</a> sources
+that generate complex graphical output render directly to graphics surfaces.
+The Window Server delegates the composition of surfaces to a composition engine
+that device creators can adapt to take advantage of graphics processing hardware. </p>
+<p>Although the composition engine runs in the Window Server's process, it
+is largely transparent to application developers and works quite differently.
+Instead of using windows, it uses surfaces to store pixel data and elements
+to manipulate size, position, z-order, visibility and transparency. </p>
+<p>While an element is a simple lightweight object, and easy to manipulate,
+a surface stores a large amount of data and its handling requires more consideration. </p>
+<p>The diagram below is a simplistic representation of how applications create
+output which is rendered, composited and displayed. </p>
+<div class="figure" id="GUID-9DF4C86A-C06D-5C5A-9AB6-E9991CC1937A"><img src="GUID-F31EC49A-FE01-58B2-9CB5-4A3BBCCB7DA7_d0e230113_href.png" /><p class="figure-title"><strong>Figure: </strong>           Graphics Composition          </p></div>
+<p>In a device with graphics acceleration hardware (a Graphics Processing
+Unit or GPU) there might, in addition to the memory managed by the CPU, be
+additional memory managed by the GPU. Image data may therefore be considered
+to have been <strong>software rendered</strong> (onto a surface in CPU memory) or <strong>hardware
+rendered</strong> (onto a surface in hardware accelerated GPU memory). The following
+diagram shows applications and other graphical data sources rendering to surfaces
+in software and hardware. </p>
+<div class="figure" id="GUID-2717F861-0045-5598-A3EC-7CF678BEFA70"><img src="GUID-EADC4EA6-4492-5A00-A29E-6F7747FCAAC9_d0e230130_href.png" /><p class="figure-title"><strong>Figure: </strong>           Hardware rendered graphics - the wrong way!          </p></div>
+<p>The diagram, however, represents a system with several problem areas that
+would render it unsuitable for any practical implementation </p>
+<ul>
+<li id="GUID-AF13B0A1-3DC0-576D-81B1-6DF66AA9FA77"><a name="GUID-AF13B0A1-3DC0-576D-81B1-6DF66AA9FA77"><!-- --></a><p>In practice it is likely
+that once data has been rendered to hardware-managed memory it is, to all
+intents and purposes, unavailable to software: the CPU is unable to access
+it sufficiently quickly. The dotted paths on the diagram above must therefore
+be avoided. </p> </li>
+<li id="GUID-0B109999-94FE-5A5C-B0D0-D3F2157B5CC6"><a name="GUID-0B109999-94FE-5A5C-B0D0-D3F2157B5CC6"><!-- --></a><p>Furthermore, GDI rendered
+data (the UI) is typically 'stored' as redrawing instructions rather than
+bitmapped pixel data—so rendering it to bitmaps before composition is likely
+to use a lot of memory unnecessarily. </p> </li>
+</ul>
+<p>In ScreenPlay, the UI is therefore composed and rendered onto a single
+surface before being composited with any other surfaces. This surface is termed
+the <strong>UI surface</strong> and is displayed on a layer placed in front of all of
+the others. In fact, the UI surface is created for the Window Server during
+system start up and is then passed to the composition components as a 'special
+case' surface for composition. </p>
+<div id="GUID-6E274D1A-E4CB-4980-B351-B396FEC48DB8"><h3 class="section-title">Combining Window Server and Composition </h3> <p>The compositing
+of surfaces according to their origin means that the physical composition
+process behaves differently from the logical composition process that is based
+on what the user and the UI are doing. Logically the windows in the UI and
+memory rendered surfaces may be on layers that are interleaved yet the memory
+rendered surfaces are physically composed behind. </p> <p>ScreenPlay addresses
+this issue by associating 'external' surfaces with windows in the Window Server
+using the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1460DD8F-9AA1-3B99-8FFD-F309959CCA34.html#GUID-4EBFFA14-418A-3A2A-B147-39BFC96CE45F"><code class="apiname">RWindowBase::SetBackgroundSurface()</code></a> method. This
+means that the Window Server is able to include them in its logical composition
+and make provision for them during data composition. A window with its background
+set to a surface in this way becomes transparent in the UI rendered UI surface. </p> <p>In
+most cases this is not apparent to the viewer. Surfaces that are physically
+composed behind the UI appear in the correct position on the two-dimensional
+display. The diagram below illustrates how Window Server-rendered UI content
+and external surfaces are composited using the UI surface. </p> <div class="figure" id="GUID-3448FD6B-9A39-58CD-8819-39B0B6CC4E13"><img src="GUID-B0797210-4EE3-557B-A5A6-D215D030BA0E_d0e230177_href.png" /><p class="figure-title"><strong>Figure: </strong>              Hardware composition and the Flattened UI            </p></div> <p>Although this method of composition is flexible and powerful, it
+does have some limitations, particularly with respect to semi-transparent
+hardware-accelerated surfaces. </p> <p>It is not possible, for example, to
+include a semi-transparent surface in front of the UI surface. In such cases
+the composition engine determines how the display is composed. </p> <p>Here
+is a second version of the diagram at the top of the page showing how the
+same composition might be achieved in practice. The UI menus, windows and
+dialogs are composited by the Window Server onto a single surface. The light
+green layer displays a hardware rendered surface so it is actually behind
+the layer on which it appears. </p> <div class="figure" id="GUID-1FB1194D-FCAE-534C-94DC-AF4CF00E3A1C"><img src="GUID-79009102-0490-5C61-9722-C5EE49A1AF2B_d0e230194_href.png" /><p class="figure-title"><strong>Figure: </strong>              The UI surface            </p></div> </div>
+<div id="GUID-41E9CA54-759F-5651-95F8-9F39808BE740"><h3 class="section-title">Composition
+Examples</h3> <p>This illustrations below illustrate the use of hardware
+accelerated surfaces and the UI surface </p> <div class="figure" id="GUID-8178DBA8-E10C-56F3-A828-80746CE6A993"><img src="GUID-FE3C8D39-CE17-5AC7-AB6A-4D6664D52196_d0e230210_href.png" /><p class="figure-title"><strong>Figure: </strong>              Video rendered to a hardware accelerated surface mapped
+to a layer              behind the UI surface            </p></div> <div class="figure" id="GUID-51411B10-6DC3-5B74-BCEF-11EC1D0FBCA8"><img src="GUID-4616CCC9-7BD3-5D91-873A-6027167329ED_d0e230218_href.png" /><p class="figure-title"><strong>Figure: </strong>              As above with a semi-transparent dialog on the UI surface
+           </p></div> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">The ScreenPlay
+Architecture</a></li><li><a href="GUID-EF62BF88-3687-505D-8BD7-EEDF36246E56.html">Hardware
+Acceleration</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 3rd, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-859CAA08-59C9-5FD3-98DE-6BDD0D6ED50B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:03:39 GMT -->
+</html>

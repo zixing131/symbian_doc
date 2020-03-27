@@ -1,0 +1,272 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9AD75103-CD56-5279-B639-5CA2BBF979B5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:14 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Advanced Pointer States and Event Communication" /><meta name="abstract" content="The Window Server provides advanced pointer features, such as support for multiple pointers and proximity and pressure coordinates. This topic provides a summary of advanced pointer states and the events that communicate changes of their state." /><meta name="description" content="The Window Server provides advanced pointer features, such as support for multiple pointers and proximity and pressure coordinates. This topic provides a summary of advanced pointer states and the events that communicate changes of their state." /><meta name="DC.Relation" scheme="URI" content="GUID-9C269F45-F160-5A4B-ABF8-896D2A538E3B" /><meta name="DC.Relation" scheme="URI" content="GUID-C60DC070-572B-5960-B394-550426FDB909" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-08427065-B8E5-5194-B095-3B5213836BED" /><meta name="DC.Relation" scheme="URI" content="GUID-A12A66ED-2C8F-5CE6-8F3E-332B045A35B4" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9AD75103-CD56-5279-B639-5CA2BBF979B5" /><meta name="DC.Language" content="en" /><title>Advanced
+Pointer States and Event Communication </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-9AD75103-CD56-5279-B639-5CA2BBF979B5">Advanced
+Pointer States and Event Communication</h1><div><p>The Window Server provides advanced pointer features, such as support
+for multiple pointers and proximity and pressure coordinates. This topic provides
+a summary of advanced pointer states and the events that communicate changes
+of their state. </p>
+<p> <strong>Variant</strong>: <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay</a>. <strong>Target
+audience</strong>: Application developers. </p>
+<p>This topic builds on the <a href="GUID-9C269F45-F160-5A4B-ABF8-896D2A538E3B.html">Advanced
+Pointer Overview</a>. </p>
+<div id="GUID-4B7318D7-29AB-4DE4-B37A-2AFAE055982E"><h3 class="section-title">Communication
+between an input driver and the Window Server</h3> <p>The following diagram
+shows how an input driver communicates changes in pointer state to the Window
+Server. The diagram shows the logical pointer states and how <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-668CEA36-3933-3BBE-A980-CAB62617B4FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-668CEA36-3933-3BBE-A980-CAB62617B4FD.html"><code class="apiname">TRawEvent</code></a> types
+change those states. From the driver's perspective, the pointer can be in
+one of three basic logical states: <em>Up</em>, <em>Down</em> or <em>OutOfRange</em>. </p> <p>The
+driver sends a number of types of event to move the pointer between these
+states. For example, EButton1Up is an <em>Up</em> event that
+changes the pointer from the <em>Down</em> to the <em>Up</em> state. EButton1Down is
+a <em>Down</em> event. <code class="codeph">EButton1Down</code> changes the pointer from
+the <em>Up</em> to the <em>Down</em> state, and from <em>OutOfRange</em> to the <em>Down</em> state. </p> <p>There
+can be any number of pointers, and each pointer has a maximum of three buttons.
+A platform UI is free to implement buttons in any way. However, the Window
+Server interprets only Button1 as an <strong>action</strong> and does not interpret
+the other buttons. </p> <div class="figure" id="GUID-2664573F-C5E8-573F-9427-783074351585"><img src="GUID-35521A99-3F1F-5EE1-8078-FFD8A298C0BD_d0e254904_href.png" /><p class="figure-title"><strong>Figure: </strong> Driver communicates pointer state changes to the Window Server   
+        </p></div> <p>For a complete list of pointer states, the events that can be sent
+by the driver, and the associated events that the Window Server sends to the
+client, see the <a href="#GUID-EC2B9C82-D678-5DFE-89A8-8CFCF5376244">Pointer
+states and event communication</a> table below. </p> </div>
+<div id="GUID-3698CDAC-A904-5C44-BFD1-669D9673D02B"><h3 class="section-title"> Pointer states</h3> <p>Pointing
+devices can be in one of the following basic states: </p> <div class="tablenoborder"><a name="GUID-5255E70E-EF7C-5AA6-9F94-AF720B5B805F"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-5255E70E-EF7C-5AA6-9F94-AF720B5B805F" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e254931">State</th>
+<th class="cellrowborder" valign="top" id="d0e254934">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e254931 "><p> <strong>Out of range</strong> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e254934 "><p>Not detected by the device's sensors. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e254931 "><p> <strong>Up</strong> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e254934 "><p>Detected by sensors, coordinates available, not performing an action. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e254931 "><p> <strong>Down</strong> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e254934 "><p>Detected by sensors, coordinates available, performing an action
+(as defined above). </p> </td>
+</tr>
+</tbody>
+</table></div> <p>The following diagram shows the extension of the <em>Up</em> and <em>Down</em> states
+with additional substates. <em>Up</em> is extended with substates describing
+the <strong>closeness</strong> of the pointer to the screen. <em>Down</em> is extended
+with substates describing <strong>pressing</strong>. </p> <div class="figure" id="GUID-54DA3BEC-A650-5223-8E46-5B68F414A909"><img src="GUID-4E1D4E5D-7CE6-5A93-9170-BEF2937FC953_d0e255018_href.png" /><p class="figure-title"><strong>Figure: </strong> Extension of Up and Down states with substates            </p></div> <p>The Window Server generates the following events for changes of
+closeness and pressing: </p> <ul>
+<li id="GUID-72265325-882B-5B38-ABE7-EFDF05758B97"><a name="GUID-72265325-882B-5B38-ABE7-EFDF05758B97"><!-- --></a><p> <code class="codeph">EExitCloseProximity</code> </p> </li>
+<li id="GUID-D22BF039-8D17-53A4-83C1-3390EBDFBE46"><a name="GUID-D22BF039-8D17-53A4-83C1-3390EBDFBE46"><!-- --></a><p> <code class="codeph">EEnterCloseProximity</code> </p> </li>
+<li id="GUID-5968A499-B87B-54D2-9926-EF446ED1BCCD"><a name="GUID-5968A499-B87B-54D2-9926-EF446ED1BCCD"><!-- --></a><p> <code class="codeph">EExitHighPressure</code> </p> </li>
+<li id="GUID-4FB8633D-29F1-5794-A922-65603035F23A"><a name="GUID-4FB8633D-29F1-5794-A922-65603035F23A"><!-- --></a><p> <code class="codeph">EEnterHighPressure</code> </p> </li>
+</ul> <p>These are all types of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html"><code class="apiname">TPointerEvent</code></a>. Because
+these state changes depend on the pressure and proximity of the pointer, both
+of these values are checked each time a new <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-668CEA36-3933-3BBE-A980-CAB62617B4FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-668CEA36-3933-3BBE-A980-CAB62617B4FD.html"><code class="apiname">TRawEvent</code></a> concerning
+the pointer arrives from the driver. <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-668CEA36-3933-3BBE-A980-CAB62617B4FD.html#GUID-C7FB5C5F-B7E1-3738-B72D-1AD81699414F"><code class="apiname">TRawEvent::EPointer3DOutOfRange</code></a> means
+that the proximity is infinite and pressure is zero. </p> <p>These events
+are based on four thresholds: </p> <ul>
+<li id="GUID-6B27FB3B-EFFE-5D25-B039-FA84F0BFCE66"><a name="GUID-6B27FB3B-EFFE-5D25-B039-FA84F0BFCE66"><!-- --></a><p>The <code class="codeph">EExitHighPressure</code> threshold
+(<code class="codeph">EPointer3DExitHighPressureThreshold</code> in HAL) </p> <p>This
+is a threshold on the pointer's Z coordinate. In general, if the pointer crosses
+this threshold by decreasing pressure (thus decreasing its Z coordinate),
+the Window Server generates <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-9062D892-DE16-3F74-AC0D-76A7F047B52B"><code class="apiname">TPointerEvent::EExitHighPressure</code></a> and
+sends it to the client. </p> </li>
+<li id="GUID-6F8E2E38-59A5-5FF3-B332-5D68252749B9"><a name="GUID-6F8E2E38-59A5-5FF3-B332-5D68252749B9"><!-- --></a><p>The <code class="codeph">EEnterHighPressure</code> threshold
+(<code class="codeph">EPointer3DEnterHighPressureThreshold</code> in HAL) </p> <p>This
+is a threshold on the pointer's Z coordinate. In general, if the pointer crosses
+this threshold by increasing pressure (thus increasing its Z coordinate),
+the Window Server generates <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-39963088-400D-3F0B-B7B1-36064CE92A67"><code class="apiname">TPointerEvent::EEnterHighPressure</code></a> and
+sends it to the client. </p> </li>
+<li id="GUID-CB32D252-B1CD-56D4-A5CF-88E99C2BCDD8"><a name="GUID-CB32D252-B1CD-56D4-A5CF-88E99C2BCDD8"><!-- --></a><p>The <code class="codeph">EEnterCloseProximity</code> threshold
+(<code class="codeph">                 EPointer3DEnterCloseProximityThreshold</code> in
+HAL) </p> <p>This is a threshold on the pointer's Z coordinate. In general,
+if the pointer crosses this threshold by decreasing its proximity from the
+device (thus increasing its Z coordinate), the Window Server generates <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-7BDBA988-0D3A-35B2-A5AE-FFA56CC48D12"><code class="apiname">TPointerEvent::EEnterCloseProximity</code></a> and
+sends it to the client. </p> </li>
+<li id="GUID-C60E937A-E786-55CE-BEEC-655E78B6ED41"><a name="GUID-C60E937A-E786-55CE-BEEC-655E78B6ED41"><!-- --></a><p>The <code class="codeph">EExitCloseProximity</code> threshold
+(<code class="codeph">EPointer3DExitCloseProximityThreshold</code> in HAL) </p> <p>This
+is a threshold on the pointer's Z coordinate. In general, if the pointer crosses
+this threshold by increasing its proximity from the device (thus decreasing
+its Z coordinate), the Window Server generates <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-C9226074-F285-3934-83C1-5533485FE6A6"><code class="apiname">TPointerEvent::EExitCloseProximity</code></a> and
+sends it to the client. </p> </li>
+</ul> <p>Applications can configure these thresholds at runtime by using Window
+Server APIs in <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html"><code class="apiname">RWsSession</code></a>. All applications can read these
+thresholds. However, only code with <code class="codeph">WriteDeviceData</code> capability
+can change them because these changes should be made only by the device's
+configuration application. </p> </div>
+<div id="GUID-EC2B9C82-D678-5DFE-89A8-8CFCF5376244"><h3 class="section-title">Pointer states
+and event communication</h3> <p>The table below shows all possible pointer
+states. For each state it shows all of the events that can be sent by the
+driver and all of the events that are sent by the Window Server to the client.
+The end state of the pointer is also shown. There are five pointer zones (states)
+and four thresholds. An event is generated when the pointer's z position crosses
+a threshold. </p> <div class="tablenoborder"><a name="GUID-630982B7-0367-558B-A1B0-B115EB7625A9"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-630982B7-0367-558B-A1B0-B115EB7625A9" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e255182"> Pointer state</th>
+<th class="cellrowborder" valign="top" id="d0e255185"> <code class="codeph">TRawEvent</code> received from driver</th>
+<th class="cellrowborder" valign="top" id="d0e255191"> <code class="codeph">TPointerEvent</code> sent by Window Server</th>
+<th class="cellrowborder" valign="top" id="d0e255197">Resulting pointer state</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>OutOfRange </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EPointer3DOutOfRange</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p>— </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p> <code class="codeph">EOutOfRange</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>OutOfRange </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EMove</code> (Z &lt; <code class="codeph">EEnterCloseProximity</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EMove</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Up/OutOfCloseProximity </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>OutOfRange </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph"> EMove</code> (Z &gt;= <code class="codeph">EEnterCloseProximity</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EEnterCloseProximity</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Up/InCloseProximity </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>OutOfRange </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EButton1Down</code> (Z &lt; <code class="codeph">EEnterHighPressure</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EButton1Down</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Down/NotPressing </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>OutOfRange </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph"> EButton1Down</code> (Z &gt;= <code class="codeph">EEnterHighPressure</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EButton1Down</code>, <code class="codeph">EEnterHighPressure</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Down/Pressing </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Up/OutOfCloseProximity </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EPointer3DOutOfRange</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EOutOfRange</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>OutOfRange </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Up/OutOfCloseProximity </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EMove</code> (Z &lt; <code class="codeph">EEnterCloseProximity</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EMove</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Up/OutOfCloseProximity </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Up/OutOfCloseProximity </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EMove</code> (Z &gt;= <code class="codeph">EEnterCloseProximity</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EEnterCloseProximity</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Up/InCloseProximity </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Up/OutOfCloseProximity </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EButton1Down</code> (Z &lt; <code class="codeph">EEnterHighPressure</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EButton1Down</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Down/OutOfHighPressure </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Up/OutOfCloseProximity </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EButton1Down</code> (Z &gt;= <code class="codeph">EEnterHighPressure</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EButton1Down</code>, <code class="codeph">EEnterHighPressure</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Down/InHighPressure </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Up/InCloseProximity </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EPointer3DOutOfRange</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EOutOfRange</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>OutOfRange </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Up/InCloseProximity </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EMove</code> (Z &lt; <code class="codeph">EExitCloseProximity</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EExitCloseProximity</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Up/OutOfCloseProximity </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Up/InCloseProximity </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EMove</code> (Z &gt;= <code class="codeph">EExitCloseProximity</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EMove</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Up/InCloseProximity </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Up/InCloseProximity </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EButton1Down</code> (Z &lt; <code class="codeph">EEnterHighPressure</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EButton1Down</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Down/OutOfHighPressure </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Up/InCloseProximity </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EButton1Down</code> (Z &gt;= <code class="codeph">EEnterHighPressure</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EButton1Down</code>, <code class="codeph">EEnterHighPressure</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Down/InHighPressure </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Down/OutOfHighPressure </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EButton1Up</code> (Z &lt; <code class="codeph">EExitCloseProximity</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EButton1Up</code>, <code class="codeph">EExitCloseProximity</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Up/OutOfCloseProximity </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Down/OutOfHighPressure </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EButton1Up</code> (Z &gt;= <code class="codeph">EExitCloseProximity</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EButton1Up</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Up/InCloseProximity </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Down/OutOfHighPressure </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EMove</code> (Z &lt; <code class="codeph">EEnterHighPressure</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EDrag</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Down/OutOfHighPressure </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Down/OutOfHighPressure </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EMove</code> (Z &gt;= <code class="codeph">EEnterHighPressure</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EEnterHighPressure</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Down/InHighPressure </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Down/InHighPressure </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EButton1Up</code> (Z &lt; <code class="codeph">EExitCloseProximity</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EButton1Up</code>, <code class="codeph">EExitCloseProximity</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Up/OutOfCloseProximity </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Down/InHighPressure </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EButton1Up</code> (Z &gt;= <code class="codeph">EExitCloseProximity</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EButton1Up</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Up/InCloseProximity </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Down/InHighPressure </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EMove</code> (Z &lt; <code class="codeph">EExitHighPressure</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EExitHighPressure</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Down/OutOfHighPressure </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e255182 "><p>Down/InHighPressure </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255185 "><p> <code class="codeph">EMove</code> (Z &gt;= <code class="codeph">EExitHighPressure</code> threshold) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255191 "><p> <code class="codeph">EDrag</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e255197 "><p>Down/InHighPressure </p> </td>
+</tr>
+</tbody>
+</table></div> <p>The driver is prohibited from sending <code class="codeph">EPointer3DOutOfRange</code> when
+the pointer is in the Down state. Therefore this is not included in this table.
+Because <code class="codeph">TRawEvent</code>'s <code class="codeph">EPointer3DOutOfRange</code> events
+do not have coordinates, the Window Server makes sure the event is delivered
+to the place where the previous event for the same pointer occurred. It does
+this by maintaining the last state of the pointer. </p> <p>The following diagram
+shows the events sent from the Window Server to the client while
+the pointer traverses the full cycle of events—from OutOfRange, through Down/InHighPressure
+and back to OutOfRange. This diagram does not show all of the possible state
+transitions that are described in the table above. </p> <div class="figure" id="GUID-C39B447C-0908-5F9A-95EC-2F97E56E2C20"><img src="GUID-8F4C626F-3490-50BC-A97F-FD1972FFF65B_d0e255971_href.png" /><p class="figure-title"><strong>Figure: </strong> Events sent from Window Server to client while the pointer traverses
+the full cycle of states.            </p></div> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-9C269F45-F160-5A4B-ABF8-896D2A538E3B.html">Advanced
+Pointer Overview</a></li><li><a href="GUID-C60DC070-572B-5960-B394-550426FDB909.html">Advanced
+Pointer Tutorial</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated July 1st, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9AD75103-CD56-5279-B639-5CA2BBF979B5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:58:18 GMT -->
+</html>

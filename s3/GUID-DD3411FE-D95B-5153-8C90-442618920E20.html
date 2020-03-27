@@ -1,0 +1,29 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-DD3411FE-D95B-5153-8C90-442618920E20.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:44 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to reserve space in a fixed flat array" /><meta name="abstract" content="To be sure that there is sufficient space available to add new elements to a fixed flat array, you can use the SetReserveL() function to pre-allocate memory." /><meta name="description" content="To be sure that there is sufficient space available to add new elements to a fixed flat array, you can use the SetReserveL() function to pre-allocate memory." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Relation" scheme="URI" content="GUID-E3F403EE-717B-5EA6-BC4E-6840097CAC10" /><meta name="DC.Relation" scheme="URI" content="GUID-59DB0115-053A-5D23-8C40-E2428C096BBC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-DD3411FE-D95B-5153-8C90-442618920E20" /><meta name="DC.Language" content="en" /><title>How
+to reserve space in a fixed flat array </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-DD3411FE-D95B-5153-8C90-442618920E20">How
+to reserve space in a fixed flat array</h1><div><p>To be sure that there is sufficient space available to add new
+elements to a fixed flat array, you can use the <code class="codeph">SetReserveL()</code> function
+to pre-allocate memory.</p>
+<p>When adding elements to a flat array of elements having the same length
+(a <code class="codeph">CArrayFixFlat&lt;class T&gt;</code> type) the array buffer may be
+re-allocated to accommodate the extra elements. This can fail for lack of
+memory.</p>
+<p>If it is important to guarantee that the process of inserting elements
+cannot fail at the time of insertion, then the necessary space in the array
+buffer should be reserved in advance. This allows any out of memory situation
+to be handled before starting to add elements to the array.</p>
+<p><code class="codeph">SetReserveL()</code> reserves sufficient space to accommodate
+the required number of elements, in this case ten. </p>
+<pre class="codeblock">CArrayFixFlat&lt;TElement&gt;* fixflat;
+fixflat = new (ELeave) CArrayFixFlat&lt;TElement&gt;(3);
+...
+fixflat-&gt;SetReserveL(10);</pre>
+<p>If the array already contains five elements, then another five elements
+can be added to the array and be guaranteed not to fail for lack of memory.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 18th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-DD3411FE-D95B-5153-8C90-442618920E20.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:44 GMT -->
+</html>

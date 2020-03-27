@@ -1,0 +1,56 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FF6846AA-7E8B-40DC-B6EC-32A8550F4942.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:30 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using Carbide.c++ and P.I.P.S." /><meta name="abstract" content="" /><meta name="description" content="" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-85372267-C352-4389-8FC9-32B8E1622BC9" /><meta name="DC.Relation" scheme="URI" content="GUID-BB149ADF-3F4C-426C-8852-78FF4C144AD5" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FF6846AA-7E8B-40DC-B6EC-32A8550F4942" /><meta name="DC.Language" content="en" /><title>Using
+Carbide.c++ and P.I.P.S. </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FF6846AA-7E8B-40DC-B6EC-32A8550F4942">Using
+Carbide.c++ and P.I.P.S.</h1><div><p></p>
+<p>To be able to use P.I.P.S. and Carbide.c++ efficiently, perform the following
+steps:</p>
+<ul>
+<li><p>Define the system include files required by P.I.P.S.. This is done
+in the <strong class="uicontrol">System Options</strong> view in the <strong class="uicontrol">Project
+Properties</strong> window.</p></li>
+<li><div class="p">Specify the needed P.I.P.S. libraries:<ul>
+<li><p><code>libc.lib</code> must always be specified.</p></li>
+<li><p>Libraries must be specified for all build configurations.</p></li>
+</ul> </div></li>
+</ul>
+<div class="note"><p><strong class="note_title">Note: </strong>The include paths for P.I.P.S. headers must be specified as well as
+the used P.I.P.S. libraries. </p></div>
+<div class="note"><p><strong class="note_title">Note: </strong>This must be done for all possible build configurations.</p></div>
+<div id="GUID-140C883C-819A-472A-8759-26566A62941C"><h3 class="section-title">Inclusion
+of <code>libc.lib</code> in the MMP file</h3> <p><code>libc.lib</code> must
+be included in the MMP file for both the <code class="codeph">WINSCW</code> as well as
+the target. The code will compile and link for <code class="codeph">WINSCW</code> even
+if <code>libc.lib</code> is not mentioned in the MMP file, but will
+fail during execution. If <code>libc.lib</code> is not mentioned in
+the MMP file for the target, the code will compile but will fail during linking.</p>
+</div>
+<div id="GUID-DB21F39C-8FF9-47BF-BC56-8599F22F330E"><h3 class="section-title">Order of the <code class="codeph">SYSTEMINCLUDE</code> in
+the MMP file</h3><p>Carbide.c++ 1.1 does not take into account the header
+file inclusion order as mentioned in the MMP file. This is a typical scenario
+when the user needs the headers from both P.I.P.S. and <code>estlib.lib</code>.
+Although, the order of the <code class="codeph">SYSTEMINCLUDE</code> in the MMP file
+is:</p><pre class="codeblock">epoc32\include\stdapis
+epoc32\include\libc </pre><p><code>epoc32\include\libc</code> will
+be included first followed by <code>epoc32\include\stdapis</code>.
+(It might be included on the basis of alphabetical order). </p><p>This issue
+can be resolved by manually changing the project properties in carbide.c++
+IDE. In order to change the <strong class="uicontrol">Project Properties</strong> in Carbide.c++
+IDE:</p><ol>
+<li id="GUID-E280C86C-F29C-45E2-BCA1-A0161790578A"><a name="GUID-E280C86C-F29C-45E2-BCA1-A0161790578A"><!-- --></a><p>Go to <strong class="uicontrol">Project</strong>.</p></li>
+<li id="GUID-BED1ED11-BB1B-4C08-B4AD-ABF043A69955"><a name="GUID-BED1ED11-BB1B-4C08-B4AD-ABF043A69955"><!-- --></a><p>Click on <strong class="uicontrol">Property</strong>.</p></li>
+<li id="GUID-F0A81703-9804-4A5C-8D25-FBF266AF2382"><a name="GUID-F0A81703-9804-4A5C-8D25-FBF266AF2382"><!-- --></a><p>Click on <strong class="uicontrol">C
+\C++. Build</strong> and choose the <strong class="uicontrol">ToolSettings</strong> Tab </p></li>
+</ol></div>
+<div id="GUID-7DCA8B26-BC6F-4709-AA45-6316F0B5CEDB"><h3 class="section-title">Suppressing
+"illegal implicit conversion error"</h3><p>The code that makes use of implicit
+pointer casts will not compile with the <code class="codeph">WINSCW</code> compiler.
+The compilation breaks with "illegal implicit conversion error". However,
+the same code will compile with GCC compiler. A work around for this problem
+without changing the code is to define a pragma.</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 12th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FF6846AA-7E8B-40DC-B6EC-32A8550F4942.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:30 GMT -->
+</html>

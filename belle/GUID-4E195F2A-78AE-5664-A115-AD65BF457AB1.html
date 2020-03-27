@@ -1,0 +1,134 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4E195F2A-78AE-5664-A115-AD65BF457AB1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:18 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="System Monitor" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-AF30D941-BFD8-5260-9588-C5DA6983F558" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4E195F2A-78AE-5664-A115-AD65BF457AB1" /><meta name="DC.Language" content="en" /><title>System Monitor </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4E195F2A-78AE-5664-A115-AD65BF457AB1">System Monitor</h1><div>
+<p>The System Monitor (SysMon) provides a Process Monitor and Restart
+service. Its clients are typically the System Starter and After Market
+Starter which use information in static and dynamic startup configurations
+(SSC &amp; DSC) to set the restart parameters. </p>
+<p>An application or process may also add itself to the System Monitor's
+list. </p>
+<p>Use of the System Monitor API is restricted by capabilites of the
+client: </p>
+<ul>
+<li id="GUID-8F39C454-1FDB-5907-B189-234EE3F61EF1"><a name="GUID-8F39C454-1FDB-5907-B189-234EE3F61EF1"><!-- --></a><p> <strong>WriteDeviceData</strong> is required to request a process restart, </p> </li>
+<li id="GUID-0DB11E09-A380-5522-8385-5D439CCC9774"><a name="GUID-0DB11E09-A380-5522-8385-5D439CCC9774"><!-- --></a><p> <strong>ProtServ</strong> is required to request an OS restart into Normal mode </p> </li>
+<li id="GUID-82701B6E-BBBE-5925-8D20-871C21AB94D5"><a name="GUID-82701B6E-BBBE-5925-8D20-871C21AB94D5"><!-- --></a><p> <strong> PowerMgmt</strong> is required to request a restart into Startup mode </p> </li>
+</ul>
+<p>The system monitor API is simple and self explanatory. A client
+must instantiate an RSysMonSession, connect to
+the SysMon server and open [the session]. </p>
+<pre class="codeblock">
+// sysmonclisess.h
+//
+// Copyright (c) 2006 Symbian Software Ltd.  All rights reserved.
+//
+
+#include &lt;e32std.h&gt;
+#include &lt;e32base.h&gt;
+#include &lt;startupproperties.h&gt;
+#include "startup.hrh"
+
+class RSysMonSession : public RSessionBase
+{
+public:
+    IMPORT_C TInt Open() ;
+    IMPORT_C void Close() ;
+    
+    IMPORT_C TInt MonitorL(CStartupProperties&amp; aStartupProperties, RProcess&amp; aProcess) ;    
+    
+    IMPORT_C TInt MonitorSelfL(CStartupProperties&amp; aStartupProperties) ;
+    IMPORT_C TInt CancelMonitorSelf() ;    
+        
+} ;</pre>
+<p>Monitoring is started with a call to <code class="codeph">MonitorL()</code> or <code class="codeph">MonitorSelfL()</code>. Before calling one of these
+functions, however, a CStartupProperties object
+must be created and populated with the desired monitoring and restart
+configuration. </p>
+<p> CStartupProperties has a series of <code class="codeph">Set...()</code> functions which are used to determine the monitoring
+and restart behaviour for the application or process to be monitored.
+It has a version number (returned by the <code class="codeph">Version()</code> function) as it is designed to remain compatible with future Symbian
+extensions. </p>
+<p>The following snippet shows how a process might add itself to SysMon,
+specifying that it should be restarted in the event of failure and
+that, if it cannot be restarted, the device should be rebooted. </p>
+<pre class="codeblock">
+...
+// Add this application to SysMon.
+
+// (Note that this is normally done by SysStart or AmaStarter using information in an SSC or DSC.)
+
+RSysMonSession sysMon ;
+TInt err = sysMon.Connect() ;
+   // handle error
+
+err = sysMon.Open() ;
+   // handle error
+
+_LIT( KFileName, "Z:\\sys\\bin\\myServ.exe" ) ;
+_LIT( KRestartArg, "-restart" ) ; 
+
+CStartupProperties startupProperties = CStartupProperties::NewLC( KFileName, KRestartArg ) ;
+
+startupProperties-&gt;SetStartupType( EStartProcess) ; // TStartupType
+startupProperties-&gt;SetStartMethod( EWaitForStart ) ; // TStartMethod
+startupProperties-&gt;SetNumberOfRetries( KRetryCount ) ;
+startupProperties-&gt;SetTimeout( KRestartTimeout ) ; // timeout in milliseconds
+startupProperties-&gt;SetRecoveryParams( ERestartOS , KNormalMode ) ;  // TRecoveryMethod, modes are device specific  
+startupProperties-&gt;SetMonitored( ETrue ) ; // montoring enabled
+startupProperties-&gt;SetViewless( ETrue ) ;
+startupProperties-&gt;SetStartInBackground( ETrue ) ;
+
+
+err = sysMon.MonitorSelfL( *startupProperties ) ;
+   // handle error
+
+CleanupStack::PopAndDestroy( startupProperties ) ;
+sysMon.Close() ;
+...
+
+</pre>
+<p><strong>Setting up Monitoring in an SSC </strong> </p>
+<p>Process monitoring is normally configured for processes and applications
+using <code class="codeph">START_PROCESS_INFO2</code> and <code class="codeph">START_APP_INFO2</code> resources in an SSC. These are defined in <code>sysstart.rh</code>. </p>
+<p>Note that these structures add <strong>monitor</strong>, <strong>startup mode</strong> and a <strong>localisable error message</strong> to <code class="codeph">START_PROCESS_INFO</code> and <code class="codeph">START_APP_INFO</code>. </p>
+<pre class="codeblock">
+STRUCT START_PROCESS_INFO2                  // For starting processes
+    {
+    WORD type = EStartupProcess2;           // do not change
+    LTEXT path = "";                        // VALUE REQUIRED
+    LTEXT args = "";                        // Passed to the command line of the started process
+    WORD start_method = EFireAndForget;     // can also be EWaitForStart or EDeferredWaitForStart
+    LONG timeout = 0;                       // In milliseconds only used for EWaitForStart
+    WORD retry_failure_recovery_method = ERestartOS;     // can be EIgnoreCommandFailure
+    WORD no_of_retries_on_failure = 0;      // only used for EWaitForStart
+    WORD monitor = 0;                       // can be 1 if monitoring required
+    WORD retry_failure_recovery_startup_mode = -1;
+    LTEXT localisable_resource_file="";
+    LONG localisable_resource_id=0;         // used when fail_on_error= EinformUserOnFailure
+    }
+</pre>
+<pre class="codeblock">
+STRUCT START_APP_INFO2                      // For starting apps
+    {
+    WORD type = EStartupApp2;               // do not change
+    LTEXT path = "";                        // VALUE REQUIRED
+    LTEXT args = "";                        // Ignored
+    WORD start_method = EFireAndForget;     // can also be EWaitForStart or EDeferredWaitForStart
+    WORD viewless = 0;                      // can be 1
+    WORD start_in_background = 0;           // can be 1
+    LONG timeout = 0;                       // In milliseconds only used for EWaitForStart
+    WORD retry_failure_recovery_method = ERestartOS;     // can be EIgnoreCommandFailure
+    WORD no_of_retries_on_failure = 0;      // only used for EWaitForStart
+
+    WORD monitor = 0;                       // can be 1 if monitoring required
+    WORD retry_failure_recovery_startup_mode = -1;
+    LTEXT localisable_resource_file="";
+    LONG localisable_resource_id=0;         // used when fail_on_error= EinformUserOnFailure
+    }
+</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 29th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4E195F2A-78AE-5664-A115-AD65BF457AB1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:18 GMT -->
+</html>

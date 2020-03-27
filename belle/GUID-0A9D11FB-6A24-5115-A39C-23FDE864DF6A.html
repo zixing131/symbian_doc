@@ -1,0 +1,24 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0A9D11FB-6A24-5115-A39C-23FDE864DF6A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:42 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to complete requests" /><meta name="abstract" content="This document describes how to complete a request for a service." /><meta name="description" content="This document describes how to complete a request for a service." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-B507490F-6BD3-5DF5-97E4-EFDFEA2B4EDD" /><meta name="DC.Relation" scheme="URI" content="GUID-C2608BF5-CDA7-530A-B67A-0414C7FA585D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0A9D11FB-6A24-5115-A39C-23FDE864DF6A" /><meta name="DC.Language" content="en" /><title>How
+to complete requests </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0A9D11FB-6A24-5115-A39C-23FDE864DF6A">How
+to complete requests</h1><div><p>This document describes how to complete a request for a service.</p>
+<p>If you are a service provider, you can complete a request using either <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-2F263A1B-BB71-396C-8C45-B0D062327FFA"><code class="apiname">User::RequestComplete()</code></a>,
+or <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B0E661BC-4058-3256-B9C3-5A4FD52F6DE5.html#GUID-34A51DFD-CE91-356E-96B1-008121C4E73A"><code class="apiname">RThread::RequestComplete()</code></a>, passing the request status
+object and the service provider's return code, a value other than <code class="codeph">KRequestPending</code>.
+This results in the active object's <code class="codeph">iStatus</code> member being
+set to the return code value and a signal that the request is complete. </p>
+<p>The current thread calls <code class="codeph">User::RequestComplete()</code> to complete
+a request that originated in the current thread. </p>
+<p>The current thread calls <code class="codeph">RThread::RequestComplete()</code> to
+complete a request that originated in a different thread, i.e. the thread
+represented by the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B0E661BC-4058-3256-B9C3-5A4FD52F6DE5.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B0E661BC-4058-3256-B9C3-5A4FD52F6DE5.html"><code class="apiname">RThread</code></a> object. Note that in this case,
+the target thread <em>must</em> be in the same process as the current thread.
+Any attempt to complete a request on a thread in another process is a security
+violation, resulting in a KERN-EXEC 46 panic. </p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0A9D11FB-6A24-5115-A39C-23FDE864DF6A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:42 GMT -->
+</html>

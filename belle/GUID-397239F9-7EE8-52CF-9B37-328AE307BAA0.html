@@ -1,0 +1,29 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-397239F9-7EE8-52CF-9B37-328AE307BAA0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:48 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="How to Open a Port with the IrDA Protocol Module: Tutorial" /><meta name="abstract" content="This tutorial shows how to load the Infrared Serial Protocol Module and open a serial port." /><meta name="description" content="This tutorial shows how to load the Infrared Serial Protocol Module and open a serial port." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-9B83CDD4-FC94-51A0-AC67-CD04BCAFEF08" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-397239F9-7EE8-52CF-9B37-328AE307BAA0" /><meta name="DC.Language" content="en" /><title>How to Open a Port with the IrDA Protocol Module: Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-397239F9-7EE8-52CF-9B37-328AE307BAA0">How to Open a Port with the IrDA Protocol Module: Tutorial</h1><div><p>This tutorial shows how to load the Infrared Serial Protocol
+Module and open a serial port. </p>
+<h3>Steps</h3><ol id="GUID-14CACE10-E139-5015-9382-AD0908E871C5"><a name="GUID-14CACE10-E139-5015-9382-AD0908E871C5"><!-- --></a>
+<li id="GUID-BAEFC4D9-74C3-585D-9E88-95A6EB247FE1"><a name="GUID-BAEFC4D9-74C3-585D-9E88-95A6EB247FE1"><!-- --></a><p>Call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6B3CA99B-ABF2-32EA-935D-23AE5AE2C306.html#GUID-A202EC6D-2B5A-3BEA-BD29-E9E81FFC8803"><code class="apiname">RCommServ::Connect()</code></a> to create a session with the Serial
+communications Server. </p>
+</li>
+<li id="GUID-E70B4B44-E823-5314-B4BB-3A82ED2321B4"><a name="GUID-E70B4B44-E823-5314-B4BB-3A82ED2321B4"><!-- --></a><p></p>
+Call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6B3CA99B-ABF2-32EA-935D-23AE5AE2C306.html#GUID-F851835B-4585-3C3A-B257-ADAE04CD95AA"><code class="apiname">RCommServ::LoadCommModule()</code></a> with the <code class="codeph">aFileName</code> parameter set to <code class="codeph">ircomm</code>. 
+ <code>ircomm.csy</code> is the name of the DLL file
+for the Serial Protocol Module. The extension <code>.csy</code> is optional for the <code class="codeph">LoadCommModule()</code> API. 
+</li>
+<li id="GUID-B2A9CD4A-7691-5318-A0BA-E3BDEA100BA3"><a name="GUID-B2A9CD4A-7691-5318-A0BA-E3BDEA100BA3"><!-- --></a><p></p>
+Call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-F2CBC6B8-0BE8-3361-8BDA-774BFB245BE6"><code class="apiname">RComm::Open()</code></a> with the <code class="codeph">aName</code> parameter set to <code class="codeph">IrComm::0</code>. <p>It is not recommended
+to change the default settings for the Infrared serial ports.</p>
+</li>
+</ol>
+<div><h3 class="section-title">Example</h3> <pre class="codeblock">RCommServ server; 
+server.Connect ();
+server.LoadCommModule (_L ("IRCOMM"));
+RComm commPort;
+commPort.Open (server, _L ("IrCOMM::0"), ECommExclusive); </pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 10th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-397239F9-7EE8-52CF-9B37-328AE307BAA0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:48 GMT -->
+</html>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4530632B-D068-3BCE-91B8-706D7ABB6948.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:25:02 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxClass" />
+<meta name="DC.Title" content="MXmlEngUserData" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-4530632B-D068-3BCE-91B8-706D7ABB6948" />
+<title>MXmlEngUserData</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-4530632B-D068-3BCE-91B8-706D7ABB6948"><a name="GUID-4530632B-D068-3BCE-91B8-706D7ABB6948"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">MXmlEngUserData Class Reference</h1>
+<div class="state state apiQualifier apiQualifier cxxClassDeclarationFile section include"><p>#include 
+            
+                    &lt;xml/dom/xmlenguserdata.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>class MXmlEngUserData</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">pure virtual 
+					<a class="xref xref apiRelation" href="GUID-4530632B-D068-3BCE-91B8-706D7ABB6948.html">MXmlEngUserData</a> *</td><td><a href="#GUID-A17331D5-B68C-38B8-85C9-7DE4ECC278BB">CloneL</a>()</td></tr><tr class="bg"><td align="right" class="code">pure virtual void</td><td><a href="#GUID-269BAEB7-3CDB-3A33-B6D2-696C6E473A72">Destroy</a>()</td></tr><tr><td align="right" class="code">virtual void *</td><td><a href="#GUID-EDEC36CF-4AB7-3699-B2A8-8C522152AD3B">ID</a>()</td></tr></tbody></table></div><div class="section section apiDesc section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+<p class="p">Defines an interface so that user data can be stored in the DOM tree. Applications that wish to store user data in the DOM tree must wrap the user data in a class that implements this interface.</p>
+<p class="p">There are two common patterns for implementors of this interface:</p>
+<p class="p">1) Instance-based implementation The implementing class stores the user data. The object can be duplicated with <a class="xref" href="GUID-4530632B-D068-3BCE-91B8-706D7ABB6948.html#GUID-A17331D5-B68C-38B8-85C9-7DE4ECC278BB">CloneL()</a> to form a new object that duplicates the user data. When <a class="xref" href="GUID-4530632B-D068-3BCE-91B8-706D7ABB6948.html#GUID-269BAEB7-3CDB-3A33-B6D2-696C6E473A72">Destroy()</a> is called, the user data attached to the object is destroyed, but other duplicates may continue to hold the data.</p>
+<p class="p">2) Reference-counted implementation The implementing class points to the user data. The object can be duplicated, but the user data is not duplicated. When <a class="xref" href="GUID-4530632B-D068-3BCE-91B8-706D7ABB6948.html#GUID-269BAEB7-3CDB-3A33-B6D2-696C6E473A72">Destroy()</a> is called, the object is destroyed, but the user data is not destroyed unless this is the last object referring to this data. </p>
+</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-A17331D5-B68C-38B8-85C9-7DE4ECC278BB"><a name="GUID-A17331D5-B68C-38B8-85C9-7DE4ECC278BB"><!-- --></a>
+<h3 class="sectiontitle">CloneL (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-4530632B-D068-3BCE-91B8-706D7ABB6948.html">MXmlEngUserData</a> *</td><td>CloneL</td><td>(</td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Make a copy of the the object. Whether this duplicates the data or creates a new object that points to the data is determined by the implementor of this class.</p>
+<div class="p">
+</div>
+</div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>Pointer to a copy of this object. </dd></dl></div>
+<div class="section leave"><table class="leave"><tr><th class="leave">Leave Codes</th></tr><tr><td class="leavecode"></td><td class="leavevalue"></td></tr></table></div></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-269BAEB7-3CDB-3A33-B6D2-696C6E473A72"><a name="GUID-269BAEB7-3CDB-3A33-B6D2-696C6E473A72"><!-- --></a>
+<h3 class="sectiontitle">Destroy (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>Destroy</td><td>(</td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Free memory that is allocated and do other case specific cleanup. Whether this frees the user data depends on the implementation. In a reference-counted implementation, the user data may only be destroyed when <a class="xref" href="GUID-4530632B-D068-3BCE-91B8-706D7ABB6948.html#GUID-269BAEB7-3CDB-3A33-B6D2-696C6E473A72">Destroy()</a> is called on the last object referring to that data. </p>
+</div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-EDEC36CF-4AB7-3699-B2A8-8C522152AD3B"><a name="GUID-EDEC36CF-4AB7-3699-B2A8-8C522152AD3B"><!-- --></a>
+<h3 class="sectiontitle">ID (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>void *</td><td>ID</td><td>(</td><td>)</td><td>[inline, virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Gets the id of the object. It is up to the user data provider determine what the result is. Such a "user data identification" may be useful if several types of <a class="xref" href="GUID-4530632B-D068-3BCE-91B8-706D7ABB6948.html#GUID-4530632B-D068-3BCE-91B8-706D7ABB6948">MXmlEngUserData</a> objects are used.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>Pointer that somehow identifies the type of MXmlEngUserData (NULL by default) </dd></dl></div>
+</div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4530632B-D068-3BCE-91B8-706D7ABB6948.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:25:02 GMT -->
+</html>

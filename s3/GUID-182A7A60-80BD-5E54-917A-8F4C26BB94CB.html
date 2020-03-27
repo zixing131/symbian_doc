@@ -1,0 +1,80 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-182A7A60-80BD-5E54-917A-8F4C26BB94CB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Connecting and Disconnecting a Remote Host Tutorial" /><meta name="abstract" content="This topic describes how to connect and disconnect a remote host." /><meta name="description" content="This topic describes how to connect and disconnect a remote host." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-B144EAB9-53AB-579B-9E12-B16518E4FC01" /><meta name="DC.Relation" scheme="URI" content="GUID-82438A0F-819C-5CDC-81DC-A8BFE3AA4A6A" /><meta name="DC.Relation" scheme="URI" content="GUID-7821C498-70A2-5D3C-989A-58CEBAE9162B" /><meta name="DC.Relation" scheme="URI" content="GUID-3A14EB6E-2F28-51F6-9D80-1AFCFFBDDF9D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-182A7A60-80BD-5E54-917A-8F4C26BB94CB" /><meta name="DC.Language" content="en" /><title> Connecting and Disconnecting a Remote Host Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-182A7A60-80BD-5E54-917A-8F4C26BB94CB"> Connecting and Disconnecting a Remote Host Tutorial</h1><div><p>This topic describes how to connect and disconnect a remote
+host. </p>
+<div id="GUID-3D960F3D-471D-40A8-9EBF-417D9136F910"><h3 class="section-title">Introduction</h3><p>To send and receive the data packets, a connection must be established
+with a remote host. This tutorial describes the following: </p><ul>
+<li><p> <a href="#GUID-8DF260B9-12CE-435E-B4D7-FA95A616A273">How to Connect to a Remote Host</a> </p> </li>
+<li><p> <a href="#GUID-C24792A7-49C4-45BB-9FDF-E5B366A3E50E">How to Disconnect from a Remote Host</a> </p> </li>
+<li><p> <a href="#GUID-D76C3C73-5C45-4D1B-BE77-3E198F561785">How to Listen to a Connect Request</a> </p> </li>
+<li><p> <a href="#GUID-A44F86D0-81C9-4BC2-A6EE-0248B6622ED3">How to Accept a Connect Request</a> </p> </li>
+<li><p> <a href="#GUID-8E62BB10-8928-49D4-8DE5-EE1E678DC818">How to Shut down a Connection</a> </p> </li>
+</ul> </div>
+<div id="GUID-8DF260B9-12CE-435E-B4D7-FA95A616A273"><h3 class="section-title">How
+to Connect to a Remote Host</h3><p>The high level steps to connect
+to a remote host are as follows:</p> <ol id="GUID-46E4E5C3-E121-5B53-8E52-E00C6FE664AB">
+<li id="GUID-84078269-543D-533E-B0C8-F571AFD0B049"><a name="GUID-84078269-543D-533E-B0C8-F571AFD0B049"><!-- --></a><p>The <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-AC5A49E9-337D-334A-9CD0-DB8226372306"><code class="apiname">RSocket::Connect()</code></a> function connects to a remote host.
+The <code class="codeph">RSocket::Connect()</code> parameters identifies the
+required type of socket connection. For more information, see <a href="GUID-B8DEA3EE-7BA7-5A29-9A27-B87EE0EB254F.html#GUID-EB1C5A5A-E40C-559B-82E9-D19F8E4F4B49">important parameters</a> . </p> <p>For TCP sockets </p> <ol type="a" id="GUID-FCF6E01D-A632-595C-A79C-A17D13A9EE63">
+<li id="GUID-D10BD1B0-549C-5766-B81E-D5B88B2C9F9F"><a name="GUID-D10BD1B0-549C-5766-B81E-D5B88B2C9F9F"><!-- --></a><p>An active connection
+is made to the remote host. When the socket call completes successfully,
+the socket can send and receive data. To create a connection, the
+protocol must establish a network interface and a route to the destination.
+For more information about this process and return values, see the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-AC5A49E9-337D-334A-9CD0-DB8226372306"><code class="apiname">RSocket::Connect()</code></a> function. </p> </li>
+</ol> </li>
+<li id="GUID-37CC6747-BC8D-5C6E-8358-4EEEB5BC90C8"><a name="GUID-37CC6747-BC8D-5C6E-8358-4EEEB5BC90C8"><!-- --></a><p>For UDP </p> <ol type="a" id="GUID-1D9019A5-43C9-5D62-ABBC-8589472D24A1">
+<li id="GUID-54B60EA0-F3B1-5261-B795-E67A8D616C93"><a name="GUID-54B60EA0-F3B1-5261-B795-E67A8D616C93"><!-- --></a><p>UDP is a connectionless
+protocol which means the <code class="codeph">RSocket::Connect()</code> does
+not have to be called before writing data with <code class="codeph">RSocket::SendTo()</code>. It can be used to set the address for all data sent from the socket.
+In this case, <code class="codeph">Send()/Write()</code> function can be used
+in addition to <code class="codeph">SendTo()</code> function. </p> </li>
+</ol> </li>
+</ol></div>
+<div id="GUID-C24792A7-49C4-45BB-9FDF-E5B366A3E50E"><h3 class="section-title">How
+to Disconnect from a Remote Host</h3><p> For cancelling the connection
+ </p><p> The <code class="codeph">RSocket::CancelConnect()</code> function cancels
+the outstanding connect operation with a remote host. This function
+also cancels any outstanding <code class="codeph">RSocket::Ioctl()</code> calls.
+After this call, a socket can be reconnected by <code class="codeph">RSocket::Connect()</code> function.  </p></div>
+<div id="GUID-D76C3C73-5C45-4D1B-BE77-3E198F561785"><h3 class="section-title">How
+to Listen to a Connect Request</h3><p> A TCP socket can be set
+to listen with <code class="codeph">RSocket::Listen()</code>. The <code class="codeph">aDataOut</code> argument is ignored.  </p></div>
+<div id="GUID-A44F86D0-81C9-4BC2-A6EE-0248B6622ED3"><h3 class="section-title">How
+to Accept a Connect Request</h3><p> A connection request to a listening
+socket can be accepted with <code class="codeph">RSocket::Accept()</code>. An <code class="codeph">aConnectData</code> argument cannot be specified.  </p></div>
+<div id="GUID-8E62BB10-8928-49D4-8DE5-EE1E678DC818"><h3 class="section-title">How
+to Shut down a Connection</h3><p> Use <code class="codeph">RSocket::Shutdown()</code> to asynchronously shut down a TCP. Disconnection data is not supported.
+ </p><p> The following table describes the effects of different types
+of shut down for TCP:  </p><div class="tablenoborder"><a name="GUID-278A0CA9-6C8E-4909-9D69-4535C025C51D"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-278A0CA9-6C8E-4909-9D69-4535C025C51D" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><strong>Type</strong></td>
+<td class="cellrowborder" valign="top"><strong>Action</strong></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><code class="codeph">ENormal</code></td>
+<td class="cellrowborder" valign="top">Blocked reads and writes are terminated. No further data is
+accepted from the remote source and TCP disconnect is initiated. </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><code class="codeph">EStopInput</code></td>
+<td class="cellrowborder" valign="top">Blocked reads are terminated. No further data is accepted from
+the remote source.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><code class="codeph">EStopOutput</code></td>
+<td class="cellrowborder" valign="top">Blocked writes are terminated. TCP disconnect is initiated.</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><code class="codeph">Eimmediate</code></td>
+<td class="cellrowborder" valign="top">Blocked reads and writes are terminated. The connection is
+terminated by sending a reset.</td>
+</tr>
+</tbody>
+</table></div></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 18th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-182A7A60-80BD-5E54-917A-8F4C26BB94CB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:02 GMT -->
+</html>

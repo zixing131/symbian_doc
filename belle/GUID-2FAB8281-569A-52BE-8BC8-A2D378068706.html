@@ -1,0 +1,32 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2FAB8281-569A-52BE-8BC8-A2D378068706.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:04 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Caching" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-44CF5471-564E-5790-935B-51193A4978D6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-2FAB8281-569A-52BE-8BC8-A2D378068706" /><meta name="DC.Language" content="en" /><title>Caching </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-2FAB8281-569A-52BE-8BC8-A2D378068706">Caching</h1><div>
+<p>In Symbian OS v9.3 and earlier, index entries were stored in a single index
+file in a permanent file store and the entire file was loaded into RAM on
+start up. In Symbian^3 index entries are stored in an SQL database and only
+the most recently used index entries are cached in RAM. </p>
+<p>The following figure shows how a client request is completed using the
+cache functionality in the Message Server. </p>
+<div class="figure" id="GUID-43D2AE30-9221-500A-B934-5D3636168273"><img src="GUID-53A2CA11-2ABF-5ED7-A26C-7BE9FD9A1D22_d0e373833_href.png" /><p class="figure-title"><strong>Figure: </strong>           Caching architecture          </p></div>
+<div id="GUID-D3F3D019-736E-4527-8099-9BE8883CF37C"><h3 class="section-title">Creating and
+maintaining free space in memory</h3> <p>Memory allocation to the cache
+is done incrementally, to reduce the Message Server start up time. When the
+Message Server starts, only a percentage of the maximum cache size (<code class="codeph">MsvMaximumCacheSize</code>)
+is allocated to cache. The percentage is specified by the <code class="codeph">MsvInitialCacheCreation</code> parameter.
+The next iteration of memory allocation is not initiated until the memory
+threshold (set using the <code class="codeph">MsvCacheThreshold</code> parameter) is
+reached. The subsequent memory allocation is always done by a low priority
+active object. </p> <p><strong>Example</strong> </p> <p>The memory allocation strategy
+is illustrated in the following figures, based on the default values (shown
+in the preceding table). </p> <p>When Message Server starts, the cache is
+created with an initial size of 410KB (40 percent of 1024KB). If 70 percent
+of the free space in the cache gets used the server allocates an additional
+205KB (20 percent of 1024). </p> <div class="figure" id="GUID-CA4A08C8-C4E8-575F-8F03-F3D1F6579E5F"><img src="GUID-B459E37A-BECE-5087-9827-C93310890674_d0e373865_href.png" /></div> <p>Message Server can make two further 205KB allocations which it does
+as use reaches 70 percent of the memory already allocated. </p> <div class="figure" id="GUID-21A40614-046B-56DD-9DDD-34B2F9681B5C"><img src="GUID-107F7BC4-F776-512D-AD6F-1674B7ED19B5_d0e373873_href.png" /></div> <p>If more than 70 percent of the first two allocated memory chunks
+is used, an additional 20 percent of memory is added to the free space. </p> <div class="figure" id="GUID-EBF4FF85-D6D6-518C-9391-C3AFF8821F83"><img src="GUID-5E380880-9DBB-51D7-8942-829C6FD788C2_d0e373881_href.png" /></div> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated February 25th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2FAB8281-569A-52BE-8BC8-A2D378068706.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:08 GMT -->
+</html>

@@ -1,0 +1,24 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-A2793EFD-F765-5392-8471-C8A0C2FFC163.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to set service security requirements" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-227B6970-A536-470F-B5A1-A1871F65D7F3" /><meta name="DC.Relation" scheme="URI" content="GUID-6CE12919-FF81-5254-BA12-385F589FEA44" /><meta name="DC.Relation" scheme="URI" content="GUID-A035B592-F423-5980-8E7E-E726CF24CF3E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A2793EFD-F765-5392-8471-C8A0C2FFC163" /><meta name="DC.Language" content="en" /><title>How to set service security requirements </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A2793EFD-F765-5392-8471-C8A0C2FFC163">How to set service security requirements</h1><div><p>The security requirements that can be set for a service are simple: you can only specify whether authentication, authorisation, and/or encryption are required or not. You cannot, for example, set the security algorithms used: these are the same for all Bluetooth devices.</p> <p>To set security requirements, take the following steps:</p> <ul><li id="GUID-C593CAD4-B3CF-5B7D-A91A-3A3607870C56"><a name="GUID-C593CAD4-B3CF-5B7D-A91A-3A3607870C56"><!-- --></a><p> Create a security settings object, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BC29B643-2CE8-30C1-BF41-4D2B5585DC81.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BC29B643-2CE8-30C1-BF41-4D2B5585DC81.html"><code class="apiname">TBTServiceSecurity</code></a>. Initialise it with the service's Bluetooth protocol, its port, and a unique identifier for the service (this identifier is <em>not</em> related to the service class UUID).</p> </li> <li id="GUID-BCFD92A9-4FF6-5A2A-900A-CDF1C5BC8345"><a name="GUID-BCFD92A9-4FF6-5A2A-900A-CDF1C5BC8345"><!-- --></a><p>Set in the <code class="codeph">TBTServiceSecurity</code> object whether authentication, authorisation, and/or encryption are required.</p> </li> <li id="GUID-7EC0E37C-1AE9-5572-B01C-F0F249407106"><a name="GUID-7EC0E37C-1AE9-5572-B01C-F0F249407106"><!-- --></a><p>Call RBTSecuritySettings::RegisterService() to pass the settings to the security manager.</p> </li> </ul> <p><strong>Example</strong> </p> <p>The following example sets that authentication, authorisation, and encryption are required for a service.</p> <pre class="codeblock">// Assumes secmanSubSession is an open subsession, and channel
+// is the port on which an RFCOMM service is running
+
+// 1. Create security settings object
+TUid serviceUID;
+serviceUID.iUid = 0X10008AD0;
+TBTServiceSecurity secSettings(serviceUID, KSolBtRFCOMM, channel);
+
+// 2. Set the security options
+secSettings.SetAuthentication(ETrue);
+secSettings.SetAuthorisation(ETrue);
+secSettings.SetEncryption(ETrue);
+
+// 3. Register the service
+TRequestStatus status;
+secmanSubSession.RegisterService(secSettings,status);
+User::WaitForRequest(status);</pre> </div></div></div><div class="footer"><p class="metadata">Last updated October 9th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-A2793EFD-F765-5392-8471-C8A0C2FFC163.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:01 GMT -->
+</html>

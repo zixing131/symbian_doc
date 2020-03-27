@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_buttons_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:34 GMT -->
+<head><title>Buttons API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i470"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Buttons API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Defining_resource"><span class="tocnumber">2.1</span> <span class="toctext">Defining resource</span></a></li>
+<li class="toclevel-2"><a href="#Using_CBA_resource"><span class="tocnumber">2.2</span> <span class="toctext">Using CBA resource</span></a></li>
+<li class="toclevel-2"><a href="#Changing_text_label"><span class="tocnumber">2.3</span> <span class="toctext">Changing text label</span></a></li>
+<li class="toclevel-2"><a href="#Changing_the_command_set_via_the_command_stack"><span class="tocnumber">2.4</span> <span class="toctext">Changing the command set via the command stack</span></a></li>
+<li class="toclevel-2"><a href="#Creating_ButtonGroupContainer_manually"><span class="tocnumber">2.5</span> <span class="toctext">Creating ButtonGroupContainer manually</span></a></li>
+<li class="toclevel-2"><a href="#Receiving_command_button_activation_event"><span class="tocnumber">2.6</span> <span class="toctext">Receiving command button activation event</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.7</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Limitations_of_the_API"><span class="tocnumber">2.8</span> <span class="toctext">Limitations of the API</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Button is a generic control in the UI environment, being not only a visual
+area on the screen but also managing interaction with the user: it can be
+activated. It may contain text, image or both.
+</p><p>Command button component (which this document describes) is a specialized
+button placed into a softkey pane, see<i> Definitions</i>.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>avkon.lib, eikcoctl.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/buttons_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/buttons_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>The following picture shows the visual appearance and placement of the
+softkeys (command buttons). The Softkey pane is not necessarily placed at
+the bottom of the screen, layout and orientation changes it.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Softkeys_SoftkeyPane.png" title="Softkeys and softkey pane"><img alt="Softkeys and softkey pane" border="0" height="383" src="images/SPB_10_1_Softkeys_SoftkeyPane.png" width="295" /></a></div>
+<div style="text-align:center"><i>Softkeys and softkey pane</i></div>
+<p>A softkey cannot be instantiated directly. It is included into a <span class="plainlinks"><code>CEikButtonGroupContainer</code> </span> class.
+As the button's main feature is to respond to key events the Softkey pane
+is added to the control stack automatically.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Buttons API is an SDK API and part of S60 release 3.x.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of Buttons API are:
+</p>
+<ul><li> Defining resource.
+</li><li> Using CBA resource.
+</li><li> Changing text label.
+</li><li> Changing the command set via the command stack.
+</li><li> Creating ButtonGroupContainer manually.
+</li><li> Receiving command button activation event.
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CEikBitmapButton <td><span class="plainlinks"><code>/epoc32/include/mw/eikcmbut.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CEikButtonBase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikbutb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikButtonGroupContainer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikbtgpc.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikButtonGroupContainer::CCmdObserverArray</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikbtgpc.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikButtonGroupContainer::TCmdObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikbtgpc.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikButtonGroupContainer::TCmdPos</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikbtgpc.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikButtonGroupFactoryArray</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikbgfty.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikButtonGroupStack</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikbtgps.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikCba</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikcba.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikCba::TIconInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikcba.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikCbaButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikcba.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikCommandButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikcmbut.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikCommandButtonBase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikcmbut.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikCommandTable</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikcba.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikEnhancedCbaButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikcba.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikInverterCommandButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikcmbut.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikLabeledButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiklbbut.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMenuButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmnbut.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikTextButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikcmbut.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikTwoPictureCommandButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikcmbut.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>EikButtonGroupFactory</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikbgfty.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>EikButtonGroupFactory::TCreationData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikbgfty.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEikButtonCoordinator</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikbutb.h</code></span>
+</td></tr>
+<p>The following diagram shows the class hierarchy of the command buttons
+component.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Softkey_classes.png" title="Softkey classes"><img alt="Softkey classes" border="0" height="446" src="images/SPB_10_1_Softkey_classes.png" width="403" /></a></div>
+<div style="text-align:center"><i>Softkey classes</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Defining_resource"><h3> <span class="mw-headline">2.1 Defining resource </span></h3>
+</a><p>The following resource structure should be used for the command button
+object (defined in<i> eikon.rh</i>):
+</p>
+<pre>STRUCT CBA
+    {
+    LONG flags = EEikButtonGroupAddToStack;
+    LLINK related_buttons = 0;
+    STRUCT buttons();
+    }
+</pre>
+<pre>STRUCT CBA_BUTTON
+    {
+    BYTE version = 0;
+    WORD id = 0;
+    LTEXT txt = "";
+    }
+</pre>
+<p>A typical CBA definition looks like this (<i> app_res_def.rss</i>):
+</p>
+<pre>// contains application specific enums, commands, texts
+#include "app_res_def.hrh"
+</pre>
+<pre>RESOURCE CBA r_app_softkeys_prev_next__contextoptions
+    {
+    flags = 0;
+    buttons =
+        {
+        CBA_BUTTON {id = EAppCommandPrev; txt = text_softkey_prev;},
+        CBA_BUTTON {id = EAppCommandNext; txt = text_softkey_next;},
+        CBA_BUTTON {id = EAknSoftkeyContextOptions; txt = text_softkey_contextoptions;}
+        };
+    }
+</pre>
+<p>Many CBA controls (e.g. <span class="plainlinks"><code>R_AVKON_SOFTKEYS_EMPTY</code> </span>, <span class="plainlinks"><code>R_AVKON_SOFTKEYS_OK_BACK__OK</code> </span>)
+are predefined in<i> AVKON.RSG</i>.
+</p><p>By default CBA controls do not respond when they are invisible. This prevents
+hidden CBAs from receiving any type of key events. However, the feature can
+be activated by setting the <span class="plainlinks"><code>EAknCBAFlagRespondWhenInvisible</code> </span> flag.
+</p>
+<a name="Using_CBA_resource"><h3> <span class="mw-headline">2.2 Using CBA resource </span></h3>
+</a><p>Changing the command set in the CBA object:
+</p>
+<pre>#include &lt;app_res_def.rsg&gt;
+</pre>
+<pre>CEikButtonGroupContainer* myCba = CEikButtonGroupContainer::Current();
+CleanupStack::PushL( myCba );
+myCba-&gt;SetCommandSetL( R_APP_SOFTKEYS_PREV_NEXT__CONTEXTOPTIONS );
+myCba-&gt;MakeVisible( ETrue );
+myCba-&gt;DrawNow();
+CleanupStack::Pop();  // myCba
+</pre>
+<a name="Changing_text_label"><h3> <span class="mw-headline">2.3 Changing text label </span></h3>
+</a><p>Text label of the command button can be changed by setting a new command:
+</p>
+<pre>// in application resource file
+RESOURCE TBUF r_app_softkey_prev { buf = text_softkey_prev; }
+</pre>
+<pre>// Left softkey, new text is a resource
+HBufC* myText = StringLoader::LoadLC( R_APP_SOFTKEY_PREV );
+Cba()-&gt;SetCommandL( 0, EAppCommandPrev, *myText );
+Cba()-&gt;DrawDeferred(); // or DrawNow
+CleanupStack::PopAndDestroy();  // myText
+</pre>
+<pre>// Right softkey, new text is static text
+Cba()-&gt;SetCommandL( 2, EAppCommandNext, _L("next") );
+Cba()-&gt;DrawDeferred(); // or DrawNow
+</pre>
+<pre>// Middle softkey, new text is static text
+Cba()-&gt;SetCommandL( 3, EAppCommandMSK, _L("MSK") );
+Cba()-&gt;DrawDeferred(); // or DrawNow
+</pre>
+<a name="Changing_the_command_set_via_the_command_stack"><h3> <span class="mw-headline">2.4 Changing the command set via the command stack </span></h3>
+</a><p>Command stack is an advanced tool in CBA control: it stores multiple command
+definitions in a stack. Only the top one is active, but it also gives the
+possibility to remove any command and use a previous one.
+</p><p>Adding a new command set to the CBA command stack:
+</p>
+<pre>#include "app_res_def.rsg"
+</pre>
+<pre>CEikButtonGroupContainer* myCba = CEikButtonGroupContainer::Current();
+CleanupStack::PushL( myCba );
+myCba-&gt;AddCommandSetToStackL( R_APP_SOFTKEYS_PREV_NEXT__CONTEXTOPTIONS );
+myCba-&gt;MakeVisible( ETrue );
+myCba-&gt;DrawNow();
+CleanupStack::Pop();  // myCba
+</pre>
+<p>Removing a command:
+</p>
+<pre>// code to remove softkeys from CBA stack
+if( iActualCbaResource == R_APP_SOFTKEYS_PREV_NEXT__CONTEXTOPTIONS )
+    {
+    RemoveCommandFromStack(CEikButtonGroupContainer::ELeftSoftkeyPosition,
+                           EappCommandPrev }; // left softkey command
+    RemoveCommandFromStack(CEikButtonGroupContainer::ERightSoftkeyPosition,
+                           EAppCommandNext }; // right softkey command
+    RemoveCommandFromStack(CEikButtonGroupContainer::EMiddleSoftkeyPosition,
+                           EAknSoftkeyContextOptions }; // MSK command
+    }
+</pre>
+<a name="Creating_ButtonGroupContainer_manually"><h3> <span class="mw-headline">2.5 Creating ButtonGroupContainer manually </span></h3>
+</a><p>Application UIs always have a <span class="plainlinks"><code>CEikButtonGroupContainer</code> </span>.
+Most of the Application Views and Dialogs have it too. The following functions
+can be used to access their CBA object:
+</p>
+<pre>CEikButtonGroupContainer* CAknAppUi::Cba()
+CEikButtonGroupContainer* CAknView::Cba()
+CEikButtonGroupContainer* CEikDialog::ButtonGroupContainer()
+</pre>
+<p>It is also possible to create a local <span class="plainlinks"><code>CEikButtonGroupContainer</code> </span>:
+</p>
+<pre>// constructing the local button group container
+void CMyAppView::ConstructL()
+    {
+    iLocalButtonGroup = CEikButtonGroupContainer::NewL(
+        CEikButtonGroupContainer::ECba,  // type
+        CEikButtonGroupContainer::EHorizontal,  // orientation
+        this,  // command observer
+        R_APP_SOFTKEYS_PREV_NEXT__CONTEXTOPTIONS );  // default resource to use
+    // remove from control stack (added automatically),
+    // because don't want to use it yet
+    AppUi()-&gt;RemoveFromStack( iLocalButtonGroup-&gt;ButtonGroup() );
+    }
+</pre>
+<pre>// and using it when View is activated
+void CMyAppView::DoActivateL( const TVwsViewId&amp;, TUid, const TDesC8&amp; )
+    {
+    // add to control stack to receive key events
+    if( iLocalButtonGroupContainer )
+        {
+        AppUi()-&gt;AddToStackL( iLocalButtonGroupContainer-&gt;ButtonGroup() );
+        }
+    }
+</pre>
+<pre>void CMyAppView::DoDeactivate()
+    {
+    if( iLocalButtonGroupContainer )
+        {
+        AppUi()-&gt;RemoveFromStack( iLocalButtonGroupContainer-&gt;ButtonGroup() );
+        }
+    }
+</pre>
+<a name="Receiving_command_button_activation_event"><h3> <span class="mw-headline">2.6 Receiving command button activation event </span></h3>
+</a><p>Softkey pressing event is reported to the Observer via the <span class="plainlinks"><code>MEikCommandObserver</code> </span> interface.
+</p>
+<pre>class CMyAppView: public CAknView
+    // CAknView already inherited from MEikCommandObserver
+    {
+    public:
+        virtual void ProcessCommandL( TInt aCommandId );
+    };
+</pre>
+<p>Processing the command:
+</p>
+<pre>void CMyAppView::ProcessCommandL( TInt aCommandId )
+    {
+    switch( aCommandId ) {
+        case EAppCommandPrev:
+            if( iActualPage &lt; iPageCount-1 )
+                SwitchToPage( ++iActualPage );
+            break;
+        case EAppCommandNext:
+            if( iActualPage &gt; 0 )
+                SwitchToPage( --iActualPage );
+            break;
+        default:
+            CAknView::ProcessCommandL( aCommandId );  // pass it up
+            break;
+        }
+    }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.7 Error handling </span></h3>
+</a><p>Buttons API uses standard Symbian OS error reporting mechanism. Leaves
+and system wide error codes as function return values are used if the error
+is recoverable. A client application can handle these errors similarly as
+a normal Symbian platform application.
+</p>
+<a name="Limitations_of_the_API"><h3> <span class="mw-headline">2.8 Limitations of the API </span></h3>
+</a><p>Setting an image as a command button is a future development feature.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Buttons API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> CBA</td><td> Command Button Area
+</td></tr>
+<tr>
+<td> MSK</td><td> Middle SoftKey
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Buttons API definitions</b>
+</caption>
+<tr>
+<td> Softkey</td><td> A command button mapped to a hard key on the device.
+</td></tr>
+<tr>
+<td> Softkey pane</td><td> A UI control containing all the Softkeys supported by the device. It
+<p>may contain other controls too, e.g. scrolbars.
+</p>
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_buttons_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:35 GMT -->
+</html>

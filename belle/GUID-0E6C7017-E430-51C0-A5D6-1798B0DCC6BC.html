@@ -1,0 +1,322 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0E6C7017-E430-51C0-A5D6-1798B0DCC6BC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:51 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="reference" /><meta name="DC.Title" content="Handshaking Configuration Options" /><meta name="abstract" content="This section describes the configuration that can be set to define the handshaking for a port." /><meta name="description" content="This section describes the configuration that can be set to define the handshaking for a port." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-9B83CDD4-FC94-51A0-AC67-CD04BCAFEF08" /><meta name="DC.Relation" scheme="URI" content="GUID-152B5CE8-B689-5E99-885F-79FB0654B7D6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0E6C7017-E430-51C0-A5D6-1798B0DCC6BC" /><meta name="DC.Language" content="en" /><title>Handshaking Configuration Options </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0E6C7017-E430-51C0-A5D6-1798B0DCC6BC">Handshaking Configuration Options</h1><div><p>This section describes the configuration that can be set
+to define the handshaking for a port. </p>
+<div id="GUID-8E05D821-0CC4-4955-9D9B-A97A355F80E9"><h3 class="section-title">Introduction</h3> <p>In general, the speed at which
+data is transmitted is deliberately set to be faster than the speed
+with which it can be processed by the receiver. This results in a
+highly efficient utilisation of the available bandwidth and data transfers
+complete faster. When transmitting data over a line leased by time,
+such as a phone line, the higher utilisation results in a saving of
+money. </p> <p>Consequently, input buffers linked to reliable flow
+control mechanisms are essential for effective communications, as
+the receiver needs a mechanism for throttling back the transmitter
+and telling it to stop sending data. The <code class="codeph">TCommConfig</code> package enables flow control to be configured at the driver level,
+and so applications do not need their own flow control. This reference
+page describes the handshaking options available to control the flow
+of data. </p> <p>Since multiple handshaking mechanisms may be active
+simultaneously, the handshaking is defined by a bit field called TCommConfig.iHandshake. See the tutorials for examples
+which use this bitmask, for example <a href="GUID-294EF1C3-E7EC-5B93-B4F4-ECA50DD6993F.html">How to Terminate
+Write Requests Early: Tutorial</a>. </p> </div>
+<div id="GUID-AD04DCEF-D655-4827-AB54-69DCA025AF84"><h3 class="section-title">iHandshake bit field</h3> <p>The TCommConfigV01::iHandshake field is a bit field that can be used to set the handshaking for
+a port. The format of the bit field is: </p> <div class="tablenoborder"><a name="GUID-287F6E31-8C77-5CED-BC87-46DF1C81485C"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-287F6E31-8C77-5CED-BC87-46DF1C81485C" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e163274"> Bit </th>
+</tr>
+<tr class="title bg ">
+<th class="cellrowborder" valign="top" id="d0e163280"> Description </th>
+</tr>
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e163286"> Terminal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e163274 d0e163280 d0e163286 "><p> <code class="codeph">0x08</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x04</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x02</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x01</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e163274 d0e163280 d0e163286 "><p> <code class="codeph">KConfigFailCTS</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigObeyCTS</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigSendXoff</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigObeyXoff</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e163274 d0e163280 d0e163286 "><p>DTE </p> </td>
+<td class="cellrowborder" valign="top"><p>DTE </p> </td>
+<td class="cellrowborder" valign="top"><p>DTE </p> </td>
+<td class="cellrowborder" valign="top"><p>DTE </p> </td>
+</tr>
+</tbody>
+</table></div> <p> </p> <div class="tablenoborder"><a name="GUID-78EB8319-9C95-5275-B5CE-1CD2F2255979"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-78EB8319-9C95-5275-B5CE-1CD2F2255979" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e163405"> Bit </th>
+</tr>
+<tr class="title bg ">
+<th class="cellrowborder" valign="top" id="d0e163411"> Description </th>
+</tr>
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e163417"> Terminal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e163405 d0e163411 d0e163417 "><p> <code class="codeph">0x80</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x40</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x20</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x10</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e163405 d0e163411 d0e163417 "><p> <code class="codeph">KConfigFailDCD</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigObeyDCD</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigFailDSR</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigObeyDSR</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e163405 d0e163411 d0e163417 "><p>DTE </p> </td>
+<td class="cellrowborder" valign="top"><p>DTE </p> </td>
+<td class="cellrowborder" valign="top"><p>DTE </p> </td>
+<td class="cellrowborder" valign="top"><p>DTE </p> </td>
+</tr>
+</tbody>
+</table></div> <p> </p> <div class="tablenoborder"><a name="GUID-9EC32691-4B38-5AE5-87E3-FE1B039DED7B"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-9EC32691-4B38-5AE5-87E3-FE1B039DED7B" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e163536"> Bit </th>
+</tr>
+<tr class="title bg ">
+<th class="cellrowborder" valign="top" id="d0e163542"> Description </th>
+</tr>
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e163548"> Terminal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e163536 d0e163542 d0e163548 "><p> <code class="codeph">0x800</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x400</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x200</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0100</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e163536 d0e163542 d0e163548 "><p> <code class="codeph">KConfigFailDTR</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigObeyDTR</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigFreeDTR</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigFreeRTS</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e163536 d0e163542 d0e163548 "><p>DCE </p> </td>
+<td class="cellrowborder" valign="top"><p>DCE </p> </td>
+<td class="cellrowborder" valign="top"><p>DTE </p> </td>
+<td class="cellrowborder" valign="top"><p>DTE </p> </td>
+</tr>
+</tbody>
+</table></div> <p> </p> <div class="tablenoborder"><a name="GUID-A575C70A-09AA-5B65-8BFC-F61F41A8DB76"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-A575C70A-09AA-5B65-8BFC-F61F41A8DB76" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e163667"> Bit </th>
+</tr>
+<tr class="title bg ">
+<th class="cellrowborder" valign="top" id="d0e163673"> Description </th>
+</tr>
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e163679"> Terminal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e163667 d0e163673 d0e163679 "><p> <code class="codeph">0x8000</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x4000</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x2000</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">01000</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e163667 d0e163673 d0e163679 "><p> <code class="codeph">KConfigFreeCTS</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigFreeDSR</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigFailRTS</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigObeyRTS</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e163667 d0e163673 d0e163679 "><p>DCE </p> </td>
+<td class="cellrowborder" valign="top"><p>DCE </p> </td>
+<td class="cellrowborder" valign="top"><p>DCE </p> </td>
+<td class="cellrowborder" valign="top"><p>DCE </p> </td>
+</tr>
+</tbody>
+</table></div> <p> </p> <div class="tablenoborder"><a name="GUID-6C7A78E2-E612-592F-B222-91A5F6E501AE"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-6C7A78E2-E612-592F-B222-91A5F6E501AE" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e163798"> Bit </th>
+</tr>
+<tr class="title bg ">
+<th class="cellrowborder" valign="top" id="d0e163804"> Description </th>
+</tr>
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e163810"> Terminal </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e163798 d0e163804 d0e163810 "><p> <code class="codeph">0x80000000</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Bits 0x40000 to </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x20000</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">0x10000</code> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e163798 d0e163804 d0e163810 "><p> <code class="codeph">KConfigWriteBufferedComplete</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>0x40000000 unused </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigFreeRI</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">KConfigFreeDCD</code> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e163798 d0e163804 d0e163810 ">&nbsp;</td>
+<td class="cellrowborder" valign="top">&nbsp;</td>
+<td class="cellrowborder" valign="top"><p>DCE </p> </td>
+<td class="cellrowborder" valign="top"><p>DCE </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-1AA194F5-663B-4045-8960-5641840DD78B"><h3 class="section-title">Flow control when sending</h3> <p>The first four
+of the handshaking bitmasks control what type of flow control is obeyed
+when sending data. Any combination of hardware flow control and software
+flow control can be set up. </p> <p>Hardware flow control causes transmission
+to stop when any specified permutation of the modem input line <em>CTS</em>, <em>DSR</em> or <em>DCD</em> are
+low and the flow is only resumed when the relevant lines go high. </p> <p>Software flow control causes transmission to stop when a configurable <em>XOFF</em> character is received and transmission is only resumed
+when the corresponding <em>XON</em> character is received. </p> <p>The most common form of flow control for transmitted data is
+CTS handshaking. CTS handshaking causes flow to stop when the CTS
+input is low. </p> </div>
+<div id="GUID-5B71DCB7-B06D-458A-B337-048883A398BC"><h3 class="section-title">Flow control when receiving </h3> <p>The next three
+of the handshaking bitmasks controls the type of flow control when
+receiving data, in the expectation that the transmitter will stop
+sending when instructed to. Any combination of hardware flow control
+or software flow control can be set. </p> <p>Hardware flow control
+is where we drop the signal levels on one or both of the modem outputs <em>DTR</em> and <em>RTS</em> to stop the incoming data
+and then raise the signals again to restart. </p> <p>Software flow
+control is where we transmit our XOFF character to stop the incoming
+data and then transmit XON when we are ready to resume. Software flow
+control is enforced by setting the <code class="codeph">KConfigSendXoff</code> bit of <code class="codeph">iHandshake</code>, while hardware flow control
+is enabled by setting either one or both of the <code class="codeph">KConfigFreeRTS</code> and <code class="codeph">KConfigFreeDTR</code> bits, which indicate whether
+or not the RTS and DTR outputs are under driver control or follow
+the user-defined settings. See <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-29E8C7B9-29FD-3F5B-AAEE-33E64E2D6E24"><code class="apiname">RComm::SetSignals()</code></a> for more information. </p> <p>The most common form of flow control
+when receiving data is RTS handshaking. In RTS handshaking we lower
+our RTS output when we are not able to receive anything and then raise
+it when we are once again in a position to handle incoming data. </p> </div>
+<div id="GUID-939290BF-51A8-4AA3-980D-A6DE79702409"><h3 class="section-title">Flow control thresholds</h3> <p>Since the rate
+at which data is being placed in the input buffer can exceed the rate
+at which it is being taken out, it is probable that the buffer will
+gradually fill up. When a particular point (the <em>high water
+          mark</em>), is reached and a suitable handshaking mode
+is enabled, a flow control event is triggered. This could be the transmission
+of an XOFF character or the lowering of either the RTS or DTR output
+signals, or any combination of these events. </p> <p>Whatever action
+is taken will be taken as a signal by the transmitter, which will
+stop sending. The inward flow of data will then stop, and the buffer
+will begin to empty. When a particular point (the <em>low water
+          mark</em>) is reached, a matching flow control event
+is triggered, which could be the transmission of an XON character
+or the raising of the RTS or DTR signals, or any combination of these
+events. </p> <ul>
+<li id="GUID-3311BE0E-1D5A-5A51-A5C7-86EE0EA5BFAC"><a name="GUID-3311BE0E-1D5A-5A51-A5C7-86EE0EA5BFAC"><!-- --></a><p>If hardware
+flow control is the only kind enabled for reception, the high water
+mark is normally set at the 75% full level, at which point one or
+both of the output signal will be lowered. </p> </li>
+<li id="GUID-934E819E-CD25-55E2-9969-0DBED0F44EBE"><a name="GUID-934E819E-CD25-55E2-9969-0DBED0F44EBE"><!-- --></a><p>If XON/XOFF
+software flow control is enabled for reception (even if hardware handshaking
+is also enabled), the high water mark is set to be 5 bytes below the
+50% full level, at which point an XOFF character is transmitted for
+every other character received. This more stringent level is deemed
+necessary because it normally takes longer for a transmitter to respond
+when software handshaking is being used </p> </li>
+<li id="GUID-F08D93E3-9714-5E80-9454-CDB1442C9CC5"><a name="GUID-F08D93E3-9714-5E80-9454-CDB1442C9CC5"><!-- --></a><p>It is possible
+to force the serial drivers to use this more stringent high water
+mark when using hardware flow control. </p> </li>
+<li id="GUID-4F977649-CC0B-5050-B399-4996D826C4F7"><a name="GUID-4F977649-CC0B-5050-B399-4996D826C4F7"><!-- --></a><p>In all cases,
+the low water mark is set at the 25% full level. Depending on the
+type of flow control enabled, any combination of sending an XON character
+or raising one or both of the output signals will occur at this point. </p> </li>
+</ul> </div>
+<div id="GUID-472E1F9C-D8A5-494B-A981-BC9BDEBBFE00"><h3 class="section-title">Handshaking latency and buffer sizes</h3> <p>It
+takes a finite amount of time to respond to flow control and other
+handshaking events. The term <em>latency</em> is generally
+used in this context to refer to the time taken between the occurrence
+of a particular event and the response to it. The maximum handshaking
+latency in ultimately depends on the frequency of the system clock. </p> <p>However, the high and low watermarks for inward flow control
+need to allow for the response times of the systems with which our
+serial port is communicating rather than the latency associated with
+our own responses. Suppose it takes one second for a system to which
+we are connected to respond to a request to stop sending data, and
+suppose our serial port is running at 38400 bps. This means that we
+should have at least 3840 bytes free in our buffer when the high water
+mark is reached, otherwise we may lose incoming data if our buffer
+overflows. </p> <p>The input buffer levels at which these flow control
+events occur are not something that can be altered. Instead, the recommended
+way of adjusting the precise times at which flow control events will
+occur is to alter the size of the receive buffer using the member
+function <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-A82AF127-0CCC-364B-9331-E0E40874FA4B"><code class="apiname">RComm::SetReceiveBufferLength()</code></a>. In the
+situation just described, we would need to set a receive buffer size
+of around 16K to guarantee no data loss. </p> <p>(In practise, it
+may well be possible to get away with a smaller buffer than this even
+when the sending system takes one second to respond, as we will almost
+certainly be removing data from the buffer during the latency period.
+However, the precise calculations would clearly depend on the processing
+requirements of the receiving application.) </p> </div>
+<div id="GUID-81362B44-60CE-4518-BE95-DF6067540E3C"><h3 class="section-title">Internal FIFO Buffer Control</h3> <p>As well as
+the buffers in the serial port drivers, the components used to implement
+many RS232 ports include a small internal <em>FIFO</em> buffer
+which can be switched on or off. The presence of such an internal
+buffer is signified by the <code class="codeph">iFifo</code> byte in <code class="codeph">TCommCaps</code> being set, and the FIFO can be enabled or disabled
+by setting or clearing the <code class="codeph">iFifo</code> byte in <code class="codeph">TCommConfig</code> as appropriate. The default state is for any
+FIFOs to be automatically enabled, as even a 16 byte FIFO (the usual
+size) significantly reduces the load on the processor during serial
+i/o operations, and applications should not disable this without good
+reason. </p> </div>
+<div id="GUID-4166046A-53DA-456C-8B2A-A3BB190D7068"><h3 class="section-title">Software Flow Control and Binary Data</h3> <p>A
+problem with Software Flow Control is that the characters that are
+inserted in the data to control the flow may also appear in the original
+data. Hardware flow control is the recommended handshaking method
+whenever there is a requirement for the transfer of binary data in
+either direction. </p> <p>Different policies are used for solving
+Software Flow Control when transmitting binary data. The policy depends
+on the direction in which the handshaking operates: </p> <ul>
+<li id="GUID-C3F42B0B-E2F9-597B-BA72-A9777850C257"><a name="GUID-C3F42B0B-E2F9-597B-BA72-A9777850C257"><!-- --></a><p>Enabling software
+flow control when sending does not affect the transmitted data but
+it can affect the received data. When either of the flow control characters
+are received, they are acted on by the serial drivers as required
+and are not passed through to the client application. This policy
+can be used to send data to a device such as a printer which implements
+XON/XOFF handshaking. This policy is not recommended to receive binary
+data from a modem. Set the <code class="codeph">KConfigObeyXoff</code> bit in <code class="codeph">iHandshake</code> to enable software flow control when sending. </p> </li>
+<li id="GUID-86E3CB07-E515-5480-9A4A-6F5AEB1F82ED"><a name="GUID-86E3CB07-E515-5480-9A4A-6F5AEB1F82ED"><!-- --></a><p>Enabling software
+flow control only when receiving has no effect on data transferred
+in either direction. This does not prevent an application either receiving
+or transmitting XON or XOFF. If an application uses XON and XOFF characters,
+the meaning of these characters embedded in binary data being sent
+is not going to be clear. Set the <code class="codeph">KConfigSendXoff</code> bit in <code class="codeph">iHandshake</code> to enable software flow control
+only when receiving. </p> </li>
+</ul> </div>
+<div id="GUID-BA5936BC-FD91-4A12-B57C-3015060D6AEA"><h3 class="section-title">Changing software flow control characters</h3> <p>The default software flow control characters are ASCII DC1 (decimal
+17) for XON and DC3 (decimal 19) for XOFF. </p> <p>Change the <code class="codeph">iXonChar</code> and <code class="codeph">iXoffChar</code> fields of <code class="codeph">TCommConfig</code> to change the default software flow control
+characters. Changing the defaults is not recommended. Setting the
+defaults to zero is not recommended since this can cause unpredictable
+behaviour. Disabling flow control must be done through the <code class="codeph">iHandshake</code> field. </p> </div>
+<div id="GUID-5D775ED3-9B38-40EA-AA28-C2C89390FFFF"><h3 class="section-title">Cancellation of reads and writes</h3> <p>The next
+three of the handshaking bitmasks are named <code class="codeph">KConfigFailxxx</code>, and can be used to set up the conditions under which pending data
+transfers are automatically cancelled. For example, this can manage
+attempts to send data over a cable that has been pulled out, or disconnection
+of a modem during a file download. </p> <p>An <code class="codeph">RComm</code> send or receive request can be set to terminate early with a KErrCommsLineFail error if any specified combination of
+the control lines fail. To enable this, set one or more of the handshaking
+bits KConfigFailCTS, KConfigFailDSR, and KConfigFailDCD. If multiple failure conditions
+are enabled, an application can use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-B2A751BB-6784-31B8-8808-F5BFC087427B"><code class="apiname">RComm::Signals()</code></a> to discover the reason for the comms line failure. </p> </div>
+<div id="GUID-3D54181E-945C-4F73-AD29-3B50CF39D8E6"><h3 class="section-title">Handshaking capability checks</h3> <p>As with the
+speed and data format, it is possible to use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-4A6ECC68-EBC7-3B6C-94AE-9272669F6FF2"><code class="apiname">RComm::Caps()</code></a> to find out whether a specified handshaking mode is supported or
+not. Set the matching bitmasks with the TCommCapsV01.iHandshake field to discover specific capabilities of the port. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 31st, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0E6C7017-E430-51C0-A5D6-1798B0DCC6BC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:51 GMT -->
+</html>

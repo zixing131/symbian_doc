@@ -1,0 +1,24 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8A2029C7-1258-5B12-B217-DE3EE4340B72.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to externalise and internalise" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FBCBF8A0-7922-5881-A1C5-5DB41630E75A" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-3FAB9077-3EC3-5539-B391-D11456362513" /><meta name="DC.Relation" scheme="URI" content="GUID-6BF09365-09D7-5596-B802-1BE1757F51F6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-8A2029C7-1258-5B12-B217-DE3EE4340B72" /><meta name="DC.Language" content="en" /><title>How to externalise and internalise </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-8A2029C7-1258-5B12-B217-DE3EE4340B72">How to externalise and internalise</h1><div><p>For a class TX defined as:</p> <pre class="codeblock">class TX
+      {
+public:
+      ...
+      void ExternalizeL(RWriteStream&amp; aStream) const;
+      void InternalizeL(RReadStream&amp; aStream);
+      ...
+      };</pre> <p>an instance of <code class="codeph">TX</code> can be externalised to the stream <code class="codeph">outstream</code>, by calling the <code class="codeph">ExternalizeL()</code> member function of <code class="codeph">TX</code>:</p> <pre class="codeblock">    ...
+    TX object;
+    ...
+    object.ExternalizeL(outstream);
+    ...</pre> <p>An alternative, and better way, is to use the templated stream <code class="codeph">operator&lt;&lt;</code>. The Store framework implements this by calling <code class="codeph">TX::ExternalizeL()</code>. The syntax is simply:</p> <pre class="codeblock">    ...
+    outstream &lt;&lt; object; // externalise object
+    ...</pre> <p>Similarly, the <code class="codeph">TX</code> object can be internalised from the stream <code class="codeph">instream</code>, by calling the <code class="codeph">InternalizeL()</code> member function of <code class="codeph">TX</code>:</p> <pre class="codeblock">    TX object;
+       ...
+    object.InternalizeL(instream);
+    ...</pre> <p>The templated stream <code class="codeph">operator&gt;&gt;</code> can also be used. The Store framework implements this by calling <code class="codeph">TX::InternalizeL()</code>. The syntax is simply:</p> <pre class="codeblock">instream &gt;&gt; object; // internalise object</pre> </div></div></div><div class="footer"><p class="metadata">Last updated October 10th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8A2029C7-1258-5B12-B217-DE3EE4340B72.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:25 GMT -->
+</html>

@@ -1,0 +1,72 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3AD20E0C-F364-533F-9FBC-227478CA9982.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:45 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use TRAP" /><meta name="abstract" content="Provides code snippets to show you how to use TRAP." /><meta name="description" content="Provides code snippets to show you how to use TRAP." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-61DEE78D-4E78-5367-BC8A-F99D3B4E9D5A" /><meta name="DC.Relation" scheme="URI" content="GUID-26D7BC6E-509C-51C5-9B86-437F3AEEB2EA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3AD20E0C-F364-533F-9FBC-227478CA9982" /><meta name="DC.Language" content="en" /><title>How
+to use TRAP </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3AD20E0C-F364-533F-9FBC-227478CA9982">How
+to use TRAP</h1><div><p>Provides code snippets to show you how to use <code class="codeph">TRAP</code>.</p>
+<div id="GUID-0CE805F2-226D-4A8C-8CDF-51BF63281B10"><h3 class="section-title">Execute leaving functions under a trap harness</h3> <p>Functions
+that leave, including functions that call other functions that can leave,
+must be executed under a trap harness. </p> <p>If a call to <code class="codeph">User::Leave()</code> occurs
+within the function, control will immediately be returned to the most recent <code class="codeph">TRAP</code>.
+A variable is used with every trap to receive the error code specified in
+a leave. </p> <p>If no leave occurs, then when the called function ends, execution
+returns to the <code class="codeph">TRAP</code>, and the leave variable has the value <code class="codeph">KErrNone</code>. </p> <p>Typically
+after a <code class="codeph">TRAP</code>, a function checks the leave variable to test
+whether processing returned normally or by leaving, and acts appropriately.
+Special mechanisms discussed later are provided to handle cleanup after the
+exception. </p> <pre class="codeblock">TInt E32Main() 
+ {  
+ testConsole.Title(); // write out title
+ testConsole.Start(_LIT("Example")); // start a new "test"
+
+ // The leave variable
+ TInt r;
+ // Perform example function. If it leaves,
+ // the leave code is put in r
+ TRAP(r,doExampleL()); 
+ // Test the leave variable
+ if (r) 
+  testConsole.Printf(_LIT("Failed: leave code=%d"), r);
+
+ testConsole.End(); // finish
+ testConsole.Close(); // close it
+ return KErrNone; // and return
+ }</pre> <p><strong>Notes</strong> </p> <ul>
+<li id="GUID-DD570EB3-15DA-5615-930C-3CD7FD3A65F2"><a name="GUID-DD570EB3-15DA-5615-930C-3CD7FD3A65F2"><!-- --></a><p>It is not necessary
+that all L functions be <em>directly</em> invoked by a trap harness. In most
+cases, functions that can leave are called normally by other functions. It
+is only necessary that somewhere above the function in the call chain is a
+trap harness. </p> </li>
+<li id="GUID-E7231292-D852-5DF7-830D-7B2B92F8C3D3"><a name="GUID-E7231292-D852-5DF7-830D-7B2B92F8C3D3"><!-- --></a><p>It is not recommended
+to call a function with an <code class="codeph">LC</code> suffix from inside a trap harness.
+This is because if the function does not leave, the object that the function
+created and pushed onto the cleanup stack will remain on the cleanup stack
+on exiting from the trap harness. This causes a <code class="codeph">E32USER-CBase 71</code> panic,
+unless the object is popped by the caller from within the trap harness, for
+example: </p> <pre class="codeblock">TRAPD(error, pointer = SomeClass::SomeFunctionLC(); CleanupStack::Pop(pointer));</pre> <p>In this code, if <code class="codeph">SomeClass::SomeFunctionLC()</code> leaves,
+then <code class="codeph">pointer</code> is destroyed as part of leave processing. If
+it does not leave then <code class="codeph">CleanupStack::Pop(pointer)</code> is called,
+avoiding the panic. </p> </li>
+</ul> </div>
+<div id="GUID-E21C113D-9931-5E85-9ED5-6F14BD28E042"><h3 class="section-title">Using TRAPD</h3> <p>For
+convenience, there is a <code class="codeph">TRAPD</code> form of the macro which defines
+the variable to be used as the leave code. This saves a line of source code
+in the majority of situations. </p> <pre class="codeblock">TRAPD(leaveCode,SomeFunctionL()); // call a function
+if (leaveCode!=KErrNone)          // check for error leave code
+ {
+ // some cleanup
+ }</pre> </div>
+<div id="GUID-BB8DEAE9-D247-5AAE-80AD-A5FB193786BB"><h3 class="section-title">Trap harnesses
+and function return values</h3> <p>Trap harnesses can be used when the
+function being called returns a result. </p> <pre class="codeblock">TRAPD(leaveCode,value=GetSomethingL()); // get a value
+if (leaveCode!=KErrNone) // check for error leave code
+ {
+ // some cleanup
+ }
+else { // didn’t leave: value valid
+ }</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3AD20E0C-F364-533F-9FBC-227478CA9982.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:45 GMT -->
+</html>

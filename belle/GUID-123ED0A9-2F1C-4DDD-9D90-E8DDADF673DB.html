@@ -1,0 +1,435 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-123ED0A9-2F1C-4DDD-9D90-E8DDADF673DB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:48:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Mixing Qt and Symbian C++ in your application" /><meta name="abstract" content="Using Qt and Symbian C++ code together in an application requires the use of good object-oriented software design principles." /><meta name="description" content="Using Qt and Symbian C++ code together in an application requires the use of good object-oriented software design principles." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-D1F69FDA-6ED7-4E29-BCD4-250DF3C4841B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-123ED0A9-2F1C-4DDD-9D90-E8DDADF673DB" /><meta name="DC.Language" content="en" /><title>Mixing Qt and Symbian C++ in your application </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-123ED0A9-2F1C-4DDD-9D90-E8DDADF673DB">Mixing Qt and Symbian C++ in your application</h1><div><p>Using Qt and Symbian C++ code together in an application
+requires the use of good object-oriented software design principles.</p>
+<div id="GUID-97EC594D-ECF5-4BCA-A9D8-C7F19C7E8673"><h3 class="section-title">Background</h3><p>This document assumes you have some basic knowledge of Symbian
+C++ programming. Essential information about Symbian C++ can be found
+in <a href="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18.html">Introduction
+to Symbian C++ development</a>.</p> <p>Many of the device
+services provided on Symbian are available to your Qt applications
+through the Qt Mobility APIs and so some of your applications may
+not need to contain any Symbian C++ code. However, some Symbian device
+services and features are not accessible by using Qt and Qt Mobility
+APIs. To access these, you must use native Symbian C++ code. This
+document describes a design pattern for using Qt and Symbian C++ code
+together in a Qt application. </p><p>The essential rule is: do not
+mix Qt and Symbian C++ code in the same source file. The programming
+idioms for Qt and Symbian C++ are very different and you should not
+mix them. Ideally, write your application modules using Qt, and use
+native Symbian C++ code only where necessary. Provide clean interfaces
+between your Qt code and your Symbian C++ code. </p></div>
+<div id="GUID-05559A57-41E3-4322-A270-69E745741950"><h3 class="section-title">Separating
+Qt and Symbian C++</h3><p>If Qt does not provide an API for a feature
+or service that is available on a specific platform, the recommended
+way to access that service is to write a generic, cross-platform wrapper
+API and provide a private platform specific implementation of that
+API for each target platform. By isolating platform-specific code
+behind an interface, you can prevent widespread platform dependencies
+in your code. This facilitates porting applications that use the feature
+between different platforms. Using this approach, you can write most
+of your application code in the easy-to-use Qt programming idioms,
+and confine the platform specific code to individual code modules.
+This is the technique that Qt uses to abstract the underlying operating
+system so that developers do not need to be aware of each platform's
+native programming idioms, APIs, installation mechanisms, build systems
+and limitations. </p><p>There are a number of different design patterns
+you could use to structure your code. In this document we discuss
+the PIMPL (Pointer to Implementation) design pattern, in which platform-specific
+implementations are hidden behind a private pointer in a public API.
+PIMPL has a number of different names in design pattern literature,
+including "Handle-Body", "Compiler Firewall", "the Bridge", "Opaque
+Pointers", and "Cheshire Cat".</p><div class="p"><div class="note"><p><strong class="note_title">Note: </strong>You can use other design
+patterns and techniques in your code. For example, in Qt most of the <code class="codeph">QPixmap</code> API is implemented in a common source file, but <code class="codeph">QPixmap::grabWindow()</code> is implemented in platform-specific
+source files. This approach is acceptable provided the platform-specific
+implementation is not exposed by the public Qt API.</p></div></div><p>Accessing device-specific features on Symbian is not simply a
+matter of using standard C++ APIs and idioms to call device-specific
+APIs. Symbian's native programming language is Symbian C++, a variant
+of C++ that evolved specifically to address the needs of resource
+constrained devices. Symbian C++ uses programming idioms and frameworks
+that promote robust and memory efficient code, but sometimes at the
+expense of ease of use. Symbian C++ has its own exception handling
+mechanism, and omits standard C and C++ libraries that were not available
+when it was first created, or were considered too resource-intensive.</p></div>
+<div id="GUID-B06721DB-3054-41A6-B962-9BA36323329F"><h3 class="section-title">The
+Pointer to Implementation Pattern (PIMPL)</h3><p>PIMPL is a variant
+of the Handle-Body design pattern, in which a public API class contains
+a pointer to a private implementation class. The private implementation
+class is forward declared (instead of using <code class="codeph">#include</code>) in the header file, and is therefore hidden to clients of the public
+API.</p><p>If the implementation class must call methods in the public
+class we can pass a pointer or reference to the public class in the
+implementation class's constructor.</p><p>If the implementation class
+needs to call private methods on the public class (for example, in
+order to emit signals to public API clients) you can make the implementation
+class a friend of the public class. The class diagram shown below
+illustrates the relationships between classes, showing a public API
+class <code class="codeph">QMyClass</code> which owns a private implementation
+class <code class="codeph">QMyClassPrivate</code>.</p><div class="figure" id="GUID-E0A2F7EA-779C-40A8-8CDD-A265AE21EB92"><img src="GUID-E1EBD305-95FF-49F9-8CB6-BB6F997DC90E_d0e15339_href.png" /><p class="figure-title"><strong>Figure: </strong>Public API and private implementation classes.</p></div><p>The implementation of <code class="codeph">QMyClass</code> creates and
+destroys the private implementation <code class="codeph">QMyClassPrivate</code>. In order to do this, <code class="codeph">QMyClass</code> must have the definition
+of <code class="codeph">QMyClassPrivate</code> and so the <code class="codeph">QMyClass</code> source file must <code class="codeph">#include</code> the <code class="codeph">QMyClassPrivate</code> header files for the different target platforms. This can be achieved
+by using platform specific <code class="codeph">#define</code> statements to
+support conditional compilation for different platforms. Qt defines <code class="codeph">Q_OS_SYMBIAN</code> (in <code>qglobal.h</code>) which can
+be used in your application to conditionally compile Symbian-specific
+code. </p><pre class="codeblock">// In fictional myclass.cpp
+...
+#ifdef Q_OS_SYMBIAN
+#include "qmyclass_symbian.h"   // Symbian definition of private class
+#else
+#include "qmyclass_stub.h"      // Stub for all other platforms
+#endif
+...</pre><p>The definition and implementation of your private
+class implementations are almost entirely up to you. The only real
+constraint is that you must use the same private implementation class
+name for all of your target platforms (otherwise you would need to
+include separate forward definitions and friend declarations in your
+public API header file for each platform). Also, typically all of
+your private classes for the different target platforms should expose
+the same function names to the public API class – this simplifies
+the implementation of the public class.</p><pre class="codeblock">// Implementation of a public class slot mySlot() is defined on all
+// private implementation classes for different target platforms and
+// so can be called in the same way from the QMyClass public API class.
+void QMyClass::mySlot()
+{
+    d_ptr-&gt;mySlot();
+}</pre><p>A private implementation class can derive from any
+base class. Although it is common for implementation classes to be
+derived from <code class="codeph">QObject</code>, this is not a requirement (although
+it is necessary if you want your implementation to have signals or
+slots). Qt code often uses <code class="codeph">QObjectPrivate</code> for private
+implementations. This is not part of the public Qt APIs and you should
+not use it in your own application code. </p><p>For private implementations
+written in Symbian C++ there are two basic class designs:</p><ul>
+<li><p>Private implementation class is-a <code class="codeph">CBase</code> .</p></li>
+<li><p>Private implementation class uses-a <code class="codeph">CBase</code> and
+implements a callback interface. </p></li>
+</ul><p>The following diagram shows a private implementation class
+that is-a <code class="codeph">CActive</code> (<code class="codeph">CActive</code> derives
+from <code class="codeph">CBase</code>).</p><div class="figure" id="GUID-05B3B656-C31F-4B75-B279-94E125AB8C83"><img src="GUID-BB5115CD-02F3-4732-B62C-21583C1A1DF8_d0e15421_href.png" /><p class="figure-title"><strong>Figure: </strong>Private implementation class is-a CActive</p></div><p>The following diagram shows a private implementation class
+that uses-a <code class="codeph">CBase</code> and implements a callback interface.</p><div class="figure" id="GUID-0E851D18-FB0E-4DFF-B3BE-7A645FFFACAB"><img src="GUID-8D619A1C-989B-40C3-AD32-B0AE38629F1C_d0e15433_href.png" /><p class="figure-title"><strong>Figure: </strong>Private implementation class uses-a CBase </p></div><p>The “is a <code class="codeph">CBase</code>” design requires less programming
+effort, because you do not need an additional level of indirection
+to create and use the Symbian class, or to get notification of asynchronous
+function call completions through a callback interface. This is a
+good design choice if you only need to use asynchronous function calls
+onto a single Symbian C++ class, in which case you can often make
+the private class a <code class="codeph">CActive</code> (which derives from <code class="codeph">CBase</code>). One disadvantage of the “is a <code class="codeph">CBase</code>” design is that code to construct the private implementation class
+is a little more complex and it may be more difficult to conceptually
+separate Qt and Symbian C++ code. The Dialpad example code, which
+is described in the following sections uses a private implementation
+class derived from <code class="codeph">CActive</code>. </p><p>Using the “has
+a <code class="codeph">CBase</code>” design results in a cleaner separation between
+the Qt and Symbian programming idioms. It is also a better solution
+if your implementation needs to use several Symbian classes. The Callback
+APIs section in <a href="GUID-1D726592-A754-4212-B77D-54A1168403A8.html">Converting Active Objects to Signals &amp; Slots</a> explains
+this design pattern in more detail. </p></div>
+<div id="GUID-B0044358-4C7A-43B3-A706-7E1418C9AC34"><h3 class="section-title">Dialpad
+example public API Telephony class definition</h3><p>The public <code class="codeph">Telephony</code> class from file <code>telephony.h</code> is shown below. It has a pointer to the friend private implementation
+class <code class="codeph">TelephonyPrivate</code> defined in files <code class="codeph">telephony_symbian.h</code> (for Symbian) and <code class="codeph">telephony_stub.h</code> (a dummy implementation). </p><p>The two private classes share the same name and have a superset
+of the public class slots and methods. Note that they do not re-implement
+the public API class's signals: they can cause the public API class
+to emit signals by calling <code class="codeph">emit</code> on the public class
+pointer they get on construction. </p><pre class="codeblock">/*
+ * Copyright (c) 2010 Nokia Corporation.
+ */
+
+#ifndef TELEPHONY_H
+#define TELEPHONY_H
+
+#include &lt;QObject&gt;
+
+// Forward declaration of the implementation class.
+class TelephonyPrivate;
+
+// An interface to start and stop a phone call
+// and notify clients of the call status.
+class Telephony : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit Telephony(QObject *parent = 0);
+    ~Telephony();
+
+    // An enum for returning error codes to clients of this interface.
+    // This enum is not fully defined in this demonstration code.
+    // Your own interface should define some meaningful errors.
+    enum TelephonyErrors {TelephonyNotSupported, TelephonyError, TelephonyError2, TelephonyError3};
+
+signals:
+
+    // Emitted when the request for the call is first made.
+    void callDialling(QString number);
+
+    // Emitted when telephone call is connected.
+    void callConnected();
+
+    // Emitted when telephone call is disconnected.
+    void callDisconnected();
+
+    // Emitted if some kind of error occurs.
+    void error(Telephony::TelephonyErrors error);
+
+public slots:
+
+    // Starts a call using number.
+    void startCall(QString number);
+
+    // Ends the current call.
+    void endCall();
+
+private:
+
+    // The class that does the work.
+    TelephonyPrivate* d_ptr;
+
+    // Make TelephonyPrivate a friend so it can emit
+    // signals using its pointer to its parent Telephony object.
+    friend class TelephonyPrivate;
+
+};
+
+#endif // TELEPHONY_H
+</pre></div>
+<div id="GUID-D29D2E7B-D0E8-464A-A7F2-15471B2A01C8"><h3 class="section-title">The
+Qt project file </h3><p>The platform-specific inclusion and compilation
+of source files is controlled through the project file. </p><div class="p">The
+public class header and source files are specified in the general
+section. The platform specific headers/sources are specified in platform
+specific blocks, as shown below.<pre class="codeblock"># From Dialpad.pro example
+
+# Needs to be defined for Symbian
+DEFINES += NETWORKACCESS
+
+# Common header and sources for all build targets
+HEADERS += telephony.h
+SOURCES += main.cpp \
+    telephony.cpp \
+
+# Symbian specific values
+symbian {
+TARGET.UID3 = 0xE53F898F
+TARGET.CAPABILITY += NetworkServices
+HEADERS += telephony_symbian.h
+SOURCES += telephony_symbian.cpp
+LIBS += -letel3rdparty
+}
+else {
+# Stub sources and headers for platforms other than Symbian
+HEADERS += telephony_stub.h
+SOURCES += telephony_stub.cpp
+}
+...</pre>The platform-specific sections also list the platform
+libraries the code must link with, in this case <code>etel3rdparty.dll</code> .</div><p>A Symbian implementation must specify the capabilities needed
+by the library or executable. The Dialpad project file specifies <code class="codeph">NetworkServices</code> in order to allow the Dialpad application
+to make a phone call.</p></div>
+<div id="GUID-F00811AB-52BA-4F8B-847D-EC06E817A5CF"><h3 class="section-title">Public
+class implementation </h3><p>The public class implementation needs
+the private class header in order to construct the private class.
+The private class header is conditionally included based on the current
+platform.</p><pre class="codeblock">// In telephony.cpp
+// Conditional include for the target platform.
+#ifdef Q_OS_SYMBIAN
+#include "telephony_symbian.h"   // Symbian definition of private implementation class.
+#else
+#include "telephony_stub.h"      // Stub class for all other platforms.
+#endif
+</pre><p>The public class creates an instance of the private
+implementation class in its constructor as shown below:</p><pre class="codeblock">// Constructor.
+Telephony::Telephony(QObject *parent) : QObject(parent)
+{
+    #ifdef Q_OS_SYMBIAN
+        // Symbian private class implementation.
+        // This code can generate a Symbian Leave.
+        // If it does, convert it into a throw.
+        QT_TRAP_THROWING(d_ptr = TelephonyPrivate::NewL(this));
+    #else
+        // Stub class implementation
+        d_ptr = new TelephonyPrivate(this);
+    #endif
+}</pre><p>Because the private class <em>is a</em> Symbian <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html"><code class="apiname">CBase</code></a>-derived class, we use platform-specific construction
+in the public class implementation. This is acceptable because the
+Symbian class implementation is not visible in the public API. As
+a general rule, however, it is better to put as much of the platform-specific
+implementation as possible into the private class. </p><p>Function <code class="codeph">NewL()</code> is a standard Symbian static factory class for creating
+new objects. It is implemented by <code class="codeph">TelephonyPrivate</code> to ensure that the object is either fully allocated, or is properly
+cleaned up in the event of a problem. Because <code class="codeph">NewL()</code> can leave, it must be wrapped in a <code class="codeph">QT_TRAP_THROWING</code> macro to convert the leave into a standard C++ throw. The document <a href="GUID-05D2DFDE-FDCE-457E-8714-2315F1069B48.html">Exceptions &amp;
+Error Handling</a> explains how to create exception handling barriers
+between Symbian and Qt code. </p><p>If you implement the private class
+using the “has-a <code class="codeph">CBase</code>” design instead, constructing
+the implementation class from the public class is simpler, and there
+is no need for conditional macros.</p><pre class="codeblock">// Public class
+Telephony::Telephony(QObject *parent)
+: QObject(parent)
+{  
+d_ptr = new TelephonyPrivate(this);
+}
+ 
+//Private class
+TelephonyPrivate::TelephonyPrivate(QObject *parent)
+: d_ptr(parent)
+{  
+// symbianMember is a CBase derived member variable in TelephonyPrivate.
+QT_TRAP_THROWING(symbianMember = CTelephonyManager::NewL(this));
+}</pre><p>There are other strategies for allocating the Symbian
+object in your code. Whatever method you use, the important things
+to remember are: </p><ul>
+<li><p>Symbian C classes have their <code class="codeph">new</code> function
+overloaded from <code class="codeph">CBase</code> and it does not <code class="codeph">throw</code> exceptions. If you construct your private implementation class using <code class="codeph">new</code>, you must use the <code class="codeph">q_check_ptr()</code> function
+to check the returned pointer and throw if it is <code class="codeph">Null</code>. </p><p>This is important if a CBase-derived object is not initialized
+until it is first used. You can construct the object using <code class="codeph">new</code>, but you must check the pointer before you use it for
+object initialization and throw if it is NULL. </p></li>
+<li><p>It is your responsibility to ensure that the object is properly
+cleaned up if its construction fails. </p><p>This is important because
+it is not always obvious whether cleanup will occur properly, particularly
+when mixing Qt and Symbian C++ idioms. Consider the following code: </p><pre class="codeblock">Telephony::Telephony(QObject *parent)
+: QObject(parent)
+{  
+d_ptr = q_check_ptr(new TelephonyPrivate(this));  //from Qt 4.6
+#ifdef Q_OS_SYMBIAN
+QT_TRAP_THROWING(d_ptr-&gt;ConstructL());
+#endif
+}</pre><p>If <code class="codeph">ConstructL()</code> leaves, the macro
+throws. Following normal C++ rules, the memory for <code class="codeph">Telephony</code> is freed but the destructor is not called. Therefore any partially
+allocated objects in <code class="codeph">TelephonyPrivate</code> will leak memory.
+For this to work correctly <code class="codeph">d_ptr</code>  would need to be
+a smart pointer (<code class="codeph">QScopedPointer</code>). </p><p>The public
+class must delete the private implementation in its destructor.</p></li>
+</ul><div class="p">The public API methods are replicated in the private class.
+Public methods call the equivalent private class methods through the
+pointer to implementation, for example:<pre class="codeblock">// Public slot - starts a call using number.
+void Telephony::startCall(QString number)
+{
+    d_ptr-&gt;startCall(number);
+}</pre>Note that we have not created any barrier between Qt
+and Symbian C++ <a href="GUID-05D2DFDE-FDCE-457E-8714-2315F1069B48.html">Exception handling mechanisms</a> in the above code. This is because
+we know from the implementation that <code class="codeph">startCall()</code> cannot
+Leave. This method can throw, which is acceptable because it is never
+called from Symbian code. </div></div>
+<div id="GUID-A83B6545-9B33-4917-8DAC-B37B0A01DDAC"><h3 class="section-title">Private
+platform implementation </h3><p>The Symbian platform <code class="codeph">TelephonyPrivate</code> class implementation is shown below. It is a Symbian <a href="GUID-116A02BE-F93C-4E2C-8D75-E23B6EE67D2A.html">active object</a>. As it is a Symbian C++ class it is important to comply with the <a href="GUID-EABB4113-05D7-4E12-B23C-240FCB7792D0.html">Symbian Coding Standards</a>, in particular: </p><ul>
+<li><p>Construct the class using leave-safe Symbian mechanisms.</p></li>
+<li><p>If using multiple inheritance, derive from the <code class="codeph">CBase</code> derived classes first, and only otherwise derive mixin (interface)
+M classes. </p></li>
+</ul><div class="p"><div class="note"><p><strong class="note_title">Caution: </strong>Never derive from both CBase and QObject
+as the <code class="codeph">new</code> used for construction is undetermined.</p></div><pre class="codeblock">/*
+ * Copyright (c) 2010 Nokia Corporation.
+ */
+
+#ifndef TELEPHONY_SYMBIAN_H
+#define TELEPHONY_SYMBIAN_H
+
+#include "telephony.h"
+#include &lt;e32base.h&gt;
+#include &lt;etel3rdparty.h&gt;
+
+// The Symbian implementation of Telephony interface.
+// Starts and stops a phone call on Symbian
+// and notify clients of the call status.
+class TelephonyPrivate : public CActive
+{
+
+public:
+
+    // Symbian style static constructor
+    static TelephonyPrivate* NewL(Telephony *aPublicAPI);
+    ~TelephonyPrivate();
+
+    // Start a call using number
+    void startCall(QString number);
+
+    // End the current call
+    void endCall();
+
+public: // From CActive
+
+    // Cancel an outstanding request
+    void DoCancel();
+
+    // Called when an asynchronous service request completes
+    void RunL();
+
+
+private:
+
+    // Constructor is private - NewL must be used to create objects
+    TelephonyPrivate(Telephony* publicInterface);
+
+    // Symbian second stage constructor
+    void ConstructL();
+
+    // Convert from Symbian error code to interface Telephony::TelephonyErrors enum
+    void ConvertErrorL(int err);
+
+    // The Symbian telephony API class for making phone calls
+    CTelephony* iTelephony;
+
+    // Pointer to the public interface object that owns this private implementation
+    Telephony* iPublic;
+
+    // ID of the current call - used to end the call
+    CTelephony::TCallId iCallId;
+
+    // Status of the call
+    CTelephony::TCallStatusV1 iCallStatus;
+    CTelephony::TCallStatusV1Pckg iCallStatusPckg;
+
+    // An enum for tracking the connection state of this object
+    enum TCallStates {EIdle, EDialling, EConnected, EDisconnecting};
+    TCallStates iCallState;
+
+};
+
+#endif // TELEPHONY_SYMBIAN_H</pre></div><p>A TelephonyPrivate
+object has a pointer to its parent <code class="codeph">Telephony</code> that
+it uses to emit signals to the Qt clients when the active object completes
+or has an error. </p><p>The private class replicates the public class's
+API, reducing the conditional code in the public class implementation.
+As it derives from <code class="codeph">CActive</code> it must implement its
+base class virtual methods <code class="codeph">RunL()</code> and <code class="codeph">DoCancel()</code> to handle completion and cancellation of the active object. </p><p>The class has a private data member, <code class="codeph">iCallId</code>,
+to store the ID of the current call made using the Symbian <code class="codeph">CTelephony</code> class . A pointer to the <code class="codeph">CTelephony</code> class is held in the <code class="codeph">iTelephony</code> member variable.</p><p>As the private implementation is a Symbian class it is constructed
+using the Symbian <a href="GUID-48AD5B98-DBA8-4601-A158-12559985BCEB.html">Two-phase construction</a> idiom. </p><p>The public static <code class="codeph">NewL()</code> factory function uses a leaving constructor to create
+the object, pushes it on the <a href="GUID-1FFE4ED5-7B2E-58A0-9D08-A096F53F37AB.html">CleanupStack</a>, initializes it using the leaving second phase constructor, pops
+it off the stack and returns it to the public class. </p><pre class="codeblock">TelephonyPrivate* TelephonyPrivate::NewL(Telephony *aPublicAPI)
+{
+    TelephonyPrivate* self = new (ELeave) TelephonyPrivate(aPublicAPI);
+    CleanupStack::PushL(self);
+    self-&gt;ConstructL();
+    CleanupStack::Pop(self);
+    return self;
+}</pre><p>As part of its construction, the private object receives
+a pointer to the public class object. This pointer is used to emit
+signals from the public class. </p><p>The implementation of the private
+class's methods is dependent on the functionality required. The most
+important thing to keep in mind is correct inter-working of the platform
+exception handling systems, as discussed in <a href="GUID-05D2DFDE-FDCE-457E-8714-2315F1069B48.html">Exception handling
+mechanisms</a> .</p><p>Note also the use of the method <code class="codeph">void ConvertErrorL(int err)</code> to convert Symbian global errors
+into errors defined by the public class API.</p><p>Handling of the <code class="codeph">RunL()</code> and <code class="codeph">DoCancel()</code> methods for this
+example is discussed in <a href="GUID-1D726592-A754-4212-B77D-54A1168403A8.html">Converting Active
+Objects to Signals and Slots</a>. </p></div>
+<div id="GUID-B89AF331-5AD3-43C4-A888-EBBC6263A5AF"><h3 class="section-title">Platform-specific
+methods </h3><p>Wherever possible, keep public APIs free of platform-specific
+members and functions. Exceptions to this rule are very rare. </p><div class="p">Occasionally platform-specific helper functions are made public,
+where developers would otherwise need to implement their own methods.
+For example, <code class="codeph">QPixmap</code> provides helper functions to
+convert to and from a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-683A1D42-2764-3EB7-BD19-9E12559199AB.html"><code class="apiname">CFbsBitmap</code></a>: <ul>
+<li><code class="codeph">CFbsBitmap * QPixmap::toSymbianCFbsBitmap () const</code></li>
+<li><code class="codeph">static QPixmap QPixmap::fromSymbianCFbsBitmap ( CFbsBitmap
+* bitmap )</code></li>
+</ul></div><p>Similarly, it is sometimes necessary to reveal platform-specific
+types and publicly include platform headers in order to map them to
+generic typedefs. This can be seen in <code class="codeph">QProcess</code> where <code class="codeph">Q_PID</code> is a typedef to a Symbian <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2B5DA16C-3FBA-36CE-8821-E68B1BE45B9F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2B5DA16C-3FBA-36CE-8821-E68B1BE45B9F.html"><code class="apiname">TProcessId</code></a>. </p><div class="p">In all cases, platform-specific artifacts should be defined
+to be visible only in the specific platform. For example, from the <code class="codeph">QPixmap</code> declaration: <pre class="codeblock">#if defined(Q_OS_SYMBIAN)
+CFbsBitmap *toSymbianCFbsBitmap() const;
+static QPixmap fromSymbianCFbsBitmap(CFbsBitmap *bitmap);
+#endif</pre></div></div>
+<div id="GUID-B6E77357-9661-41ED-81D2-6F12A4131C52-GENID-GUID-A2D60367-8A23-4C4A-AA15-4F0648EDA8B9"><h3 class="section-title">Copyright
+note</h3><p>Some of the material in this topic is based with permission
+on a Symbian Foundation wiki article <cite>Apps:Using Qt and Symbian
+C++ Together</cite> . The version used was that available at Symbian
+Foundation on 3 November, 2010. The content in this page is licensed
+under the Creative Commons Attribution-Share Alike 2.0 UK: England
+&amp; Wales License (<a href="http://creativecommons.org/licenses/by-sa/2.0/uk" target="_blank">http://creativecommons.org/licenses/by-sa/2.0/uk</a>).</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 18th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-123ED0A9-2F1C-4DDD-9D90-E8DDADF673DB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:48:57 GMT -->
+</html>

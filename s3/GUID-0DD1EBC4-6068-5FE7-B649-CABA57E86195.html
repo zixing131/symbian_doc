@@ -1,0 +1,43 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-0DD1EBC4-6068-5FE7-B649-CABA57E86195.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:50 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Drawing Polylines and Polygons" /><meta name="DC.Relation" scheme="URI" content="GUID-55C8C429-1BEC-5A58-94EC-DA1E51F62867" /><meta name="DC.Relation" scheme="URI" content="GUID-E3AC8F3E-9D5C-5E7D-9760-023B77C7C8A8" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-E89F034F-C807-5FF9-B06B-F7CCD2441041" /><meta name="DC.Relation" scheme="URI" content="GUID-1E68A78A-52E5-5DF7-B540-85C7194E4617" /><meta name="DC.Relation" scheme="URI" content="GUID-55C8C429-1BEC-5A58-94EC-DA1E51F62867" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0DD1EBC4-6068-5FE7-B649-CABA57E86195" /><meta name="DC.Language" content="en" /><title>Drawing Polylines and Polygons </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0DD1EBC4-6068-5FE7-B649-CABA57E86195">Drawing Polylines and Polygons</h1><div><p>This topic provides examples that demonstrate how to draw a polyline and how to draw and fill a self-crossing polygon. </p> <p>The example code assumes the array of points used when drawing these shapes is defined as follows: </p> <pre class="codeblock">...
+// set up an array of points for drawing a polyline and a polygon etc.
+// will be used relative to top left of rectangle
+TPoint point1(20,20);
+TPoint point2(100,190);
+TPoint point3(110,90);
+TPoint point4(50,150);
+TPoint point5(200,150);
+CArrayFix&lt;TPoint&gt;* mypoints = new CArrayFixFlat&lt;TPoint&gt;(5);
+CleanupStack::PushL(mypoints);
+mypoints-&gt;AppendL(point1);
+mypoints-&gt;AppendL(point2);
+mypoints-&gt;AppendL(point3);
+mypoints-&gt;AppendL(point4);
+mypoints-&gt;AppendL(point5);
+...
+    
+// switch statement with example cases
+...
+CleanupStack::PopAndDestroy(); // mypoints</pre> <div><h3 class="section-title">Drawing a polyline</h3> <p>You can draw a polyline using <code class="codeph">DrawPolyLine()</code> from an array of points. </p> <pre class="codeblock">...
+// draw a polyline
+gc.DrawPolyLine(mypoints);
+...</pre> </div> <div><h3 class="section-title">Drawing a polygon</h3> <p>The following example code illustrates how to draw a filled polygon from an array of points. The polygon is self-crossing. Self-crossing polygons can be filled according to one of two rules, <code class="codeph">TFillRule::EAlternate</code> (the default), or <code class="codeph">TFillRule::EWinding</code>. These rules work with the concept of a winding number, as shown in the following figure: </p> <div class="figure" id="GUID-DCCC82D0-04BD-5CE5-B21E-1DF921F7E956"><img src="GUID-93A4CD14-A3CD-57B2-BF32-57EF38F59ECF_d0e252398_href.png" /><p class="figure-title"><strong>Figure: </strong>
+             Winding numbers 
+          </p></div> <p> <code class="codeph">EWinding</code> fills all areas, while <code class="codeph">EAlternate</code> only fills areas with odd winding numbers. </p> <p><strong>Drawing a polygon using the EWinding fill rule</strong> </p> <ol id="GUID-40875382-97F3-5BBA-9CE7-C49A6418ECCD"><li id="GUID-8A0BBCBF-BAB2-59A0-BE7B-F27875318DF5"><a name="GUID-8A0BBCBF-BAB2-59A0-BE7B-F27875318DF5"><!-- --></a><p>Use <code class="codeph">SetBrushStyle()</code> to set a cross-hatched brush style. </p> </li> <li id="GUID-C7845F63-2332-5FA4-A750-0223ECFED056"><a name="GUID-C7845F63-2332-5FA4-A750-0223ECFED056"><!-- --></a><p>Use <code class="codeph">DrawPolygon()</code> to draw the polygon with the <code class="codeph">EWinding</code> fill rule. </p> </li> </ol> <pre class="codeblock">...
+// draw self-crossing polygon using the winding fill rule
+gc.SetBrushStyle(CGraphicsContext::ESquareCrossHatchBrush);
+gc.SetBrushColor(black);
+gc.DrawPolygon(mypoints,CGraphicsContext::EWinding);
+...</pre> <p><strong>Drawing a polygon using the EAlternate fill rule</strong> </p> <ol id="GUID-A41D3FCD-9C7D-5400-B0EF-3CC287193B9B"><li id="GUID-0949D505-AF72-5CA6-B93B-7A6D34BC1B5E"><a name="GUID-0949D505-AF72-5CA6-B93B-7A6D34BC1B5E"><!-- --></a><p>Use <code class="codeph">SetBrushStyle()</code> to set a diamond cross-hatched brush style. </p> </li> <li id="GUID-F5382106-FFEB-55EA-98DF-751E07050568"><a name="GUID-F5382106-FFEB-55EA-98DF-751E07050568"><!-- --></a><p>Use <code class="codeph">DrawPolygon()</code> to draw the polygon with the <code class="codeph">EAlternate</code> fill rule. </p> </li> </ol> <pre class="codeblock">...
+// draw self-crossing polygon using the alternate fill rule
+gc.SetBrushStyle(CGraphicsContext::EDiamondCrossHatchBrush);
+gc.SetBrushColor(black);
+gc.DrawPolygon(mypoints,CGraphicsContext::EAlternate);
+...</pre> </div> </div><h3>Related concepts</h3><ul><li><a href="GUID-55C8C429-1BEC-5A58-94EC-DA1E51F62867.html">Drawing
+                to a Graphics Context Tutorials</a></li><li><a href="GUID-E3AC8F3E-9D5C-5E7D-9760-023B77C7C8A8.html">Drawing and Graphics Contexts</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 8th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-0DD1EBC4-6068-5FE7-B649-CABA57E86195.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:51 GMT -->
+</html>

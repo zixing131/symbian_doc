@@ -1,0 +1,61 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-09E44FE5-6BEE-49FF-8BBF-CBB3C066EE10.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Listening for Channel Changes" /><meta name="abstract" content="The sensor channel APIs enable you to receive notifications when a sensor channel is added or removed. This ensures that you are informed of changes to sensor channels whenever there is a change. For example, you can receive notifications when a specific proximity sensor channel is added." /><meta name="description" content="The sensor channel APIs enable you to receive notifications when a sensor channel is added or removed. This ensures that you are informed of changes to sensor channels whenever there is a change. For example, you can receive notifications when a specific proximity sensor channel is added." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-E3ADCC42-ACFC-49FC-88FF-8196CE61014B" /><meta name="DC.Relation" scheme="URI" content="GUID-9102DB10-3B93-4E79-9125-25791CEEBEFB" /><meta name="DC.Relation" scheme="URI" content="GUID-4B709839-8EEF-4AD2-9868-9AF0176B1E5B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-09E44FE5-6BEE-49FF-8BBF-CBB3C066EE10" /><meta name="DC.Language" content="en" /><title>Listening
+for Channel Changes </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-09E44FE5-6BEE-49FF-8BBF-CBB3C066EE10">Listening
+for Channel Changes</h1><div><p>The sensor channel APIs enable you to receive notifications when
+a sensor channel is added or removed. This ensures that you are informed of
+changes to sensor channels whenever there is a change. For example, you can
+receive notifications when a specific proximity sensor channel is added.</p>
+<div id="GUID-03B31784-B731-43C4-B2DC-38DD4898AE22"><h3 class="section-title">Prerequisites</h3> <p>Before listening
+for channel changes, you must <a href="GUID-4B709839-8EEF-4AD2-9868-9AF0176B1E5B.html#GUID-FBBD3A8B-F240-4DC0-B516-3A51FDD86A88">open
+the sensor channel</a>.</p> </div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-CDBB5B15-5652-4F6A-A149-AD9AD4CFE980"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-CDBB5B15-5652-4F6A-A149-AD9AD4CFE980"><!-- --></a>
+<li id="GUID-B454B117-4FC5-4B19-B512-7B4A213E4C51"><a name="GUID-B454B117-4FC5-4B19-B512-7B4A213E4C51"><!-- --></a><p>Create a channel
+listener implementation for the <code class="parname">MSensrvChannelListener</code> interface.</p>
+<pre class="codeblock">class ChannelListener:public MSensrvChannelListener
+    {
+    public:    
+    void ChannelChangeDetected(const TSensrvChannelInfo &amp;aDetectedChannel, TSensrvChannelChangeType aChangeType)
+        {
+        ...
+         //Implementation
+        }
+    void ChannelDetectionError(CSensrvChannelFinder aChannelFinder, TSensrvErrorSeverity aError)
+        {
+        ...
+         //Implementation
+        }
+    void GetChannelListenerInterfaceL(TUid aInterfaceUid, TAny *aInterface)
+        {
+        ...
+         //Implementation
+        }
+    };</pre>
+</li>
+<li id="GUID-CB0E18F1-21C3-4B51-88C8-ABCBD083304D"><a name="GUID-CB0E18F1-21C3-4B51-88C8-ABCBD083304D"><!-- --></a><p>Start channel listening
+by passing an instance of the channel listener implementation, using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5F108D03-C8A6-3EF9-B103-2E8916633602.html#GUID-FFB9A53F-CAD2-3CC7-9FAD-D254E15F83CF"><code class="apiname">CSensrvChannelFinder::SetChannelListenerL()</code></a> function.</p>
+<pre class="codeblock">//Instance of the channel listener implementation
+ChannelListener channelListener;
+//Channel search parameters
+TSensrvChannelInfo &amp;searchParameters
+...
+CSensrvChannelFinder* finder = CSensrvChannelFinder::NewLC();
+...
+channel-&gt;SetChannelListenerL(channelListener, searchParameters);
+...</pre>
+<p>This listens for channels that meet the supplied search parameters.
+When a channel change occurs, a <code class="parname">ChannelChangeDetected</code> notification
+is delivered through the <code class="parname">MSensrvChannelListener</code> interface.</p>
+</li>
+<li id="GUID-E9FF2158-0E82-4AB8-A9C0-8FE5A2651FE8"><a name="GUID-E9FF2158-0E82-4AB8-A9C0-8FE5A2651FE8"><!-- --></a><p>Stop channel listening
+by passing a NULL parameter to the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5F108D03-C8A6-3EF9-B103-2E8916633602.html#GUID-FFB9A53F-CAD2-3CC7-9FAD-D254E15F83CF"><code class="apiname">CSensrvChannelFinder::SetChannelListenerL()</code></a> function.</p>
+<pre class="codeblock">ChannelListener channelListener=NULL;
+finder-&gt;SetChannelListenerL(channelListener, searchParameters);</pre>
+</li>
+</ol>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 22nd, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-09E44FE5-6BEE-49FF-8BBF-CBB3C066EE10.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:40 GMT -->
+</html>

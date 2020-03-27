@@ -1,0 +1,50 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FC7F8CFE-F9AD-4442-9289-CCEFEC62DF68.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Start receiving notification" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-DC011D9C-6C39-5BB9-A7CC-4447AB97A2D2" /><meta name="DC.Relation" scheme="URI" content="GUID-F2289115-B1F0-595D-AA1C-3E01F08911CA" /><meta name="DC.Relation" scheme="URI" content="GUID-2E3BE23C-B9DC-5B5D-A56A-1DB819EFC9A6" /><meta name="DC.Relation" scheme="URI" content="GUID-C3B6E5F6-74DC-5C0E-94C8-B4822F4A2EB6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FC7F8CFE-F9AD-4442-9289-CCEFEC62DF68" /><meta name="DC.Language" content="en" /><title>Start
+receiving notification </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FC7F8CFE-F9AD-4442-9289-CCEFEC62DF68">Start
+receiving notification</h1><div>
+<div><h3 class="section-title">Context</h3> <p>You must have implemented and set the appropriate observers
+to receive notification. </p> <p>Use <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMPower'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMPower']]]</strong>CHWRMPower::StartAveragePowerReporting() to
+start battery voltage and battery consumption measurements. </p> <p>The following
+code snippet demonstrates how to start battery voltage measurements: </p> <pre class="codeblock">
+TRequestStatus newstatus;
+TIntervalMultiple intmul;
+
+iPower-&gt;StartAveragePowerReporting( newstatus, intmul );
+...
+</pre> <p>Use <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMPower'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMPower']]]</strong>CHWRMPower::NotifyAverageChargingCurrent() to
+start receiving charging current information and <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMPower'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMPower']]]</strong>CHWRMPower::NotifyBatteryFullChargingTime() to
+receive battery charging time information. </p> <p>The following code snippet
+demonstrates how to receive battery charging status notification: </p> <pre class="codeblock">// Start receiving charging notification 
+TRequestStaus status;
+iPower-&gt;NotifyAverageChargingCurrent( status, EFourTimesBaseTimeInterval );
+User::WaitForRequest( status );
+</pre> <p> <strong>Notes:</strong> Charging status notification is started automatically
+when <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMPower'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMPower']]]</strong>SetBatteryChargingObserver is
+called with a <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMPower'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMPower']]]</strong>MHWRMBatteryChargingStatusObserver specified. </p> <p>When
+the charging status changes to <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'CHWRMPower'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'CHWRMPower']]]</strong>EChargingStatusChargingComplete charging
+status notification is automatically disabled. </p> <p>The following code
+snippet demonstrates how to get average charging current and remaining charging
+time notification: </p> <pre class="codeblock">// Register only for charging current
+iPower-&gt;SetBatteryChargingObserver( NULL, notifier, NULL );
+
+// Start receiving notification now-on
+TRequestStaus status;
+iPower-&gt;NotifyAverageChargingCurrent( status, 4 );
+User::WaitForRequest( status );
+...
+
+// Register only for remaining charging time notification
+iPower-&gt;SetBatteryChargingObserver( NULL, NULL, notifier );
+
+// Start receiving notification now-on
+TRequestStaus status;
+iPower-&gt;NotifyBatteryFullChargingTime( status, 4 );
+User::WaitForRequest( status );
+...</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 29th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FC7F8CFE-F9AD-4442-9289-CCEFEC62DF68.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+</html>

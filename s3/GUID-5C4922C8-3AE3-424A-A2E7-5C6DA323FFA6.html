@@ -1,0 +1,129 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5C4922C8-3AE3-424A-A2E7-5C6DA323FFA6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Alarm Server Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1FB321DE-4A02-5468-9AF1-F3786EB678CF" /><meta name="DC.Relation" scheme="URI" content="GUID-CFE3A216-E637-51C1-B258-2ADF4E0F4150" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-5C4922C8-3AE3-424A-A2E7-5C6DA323FFA6" /><meta name="DC.Language" content="en" /><title>Alarm
+Server Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-5C4922C8-3AE3-424A-A2E7-5C6DA323FFA6">Alarm
+Server Overview</h1><div>
+<p>Alarm Server is a system server, which starts during device start-up. It
+is responsible for maintaining a queue of all system-wide alarms. </p>
+<p>It allows clients to query the status of alarms, set alarms, remove alarms
+and perform other utility functions. The Alarm client API allows other components
+to interact with the Alarm Server. The Alarm Server sends notification of
+alarm expiry to the Alert Server, which then notifies the Alarm UI to display
+dialogs and play sound. </p>
+<p>The typical clients of Alarm Server include Clock and Calendar applications. </p>
+<div><h3 class="section-title">Purpose</h3> <p>The Alarm Server manages the alarms in
+the system and provides the following functionality: </p> <ul>
+<li id="GUID-56175798-4930-55A3-ACD8-848192C07A63"><a name="GUID-56175798-4930-55A3-ACD8-848192C07A63"><!-- --></a><p>adding, updating and
+deleting alarms. </p> </li>
+<li id="GUID-FCF13562-7E88-5A5B-84B9-05B7934E7277"><a name="GUID-FCF13562-7E88-5A5B-84B9-05B7934E7277"><!-- --></a><p>getting and setting
+client-specific data associated with the alarm. </p> </li>
+<li id="GUID-44A49D6B-A12E-5C05-A7D7-9BDE3E430521"><a name="GUID-44A49D6B-A12E-5C05-A7D7-9BDE3E430521"><!-- --></a><p>performing alarm category-based
+operations such as retrieval and deletion. Retrieving alarm information includes
+alarm count, unique identifiers based on alarm states. </p> </li>
+<li id="GUID-57B8169F-1166-5534-9236-D1C367AB2413"><a name="GUID-57B8169F-1166-5534-9236-D1C367AB2413"><!-- --></a><p>getting and setting
+Alarm Server’s global sound state and play intervals. </p> </li>
+<li id="GUID-7BB3AD26-5650-5B6A-B656-76A24EF9086A"><a name="GUID-7BB3AD26-5650-5B6A-B656-76A24EF9086A"><!-- --></a><p>notifying the client
+when alarm settings change and when the alarm expires. </p> </li>
+</ul> </div>
+<div><h3 class="section-title">Key concepts and terms</h3> <dl>
+<dt class="dlterm">Duration</dt>
+<dd><p>It is the time period, in seconds, for which the alarm sound is played. </p> </dd>
+<dt class="dlterm">Offset</dt>
+<dd><p>It is the time (in minutes) duration of alarm sound played after the
+alarm expiry. </p> </dd>
+<dt class="dlterm">Alarm play interval</dt>
+<dd><p>Alarm play interval consists of duration and an offset. At each offset,
+the Alarm Server makes a request to the Alarm Alert Server to display the
+alarm dialog and play the alarm sound. </p> </dd>
+<dt class="dlterm">Universal Time Coordinated (UTC)</dt>
+<dd><p>It is the international time standard. It is the current term for what
+was commonly referred as Greenwich Meridian Time (GMT) . Zero hours UTC is
+midnight in Greenwich England, which lies on the zero longitudinal meridian.
+Universal time is based on a 24-hour clock. Therefore, afternoon hours such
+as 4 PM are expressed as 16:00 UTC. </p> </dd>
+<dt class="dlterm">Daylight Saving Time (DST)</dt>
+<dd><p>Daylight Saving Time or Summer Time, is a way of utilizing more daylight
+by advancing the local time by one hour during the summer. </p> </dd>
+<dt class="dlterm">Session alarms</dt>
+<dd><p>The alarms that are removed from the alarm queue when their session
+owners disconnect are referred as Session Alarms. </p> </dd>
+<dt class="dlterm">Non-Session alarms</dt>
+<dd><p>The alarms that continue to persist in the alarm queue, even after
+their session owners which added these alarms disconnect, are referred as
+Non-Session alarms. These alarms are also referred to as Orphaned Session
+alarms. </p> </dd>
+<dt class="dlterm">Wake-Up alarms</dt>
+<dd><p>An alarm that wakes-up the device if the device is switched OFF when
+the alarm occurs, is referred to as Wake-Up alarm. </p> </dd>
+</dl> </div>
+<div><h3 class="section-title">Architecture</h3> <p>Alarm Server is implemented using
+the Symbian platform IPC client-server architecture. It has an interface to
+the Alarm Alert server, which is delivered as part of the Application Framework
+(UIKON component). Alarm Alert Server is responsible for displaying the alarm
+dialog when an alarm expires. The Alarm Server implements the Alarm Alert
+server’s client side DLL to send and receive notifications to and from the
+Alarm UI. Alarm Alert Server is a part of the UIKON server (<code class="codeph">Eiksrv.exe</code>).
+The Alarm Server itself implements the client-side APIs since it is the only
+client for the Alarm Alert server. The following diagram illustrates the Alarm
+Server architecture: </p> <div class="figure" id="GUID-D6309F3E-4835-5703-8929-8A108CC5D376"><img src="GUID-575CDD9C-ED6E-510E-AE11-46CA7EB7B74C_d0e165628_href.png" /><p class="figure-title"><strong>Figure: </strong>              Alarm Server Architecture            </p></div> <p><strong>Alarm Client and Alarm Shared</strong> </p> <p>They are the static
+interface DLLs. Alarm client is the client side of the Alarm Server, which
+allows other components to interact with the Alarm Server. </p> <p>The Alarm
+Shared facilitates a common format shared across server and its clients for
+providing definition for an alarm. It consists of shared objects such as alarm
+class, IPC messages, repeat definitions, alarm states. </p> <p><strong>Alarm Server</strong> </p> <p>Alarm
+Server manages all alarms on the device and enables client UI applications
+to use the services provided by the Alarm Server. It relies on the Alarm UI
+to notify, which includes displaying and playing sounds. </p> <p>It uses a
+resource file to configure the sound intervals required for the alarm to repeat.
+The compiled resource file resides in the private directory of the Alarm Server.
+The resource file is used only for initial configuration. </p> <p>Alarm Server
+configurations are stored in <code class="codeph">AlarmServer.ini</code> file and <code class="codeph">Backup_Registration.xml</code> file
+performs a passive backup of this <code class="codeph">.ini</code> file to the PC-side
+at runtime. For secure backup of this <code class="codeph">.ini</code> file, <code class="codeph">backuprestorenotification.lib</code> is
+used. For more information on the resource file and backup, refer to the <a href="GUID-A5F65344-BE05-5295-85BB-E8114505FB82.html">Alarm Sound Play Control</a>. </p> <p>It
+listens to the following events: </p> <ul>
+<li id="GUID-F759197E-A22E-5C4F-89B7-247BF64134E1"><a name="GUID-F759197E-A22E-5C4F-89B7-247BF64134E1"><!-- --></a><p>System state changes
+- Using System State
+Manager (SSM), Alarm Server listens to the system state changes (normal
+and shutdown states) to synchronize the backup of the alarm server queue to
+the <code class="codeph">AlarmServer.ini</code> backup file. </p> </li>
+<li id="GUID-42C04AB7-8BCC-57D6-A716-4F6B12F5AC30"><a name="GUID-42C04AB7-8BCC-57D6-A716-4F6B12F5AC30"><!-- --></a><p>Environment change -
+Using <a href="GUID-7C6D3479-2159-5A9B-9970-0B3E625442A6.html">Environment Change
+Notifier</a> (<code class="codeph">bafl.dll</code>), Alarm Server listens to the changes
+in the environment, such as system time/date change, workdays change or UTC
+offset change. </p> </li>
+</ul> <p><strong>UIKON Server</strong> </p> <p>UIKON server is responsible for starting
+the Alarm Server at the device boot-up. </p> <p>It is also responsible for
+playing sounds, flashing lights and displaying the message. Through the UIKON
+server, alarms can be cleared, snoozed or silenced. Alarm server implements
+and uses the client side interface. Alarm UI implements the server side of
+the UIKON server. </p> </div>
+<div><h3 class="section-title">APIs</h3> <p>The Alarm Server provides the following client
+API: </p> <div class="tablenoborder"><a name="GUID-60D7DF2B-BA9C-5CEC-9048-6B8536D04CFE"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-60D7DF2B-BA9C-5CEC-9048-6B8536D04CFE" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e165731">API</th>
+<th class="cellrowborder" valign="top" id="d0e165734">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e165731 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3598EAEE-0EF4-35A2-89E5-F3B2555B1AB4.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3598EAEE-0EF4-35A2-89E5-F3B2555B1AB4.html"><code class="apiname">RASCliSession</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e165734 "><p>Client interface to Alarm session on Symbian Platform. </p></td>
+</tr>
+</tbody>
+</table></div> </div>
+<div><h3 class="section-title">Typical uses</h3> <p>The following are the typical use
+cases of Alarm Server: </p> <ul>
+<li id="GUID-854E8EA9-3194-5D0E-8BB5-3006B04BB6D3"><a name="GUID-854E8EA9-3194-5D0E-8BB5-3006B04BB6D3"><!-- --></a><p>Using Alarm Server to
+add, update and delete alarms, set alarm status and so on. </p> </li>
+<li id="GUID-9A999DC2-6D48-58B8-B251-F22A88A1978C"><a name="GUID-9A999DC2-6D48-58B8-B251-F22A88A1978C"><!-- --></a><p>Playing an alarm continuously. </p> </li>
+<li id="GUID-2D7D1AF6-2728-59CF-BD92-32D97FD6C6B6"><a name="GUID-2D7D1AF6-2728-59CF-BD92-32D97FD6C6B6"><!-- --></a><p>Activating an alarm
+on specified days. </p> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 25th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-5C4922C8-3AE3-424A-A2E7-5C6DA323FFA6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:00 GMT -->
+</html>

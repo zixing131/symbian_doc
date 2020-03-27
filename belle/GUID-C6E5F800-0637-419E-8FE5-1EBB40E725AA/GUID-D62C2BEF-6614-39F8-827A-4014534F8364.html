@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D62C2BEF-6614-39F8-827A-4014534F8364.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:24:38 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxClass" />
+<meta name="DC.Title" content="MFormParam" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-D62C2BEF-6614-39F8-827A-4014534F8364" />
+<title>MFormParam</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-D62C2BEF-6614-39F8-827A-4014534F8364"><a name="GUID-D62C2BEF-6614-39F8-827A-4014534F8364"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">MFormParam Class Reference</h1>
+<div class="state state apiQualifier apiQualifier cxxClassDeclarationFile section include"><p>#include 
+            
+                    &lt;frmparam.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>class MFormParam</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">IMPORT_C const <a class="xref xref apiRelation" href="GUID-D62C2BEF-6614-39F8-827A-4014534F8364.html">MFormParam</a> *</td><td><a href="#GUID-475D3F44-5174-3354-BDBE-16A33D3EBC82">Get</a>()</td></tr><tr class="bg"><td align="right" class="code">virtual IMPORT_C void</td><td><a href="#GUID-D0196820-6E75-3ABD-BEB9-B62C866A4CD0">Reserved</a>()</td></tr><tr><td align="right" class="code">IMPORT_C void</td><td><a href="#GUID-A05F78F1-7E0F-3370-BEFC-D5FAC4FD9540">Set</a>(const <a class="xref xref apiRelation" href="GUID-D62C2BEF-6614-39F8-827A-4014534F8364.html">MFormParam</a> *)</td></tr><tr class="bg"><td align="right" class="code">pure virtual 
+					<a class="xref xref apiRelation" href="GUID-F84C7F40-6DEB-39D1-B172-CB0CC3918E27.html">TRgb</a>
+</td><td><a href="#GUID-1D608D94-0E38-3E0E-83DC-41966A8DAFBA">SystemColor</a>(<a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TUint</a>, <a class="xref xref apiRelation" href="GUID-F84C7F40-6DEB-39D1-B172-CB0CC3918E27.html">TRgb</a>)</td></tr></tbody></table></div><div class="section section apiDesc section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+<p class="p">Specifies the protocol for getting system colours for use in text views. A class which implements this protocol allows an application (or a thread, because a pointer to the object is held in thread-local storage) to use system colours in text views.</p>
+<p class="p">You should create an object of an MFormParam-derived class which implements the <a class="xref" href="GUID-D62C2BEF-6614-39F8-827A-4014534F8364.html#GUID-1D608D94-0E38-3E0E-83DC-41966A8DAFBA">SystemColor()</a> function. Then, pass a pointer to the object to the static function <a class="xref" href="GUID-D62C2BEF-6614-39F8-827A-4014534F8364.html#GUID-A05F78F1-7E0F-3370-BEFC-D5FAC4FD9540">MFormParam::Set()</a>. The MFormParam-derived object is owned by the caller of <a class="xref" href="GUID-D62C2BEF-6614-39F8-827A-4014534F8364.html#GUID-A05F78F1-7E0F-3370-BEFC-D5FAC4FD9540">Set()</a>. When system colours are no longer needed, you should cancel them by calling MFormParam::Set(NULL). It is the caller's responsibility to cause the text view to be redrawn after system colours are changed.</p>
+<p class="p">
+<a class="xref" href="GUID-FEE7C848-2E93-3848-A3DA-7EAA533615AF.html#GUID-FEE7C848-2E93-3848-A3DA-7EAA533615AF">CTextLayout</a> uses the colour translation function <a class="xref" href="GUID-D62C2BEF-6614-39F8-827A-4014534F8364.html#GUID-1D608D94-0E38-3E0E-83DC-41966A8DAFBA">SystemColor()</a> (if an MFormParam-derived object is present) to set the pen and brush colours for drawing components of the text view. It calls <a class="xref" href="GUID-D62C2BEF-6614-39F8-827A-4014534F8364.html#GUID-475D3F44-5174-3354-BDBE-16A33D3EBC82">MFormParam::Get()</a> before each draw. This enables an application to introduce system colours, change the parameter object, or abolish system colours, and redraw everything correctly; no information is left over from the last draw.   </p>
+</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-475D3F44-5174-3354-BDBE-16A33D3EBC82"><a name="GUID-475D3F44-5174-3354-BDBE-16A33D3EBC82"><!-- --></a>
+<h3 class="sectiontitle">Get (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C const <a class="xref xref apiRelation" href="GUID-D62C2BEF-6614-39F8-827A-4014534F8364.html">MFormParam</a> *</td><td>Get</td><td>(</td><td>)</td><td>[static]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Gets the thread-local storage value. </p>
+</div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>Pointer to the MFormParam implementation. </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-D0196820-6E75-3ABD-BEB9-B62C866A4CD0"><a name="GUID-D0196820-6E75-3ABD-BEB9-B62C866A4CD0"><!-- --></a>
+<h3 class="sectiontitle">Reserved (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>Reserved</td><td>(</td><td>)</td><td>[virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-A05F78F1-7E0F-3370-BEFC-D5FAC4FD9540"><a name="GUID-A05F78F1-7E0F-3370-BEFC-D5FAC4FD9540"><!-- --></a>
+<a name="GUID-6C5536F4-0C08-3F37-82F0-7630B71FECDE"><!-- --></a><h3 class="sectiontitle">Set ( const MFormParam * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>Set</td><td>(</td><td>const <a class="xref xref apiRelation" href="GUID-D62C2BEF-6614-39F8-827A-4014534F8364.html">MFormParam</a> *</td><td><span class="parameter">aParam</span></td><td>)</td><td>[static]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Sets the thread-local storage to aParam. </p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aParam</td><td>Pointer to the MFormParam implementation, or null, to cancel using system colours.  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-1D608D94-0E38-3E0E-83DC-41966A8DAFBA"><a name="GUID-1D608D94-0E38-3E0E-83DC-41966A8DAFBA"><!-- --></a>
+<a name="GUID-868366FB-4FA0-3783-9D68-D091ABB58850"><!-- --></a><h3 class="sectiontitle">SystemColor ( TUint, TRgb )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-F84C7F40-6DEB-39D1-B172-CB0CC3918E27.html">TRgb</a>
+</td><td>SystemColor</td><td>(</td><td><a class="xref xref apiRelation" href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TUint</a></td><td><span class="parameter">aColorIndex</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-F84C7F40-6DEB-39D1-B172-CB0CC3918E27.html">TRgb</a></td><td><span class="parameter">aDefaultColor</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">const [pure virtual]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Translates 8-bit logical colour indices to physical colours pure virtual function.</p>
+<p class="p">The colour index is stored in a TLogicalRgb object and is returned by TLogicalRgb::SystemColorIndex().</p>
+<p class="p">There are three reserved index values:</p>
+<p class="p">Zero means the logical colour does not map to a system colour: the logical colour is in fact an ordinary <a class="xref" href="GUID-F84C7F40-6DEB-39D1-B172-CB0CC3918E27.html#GUID-F84C7F40-6DEB-39D1-B172-CB0CC3918E27">TRgb</a>. This function should not normally be called with this value.</p>
+<p class="p">254 and 255 are default foreground and background colours respectively, and should be converted to the GUI's standard foreground and background colours</p>
+<p class="p">The values 1-253 are reserved for the use of the GUI and can be interpreted as convenient. These can be interpreted as TLogicalColor::EColorWindowBackground upward; this mapping can be done by subtracting one from the index number aColorIndex.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aColorIndex</td><td>Logical colour index. Between 1 and 255 inclusive.  </td></tr><tr class="bg"><td class="parameter">aDefaultColor</td><td>The default colour. This is the colour to be used if no translation is performed. This allows translation to change certain indices but not others, (by passing the default colour back unchanged).  </td></tr></table></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The physical colour which maps to the logical colour index. </dd></dl></div>
+</div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D62C2BEF-6614-39F8-827A-4014534F8364.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:24:38 GMT -->
+</html>

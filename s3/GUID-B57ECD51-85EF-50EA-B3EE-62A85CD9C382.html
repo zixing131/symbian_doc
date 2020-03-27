@@ -1,0 +1,65 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B57ECD51-85EF-50EA-B3EE-62A85CD9C382.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:36 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use a notifier to display a simple dialog, asynchronously" /><meta name="abstract" content="Provides code snippets to show you how to use a notifier to display a simple dialog asynchronously." /><meta name="description" content="Provides code snippets to show you how to use a notifier to display a simple dialog asynchronously." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-F77578A2-3B11-5C29-9D00-43B971561876" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B57ECD51-85EF-50EA-B3EE-62A85CD9C382" /><meta name="DC.Language" content="en" /><title>How
+to use a notifier to display a simple dialog, asynchronously </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B57ECD51-85EF-50EA-B3EE-62A85CD9C382">How
+to use a notifier to display a simple dialog, asynchronously</h1><div><p>Provides code snippets to show you how to use a notifier to display
+a simple dialog asynchronously.</p>
+<p>To display a simple dialog box:</p>
+<ul>
+<li id="GUID-9BB8982B-727E-57FB-951F-EEA8CA49D203"><a name="GUID-9BB8982B-727E-57FB-951F-EEA8CA49D203"><!-- --></a><p>construct an <code class="codeph">RNotifier</code> object
+and then call its <code class="codeph">Connect()</code> member function to create a session
+with the Notifier server.</p> </li>
+<li id="GUID-F6523ED3-4816-538B-86BB-576A05E47197"><a name="GUID-F6523ED3-4816-538B-86BB-576A05E47197"><!-- --></a><p>call the <code class="codeph">Notify()</code> member
+function of the <code class="codeph">RNotifier</code>, passing descriptors containing
+the two lines of text to be displayed and the characters for the buttons. <code class="codeph">Notify()</code> makes
+an asynchronous request to the notifier server.</p> </li>
+</ul>
+<p>When the user keys in one of the button characters, the requesting thread's <em>request
+semaphore</em> is signalled to indicate that the notifier request is
+complete. The <code class="codeph">TRequestStatus</code> object supplied by the requesting
+thread is set to <code class="codeph">KErrNone</code>.</p>
+<p>In addition, a <code class="codeph">TInt</code>, passed by reference to <code class="codeph">Notify()</code>,
+is set to 0 or 1 depending on whether the first or the second button is selected.</p>
+<p>The session is closed by calling the <code class="codeph">Close()</code> member function
+of the <code class="codeph">RNotifier</code>.</p>
+<p>The following code fragments demonstrate this:</p>
+<pre class="codeblock">{
+_LIT(KTxtLine1,"First line");
+_LIT(KTxtLine2,"Second line");
+_LIT(KButt1,"a");
+_LIT(KButt2,"b");
+...
+TInt           whichbutton(-1);
+TRequestStatus stat;
+...
+RNotifier      notifier;
+...
+notifier.Connect();
+...
+notifier.Notify(KTxtLine1,KTxtLine2,KButt1,KButt2,whichbutton,stat);
+...
+// other code
+...
+User::WaitForRequest(stat);
+...
+if (whichbutton==0)
+    {
+    // first button selected
+    }
+if (whichbutton==1)
+    {
+    // Second button selected
+    }
+...
+notifier.Close();
+...
+}</pre>
+<p>Note that the descriptor parameters passed to <code class="codeph">Notify()</code> must
+remain in existence until the notify request completes; this may be some time
+after the call to <code class="codeph">Notify()</code> itself.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B57ECD51-85EF-50EA-B3EE-62A85CD9C382.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:36 GMT -->
+</html>

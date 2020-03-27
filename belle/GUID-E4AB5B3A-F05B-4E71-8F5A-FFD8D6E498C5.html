@@ -1,0 +1,409 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E4AB5B3A-F05B-4E71-8F5A-FFD8D6E498C5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Parameter handling in Avkon vs Qt" /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-9F54E3BC-E902-4DB8-A653-0A10A76DAA0C" /><meta name="DC.Relation" scheme="URI" content="GUID-3C151C7A-3EEC-4EDE-9C19-44A93175D626" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E4AB5B3A-F05B-4E71-8F5A-FFD8D6E498C5" /><meta name="DC.Language" content="en" /><title>Parameter handling in Avkon vs Qt </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E4AB5B3A-F05B-4E71-8F5A-FFD8D6E498C5">Parameter handling in Avkon vs Qt</h1><div>
+<p>The available parameter formats in Qt are:</p>
+<div class="p"><ul>
+<li><p>-	%1, %2, %3… Used for text strings; can be replaced by any
+Unicode character or set of characters.</p></li>
+<li><p>%L1, %L2, %L3… Used for number parameters. Enables the use
+of localized numerals; can be replaced by any Unicode character or
+set of characters.</p></li>
+<li><p>%Ln Used for positive integers when plural support is required
+(see the section about plural support in this document for more information);
+enables the use of localized numerals. A string can only contain one
+parameter %Ln.</p></li>
+</ul></div>
+<p>The use of %Ln and %L1 is preferred for all parameters that can
+have a numeral as their value. The attribute "L" makes it possible
+to display localized numerals in for example Arabic and Chinese. Functionally,
+%1 and %L1 are equivalent; if necessary, the translator can force
+the display of Latin characters by removing the attribute "L". This
+will not change the parameter's functioning in any way.</p>
+<p>Do not use the numeral 1 in a string; always use the parameter
+%L1 in order to enable the use of localized numerals.</p>
+<p>If layout data is used, localization tools can define the maximum
+space allowed for parameter %1 based on the layout data and the length
+of the translation. This works reasonably well, as long as the localizable
+text is not too long compared to text space and the layout data is
+accurate (and no other texts are included within the same layout).
+The parameter space varies in different languages and localization
+cannot ensure that enough space is always available.</p>
+<p>If it is possible to predict the maximum length of the parameter,
+please mention the maximum length in a comment field. An example of
+this would be replacing %1 with a drive letter such as "C:", "E:"
+or "F:" (note that the colon ":" after the drive letter is localizable
+and must be placed after the parameter).</p>
+<p><strong>Do not use parameters for concatenating localized texts</strong>.
+Replacing %1 with another localized text causes clumsy syntax and
+severe grammar errors, and the most important pieces of information
+can get truncated.</p>
+<p>Use %1, %2, %3, ... for string parameters, %L1, %L2, %L3, ... for
+numbers (integers and decimals), and %Ln for numbers indicating an
+amount. Presence or absence of L does not affect parameter numbering.</p>
+<div class="tablenoborder"><a name="GUID-A4618073-0AB4-4D37-AF76-E63DFF9F41E6-GENID-GUID-D83BB1D2-A1DC-4DCA-A146-4854B13E1D87"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-A4618073-0AB4-4D37-AF76-E63DFF9F41E6-GENID-GUID-D83BB1D2-A1DC-4DCA-A146-4854B13E1D87" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="46%" id="d0e21028">AVKON </th>
+<th class="cellrowborder" valign="top" width="54%" id="d0e21031">Qt </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="46%" headers="d0e21028 "><p>Add %U to chat contacts?</p></td>
+<td class="cellrowborder" valign="top" width="54%" headers="d0e21031 "><p>Add %1 to chat contacts?</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="46%" headers="d0e21028 "><p>Accept request from %0U to end this call and transfer you
+to %1U?</p></td>
+<td class="cellrowborder" valign="top" width="54%" headers="d0e21031 "><p>Accept request from %1 to end this call and transfer you
+to %2?</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="46%" headers="d0e21028 "><p>Group %N</p></td>
+<td class="cellrowborder" valign="top" width="54%" headers="d0e21031 "><p>Group %L1</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="46%" headers="d0e21028 "><p>Fastest lap: %U</p></td>
+<td class="cellrowborder" valign="top" width="54%" headers="d0e21031 "><p>Fastest lap: %L1</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="46%" headers="d0e21028 "><p>Shortcut %N</p></td>
+<td class="cellrowborder" valign="top" width="54%" headers="d0e21031 "><p>Shortcut %L1</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="46%" headers="d0e21028 "><p>Processing image %0U/%1U</p></td>
+<td class="cellrowborder" valign="top" width="54%" headers="d0e21031 "><p>Processing image %L1/%L2</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="46%" headers="d0e21028 "><p>%N-day meeting cannot be repeated daily</p></td>
+<td class="cellrowborder" valign="top" width="54%" headers="d0e21031 "><p>%L1-day meeting cannot be repeated daily</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="46%" headers="d0e21028 "><p>Enter %N-digit passcode for %U:</p></td>
+<td class="cellrowborder" valign="top" width="54%" headers="d0e21031 "><p>Enter %L1-digit passcode for %2:</p></td>
+</tr>
+</tbody>
+</table></div>
+<p>Use %Ln for parameters that indicate an amount to trigger plural
+support. Use only one parameter %Ln per text. Create one text ID for
+both plural and singular.</p>
+<div class="tablenoborder"><a name="GUID-BDF8DC56-1E6B-4BDA-A42C-E3E64EA075FA-GENID-GUID-D83BB1D2-A1DC-4DCA-A146-4854B13E1D87"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-BDF8DC56-1E6B-4BDA-A42C-E3E64EA075FA-GENID-GUID-D83BB1D2-A1DC-4DCA-A146-4854B13E1D87" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="49.5%" id="d0e21142">AVKON </th>
+<th class="cellrowborder" valign="top" width="50.5%" id="d0e21145">Qt </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>%N video clips</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p>%Ln video clips</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>1 video clip</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>%N files copied</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p>%Ln files copied</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>1 file copied</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>Unable to delete %N folders</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p>Unable to delete %Ln folders</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>Alarm snoozed for %N minutes</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p>Alarm snoozed for %Ln minutes</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>Alarm snoozed for 1 minute</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>Lock code can be changed %N times an hour</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p>Lock code can be changed %Ln times an hour</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>Captures an image every minute until the memory in use runs
+out</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p>Captures an image every minute until the memory in use runs
+out</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>Captures an image every 5 minutes until the memory in use
+runs out</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p>Captures an image every %Ln minutes until the memory in
+use runs out</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>Captures an image every 10 minutes until the memory in use
+runs out</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="49.5%" headers="d0e21142 "><p>Captures an image every 30 minutes until the memory in use
+runs out</p></td>
+<td class="cellrowborder" valign="top" width="50.5%" headers="d0e21145 "><p></p></td>
+</tr>
+</tbody>
+</table></div>
+<p>If a text contains two parameters indicating an amount, use %L1
+and %L2. Create four text IDs.</p>
+<div class="tablenoborder"><a name="GUID-F83B755F-2F28-4C9F-BFB2-FB8A2A89C5AB"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-F83B755F-2F28-4C9F-BFB2-FB8A2A89C5AB" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="49%" id="d0e21295">AVKON </th>
+<th class="cellrowborder" valign="top" width="51%" id="d0e21298">Qt </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="49%" headers="d0e21295 "><p>%0N contacts copied, %1N contacts not copied</p></td>
+<td class="cellrowborder" valign="top" width="51%" headers="d0e21298 "><p>%L1 contacts copied, %L2 contacts not copied</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="49%" headers="d0e21295 "><p>%N contacts copied, 1 contact not copied</p></td>
+<td class="cellrowborder" valign="top" width="51%" headers="d0e21298 "><p>%L1 contacts copied, %L2 contact not copied</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="49%" headers="d0e21295 "><p>1 contact copied, %N contacts not copied</p></td>
+<td class="cellrowborder" valign="top" width="51%" headers="d0e21298 "><p>%L1 contact copied, %L2 contacts not copied</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="49%" headers="d0e21295 "><p>1 contact copied, 1 contact not copied</p></td>
+<td class="cellrowborder" valign="top" width="51%" headers="d0e21298 "><p>%L1 contact copied, %L2 contact not copied</p></td>
+</tr>
+</tbody>
+</table></div>
+<p>Use %L1 with units of measurement and percentages. </p>
+<div class="tablenoborder"><a name="GUID-08C44BB8-07E4-448E-AA36-021253F4177F"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-08C44BB8-07E4-448E-AA36-021253F4177F" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="46%" id="d0e21365">AVKON</th>
+<th class="cellrowborder" valign="top" width="54%" id="d0e21368">Qt </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="46%" headers="d0e21365 "><p>%U MHz</p></td>
+<td class="cellrowborder" valign="top" width="54%" headers="d0e21368 "><p>%L1 MHz</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="46%" headers="d0e21365 "><p>%U km/h</p></td>
+<td class="cellrowborder" valign="top" width="54%" headers="d0e21368 "><p>%L1 km/h</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="46%" headers="d0e21365 "><p>%N%</p></td>
+<td class="cellrowborder" valign="top" width="54%" headers="d0e21368 "><p>%L1%</p></td>
+</tr>
+</tbody>
+</table></div>
+<p>Whenever possible, use parameters instead of numbers.</p>
+<div class="tablenoborder"><a name="GUID-A4618073-0AB4-4D37-AF76-E63DFF9F41E6-GENID-GUID-D83BB1D2-A1DC-4DCA-A146-4854B13E1D87"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-A4618073-0AB4-4D37-AF76-E63DFF9F41E6-GENID-GUID-D83BB1D2-A1DC-4DCA-A146-4854B13E1D87" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="44.5%" id="d0e21424">AVKON </th>
+<th class="cellrowborder" valign="top" width="55.50000000000001%" id="d0e21427">Qt </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>16 colours</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>%Ln colours</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>256 colours</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>4096 colours</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>65536 colours</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>10 seconds</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>%Ln seconds</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>20 seconds</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Use for prints up to 7x5 in (18x13 cm)</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>Use for prints up to %L1x%L2 in (%L3x%L4 cm)</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Use for prints up to 6x4 in (15x10 cm)</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Up to 2 per page</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>Up to %L1 per page</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Up to 4 per page</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Up to 6 per page</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Up to 9 per page</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>At least %N characters must be entered</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>At least %Ln characters must be entered</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Enter first %N numbers of fingerprint for %U:</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>Enter first %Ln numbers of fingerprint for %1:</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Theme 1</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>Theme %L1</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Theme 2</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Error 401. Server problem. Try again later.</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>Error %L1. Server problem. Try again later.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Error 410. Server problem. Try again later.</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Error 411. Server problem. Try again later.</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Error 412. Server problem. Try again later.</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Error 413. Server problem. Try again later.</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Error 414. Server problem. Try again later.</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Error 415. Server problem. Try again later.</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Error 461. Server problem. Try again later.</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Error 501. Server problem. Try again later.</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Error 551. Server problem. Try again later.</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>1 new voice messages on line 1</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>%Ln new voice messages on line %L1</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>%N new voice messages on line 1</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>1 new voice messages on line 2</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>%N new voice messages on line 2</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>This product includes software licensed from Nokia Ltd ©
+1998-%N</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>This product includes software licensed from Nokia Ltd ©
+%L1-%L2</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Zooming 100%</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>Zooming %L1%</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Zooming 200%</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Zooming 400%</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Zooming 800%</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Ringing tone, line 1</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p>Ringing tone, line %L1</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="44.5%" headers="d0e21424 "><p>Ringing tone, line 2</p></td>
+<td class="cellrowborder" valign="top" width="55.50000000000001%" headers="d0e21427 "><p></p></td>
+</tr>
+</tbody>
+</table></div>
+<p>Use numbers when referring to technical standards and version numbers.</p>
+<div class="tablenoborder"><a name="GUID-BDF8DC56-1E6B-4BDA-A42C-E3E64EA075FA-GENID-GUID-D83BB1D2-A1DC-4DCA-A146-4854B13E1D87"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-BDF8DC56-1E6B-4BDA-A42C-E3E64EA075FA-GENID-GUID-D83BB1D2-A1DC-4DCA-A146-4854B13E1D87" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="45%" id="d0e21832">AVKON </th>
+<th class="cellrowborder" valign="top" width="55.00000000000001%" id="d0e21835">Qt </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="45%" headers="d0e21832 "><p>PIN2 code</p></td>
+<td class="cellrowborder" valign="top" width="55.00000000000001%" headers="d0e21835 "><p>PIN2 code</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="45%" headers="d0e21832 "><p>PKCS#12 password:</p></td>
+<td class="cellrowborder" valign="top" width="55.00000000000001%" headers="d0e21835 "><p>PKCS#12 password:</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="45%" headers="d0e21832 "><p>802.1x</p></td>
+<td class="cellrowborder" valign="top" width="55.00000000000001%" headers="d0e21835 "><p>802.1x</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="45%" headers="d0e21832 "><p>Big 5</p></td>
+<td class="cellrowborder" valign="top" width="55.00000000000001%" headers="d0e21835 "><p>Big 5</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="45%" headers="d0e21832 "><p>GB 2312</p></td>
+<td class="cellrowborder" valign="top" width="55.00000000000001%" headers="d0e21835 "><p>GB 2312</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="45%" headers="d0e21832 "><p>Japanese (ISO 2022)</p></td>
+<td class="cellrowborder" valign="top" width="55.00000000000001%" headers="d0e21835 "><p>Japanese (ISO 2022)</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="45%" headers="d0e21832 "><p>Fingerprint (SHA1):</p></td>
+<td class="cellrowborder" valign="top" width="55.00000000000001%" headers="d0e21835 "><p>Fingerprint (SHA1):</p></td>
+</tr>
+</tbody>
+</table></div></div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E4AB5B3A-F05B-4E71-8F5A-FFD8D6E498C5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+</html>

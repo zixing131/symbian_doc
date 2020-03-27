@@ -1,0 +1,55 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-20B2C96A-9742-4CB0-A37F-19B65765E826.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Implementing the MHTTPDataOptimiser Interface" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-C0D38954-2FC5-4E8B-BC11-229464DCF16C" /><meta name="DC.Relation" scheme="URI" content="GUID-1E8904E3-43AC-5332-A2EF-F11F5728DBE8" /><meta name="DC.Relation" scheme="URI" content="GUID-B4A54501-4AA4-5ACB-96D7-4427C7752639" /><meta name="DC.Relation" scheme="URI" content="GUID-F066FEA3-94E7-5D79-B427-E247A2D1EBB8" /><meta name="DC.Relation" scheme="URI" content="GUID-F0ABCDE5-F818-526A-81EB-E2D4D87E3231" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-20B2C96A-9742-4CB0-A37F-19B65765E826" /><meta name="DC.Language" content="en" /><title>Implementing
+the MHTTPDataOptimiser Interface </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-20B2C96A-9742-4CB0-A37F-19B65765E826">Implementing
+the MHTTPDataOptimiser Interface</h1><div>
+<p>To enable support for Web Acceleration, you must implement your own custom
+encoding and decoding mechanisms by implementing the functions of the interface <code class="codeph">MHTTPDataOptimiser</code>.
+The following code illustrates the <code class="codeph">MHTTPDataOptimiser</code> interface
+that consists of the <code class="codeph">EncodeL()</code> and <code class="codeph">DecodeL()</code> methods: </p>
+<pre class="codeblock">class MHTTPDataOptimiser
+{
+
+public:
+
+virtual void EncodeL(const TDesC8&amp; aHTTPData, HBufC8*&amp; aEncodedData) = 0;
+    
+virtual void DecodeL(const TDesC8&amp; aData, HBufC8*&amp; aHTTPData, TBool&amp;     aTransFail) = 0;
+
+};</pre>
+<div id="GUID-6E64E5BA-0FA7-5B9D-987E-09F2D5F53AE8-GENID-GUID-1402EF73-42FD-417D-871B-D2513CF15C3E"><h3 class="section-title">The EncodeL()
+method</h3> <p>This method converts HTTP request data (to your selected
+network optimisation protocol format) before it is sent across the TCP connection.
+This method has the following parameters: </p><ul>
+<li id="GUID-5B67C5B3-3112-5E1E-9BCD-4665BAE0F013"><a name="GUID-5B67C5B3-3112-5E1E-9BCD-4665BAE0F013"><!-- --></a><p> <strong>aHTTPData: </strong> Contains
+HTTP request data in standard HTTP format. </p> </li>
+<li id="GUID-2C903A38-1C76-54E0-84A1-01F35C1C9C09"><a name="GUID-2C903A38-1C76-54E0-84A1-01F35C1C9C09"><!-- --></a><p> <strong>aEncodedData:</strong> On
+return contains encoded HTTP request data in a network optimisation protocol
+format. </p> </li>
+</ul><p> <strong> Note:</strong> It is assumed that you define a custom optimisation
+mechanism to encode the HTTP request data by implementing the <code class="codeph">EncodeL()</code> method. </p> </div>
+<div id="GUID-6E64E5BA-0FA7-5B9D-987E-09F2D5F53AE8-GENID-GUID-1402EF73-42FD-417D-871B-D2513CF15C3E"><h3 class="section-title">The DecodeL()
+method</h3> <p>This method converts the HTTP response data in your selected
+network optimisation protocol format back to the standard HTTP response data
+format. This method has the following parameters: </p><ul>
+<li id="GUID-D07BB5C7-1E33-5DD3-94D3-1FC8C72053DA"><a name="GUID-D07BB5C7-1E33-5DD3-94D3-1FC8C72053DA"><!-- --></a><p> <strong>aData:</strong> Contains
+the raw data in a network optimisation protocol format received over the TCP
+connection. </p> </li>
+<li id="GUID-BFD2C0BC-20E8-5DE7-84F3-D79FADBEAA3B"><a name="GUID-BFD2C0BC-20E8-5DE7-84F3-D79FADBEAA3B"><!-- --></a><p> <strong> aHTTPData:</strong> On
+return of this method the <code class="codeph">aHTTPData</code> parameter contains the
+HTTP response data. </p> </li>
+<li id="GUID-FE67D081-A66E-54A4-BCB3-5EB6E8D5AF57"><a name="GUID-FE67D081-A66E-54A4-BCB3-5EB6E8D5AF57"><!-- --></a><p> <strong> aTransFail:</strong> When
+you set this parameter value to <code class="codeph">ETrue</code> it sends the <code class="codeph">KErrHTTPOptimiserFailsTrans</code> event
+to the mobile browser application. </p> </li>
+</ul><p> <strong>Note:</strong> In a scenario where the HTTP response data is split
+across various packets (for example, when the network bandwidth is low), the <code class="codeph">MHTTPDataOptimiser::DecodeL()</code> method
+is called for every data packet received. In this scenario, to ensure successful
+parsing of the HTTP response data, the <code class="codeph">aTransFail</code> parameter
+must be set to <code class="codeph">EFalse</code> for every call made to <code class="codeph">MHTTPDataOptimiser::DecodeL()</code>,
+until the final transaction is encountered. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 8th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-20B2C96A-9742-4CB0-A37F-19B65765E826.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:09 GMT -->
+</html>

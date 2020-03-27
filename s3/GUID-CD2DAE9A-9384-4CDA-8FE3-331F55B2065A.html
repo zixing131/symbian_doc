@@ -1,0 +1,124 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-CD2DAE9A-9384-4CDA-8FE3-331F55B2065A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:16:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Accessing MIFARE Classic Tag" /><meta name="abstract" content="This tutorial describes how to access the MIFARE Classic tag." /><meta name="description" content="This tutorial describes how to access the MIFARE Classic tag." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-CD2DAE9A-9384-4CDA-8FE3-331F55B2065A" /><meta name="DC.Language" content="en" /><title>Accessing MIFARE Classic Tag </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-CD2DAE9A-9384-4CDA-8FE3-331F55B2065A">Accessing MIFARE Classic Tag</h1><div><p>This tutorial describes how to access the MIFARE Classic
+tag. </p>
+<div id="GUID-61AE5E28-CE0C-4E9E-A37A-A5E208FA85BD"><h3 class="section-title">Context</h3><p>The MIFARE
+Classic tag is a NXP-specific platform type of tag. For detailed information
+about the MIFARE Classic tag, refer to <a href="http://www.nxp.com/#/pip/pip=[pfp=41863]|pp=[t=pfp,i=41863]">NXP MIFARE Classic</a>.</p><p> The NFC Tag Extension API provides
+access to the MIFARE Classic tags. An instance of a connection class
+is created and is passed to a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4278615F-1C20-31D7-87D4-996F988B732B.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4278615F-1C20-31D7-87D4-996F988B732B.html"><code class="apiname">MNfcTag</code></a> object which
+activates the connection. On activating the connection, the tag can
+be accessed.</p></div><div id="GUID-C578E423-F621-4866-A710-580BFBDDC8F9"><h3 class="section-title">Prerequisites</h3><p>Before you
+begin, refer to the following: </p><ul>
+<li><p><a href="../docs/en/data-sheet/001056.html#http://www.nxp.com/documents/data_sheet/001056.pdf">MIFARE standard card data sheet</a></p></li>
+<li><p>mifareclassicconnection.h, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-087DD3CF-F9C0-31AE-946F-897932BB0C03.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-087DD3CF-F9C0-31AE-946F-897932BB0C03.html"><code class="apiname">CMifareClassicConnection</code></a></p></li>
+<li><p>mifareclassicdatablock.h, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-192B6F34-AF94-36F5-9213-C16BFD2E4E18.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-192B6F34-AF94-36F5-9213-C16BFD2E4E18.html"><code class="apiname">CMifareClassicDataBlock</code></a></p></li>
+<li><p>mifareclassicsector.h, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-20D02649-3233-3375-A7CC-A442F8BF8239.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-20D02649-3233-3375-A7CC-A442F8BF8239.html"><code class="apiname">CMifareClassicSector</code></a></p></li>
+<li><p>mifareclassicaccessbits.h, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-530D7D44-5B0B-39FB-957B-386366A2B91E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-530D7D44-5B0B-39FB-957B-386366A2B91E.html"><code class="apiname">CMifareClassicAccessBits</code></a></p></li>
+<li><p>nfctag.h, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4278615F-1C20-31D7-87D4-996F988B732B.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4278615F-1C20-31D7-87D4-996F988B732B.html"><code class="apiname">MNfcTag</code></a></p></li>
+</ul></div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-EA1CB213-22EF-46D4-81B4-501272AF1A70"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-EA1CB213-22EF-46D4-81B4-501272AF1A70"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-EA1CB213-22EF-46D4-81B4-501272AF1A70"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-EA1CB213-22EF-46D4-81B4-501272AF1A70"><!-- --></a><p>Follow the
+steps in <a href="GUID-B961F4BB-ABF3-442E-A6E9-7AB103E9CAA6.html">Discovering
+NFC Tags</a> to detect the MIFARE Classic tag.</p>
+</li>
+<li id="GUID-75F269B9-FF9B-4383-B5A0-8F13E328142D"><a name="GUID-75F269B9-FF9B-4383-B5A0-8F13E328142D"><!-- --></a><p>Create a
+new instance of the MIFARE Classic tag class <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-087DD3CF-F9C0-31AE-946F-897932BB0C03.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-087DD3CF-F9C0-31AE-946F-897932BB0C03.html"><code class="apiname">CMifareClassicConnection</code></a>.</p>
+<p>For example, </p><pre class="codeblock">//RNfcServer is a client side connection to NFC server.
+RNfcServer iNfcServer;
+
+CMifareClassicConnection* iMifareClassicConnection;
+iMifareClassicConnection = CMifareClassicConnection::NewL(iNfcServer);</pre>
+</li>
+<li id="GUID-DF347D3E-5C91-4503-98C6-D2914CB61A69"><a name="GUID-DF347D3E-5C91-4503-98C6-D2914CB61A69"><!-- --></a><p>Open the
+connection to the tag using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4278615F-1C20-31D7-87D4-996F988B732B.html#GUID-E2A1B6F0-8544-3D7A-BCA0-54212098A7F7"><code class="apiname">MNfcTag::OpenConnection()</code></a> and pass the instance of the tag class. </p>
+<p>For example,</p><pre class="codeblock">MNfcTag* iTag; 
+iTag-&gt;OpenConnection(*iMifareClassicConnection);       </pre>
+</li>
+<li id="GUID-499E7710-884F-436A-BDAB-0174A16CDEC5"><a name="GUID-499E7710-884F-436A-BDAB-0174A16CDEC5"><!-- --></a><p>Perform
+any of the following operations on the MIFARE Classic tag:</p>
+<ul>
+<p class="choice"></p><p>Read data from a sector of the MIFARE Classic tag using iMifareClassicConnection::ReadSector(TRequestStatus &amp;aStatus,
+CMifareClassicSector &amp;aMifareClassicSector, TUint8 aSector). For example, </p><pre class="codeblock"> void  CMyTagInitializer::ReadFromMifareTag()
+   { 
+		//Key A for sector
+		RBuf8 keyA;
+    CleanupClosePushL( keyA );
+    keyA.CreateL(100);
+  	 
+		//Key B for sector
+		RBuf8 keyB;
+    keyB.CreateL(100);
+    CleanupClosePushL( keyB );
+     
+    TInt sect = 1;
+    if(iMifareClassicDataSector)
+         {
+         delete iMifareClassicDataSector;
+         iMifareClassicDataSector = NULL;
+         }
+		//Creates a new instance of the CMifareClassicSector class.
+ 		iMifareClassicDataSector = CMifareClassicSector::NewL(
+             CMifareClassicSector::E1KSector);
+		
+		//Reads one sector from the target Mifare Classic tag.
+  	iMifareClassicConnection-&gt;ReadSector( 
+         iReadWait-&gt;iStatus, 
+         *iMifareClassicDataSector, 
+         sect,
+         keyA,
+         keyB);
+     
+    iReadWait-&gt;SetActive();
+
+    CleanupStack::PopAndDestroy(); // keyA
+    CleanupStack::PopAndDestroy(); // keyB
+    }</pre>
+<h3>OR</h3><p class="choice"></p><p>Write data into a sector of the MIFARE Classic tag using iMifareClassicConnection::WriteSector(TRequestStatus &amp;aStatus,
+const CMifareClassicSector &amp;aMifareClassicSector, TUint8  aSector). For example, </p><pre class="codeblock">void  CMyTagInitializer::WriteToMifareTag()
+    {
+		//Key A for sector
+		RBuf8 keyA;
+    CleanupClosePushL( keyA );
+    keyA.CreateL(100);
+    
+    //Key B for sector
+    RBuf8 keyB;
+    keyB.CreateL(100);
+    CleanupClosePushL( keyB );
+    
+    TInt sect = 1;
+    if(iMifareClassicDataSector)
+        {
+        delete iMifareClassicDataSector;
+        iMifareClassicDataSector = NULL;
+        }
+   	//Creates a new instance of the CMifareClassicSector class.
+    iMifareClassicDataSector = CMifareClassicSector::NewL(
+            CMifareClassicSector::E1KSector);
+   
+    //Writes data into a sector of the MIFARE Classic tag.
+    iMifareClassicConnection-&gt;WriteSector( 
+            iWriteWait-&gt;iStatus, 
+            *iMifareClassicDataSector, 
+            sect);
+    
+    iWriteWait-&gt;SetActive();
+    
+    CleanupStack::PopAndDestroy(); // keyA
+    CleanupStack::PopAndDestroy(); // keyB
+    }</pre>
+<h3>OR</h3><p class="choice"></p><p>Control the accessibility of data blocks on a MIFARE Classic
+tag using  MifareClassicAccessBits::SetAccessConditionForDataBlock(
+TUint8 aBlockNumber,     MifareClassicCommon::TAccessCondition  aAccessCondition). Refer the <a href="../docs/en/data-sheet/001056.html#http://www.nxp.com/documents/data_sheet/001056.pdf">MIFARE standard
+card data sheet</a> for detailed description on access conditions
+and bit combinations.</p>
+</ul>
+</li>
+</ol>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 21st, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-CD2DAE9A-9384-4CDA-8FE3-331F55B2065A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:16:37 GMT -->
+</html>

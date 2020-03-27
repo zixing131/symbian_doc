@@ -1,0 +1,183 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6CDDDD1E-BDB9-5C61-8EFD-8B3369F5A12D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:26 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="P.I.P.S. Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-2016EF4B-F001-5EB2-8095-6048582511D6" /><meta name="DC.Relation" scheme="URI" content="GUID-C4C85189-BA6F-5F11-ABB3-727D8C1F5984" /><meta name="DC.Relation" scheme="URI" content="GUID-3EB1C34E-584E-595D-A339-DE170A96AEBC" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-6CDDDD1E-BDB9-5C61-8EFD-8B3369F5A12D" /><meta name="DC.Language" content="en" /><title>P.I.P.S. Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-6CDDDD1E-BDB9-5C61-8EFD-8B3369F5A12D">P.I.P.S. Overview</h1><div>
+<p>P.I.P.S. supplies a new framework of POSIX 'C' APIs to be used
+by Symbian Developers with RTOS, Linux or Microsoft Windows® knowledge.
+The new APIs are packaged into industry standard libraries - <code class="codeph">libc</code>, <code class="codeph">libm</code>, <code class="codeph">libpthread</code> and <code class="codeph">libdl</code> - and will help reduce development costs. </p>
+<div id="GUID-5156F8E0-8996-48FD-A040-5328E2084CE3"><h3 class="section-title">Purpose</h3> <p>The Symbian platform already provides a library called '<code class="codeph">ESTLIB</code>', which includes a subset of Standard C APIs. This
+was created to allow the Java virtual machine to run on the Symbian
+platform rather than to allow applications written in C to be ported
+to the Symbian platform. Furthermore, the functionality provided by <code class="codeph">ESTLIB</code> is not fully compliant with the Standard C and POSIX
+standards. Symbian intends to deprecate <code class="codeph">ESTLIB</code> once
+P.I.P.S. is mature. </p> <p>The P.I.P.S. libraries are included in
+ROM on certain smartphones based on Symbian OS v9.3 onwards.</p><p>For devices already in the market, a SIS file is freely downloadable
+from the Nokia Developer site (specifically <a href="http://www.developer.nokia.com/Develop/Qt/Qt_technology.xhtml" target="_blank">Open_C_and_C++/</a>) and can be
+installed on any v9.x phone. </p> </div>
+<div id="GUID-1E2DA390-9F25-43B3-9177-F949A0259247"><h3 class="section-title">Required
+background</h3> <p><strong>The differences between the Symbian platform
+and other operating systems</strong> </p> <p>The Symbian platform is an
+operating system designed for mobile devices and comes in the form
+of many libraries that contain hundreds of classes and thousands of
+member functions. </p> <p>The Symbian platform has been specifically
+designed to provide efficient memory and power management. </p> <p>P.I.P.S. has been introduced to the Symbian platform to make it more
+attractive to third party Symbian Developers with C/C++ experience
+and to allow them to port their applications to the Symbian platform
+with greater ease. </p> <p>The P.I.P.S. initiative aims to reduce
+the development cost of porting software to run on the Symbian platform.
+It achieves this by providing a POSIX-like API layer above the Symbian
+platform. Given the structure of the Symbian platform, however, it
+is not possible to provide a fully compliant API and some functionality,
+such as, fork() and exec() are
+not supported. This guide details such non-compliance and recommended
+alternatives. </p> <p>Specific differences between the Symbian platform
+and Unix-like systems are described in the relevant sections of this
+guide. </p> <p><strong>What P.I.P.S. is not</strong> </p> <p>The P.I.P.S. environment
+is <strong>not</strong> a UNIX® application environment. You will not be able
+to run a UNIX application on the Symbian platform 'as is'. At a minimum,
+you will need to create a <code>.mmp</code> file and a <code>bld.inf</code> file for the application and rebuild the application's
+source code for the Symbian platform. </p> <p>If the application does
+not work at the first attempt, you may have to modify the application
+code to replace missing APIs or port the required APIs to extend the
+P.I.P.S. environment. To find out more about porting C libraries to
+the Symbian platform, see the <a href="GUID-C4C85189-BA6F-5F11-ABB3-727D8C1F5984.html">P.I.P.S. Porting
+Tutorial</a> sections. </p> <p>The P.I.P.S. environment is not
+100% POSIX compliant and it is not officially certified as POSIX compatible.
+However, the implementation is as compliant as the underlying Symbian
+platform allows it to be. For example, P.I.P.S. does not provide the
+APIs <code class="codeph">fork()</code> and <code class="codeph">exec()</code>, but it does
+provide popen(), mkfifo() and
+so on, which can be used to implement well known alternative patterns.
+For further information, see the <a href="GUID-AF07AD54-86F1-5DB7-80FF-633A559DA4BD.html">Process Creation</a> section. </p> </div>
+<div id="GUID-E4138980-CFD5-4BD6-A2A9-020EB85611C3"><h3 class="section-title">Architecture</h3> <p>P.I.P.S. provides an API layer above the native Symbian platform
+APIs that is more closely aligned with industry standard APIs. </p> <p>The core P.I.P.S. libraries are: </p> <ul>
+<li id="GUID-213D2779-C303-5A11-A339-8E464D4B4A68"><a name="GUID-213D2779-C303-5A11-A339-8E464D4B4A68"><!-- --></a><p> <code class="codeph">libc</code>: Standard C and POSIX APIs - includes support for files, sockets,
+pipes, message queues, shared memory APIs and environment variables </p> </li>
+<li id="GUID-1209CBDA-DFEB-5ECA-AD4F-A1452762C2CC"><a name="GUID-1209CBDA-DFEB-5ECA-AD4F-A1452762C2CC"><!-- --></a><p> <code class="codeph">libm</code>: Standard C maths support APIs </p> </li>
+<li id="GUID-138D2894-8362-5C13-B5BB-24A9A22DF415"><a name="GUID-138D2894-8362-5C13-B5BB-24A9A22DF415"><!-- --></a><p> <code class="codeph">libpthread</code>: Standard POSIX threading APIs </p> </li>
+<li id="GUID-E00112DA-D5BB-55C0-A6A4-A443B67858C0"><a name="GUID-E00112DA-D5BB-55C0-A6A4-A443B67858C0"><!-- --></a><p> <code class="codeph">libdl</code>: Standard C dynamic loading and symbol lookup APIs (only ordinal
+lookup is supported on pre-Symbian OS v9.3 releases). </p> </li>
+</ul> <p>The first three libraries listed above are seeded from <a href="http://www.freebsd.org/" target="_blank">FreeBSD</a>. </p> <p>The diagram below shows the high level architecture of the P.I.P.S.
+environment. </p> <div class="figure" id="GUID-103BEA25-EE1B-50D0-8C0C-950C1A43656D"><img src="GUID-ACA2AFE8-4872-42FA-A871-34EB80197495_d0e185519_href.png" /><p class="figure-title"><strong>Figure: </strong>              P.I.P.S. environment architecture            </p></div> <p>This diagram shows how P.I.P.S. fits in with the Symbian
+platform, and also how C/C++ applications, additional C shared libraries
+and hybrid applications developed by third party Symbian Developers
+using P.I.P.S. fit in. </p> <p>P.I.P.S. environment is based on industry-standard
+APIs. These standards include </p> <ul>
+<li id="GUID-09A5848E-7934-5202-BB09-BE6390FC2F12"><a name="GUID-09A5848E-7934-5202-BB09-BE6390FC2F12"><!-- --></a><p>Standard C (<code class="codeph">stdC</code>) and </p> </li>
+<li id="GUID-0478A6C5-238C-5CFF-8625-791293800E9B"><a name="GUID-0478A6C5-238C-5CFF-8625-791293800E9B"><!-- --></a><p>POSIX. </p> </li>
+</ul> <p>The P.I.P.S. environment is a mandatory part of Symbian OS
+v9.5 onward. </p> <p><strong>Components</strong> </p> <p>P.I.P.S. is based on
+an industry-standard API and system behaviour.  The relevant
+industry standards are Open Group standards and include Standard C
+(<code class="codeph">stdC</code>), POSIX, GNU C library (<code class="codeph">glibc</code>) and Standard C++ (<code class="codeph">stdC++</code>). </p> <p>The diagram
+below shows how the Standard C libraries and exported applications
+fit into the native platform. </p> <div class="figure" id="GUID-02F370A6-0713-5E7F-A851-339E03603A0A"><img src="GUID-5746BC4A-E8D2-51DE-B101-4BA68F0E1769_d0e185572_href.png" /><p class="figure-title"><strong>Figure: </strong>                 The subsystem components               </p></div> <p>The System Call Adaptation Layer (SCAL) is not directly
+accessed by the developer wishing to export to the Symbian platform,
+but through calls in the P.I.P.S. libraries. </p> <p>Traditionally,
+in Unix-like systems, system calls are implemented in the kernel,
+separate from the C libraries. On the Symbian platform, the 'System
+Call Adaptation Layer' runs in the context of the user side but is
+considered 'kernel-like' code. APIs that belong to this layer are
+tagged as <code class="codeph">@internalComponent</code> and may only be extended
+by Symbian. </p> <p>Note that P.I.P.S. is not a Linux application
+environment - you cannot simply run an application that you've compiled
+for your Linux desktop. At a minimum, you will have to rebuild your
+application from source. </p> <p>For more information, see the <a href="GUID-79100974-CAE1-5451-9ED7-E06C9B27131B.html">Build Process</a> section. </p> <p id="GUID-49C7F951-8317-5F41-B1B9-9F7B8803E655"><a name="GUID-49C7F951-8317-5F41-B1B9-9F7B8803E655"><!-- --></a><strong>Glue code (CRT0)</strong> </p> <p>Executables built for the Symbian
+platform enter via <code class="codeph">E32Main()</code>, whereas Standard C
+applications expect to be started from <code class="codeph">main()</code>. It
+is therefore necessary to have 'glue code' (formerly known as CRT0)
+between these two functions. The glue code is also responsible for
+allocating any system resources, obtaining system and environment
+data, and initialising the SCAL infrastructure prior to calling the <code class="codeph">main()</code> function of the application. There are two versions
+of the glue code library - <code>libcrt0.lib</code> (for use
+by applications that enter via char <code class="codeph">main()</code>) and <code>libwcrt0.lib</code> (for use by applications that enter via wide
+char <code class="codeph">main()</code>). </p> <p>To include the glue code library
+you should explicity link to <code>libcrt0.lib</code> and <code>libwcrt0.lib</code> statically, however, if you are using the <code class="codeph">STDEXE</code> or <code class="codeph">STDDLL</code> target types, glue code
+will be added automatically. </p> <p id="GUID-1DDC11E7-D9D6-5251-89CE-981C4869D109"><a name="GUID-1DDC11E7-D9D6-5251-89CE-981C4869D109"><!-- --></a><strong>P.I.P.S. Core libraries</strong> </p> <p>Currently, the C libraries include the <code class="codeph">libc</code>, <code class="codeph">libm</code>, and <code class="codeph">libpthread</code> (seeded
+from <a href="http://www.freebsd.org/" target="_blank">FreeBSD</a>) and <code class="codeph">libdl</code> libraries. The APIs provided by these
+libraries are defined to be compliant, via compatibility features,
+with the POSIX standard. They are not officially certified as POSIX
+compatible but they conform to it mostly. </p> <p>The P.I.P.S. libraries
+include the following APIs: </p> <ul>
+<li id="GUID-95E53F0A-B919-5EEE-9A6F-427E87547088"><a name="GUID-95E53F0A-B919-5EEE-9A6F-427E87547088"><!-- --></a><p> <code class="codeph">stdio</code>, including print(), scanf(), and so on </p> </li>
+<li id="GUID-5359692C-17C8-5486-9DCB-0A5B9AD1C90A"><a name="GUID-5359692C-17C8-5486-9DCB-0A5B9AD1C90A"><!-- --></a><p> <code class="codeph">stdlib</code>, including environment variable support, and so on </p> </li>
+<li id="GUID-F0E19C9C-5581-5E47-A775-A6B57C22EE92"><a name="GUID-F0E19C9C-5581-5E47-A775-A6B57C22EE92"><!-- --></a><p>string manipulation
+and character APIs </p> </li>
+<li id="GUID-B0F2B006-6D62-5DD6-9CDC-7ADFB693E77E"><a name="GUID-B0F2B006-6D62-5DD6-9CDC-7ADFB693E77E"><!-- --></a><p>locale and system
+services </p> </li>
+<li id="GUID-C5440DE9-24A2-5A34-A2A7-47E836E1545D"><a name="GUID-C5440DE9-24A2-5A34-A2A7-47E836E1545D"><!-- --></a><p>searching, sort
+and pattern matching </p> </li>
+<li id="GUID-33D03F27-4B97-56CA-B4ED-67901701A1E2"><a name="GUID-33D03F27-4B97-56CA-B4ED-67901701A1E2"><!-- --></a><p>IPC mechanisms,
+including shared memory, pipes, FIFOs and message queues </p> </li>
+<li id="GUID-15AE7775-5FC8-59A4-924E-3987F9314F58"><a name="GUID-15AE7775-5FC8-59A4-924E-3987F9314F58"><!-- --></a><p>process creation,
+including popen(), posix_spawn() and system() </p> </li>
+<li id="GUID-2AEE41E3-A696-588C-9E5B-8E362E96D4B5"><a name="GUID-2AEE41E3-A696-588C-9E5B-8E362E96D4B5"><!-- --></a><p>networking and
+socket APIs </p> </li>
+<li id="GUID-ACF6B3A6-0F83-50D3-B0FB-FA765BDA408D"><a name="GUID-ACF6B3A6-0F83-50D3-B0FB-FA765BDA408D"><!-- --></a><p>mathematical
+and arithmetic APIs </p> </li>
+<li id="GUID-595D4C61-0FC9-5A05-BEDD-7412CEA585BA"><a name="GUID-595D4C61-0FC9-5A05-BEDD-7412CEA585BA"><!-- --></a><p>dynamic loading
+and symbol lookup </p> </li>
+<li id="GUID-DC3DB027-B384-52D1-8284-BF868A5CD543"><a name="GUID-DC3DB027-B384-52D1-8284-BF868A5CD543"><!-- --></a><p>thread creation
+and synchronisation mechanisms. </p> </li>
+</ul> <p>Due to fundamental differences between Linux and the Symbian
+platform kernel architecture, there is no support for fork() and exec(). For more information, see the <a href="GUID-AF07AD54-86F1-5DB7-80FF-633A559DA4BD.html">Process Creation</a> section. </p> <p>The original seed directory structure (<a href="http://www.freebsd.org/" target="_blank">FreeBSD</a>) is
+preserved as fully as possible to allow for future catch-ups to be
+performed more easily. The table below shows the original seed directory
+structure in FreeBSD. </p> <div class="tablenoborder"><a name="GUID-A1D61A32-6F99-5B0A-B348-135373DC3AEA"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-A1D61A32-6F99-5B0A-B348-135373DC3AEA" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Module</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Description</strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code>core\libc</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Contains Standard C and POSIX APIs as defined by the Standard
+C and POSIX standards </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code>core\libm</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Contains the Standard C <code class="codeph">Math</code> API as defined
+by Standard C </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code>core\libpthread</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Contains POSIX threading APIs as defined the POSIX standards </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code>core\libdl</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Contains APIs for dynamic loading and symbol lookup by name. </p> </td>
+</tr>
+</tbody>
+</table></div> <p>Although P.I.P.S. provides a wide range of APIs, some
+of the functionality required in order to complete a porting task
+might be missing - this could be some APIs from an existing library
+or an entire library. </p> <p>Several options are available to the
+user: </p> <ul>
+<li id="GUID-99935DCF-2678-5D76-98E9-8E94269E7CAC"><a name="GUID-99935DCF-2678-5D76-98E9-8E94269E7CAC"><!-- --></a><p>Port the missing
+APIs using the P.I.P.S. libraries </p> </li>
+<li id="GUID-FFA95C02-268F-5281-B0D3-5A4A64BC5A27"><a name="GUID-FFA95C02-268F-5281-B0D3-5A4A64BC5A27"><!-- --></a><p>Implement the
+missing APIs on top of the Symbian platform native C++ APIs </p> </li>
+<li id="GUID-D70619B7-E889-5D11-81C7-FD99420F3D1D"><a name="GUID-D70619B7-E889-5D11-81C7-FD99420F3D1D"><!-- --></a><p>Use a workaround
+- for example, use popen() instead of <code class="codeph">fork()</code>. </p> </li>
+</ul> <p> <strong>Note:</strong> The following are the limitations associated
+with porting a UNIX® application: </p> <ul>
+<li id="GUID-4057ED21-65DD-5C20-A65B-B9228BE920BD"><a name="GUID-4057ED21-65DD-5C20-A65B-B9228BE920BD"><!-- --></a><p> <strong>Limited
+stack-space:</strong> The default stack size per thread on Unix-like operating
+systems ranges from 64 kB to 1 MB. The Symbian platform, however,
+defines a default stack size of 8 kB per thread. P.I.P.S. Pthreads
+use this by default. You can use the <code class="codeph">pthread_attr_setstacksize()</code> function to modify this before calling <code class="codeph">pthread_create()</code>. </p> </li>
+<li id="GUID-8329F811-34A6-5812-B033-2BE49C038D3E"><a name="GUID-8329F811-34A6-5812-B033-2BE49C038D3E"><!-- --></a><p> <strong>Limited
+threads per process:</strong> Assuming that all threads use the default
+stack size (8 kB), Symbian specifies a limit of 128 threads per process.
+The limit changes depending on the stack size you use for individual
+threads. For example, if you create your threads with a stack size
+of 16 kB, the OS only supports 64 threads per process. </p> </li>
+</ul> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-2016EF4B-F001-5EB2-8095-6048582511D6.html">P.I.P.S.
+Concepts</a></li><li><a href="GUID-C4C85189-BA6F-5F11-ABB3-727D8C1F5984.html">P.I.P.S.
+Porting Tutorials</a></li><li><a href="GUID-3EB1C34E-584E-595D-A339-DE170A96AEBC.html">P.I.P.S.
+Examples</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated June 30th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6CDDDD1E-BDB9-5C61-8EFD-8B3369F5A12D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:30 GMT -->
+</html>

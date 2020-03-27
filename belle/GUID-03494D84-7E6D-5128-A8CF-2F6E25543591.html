@@ -1,0 +1,162 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-03494D84-7E6D-5128-A8CF-2F6E25543591.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Power States API Tutorial" /><meta name="abstract" content="This tutorial describes how to use the Power State API of HWRM. The client applications subscribes to one or more of the three keys published by this API. It is notified via the publish and subscribe framework whenever the key is updated." /><meta name="description" content="This tutorial describes how to use the Power State API of HWRM. The client applications subscribes to one or more of the three keys published by this API. It is notified via the publish and subscribe framework whenever the key is updated." /><meta name="DC.Relation" scheme="URI" content="GUID-FE910347-7CC1-5241-B443-88AD3F5A96EF" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-DC011D9C-6C39-5BB9-A7CC-4447AB97A2D2" /><meta name="DC.Relation" scheme="URI" content="GUID-F2289115-B1F0-595D-AA1C-3E01F08911CA" /><meta name="DC.Relation" scheme="URI" content="GUID-2E3BE23C-B9DC-5B5D-A56A-1DB819EFC9A6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-03494D84-7E6D-5128-A8CF-2F6E25543591" /><meta name="DC.Language" content="en" /><title>Power
+States API Tutorial  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-03494D84-7E6D-5128-A8CF-2F6E25543591">Power
+States API Tutorial </h1><div><p>This tutorial describes how to use the Power State API of HWRM.
+The client applications subscribes to one or more of the three keys published
+by this API. It is notified via the publish and subscribe framework
+whenever the key is updated. </p>
+<div id="GUID-1E4A8512-08CA-57D7-A4DC-9809C54BB07E"><h3 class="section-title">Introduction</h3> <p>A
+key represents one of the parameters of the battery such as charging state,
+battery level and battery state, hence there are three keys published by the
+Power State API. The client applications can subscribe to any or all three
+keys published, depending on the type of information the client requires.
+Each key is updated by the HWRM server whenever there has been a change in
+the hardware state of the battery level, battery state or charging state. </p> <p>Refer
+to <a href="GUID-16A42EB3-4F45-5623-9981-1DEE3234471E.html">Power States API</a> section
+to get more information about the keys published by the Power States API. </p> </div>
+<div id="GUID-8FC57C06-8147-54E9-9FE6-3EBD08632D69"><h3 class="section-title">Procedure</h3> <p>The
+following steps explains a simple example of how an active object may be created
+to subscribe to the battery level Publish and Subscribe key: </p> <ol id="GUID-00B23E06-ECDD-5893-9DC3-B5F508C48D32">
+<li id="GUID-AFAC3B2F-D079-52CD-9823-1B599C15D300"><a name="GUID-AFAC3B2F-D079-52CD-9823-1B599C15D300"><!-- --></a><p>Create an instance of <code class="codeph">CBattLevelWatch</code> using <code class="codeph">NewL()</code>. </p> </li>
+<li id="GUID-C3BDBE99-52B2-569A-B3F3-614E68468E3D"><a name="GUID-C3BDBE99-52B2-569A-B3F3-614E68468E3D"><!-- --></a><p> <code class="codeph">NewL()</code> calls <code class="codeph">ConstructL()</code> and
+completes the 2-phase construction. </p> </li>
+<li id="GUID-9FBDAE7D-DF0C-539F-9531-171CB9F5CB05"><a name="GUID-9FBDAE7D-DF0C-539F-9531-171CB9F5CB05"><!-- --></a><p> <code class="codeph"> RunL()</code> is
+called, which subscribes to battery level status. </p> </li>
+</ol> <p>Once the battery level is obtained asynchronously, you can switch
+to the appropriate battery level. </p> </div>
+<div><h3 class="section-title">Example</h3> <p>Header file: </p> <pre class="codeblock">// Active object that tracks changes to the ‘BatteryLevel’ property
+class CBattLevelWatch : public CActive
+    {
+    enum {EPriority=0};
+    public:
+        static CBattLevelWatch* NewL();
+    private:
+        CBattLevelWatch();
+        void ConstructL();
+        ~CBattLevelWatch();
+        void RunL();
+        void DoCancel(); 
+    private:
+        RProperty iProperty;
+    };</pre> <p>Source file: </p> <pre class="codeblock">
+CBattLevelWatch* CBattLevelWatch::NewL()
+    {
+    CBattLevelWatch* me=new( ELeave ) CBattLevelWatch;
+    CleanupStack::PushL( me );
+    me-&gt;ConstructL();
+    CleanupStack::Pop( me );
+    return me;
+    }
+
+CBattLevelWatch::CBattLevelWatch()
+    :CActive( EPriority )
+    {}
+
+void CBattLevelWatch::ConstructL()
+    {
+    User::LeaveIfError( iProperty.Attach( KPSUidHWRMPowerState,KHWRMBatteryLevel ) );
+    CActiveScheduler::Add( this );
+    // initial subscription and process current property value
+    RunL();
+    }
+
+CBattLevelWatch::~CBattLevelWatch()
+    {
+    Cancel();
+    iProperty.Close();
+    }
+
+void CBattLevelWatch::DoCancel()
+    {
+    iProperty.Cancel();
+    }
+
+void CBattLevelWatch::RunL()
+    {
+    // resubscribe before processing new value to prevent missing updates
+    iProperty.Subscribe( iStatus );
+    SetActive();
+
+    // property updated, get new value
+    TInt batteryLevel;
+    if( iProperty.Get( batteryLevel )==KErrNotFound )
+        {
+        // property deleted, do necessary actions here...
+        . . .
+        }
+    else
+        {
+        // use new value battery level...
+        switch( batteryLevel )
+            {
+            case EBatteryLevelUnknown:
+                {
+                // Handle uninitialized or some other error value
+                . . .
+                break;
+                }
+            case EBatteryLevelLevel0:
+                {
+                // Handle Lowest battery level value
+                . . .
+                break;
+                }
+            case EBatteryLevelLevel1:
+                {
+                // Handle battery level 1 value
+                . . .
+                break;
+                }
+            case EBatteryLevelLevel2:
+                {
+                // Handle battery level 2 value
+                . . .
+                break;
+                }
+            case EBatteryLevelLevel3:
+                {
+                // Handle battery level 3 value
+                . . .
+                break;
+                }
+            case EBatteryLevelLevel4:
+                {
+                // Handle battery level 4 value
+                . . .
+                break;
+                }
+            case EBatteryLevelLevel5:
+                {
+                // Handle battery level 5 value
+                . . .
+                break;
+                }
+            case EBatteryLevelLevel6:
+                {
+                // Handle battery level 6 value
+                . . .
+                break;
+                }
+            case EBatteryLevelLevel7:
+                {
+                // Handle Highest battery level value
+                . . .
+                break;
+                }
+            default:
+                {
+                // Handle UNKNOWN BATTERY LEVEL!
+                break;
+                }
+            }
+        }
+    }
+</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-FE910347-7CC1-5241-B443-88AD3F5A96EF.html">Publish and
+Subscribe documentation</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 9th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-03494D84-7E6D-5128-A8CF-2F6E25543591.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:15 GMT -->
+</html>

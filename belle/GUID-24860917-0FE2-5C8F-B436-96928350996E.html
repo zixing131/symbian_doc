@@ -1,0 +1,144 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-24860917-0FE2-5C8F-B436-96928350996E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:49 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Bearer Mobility Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-EBFE8B29-86AD-5785-8041-BCED2E90472E" /><meta name="DC.Relation" scheme="URI" content="GUID-786984BD-ADE8-5EF1-A819-F402F5703A80" /><meta name="DC.Relation" scheme="URI" content="GUID-43CE4DCB-F498-5878-A2EE-7831BBB4D288" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1A43A45B-80AE-56A0-A94C-64BA75519C67" /><meta name="DC.Relation" scheme="URI" content="GUID-4384066E-158A-5F63-A823-7793DAE680BF" /><meta name="DC.Relation" scheme="URI" content="GUID-401A07E7-97CF-57BD-B37D-F6412762BBCB" /><meta name="DC.Relation" scheme="URI" content="GUID-AD6587AD-A5B2-5369-9217-D752A37490C4" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-24860917-0FE2-5C8F-B436-96928350996E" /><meta name="DC.Language" content="en" /><title>Bearer Mobility Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-24860917-0FE2-5C8F-B436-96928350996E">Bearer Mobility Overview</h1><div>
+<p>Bearer mobility allows the email Message Type Modules (MTM) to
+non-seamlessly switch between networking bearers, such as, GPRS, WiFi,
+CDMA, GSM, and so on. Switching between network bearers enables destination
+networks to connect without dropping the connection with the remote
+server. </p>
+<p>The POP3, IMAP4 and SMTP email server MTMs support this functionality. </p>
+<div id="GUID-973000BE-9CE1-526D-ACC4-EA0ECFF3D93E"><h3 class="section-title">Description</h3> <p>The bearer mobility must be enabled in the Networking bearer
+mobility framework to provide bearer mobility functionality in the
+Messaging Application module. </p> <p>After the bearer mobility is
+set for the email server MTMs at the client-side using the SetBearerMobility function, the bearer mobility manager
+registers with the bearer mobility framework in the Networking subsystem.
+This informs the bearer mobility manager about any change in the bearers. </p> <p>The bearer mobility plug-in gets the notifications about the
+change in the bearer. When the required bearer is available, the server
+MTMs uses this plug-in to get notifications. The following illustration
+shows the architecture of the bearer mobility implementation in the
+Messaging Application module. </p> <div class="figure" id="GUID-3C8EB55A-9740-5249-8E82-1E6CD0B47F01"><img src="GUID-5223D1C1-CBBE-551A-AC57-CD94F9D1B9B6_d0e364494_href.png" /><p class="figure-title"><strong>Figure: </strong>              Architecture of Bearer Mobility            </p></div> </div>
+<div id="GUID-C95BA0E3-8B92-4CAB-A943-0AECBEEE401E"><h3 class="section-title">Settings</h3> <p>The email client MTM <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A7EF08E6-82AF-3577-B942-ABD532EDB7FE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A7EF08E6-82AF-3577-B942-ABD532EDB7FE.html"><code class="apiname">CEmailAccounts</code></a> interfaces
+are enhanced to configure the email account settings. These settings
+modify the behaviour of the relevant server MTMs for the following
+functionality: </p> <p><strong>Non-seamless bearer mobility</strong> </p> <p>The IMAP4, POP3, and SMTP server MTMs are extended to allow messaging
+applications to use the non-seamless network bearer mobility when
+connecting to a destination network using the respective protocols.
+The following functions are added to the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3EDD3DFA-AE8A-3941-960A-8BD2733E74C3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3EDD3DFA-AE8A-3941-960A-8BD2733E74C3.html"><code class="apiname">CImBaseEmailSettings</code></a> (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6A7DFCF7-7268-3013-A5B6-5B77B6233329.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6A7DFCF7-7268-3013-A5B6-5B77B6233329.html"><code class="apiname">CImPop3Settings</code></a>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-55F11633-988C-39D5-ADE7-23C4966FD995.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-55F11633-988C-39D5-ADE7-23C4966FD995.html"><code class="apiname">CImImap4Settings</code></a>, and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DFE18962-0022-3833-A8F0-6E4C969177C0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DFE18962-0022-3833-A8F0-6E4C969177C0.html"><code class="apiname">CImSmtpSettings</code></a>) class: </p> <ul>
+<li id="GUID-2ED9D4E8-83F0-5264-88A0-3FC26A2DE9ED"><a name="GUID-2ED9D4E8-83F0-5264-88A0-3FC26A2DE9ED"><!-- --></a><p> SetBearerMobility </p> </li>
+<li id="GUID-5653C643-85E3-57BD-ABF8-259AC244E52A"><a name="GUID-5653C643-85E3-57BD-ABF8-259AC244E52A"><!-- --></a><p> BearerMobility() </p> </li>
+</ul> <p id="GUID-CC4028E7-ECD9-5045-9057-5BC687C3DF3A"><a name="GUID-CC4028E7-ECD9-5045-9057-5BC687C3DF3A"><!-- --></a><strong>Per bearer-type
+configuration for IMAP email accounts</strong> </p> <p>Specifically for
+IMAP email accounts, the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A7EF08E6-82AF-3577-B942-ABD532EDB7FE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A7EF08E6-82AF-3577-B942-ABD532EDB7FE.html"><code class="apiname">CEmailAccounts</code></a> class enables
+the following per bearer-type configuration that affect the behaviour
+of IMAP accounts: </p> <ul>
+<li id="GUID-EA24F6E4-D656-5053-996E-F75D645F318D"><a name="GUID-EA24F6E4-D656-5053-996E-F75D645F318D"><!-- --></a><p> <strong>Download
+rules</strong> </p> <p>Download rules specify which parts of message to
+automatically download (according to bearer type) when synchronising
+the contents of an IMAP email account. You can configure an IMAP email
+account for IMAP download rules on each bearer type and for each account
+using the CImapSyncDownloadRules class. </p> <p>When synchronising an IMAP email account you can do the following: </p> <ul>
+<li id="GUID-B69ADD91-E4FC-57F1-8713-E1FD3539C16D"><a name="GUID-B69ADD91-E4FC-57F1-8713-E1FD3539C16D"><!-- --></a><p>Indicate that
+a list of email download rules for each type of bearer must be used
+during the email account synchronisations. </p> </li>
+<li id="GUID-D5518521-4D23-53A1-A3B0-2925CB6DEC7A"><a name="GUID-D5518521-4D23-53A1-A3B0-2925CB6DEC7A"><!-- --></a><p>Retrieve emails
+during the synchronisation using the mail options specified in the
+list for the bearer type that is currently in use by the connection
+to the server. </p> </li>
+</ul> <p>The CImapSyncDownloadRules class is used
+to store per IMAP account sync download rules. This class describes
+the download rules that provide the ability to automatically get the
+email content. This is configurable on a per account and per bearer-type
+basis. </p><ul>
+<li id="GUID-65E160D0-F45C-5B98-A11A-3EB1919EBF1B"><a name="GUID-65E160D0-F45C-5B98-A11A-3EB1919EBF1B"><!-- --></a><p>Different download
+rules can be specified for different bearers. For example, you can
+specify that all text and attachments should be retrieved when connecting
+through a WiFi connection; whereas, only text parts should be retrieved
+when connecting over GPRS connection. </p> </li>
+<li id="GUID-8A4F7179-3E5A-5833-A12D-5E95EE927CA0"><a name="GUID-8A4F7179-3E5A-5833-A12D-5E95EE927CA0"><!-- --></a><p>Synchronisation
+is performed in two stages: the email header synchronisation is performed
+first followed by the email content retrieval. If the email account
+settings indicate that the per-bearer-type list should not be used,
+or no per-bearer-type list is defined, or the current bearer type
+is not listed in the per-bearer-type list, then during the synchronisation
+the email headers for inbox and personal folders are downloaded. </p> <p> <strong>Note:</strong> The per-bearer-type list is a set of IMAP download
+and transport buffer size rules defined for each type of bearer. </p> </li>
+<li id="GUID-692023AF-B834-584F-BD2F-78CFEF6A1D98"><a name="GUID-692023AF-B834-584F-BD2F-78CFEF6A1D98"><!-- --></a><p>Messages that
+are not previously populated are retrieved using this method. So a
+message that has been populated according to GPRS settings will not
+be retrieved again according to WiFi settings, if a subsequent connection
+is made. </p> </li>
+<li id="GUID-DF7A0844-5A4E-5BB0-B5CF-329171E0E185"><a name="GUID-DF7A0844-5A4E-5BB0-B5CF-329171E0E185"><!-- --></a><p>Messages that
+arrive on the server while IMAP is in the <code class="codeph">IDLE</code> state
+are also automatically downloaded according to the Inbox download
+rules for the connected bearer type. </p> </li>
+<li id="GUID-694C4DDD-1579-5142-909B-9AB76BD8BBA9"><a name="GUID-694C4DDD-1579-5142-909B-9AB76BD8BBA9"><!-- --></a><p>A single instance
+of a set of download rules is applicable to multiple bearer types. </p> </li>
+</ul> </li>
+<li id="GUID-41D6D5F0-D9AF-5AAB-B45B-F69D62DA8DBA"><a name="GUID-41D6D5F0-D9AF-5AAB-B45B-F69D62DA8DBA"><!-- --></a><p> <strong>Transport
+buffer size</strong> </p> <p>Transport buffer size specifies the size
+of the data transferred from server to client to get email body and
+attachments from an IMAP server using a per bearer-type list of transport
+buffer sizes. You can configure an IMAP account for IMAP transport
+buffer size on each bearer type using the CImapTransportBufferSizes class. </p><div class="note"><p><strong class="note_title">Note: </strong> The per-bearer-type list is a set of IMAP download
+and transport buffer size rules defined for each type of bearer. </p></div> <p>This class allows a client to configure transport buffer sizes
+of IMAP accounts according to the bearer type for retrieving large
+message parts. It is possible to specify in the following: </p> <ul>
+<li id="GUID-9A27E24F-53E9-5962-A89E-4913B0BBF1CB"><a name="GUID-9A27E24F-53E9-5962-A89E-4913B0BBF1CB"><!-- --></a><p>Maximum retrieve
+size. Default is 20480 octets. </p> </li>
+<li id="GUID-751BA805-0E64-5B8A-AEA2-D814CE5355D1"><a name="GUID-751BA805-0E64-5B8A-AEA2-D814CE5355D1"><!-- --></a><p>Maximum outstanding
+retrieve requests. Default is two outstanding requests. </p> </li>
+</ul> <p> <strong>Important considerations</strong> </p> <ul>
+<li id="GUID-2EDE94E1-8AC0-5AAA-A46A-D0317FF8874F"><a name="GUID-2EDE94E1-8AC0-5AAA-A46A-D0317FF8874F"><!-- --></a><p>If there are
+is no bearer type specific list defined, or the current bearer type
+is not listed in the per-bearer-type list of transport buffer sizes,
+then the maximum retrieve request size specified in the email account
+settings is used. The maximum and default number of outstanding retrieve
+requests is two. </p> </li>
+<li id="GUID-4BBAAD4D-CA00-5E42-922C-D2456DD21212"><a name="GUID-4BBAAD4D-CA00-5E42-922C-D2456DD21212"><!-- --></a><p>The transport
+buffer sizes that can be specified are the maximum retrieve request
+size sent in IMAP retrieve requests. </p> </li>
+<li id="GUID-574B5003-E293-5ED2-932E-0F78188F2348"><a name="GUID-574B5003-E293-5ED2-932E-0F78188F2348"><!-- --></a><p>Download email
+body and attachments from an IMAP server using the retrieve request
+buffer size specific to the bearer type that the server connection
+is using. </p> </li>
+<li id="GUID-DCA1350E-9C6B-56F0-AF70-2A5C91C9149B"><a name="GUID-DCA1350E-9C6B-56F0-AF70-2A5C91C9149B"><!-- --></a><p>Download email
+body and attachments from an IMAP server using the maximum number
+of outstanding retrieve requests specific to the bearer type that
+the server connection is using. </p> </li>
+<li id="GUID-DC672952-3FE1-5D72-8C6B-716FBF000222"><a name="GUID-DC672952-3FE1-5D72-8C6B-716FBF000222"><!-- --></a><p>A single instance
+of a set of transport buffer sizes is applicable to multiple bearer
+types. </p> </li>
+</ul> </li>
+</ul> <p><strong>Bearer mobility policy plug-in</strong> </p> <p>The bearer
+mobility policy plug-in enables you to customise the migration behaviour
+of email accounts, the bearer mobility policy plug-in is provided.
+It consists of an ECOM interface class (CImMobilityPolicyPlugin) and a call-back class (MImMobilityPolicyHandler),which allows the plug-in to issue policy decisions on an individual
+mobility events. </p> </div>
+<div id="GUID-24BF7108-9229-5F0D-A3B0-27A8E419ABFF"><h3 class="section-title">Important
+considerations</h3> <ul>
+<li id="GUID-F200A31C-6293-586A-AA4B-A9E052520DEE"><a name="GUID-F200A31C-6293-586A-AA4B-A9E052520DEE"><!-- --></a><p>To enable bearer
+mobility, you must first enable it at the Networking bearer mobility
+framework. </p> </li>
+<li id="GUID-AF2642E1-8B84-505B-BFCC-C093DDF17ACE"><a name="GUID-AF2642E1-8B84-505B-BFCC-C093DDF17ACE"><!-- --></a><p>Bearer mobility
+is possible only on the connections that are established using a SNAP
+preference list. </p> </li>
+<li id="GUID-B9D2EF4B-EA15-5574-8DC1-2892349636D4"><a name="GUID-B9D2EF4B-EA15-5574-8DC1-2892349636D4"><!-- --></a><p>To use the bearer
+mobility, you must configure the email account settings to specify
+the SNAP preference when creating the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> notification (events). </p> </li>
+<li id="GUID-84593BD5-376E-5302-8C9D-FBBBCB04BECD"><a name="GUID-84593BD5-376E-5302-8C9D-FBBBCB04BECD"><!-- --></a><p>Multiple SNAP
+preferences for each service entry is not supported. </p> </li>
+<li id="GUID-BD5A6C40-B77A-5BBF-BB29-758391652A4B"><a name="GUID-BD5A6C40-B77A-5BBF-BB29-758391652A4B"><!-- --></a><p>It is not possible
+to specify both IAPs and a SNAP for a single email account. The API
+for setting a SNAP preference clears any provisioned IAPs. Likewise,
+the API for setting IAPs are updated to clear any SNAP preference
+that is set. </p> </li>
+</ul> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-EBFE8B29-86AD-5785-8041-BCED2E90472E.html">SNAP
+Preferences</a></li><li><a href="GUID-786984BD-ADE8-5EF1-A819-F402F5703A80.html">Configuring
+Non-seamless Bearer Mobility</a></li><li><a href="GUID-43CE4DCB-F498-5878-A2EE-7831BBB4D288.html">Configuring
+TLS or SSL Socket</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 18th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-24860917-0FE2-5C8F-B436-96928350996E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:50 GMT -->
+</html>

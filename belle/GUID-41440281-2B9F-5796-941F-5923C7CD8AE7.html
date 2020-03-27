@@ -1,0 +1,116 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-41440281-2B9F-5796-941F-5923C7CD8AE7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:58 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use IAS queries" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-227B6970-A536-470F-B5A1-A1871F65D7F3" /><meta name="DC.Relation" scheme="URI" content="GUID-7883F1FE-C12F-5E65-A1AD-AA3DCDC29868" /><meta name="DC.Relation" scheme="URI" content="GUID-D9BB06D6-8192-5559-A93B-7F50DF88A840" /><meta name="DC.Relation" scheme="URI" content="GUID-14647210-3DEB-5A66-916C-961F66D09990" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-41440281-2B9F-5796-941F-5923C7CD8AE7" /><meta name="DC.Language" content="en" /><title>How to use IAS queries </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-41440281-2B9F-5796-941F-5923C7CD8AE7">How to use IAS queries</h1><div><p>The following example code illustrates successive IAS queries from the client side and subsequent closing of the <code class="codeph">RNetDatabase</code> instance, <code class="codeph">ias</code>. Note that the <code class="codeph">IASQuery()</code> function employs two status words (one for the timeout and the other for the query). A much better way of handling the asynchroneity would be to use an active scheduler and queue the IAS request and timer on separate active objects.</p> <pre class="codeblock">// it is assumed here that addr is filled in from a successful
+// discovery
+//
+// IAS QUERY
+//
+ RNetDatabase ias;
+ ret=ias.Open(ss,protoInfo.addrFamily,protoInfo.protocol);
+
+ if (ret==KErrNone)
+  {
+  // Successfully opened RNetDB
+  }
+ else
+  {
+  // Failed to open RNetDB
+  }
+ 
+ _LIT8(KTxtDevice,"Device");
+ _LIT8(KTxtDeviceName,"DeviceName");
+ _LIT8(KTxtIrDAIrCOMM,"IrDA:IrCOMM");
+ _LIT8(KTxtParameters,"Parameters");
+ _LIT8(KTxtIrDATinyTP,"IrDA:TinyTP:LsapSel");
+
+ TUint remDevAddr=addr.GetRemoteDevAddr();
+ IASQuery(ias,KTxtDevice,KTxtDeviceName,remDevAddr);
+ IASQuery(ias,KTxtIrDAIrCOMM,KTxtParameters,remDevAddr);
+ IASQuery(ias,KTxtIrDAIrCOMM,KTxtIrDATinyTP,remDevAddr); 
+
+ ias.Close();     // Close RNetDB
+ ...</pre> <pre class="codeblock">
+
+void IASQuery(RNetDatabase &amp;aIAS,const TDesC8 &amp;aClassName,
+  const TDesC8 &amp;aAttributeName,TUint aRemDevAddr)
+//
+// Synchronous IAS query.  RTimer timeout of 5 seconds on the query.
+//
+ {
+ TBuf&lt;64&gt;       res;
+ TIASQuery      querybuf(aClassName,aAttributeName,aRemDevAddr);
+ TRequestStatus stat1,stat2;
+ TIASResponse   results;
+
+ aIAS.Query(querybuf,results,stat2);
+ RTimer tim;
+ tim.CreateLocal();
+ tim.After(stat1,5000000L);
+ User::WaitForRequest(stat1,stat2);
+
+ if (stat1.Int()==KErrNone)          // TIMER COMPLETED - IAS QUERY 
+  {                              // REQUEST HAS TIMED OUT.
+  aIAS.Cancel();
+  return;
+  } 
+
+ else if (stat2.Int()==KErrNone)     // IAS QUERY COMPLETED OK.
+  {
+  switch(results.Type())
+   {
+  case EIASDataMissing:          // Missing
+   break;
+
+  case EIASDataInteger:          // Integer
+   TInt num;
+   if (results.GetInteger(num)==KErrNone)
+    {
+    TinyTPPort=TUint8(num);
+    }
+   else
+    {
+    // Bad type
+    }
+   break;
+
+  case EIASDataOctetSequence:     // Byte sequence
+   results.GetOctetSeq(res);
+   DumpBuf(res);
+   break;
+
+  case EIASDataUserString:        // String. Use
+   break;                     // results.GetCharString8()
+                                         // to get string
+
+  default:                        // Bad type
+   break;
+   }
+  tim.Cancel();
+  }
+
+ else if (stat2.Int()!=KErrNone)      // IAS QUERY COMPLETED 
+  {                               // UNSUCCESSFULLY.
+  switch (stat2.Int())
+   {
+  case KErrUnknown:               // No such attribute
+   break;
+
+  case KErrBadName:               // No such class
+   break;
+
+  default:                        // Unknown error
+   break;
+   }
+  tim.Cancel();
+  }
+ else
+  {
+  tim.Cancel();                   // Unknown error on IAS query
+  }
+
+ };</pre> </div></div></div><div class="footer"><p class="metadata">Last updated October 9th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-41440281-2B9F-5796-941F-5923C7CD8AE7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:58 GMT -->
+</html>

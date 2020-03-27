@@ -1,0 +1,39 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E5B5C3CA-B256-5B29-AB90-590676444C85.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:01:04 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to start a periodic timer" /><meta name="abstract" content="Provides code snippets to show you how to start a periodic timer" /><meta name="description" content="Provides code snippets to show you how to start a periodic timer" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-1C7A0C22-90C6-5F54-8B43-342EE460C055" /><meta name="DC.Relation" scheme="URI" content="GUID-926EFFB3-B0E0-5627-87C5-20F8B4A56028" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E5B5C3CA-B256-5B29-AB90-590676444C85" /><meta name="DC.Language" content="en" /><title>How
+to start a periodic timer </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E5B5C3CA-B256-5B29-AB90-590676444C85">How
+to start a periodic timer</h1><div><p>Provides code snippets to show you how to start a periodic timer</p>
+<p>A periodic timer, <code class="codeph">CPeriodic</code>, invokes a function at regular
+intervals. You must wrap the function to be called in a <code class="codeph">TCallBack</code>. </p>
+<p>First, we provide a callback function for the timer to call. The callback
+function can be a static member, i.e. <code class="codeph">TInt X::Foo(TAny *)</code> or
+global, i.e. <code class="codeph">TInt Foo(TAny *)</code>. The <code class="codeph">TAny*</code> can
+point to any object that we specify when we start the timer.</p>
+<p>It is awkward to deal with <code class="codeph">TAny*</code>, and more convenient
+to write handler code from a non-static member function, so here we code a
+static function to invoke a non-static function <code class="codeph">DoTick()</code> as
+follows:</p>
+<pre class="codeblock">TInt CPeriodicRunner::Tick(TAny* aObject)
+    {
+    // cast, and call non-static function
+    ((CPeriodicRunner*)aObject)-&gt;DoTick();
+    return 1;
+    }
+</pre>
+<p>The next piece of code creates a <code class="codeph">CPeriodic</code> and sets it
+off with one-second ticks. The callback is specified to call the static <code class="codeph">Tick()</code> function,
+passing the <code class="codeph">this</code> pointer (which we use in <code class="codeph">Tick()</code> to
+call <code class="codeph">DoTick()</code>).</p>
+<pre class="codeblock">void CPeriodicRunner::StartTimer()
+    {
+    const TInt tickInterval=1000000;
+    iPeriodic=CPeriodic::NewL(0); // neutral priority
+    iPeriodic-&gt;StartInMicroSeconds(tickInterval,tickInterval,TCallBack(Tick, this));
+    }
+</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-E5B5C3CA-B256-5B29-AB90-590676444C85.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:01:04 GMT -->
+</html>

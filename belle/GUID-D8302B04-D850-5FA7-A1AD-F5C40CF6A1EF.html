@@ -1,0 +1,233 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D8302B04-D850-5FA7-A1AD-F5C40CF6A1EF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:23 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Porting Data-caged Applications" /><meta name="abstract" content="This document describes the changes required to migrate exe-apps to a data caged directory structure." /><meta name="description" content="This document describes the changes required to migrate exe-apps to a data caged directory structure." /><meta name="DC.Relation" scheme="URI" content="GUID-3CAD7211-2164-5F93-9EA7-7167E1C14012" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58CA15F8-D984-5D07-8C00-161FA16A8FD3" /><meta name="DC.Relation" scheme="URI" content="GUID-1578590A-FC00-5C3B-8BF9-F6E43CA9D9A0" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E19490-4179-548F-9DA8-9AE637FAC9E2" /><meta name="DC.Relation" scheme="URI" content="GUID-C4CC3CA3-8C02-5F73-A482-4F849DD08111" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D8302B04-D850-5FA7-A1AD-F5C40CF6A1EF" /><meta name="DC.Language" content="en" /><title>Porting
+Data-caged Applications </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D8302B04-D850-5FA7-A1AD-F5C40CF6A1EF">Porting
+Data-caged Applications</h1><div><p>This document describes the changes required to migrate exe-apps
+to a data caged directory structure. </p>
+<div><h3 class="section-title">Introduction</h3> <p>In Symbian OS v8.0 and earlier, application
+specific information (for instance captions and icons) was provided by a combination
+of the AIF (Application Information File) and the caption file. Both of these
+files were optional. </p> <p>Migrated applications must provide a registration
+file, and may optionally provide localizable application information resource
+files and icon files. Localizable application information resource files provide
+localizable application information (for instance captions and icons), whereas
+an application's localizable UI resource file provides UI resources such as
+menus and dialogs. </p> <p>The localizable information that was previously
+provided by a combination of AIF and caption files, has been split into two
+categories: </p> <p>The diagram below shows the new file structure used to
+provide application information. </p> <div class="figure" id="GUID-7C0D7121-43A4-5C29-86E6-A92F753D29A4"><img src="GUID-E4B5C7CE-7820-5D80-8CD1-DCD692C11F23_d0e178548_href.png" /></div> <ul>
+<li id="GUID-0D14076A-26FE-5E6A-BF57-69B169287BF1"><a name="GUID-0D14076A-26FE-5E6A-BF57-69B169287BF1"><!-- --></a><p>A registration file
+which 'points' to one of three localizable resource files provided. If the
+current language is <code>01</code> or <code>02</code>, the
+system will load the corresponding version of <code>AppName_loc</code>,
+otherwise <code>AppName_loc.rsc</code> will be loaded. </p> </li>
+<li id="GUID-AF8CD591-A112-5AF3-92CD-97ADD83C277C"><a name="GUID-AF8CD591-A112-5AF3-92CD-97ADD83C277C"><!-- --></a><p> <code>AppName_loc.r01</code> and <code>AppName_loc.r02</code> share
+the same icon file. </p> </li>
+</ul> <p>Migrated applications may be used with or without data caging enforced. </p> </div>
+<div><h3 class="section-title">Procedure</h3> <p>The following sections detail the mandatory
+and optional steps required to migrate an application. </p> <p> <strong>Mandatory
+steps</strong> </p> <ol id="GUID-8CCDDC52-4EB1-567A-A9F5-A480E9912B66">
+<li id="GUID-27A355EC-835B-59AC-8B40-B855BCB1BD34"><a name="GUID-27A355EC-835B-59AC-8B40-B855BCB1BD34"><!-- --></a><p>Provide a registration
+file. </p> <p>A registration file is a standard Symbian platform compiled
+resource file (<code>.rsc</code>). The <code>.rss</code> file
+used to build the registration file should be named <code class="codeph">AppName_reg.rss</code> and
+contain at least the following lines: </p> <pre class="codeblock">#include &lt;appinfo.rh&gt; 
+UID2 KUidAppRegistrationResourceFile 
+UID3 0x01000000 // application UID 
+RESOURCE APP_REGISTRATION_INFO
+    {
+    app_file="AppName"; // filename of application binary (minus extension)
+    }</pre> <p>To build the registration file, add the following lines
+to the application's MMP file: </p> <pre class="codeblock">START RESOURCE    AppName_reg.rss 
+TARGETPATH        \private\10003a3f\apps 
+END</pre> <p>The <code>_reg</code> filename suffix is used as
+a naming convention only and is not mandatory. </p> <p>Note that any lines
+in the MMP file that are used to build an AIF file should be removed. </p> </li>
+<li id="GUID-B5D1F806-91F1-5326-8026-D1E36C30889E"><a name="GUID-B5D1F806-91F1-5326-8026-D1E36C30889E"><!-- --></a><p>Build the application
+binary to a new location. </p> <p>The following line should replace the <code class="codeph">TARGETPATH</code> line
+associated with the <code class="codeph">TARGET</code>, <code class="codeph">TARGETTYPE</code> and <code class="codeph">UID</code> lines: </p> <pre class="codeblock">TARGETPATH        \sys\bin</pre> </li>
+</ol> <p> <strong>Optional steps</strong> </p> <ul>
+<li id="GUID-967BFB2B-6862-5C79-A89F-F897F2036415"><a name="GUID-967BFB2B-6862-5C79-A89F-F897F2036415"><!-- --></a><p>A UI resource file whose
+location is provided by <code class="codeph">CEikApplication::ResourceFileName()</code> </p> </li>
+<li id="GUID-0B7D3B27-0D56-50E5-9EE0-9084FE138FD9"><a name="GUID-0B7D3B27-0D56-50E5-9EE0-9084FE138FD9"><!-- --></a><p>An MBM file whose location
+is provided by <code class="codeph">CEikApplication::BitmapStoreName()</code> </p> </li>
+<li id="GUID-AF83E0ED-F59E-5BFC-9C58-1DED13A78645"><a name="GUID-AF83E0ED-F59E-5BFC-9C58-1DED13A78645"><!-- --></a><p>Application information
+through an AIF and/or caption file. </p> </li>
+</ul> <p>The following steps are only required if the application provides
+one or more of the following: </p> <ol id="GUID-42AA9F22-B442-5972-985F-6F629C257093">
+<li id="GUID-1706E3AD-7343-56EA-8E74-977E7F033E08"><a name="GUID-1706E3AD-7343-56EA-8E74-977E7F033E08"><!-- --></a><p>Specify the default
+UI resource file location. </p> <p>When building the application UI resource
+file, the <code class="codeph">TARGETPATH</code> must be specified as follows: </p> <pre class="codeblock">TARGETPATH        \resource\apps</pre> </li>
+<li id="GUID-A21B102D-7C2A-562A-80A5-464EE0F42C56"><a name="GUID-A21B102D-7C2A-562A-80A5-464EE0F42C56"><!-- --></a><p>Specify the default
+MBM file location. </p> <p>When building the application's MBM file, the <code class="codeph">TARGETPATH</code> must
+be specified as follows: </p> <pre class="codeblock">TARGETPATH        \resource\apps</pre> </li>
+<li id="GUID-1E07FA6D-F5E1-524D-AD7C-E6CAD3E8F5E5"><a name="GUID-1E07FA6D-F5E1-524D-AD7C-E6CAD3E8F5E5"><!-- --></a><p>Specify the application
+information by providing the following files: </p> <ul>
+<li id="GUID-619E778D-E4E5-5755-B6F1-E02C047C4BEE"><a name="GUID-619E778D-E4E5-5755-B6F1-E02C047C4BEE"><!-- --></a><p>Non-localizable information
+(provided by the registration file) </p> <p>The registration file provides
+non-localizable application information. For an example registration file
+see <code class="codeph">AppName_reg.rss</code> in the <a href="#GUID-52802361-8A7A-5C8A-ACC1-F41E50CFD1CF">Example
+files</a> section. </p> </li>
+<li id="GUID-38C4EF86-05A7-5D95-BB04-644DEC26C582"><a name="GUID-38C4EF86-05A7-5D95-BB04-644DEC26C582"><!-- --></a><p>Localizable information
+(localizable resource file and icon file) </p> <p>Localizable application
+information can either be provided in a separate resource file (see <code class="codeph">AppName_loc.rss</code>),
+or as a resource within the application UI resource file (see <code class="codeph">AppName.rss</code> and <code class="codeph">AppName2_reg.rss</code> in
+the <a href="#GUID-52802361-8A7A-5C8A-ACC1-F41E50CFD1CF">Example
+files</a> section). </p> <p>When providing the information as a resource
+within the application UI resource file, the registration file's <code class="codeph">APP_REGISTRATION_INFO</code> struct
+must contain the following lines: </p> <pre class="codeblock">localisable_resource_file="\\resource\\apps\\AppName";
+localisable_resource_id = R_LAI;</pre> <p>where <code class="codeph">R_LAI</code> is
+a named <code class="codeph">LOCALISABLE_APP_INFO</code> resource struct within the UI
+resource file. </p> <p>The <code class="codeph">localisable_resource_file</code> field
+should not include a drive in the path, or a file-extension, but it should
+provide a full directory path and a file name (without extension). </p> <p>To
+build a resource file for language <code>01</code>, add the following
+to the MMP file: </p> <pre class="codeblock">start resource    AppName_loc.rss
+targetpath        \resource\apps 
+lang              01 
+end</pre> <p>The <code>_loc</code> filename suffix is used as
+a naming convention only and is not mandatory. </p> <p>Icon files referenced
+in the localizable resource should also be built to <code>\resource\apps\</code>. </p> </li>
+</ul> </li>
+</ol> </div>
+<div id="GUID-3C64BE3F-859A-5E81-BCBD-C4BF717D4439"><h3 class="section-title">Software install
+package file requirements</h3> <p>When creating a PKG file (software install
+package file) for an application, the registration file must be installed
+to the <code>\private\10003a3f\import\apps\</code> directory. </p> <p>The
+application binary must be installed to <code>\sys\bin\</code> on
+the same drive as the registration file. </p> <p>The localizable resource
+files must be installed to <code>\resource\apps\</code> on the same
+drive as the registration file. </p> </div>
+<div id="GUID-BB2F1E46-47CE-51F8-9020-D0D1DD9E06CB"><h3 class="section-title">Data caged
+file locations</h3> <p>To comply with the directory structure imposed by
+data caging, many of the files associated with an application need to be relocated. </p> <p>Care
+should be taken to ensure application code which overrides the following APIs
+uses appropriate file locations: </p> <pre class="codeblock">CEikApplication::ResourceFileName() 
+CEikApplication::BitmapStoreName() 
+CEikApplication::OpenIniFileLC( RFs&amp; aFs )</pre> <p>When specifying
+the location of files on a target device, application IBY files should explicitly
+specify <code>\sys\bin</code> as the destination location for application
+binary files instead of using <code class="codeph">SYSTEM_BINDIR</code>. </p> </div>
+<div id="GUID-52802361-8A7A-5C8A-ACC1-F41E50CFD1CF"><h3 class="section-title">Example files</h3> <p id="GUID-CDA35D97-FF46-5A5F-A57B-F3E93B935E1C"><a name="GUID-CDA35D97-FF46-5A5F-A57B-F3E93B935E1C"><!-- --></a><strong>AppName_reg.rss</strong> </p><pre class="codeblock">#include &lt;appinfo.rh&gt;
+
+UID2 KUidAppRegistrationResourceFile 
+UID3 0x01000000 // application UID
+
+RESOURCE APP_REGISTRATION_INFO
+    {
+    app_file = "AppName";
+    //
+    localisable_resource_file = "\\resource\\apps\\AppName_loc";
+    //
+    hidden = KAppNotHidden;
+    embeddability = KAppNotEmbeddable;
+    newfile = KAppDoesNotSupportNewFile;
+    launch = KAppLaunchInForeground;
+    group_name = "AppNameGroup";
+    //
+    default_screen_number = 2;
+    //
+    datatype_list = 
+        {
+        DATATYPE { priority=EDataTypePriorityNormal; type="image/jpeg"; },
+        DATATYPE { priority=EDataTypePriorityNormal; type="image/gif"; }
+        };
+    //
+    file_ownership_list =
+        {
+        FILE_OWNERSHIP_INFO {file_name="z:\\temp\\AppNameTempFile.txt"; },
+        FILE_OWNERSHIP_INFO {file_name="z:\\temp\\AppName.txt"; }
+        };
+    }</pre> <p id="GUID-7F026167-77F9-5AC2-A68F-049DEC624A4E"><a name="GUID-7F026167-77F9-5AC2-A68F-049DEC624A4E"><!-- --></a><strong> AppName_loc.rss</strong> </p><pre class="codeblock">#include &lt;appinfo.rh&gt; 
+#ifdef LANGUAGE_01 
+#include "AppName01.rls" 
+#else 
+#include "AppNamesc.rls" 
+#endif 
+RESOURCE LOCALISABLE_APP_INFO
+    {
+    short_caption = STRING_r_short_caption;
+    caption_and_icon =
+        {
+        CAPTION_AND_ICON_INFO
+            {
+            caption = STRING_r_caption;
+            number_of_icons = 2; // each icon must be a bitmap/mask pair
+            icon_file = STRING_r_icon_file;
+            }
+        };                            
+    //
+    view_list =
+        {
+        VIEW_DATA
+            {
+            uid = 268123123;
+            screen_mode = 0x00;
+            caption_and_icon =
+                {
+                CAPTION_AND_ICON_INFO
+                    {
+                    caption = STRING_r_view_268123123_caption;
+                    number_of_icons = 1; // each icon must be a bitmap/mask pair
+                    }
+                };                            
+            },
+        VIEW_DATA
+            {
+            uid = 268123124;
+            screen_mode = 0x01;
+            caption_and_icon =
+                {
+                CAPTION_AND_ICON_INFO
+                    {
+                    caption = STRING_r_view_268123124_caption;
+                    number_of_icons = 1; // each icon must be a bitmap/mask pair
+                    icon_file = "z:\\resource\\apps\\icon.svg";
+                    }
+                };
+            }
+        };
+    }</pre> <p><strong>Note</strong>: In the above example, RLS files have been
+used to demonstrate how resource files for different languages (<code class="codeph">AppName_loc.r01</code> and <code class="codeph">AppName_loc.rsc</code>)
+can be built from a single RSS file. </p> <p id="GUID-E828B29C-35AC-50CA-8B76-FD626D825E1A"><a name="GUID-E828B29C-35AC-50CA-8B76-FD626D825E1A"><!-- --></a><strong> AppName01.rls</strong> </p><pre class="codeblock">rls_string STRING_r_short_caption "English AppName" 
+rls_string STRING_r_caption "English AppName Long Caption" 
+rls_string STRING_r_icon_file "z:\\resource\\apps\\EnglishAppNameIcons.mbm" 
+rls_string STRING_r_view_268123123_caption "caption for view 268123123" 
+rls_string STRING_r_view_268123124_caption "English view 268123124"</pre> <p id="GUID-8E9F17B1-4A22-56EF-ACD8-0432F3BB9DBD"><a name="GUID-8E9F17B1-4A22-56EF-ACD8-0432F3BB9DBD"><!-- --></a><strong> AppNamesc.rls</strong> </p><pre class="codeblock">rls_string STRING_r_short_caption "AppName" 
+rls_string STRING_r_caption "Default AppName Caption" 
+rls_string STRING_r_icon_file "z:\\resource\\apps\\DefaultAppNameIcons.mbm" 
+rls_string STRING_r_view_268123123_caption "caption for view 268123123" 
+rls_string STRING_r_view_268123124_caption "caption for view 268123124"</pre> <p id="GUID-065DF486-615D-55F1-8572-DF30E58927C3"><a name="GUID-065DF486-615D-55F1-8572-DF30E58927C3"><!-- --></a><strong> AppName2_reg.rss</strong> </p><pre class="codeblock">#include &lt;appinfo.rh&gt; 
+#include &lt;appname.rsg&gt;
+
+UID2 KUidAppRegistrationResourceFile 
+UID3 0x01000000 // application UID
+
+RESOURCE APP_REGISTRATION_INFO
+    {
+    app_file = "AppName";
+    //
+    localisable_resource_file = "\\resource\\apps\\appname";
+    localisable_resource_id = R_LAI;
+    }</pre> <p id="GUID-661C0B2C-9BA9-5168-B2A9-A2FA1F87B5D7"><a name="GUID-661C0B2C-9BA9-5168-B2A9-A2FA1F87B5D7"><!-- --></a><strong> AppName.rss</strong> </p><pre class="codeblock">NAME APPN
+#include &lt;eikon.rh&gt; 
+#include &lt;eikon.rsg&gt; 
+#include &lt;appinfo.rh&gt;
+
+RESOURCE RSS_SIGNATURE                { } 
+RESOURCE TBUF r_appname_default_file  { buf="default file name"; } 
+RESOURCE EIK_APP_INFO                 { hotkeys=r_appname_hotkeys; menubar=r_appname_menubar; toolbar=r_appname_toolbar; } 
+RESOURCE LOCALISABLE_APP_INFO r_lai
+    {
+    short_caption = "AppName";
+    } 
+RESOURCE TOOLBAR r_appname_toolbar        { } 
+RESOURCE HOTKEYS r_appname_hotkeys        { } 
+RESOURCE MENU_BAR r_appname_menubar       { }</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-3CAD7211-2164-5F93-9EA7-7167E1C14012.html">Porting Applications
+to EXEs</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 23rd, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D8302B04-D850-5FA7-A1AD-F5C40CF6A1EF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:25 GMT -->
+</html>

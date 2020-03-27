@@ -1,0 +1,71 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-73491C1D-6C74-5434-B2F3-4AF416AE37B7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:57 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Hash algorithms" /><meta name="abstract" content="This section explains the key concepts of Hash algorithms." /><meta name="description" content="This section explains the key concepts of Hash algorithms." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-315452C2-A1E2-5888-A694-6D2DE73A3F5E" /><meta name="DC.Relation" scheme="URI" content="GUID-5B112A34-1CBA-5B28-A941-27847FC1D30A" /><meta name="DC.Relation" scheme="URI" content="GUID-1E1B040A-1C18-4F62-95F9-CE0ECE39C430" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-73491C1D-6C74-5434-B2F3-4AF416AE37B7" /><meta name="DC.Language" content="en" /><title>Hash algorithms </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-73491C1D-6C74-5434-B2F3-4AF416AE37B7">Hash algorithms</h1><div><p>This section explains the key concepts of Hash algorithms.</p>
+<div id="GUID-AEB1ABD2-4977-5A54-86AC-F1D87615C57F"><h3 class="section-title">Introduction</h3> <p>A cryptographic hash algorithm (also known as a message digest,
+a one-way function, or simply a hash) takes a variable-length input
+(the message) and produce a fixed length output known as the hash
+(or digest) of the input. It is often useful to think of the resulting
+output as a representation, or fingerprint, of the original input. </p> <p>There are two properties that are important to cryptographic
+hashes: </p> <ul>
+<li id="GUID-2868C035-9933-5EF2-86E7-E696ADF3A67D"><a name="GUID-2868C035-9933-5EF2-86E7-E696ADF3A67D"><!-- --></a><p>it must be hard
+to find collisions, i.e. it is highly unlikely that two distinct strings
+will hash to the same output </p> </li>
+<li id="GUID-43BF26B8-466F-589B-B8F5-B4F6EF42504F"><a name="GUID-43BF26B8-466F-589B-B8F5-B4F6EF42504F"><!-- --></a><p>it is extremely
+difficult to determine the original input given only the output. Even
+very small changes to the input will give rise to radical changes
+in the output. </p> </li>
+</ul> <p>These properties make hash functions useful in cryptography
+and other applications as they allow the representation of objects
+in a known fixed size. </p> <p>The hash algorithms supported by the
+Symbian platform are: </p> <div class="tablenoborder"><a name="GUID-D9C86D99-3790-5332-988E-E38FA935DE3E"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-D9C86D99-3790-5332-988E-E38FA935DE3E" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e435289">Hash algorithms</th>
+<th class="cellrowborder" valign="top" id="d0e435292">Further information</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e435289 "><p>MD4 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e435292 "><p> <a href="../rfc/rfc1320.txt" target="_blank">RFC 1320</a> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e435289 "><p>MD5 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e435292 "><p> <a href="../rfc/rfc1321.txt" target="_blank">RFC 1321</a> </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e435289 "><p>SHA-1 </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e435292 "><p> <a href="http://www.itl.nist.gov/fipspubs/fip180-1.htm" target="_blank">FIPS 180-1</a> and <a href="../rfc/rfc3174.txt" target="_blank">RFC 3174</a> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e435289 "><p>HMAC </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e435292 "><p> <a href="../rfc/rfc2104.txt" target="_blank">RFC 2104</a> </p> </td>
+</tr>
+</tbody>
+</table></div> <p>There is also support for MD2 (see <a href="../rfc/rfc1319.txt" target="_blank">RFC 1319</a>) and SHA, which is there for backward compatibility, but it is not
+to be used in new code. </p> </div>
+<div id="GUID-1F051CF3-77A8-5408-B14B-A7FD5CFF197F"><h3 class="section-title">What
+is an HMAC?</h3> <p>Unlike the hashes mentioned above, HMAC (Hashed
+Message Authentication Code) is a key-dependant hash. It allows a
+key to be specified at creation of the HMAC. Only people with that
+key can verify the hash. HMACs are useful when authentication but
+not secrecy of a message is required. </p> <p>The sender appends to
+the message data an authentication tag (which is a function of the
+data and the shared key). The recipient recomputes the authentication
+tag on the received message using the shared key. The integrity of
+the message is deemed valid only if the two authentication tags match. </p> <p>For further details see <a href="../rfc/rfc2104.txt" target="_blank">RFC 2104</a>. </p> </div>
+<div id="GUID-08E26A60-A8B1-5F54-901D-69787BC8950E"><h3 class="section-title">The
+Hash API</h3> <p> <code class="codeph">CMessageDigest</code> is the base class
+for all hash algorithms. </p> <p>The following diagram illustrates
+the main classes used in the hash framework. For information on each
+class see the Cryptography API Reference material. </p> <div class="figure" id="GUID-08CF0C25-D314-56B0-9667-4CDDA925F786"><img src="GUID-8761F82E-5DC4-5BD5-A422-2EC45A92925B_d0e435411_href.png" /><p class="figure-title"><strong>Figure: </strong>              Inheritance diagram for the Hash API        
+   </p></div> <p>The hash API is used internally by the Security components:
+AppInst, Certman (Certificate Management) and Cryptography. Networking/TLS
+uses a pseudo-random function (PRF) based on HMAC. Both MD5 and SHA-1
+are used in TLS. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 22nd, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-73491C1D-6C74-5434-B2F3-4AF416AE37B7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:17:57 GMT -->
+</html>

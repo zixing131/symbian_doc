@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-43D088F8-B5DF-343A-8021-46EF92841458.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:45:09 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2011"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2011"/>
+<meta name="DC.Type" content="cxxClass"/>
+<meta name="DC.Title" content="MCLFItem"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="GUID-43D088F8-B5DF-343A-8021-46EF92841458"/>
+<link rel="stylesheet" type="text/css" href="css/commonltr.css"/>
+<title>MCLFItem</title>
+<meta name="keywords" content="api"/><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css"/><link href="css/html.css" rel="stylesheet" type="text/css"/><link href="css/style.css" rel="stylesheet" type="text/css"/><link href="css/nwg.css" rel="stylesheet" type="text/css"/><link href="css/eclipse.css" rel="stylesheet" type="text/css"/></head>
+<body id="GUID-43D088F8-B5DF-343A-8021-46EF92841458"><a name="GUID-43D088F8-B5DF-343A-8021-46EF92841458"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+
+	<h1 class="sectiontitle">MCLFItem Class Reference</h1>
+	
+	<div class="section include"><p>#include 
+            
+                    &lt;mw/MCLFItem.h&gt;
+                </p></div>
+<div class="section linkagainst" id="GUID-43D088F8-B5DF-343A-8021-46EF92841458__linkagainst"><a name="GUID-43D088F8-B5DF-343A-8021-46EF92841458__linkagainst"><!-- --></a><p>Link against: ContentListingFramwork.lib</p></div>
+<div class="section signature"><table class="signature"><tr><td>class MCLFItem</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">virtual </td><td><a href="#GUID-D4FF1638-ED2C-3FEB-AE23-1DDDB7DF10BE">~MCLFItem</a>()</td></tr><tr class="bg"><td align="right" class="code">pure virtual 
+					<a href="GUID-03B594FF-D73D-321C-829C-1C02872080E1.html">TCLFItemDataType</a>
+				</td><td><a href="#GUID-10B4382F-B228-3BD7-BE64-546D41CF16D6">DataType</a>(<a href="GUID-026A0DEF-93F2-385D-A311-A1049021D01B.html">TCLFFieldId</a>)</td></tr><tr><td align="right" class="code">pure virtual 
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td><a href="#GUID-D6E08DE1-34EF-3138-A449-87F3DAF08C1A">GetField</a>(<a href="GUID-026A0DEF-93F2-385D-A311-A1049021D01B.html">TCLFFieldId</a>, <a href="GUID-8FE95467-D48B-3E61-9028-29C0F15F567E.html">TPtrC</a> &amp;)</td></tr><tr class="bg"><td align="right" class="code">pure virtual 
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td><a href="#GUID-88DEA301-762A-3DA0-AC7D-2CA37709192C">GetField</a>(<a href="GUID-026A0DEF-93F2-385D-A311-A1049021D01B.html">TCLFFieldId</a>, <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt32</a> &amp;)</td></tr><tr><td align="right" class="code">pure virtual 
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td><a href="#GUID-97FEE107-C5C4-378D-B2FF-AB07AEB6681C">GetField</a>(<a href="GUID-026A0DEF-93F2-385D-A311-A1049021D01B.html">TCLFFieldId</a>, <a href="GUID-A2D3BA72-9B27-3BFF-950A-D7E3B2004821.html">TTime</a> &amp;)</td></tr><tr class="bg"><td align="right" class="code">pure virtual 
+					<a href="GUID-026A0DEF-93F2-385D-A311-A1049021D01B.html">TCLFItemId</a>
+				</td><td><a href="#GUID-9FB5A458-75C8-3087-A08C-072011A1ACC0">ItemId</a>()</td></tr></tbody></table></div><div class="section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+			<div class="p">Content Listing Framework item. All items that are fetched from server have got an Item ID number. Item ID is defined in runtime so do not store Item IDs permanently. One item can contain multiple fields. The field consists of a Field ID and field data. Type of the field is defined with Field ID: see TCLFDefaultFieldId in CLFContentListing.hrh. For example, a music file could contain these two fields: ECLFFieldIdSongName (data: title of the song) and ECLFFieldIdArtist (data: name of the artist). Usage: <pre class="codeblock">  // Get file names and sizes of all items
+  TInt count( listModel-&gt;ItemCount() );
+  for( TInt i = 0 ; i &lt; count ; ++i )
+      {
+      const MCLFItem&amp; myItem = listModel-&gt;Item( i );
+
+      // Get file name of an item (string data)
+      TPtrC fileName;
+      TInt error( myItem.GetField( ECLFFieldIdFileName, fileName ) );
+
+      ...
+
+      // Get file size of an item (integer data)
+      TInt32 size( 0 );
+      error = myItem.GetField( ECLFFieldIdFileSize, size );
+
+      ...
+
+      }</pre>
+</div>
+
+			<div class="p">
+				<dl class="since">
+					
+						<dt class="dlterm">Since</dt>
+
+						<dd>S60 3.1 </dd>
+
+					
+				</dl>
+
+			</div>
+
+		</div>
+<h2 class="sectiontitle">Constructor &amp; Destructor Documentation</h2><div class="nested1" id="GUID-D4FF1638-ED2C-3FEB-AE23-1DDDB7DF10BE"><a name="GUID-D4FF1638-ED2C-3FEB-AE23-1DDDB7DF10BE"><!-- --></a>
+		<h3 class="sectiontitle">~MCLFItem (  )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>~MCLFItem</td><td>(</td><td>)</td><td>[inline, virtual]</td></tr></table></div><div class="section apidesc">
+				<p>Destructor. </p>
+
+			</div>
+</div>
+
+	</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="nested1" id="GUID-10B4382F-B228-3BD7-BE64-546D41CF16D6"><a name="GUID-10B4382F-B228-3BD7-BE64-546D41CF16D6"><!-- --></a>
+		<a name="GUID-72948708-E9BF-31F0-B002-318B5B1401A9"><!----></a><h3 class="sectiontitle">DataType ( TCLFFieldId )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+					<a href="GUID-03B594FF-D73D-321C-829C-1C02872080E1.html">TCLFItemDataType</a>
+				</td><td>DataType</td><td>(</td><td><a href="GUID-026A0DEF-93F2-385D-A311-A1049021D01B.html">TCLFFieldId</a></td><td><span class="parameter">aFieldId</span></td><td>)</td><td>const [pure virtual]</td></tr></table></div><div class="section apidesc">
+				<div class="p">Get data type of the field. Data type can be text, time or integer. <dl class="since"><dt class="dlterm">Since</dt>
+<dd>S60 3.1 </dd>
+</dl>
+</div>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aFieldId</td><td>ID of the field (TCLFDefaultFieldId)  </td></tr></table></div>
+<div class="section returnsdoc"><p><span class="returnsdoclabel">Returns: </span><span class="returnsdocvalue">Data type of the field. ECLFItemDataTypeNull, if the field does not exist in the item. </span></p></div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-D6E08DE1-34EF-3138-A449-87F3DAF08C1A"><a name="GUID-D6E08DE1-34EF-3138-A449-87F3DAF08C1A"><!-- --></a>
+		<a name="GUID-DABD0D48-DD2B-30AC-AD2B-8108BFCFBBB1"><!----></a><h3 class="sectiontitle">GetField ( TCLFFieldId, TPtrC &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td>GetField</td><td>(</td><td><a href="GUID-026A0DEF-93F2-385D-A311-A1049021D01B.html">TCLFFieldId</a></td><td><span class="parameter">aFieldId</span>,</td></tr><tr><td colspan="3"> </td><td><a href="GUID-8FE95467-D48B-3E61-9028-29C0F15F567E.html">TPtrC</a> &amp;</td><td><span class="parameter">aData</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">const [pure virtual]</td></tr></table></div><div class="section apidesc">
+				<div class="p">Get field data that is a string. <dl class="since"><dt class="dlterm">Since</dt>
+<dd>S60 3.1 </dd>
+</dl>
+</div>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aFieldId</td><td>ID of the field (TCLFDefaultFieldId)  </td></tr><tr class="bg"><td class="parameter">aData</td><td>Data of the field  </td></tr></table></div>
+<div class="section returnsdoc"><p><span class="returnsdoclabel">Returns: </span><span class="returnsdocvalue">System wide error code. KErrNone if field exist, KErrNotFound if field doesn't exist, KErrNotSupported if field type doesn't match </span></p></div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-88DEA301-762A-3DA0-AC7D-2CA37709192C"><a name="GUID-88DEA301-762A-3DA0-AC7D-2CA37709192C"><!-- --></a>
+		<h3 class="sectiontitle">GetField ( TCLFFieldId, TInt32 &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td>GetField</td><td>(</td><td><a href="GUID-026A0DEF-93F2-385D-A311-A1049021D01B.html">TCLFFieldId</a></td><td><span class="parameter">aFieldId</span>,</td></tr><tr><td colspan="3"> </td><td><a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt32</a> &amp;</td><td><span class="parameter">aData</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">const [pure virtual]</td></tr></table></div><div class="section apidesc">
+				<div class="p">Get field data that is an integer. <dl class="since"><dt class="dlterm">Since</dt>
+<dd>S60 3.1 </dd>
+</dl>
+</div>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aFieldId</td><td>ID of the field (TCLFDefaultFieldId)  </td></tr><tr class="bg"><td class="parameter">aData</td><td>Data of the field  </td></tr></table></div>
+<div class="section returnsdoc"><p><span class="returnsdoclabel">Returns: </span><span class="returnsdocvalue">System wide error code. KErrNone if field exist, KErrNotFound if field doesn't exist, KErrNotSupported if field type doesn't match </span></p></div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-97FEE107-C5C4-378D-B2FF-AB07AEB6681C"><a name="GUID-97FEE107-C5C4-378D-B2FF-AB07AEB6681C"><!-- --></a>
+		<h3 class="sectiontitle">GetField ( TCLFFieldId, TTime &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td>GetField</td><td>(</td><td><a href="GUID-026A0DEF-93F2-385D-A311-A1049021D01B.html">TCLFFieldId</a></td><td><span class="parameter">aFieldId</span>,</td></tr><tr><td colspan="3"> </td><td><a href="GUID-A2D3BA72-9B27-3BFF-950A-D7E3B2004821.html">TTime</a> &amp;</td><td><span class="parameter">aData</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">const [pure virtual]</td></tr></table></div><div class="section apidesc">
+				<div class="p">Get field data that is a time data. <dl class="since"><dt class="dlterm">Since</dt>
+<dd>S60 3.1 </dd>
+</dl>
+</div>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aFieldId</td><td>ID of the field (TCLFDefaultFieldId)  </td></tr><tr class="bg"><td class="parameter">aData</td><td>Data of the field  </td></tr></table></div>
+<div class="section returnsdoc"><p><span class="returnsdoclabel">Returns: </span><span class="returnsdocvalue">System wide error code. KErrNone if field exist, KErrNotFound if field doesn't exist, KErrNotSupported if field type doesn't match </span></p></div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-9FB5A458-75C8-3087-A08C-072011A1ACC0"><a name="GUID-9FB5A458-75C8-3087-A08C-072011A1ACC0"><!-- --></a>
+		<h3 class="sectiontitle">ItemId (  )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>
+					<a href="GUID-026A0DEF-93F2-385D-A311-A1049021D01B.html">TCLFItemId</a>
+				</td><td>ItemId</td><td>(</td><td>)</td><td>const [pure virtual]</td></tr></table></div><div class="section apidesc">
+				<div class="p">Get Item ID of the item. <dl class="since"><dt class="dlterm">Since</dt>
+<dd>S60 3.1 </dd>
+</dl>
+</div>
+
+			</div>
+<div class="section returnsdoc"><p><span class="returnsdoclabel">Returns: </span><span class="returnsdocvalue">Item ID of the item </span></p></div>
+</div>
+
+	</div>
+
+	
+	
+	
+	
+	
+	
+</div></div><div class="footer"><hr/><div class="copy">© Nokia 2011.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-43D088F8-B5DF-343A-8021-46EF92841458.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:45:10 GMT -->
+</html>

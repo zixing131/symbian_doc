@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_scroller_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:32 GMT -->
+<head><title>Scroller API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i506"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Scroller API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+<li class="toclevel-2"><a href="#ArrowHead_scrollbar"><span class="tocnumber">1.5</span> <span class="toctext">ArrowHead scrollbar</span></a></li>
+<li class="toclevel-2"><a href="#DoubleSpan_scrollbar"><span class="tocnumber">1.6</span> <span class="toctext">DoubleSpan scrollbar</span></a></li>
+<li class="toclevel-2"><a href="#Remote_scrollbars"><span class="tocnumber">1.7</span> <span class="toctext">Remote scrollbars</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Creating_a_scrollbar"><span class="tocnumber">2.1</span> <span class="toctext">Creating a scrollbar</span></a></li>
+<li class="toclevel-2"><a href="#Updating_ArrowHead_scrollbar_attributes"><span class="tocnumber">2.2</span> <span class="toctext">Updating ArrowHead scrollbar attributes</span></a></li>
+<li class="toclevel-2"><a href="#Updating_DoubleSpan_scrollbar_attributes"><span class="tocnumber">2.3</span> <span class="toctext">Updating DoubleSpan scrollbar attributes</span></a></li>
+<li class="toclevel-2"><a href="#Observing_scrollbar_events"><span class="tocnumber">2.4</span> <span class="toctext">Observing scrollbar events</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.5</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Limitations_of_the_API"><span class="tocnumber">2.6</span> <span class="toctext">Limitations of the API</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Scroller API provides scrolling functionality to any S60 UI component and
+manages interaction between the scrollable content and the scrollbars.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>eikcoctl.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/scroller_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/scroller_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>If a UI component is too large to fit on the device display and requires
+some form of scrolling indication, the scrollbar can be used. The S60 scrolling
+indicator can only represents vertical scrolling with up and down indicators,
+no horizontal information is displayed.
+</p><p>In general a scrollbar consists of the following sub-components: increase
+button, decrease button, thumb, shaft. Placement and size of them are mainly
+controlled by the parent of the scrollbar.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ScrollBar_GeneralStructure.png" title="General structure of a scrollbar"><img alt="General structure of a scrollbar" border="0" height="89" src="images/SPB_10_1_ScrollBar_GeneralStructure.png" width="395" /></a></div>
+<div style="text-align:center"><i>General structure of a scrollbar</i></div>
+<p>S60 UI supports two types of scrolling appearance which are specializations
+of the generic one:
+</p>
+<ul><li> ArrowHead scrollbar,
+</li><li> DoubleSpan scrollbar.
+</li></ul>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Scroller API is an SDK API and part of S60 release 3.x.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of Scroller API are:
+</p>
+<ul><li> Creating a scrollbar
+</li><li> Updating ArrowHead scrollbar attributes
+</li><li> Updating DoubleSpan scrollbar attributes
+</li><li> Observing scrollbar events
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknDoubleSpanScrollBar <td><span class="plainlinks"><code>/epoc32/include/mw/eikscrlb.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAknScrollButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknscbut.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikArrowHeadScrollBar</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikscrlb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikArrowHeadScrollButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikscbut.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikCbaScrollBarFrame</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiksbfrm.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikScrollBar</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikscrlb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikScrollBarFrame</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiksbfrm.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikScrollButton</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikscbut.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MEikScrollBarObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiksbobs.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TAknDoubleSpanScrollBarModel</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikscrlb.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEikScrollBarFrameLayout</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eiksbfrm.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TEikScrollBarModel</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikscrlb.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/aknscrlb.h</code></span>
+</td></tr>
+<p>When a UI component needs the scrolling functionality it has to own a scrollbarframe.
+This object is a container for the horizontal and vertical scrollbars (even
+they might not visible). Buttons and position are stored in the relevant scrollbar
+object.
+</p><p>A control that requires scrolling support generally contains an instance
+of <span class="plainlinks"><code>CEikScrollBarFrame</code> </span>* as data member and all scrollbar operations
+are executed via this scrollbar frame. These operations include creating and
+destroying the scrollbar, setting its visibility, adjusting the scrollbar's
+model.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Scrollbar_Classes.png" title="Scrollbar classes"><img alt="Scrollbar classes" border="0" height="301" src="images/SPB_10_1_Scrollbar_Classes.png" width="602" /></a></div>
+<div style="text-align:center"><i>Scrollbar classes</i></div>
+<a name="ArrowHead_scrollbar"><h3> <span class="mw-headline">1.5 ArrowHead scrollbar </span></h3>
+</a><p>ArrowHead scrollbar appears in the center of the CBA pane between the two
+button labels. It is always vertical, consists of two buttons, does not have
+thumb and shaft area. However, it shows the thumb position clearly with changing
+the indicators brightness/transparency value.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ArrowHead_Scrollbar.png" title="ArrowHead scrollbar"><img alt="ArrowHead scrollbar" border="0" height="48" src="images/SPB_10_1_ArrowHead_Scrollbar.png" width="307" /></a></div>
+<div style="text-align:center"><i>ArrowHead scrollbar</i></div>
+<a name="DoubleSpan_scrollbar"><h3> <span class="mw-headline">1.6 DoubleSpan scrollbar </span></h3>
+</a><p>DoubleSpan scrollbar supports horizontal and vertical scrollbars as well.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_DoubleSpan_Scrollbar.png" title="DoubleSpan scrollbar"><img alt="DoubleSpan scrollbar" border="0" height="231" src="images/SPB_10_1_DoubleSpan_Scrollbar.png" width="278" /></a></div>
+<div style="text-align:center"><i>DoubleSpan scrollbar</i></div>
+<p>Positioning the thumb is based on three integers, and has to be calculated
+by the client every time when the scrolling content's "scroll state" has been
+changed:
+</p>
+<ul><li> scroll span - size of the content,
+</li><li> window size - size of the visible content,
+</li><li> position of the focus.
+</li></ul>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Scrollbar_PosAttributes.png" title="Scrollbar position attributes"><img alt="Scrollbar position attributes" border="0" height="234" src="images/SPB_10_1_Scrollbar_PosAttributes.png" width="278" /></a></div>
+<div style="text-align:center"><i>Scrollbar position attributes</i></div>
+<p>Additionally, an internal thumb can exist inside the thumb when the scrolled
+item is inside another scrolled item, for example a text entry control in
+a form, where both the text and the form have a scrollbar. Two more attributes
+describe this feature:
+</p>
+<ul><li> field size - the display range of the client control in the sub list,
+</li><li> field position.
+</li></ul>
+<p>The units of the parameters depend on the client control using the scrollbar,
+for example a list box would use the list items as units, a text editor may
+use pixels, etc. The actual size and position of the thumb is calculated internally
+and be adapted to the current display resolution.
+</p><p>A DoubleSpan scrollbar can be a window owning or a non window owning control
+either.
+</p>
+<a name="Remote_scrollbars"><h3> <span class="mw-headline">1.7 Remote scrollbars </span></h3>
+</a><p>The scrollbar frame that is owned by the scrolling control can either own
+the scrollbar or can be connected to an already existing scrollbar frame and
+uses its scrollbars. In other words the scrollbar does not have to be the
+child of the parent, it can be a remote one. In this case the object provider
+mechanism is used to determine the target scrollbar which this scrollbar is
+attached to.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Creating_a_scrollbar"><h3> <span class="mw-headline">2.1 Creating a scrollbar </span></h3>
+</a><p>A typical scrollbar creation (based on the system's <span class="plainlinks"><code><font color="darkred">DefaultScrollBarType()</font></code> </span>)
+looks like this:
+</p>
+<pre>iSBFrame = new ( ELeave ) CEikScrollBarFrame( this, NULL );
+CAknAppUiBase* appUi = iAvkonAppUi;
+</pre>
+<pre>if( AknLayoutUtils::DefaultScrollBarType( appUi ) ==
+    CEikScrollBarFrame::EDoubleSpan )
+    {
+    // window-owning scrollbar, non-remote, vertical, non-horizontal
+    iSBFrame-&gt;CreateDoubleSpanScrollBarsL( ETrue, EFalse, ETrue, EFalse );
+    iSBFrame-&gt;SetTypeOfVScrollBar( CEikScrollBarFrame::EDoubleSpan );
+    }
+else
+    {
+    iSBFrame-&gt;SetTypeOfVScrollBar( CEikScrollBarFrame::EArrowHead );
+    }
+iSBFrame-&gt;SetScrollBarVisibilityL(
+    CEikScrollBarFrame::EOff, CEikScrollBarFrame::EAuto );
+</pre>
+<a name="Updating_ArrowHead_scrollbar_attributes"><h3> <span class="mw-headline">2.2 Updating ArrowHead scrollbar attributes </span></h3>
+</a><p>Updating the scrollbar is done via the <span class="plainlinks"><code>TEikScrollBarModel</code> </span> object.
+For ArrowHead scrollbar the model attributes are public, they can be set with
+direct access.
+</p><p>Assuming a list-based control, we can use the number of elements as scrollspan,
+the actual element's index as thumbposition, and a hard coded value as window
+size.
+</p>
+<pre>// setting ArrowHead attributes via public members of
+// TEikScrollBarModel iArrowAttributes
+iArrowAttributes.iThumbPosition = ActualElement();
+iArrowAttributes.iThumbSpan = 10;
+iArrowAttributes.iScrollSpan = ElementCount();
+</pre>
+<pre>// updating model using generic scrolbar handle
+iSBFrame-&gt;GetScrollBarHandle(
+    CEikScrollBar::EVertical )-&gt;SetModel( &amp;ArrowAttributes );
+</pre>
+<a name="Updating_DoubleSpan_scrollbar_attributes"><h3> <span class="mw-headline">2.3 Updating DoubleSpan scrollbar attributes </span></h3>
+</a><p>DoubleSpan's model ( <span class="plainlinks"><code>TAknDoubleSpanScrollBarModel</code> </span>) does
+not have public attributes. Setting the field size and position are not mandatory,
+0 value means a simple span-typed scrollbar; if they are set, a real double
+span scrollbar is used.
+</p><p><span class="plainlinks"><code><font color="darkred">SetModel()</font></code> </span> function generates a redraw event. More update
+step can also be performed without drawing, for example setting up the background
+state; a direct draw updates the scrollbar in this case.
+</p>
+<pre>// setting DoubleSpan attributes via public setter functions of
+// TAknDoubleSpanScrollBarModel iDoubleSpanAttributes
+iDoubleSpanAttributes.SetScrollSpan( iElements-&gt;Count() );
+iDoubleSpanAttributes.SetFocusPosition( iActualElement );
+iDoubleSpanAttributes.SetWindowSize( WindowHeight() / KElementHeight );
+iDoubleSpanAttributes.SetFieldSize( KElementHeight*2 );
+iDoubleSpanAttributes.SetFieldPosition( 10 );
+</pre>
+<pre>// updating model using specific vertical handle
+iSBFrame-&gt;VerticalScrollBar()-&gt;SetModel( &amp;iDoubleSpanAttributes );
+</pre>
+<pre>_OR_
+</pre>
+<pre>// updating model using direct draw request
+iSBFrame-&gt;Tile( &amp;iDoubleSpanAttributes );
+iSBFrame-&gt;DrawScrollBarsNow();
+</pre>
+<a name="Observing_scrollbar_events"><h3> <span class="mw-headline">2.4 Observing scrollbar events </span></h3>
+</a><p>Standard S60 callback mechanism is used for scrollbar events. Various events
+such as thumb dragging, button pressed or page changed are generated. The <span class="plainlinks"><code>MEikScrollBarObserver</code> </span> class
+defines them and the callback function.
+</p>
+<pre>// defining observer class, CSbObserver
+#include &lt;eiksbobs.h&gt;
+</pre>
+<pre>class CSbObserver : public CBase, public MEikScrollBarObserver
+    {
+    public:
+        CSbObserver();
+    public:
+        void HandleScrollEventL(
+            CEikScrollBar* aScrollBar,
+            TEikScrollEvent aEventType );
+    };
+// create and assign observer class
+iScrollObserver = new (ELeave) CSbObserver;
+iSBFrame-&gt;SetScrollBarFrameObserver( iScrollObserver );
+</pre>
+<p>Scrollbar thumb data are already modified by the time this callback function
+is called. The client may update its internal state according to the change:
+</p>
+<pre>// the callback function
+CSbObserver::HandleScrollEventL( CEikScrollBar* aScrollBar, TEikScrollEvent aEventType )
+    {
+    switch( aEventType )
+        {
+        case EEikScrollHome :
+            SetActualElment( 0 );
+            break;
+        case EEikScrollEnd :
+            SetActualElement( LastElement() );
+            break;
+        default:
+            SetActualElement( aScrollBar-&gt;ThumbPosition() );
+            break;
+        }
+    }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.5 Error handling </span></h3>
+</a><p>Scroller Service API uses standard Symbian OS error reporting mechanism.
+Leaves and system wide error codes as function return values are used if the
+error is recoverable. A client application can handle these errors similarly
+as a normal Symbian platform application.
+</p>
+<a name="Limitations_of_the_API"><h3> <span class="mw-headline">2.6 Limitations of the API </span></h3>
+</a><p>There is no way to define custom images for arrows, thumb, shaft.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Scroller API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> CBA</td><td> Command Button Area
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_scroller_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:35 GMT -->
+</html>

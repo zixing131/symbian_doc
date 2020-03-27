@@ -1,0 +1,160 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7800A00C-5BD3-46FA-9D0A-9DF29A5C057E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:27 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Specific header formats" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-C0D38954-2FC5-4E8B-BC11-229464DCF16C" /><meta name="DC.Relation" scheme="URI" content="GUID-1E8904E3-43AC-5332-A2EF-F11F5728DBE8" /><meta name="DC.Relation" scheme="URI" content="GUID-B4A54501-4AA4-5ACB-96D7-4427C7752639" /><meta name="DC.Relation" scheme="URI" content="GUID-F6CF2920-9095-568B-B332-D5F4A05BD23A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-7800A00C-5BD3-46FA-9D0A-9DF29A5C057E" /><meta name="DC.Language" content="en" /><title>Specific
+header formats </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-7800A00C-5BD3-46FA-9D0A-9DF29A5C057E">Specific
+header formats</h1><div>
+<p>This section describes the headers that have specific support for encoding
+or decoding using parts and parameters. Other headers not listed are encoded
+and decoded using a default mechanism that assumes the header field has a
+single part with a string value. </p>
+<div id="GUID-210B3CBF-2885-434C-A8DF-418D5A986088"><h3 class="section-title">Accept</h3> <p>This
+is a client request header. </p><pre class="codeblock">RHTTPHeaders hdr = aReq.GetHeaderCollection();
+// Setting a single media range with no parameter, i.e. Accept: text/html 
+RStringF textHtml = iStrTb.OpenFStringL(_L8("text/html")); 
+CleanupClosePushL(textHtml);
+THTTPHdrVal accVal(textHtml); 
+hdr.SetFieldL(iStrTb.String(HTTP::EAccept,RHTTPSession::GetTable()), accVal); 
+CleanupStack::PopAndDestroy(&amp;textHtml);
+// Setting several media ranges with no parameters, i.e. Accept: text/html; text/vnd.wap.wml 
+RStringF textHtml = iStrTb.OpenFStringL(_L8("text/html")); 
+CleanupClosePushL(textHtml);
+RStringF textWml  = iStrTb.OpenFStringL(_L8("text/vnd.wap.wml")); 
+CleanupClosePushL(textWml);
+THTTPHdrVal accVal(textHtml);
+hdr.SetFieldL(iStrTb.String(HTTP::EAccept,RHTTPSession::GetTable()), accVal); 
+accVal.SetStr(textWml); 
+hdr.SetFieldL(iStrTb.String(HTTP::EAccept,RHTTPSession::GetTable()), accVal); 
+CleanupStack::PopAndDestroy(&amp;textHtml);
+CleanupStack::PopAndDestroy(&amp;textWml);
+// Setting a media range with a 'q' parameter,  Accept: text/html; q=0.8 
+RStringF textHtml  = iStrTb.OpenFStringL(_L8("text/html")); 
+CleanupClosePushL(textHtml);
+THTTPHdrVal accVal(textHtml); 
+THTTPHdrVal q(THTTPHdrVal::TQConv(0.8)); 
+hdr.SetFieldL(iStrTb.String(HTTP::EAccept,RHTTPSession::GetTable()), accVal, iStrTb.String(HTTP::EQ,RHTTPSession::GetTable()), q); 
+CleanupStack::PopAndDestroy(&amp;textHtml);
+// Using an accept extension,  Accept: text/html; extended=value 
+RStringF textHtml  = iStrTb.OpenFStringL(_L8("text/html")); 
+CleanupClosePushL(textHtml);
+RStringF extended  = iStrTb.OpenFStringL(_L8("extended")); 
+CleanupClosePushL(extended);
+RStringF extendVal = iStrTb.OpenFStringL(_L8("value")); 
+CleanupClosePushL(extendVal);
+
+THTTPHdrVal accVal(textHtml); 
+THTTPHdrVal extVal(extendVal); 
+
+hdr.SetFieldL(iStrTb.String(HTTP::EAccept,RHTTPSession::GetTable()), accVal, extended, extVal); 
+CleanupStack::PopAndDestroy(3); // textHtml, extended, extendVal</pre>
+</div>
+<div id="GUID-37A82EFB-820A-4BD0-BA38-F3507F709E73"><h3 class="section-title">Accept-Charset</h3><p>This is a client request header. </p><pre class="codeblock">RHTTPHeaders hdr = aReq.GetHeaderCollection();
+// Setting up two accepted character sets, i.e.  Accept-Charset: us-ascii, utf-8 
+RStringF usAscii = iStrTb.OpenFStringL(_L8("us-ascii"));
+CleanupClosePushL(usAscii);
+RStringF utf8 = iStrTb.OpenFStringL(_L8("utf-8"));
+CleanupClosePushL(utf8);
+THTTPHdrVal accChSetVal(usAscii);
+hdr.SetFieldL(iStrTb.String(HTTP::EAcceptCharset,RHTTPSession::GetTable()), accChSetVal);
+// sets the first part accChSetVal.(SetStrutf8);
+hdr.SetFieldL(iStrTb.String(HTTP::EAcceptCharset,RHTTPSession::GetTable()), accChSetVal);
+// adds an additional part usAscii.Close();
+CleanupStack::PopAndDestroy(2);</pre></div>
+<div id="GUID-28FB5629-78CC-4229-B30D-6EF40F8E3C33"><h3 class="section-title">Authorisation</h3><p>This is a client request header. <strong>Note:</strong> The
+client need not set this header for most normal requests. </p><pre class="codeblock">RHTTPHeaders hdr = aReq.GetHeaderCollection();
+// Setting an authorization credential, i.e. Authorization: Basic c3ltYmlhbjpmMXN5bmNtbA== 
+RStringF basicCred = iStrTb.OpenFStringL(_L8("c3ltYmlhbjpmMXN5bmNtbA=="));
+CleanupClosePushL(basicCred);
+THTTPHdrVal authVal(iStrTb.String(HTTP::EBasic,RHTTPSession::GetTable()));
+hdr.SetFieldL(iStrTb.String(HTTP::EAuthorization,RHTTPSession::GetTable()), authVal);
+authVal.(SetStrbasicCred);
+hdr.SetFieldL(iStrTb.String(HTTP::EAuthorization,RHTTPSession::GetTable()), authVal);
+CleanupStack::PopAndDestroy(&amp;basicCred);</pre></div>
+<div id="GUID-64B95F8D-3E6D-48F6-A7E1-C997C69F5C6A"><h3 class="section-title">Connection</h3><p>This is a general header, that is, it
+applies to the connection between client and server. <strong>Note:</strong> The client
+need not set this header for normal, persistent HTTP/1.1 requests. </p><pre class="codeblock">RHTTPHeaders hdr = aReq.GetHeaderCollection();
+// Indicate that the connection is to close, i.e. Connection: close 
+THTTPHdrVal closeVal(iStrTb.String(HTTP::EClose,RHTTPSession::GetTable()));
+hdr.SetFieldL(iStrTb.String(HTTP::EConnection,RHTTPSession::GetTable()), closeVal);
+</pre></div>
+<div id="GUID-8F6F6A87-0C05-4635-BBCD-72B5E4AFB3CC"><h3 class="section-title">Content-Length</h3><p>This is an entity header, that is,
+it applies to the body present in a request or a response. <strong>Note:</strong> The
+client should not set this header for any request: it will be ignored. </p><pre class="codeblock">RHTTPHeaders hdr = aReq.GetHeaderCollection();
+// Set a content length of 12345, i.e. Content-Length: 12345 
+THTTPHdrVal lengthVal(12345);
+hdr.SetFieldL(iStrTb.String(HTTP::EContentLength,RHTTPSession::GetTable()), lengthVal);
+</pre></div>
+<div id="GUID-6639232A-25C9-4CB6-9FF3-7F1EF3D8E148"><h3 class="section-title">Content-Type</h3><p>This is an entity header, that is,
+it applies to the body present in a request or a response. </p><pre class="codeblock">RHTTPHeaders hdr = aReq.GetHeaderCollection();
+// Set a content type of text/html, i.e. Content-Type: text/html 
+THTTPHdrVal contTypeVal(iStrTb.String(HTTP::ETextHtml,RHTTPSession::GetTable()));
+hdr.SetFieldL(iStrTb.String(HTTP::EContentType,RHTTPSession::GetTable()), contTypeVal);
+</pre></div>
+<div id="GUID-897C8418-2567-4739-8AFE-BE14A2FBC07D"><h3 class="section-title">Date</h3><p>This is a general header, that is, it applies
+to the connection between client and server. All three date formats specified
+in RFC2616 are supported in responses. Requests will be made using the RFC1123
+format only. </p><pre class="codeblock">RHTTPHeaders hdr = aReq.GetHeaderCollection();
+// Set a date of 9th August 2001, time 13:45:00.000, i.e. Date: Thu, 09 Aug 2001 13:45:00 GMT 
+THTTPHdrVal dateVal(TDateTime(2001, EAugust, 8, 13, 45, 0, 0));
+// note, the day starts at 0 
+hdr.SetFieldL(iStrTb.String(HTTP::EDate,RHTTPSession::GetTable()), dateVal);
+</pre></div>
+<div id="GUID-D1120183-9158-44D6-B64B-A9D8263B7174"><h3 class="section-title">Host</h3><p>This is a client request header. <strong>Note:</strong> The
+client should not set this header for any request unless the URL is relative. </p><pre class="codeblock">RHTTPHeaders hdr = aReq.GetHeaderCollection();
+// Set a host 'www.symbian.com', i.e. Host: www.symbian.com 
+_LIT8(host, "www.symbian.com");
+RStringF hostValStr = iStrTb.OpenFStringL(host);
+CleanupClosePushL(hostValStr);   
+THTTPHdrVal hostVal(hostValStr);    
+hdr.SetFieldL(hostStr, hostVal);
+CleanupStack::PopAndDestroy(&amp;hostValStr);</pre></div>
+<div id="GUID-8AA02D22-54A6-4250-9350-D9DE3B0E93B5"><h3 class="section-title">Transfer-Encoding</h3><p>This is a general header, that
+is, it applies to the connection between client and server. <strong>Note:</strong> The
+client should not set this header for any request, as it will be ignored. </p><pre class="codeblock">RHTTPHeaders hdr = aReq.GetHeaderCollection();
+// Set the transfer encoding to be 'chunked', i.e. Transfer-Encoding: chunked 
+THTTPHdrVal xferEncVal;
+xferEncVal.SetStrF(iStrTb.StringF(HTTP::EChunked,RHTTPSession::GetTable()));
+hdr.SetFieldL(iStrTb.StringF(HTTP::ETransferEncoding,RHTTPSession::GetTable()), xferEncVal);
+</pre></div>
+<div id="GUID-E3C924A2-E426-496E-BFDD-BA6E85E40F09"><h3 class="section-title">User-Agent</h3><p>This is a client request header. </p> <pre class="codeblock">RHTTPHeaders hdr = aReq.GetHeaderCollection();
+// Set up a user agent with two part, i.e. User-Agent: CERN-LineMode/2.15 libwww/2.17b3 
+RStringF ua1Str = iStrP.OpenFStringL(_L8("CERN-LineMode/2.15"));
+CleanupClosePushL(ua1Str);
+RStringF ua2Str = iStrP.OpenFStringL(_L8("libwww/2.17b3"));
+CleanupClosePushL(ua2Str);
+RStringF uaStr = iStrP.StringF(HTTP::EUserAgent,RHTTPSession::GetTable());
+THTTPHdrVal uaVal(ua1Str);
+hdr.SetFieldL(uaStr, uaVal);
+// sets part 1 uaVal.SetStrF(ua2Str);
+hdr.SetFieldL(uaStr, uaVal);
+// sets part 2
+CleanupStack::PopAndDestroy(2);</pre></div>
+<div id="GUID-8127BB03-00A9-4815-83F8-69838862B17A"><h3 class="section-title">WWW-Authenticate</h3><p>This is a server response header. <strong>Note:</strong> The
+client need not read this header for most normal responses. </p> <pre class="codeblock">RHTTPHeaders hdr = aReq.GetHeaderCollection();
+...
+// Display realm for WWW-Authenticate header 
+RStringF wwwAuth = strP.StringF(HTTP::EWWWAuthenticate,RHTTPSession::GetTable());
+            if (fieldNameStr == wwwAuth)
+                {
+                // check the auth scheme is 'basic'
+                RStringF basic = strP.StringF(HTTP::EBasic,RHTTPSession::GetTable());
+                RStringF realm = strP.StringF(HTTP::ERealm,RHTTPSession::GetTable());
+                THTTPHdrVal realmVal;
+                if ((fieldVal.StrF() == basic) &amp;&amp; 
+                    (!hdr.GetParam(wwwAuth, realm, realmVal)))
+                    {
+                    RStringF realmValStr = strP.StringF(realmVal.StrF());
+                    fieldVal16.Copy(realmValStr.DesC());
+                    iUtils.Test().Printf(_L("Realm is: %S\n"), &amp;fieldVal16);
+                    realmValStr.Close();
+                    }
+                basic.Close();
+                realm.Close();
+                }
+            wwwAuth.Close();
+hdr.Close();</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 8th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7800A00C-5BD3-46FA-9D0A-9DF29A5C057E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:27 GMT -->
+</html>

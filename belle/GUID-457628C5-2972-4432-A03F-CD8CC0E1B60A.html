@@ -1,0 +1,138 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-457628C5-2972-4432-A03F-CD8CC0E1B60A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Initializing a Library" /><meta name="abstract" content="Sometimes, a library needs to be initialized before it can provide any services to client of the library. This can be done in several ways." /><meta name="description" content="Sometimes, a library needs to be initialized before it can provide any services to client of the library. This can be done in several ways." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-C4C85189-BA6F-5F11-ABB3-727D8C1F5984" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-457628C5-2972-4432-A03F-CD8CC0E1B60A" /><meta name="DC.Language" content="en" /><title>Initializing
+a Library </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-457628C5-2972-4432-A03F-CD8CC0E1B60A">Initializing
+a Library</h1><div><p>Sometimes, a library needs to be initialized before it can provide
+any services to client of the library. This can be done in several ways. </p>
+<div id="GUID-A4E1C734-DF38-4AA7-8FDB-4FF97706F005"><h3 class="section-title">Export
+functions for initializing and closing the library</h3> <p>The library
+can export more than one function for initializing and closing the library.</p><p>The
+client of the library calls the initialization function before requesting
+any services and calls close when the client does not use the library. </p><p><strong>Example:</strong></p><p>There
+is a DLL called <code>xxx.dll</code>. Two functions <code class="codeph">InitXXX()</code> and <code class="codeph">CloseXXX()</code> are
+exported from this DLL. The library code can look like the following:</p><p>Library
+header file <code>xxx_init.h</code>:</p><pre class="codeblock">....
+IMPORT_C void InitXXX();
+IMPORT_C CloseXXX();
+....
+</pre><p>Library source file <code>xxx_init.cpp</code>:</p><pre class="codeblock">static int _InitCount = 0;
+EXPORT_C void InitXXX()
+{
+   if(_InitCount++ &lt;= 0)
+   {
+   // initialize xxx.dll
+   }
+}
+EXPORT_C CloseXXX()
+{
+   if(--_InitCount &lt;= 0)
+   {
+   // free all the resources
+   }
+}
+</pre><p>User code looks like the following:</p><pre class="codeblock">#include &lt;xxx_init.h&gt;
+...
+int main()
+{
+   InitXXX();
+   ....
+   ....
+   CloseXXX();
+   return 0;
+}
+</pre> </div>
+<div id="GUID-ADE950F6-8C93-4080-86A1-91C5F92D254D"><h3 class="section-title">Exported functions
+check whether the library is initialized</h3><p>Every exported function
+can check whether the library has been initialized. The library can export
+one function (for example, <code class="codeph">CloseLib()</code>) and this can be called
+before exiting <code class="codeph">main()</code>.</p><p><strong>Example:</strong></p><p>Library
+header file <code>xxx.h</code>: </p><pre class="codeblock">....
+IMPORT_C void X_Export_Api1();
+IMPORT_C void X_Export_Api2();
+....
+</pre><p>Library source file <code>xxx.cpp</code>: </p><pre class="codeblock">static int _InitCount = 0;
+#define INIT_LIB if(_InitCount == 0) \
+           {\
+               _InitCount++; \
+               InitXXX(); \
+           }
+LOCAL_C void InitXXX()
+{
+   // initialize xxx.dll
+}
+LOCAL_C CloseXXX()
+{
+   // free all the resources
+}
+EXPORT_C void X_Export_Api1()
+{
+   INIT_LIB;
+   ...
+   ...
+}
+</pre><p>User code looks like the following:</p><pre class="codeblock">#include &lt;xxx.h&gt;
+...
+int main()
+{
+   ....
+   ....
+   X_Export_Api1();
+   ....
+   ....
+   X_Export_Api2();
+   ....
+   ....
+   return 0;
+}
+</pre></div>
+<div id="GUID-F387926E-A6D2-439C-9EEA-A3751E38DFBE"><h3 class="section-title">Library defines
+a static object</h3><p>The library can define static objects and call the
+initialization code from the constructor of these static objects so that before
+calling, the application entry point library will be initialized.</p><p><strong>Example:</strong></p><p>Library
+header file <code>xxx.h</code>: </p><pre class="codeblock">....
+IMPORT_C void X_Export_Api1();
+IMPORT_C void X_Export_Api2();
+....</pre><p>Library source file <code>xxx.cpp</code>: </p><pre class="codeblock">LOCAL_C void InitXXX()
+{
+   // initialize xxx.dll
+}
+LOCAL_C CloseXXX()
+{
+   // free all the resources
+}
+class LibInit
+{
+   LibInit();
+   ~LibInit();
+};
+LibInit::LibInit()
+{
+   // put all library initialization code here.
+   InitXXX();
+}
+LibInit::~LibInit()
+{
+   // free all resources
+   CloseXXX();
+}
+static LibInit _libInit;
+</pre><p>User code looks like the following:</p><pre class="codeblock">#include &lt;xxx.h&gt;
+int main()
+{
+   ....
+   ....
+   X_Export_Api1();
+   ....
+   ....
+   X_Export_Api2();
+   ....
+   ....
+   return 0;
+}
+</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 7th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-457628C5-2972-4432-A03F-CD8CC0E1B60A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+</html>

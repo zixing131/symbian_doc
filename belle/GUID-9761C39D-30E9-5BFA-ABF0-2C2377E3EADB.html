@@ -1,0 +1,48 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9761C39D-30E9-5BFA-ABF0-2C2377E3EADB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:22 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to manipulate rich text" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DCA2F4D-ABE6-52A0-AC4E-5AAC1AB5909D" /><meta name="DC.Relation" scheme="URI" content="GUID-4F901F56-7F0E-4869-85CA-6109ED0AF5B7" /><meta name="DC.Relation" scheme="URI" content="GUID-533EC918-BF5B-5D0B-8860-1E8746A05EE3" /><meta name="DC.Relation" scheme="URI" content="GUID-2DDEF473-B804-51DF-874F-ADF46CB03ABA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9761C39D-30E9-5BFA-ABF0-2C2377E3EADB" /><meta name="DC.Language" content="en" /><title>How to manipulate rich text </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-9761C39D-30E9-5BFA-ABF0-2C2377E3EADB">How to manipulate rich text</h1><div><div><h3 class="section-title">Creating a rich text object</h3> <p>Like global text, when a rich text object is constructed, the character and paragraph format layers upon which the rich text object's formatting is based (the "global" layers) must be specified. Here, their formatting is taken from the system-provided default settings. Other variants of <code class="codeph">CRichText::NewL()</code> exist for creating rich text objects supporting paragraph styles, fields and pictures.</p> <pre class="codeblock">CRichText* iRichText; // rich text document
+CParaFormatLayer* iParaFormatLayer;// global paragraph format layer
+CCharFormatLayer* iCharFormatLayer;// global character format layer
+iParaFormatLayer=CParaFormatLayer::NewL(); // required para format
+iCharFormatLayer=CCharFormatLayer::NewL(); // required char format
+iRichText=CRichText::NewL(iParaFormatLayer, iCharFormatLayer);</pre> </div> <div><h3 class="section-title">Inserting formatted text</h3> <p>In the following example, some text is inserted into the text object using the default character and paragraph formatting. Then an italicised text string is inserted at the <em>document position</em> between the fifth and sixth characters. In rich text, character formatting may be applied to any portion of the rich text object, from a single character to the entire document.</p> <p>After the text has been inserted, call <code class="codeph">CancelInsertCharFormat()</code> to cancel the character formatting insertion command. If this is not done and text is subsequently inserted at any document position other than <code class="codeph">pos</code>, a panic will occur.</p> <pre class="codeblock">TInt pos=0; // will be insertion position
+// insert some rich text
+iRichText-&gt;InsertL(pos,_L("Hello world!"));
+// insert text with different formatting from rest of paragraph
+charFormatMask.SetAttrib(EAttFontPosture); // interested in posture
+charFormat.iFontSpec.iFontStyle.SetPosture(EPostureItalic); 
+pos=5; 
+iRichText-&gt;SetInsertCharFormatL(charFormat, charFormatMask,pos);
+        // set formatting, when inserting at this position
+iRichText-&gt;InsertL(pos,_L(" all the"));
+iRichText-&gt;CancelInsertCharFormat();
+        // cancel is necessary before inserting anywhere else</pre> </div> <div><h3 class="section-title">Rich text character formatting</h3> <p>The following code applies character formatting to existing text, preserving its format attributes.</p> <pre class="codeblock">charFormatMask.SetAttrib(EAttFontUnderline); 
+    // interested in underline
+charFormat.iFontPresentation.iUnderline=EUnderlineOn; // set it on
+iRichText-&gt;ApplyCharFormatL(charFormat, charFormatMask,10,9);
+    // apply this character formatting, from position 10,9 characters</pre> <p><strong>Notes</strong> </p> <ul><li id="GUID-B04F5523-8FBF-5A7F-9751-6E56A28AE099"><a name="GUID-B04F5523-8FBF-5A7F-9751-6E56A28AE099"><!-- --></a><p>The above code applies underlining to the substring "the world" whose existing formatting is a mixture of italics and normal. The string's existing formatting is preserved, with underline added as an additional format layer. </p> </li> <li id="GUID-B7B10D19-1E87-5E61-AC14-C6BED9C64041"><a name="GUID-B7B10D19-1E87-5E61-AC14-C6BED9C64041"><!-- --></a><p>Rich text is formatted in exactly the same way as global text, except that the length and position arguments now are relevant and must specify a valid range of characters. Only characters in the range specified are affected.</p> </li> </ul> </div> <div><h3 class="section-title">Rich text paragraph formatting</h3> <p>The following code demonstrates paragraph formatting in rich text by applying right alignment to a single paragraph.</p> <p>Use <code class="codeph">CRichText::CharPosOfParagraph()</code> to find the document position of the first character in the second paragraph. The second argument to this function is the offset number of the paragraph so that. paragraph number 1 indicates the second paragraph. Note that when applying paragraph formatting, any character position within the paragraph is equally valid.</p> <p><code class="codeph">ApplyParaFormatL()</code> applies formatting to all paragraphs containing one or more characters in the range covered by the third and fourth arguments. In this case, a single character is specified and this is sufficient to apply paragraph formatting to the entire second paragraph.</p> <pre class="codeblock">// Insert two new paragraphs 
+...
+...
+// make second para right-aligned (para numbering starts at 0)
+paraFormatMask.SetAttrib(EAttAlignment); // interested in alignment
+paraFormat-&gt;iHorizontalAlignment=CParaFormat::ERightAlign; 
+    // right-align
+pos=iRichText-&gt;CharPosOfParagraph(1,1); // get start of second para
+iRichText-&gt;ApplyParaFormatL(paraFormat,paraFormatMask,pos,1);
+    // apply format to entire para - even length = 1 char will do</pre> </div> <div><h3 class="section-title">Deleting rich text</h3> <p>The following code demonstrates the differences between the two functions available to delete rich text. <code class="codeph">CRichText::DeleteL()</code> deletes a range of characters and all formatting within the range.<code class="codeph">CRichText::DelSetInsertCharFormatL()</code> deletes text, but retains any inserted formatting. </p> <p>This code deletes all text between document position 10 and the end of document using <code class="codeph">DelSetInsertCharFormatL()</code>. The underline attribute which was previously set at document position 10 is retained, so that the new text inserted at position 10 is italicized and underlined.</p> <p>Following the use of <code class="codeph">DelSetInsertCharFormatL()</code> a panic will occur if text is inserted at any position other than position 10. This restriction persists until it is cancelled using <code class="codeph">CancelInsertCharFormat()</code>.</p> <pre class="codeblock">iRichText-&gt;DelSetInsertCharFormatL
+        (10,(iRichText-&gt;DocumentLength()-10));
+iRichText-&gt;InsertL(10,_L("Text deleted, formatting preserved"));
+        // ... and then insert text with same format
+iRichText-&gt;CancelInsertCharFormat(); 
+    // must cancel before inserting elsewhere</pre> <p>To demonstrate how <code class="codeph">DeleteL()</code> differs from<code class="codeph">DelSetInsertCharFormatL()</code>, <code class="codeph">DeleteL()</code> is used below to delete both the text commencing at document position 10 and the formatting inserted at that position. Only format attributes which apply to position 9 are inherited by the text subsequently inserted at position 10, so the inserted text is italicised but not underlined.</p> <pre class="codeblock">iRichText-&gt;DeleteL(10,(iRichText-&gt;DocumentLength()-10));
+// ... then insert new text at that point
+iRichText-&gt;InsertL(10,_L("Text and its formatting deleted"));
+    // insert, inheriting current formatting from char before 10
+    // (no need to cancel anything!)</pre> </div> <div><h3 class="section-title">Resetting the text object</h3> <p>Resetting an editable text object deletes all text and formatting, leaving the end of text paragraph delimiter.</p> <pre class="codeblock">iRichText-&gt;CancelInsertCharFormat();
+//reset document
+iRichText-&gt;Reset();</pre> <p>Before resetting a rich text object, it is advisable to clear any outstanding format insertion commands using <code class="codeph">CancelInsertCharFormat()</code>.</p> </div> </div></div></div><div class="footer"><p class="metadata">Last updated October 9th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9761C39D-30E9-5BFA-ABF0-2C2377E3EADB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:22 GMT -->
+</html>

@@ -1,0 +1,52 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FDA7B932-B9C6-502D-8699-C18C8D86BCC6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:56 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Performing Low-level Configuration" /><meta name="abstract" content="The Bluetooth specification defines commands and options that can be used with the various layers of the protocol." /><meta name="description" content="The Bluetooth specification defines commands and options that can be used with the various layers of the protocol." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-227B6970-A536-470F-B5A1-A1871F65D7F3" /><meta name="DC.Relation" scheme="URI" content="GUID-6CE12919-FF81-5254-BA12-385F589FEA44" /><meta name="DC.Relation" scheme="URI" content="GUID-5FE7D4DB-B853-57C4-8A90-16DF92F6231A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FDA7B932-B9C6-502D-8699-C18C8D86BCC6" /><meta name="DC.Language" content="en" /><title>Performing Low-level Configuration </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FDA7B932-B9C6-502D-8699-C18C8D86BCC6">Performing Low-level Configuration</h1><div><p>The Bluetooth specification defines commands and options
+that can be used with the various layers of the protocol.</p>
+<div id="GUID-47A19C59-20EE-4125-B17A-298CB833F00B"><h3 class="section-title">How
+to perform low-level configuration</h3> <p>The Bluetooth Sockets
+API provides some of the commands and options for configuring Sockets
+at various layers as described below: </p> <p><strong>Socket Configuration Options</strong> </p> <p>The following Socket
+configuration options are provided by the Bluetooth Sockets API: </p> <ol id="GUID-B0C63411-0EE7-5307-9E5A-E2CDF05CC6C4">
+<li id="GUID-7BF0FF43-8ABE-5026-8632-D710D0B9EF97"><a name="GUID-7BF0FF43-8ABE-5026-8632-D710D0B9EF97"><!-- --></a><p> <strong>Host Controller
+Interface (HCI) commands</strong>: provide a command interface to the baseband
+controller and link manager. These are provided through asynchronous
+I/O control (ioctl) commands on an L2CAP or RFCOMM socket, as there
+is no direct Symbian platform interface to the HCI. Ioctls are issued
+through <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-1DEB83AF-C681-30D4-951C-4C2A5572E59C"><code class="apiname">RSocket::Ioctl()</code></a>. For details, see the
+reference for the <code class="codeph">KHCIxxx</code> constants, such as KHCIAddSCOConnIoctl. </p> </li>
+<li id="GUID-42F05040-48EE-522D-8358-F0E290F60B17"><a name="GUID-42F05040-48EE-522D-8358-F0E290F60B17"><!-- --></a><p> <strong>L2CAP-level
+options</strong>: these are also issued through ioctls on an L2CAP socket.
+For details, see the reference for the <code class="codeph">KL2CAPxxx</code> constants,
+such as KL2CAPEchoRequestIoctl. </p> </li>
+<li id="GUID-DD573402-37EC-5597-A5B2-D90AF33A15C1"><a name="GUID-DD573402-37EC-5597-A5B2-D90AF33A15C1"><!-- --></a><p> <strong>RFCOMM commands
+and options</strong>: these are issued through ioctls on an RFCOMM socket,
+and sockets option settings (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-F6BB908A-2E57-3259-8F7F-AC089C6D0C56"><code class="apiname">RSocket::GetOpt()</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-F6BB908A-2E57-3259-8F7F-AC089C6D0C56"><code class="apiname">RSocket::GetOpt()</code></a>). For details, see the reference for
+the <code class="codeph">KRFCOMMxxx</code> constants, such as KRFCOMMModemStatusCmdIoctl. </p> </li>
+</ol> <p><strong>Example: Reading L2CAP Socket Class of Device</strong> </p> <p>The
+following example shows the HCI command Read_Class_of_Device being
+issued on an L2CAP socket. The ioctl for this is KHCIReadDeviceClassIoctl, which returns a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A20B8F64-51BC-31C8-AC43-80AA6F3C5BBE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A20B8F64-51BC-31C8-AC43-80AA6F3C5BBE.html"><code class="apiname">THCIDeviceClassIoctl</code></a> object
+packaged in a THCIDeviceClassBuf package buffer.
+The example extracts the device class into a variable <code class="codeph">majorClass</code>. </p> <pre class="codeblock">THCIDeviceClassBuf codbuf;
+TRequestStatus status;
+socket.Ioctl(KHCIReadDeviceClassIoctl, status, &amp;codbuf, KSolBtHCI);
+User::WaitForRequest(status);
+TUint16 majorClass = codbuf().iMajorDeviceClass;
+</pre> </div>
+<div id="GUID-A898AD98-AADB-4965-858E-8BBD7412F428"><h3 class="section-title">Where
+Next?</h3> <p>This tutorial set takes you through all the steps
+involved in setting up and communicating over a Bluetooth connection. </p> <ul>
+<li id="GUID-7C78114A-C780-54D0-916C-179B63BFDA17"><a name="GUID-7C78114A-C780-54D0-916C-179B63BFDA17"><!-- --></a><p> <a href="GUID-70339E6A-63CD-5A74-846C-50771FDAC763.html">Listening for Incoming
+Bluetooth Connections</a> </p> </li>
+<li id="GUID-D502FBFF-0B64-53E8-8CDE-58E75BF921A0"><a name="GUID-D502FBFF-0B64-53E8-8CDE-58E75BF921A0"><!-- --></a><p> <a href="GUID-834BD3BB-B39C-5EE9-8A62-9DC435930F95.html">Handling the Local
+Device Name</a> </p> </li>
+<li id="GUID-F6417852-20EF-5287-AE48-A7A3CBD07502"><a name="GUID-F6417852-20EF-5287-AE48-A7A3CBD07502"><!-- --></a><p> <strong>Performing
+Low-level Configuration</strong> - This document </p> </li>
+<li id="GUID-699728A1-AE3F-5BA4-9B16-12EDC458E215"><a name="GUID-699728A1-AE3F-5BA4-9B16-12EDC458E215"><!-- --></a><p> <a href="GUID-01A0682A-50B1-57AB-9939-6CC8FCCD782D.html">Disconnecting ACL
+links</a> </p> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 26th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FDA7B932-B9C6-502D-8699-C18C8D86BCC6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:56 GMT -->
+</html>

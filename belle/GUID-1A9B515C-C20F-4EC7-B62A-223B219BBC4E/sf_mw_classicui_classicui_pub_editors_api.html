@@ -1,0 +1,1875 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_editors_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:37 GMT -->
+<head><title>Editors API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i477"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Editors API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Editor_types"><span class="tocnumber">1.1.1</span> <span class="toctext">Editor types</span></a>
+<ul>
+<li class="toclevel-4"><a href="#Text_editors"><span class="tocnumber">1.1.1.1</span> <span class="toctext">Text editors</span></a></li>
+<li class="toclevel-4"><a href="#Numeric_editors"><span class="tocnumber">1.1.1.2</span> <span class="toctext">Numeric editors</span></a></li>
+<li class="toclevel-4"><a href="#Secret_editors"><span class="tocnumber">1.1.1.3</span> <span class="toctext">Secret editors</span></a></li>
+<li class="toclevel-4"><a href="#Multi-field_numeric_editors"><span class="tocnumber">1.1.1.4</span> <span class="toctext">Multi-field numeric editors</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Constructing_Plain_Text_editors"><span class="tocnumber">2.1</span> <span class="toctext">Constructing Plain Text editors</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Constructing_Plain_Text_editors_from_resource_file"><span class="tocnumber">2.1.1</span> <span class="toctext">Constructing Plain Text editors from resource file</span></a></li>
+<li class="toclevel-3"><a href="#Constructing_Plain_Text_editors_from_code"><span class="tocnumber">2.1.2</span> <span class="toctext">Constructing Plain Text editors from code</span></a></li>
+<li class="toclevel-3"><a href="#Common_practices"><span class="tocnumber">2.1.3</span> <span class="toctext">Common practices</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Performing_basic_Plain_Text_manipulation_through_CEikEdwin_based_editors"><span class="tocnumber">2.2</span> <span class="toctext">Performing basic Plain Text manipulation through CEikEdwin based editors</span></a></li>
+<li class="toclevel-2"><a href="#Constructing_Global_Text_editors_and_Rich_Text_editors"><span class="tocnumber">2.3</span> <span class="toctext">Constructing Global Text editors and Rich Text editors</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Constructing_Global_Text_editors_and_Rich_Text_editors_from_resource_file"><span class="tocnumber">2.3.1</span> <span class="toctext">Constructing Global Text editors and Rich Text editors from resource file</span></a></li>
+<li class="toclevel-3"><a href="#Constructing_Global_Text_editors_and_Rich_Text_editors_from_code"><span class="tocnumber">2.3.2</span> <span class="toctext">Constructing Global Text editors and Rich Text editors from code</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Performing_Advanced_Text_manipulation"><span class="tocnumber">2.4</span> <span class="toctext">Performing Advanced Text manipulation</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Using_selection"><span class="tocnumber">2.4.1</span> <span class="toctext">Using selection</span></a></li>
+<li class="toclevel-3"><a href="#Specifying_global_format"><span class="tocnumber">2.4.2</span> <span class="toctext">Specifying global format</span></a></li>
+<li class="toclevel-3"><a href="#Specifying_local_formats"><span class="tocnumber">2.4.3</span> <span class="toctext">Specifying local formats</span></a></li>
+<li class="toclevel-3"><a href="#Inserting_embedded_objects"><span class="tocnumber">2.4.4</span> <span class="toctext">Inserting embedded objects</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Setting_and_getting_the_cursor_position_of_CEikEdwin_-based_editors"><span class="tocnumber">2.5</span> <span class="toctext">Setting and getting the cursor position of CEikEdwin -based editors</span></a></li>
+<li class="toclevel-2"><a href="#Manipulating_the_editing_properties_of_CEikEdwin_-based_editors"><span class="tocnumber">2.6</span> <span class="toctext">Manipulating the editing properties of CEikEdwin -based editors</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Input_mode_and_case"><span class="tocnumber">2.6.1</span> <span class="toctext">Input mode and case</span></a></li>
+<li class="toclevel-3"><a href="#Special_character_tables"><span class="tocnumber">2.6.2</span> <span class="toctext">Special character tables</span></a></li>
+<li class="toclevel-3"><a href="#Numeric_key_maps"><span class="tocnumber">2.6.3</span> <span class="toctext">Numeric key maps</span></a></li>
+<li class="toclevel-3"><a href="#Miscellaneous_properties"><span class="tocnumber">2.6.4</span> <span class="toctext">Miscellaneous properties</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Using_the_clipboard_in_CEikEdwin_-based_editors"><span class="tocnumber">2.7</span> <span class="toctext">Using the clipboard in CEikEdwin -based editors</span></a></li>
+<li class="toclevel-2"><a href="#Observing_events_from_CEikEdwin_-based_editors"><span class="tocnumber">2.8</span> <span class="toctext">Observing events from CEikEdwin -based editors</span></a></li>
+<li class="toclevel-2"><a href="#Constructing_Numeric_editors"><span class="tocnumber">2.9</span> <span class="toctext">Constructing Numeric editors</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Constructing_Numeric_editors_from_resource_files"><span class="tocnumber">2.9.1</span> <span class="toctext">Constructing Numeric editors from resource files</span></a></li>
+<li class="toclevel-3"><a href="#Construction_from_code"><span class="tocnumber">2.9.2</span> <span class="toctext">Construction from code</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Retrieving_the_content_of_a_Numeric_editor"><span class="tocnumber">2.10</span> <span class="toctext">Retrieving the content of a Numeric editor</span></a></li>
+<li class="toclevel-2"><a href="#Constructing_Secret_editors"><span class="tocnumber">2.11</span> <span class="toctext">Constructing Secret editors</span></a></li>
+<li class="toclevel-2"><a href="#Retrieving_the_content_of_a_Secret_editor"><span class="tocnumber">2.12</span> <span class="toctext">Retrieving the content of a Secret editor</span></a></li>
+<li class="toclevel-2"><a href="#Constructing_MFNE_editors"><span class="tocnumber">2.13</span> <span class="toctext">Constructing MFNE editors</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Constructing_MFNE_editors_from_resource"><span class="tocnumber">2.13.1</span> <span class="toctext">Constructing MFNE editors from resource</span></a></li>
+<li class="toclevel-3"><a href="#Constructing_MFNE_editors_from_code"><span class="tocnumber">2.13.2</span> <span class="toctext">Constructing MFNE editors from code</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Retrieving_the_content_of_a_MFNE_editor"><span class="tocnumber">2.14</span> <span class="toctext">Retrieving the content of a MFNE editor</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.15</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.16</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Limitations_of_the_API"><span class="tocnumber">2.17</span> <span class="toctext">Limitations of the API</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Nearly every application based on the S60 platform involves displaying
+and processing data in text form. Many of these applications also allow the
+user to modify or produce new data as well. The family of editor controls
+provides the application designer a way to handle these needs in a uniform
+and efficient way. This document describes the API set to editor controls
+available on the S60 platform.
+</p><p>Because the input capabilities of S60 smartphones are limited, there are
+many aspects to be considered when compared to the usual editor components
+in modern desktop environments. The editor controls of the S60 platform have
+been designed to be applied and customized to meet the specific text display
+and input needs of the application.
+</p><p>The document does not cover the full functionality of the powerful editor
+class <span class="plainlinks"><code>CEikEdwin</code> </span>, which is the base to almost all editors.
+The API usage will be demonstrated through the most common use cases.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>avkon.lib, eikcoctl.lib, eikctl.lib, uiklaf.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/editors_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/editors_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>The API exposes the functionality through which user can create, configure
+and manipulate editors. The API description will be covered through the main
+use cases of various editor types.
+</p>
+<a name="Editor_types"><h4> <span class="mw-headline">1.1.1 Editor types </span></h4>
+</a><p>The family of editor controls in the S60 platform is divided into four
+main categories, which represent different needs for text input, display,
+and manipulation. The categories are:
+</p>
+<ul><li> Text editors
+</li><li> Numeric editors
+</li><li> Secret editors
+</li><li> Multi-field numeric editors
+</li></ul>
+<p>These categories are described in more detail in the following sections.
+</p>
+<a name="Text_editors"><h5> <span class="mw-headline">1.1.1.1 Text editors </span></h5>
+</a><p>Text editors are editor controls containing text. They may allow only one
+or multiple lines of text to be entered. The most basic text editor controls
+support only unformatted text, but more specialized controls allow text to
+be formatted or &#8212; with the rich text editor &#8212; even object embedding.
+</p><p>Text editors can be further divided into three subcategories: plain text
+editors, global text editors, and rich text editors. A plain text editor (Figure
+1) is the most basic text editor control with no formatting capabilities.
+A global text editor (Figure 2) allows the formatting to be defined for the
+whole contents of the editor, but does not allow formatting of individual
+paragraphs or chapters. A rich text editor (Figure 3) provides a full variety
+of formatting options for its contents as well as embedding non-text objects.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_PlainTextEditor.png" title="Plain text editor"><img alt="Plain text editor" border="0" height="220" src="images/SPB_10_1_PlainTextEditor.png" width="187" /></a></div>
+<div style="text-align:center"><i>Plain text editor</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_GlobalTextEditor.png" title="Global text editor"><img alt="Global text editor" border="0" height="220" src="images/SPB_10_1_GlobalTextEditor.png" width="187" /></a></div>
+<div style="text-align:center"><i>Global text editor</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_RichTextEditor.png" title="Rich text editor"><img alt="Rich text editor" border="0" height="215" src="images/SPB_10_1_RichTextEditor.png" width="185" /></a></div>
+<div style="text-align:center"><i>Rich text editor</i></div>
+<a name="Numeric_editors"><h5> <span class="mw-headline">1.1.1.2 Numeric editors </span></h5>
+</a><p>Numeric editors restrict the user input to numeric values. They allow the
+user to enter only one line of text because numeric values do not span between
+lines. The numeric editors (Figure 4) can be divided into three subcategories
+based on the type of numeric values they are designed to accept: integer editors,
+floating-point editors, and fixed-point editors.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_NumericEditors.png" title="Numeric editors"><img alt="Numeric editors" border="0" height="213" src="images/SPB_10_1_NumericEditors.png" width="181" /></a></div>
+<div style="text-align:center"><i>Numeric editors</i></div>
+<a name="Secret_editors"><h5> <span class="mw-headline">1.1.1.3 Secret editors </span></h5>
+</a><p>Secret editors (Figure 5) are basically plain text editors designed to
+allow secure input of secret data, such as passwords or PIN codes. The secret
+editor will not show its contents as plain text but displays a sequence of
+asterisks instead. There are two types of secret editors, one for alphanumeric
+input and one for numeric input. The alphanumeric variant displays the last
+character of user input for a short period of time to help the user produce
+the desired input on the keypad.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_SecretEditor.png" title="Secret editor"><img alt="Secret editor" border="0" height="221" src="images/SPB_10_1_SecretEditor.png" width="189" /></a></div>
+<div style="text-align:center"><i>Secret editor</i></div>
+<a name="Multi-field_numeric_editors"><h5> <span class="mw-headline">1.1.1.4 Multi-field numeric editors </span></h5>
+</a><p>The multi-field numeric editor (MFNE) is an editor composed of several
+numeric fields. They are used to display and enter related numeric values,
+such as time or date. The functionality of the fields is similar to numeric
+editors; however, the MFNE context may impose more limitations to the values
+accepted for a field &#8212; for example, because the number of days in a month
+varies between months.
+</p><p>There are eight MFNE controls available in the S60 platform: number editor,
+range editor, time editor, date editor, time and date editor, duration editor,
+time offset editor, and IP address editor.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_MultiFieldNumericEditor.png" title="Multi-field numeric editors"><img alt="Multi-field numeric editors" border="0" height="225" src="images/SPB_10_1_MultiFieldNumericEditor.png" width="192" /></a></div>
+<div style="text-align:center"><i>Multi-field numeric editors</i></div>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Editors API is an SDK API and part of S60 release 3.1.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+<ul><li> Constructing plain text editors
+</li><li> Constructing plain text editors from resource file
+</li><li> Constructing plain text editors from resource file
+</li></ul>
+<ul><li> Performing basic plain text manipulation through <span class="plainlinks"><code></code></span></li></ul></a>CEikEdwin  based
+
+<p>editors
+</p>
+<ul><li> Constructing global text editors and rich text editors
+</li><li> Constructing global text editors and rich text editor from resource file
+</li><li> Constructing global text editors and rich text editor from resource file
+</li></ul>
+<p>from code
+</p>
+<ul><li> Performing advanced text manipulation
+</li><li> Using selection
+</li><li> Specifying global format
+</li><li> Specifying local format
+</li><li> Inserting embedded objects
+</li></ul>
+<ul><li> Setting and getting the cursor position in <span class="plainlinks"><code>CEikEdwin</code> </span> based
+</li></ul>
+<p>editors
+</p>
+<ul><li> Manipulating editing properties of <span class="plainlinks"><code>CEikEdwin</code> </span> based editors
+</li><li> Input mode and case
+</li><li> Special character tables
+</li><li> Numeric key maps
+</li><li> Miscellaneous properties
+</li></ul>
+<ul><li> Using clipboard in <span class="plainlinks"><code>CEikEdwin</code> </span> based editors
+</li><li> Observing events from <span class="plainlinks"><code>CEikEdwin</code> </span> based editors
+</li><li> Constructing numeric editors
+</li><li> Constructing numeric editors from resource file
+</li><li> Constructing numeric editors from code
+</li></ul>
+<ul><li> Retrieving the content of a numeric editor
+</li><li> Constructing secret editors
+</li><li> Retrieving the content of a secret editor
+</li><li> Constructing MFNE editors
+</li><li> Constructing from resource file
+</li><li> Constructing from code
+</li></ul>
+<ul><li> Retrieving the content of a MFNE editor
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknCcpuSupport <td><span class="plainlinks"><code>/epoc32/include/mw/eikccpu.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAknEdwinState</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknedsts.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknIntegerEdwin</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknNumEdwin.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknIpFieldEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknipfed.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknLocationEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknlocationed.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknNumericEdwin</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnumed.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknNumericSecretEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/Aknnumseced.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknUnitEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknuniteditor.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikDateEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikDurationEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikEdwin</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikedwin.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikEdwin::CEikEdwinExtension</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikedwin.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikEdwin::CEikEdwinExtension::TAknEdwinPictographDrawer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikedwin.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikFixedPointEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfpne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikFloatingPointEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikfpne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikGlobalTextEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikgted.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMfne</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMfneField</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMfneNumber</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMfneSeparator</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMfneSymbol</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMfneSymbol::CItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikNumberEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikRangeEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikRichTextEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikrted.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikSecretEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikseced.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikTTimeEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikTimeAndDateEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikTimeEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikTimeOffsetEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmfne.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknEdStateObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknedstsobs.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknMfneCommandObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknmfnecommandobserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MEikCcpuEditor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikccpu.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MEikEdwinObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikedwob.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MEikEdwinSizeObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikedwob.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MEikRichTextEditorParserObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikrted.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>SAknRgb</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikedwin.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TAknEditorCaseState</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknedsts.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/eikedwin.pan</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/eikmfne.pan</code></span>
+</td></tr>
+<p>All S60 editors are either derived from <span class="plainlinks"><code>CEikEdwin</code> </span> or <span class="plainlinks"><code>CEikMfne</code> </span>.
+Text editors, numeric editors belong to the firs category and multi-field
+numeric editors belong to the latter.
+</p><p><span class="plainlinks"><code>CEikEdwin</code> </span> is the generic Symbian OS editor for text. It
+supports scrollable windows, embedded objects, FEP interactions, clipboard
+operations. <span class="plainlinks"><code>CEikEdwin</code> </span> can handle plain text, global text
+and rich text. They are represented by <span class="plainlinks"><code>CPlainText</code> </span>, <span class="plainlinks"><code>CGobalText</code> </span> and <span class="plainlinks"><code>CRichText</code> </span> classes
+respectively. They form a derivation chain in this order. <span class="plainlinks"><code>CPlainText</code> </span> is
+used for storing unformatted text. <span class="plainlinks"><code>CGlobalText</code> </span> facilitates
+the use of one global format that is valid throughout the full length of the
+text whereas with <span class="plainlinks"><code>CRichText</code> </span> user can add format modifiers
+at any position of the text flow. Rich text also supports object embedding.
+Embedded objects are represented in rich text by <span class="plainlinks"><code>CPicture</code> </span>-derived
+objects.
+</p><p>Note that <span class="plainlinks"><code>CEikEdwin</code> </span> itself is capable of handling global
+text or rich text however it is advised that developers use derived <span class="plainlinks"><code>CEikGlobalTextEditor</code> </span> and <span class="plainlinks"><code>CEikRichTextEditor</code> </span> classes
+respectively when dealing with such contents. When discussing the Plain Text
+Editor we actually mean discussing all functionality of <span class="plainlinks"><code>CEikEdwin</code> </span> that
+is relevant for creating and manipulating plain text. <span class="plainlinks"><code>CEikEdwin</code> </span>'s
+capabilities go much beyond that those will be covered when discussing its
+two subclasses <span class="plainlinks"><code>CEikGlobalTextEditor</code> </span> and <span class="plainlinks"><code>CEikRichTextEditor</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_TextEditors_RelevantConstituents.png" title="Relevant constituents of Text Editors"><img alt="Relevant constituents of Text Editors" border="0" height="220" src="images/SPB_10_1_TextEditors_RelevantConstituents.png" width="534" /></a></div>
+<div style="text-align:center"><i>Relevant constituents of Text Editors</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_NumericEditors_RelevantConstituents.png" title="Relevant constituents of  Numeric Editors"><img alt="Relevant constituents of  Numeric Editors" border="0" height="280" src="images/SPB_10_1_NumericEditors_RelevantConstituents.png" width="513" /></a></div>
+<div style="text-align:center"><i>Relevant constituents of  Numeric Editors</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_MFNEEditors_RelevantConstituents.png" title="Relevant constituents of MFNE Editors"><img alt="Relevant constituents of MFNE Editors" border="0" height="270" src="images/SPB_10_1_MFNEEditors_RelevantConstituents.png" width="681" /></a></div>
+<div style="text-align:center"><i>Relevant constituents of MFNE Editors</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>This section advises on how to utilize the Editors API to implement the
+use cases that were listed earlier. The examples above will use some common
+assumptions. <span class="plainlinks"><code>CMyContainer</code> </span> is an imaginary container control
+which has an <span class="plainlinks"><code><font color="darkred">iEditor</font></code> </span> member which is declared as required
+by the editor type being discussed. E.g. in the next section it is declared
+as <span class="plainlinks"><code>CEikEdwin*</code> </span> and when describing numeric editors it is declared
+as <span class="plainlinks"><code>CAknIntegerEdwin*</code> </span>.
+</p>
+<a name="Constructing_Plain_Text_editors"><h3> <span class="mw-headline">2.1 Constructing Plain Text editors </span></h3>
+</a><a name="Constructing_Plain_Text_editors_from_resource_file"><h4> <span class="mw-headline">2.1.1 Constructing Plain Text editors from resource file </span></h4>
+</a><p>A text editor resource is defined as an <span class="plainlinks"><code>EDWIN</code> </span> structure
+in a resource file. The <span class="plainlinks"><code>EDWIN</code> </span> structure is defined in<i> eikon.rh</i> as
+follows:
+</p>
+<pre>STRUCT EDWIN
+    {
+    LONG flags=0;
+    WORD width=0;
+    WORD lines=1;
+    WORD maxlength=0;
+    AKN_EDITOR_EXTENSIONS
+    }
+</pre>
+<p><b> Note:</b> Symbian OS versions older than v9.1 (S60 releases 1.x and
+2.x) specify the text editor resource in the<i> uikon.rh</i> file.
+</p><p>The meaning of the fields in the <span class="plainlinks"><code>EDWIN</code> </span> structure is described
+in Table 1.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Text editor resource structure fields</b>
+</caption>
+<tr>
+<td> <b> Field</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>Flags</code> </span></td><td> Bit field of flags describing properties of the editor control to be
+<p>created. These flags are defined in <span class="plainlinks"><code>CEikEdwin::TFlags</code> </span>. The
+properties are listed and described in [Editors_API_Specification.topic3.6.4 Miscellaneous Properties].
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>Width</code> </span></td><td> The width of the control; can be specified either by the number of
+<p>characters or by pixels depending on whether the flag <span class="plainlinks"><code>EEikEdwinWidthInPixels</code> </span> is
+specified; if specified by the number of characters, the widest character
+of the chosen font is used to determine the actual width of the control.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>Lines</code> </span></td><td> The number of text lines that the editor will display at once.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">maxlength</font></code> </span></td><td> The maximum number of characters that can be stored in the editor control.
+</td></tr></table>
+<p><span class="plainlinks"><code>AKN_EDITOR_EXTENSIONS</code> </span> defines more fields to the resource.
+These fields are specific to the S60 platform. The extensions contain the
+following fields:
+</p>
+<ul><li> WORD default_case=EAknEditorTextCase;
+</li><li> WORD allowed_case_modes=EAknEditorAllCaseModes;
+</li><li> WORD numeric_keymap=EAknEditorStandardNumberModeKeymap;
+</li><li> WORD allowed_input_modes=EAknEditorAllInputModes;
+</li><li> WORD default_input_mode=EAknEditorTextInputMode;
+</li><li> LLINK special_character_table=-1;
+</li><li> WORD avkon_flags=EAknEditorFlagDefault;
+</li><li> WORD max_view_height_in_lines=0;
+</li><li> WORD base_line_delta=0;
+</li><li> WORD spare=0;
+</li></ul>
+<p>The roles of the <span class="plainlinks"><code>AKN_EDITOR_EXTENSIONS</code> </span> fields are summarized
+in Table 2.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>S60 platform-specific text editor resource structure fields</b>
+</caption>
+<tr>
+<td> <b> Field</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">default_case</font></code> </span></td><td> The default case to apply when receiving user input (input modes and
+<p>cases are described in [Editors_API_Specification.topic3.6.1 Input Mode and Case]).
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">allowed_case_modes</font></code> </span></td><td> The allowed case modes; the value set for <span class="plainlinks"><code><font color="darkred">default_case</font></code> </span> must
+<p>be included in this field.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">numeric_keymap</font></code> </span></td><td> The numeric key map to be used when the editor is in numeric entry
+<p>mode.
+</p>
+</td></tr>
+<tr>
+<td>
+<pre>allowed_input_modes
+</pre>
+</td><td> The allowed input modes (input modes and cases are described in [Editors_API_Specification.topic3.6.1 Input Mode and Case]); as in case modes, the value
+<p>set for <span class="plainlinks"><code><font color="darkred">default_input_mode</font></code> </span> must be included in this field.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">default_input_mode</font></code> </span></td><td> The default input mode.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">special_character_table</font></code> </span></td><td> The special character table to be displayed on user request. Special
+<p>character tables are described in [Editors_API_Specification.topic3.6.2 Special Character Tables].
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>Avkon_flags</code> </span></td><td> Bit field of editor flags specific to the S60 platform.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">max_view_height_in_lines</font></code> </span></td><td> Editor's maximum height in lines
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">base_line_delta</font></code> </span></td><td> Unused
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>Spare</code> </span></td><td> Unused
+</td></tr></table>
+<p>The code snippets below demonstrate how to construct a plain text editor.
+The following example resource structure will be used:
+</p>
+<pre>RESOURCE EDWIN r_editapp_ptx_edit
+	{
+	width=30;
+	maxlength = 200;
+	lines = 2;
+	}
+</pre>
+<p>Notice that the default resource field values are being utilized.
+</p><p>In case of plain text editor <span class="plainlinks"><code><font color="darkred">iEditor</font></code> </span> is declared as a <span class="plainlinks"><code>CEikEdwin*</code> </span> member.
+</p>
+<pre>void CMyContainer::ConstructL(const TRect&amp; aRect)
+    {
+    // Create a window for the container
+    CreateWindowL();
+    // Allocate the editor object in memory
+    iEditor = new ( ELeave )CEikEdwin;
+    // Share container's window with editor
+    iEditor-&gt;SetContainerWindowL( *this );
+    TResourceReader reader;
+    // Set up the resource reader
+    iCoeEnv-&gt;CreateResourceReaderLC( reader, R_EDITAPP_PTX_EDIT );
+    // Construct the editor
+    iEditor-&gt;ConstructFromResourceL( reader );
+    CleanupStack::PopAndDestroy();
+    // Set the focus on editor
+    iEditor-&gt;SetFocus( ETrue );
+    // Layout the container
+    SetRect( aRect );
+    // Activate container and its children (this time only the editor)
+    ActivateL();
+    }
+</pre>
+<a name="Constructing_Plain_Text_editors_from_code"><h4> <span class="mw-headline">2.1.2 Constructing Plain Text editors from code </span></h4>
+</a><p>Another alternative is to call the editor's second phase constructor and
+create the <span class="plainlinks"><code>CEikEdwin</code> </span> object fully programmatically. Below
+in <span class="plainlinks"><code>CEikEdiwn::ConstructL()</code> </span> the parameters match the fields
+specified in the <span class="plainlinks"><code><font color="darkred">r_editapp_ptx_edit</font></code> </span> resource above this leading
+to an editor with the same properties.
+</p>
+<pre>void CMyContainer::ConstructL(const TRect&amp; aRect)
+    {
+    // Create a window for the container
+    CreateWindowL();
+    // Allocate the editor object in memory
+    iEditor = new ( ELeave )CEikEdwin;
+    // Share container's window with editor
+    iEditor-&gt;SetContainerWindowL( *this );
+    // Construct the editor with the parameters as from resource
+    iEditor-&gt;ConstructL( 0, 30, 200, 2);
+    // Set the focus on editor
+    iEditor-&gt;SetFocus( ETrue );
+    // Layout the container
+    SetRect( aRect );
+    // Activate container and its children (this time only the editor)
+    ActivateL();
+    }
+</pre>
+<p>S60 specific settings, which correspond to resource fields described in
+Table 2, can be set from code directly as described in [Editors_API_Specification.topic3.5 Setting and Getting the Cursor Position of CEikEdwin based editors].
+</p>
+<a name="Common_practices"><h4> <span class="mw-headline">2.1.3 Common practices </span></h4>
+</a><p>The standard control mechanisms should be applied also in case of editors
+irrespective of how they were constructed.
+</p>
+<pre>void CMyContainer::SizeChanged()
+    {
+    // Set the size of the editor
+    // Use AknLayouUtils for a real-life app
+    iEditor-&gt;SetExtent( TPoint (10,50), TSize(156,45) );
+    }
+</pre>
+<pre>TInt CMyContainer::CountComponentControls() const
+    {
+    // Number of child controls (this time the iEditor only)
+    return 1;
+    }
+</pre>
+<pre>CCoeControl* CMyContainer::ComponentControl(TInt aIndex) const
+    {
+    switch (aIndex)
+        {
+        case 0:
+            return iEditor;
+        default:
+            return NULL;
+        }
+     }
+</pre>
+<pre>TKeyResponse CEditappView1Container::OfferKeyEventL(const TKeyEvent&amp; aKeyEvent,TEventCode aType)
+    {
+    // Forward key events to editor. In real life only do this if editor is focused
+    return iEditor-&gt;OfferKeyEventL(aKeyEvent, aType);
+    }
+</pre>
+<a name="Performing_basic_Plain_Text_manipulation_through_CEikEdwin_based_editors"><h3> <span class="mw-headline">2.2 Performing basic Plain Text manipulation through CEikEdwin based editors </span></h3>
+</a><p>When using <span class="plainlinks"><code>CEikEdwin</code> </span> class as Plain Text Editor then setting
+the text content and retrieving it can be considered the main operations of
+manipulation. When dealing with plain text it is unnecessary to deal with
+the content model <span class="plainlinks"><code>CEikEdwin</code> </span> uses instead use the convenience
+methods that hide the complexity of the actual document object.
+</p><p>It is fairly intuitive to get hold of the text stored in the editor:
+</p>
+<pre>HBufC* CMyContainer::EditorTextLC() const
+    {
+    HBufC* text = iEditor-&gt;GetTextInHBufL();
+    // Push it on cleanup stack as indicated by LC
+    CleanupStack::PushL( text );
+    }
+</pre>
+<p>If there is an already pre-allocated buffer into which you want to load
+the text then use the <span class="plainlinks"><code><font color="darkred">GetText()</font></code> </span> function instead and pass
+it the descriptor associated with the buffer.
+</p><p>The text can be changed anytime as shown in the following code snippet.
+</p>
+<pre>void CMyContainer::AddMytextL()
+    {
+    _LIT( KMyText, "This is my text" );
+    // () operator will return a TDesC reference
+    iEditor-&gt;SetTextL( &amp;KMyText() );
+    }
+</pre>
+<p><span class="plainlinks"><code><font color="darkred">SetTextL()</font></code> </span> will perform all the necessary steps needed
+to update the editor on screen. As a consequence there is no need to call
+the editor's <span class="plainlinks"><code><font color="darkred">HandleTextChangedL()</font></code> </span> or <span class="plainlinks"><code><font color="darkred">DrawNow()</font></code> </span>.
+</p>
+<a name="Constructing_Global_Text_editors_and_Rich_Text_editors"><h3> <span class="mw-headline">2.3 Constructing Global Text editors and Rich Text editors </span></h3>
+</a><a name="Constructing_Global_Text_editors_and_Rich_Text_editors_from_resource_file"><h4> <span class="mw-headline">2.3.1 Constructing Global Text editors and Rich Text editors from resource file </span></h4>
+</a><p>Global and Rich text editor resource structures are identical even if they
+are defined separately. This section will cover them both.
+</p><p>The global text editor resource is defined by the <span class="plainlinks"><code>GTXTED</code> </span> resource
+structure. The <span class="plainlinks"><code>GTXTED</code> </span> structure is defined in <span class="plainlinks"><code><font color="darkred">eikon.rh</font></code> </span> as
+follows:
+</p>
+<pre>STRUCT GTXTED
+    {
+    WORD width=0;
+    WORD height=0;
+    WORD numlines=1;
+    WORD textlimit=0;
+    LONG flags=0;
+    WORD fontcontrolflags=1;
+    WORD fontnameflags=EGulNoSymbolFonts;
+    AKN_EDITOR_EXTENSIONS
+    }
+</pre>
+<p>And the very same fields for the Rich Text Editor:
+</p>
+<pre>STRUCT RTXTED
+    {
+    WORD width=0;
+    WORD height=0;
+    WORD numlines=1;
+    WORD textlimit=0;
+    LONG flags=0;
+    WORD fontcontrolflags=1;
+    WORD fontnameflags=EGulNoSymbolFonts;
+    AKN_EDITOR_EXTENSIONS
+   }
+</pre>
+<p>The global and the rich text editor resource definitions contain some extra
+fields when compared to the <span class="plainlinks"><code>EDWIN</code> </span> resource structure. These
+fields are described in Table 3.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Global and rich text editor resource structure field</b>
+</caption>
+<tr>
+<td> <b> Field</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">fontcontrolflags</font></code> </span></td><td> Bit field of flags describing font control properties of the global
+<p>or rich text control. These flags are defined in<i> gulftflg.hrh</i> and follow
+the naming convention of <span class="plainlinks"><code>EGulFontControlXxx</code> </span>. The default
+value 1 ( <span class="plainlinks"><code>EGulFontControlAll</code> </span>) provides all font controls to
+the editor control.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">fontnameflags</font></code> </span></td><td> Bit field describing the font types available to the editor control.
+<p>These flags are defined in<i> gulftflg.hrh</i> beginning with <span class="plainlinks"><code>EGulAllFonts</code> </span>.
+</p>
+</td></tr></table>
+<p>The initialization of the Global and Rich Text Editors is done in the same
+way as with Plain Text editors.
+</p>
+<pre>void CMyContainer::ConstructL(const TRect&amp; aRect)
+    {
+    // Create a window for the container
+    CreateWindowL();
+    // Allocate the editor object in memory
+    iEditor = new ( ELeave )CEikRichTextEditor;
+    // Share container's window with editor
+    iEditor-&gt;SetContainerWindowL( *this );
+    TResourceReader reader;
+    // Set up the resource reader
+    iCoeEnv-&gt;CreateResourceReaderLC( reader, R_EDITAPP_RTX_EDIT );
+    // Construct the editor
+    iEditor-&gt;ConstructFromResourceL( reader );
+    CleanupStack::PopAndDestroy();
+    // Set the focus on editor
+    iEditor-&gt;SetFocus( ETrue );
+    // Layout the container
+    SetRect( aRect );
+    // Activate container and its children (this time only the editor)
+    ActivateL();
+    }
+</pre>
+<p>Here <span class="plainlinks"><code>R_EDITAPP_RTX_EDIT</code> </span> refers to a rich text resource.
+Here is an example:
+</p>
+<pre>RESOURCE RTXTED r_editapp_ptx_edit
+	{
+	width=30;
+	maxlength = 200;
+	lines = 2;
+	}
+</pre>
+<a name="Constructing_Global_Text_editors_and_Rich_Text_editors_from_code"><h4> <span class="mw-headline">2.3.2 Constructing Global Text editors and Rich Text editors from code </span></h4>
+</a><p>When creation happens purely from code use the second phase constructor
+instead of <span class="plainlinks"><code><font color="darkred">ConstructFromResourceL()</font></code> </span>.
+</p>
+<pre>void CMyContainer::ConstructL(const TRect&amp; aRect)
+    {
+    // Create a window for the container
+    CreateWindowL();
+    // Allocate the editor object in memory
+    iEditor = new ( ELeave )CEikRichTextEditor;
+    //Construct the editor
+    iEditor-&gt;ConstructL( this, 2, 200, 0 );
+    // Set the focus on editor
+    iEditor-&gt;SetFocus( ETrue );
+    // Layout the container
+    SetRect( aRect );
+    // Activate container and its children (this time only the editor)
+    ActivateL();
+    }
+</pre>
+<p>Note that here there is no need to call <span class="plainlinks"><code><font color="darkred">SetContainerWindowL()</font></code> </span> as
+the <span class="plainlinks"><code><font color="darkred">ConstructL()</font></code> </span> will do it. (The first parameter is the
+parent which will provide the window for it).
+</p>
+<a name="Performing_Advanced_Text_manipulation"><h3> <span class="mw-headline">2.4 Performing Advanced Text manipulation </span></h3>
+</a><p>The text contained in editor controls is stored in a text object instantiated
+from class <span class="plainlinks"><code>CEditableText</code> </span> or from a class derived from it.
+The following sections describe its usage in manipulating the contents and
+formatting the text editor controls.
+</p>
+<a name="Using_selection"><h4> <span class="mw-headline">2.4.1 Using selection </span></h4>
+</a><p>Text editor controls allow the user to select some or all of the contents
+of the editor. The application can then provide functionality concerning only
+the selection, such as clipboard operations  or text formatting.
+</p><p>The API for manipulating the current selection of text editor is straightforward.
+It consists of five methods provided by the class <span class="plainlinks"><code>CEikEdwin</code> </span>:
+getting the length ( <span class="plainlinks"><code><font color="darkred">SelectionLength()</font></code> </span>) and position ( <span class="plainlinks"><code><font color="darkred">Selection()</font></code> </span>)
+of the current selection, clearing the selection ( <span class="plainlinks"><code><font color="darkred">ClearSelectionL()</font></code> </span>),
+and selecting some ( <span class="plainlinks"><code><font color="darkred">SetSelectionL()</font></code> </span>) or all ( <span class="plainlinks"><code><font color="darkred">SelectAllL()</font></code> </span>)
+of the contents.
+</p><p>The following sample code removes the selected text area:
+</p>
+<pre>// Get selection position
+TCursorSelection pos = iEditor-&gt;Selection();
+// Get text contents
+CPlainText* text = iEditor-&gt;Text();
+// Remove the selected text
+text-&gt;DeleteL(pos.LowerPos(), pos.Length());
+</pre>
+<a name="Specifying_global_format"><h4> <span class="mw-headline">2.4.2 Specifying global format </span></h4>
+</a><p>The global text editor control and the rich text editor control provide
+support for text formatting. This section describes the classes responsible
+for storing the formats and the methods to apply global format to the editor
+(i.e. A format that is in effect for all the content of the editor).
+</p><p>Text formatting is performed in two levels: at the paragraph level and
+at the character level. The paragraph formatting is performed through the
+class <span class="plainlinks"><code>CParaFormat</code> </span>. With the global text editor, all paragraphs
+assume the same paragraph formatting style. With the rich text editor, the
+paragraph formatting style can be specified individually to each paragraph
+of the text. The character formatting is accomplished with class <span class="plainlinks"><code>TCharFormat</code> </span>.
+</p><p>The properties available for paragraph formatting are listed in Table 4.
+These properties are accessible through public members in instances of class <span class="plainlinks"><code>CParaFormat</code> </span>.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Paragraph formatting properties</b>
+</caption>
+<tr>
+<td> <b> Field</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iBorderMarginInTwips</font></code> </span></td><td> The distance between the paragraph border and the paragraph text in
+<p>twips.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iBullet</font></code> </span></td><td> The bullet point used in the paragraph. A NULL value indicates no bullet
+<p>point.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iDefaultTabWidthInTwips</font></code> </span></td><td> The default tab stop width in twips.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iFillColor</font></code> </span></td><td> The background color of the paragraph. The default is the system background
+<p>color.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iHorizontalAlignment</font></code> </span></td><td> The horizontal alignment of the paragraph.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iIndentInTwips</font></code> </span></td><td> The indent of the first line of a paragraph in twips relative to the
+<p>left margin.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iKeepTogether</font></code> </span></td><td> Flag for preventing page breaks inside the paragraph.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iKeepWithNext</font></code> </span></td><td> Flag for preventing page break between this and the next paragraph.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iLanguage</font></code> </span></td><td> The language of the paragraph. Used in, for example, spell checking
+<p>purposes.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iLeftMarginInTwips</font></code> </span></td><td> The width of the left margin in twips.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iLineSpacingInTwips</font></code> </span></td><td> The inter-line spacing within the paragraph.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iLineSpacingControl</font></code> </span></td><td> Whether <span class="plainlinks"><code><font color="darkred">iLineSpacingInTwips</font></code> </span> means 'at least' or 'exactly'
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iRightMarginInTwips</font></code> </span></td><td> The width of the right margin in twips.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iSpaceAfterInTwips</font></code> </span></td><td> The height of space below the paragraph in twips.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iSpaceBeforeInTwips</font></code> </span></td><td> The height of space above the paragraph in twips.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iStartNewPage</font></code> </span></td><td> Flag for inserting a page break immediately before this paragraph.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iVerticalAlignment</font></code> </span></td><td> The vertical alignment of the paragraph.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iWidowOrphan</font></code> </span></td><td> Flag for preventing the printing of the last line of this paragraph
+<p>at the top of the page (widow) or the first line of this paragraph at the
+bottom of the page (orphan).
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iWrap</font></code> </span></td><td> Flag for line wrapping at the right margin.
+</td></tr></table>
+<p>In addition to these formatting properties, the paragraph formatting object
+also allows specification of tab stops and paragraph borders.
+</p><p>The formatting properties at the character level are listed in Table 5.
+These properties are accessible through public members of the <span class="plainlinks"><code><font color="darkred">iFontPresentation</font></code> </span> structure
+in instances of class <span class="plainlinks"><code>TCharFormat</code> </span>.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Character formatting properties</b>
+</caption>
+<tr>
+<td> <b> Field</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iTextColor</font></code> </span></td><td> The text color.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iHighlightColor</font></code> </span></td><td> The text color used for selected text.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iHighlightStyle</font></code> </span></td><td> The highlighting style.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iStrikethrough</font></code> </span></td><td> The value of the strikethrough attribute.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iUnderline</font></code> </span></td><td> The value of the underline attribute.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iHiddenText</font></code> </span></td><td> Specifies whether the text is hidden. Note that hidden text is not
+<p>currently supported by the text layout engine. This attribute is provided
+to preserve information when copying from and to devices that support hidden
+text. By default <span class="plainlinks"><code>EFalse</code> </span>.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code><font color="darkred">iPictureAlignment</font></code> </span></td><td> The vertical alignment of a picture character.
+</td></tr></table>
+<p>Applying paragraph and character formatting involves the format mask variable.
+The format mask variable specifies which formatting properties are to be applied
+in the given formatting object. There are separate format mask types for paragraph
+( <span class="plainlinks"><code>TParaFormatMask</code> </span>) and character ( <span class="plainlinks"><code>TCharFormatMask</code> </span>)
+formatting. The mask variable is essentially a bit field, and the properties
+are set using the <span class="plainlinks"><code><font color="darkred">SetAttrib()</font></code> </span> method and reset with the <span class="plainlinks"><code><font color="darkred">ClearAttrib()</font></code> </span> method.
+The values passed to these methods are of type <span class="plainlinks"><code>TTextFormatAttribute</code> </span>.
+When setting many or all formatting properties, it may be useful to call the <span class="plainlinks"><code><font color="darkred">SetAll()</font></code> </span> method.
+</p><p>The following code example demonstrates applying paragraph formatting to
+a global text editor:
+</p>
+<pre>void CMyContainer::SetMyFormatL()
+    {
+    // Create paragraph formatting object
+    CParaFormat* pf = new (ELeave) CParaFormat();
+    CleanupStack::PushL(pf);
+    // Set the alignment
+    pf-&gt;iHorizontalAlignment = CParaFormat::ECenterAlign;
+    // Create paragraph formatting mask
+    TParaFormatMask mask;
+    // This alignment needs to be changed
+    mask.SetAttrib(EAttAlignment);
+    // Apply formatting to global text editor control
+    iEditor-&gt;ApplyParaFormatL(pf, mask);
+    CleanupStack::PopAndDestroy(); // pf
+    }
+</pre>
+<p>Adding the following code demonstrates applying character formatting to
+a global text editor:
+</p>
+<pre>void CMyContainer::SetMyFormatL()
+    {
+    &#8230;
+    // Create character format
+    TCharFormat cf;
+    // Set up the text color and strikethrough properties
+    cf.iFontPresentation.iTextColor = KRgbBlue;
+    cf.iFontPresentation.iStrikethrough = EStrikethroughOn;
+    // Create character format mask
+    TCharFormatMask cmask;
+    // The text color and strikethrough need to be changed
+    cmask.SetAttrib(EAttColor);
+    cmask.SetAttrib(EAttFontStrikethrough);
+    // Apply formatting to global text editor control
+    iEditor-&gt;ApplyCharFormatL(cf, cmask);
+    }
+</pre>
+<a name="Specifying_local_formats"><h4> <span class="mw-headline">2.4.3 Specifying local formats </span></h4>
+</a><p>In rich text editors it is possible to specify individual paragraph format
+for each paragraph and character format for any arbitrary section of characters.
+</p><p>All formatting in a rich text object is based on a global character layer
+and paragraph format layer, and a chain of layers on which they may be based.
+In case of conflict, upper layers override lower layers. These two format
+layers are specified on construction, and are not owned by the text object.
+</p><p>Additional formatting may then be added to any portion of the text. This
+is called specific formatting and in case of conflict, it overrides the formatting
+in the global layers.
+</p><p>Specific formatting is owned by the text object. So, the effective formatting
+of a rich text object may be composed of specific formatting and formatting
+specified in a chain of format layers.
+</p><p>Local formats are based on specific formatting applied at the various positions
+and with various length of the text content.
+</p><p>The following example demonstrates this with character formats:
+</p>
+<pre>void CMyContainer::SetMyTextAndCharFormatPatternL()
+    {
+    _LIT ( KMyText, "OOOOOOOO");
+    // Set the initial text of the editor
+    iEditor-&gt;SetTextL( &amp;KMyText() );
+    CRichText* rtx = iEditor-&gt;RichText();
+    TCharFormat cf;
+    // Set up the text color and strikethrough properties
+    cf.iFontPresentation.iTextColor = KRgbBlue;
+    cf.iFontPresentation.iStrikethrough = EStrikethroughOn;
+    // Create character format mask
+    TCharFormatMask cmask;
+    // The text color and strikethrough need to be changed
+    cmask.SetAttrib( EAttColor );
+    cmask.SetAttrib( EAttFontStrikethrough );
+    // Apply strikethrough to the whole text
+    rtx-&gt;ApplyCharFormatL( cf, cmask, 0, rtx-&gt;DocumentLength() );
+</pre>
+<pre>    // Apply underline and disable strikethrough for chars for positions 3 to 6
+    cmask.SetAttrib( EAttFontUnderline );
+    cf.iFontPresentation.iUnderline = EUnderlineOn;
+    cf.iFontPresentation.iStrikethrough = EStrikethroughOff;
+    rtx-&gt;ApplyCharFormatL( cf, cmask, 2, 4 );
+    // Apply strikethrough and disable underline on char positions 4 and 5
+    cf.iFontPresentation.iUnderline = EUnderlineOff;
+    cf.iFontPresentation.iStrikethrough = EStrikethroughOn;
+    rtx-&gt;ApplyCharFormatL( cf, cmask, 3, 2 );
+    // Notify the editor about the changed text
+    iEditor-&gt;HandleTextChangedL();
+    }
+</pre>
+<p>The code will result in the following formatted text:
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_FormattedText.png" title="Auto-inserted"><img alt="Auto-inserted" border="0" height="19" src="images/SPB_10_1_FormattedText.png" width="133" /></a></div>
+<div style="text-align:center"><i>Auto-inserted</i></div>
+<p><span class="plainlinks"><code>CRichText::SetInsertCharFormatL()</code> </span> will prepare the insertion
+with the specified format and at the specified position. <span class="plainlinks"><code>CRichText::CancelInsertCharFormatL()</code> </span> needs
+to be called after the insertion.
+</p>
+<a name="Inserting_embedded_objects"><h4> <span class="mw-headline">2.4.4 Inserting embedded objects </span></h4>
+</a><p>The rich text editor controls provide support for object embedding. The
+embedded objects are divided into two types in the rich text API: generic
+embedded objects and picture objects. The generic embedded objects are objects
+managed by other applications. Depending on the capabilities of these applications,
+the objects may be represented as a glass door or as an icon. The use of these
+external embeddable objects is beyond the scope of this document.
+</p><p>The embedded picture objects are represented within the rich text by objects
+derived from class <span class="plainlinks"><code>CPicture</code> </span>. <span class="plainlinks"><code>CPicture</code> </span> is
+an abstract class that encapsulates the drawing and serialization of picture
+objects. The following code example demonstrates how to create and use a simple <span class="plainlinks"><code>CPicture</code> </span> derived
+class to draw an embedded picture in rich text:
+</p>
+<pre>// CMyPicture is a minimal picture class (derived from CPicture)
+class CMyPicture : public CPicture
+    {
+    public:
+        CMyPicture( TSize aSize);
+        void Draw( CGraphicsContext&amp; aGc,
+                   const TPoint&amp; aTopLeft,
+                   const TRect&amp; aClipRect,
+                   MGraphicsDeviceMap* aMap ) const;
+</pre>
+<pre>        void ExternalizeL( RWriteStream&amp; aStream ) const;
+</pre>
+<pre>        void GetOriginalSizeInTwips( TSize&amp; aSize ) const;
+</pre>
+<pre>    protected:
+        TSize iSize;
+    };
+CMyPicture::CMyPicture(TSize aSize) : iSize(aSize) {}
+</pre>
+<pre>void CMyPicture::ExternalizeL(RWriteStream&amp; ) const {}
+</pre>
+<pre>void CMyPicture::GetOriginalSizeInTwips(TSize&amp; aSize) const
+    { aSize = iSize; }
+</pre>
+<pre>// The actual drawing code
+void CMyPicture::Draw(CGraphicsContext&amp; aGc,
+                      const TPoint&amp; aTopLeft,
+                      const TRect&amp; aClipRect,
+                      MGraphicsDeviceMap* aMap) const
+    {
+    TSize pixelsize;
+    pixelsize.iWidth = aMap-&gt;HorizontalTwipsToPixels(iSize.iWidth);
+    pixelsize.iHeight = aMap-&gt;VerticalTwipsToPixels(iSize.iHeight);
+    TRect area = TRect(aTopLeft, pixelsize);
+    // Draw a red ellipse
+    aGc.SetBrushColor(KRgbRed);
+    aGc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+    aGc.DrawEllipse(area);
+    }
+</pre>
+<p>An instance of <span class="plainlinks"><code>CMyPicture</code> </span> can then be embedded into a
+rich text editor by using the following code:
+</p>
+<pre>void CMyContainer::AddPictureL()
+    {
+    // Instantiate CMyPicture object 300x300 twips in size
+    CPicture* picture = new( ELeave )CMyPicture( TSize( 300, 300 ) );
+    CleanupStack::PushL(picture);
+    //Prepare the picture header, which will be inserted into the rich text
+    TPictureHeader header;
+    header.iPicture = TSwizzle&lt;CPicture&gt;(picture);
+    // Insert the picture into the beginning of the rich text editor
+    iEditor-&gt;RichText()-&gt;InsertL(0, header);
+    CleanupStack::Pop(); // picture
+    }
+</pre>
+<a name="Setting_and_getting_the_cursor_position_of_CEikEdwin_-based_editors"><h3> <span class="mw-headline">2.5 Setting and getting the cursor position of CEikEdwin -based editors </span></h3>
+</a><p>Another important although not too common use case is when editor client
+wants to move the cursor in the editor presented to the user to the right
+text position. This is usually but not exclusively done right after construction.
+</p><p>The following code snippet gained with a slight modification of the <span class="plainlinks"><code><font color="darkred">AddMyTextL()</font></code> </span> function
+implementation in [Editors_API_Specification.topic3.2 Performing Basic Plain Text Manipulation through CEikEdwin based editors].
+</p>
+<pre> void CMyContainer::AddMyTextL()
+    {
+    _LIT( KMyText, "This is my text" );
+    // () operator will return a TDesC reference
+    iEditor-&gt;SetTextL( &amp;KMyText() );
+    //Place the cursor after 'This' w/o selection
+    iEditor-&gt;SetCursorPosL( 4, EFalse );
+    }
+</pre>
+<p><span class="plainlinks"><code>CEikEdwin::SetCursorPosL()</code> </span> will place the cursor to the
+specified position. The second parameter is used for putting selection between
+the zero position and the specified position.
+</p><p>The editor will move the text view so that the cursor is visible.
+</p>
+<a name="Manipulating_the_editing_properties_of_CEikEdwin_-based_editors"><h3> <span class="mw-headline">2.6 Manipulating the editing properties of CEikEdwin -based editors </span></h3>
+</a><a name="Input_mode_and_case"><h4> <span class="mw-headline">2.6.1 Input mode and case </span></h4>
+</a><p>Text editor controls have modifiable properties that aid the user to enter
+data into the editor with the limited input capabilities of a keypad-based
+device. These properties include input mode and input case.
+</p><p>There are three distinct input mode options available: text input mode,
+numeric input mode, and secret text input mode. The text input mode allows
+the user to input text data using the keypad. Depending on the other properties,
+text input can be further accelerated with the predictive text input feature.
+The numeric input mode enables the user to input numeric data directly with
+the keypad. The secret text input mode is used in conjunction of secret text
+editors. The defined symbols and their meanings are listed in Table 6.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Input modes</b>
+</caption>
+<tr>
+<td> <b> Symbol</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorTextInputMode</code> </span></td><td> Text input.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorNumericInputMode</code> </span></td><td> Numeric input.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorSecretAlphaInputMode</code> </span></td><td> Secret text input.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorAllInputModes</code> </span></td><td> All of the above.
+</td></tr></table>
+<p>Input case is used in conjunction with text input mode. It gives more fine-grained
+control of the actual text input process as it specifies the desired case
+of the text to be entered. There are three options available: all text may
+be upper case or lower case, or the text is formatted so that the first character
+is upper case and the rest is lower case. The symbols and their meaning are
+listed in Table 7.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Input cases</b>
+</caption>
+<tr>
+<td> <b> Symbol</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorUpperCase</code> </span></td><td> All text input is upper case.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorLowerCase</code> </span></td><td> All text input is lower case.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorTextCase</code> </span></td><td> The first character is upper case, the others are lower case.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorAllCaseModes</code> </span></td><td> All of the above.
+</td></tr></table>
+<p>The input mode and case properties of a text editor can be specified in
+the editor resource structure or they can be set at run time. The usage of
+resource structures is described in [Editors_API_Specification.topic3.1.1 Constructing Plain Text Editors from Resource File]. The following code example shows
+how to manipulate these options at run time:
+</p>
+<pre>// Set allowed input modes
+iEditor-&gt;SetAknEditorAllowedInputModes(EAknEditorAllInputModes);
+</pre>
+<pre>// Set the default input mode
+iEditor-&gt;SetAknEditorInputMode(EAknEditorTextInputMode);
+// Set allowed case modes
+iEditor-&gt;SetAknEditorPermittedCaseModes(EAknEditorUpperCase);
+// Set the default case mode
+iEditor-&gt;SetAknEditorCase(EAknEditorUpperCase);
+</pre>
+<p>The example code sets all input modes to be allowed for the user to choose,
+setting text input mode to be the default. Within the text input mode, only
+upper case mode is allowed.
+</p>
+<a name="Special_character_tables"><h4> <span class="mw-headline">2.6.2 Special character tables </span></h4>
+</a><p>Many applications based on the S60 platform also require symbols other
+than alphanumeric ones to be entered. The most common example is e-mail composition:
+every valid e-mail address contains the '@' symbol. The S60 platform enables
+users to enter these special characters into text editor controls through
+special character tables. A special character table is a pop-up dialog containing
+a grid of special characters to choose from. Because there are different needs
+for special characters, the platform provides different special character
+tables as well.
+</p><p>The special character tables available for text editors in the S60 platform
+are listed in Table 8.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Special character tables</b>
+</caption>
+<tr>
+<td> <b> Resource Identifier</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>R_AVKON_SPECIAL_CHARACTER_TABLE_DIALOG</code> </span></td><td> Default.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>R_AVKON_URL_SPECIAL_CHARACTER_TABLE_DIALOG</code> </span></td><td> URL addresses.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>R_AVKON_EMAIL_ADDR_SPECIAL_CHARACTER_TABLE_DIALOG</code> </span></td><td> E-mail addresses.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>R_AVKON_CURRENCY_NAME_SPECIAL_CHARACTER_TABLE_DIALOG</code> </span></td><td> Currency.
+</td></tr></table>
+<p>The special character table for an editor control can be specified either
+in a resource file or with the <span class="plainlinks"><code>CEikEdwin::SetAknEditorSpecialCharacterTable()</code> </span> method.
+</p>
+<a name="Numeric_key_maps"><h4> <span class="mw-headline">2.6.3 Numeric key maps </span></h4>
+</a><p>Numeric key maps enable users to enter other symbols to the numeric editor:
+for example, in a calculator application it is useful to have the primary
+input mode as numeric, but occasionally there is a need to insert other symbols
+as well (for example, operators and decimal separator). The numeric key map
+allows the programmer to define this functionality to the two non-numeric
+keys of the keypad, the asterisk ('*') and the hash ('#') keys.
+</p><p>Table 9 lists the available options for numeric key maps. The Asterisk
+key column lists symbols available by pressing the asterisk key ('*'), and
+the Hash key column shows the symbol input when pressing the hash key ('#').
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Numeric key maps</b>
+</caption>
+<tr>
+<td> <b> Symbol</b></td><td> <b> Asterisk key</b></td><td> <b> Hash key</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorStandardNumberModeKeyMap</code> </span></td><td> *, +, p, w</td><td> #
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorPlainNumberModeKeymap</code> </span></td><td></td><td>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorCalculatorNumberModeKeymap</code> </span></td><td> +, -, *, /</td><td> .
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorConverterNumberModeKeymap</code> </span></td><td> +, -, E</td><td> .
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorToFieldNumberModeKeymap</code> </span></td><td> +</td><td> ;
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFixedDiallingNumberModeKeymap</code> </span></td><td> *, +, p, w</td><td> #
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorSATNumberModeKeymap</code> </span></td><td> *, +</td><td> #
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorSATHiddenNumberModeKeymap</code> </span></td><td> *</td><td> #
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorAlphanumericNumberModeKeymap</code> </span></td><td></td><td> #
+</td></tr></table>
+<p>The numeric key map for an editor control can be specified either in a
+resource file or by using the <span class="plainlinks"><code>CEikEdwin::SetAknEditorNumericKeymap()</code> </span> method.
+</p>
+<a name="Miscellaneous_properties"><h4> <span class="mw-headline">2.6.4 Miscellaneous properties </span></h4>
+</a><p>There are a great number of properties that can be specified for the editor
+controls. Some of these properties affect the editing properties directly
+(such as the read-only property) and some of them are purely controlling the
+implementation of the text editor controls (such as the flag whether to use
+segmented storage for the contents or not). These properties must be specified
+when creating the editor control &#8212; either by passing them as an argument to
+the <span class="plainlinks"><code><font color="darkred">ConstructL()</font></code> </span> method or by providing them in the flags
+field in the resource definition. Typically, the properties cannot be altered
+afterwards.
+</p><p>Some of these properties can, however, be changed at run time: the read-only
+flag can be set by the <span class="plainlinks"><code><font color="darkred">SetReadOnly()</font></code> </span> method and word wrapping
+can be controlled by, for example, the <span class="plainlinks"><code><font color="darkred">SetWordWrap()</font></code> </span> method.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Editor flags</b>
+</caption>
+<tr>
+<td> <b> Flag</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EkeepDocument</code> </span></td><td> The <span class="plainlinks"><code>EDWIN</code> </span> does not destroy its content on destruction.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>ESegmentedStorage</code> </span></td><td> The content buffer uses segmented storage (see <span class="plainlinks"><code>CEditableText::ESegmentedStorage</code> </span>).
+<p>Segmented storage places the data in more than one heap location. Each forms
+a part of the buffer. When this flag is not used, the content buffer is stored
+in one memory location (referred to as a flat buffer). Segmented memory tends
+to be more flexible in memory allocation, but is slower in operation than
+flat buffering.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EWidthInPixels</code> </span></td><td> The size specified in the resource used to construct the object is
+<p>given in pixels, not characters.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>ENoAutoSelection</code> </span></td><td> No automatic selection takes place. Typically, the entire text is selected
+<p>as one operation whenever the <span class="plainlinks"><code>EDWIN</code> </span> is created, resized,
+or has its text set.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EJustAutoCurEnd</code> </span></td><td> When the control is activated, the cursor is moved to the end of the
+<p>text.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>ENoWrap</code> </span></td><td> Do not wrap the text being edited.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>ELineCursor</code> </span></td><td> Use a line cursor instead of a block cursor.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>ENoHorizScrolling</code> </span></td><td> Horizontal scrolling is disabled.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EInclusiveSizeFixed</code> </span></td><td> If set, scrollbars for long documents appear inside the <span class="plainlinks"><code>EDWIN</code> </span>,
+<p>reducing the area available to the <span class="plainlinks"><code>EDWIN</code> </span>. If not set, scrollbars
+appear outside the <span class="plainlinks"><code>EDWIN</code> </span>. This does not affect the <span class="plainlinks"><code>TSize</code> </span> values
+returned by the method <span class="plainlinks"><code><font color="darkred">MinimumSize()</font></code> </span>.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EUserSuppliedText</code> </span></td><td> Sets the height of the <span class="plainlinks"><code>EDWIN</code> </span> in lines, according to
+<p>text supplied by the user.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EOwnsWindow</code> </span></td><td> The <span class="plainlinks"><code>EDWIN</code> </span> is a window-owning control.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EDisplayOnly</code> </span></td><td> The <span class="plainlinks"><code>EDWIN</code> </span> does not respond to user input.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAlwaysShowSelection</code> </span></td><td> If the <span class="plainlinks"><code>EDWIN</code> </span> loses focus, do not hide the selection.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EReadOnly</code> </span></td><td> The <span class="plainlinks"><code>EDWIN</code> </span> is read-only. Attempting to add text displays
+<p>a message to say it is read-only.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAllowPictures</code> </span></td><td> No special attempt to delete embedded pictures cleanly will be made.
+<p>This flag does not apply to <span class="plainlinks"><code>EDWIN</code> </span> s that do not edit rich
+text.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAllowUndo</code> </span></td><td> Enable undo operations.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>ENoLineOrParaBreaks</code> </span></td><td> Do not allow line or paragraph breaks in the text being edited.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EOnlyASCIIChars</code> </span></td><td> Allow only ASCII characters.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EResizable</code> </span></td><td> The <span class="plainlinks"><code>EDWIN</code> </span> control is resizable, for example, when
+<p>contained in a parent control. Should the parent control be required to resize
+itself, the image of the <span class="plainlinks"><code>EDWIN</code> </span> control that is displayed
+can be resized to fit within the parent control. This does not affect the
+maximum width of the <span class="plainlinks"><code>EDWIN</code> </span> control.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EIgnoreVirtualCursor</code> </span></td><td> The <span class="plainlinks"><code>EDWIN</code> </span> ignores the virtual cursor. Note: Touchscreen
+<p>devices do not use the virtual cursor.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>ENoCustomDraw</code> </span></td><td> No custom draw is done.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAvkonEditor</code> </span></td><td> Changes layout to AVKON style.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAvkonDisableCursor</code> </span></td><td> Hides cursor.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAvkonNotEditable</code> </span></td><td> Changes text editor to non-editable mode.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EEdwinAlternativeWrapping</code> </span></td><td> Sets the S60 style wrapping on.
+</td></tr></table>
+<p>Below are the flags specific to the S60 platform, settable either from <span class="plainlinks"><code><font color="darkred">SetAknEditorFlags()</font></code> </span> or from the <span class="plainlinks"><code><font color="darkred">avkon_flags</font></code> </span> field in an <span class="plainlinks"><code>AKN_EDITOR_EXTENSIONS</code> </span> resource.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Avkon editor flags</b>
+</caption>
+<tr>
+<td> <b> Flag</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagFixedCase</code> </span></td><td> Case changes are not allowed.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagNoT9</code> </span></td><td> Predictive text entry is not allowed.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagNoEditIndicators</code> </span></td><td> Editor indicators are not shown.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagNoLRNavigation</code> </span></td><td> The cursor cannot be moved horizontally.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagSupressShiftMenu</code> </span></td><td> Edit menu cannot be opened from edit key.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagEnableScrollBar</code> </span></td><td> Enables scroll bars.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagMTAutoOverwrite</code> </span></td><td> The character next to the cursor (if exists) is replaced by a new
+<p>entered character. This flag has effect only in latin multitap input.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagUseSCTNumericCharmap</code> </span></td><td> The number input mode uses same special character table character set
+<p>as alpha input mode if the flag is set. The flag overrides number mode
+keymapping if they are in conflict. This flag can be used also with number
+input mode only editors.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagLatinInputModesOnly</code> </span></td><td> Input language is changed to English locally in the editor.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagForceTransparentFepModes</code> </span></td><td> Chinese find mode input.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagAllowEntersWithScrollDown</code> </span></td><td> Line feed character is added with scroll down key event if the cursor
+<p>is at the end of the buffer. The functionality is available only in certain
+variants.
+</p>
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagEnablePictographInput</code> </span></td><td> Enables pictograph input.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>EAknEditorFlagFindPane</code> </span></td><td> Used internally by CAknSearchField.
+</td></tr></table>
+<a name="Using_the_clipboard_in_CEikEdwin_-based_editors"><h3> <span class="mw-headline">2.7 Using the clipboard in CEikEdwin -based editors </span></h3>
+</a><p>The clipboard is used to transfer data between the text editors in same
+or different applications. The clipboard is implemented as a direct file store
+in Symbian OS, and it may contain any serializable object.
+</p><p>The text editor base class <span class="plainlinks"><code>CEikEdwin</code> </span> provides, however,
+the utility method <span class="plainlinks"><code><font color="darkred">ClipboardL()</font></code> </span> to handle cut, copy, and
+paste operations. The cut and copy operations target the selected text. The
+paste operation will replace the currently selected text with the contents
+of clipboard. If there is no selection, the clipboard contents will be inserted
+at the current cursor position.
+</p><p>The following code demonstrates the use of these operations:
+</p>
+<pre>// Select all in the first editor
+iEditor1-&gt;SelectAllL();
+// Cut the selected text
+iEditor1-&gt;ClipboardL(CEikEdwin::ECut);
+// Paste the contents of clipboard to the second text editor
+iEditor2-&gt;ClipboardL(CEikEdwin::EPaste);
+</pre>
+<a name="Observing_events_from_CEikEdwin_-based_editors"><h3> <span class="mw-headline">2.8 Observing events from CEikEdwin -based editors </span></h3>
+</a><p>To observe <span class="plainlinks"><code>EDWIN</code> </span> based events client needs to register
+an <span class="plainlinks"><code>MEikEdwinObserver</code> </span> derived observer to the editor.
+</p><p>The registration is done by <span class="plainlinks"><code>CEikEdwin::SetEdwinObserver()</code> </span>.
+The observer will get the notification from the editor through the HandleEdwinEventL(CEikEdwin* aEdwin, TEdwinEvent aEventType). The first parameter is a pointer
+to the <span class="plainlinks"><code>EDWIN</code> </span> that generated the event and the second one
+is the event type, which is defined this way:
+</p>
+<pre>enum TEdwinEvent
+	{
+	EEventFormatChanged,
+	EEventNavigation,
+	EEventTextUpdate
+	};
+</pre>
+<p>It is quite obvious that the <span class="plainlinks"><code><font color="darkred">enum</font></code> </span> values correspond to
+format change, cursor movement and text update events respectively.
+</p>
+<a name="Constructing_Numeric_editors"><h3> <span class="mw-headline">2.9 Constructing Numeric editors </span></h3>
+</a><a name="Constructing_Numeric_editors_from_resource_files"><h4> <span class="mw-headline">2.9.1 Constructing Numeric editors from resource files </span></h4>
+</a><p>The integer editor control resource is defined by the <span class="plainlinks"><code>AVKON_INTEGER_EDWIN</code> </span> resource
+structure defined in<i> avkon.rh</i>. The <span class="plainlinks"><code>AVKON_INTEGER_EDWIN</code> </span> resource
+structure is defined as follows:
+</p>
+<pre>STRUCT AVKON_INTEGER_EDWIN
+	{
+	WORD maxlength = 0;
+	LONG min = -99999999;
+	LONG max = 99999999;
+	LONG unset_value= -100000000;
+	LLINK extension1 = 0;
+	LLINK extension2 = 0;
+	}
+</pre>
+<p>The semantics of the fields in the numeric editor control resource structure
+are self-explanatory: the <span class="plainlinks"><code><font color="darkred">min</font></code> </span> field contains the smallest
+allowed value, the <span class="plainlinks"><code><font color="darkred">max</font></code> </span> field contains the largest allowed
+value, <span class="plainlinks"><code><font color="darkred">maxlength</font></code> </span> dictates the maximum content length in characters,
+and <span class="plainlinks"><code><font color="darkred">unset_value</font></code> </span> is the default value of the integer editor
+control.
+</p><p>The fixed-point editor control resource is defined by the <span class="plainlinks"><code>FIXPTED</code> </span> resource
+structure. The <span class="plainlinks"><code>FIXPTED</code> </span> resource structure is defined in<i> eikon.rh</i> as
+follows:
+</p>
+<pre>STRUCT FIXPTED
+	{
+	WORD decimalplaces=2;
+	LONG min;
+	LONG max;
+	LONG default=0;
+	}
+</pre>
+<p>The <span class="plainlinks"><code><font color="darkred">decimalplaces</font></code> </span> field describes the number of decimals
+allowed in the edited value. Note that the fixed point editor control presents
+the value as an integer; the actual value is 10 <span class="plainlinks"><code><font color="darkred">decimalplaces</font></code> </span> the
+integer value must be divided by 100).
+</p><p>The floating-point editor control resource is defined by the <span class="plainlinks"><code>FLPTED</code> </span> resource
+structure. The <span class="plainlinks"><code>FLPTED</code> </span> resource structure is defined in<i> eikon.rh</i> as
+follows:
+</p>
+<pre>STRUCT FLPTED
+	{
+	WORD maxlength=18;
+	DOUBLE min=-9.9e99;
+	DOUBLE max=9.9e99;
+	DOUBLE default=0;
+	}
+</pre>
+<p>The code snippets in this section will demonstrate how to construct an
+integer editor (floating point editors and fixed point editors can be constructed
+similarly but using the associated resource structure). The following example
+resource structure will be used:
+</p>
+<pre>RESOURCE AVKON_INTEGER_EDWIN r_myapp_int_edit
+    {
+    maxlength = 7;
+    min=0;
+    max= 1000000;
+    unset_value = -1;
+    }
+</pre>
+<p><span class="plainlinks"><code><font color="darkred">iEditor</font></code> </span> now is declared as <span class="plainlinks"><code>CAknIntegerEdwin*</code> </span>.
+</p>
+<pre>void CMyContainer::ConstructL(const TRect&amp; aRect)
+    {
+    CreateWindowL();//Create a window for the container
+    iEditor = new ( ELeave )CAknIntegerEdwin;
+    iEditor-&gt;SetContainerWindowL( *this );
+    TResourceReader reader;
+    iCoeEnv-&gt;CreateResourceReaderLC( reader, R_MYAPP_INT_EDIT );
+    iEditor-&gt;ConstructFromResourceL( reader );
+    CleanupStack::PopAndDestroy();
+    iEditor-&gt;SetFocus( ETrue );
+    SetRect( aRect );
+    ActivateL();
+    }
+</pre>
+<p>The code above is not complete it is also required to include the newly
+created editor in the control hierarchy, forward it the key events and to
+set its extent when needed. The pattern shown previously in [Editors_API_Specification.topic3.1.3 Common Practices] can be followed.
+</p>
+<a name="Construction_from_code"><h4> <span class="mw-headline">2.9.2 Construction from code </span></h4>
+</a><p>A viable alternative to constructing from resource file is to construct
+the editor purely from code.
+</p>
+<pre>void CMyContainer::ConstructL(const TRect&amp; aRect)
+    {
+    //Create a window for the container
+    CreateWindowL();
+    // min, max, max length
+    iEditor = CAknIntegerEdwin::NewL( 0, 1000000, 7 );
+    // Set parent
+    iEditor-&gt;SetContainerWindowL( *this );
+    // Specify unset value
+    iEditor-&gt;SetUnsetValue( -1 );
+    // Set focus
+    iEditor-&gt;SetFocus( ETrue );
+    // Let container take the specified rect
+    SetRect( aRect );
+    // Activate the container
+    ActivateL();
+    }
+</pre>
+<p>Notice that now that most parameters will be fed into the <span class="plainlinks"><code><font color="darkred">NewL()</font></code> </span> factory
+function instead of reading them from resource file. However the 'unset value'
+has to be set separately through the <span class="plainlinks"><code><font color="darkred">SetUnsetValue()</font></code> </span> function.
+</p><p>There is a way to change the initial configuration through the right setter
+functions. More details on that can be found in the class documentations.
+</p>
+<a name="Retrieving_the_content_of_a_Numeric_editor"><h3> <span class="mw-headline">2.10 Retrieving the content of a Numeric editor </span></h3>
+</a><p>The following code shows how you can get the content of the Integer Editor.
+The <span class="plainlinks"><code><font color="darkred">GetInt()</font></code> </span> function will return <span class="plainlinks"><code>EFalse</code> </span> if
+the user supplied data was not acceptable (e.g. editor was empty, number was
+too high or too low). Note that the editor will take care of not letting the
+user enter longer number than specified as <span class="plainlinks"><code><font color="darkred">maxlength</font></code> </span>.
+</p>
+<pre>TBool CMyContainer::GetInt( TInt&amp; aNumber )
+    {
+    TValidationStatus stat = iEditor-&gt;GetTextAsInteger( aNumber );
+    return (EValueValid == stat);
+    }
+</pre>
+<p>In case of a Floating Point Editor the <span class="plainlinks"><code><font color="darkred">GetValueAsReal()</font></code> </span> provides
+the same functionality.
+</p>
+<a name="Constructing_Secret_editors"><h3> <span class="mw-headline">2.11 Constructing Secret editors </span></h3>
+</a><p>Secret editors can be instantiated using any of the standard methods either
+from resource file or from code. The alphanumeric secret editor class is <span class="plainlinks"><code>CEikSecretEditor</code> </span> and
+the numeric secret editor class is <span class="plainlinks"><code>CAknNumericSecretEditor</code> </span>,
+which is derived from <span class="plainlinks"><code>CEikSecretEditor</code> </span>. Alphanumeric secret
+editors are defined using a <span class="plainlinks"><code>SECRETED</code> </span> resource structure and
+numeric secret editors are defined using a <span class="plainlinks"><code>NUMSECRETED</code> </span> structure
+as follows:
+</p>
+<pre>RESOURCE SECRETED r_my_secret_editor
+    {
+    num_letters = 10;
+    }
+RESOURCE NUMSECRETED r_my_num_secret_editor
+    {
+    num_code_chars = 4;
+    }
+</pre>
+<p>The <span class="plainlinks"><code>SECRETED</code> </span> resource definition can be found in <span class="plainlinks"><code>Eikon.rh</code> </span> whereas
+the <span class="plainlinks"><code>NUMSECRETED</code> </span> definition is in<i> Avkon.rh</i>.
+</p>
+<pre>void CMyContainer::ConstructL(const TRect&amp; aRect)
+    {
+    // Create a window for the container
+    CreateWindowL();
+    // Call first phase constructor
+    iEditor = new (ELeave)CEikSecretEditor;
+    // Set parent
+    iEditor-&gt;SetContainerWindowL( *this );
+    // Initialize a resource reader
+    TResourceReader reader;
+    iCoeEnv-&gt;CreateResourceReaderLC( reader, R_MY_SECRET_EDITOR );
+    // Second phase constructor from resource
+    iEditor-&gt;ConstructFromResourceL( reader );
+    CleanupStack::PopAndDestroy();
+    // Set focus
+    iEditor-&gt;SetFocus( ETrue );
+    SetRect( aRect );
+    // Activate the container
+    ActivateL();
+    }
+</pre>
+<p>And in case of a numeric secret editor you would do practically the same
+except for creating a <span class="plainlinks"><code>CAknNumericSecretEditor</code> </span> and using the <span class="plainlinks"><code>R_MY_NUMERIC_SECRET_EDITOR</code> </span>.
+</p>
+<a name="Retrieving_the_content_of_a_Secret_editor"><h3> <span class="mw-headline">2.12 Retrieving the content of a Secret editor </span></h3>
+</a><p>Use the <span class="plainlinks"><code>CEikSecretEditor::GetText()</code> </span> function to retrieve
+the user provided secret data in a preallocated buffer. Bear in mind that
+maximum length of the secret text cannot be bigger than <span class="plainlinks"><code>CEikSecretEditor::EMaxSecEdBufLength</code> </span> therefore
+allocating a buffer of this size is sufficient.
+</p>
+<a name="Constructing_MFNE_editors"><h3> <span class="mw-headline">2.13 Constructing MFNE editors </span></h3>
+</a><p>MFNE editors can be constructed from resource as well as from code. In
+this document we will not cover all MFNE editors as their usage is very similar.
+</p>
+<a name="Constructing_MFNE_editors_from_resource"><h4> <span class="mw-headline">2.13.1 Constructing MFNE editors from resource </span></h4>
+</a><p>The resource structures for MFNE controls are also defined in<i> eikon.rh</i>.
+These resource structures generally contain the minimum and maximum value
+of the fields and &#8212; depending on the type of the MFNE control &#8212; some additional
+fields.
+</p><p>The resource structure names used in creating the MFNEs are listed in Table
+11. For more information, see the S60 SDK documentation and the<i> eikon.rh</i> file.
+</p>
+<table border="1" cellspacing="0">
+<caption> <b>Multi-field numeric editor resource definition structures</b>
+</caption>
+<tr>
+<td> <b> Multi-field numeric editor</b></td><td> <b> Structure name</b></td><td> <b> Editor class name</b>
+</td></tr>
+<tr>
+<td> Number editor</td><td> <span class="plainlinks"><code>NUMBER_EDITOR</code> </span></td><td> <span class="plainlinks"><code>CEikNumberEditor</code> </span>
+</td></tr>
+<tr>
+<td> Range editor</td><td> <span class="plainlinks"><code>RANGE_EDITOR</code> </span></td><td> <span class="plainlinks"><code>CEikRangeEditor</code> </span>
+</td></tr>
+<tr>
+<td> Time editor</td><td> <span class="plainlinks"><code>TIME_EDITOR</code> </span></td><td> <span class="plainlinks"><code>CEikTimeEditor</code> </span>
+</td></tr>
+<tr>
+<td> Date editor</td><td> <span class="plainlinks"><code>DATE_EDITOR</code> </span></td><td> <span class="plainlinks"><code>CEikDateEditor</code> </span>
+</td></tr>
+<tr>
+<td> Time and date editor</td><td> <span class="plainlinks"><code>TIME_AND_DATE_EDITOR</code> </span></td><td> <span class="plainlinks"><code>CEikTimeAndDateEditor</code> </span>
+</td></tr>
+<tr>
+<td> Duration editor</td><td> <span class="plainlinks"><code>DURATION_EDITOR</code> </span></td><td> <span class="plainlinks"><code>CEikDurationEditor</code> </span>
+</td></tr>
+<tr>
+<td> Time offset editor</td><td> <span class="plainlinks"><code>TIME_OFFSET_EDITOR</code> </span></td><td> <span class="plainlinks"><code>CEikTimeOffsetEditor</code> </span>
+</td></tr>
+<tr>
+<td> IP address editor</td><td> <span class="plainlinks"><code>IP_FIELD_EDITOR</code> </span></td><td> <span class="plainlinks"><code>CAknIpFieldEditor</code> </span>
+</td></tr>
+<tr>
+<td> Location editor</td><td> <span class="plainlinks"><code>LATITUDE_EDITOR/LONGITUDE_EDITOR</code> </span></td><td> <span class="plainlinks"><code>CAknLocationEditor</code> </span>
+</td></tr>
+<tr>
+<td> Unit editor</td><td> <span class="plainlinks"><code>AVKON_UNIT_EDITOR</code> </span></td><td> <span class="plainlinks"><code>CAknUnitEditor</code> </span>
+</td></tr></table>
+<p>As an example let's see how a date editor is constructed from this example
+resource:
+</p>
+<pre>RESOURCE DATE_EDITOR r_my_date_editor
+    {
+    minDate = DATE
+        {
+        day = 0;
+        month = 6;
+        year = 2006;
+        };
+    maxDate = DATE
+        {
+        day = 30;
+        month = 11;
+        year = 2006;
+        };
+    }
+</pre>
+<p>Note that the days and months start from 0 meaning that 1 day = 0; month = 0;.
+</p><p>And here is the code snippet for create the editor (very similar to previous
+ones).
+</p>
+<pre>void CMyContainer::ConstructL(const TRect&amp; aRect)
+    {
+    // Create a window for the container
+    CreateWindowL();
+    // Call first phase constructor
+    iEditor = new (ELeave)CEikDateEditor;
+    // Set parent
+    iEditor-&gt;SetContainerWindowL( *this );
+    // Initialize a resource reader
+    TResourceReader reader;
+    iCoeEnv-&gt;CreateResourceReaderLC( reader, R_MY_DATE_EDITOR );
+    // Second phase constructor from resource
+    iEditor-&gt;ConstructFromResourceL( reader );
+    CleanupStack::PopAndDestroy();
+    // Set focus
+    iEditor-&gt;SetFocus( ETrue );
+    SetRect( aRect );
+    // Activate the container
+    ActivateL();
+    }
+</pre>
+<p>Construction of other MFNE based editors from resource file could be done
+according to the above code scheme with the right resource structure.
+</p>
+<a name="Constructing_MFNE_editors_from_code"><h4> <span class="mw-headline">2.13.2 Constructing MFNE editors from code </span></h4>
+</a><p>Now let's see how the construction goes from code. We do have a little
+bit more control over the default value of the editor this way (which can
+be achieved with adding a <span class="plainlinks"><code><font color="darkred">SetDate()</font></code> </span> call to the code snippet
+in the previous section).
+</p>
+<pre>void CMyContainer::ConstructL(const TRect&amp; aRect)
+    {
+    // Create a window for the container
+    CreateWindowL();
+    // Call first phase constructor
+    iEditor = new (ELeave)CEikDateEditor;
+    // Set parent
+    iEditor-&gt;SetContainerWindowL( *this );
+</pre>
+<pre>    TDateTime dateTime;
+</pre>
+<pre>    // Set the from date
+    dateTime.SetYear(2006);
+    dateTime.SetMonth( EJuly );//July
+    dateTime.SetDay( 0 ); //1st day
+</pre>
+<pre>    TTime fromTime( dateTime );
+</pre>
+<pre>    // Set the to date
+    dateTime.SetYear(2006);
+    dateTime.SetMonth( EDecember );//July
+    dateTime.SetDay( 30 ); //31st day
+</pre>
+<pre>    TTime toTime( dateTime );
+</pre>
+<pre>   //Set default date to current date
+</pre>
+<pre>    TTime now;
+    now.HomeTime();
+    // Now call second phase constructor with the right params
+    // EFalse is for disabling the popup to select the date from
+    // there is no S60 support for this
+    iEditor-&gt;ConstructL( fromTime, toTime, now, EFalse );
+    // Set focus
+    iEditor-&gt;SetFocus( ETrue );
+    SetRect( aRect );
+    // Activate the container
+    ActivateL();
+    }
+</pre>
+<p>Note that the last <span class="plainlinks"><code>TBool</code> </span> parameter of <span class="plainlinks"><code><font color="darkred">ConstructL()</font></code> </span> is
+ignored in S60.
+</p>
+<a name="Retrieving_the_content_of_a_MFNE_editor"><h3> <span class="mw-headline">2.14 Retrieving the content of a MFNE editor </span></h3>
+</a><p>The way of getting the user supply data from an MFNE editor can usually
+be done with a single function call. The return type and the name of the function
+however vary according to the type of the editor.
+</p><p>To demonstrate this use case we complete the previous date editor example
+with one more function.
+</p>
+<pre>TBool CMyContainer::BirthDay( TTime&amp; aDate ) const
+    {
+    //Check if the editor is initialized
+    TBool valid  = !iEditor-&gt;IsUninitialised();
+    // if initialized
+    if ( valid )
+        {
+        // Get the Date user provided
+        aTime = iEditor-&gt;Date();
+        }
+    return valid;
+    }
+</pre>
+<p>The code will return false if the editor is not initialised. (It can only
+happen if SetUninitialised( ETrue ) had been called earlier.)
+</p><p>Retrieving the content of other MFNE Editors can be done in a similar way.
+E.g. in case of an IP address editor the function <span class="plainlinks"><code><font color="darkred">Address()</font></code> </span> need
+to be used to get the user input in a <span class="plainlinks"><code>TInetAddres</code> </span> object.
+</p>
+<a name="Error_handling"><h3> <span class="mw-headline">2.15 Error handling </span></h3>
+</a><p>Editors API uses standard Symbian OS error reporting mechanism. It does
+not define any panic codes of its own. Leaves and system wide error codes
+as function return values are used if the error is recoverable. A client application
+can handle these errors similarly as a normal Symbian OS application.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.16 Memory and Performance Considerations </span></h3>
+</a><p>Memory consumption of various Editors is largely dependent on their content.
+It is worth considering disabling undo buffer in case of <span class="plainlinks"><code>CEikEdwin</code> </span> based
+editors. <span class="plainlinks"><code>CEikEdwin</code> </span> through its underlying components do also
+store formatting information along with the text. Formatting of large texts
+result in the editor switching to a band formatting mode, in which the editor
+will format as little text as needed to be able to display the visible part
+of the text. User can explicitly change the document length limit from which
+the editor applies band formatting by calling <span class="plainlinks"><code>CEikEdwin::SetUpperFullFormattingLength()</code> </span> function.
+</p>
+<a name="Limitations_of_the_API"><h3> <span class="mw-headline">2.17 Limitations of the API </span></h3>
+</a><p>This API cannot be used without a UI environment (e.g. a Symbian OS sever
+process cannot use the API).
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Editors API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> EDWIN</td><td> <span class="plainlinks"><code></code></span></td></tr></table></a>CEikEdwin  based editor
+
+<tr>
+<td> ID</td><td> Identifier
+</td></tr>
+<tr>
+<td> MFNE</td><td> Multi-field Numeric Editor
+</td></tr>
+<tr>
+<td> OS</td><td> Operating System
+</td></tr>
+<tr>
+<td> Twip</td><td> Twentieth of a point. A twip is 1/1440th of an inch or 1/567th of a
+<p>centimeter.
+</p>
+</td></tr>
+<div class="copy"><?php include ("copy.html"); ??></div></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_editors_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:53 GMT -->
+</html>

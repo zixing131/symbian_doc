@@ -1,0 +1,113 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3DC13AA4-6CC8-45CA-8FF8-8B222DFFC00B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:18 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Exchanging Data with NFC Forum Type 4 Tags" /><meta name="abstract" content="This tutorial describes how to send data to and receive data from NFC Forum type 4 tags." /><meta name="description" content="This tutorial describes how to send data to and receive data from NFC Forum type 4 tags." /><meta name="DC.Relation" scheme="URI" content="GUID-0039F43D-82BF-438D-A394-1DEC44797D95" /><meta name="DC.Relation" scheme="URI" content="GUID-F5F59B7B-591A-4294-84ED-359CB2AD52EA" /><meta name="DC.Relation" scheme="URI" content="GUID-B6BDE53C-A583-4CC1-B8B9-5A1BBA59C8B1" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3DC13AA4-6CC8-45CA-8FF8-8B222DFFC00B" /><meta name="DC.Language" content="en" /><title>Exchanging Data with NFC Forum Type 4 Tags </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3DC13AA4-6CC8-45CA-8FF8-8B222DFFC00B">Exchanging Data with NFC Forum Type 4 Tags</h1><div><p>This tutorial describes how to send data to and receive
+data from NFC Forum type 4 tags.</p>
+<div id="GUID-83EFA03B-4062-4E32-8072-33F17EE8284D"><h3 class="section-title">Context</h3><p>The NFC
+Tag Extension API can be used to exchange data with type 4 tags using
+the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E445A14A-6C93-361E-BB84-C96EE97260F6.html#GUID-AE4BBBF6-7D02-32BC-9509-D274FC3F184B"><code class="apiname">CIso14443Connection::ExchangeData()</code></a> method.</p></div><div id="GUID-F68D273C-9EBC-4BA9-AAD6-142808DF8C7C"><h3 class="section-title">Prerequisites</h3><p>Before you
+begin, refer to the following:</p><ul>
+<li><p><a href="GUID-B6BDE53C-A583-4CC1-B8B9-5A1BBA59C8B1.html#GUID-CC637278-AD88-40BD-A99D-A65E1875B3BF">NFC Forum Tags</a></p></li>
+<li><p>nfcconnection.h, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-58818925-6366-30DB-8DEE-68AD60A34FE0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-58818925-6366-30DB-8DEE-68AD60A34FE0.html"><code class="apiname">MNfcConnection</code></a></p></li>
+<li><p>iso14443connection.h, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E445A14A-6C93-361E-BB84-C96EE97260F6.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E445A14A-6C93-361E-BB84-C96EE97260F6.html"><code class="apiname">CIso14443Connection</code></a></p></li>
+<li><p>nfctag.h, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4278615F-1C20-31D7-87D4-996F988B732B.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4278615F-1C20-31D7-87D4-996F988B732B.html"><code class="apiname">MNfcTag</code></a></p></li>
+</ul></div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-115BBB14-DE2D-432B-A16B-76238FDBDA9B"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-115BBB14-DE2D-432B-A16B-76238FDBDA9B"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-115BBB14-DE2D-432B-A16B-76238FDBDA9B"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-115BBB14-DE2D-432B-A16B-76238FDBDA9B"><!-- --></a><p>Follow the
+steps in <a href="GUID-B961F4BB-ABF3-442E-A6E9-7AB103E9CAA6.html">Discovering
+NFC Tags</a> to detect the type 4 tag.</p>
+</li>
+<li id="GUID-5D4FBAC9-8FC8-4409-B104-D62953F0F436-GENID-GUID-115BBB14-DE2D-432B-A16B-76238FDBDA9B"><a name="GUID-5D4FBAC9-8FC8-4409-B104-D62953F0F436-GENID-GUID-115BBB14-DE2D-432B-A16B-76238FDBDA9B"><!-- --></a><p>Create a
+new instance of the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E445A14A-6C93-361E-BB84-C96EE97260F6.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E445A14A-6C93-361E-BB84-C96EE97260F6.html"><code class="apiname">CIso14443Connection</code></a> class.</p>
+<div class="p">For example, <pre class="codeblock">CIso14443Connection* iIso14443Connection;
+iIso14443Connection = CIso14443Connection::NewL(iNfcServer);</pre></div>
+</li>
+<li id="GUID-626C2A60-CC19-4B8C-BE30-3B0E94654F96-GENID-GUID-115BBB14-DE2D-432B-A16B-76238FDBDA9B"><a name="GUID-626C2A60-CC19-4B8C-BE30-3B0E94654F96-GENID-GUID-115BBB14-DE2D-432B-A16B-76238FDBDA9B"><!-- --></a><p>Open the
+connection to the tag using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4278615F-1C20-31D7-87D4-996F988B732B.html#GUID-E2A1B6F0-8544-3D7A-BCA0-54212098A7F7"><code class="apiname">MNfcTag::OpenConnection()</code></a> and pass the instance of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E445A14A-6C93-361E-BB84-C96EE97260F6.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E445A14A-6C93-361E-BB84-C96EE97260F6.html"><code class="apiname">CIso14443Connection</code></a> class.</p>
+<pre class="codeblock">MNfcTag* iTag;	 
+iTag-&gt;OpenConnection(*iIso14443Connection);       </pre>
+</li>
+<li id="GUID-378E7767-1E6E-4136-A961-3F081FA59046"><a name="GUID-378E7767-1E6E-4136-A961-3F081FA59046"><!-- --></a><p>Exchange
+data using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E445A14A-6C93-361E-BB84-C96EE97260F6.html#GUID-AE4BBBF6-7D02-32BC-9509-D274FC3F184B"><code class="apiname">CIso14443Connection::ExchangeData()</code></a> method. The <code class="codeph">ExchangeData()</code> method exchanges Application
+Protocol Data Unit (APDU) commands with the target ISO 14443 tag.</p>
+<div class="p">For example, <pre class="codeblock">void CNfcTagHandler::ExchangeData()
+    {
+    // Exchange data with the tag.
+    iIso14443Connection-&gt;ExchangeData( iStatus, iTransmitData, iReceivedData );
+    SetActive();
+    }</pre></div>
+</li>
+</ol>
+<div><h3 class="section-title">Example</h3><p>The following example illustrates how to exchange data
+with an ISO 14443 tag:</p><pre class="codeblock">#include &lt;e32base.h&gt;
+#include &lt;iso14443connection.h&gt;         // CIso14443Connection
+#include &lt;nfctag.h&gt;                     // MNfcTag
+#include &lt;nfctagconnectionlistener.h&gt;   // MNfcTagConnectionListener
+
+class CNfcTagHandler : public CActive,                        
+                       public MNfcTagConnectionListener                       
+   {
+public:
+   ... 
+
+public: // From MNfcTagConnectionListener
+    
+   // This method is called when tag is detected
+   void TagDetected( MNfcTag* aNfcTag );        
+
+   // This method is called when the tag is removed from near field.
+   void TagLost();
+   
+public:
+   void ExchangeData();
+   
+private:
+   CIso14443Connection* iIso14443Connection;
+   RNfcServer iNfcServer;
+   MNfcTag* iTag;
+   RBuf8 iTransmitData;
+   RBuf8 iReceivedData;
+   };
+
+void CNfcTagHandler::TagDetected( MNfcTag* aTag )
+    {    
+    TInt error = KErrNone;
+    iTag = aTag;
+    // Create connection if not created yet.
+    if ( !iIso14443Connection )
+        {
+       TRAP(err, iIso14443Connection = CIso14443Connection::NewL( iNfcServer ));       
+        }
+            
+    // Checking the tag type.
+    if ( aTag-&gt;HasConnectionMode( TNfcConnectionInfo::ENfc14443P4 ) )
+        {
+        // Open the connection to tag.
+        error = aTag-&gt;OpenConnection( *iIso14443Connection );                
+        }
+    // Checking errors is omitted for clarity.        
+    }
+
+void CNfcTagHandler::TagLost()
+    {
+    // Deleting aTag has to be handled since its ownership is transferred to
+    // the class implementing MNfcTagConnectionListener interface.     
+    delete iTag;
+    iTag = NULL;
+    }
+
+void CNfcTagHandler::ExchangeData()
+    {
+    //Exchange data with the tag.
+    iIso14443Connection-&gt;ExchangeData( iStatus, iTransmitData, iReceivedData );
+    SetActive();
+    }
+</pre></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-B6BDE53C-A583-4CC1-B8B9-5A1BBA59C8B1.html">NFC
+Services Concepts</a></li></ul><h3>Related tasks</h3><ul><li><a href="GUID-0039F43D-82BF-438D-A394-1DEC44797D95.html">Reading
+NFC Forum Type 1, 2, 3 Tags</a></li><li><a href="GUID-F5F59B7B-591A-4294-84ED-359CB2AD52EA.html">Writing
+to NFC Forum Type 1, 2, 3 Tags</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 27th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3DC13AA4-6CC8-45CA-8FF8-8B222DFFC00B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:18 GMT -->
+</html>

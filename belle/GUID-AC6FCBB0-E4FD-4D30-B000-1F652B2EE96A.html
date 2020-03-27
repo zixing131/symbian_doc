@@ -1,0 +1,44 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AC6FCBB0-E4FD-4D30-B000-1F652B2EE96A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Create an instance of CCoeAppUi" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58CA15F8-D984-5D07-8C00-161FA16A8FD3" /><meta name="DC.Relation" scheme="URI" content="GUID-D468BDDD-FC61-5571-A4E2-334B6BB9C1E3" /><meta name="DC.Relation" scheme="URI" content="GUID-6167C2F2-BC5B-5B10-BD5D-7702BE4112F6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-AC6FCBB0-E4FD-4D30-B000-1F652B2EE96A" /><meta name="DC.Language" content="en" /><title>Create
+an instance of CCoeAppUi </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-AC6FCBB0-E4FD-4D30-B000-1F652B2EE96A">Create
+an instance of CCoeAppUi</h1><div>
+<div><h3 class="section-title">Context</h3><div class="p">Create a <code class="codeph">CCoeAppUi</code> object using the <code class="codeph">ConstructL(CCoeAppUi
+*)</code>. This creates the <code class="codeph">CCoeAppUi</code> object and the application's
+control stack, and starts a session with the View Server.     <pre class="codeblock">/** 
+Construct a control 
+*/
+class CAppUiNewControl : public CCoeControl
+    {
+    public:    
+        CAppUiNewControl();
+        void ConstructL();
+        ~CAppUiNewControl();
+    private:    
+        CAppUiNewControl* iControl;
+    };
+class CMCoeViewActivationObserver : public MCoeViewActivationObserver               {
+    public:
+        void ConstructL();
+        // from MCoeViewActivationObserver
+        void NotifyNextActivation( TVwsViewId&amp; aViewId,
+                                   MCoeViewActivationObserver&amp; aViewActivationObserver );
+        CMCoeViewActivationObserver* NewL();
+    private:
+        CCoeAppUi* iCCoeAppUi;
+    }
+/**
+Create a session
+*/
+CNewAppUi::ConstructL()
+    {
+    CCoeAppUi::ConstructL( iCCoeAppUi );
+    iControl=new( ELeave ) CAppUiNewControl();
+    iControl-&gt;ConstructL();
+    }</pre></div></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 14th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AC6FCBB0-E4FD-4D30-B000-1F652B2EE96A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:34 GMT -->
+</html>

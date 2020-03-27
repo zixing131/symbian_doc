@@ -1,0 +1,55 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9C5A86D2-E602-55AE-B54B-8511E70CD23D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Send Dual Tone Multi Frequency (DTMF) Tutorial" /><meta name="abstract" content="This tutorial describes how to send DTMF tones with the telephony API for applications." /><meta name="description" content="This tutorial describes how to send DTMF tones with the telephony API for applications." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-34E7AAF2-EC62-5BF6-B9E7-C7D346BCDF93" /><meta name="DC.Relation" scheme="URI" content="GUID-0F647342-E069-5444-9370-58520375543A" /><meta name="DC.Relation" scheme="URI" content="GUID-7C197DC1-43CA-5146-B81D-36B685A1D0C9" /><meta name="DC.Relation" scheme="URI" content="GUID-844C335C-E8FD-5DF8-8E05-7DB1DF4C3360" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9C5A86D2-E602-55AE-B54B-8511E70CD23D" /><meta name="DC.Language" content="en" /><title>Send Dual Tone Multi Frequency (DTMF) Tutorial  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-9C5A86D2-E602-55AE-B54B-8511E70CD23D">Send Dual Tone Multi Frequency (DTMF) Tutorial </h1><div><p>This tutorial describes how to send DTMF tones with the telephony API for applications. </p> <h3>Steps</h3><ol id="GUID-8C057CAF-1357-5601-A1DF-C39BA93C0288"><a name="GUID-8C057CAF-1357-5601-A1DF-C39BA93C0288"><!-- --></a> <li id="GUID-FA2F0A51-0AF8-5E40-9E94-CDE2EF395A3B"><a name="GUID-FA2F0A51-0AF8-5E40-9E94-CDE2EF395A3B"><!-- --></a><p></p>create a new instance of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony</code></a> </li> <li id="GUID-CB487FDE-4DF8-5BB3-A562-316DF4E1E8D3"><a name="GUID-CB487FDE-4DF8-5BB3-A562-316DF4E1E8D3"><!-- --></a><p></p>use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::SendDTMFTones()</code></a> to transmit a sequence of DTMF tones across the currently active call  The sequence of tones is a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">TDesC</code></a> string. It contains one or more occurrences of the numbers 0 to 9, * and #.  </li> <li id="GUID-F0797883-2489-5054-B7C2-8071EBE1F12B"><a name="GUID-F0797883-2489-5054-B7C2-8071EBE1F12B"><!-- --></a><p></p>pass the enumeration <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::ESendDTMFTonesCancel</code></a> to cancel the asynchronous request.  </li> </ol> <div id="GUID-BB3EA31B-FC0D-5107-A7C0-D57BD66CC0D1"><h3 class="section-title">Send DTMF example</h3> <p>This example sends the string <code class="codeph">123456789</code>: </p> <pre class="codeblock">#include &lt;e32base.h&gt;
+#include &lt;Etel3rdParty.h&gt;
+
+_LIT(KTheTones, "123456789");
+
+class CClientApp : public CActive
+    { 
+
+private:
+    CTelephony* iTelephony;
+
+public:
+    CClientApp(CTelephony* aTelephony);
+    void SomeFunction();
+
+private:
+    /*
+       These are the pure virtual methods from CActive that  
+       MUST be implemented by all active objects
+       */
+    void RunL();
+    void DoCancel();
+   };
+
+CClientApp::CClientApp(CTelephony* aTelephony)
+    : CActive(EPriorityStandard),
+      iTelephony(aTelephony)
+    {
+    //default constructor
+    }
+
+void CClientApp::SomeFunction()
+    {
+    iTelephony-&gt;SendDTMFTones(iStatus, KTheTones);
+    SetActive();
+    }
+
+void CClientApp::RunL()
+    {
+    if(iStatus==KErrNone)
+       {} // The tones were sent successfully;
+    }
+
+void CClientApp::DoCancel()
+    {
+    iTelephony-&gt;CancelAsync(CTelephony::ESendDTMFTonesCancel);
+    }
+</pre> </div> </div></div></div><div class="footer"><p class="metadata">Last updated January 5th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9C5A86D2-E602-55AE-B54B-8511E70CD23D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:01 GMT -->
+</html>

@@ -1,0 +1,30 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-0970A970-6E56-556C-B032-B7EAF8ABBBA6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:46 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use CleanupReleasePushL()" /><meta name="abstract" content="CleanupReleasePushL() pushes a TCleanupItem onto the cleanup stack ready for CleanupStack::PopAndDestroy() to release." /><meta name="description" content="CleanupReleasePushL() pushes a TCleanupItem onto the cleanup stack ready for CleanupStack::PopAndDestroy() to release." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-61DEE78D-4E78-5367-BC8A-F99D3B4E9D5A" /><meta name="DC.Relation" scheme="URI" content="GUID-7366AE99-DE25-5DE0-BF9A-58E7742DA952" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0970A970-6E56-556C-B032-B7EAF8ABBBA6" /><meta name="DC.Language" content="en" /><title>How
+to use CleanupReleasePushL() </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0970A970-6E56-556C-B032-B7EAF8ABBBA6">How
+to use CleanupReleasePushL()</h1><div><p><code class="codeph">CleanupReleasePushL()</code> pushes a <code class="codeph">TCleanupItem</code> onto
+the cleanup stack ready for <code class="codeph">CleanupStack::PopAndDestroy()</code> to
+release.</p>
+<p>The <code class="codeph">CleanupReleasePushL()</code> templated function constructs
+and pushes a <code class="codeph">TCleanupItem</code> onto the cleanup stack. When <code class="codeph">CleanupStack::PopAndDestroy()</code> is
+called, the <code class="codeph">Release()</code> member function of the object encapsulated
+by the <code class="codeph">TCleanupItem</code> is called.</p>
+<pre class="codeblock">...
+RTestThree three;
+CleanupReleasePushL(three);
+...
+CleanupStack::PopAndDestroy();
+...
+</pre>
+<p>The <code class="codeph">TCleanupItem</code> object encapsulates a reference to the <code class="codeph">RTestThree</code> object;
+the cleanup operation is the static function <code class="codeph">Release()</code> of
+the templated class <code class="codeph">CleanupRelease&lt;class T&gt;</code>. This is implemented
+by simply calling the <code class="codeph">Release()</code> member function of <code class="codeph">RTestThree</code>.
+This means that <code class="codeph">RTestThree</code> must define or inherit a member
+function <code class="codeph">Release()</code> which performs whatever clean up is required.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-0970A970-6E56-556C-B032-B7EAF8ABBBA6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:46 GMT -->
+</html>

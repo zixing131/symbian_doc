@@ -1,0 +1,62 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E72E2602-0492-58F9-A01F-D72BCC3FFFD5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:32 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using TRequestStatus" /><meta name="abstract" content="This document describes the use of TRequestStatus objects to hold the completion status of an asynchronous request." /><meta name="description" content="This document describes the use of TRequestStatus objects to hold the completion status of an asynchronous request." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-B507490F-6BD3-5DF5-97E4-EFDFEA2B4EDD" /><meta name="DC.Relation" scheme="URI" content="GUID-C2608BF5-CDA7-530A-B67A-0414C7FA585D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E72E2602-0492-58F9-A01F-D72BCC3FFFD5" /><meta name="DC.Language" content="en" /><title>Using
+TRequestStatus </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E72E2602-0492-58F9-A01F-D72BCC3FFFD5">Using
+TRequestStatus</h1><div><p>This document describes the use of TRequestStatus objects to hold
+the completion status of an asynchronous request.</p>
+<p>A request status object is used to carry the completion status of an asynchronous
+request.</p>
+<p>Typically, an asynchronous request is made by an active object, an instance
+of a <code class="codeph">CActive</code> derived class, to a service provider. When an
+asynchronous request completes, the service provider stores a completion code
+in the request status object and signals the caller’s thread. When the active
+object handles the completed request, it can check the completion code.</p>
+<p>Note that the request status object is the data member: <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-0EBC52DE-37A7-31A8-AB78-99E65CFEAED5"><code class="apiname">CActive::iStatus</code></a> of
+the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html"><code class="apiname">CActive</code></a> base class.</p>
+<pre class="codeblock">class CMyActive : public CActive
+ {
+ void RunL();
+ void IssueRequest();
+ ...
+ RTimer         iTimer;
+ }</pre>
+<p>The active object does not need to initialize the request status object
+in any way; it simply passes it to the service provider’s request function
+when making the request. The service provider is responsible for changing
+the completion code; in particular it sets the code to <code class="codeph">KRequestPending</code> before
+initiating the request. For example:</p>
+<pre class="codeblock">void CMyActive::IssueRequest()
+ {
+ timer.CreateLocal();   // created for this thread
+ ...
+ timer.After(iStatus,5000000); // Notification after 5 seconds
+ SetActive();
+ ...
+ }</pre>
+<p>The active object’s completed request handler, i.e. its <code class="codeph">RunL()</code> function
+can check the completion code as the code fragments show. While not particularly
+useful for timers, it shows the general principle:</p>
+<pre class="codeblock">//
+// Extracting the completion code value
+//
+void RunL()
+ {
+ ...
+ User::LeaveIfError(iStatus.Int());// leave on bad return code
+ ...
+ }</pre>
+<pre class="codeblock">//
+// Using a comparison operator
+//
+void RunL()
+ {
+ ...
+ if (iStatus == KErrCancel);// check for a specific value 
+ ...
+ }</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E72E2602-0492-58F9-A01F-D72BCC3FFFD5.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:32 GMT -->
+</html>

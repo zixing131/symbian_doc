@@ -1,0 +1,534 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_ipconnmgmt_ipcm_pub_connection_settings_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:45 GMT -->
+<head><title>Connection Settings API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i733 i738"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Connection Settings API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Creating.2C_modifying_and_deleting_a_Destination"><span class="tocnumber">2.1</span> <span class="toctext">Creating, modifying and deleting a Destination</span></a></li>
+<li class="toclevel-2"><a href="#Reading_the_list_of_existing_Destinations"><span class="tocnumber">2.2</span> <span class="toctext">Reading the list of existing Destinations</span></a></li>
+<li class="toclevel-2"><a href="#Creatign.2C_copying.2C_moving.2C_removing_and_deleting_a_Connection_Method"><span class="tocnumber">2.3</span> <span class="toctext">Creatign, copying, moving, removing and deleting a Connection Method</span></a></li>
+<li class="toclevel-2"><a href="#Reading_the_list_of_existing_Connection_Methods"><span class="tocnumber">2.4</span> <span class="toctext">Reading the list of existing Connection Methods</span></a></li>
+<li class="toclevel-2"><a href="#Reading_the_existing_Connection_Methods_in_a_Destination"><span class="tocnumber">2.5</span> <span class="toctext">Reading the existing Connection Methods in a Destination</span></a></li>
+<li class="toclevel-2"><a href="#Reading_and_writing_the_attributes_of_a_Connection_Method"><span class="tocnumber">2.6</span> <span class="toctext">Reading and writing the attributes of a Connection Method</span></a></li>
+<li class="toclevel-2"><a href="#Reading_the_attributes_of_a_bearer_type"><span class="tocnumber">2.7</span> <span class="toctext">Reading the attributes of a bearer type</span></a></li>
+<li class="toclevel-2"><a href="#Handling_of_an_Embedded_Destination"><span class="tocnumber">2.8</span> <span class="toctext">Handling of an Embedded Destination</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.9</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.10</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Limitations_of_the_API"><span class="tocnumber">2.11</span> <span class="toctext">Limitations of the API</span></a></li>
+<li class="toclevel-2"><a href="#Security_issues"><span class="tocnumber">2.12</span> <span class="toctext">Security issues</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The Connection Settings API provides access to Destinations and Connection
+Methods. Destinations and Connection Methods are the basic components of the
+Bearer Mobility concept. Bearer Mobility enables automatic selection of the
+most appropriate access technology (bearer type) in a certain situation or
+environment, and roaming between access technologies, thus providing the always-on
+experience from the end-user point-of-view.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 3.2
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>cmmanager.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/ipconnmgmt/ipcm_pub/connection_settings_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/ipconnmgmt/ipcm_pub/connection_settings_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Bearer Mobility becomes concrete on the UI level through the destination
+network perspective. Instead of explicit Internet Access Point (IAP) association,
+the application can ask for a connection to a certain destination, for exmaple Internet
+or Intranet. Each destination can contain numerous access technologies that
+can be used to reach the destination or service domain in question. When a
+connection to a destination is being established, the device can automatically
+select the best connection method available, and roam between the connection
+methods defined inside that particular destination.
+</p><p>The Connection Settings API provides access functions to 
+</p>
+<ul><li> read existing Destinations and Connection Methods
+</li><li> read the attributes of Connection Methods
+</li><li> read the attributes of a bearer type
+</li><li> create, delete, move and copy Destinations and Connection Methods
+</li><li> Access functions to write attributes to Destinations and Connection Methods.
+</li></ul>
+<p>The connection Method Manager runs in the process of the client application. 
+All the methods in the API are synchronous. Some UI related methods such as
+querying a bearer icon ( <span class="plainlinks"><code>ECmBearerIcon</code> </span>) requires UI context
+from the client application.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>The Connection Settings API is an SDK API and introduced in Symbian OS, S60 5.1.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+<ul><li> Creating, modifying and deleting a Destination
+</li><li> Reading the list of existing Destinations
+</li><li> Creating, copying, moving, removing and deleting a Connection Method
+</li><li> Reading the list of existing Connection Methods
+</li><li> Reading the existing Connection Methods in a Destination
+</li><li> Reading and writing the attributes of a Connection Method
+</li><li> Reading the attributes of a bearer type
+</li><li> Handling of Embedded Destination
+</li></ul>
+</a><a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CCmSettingsUi <td><span class="plainlinks"><code>/epoc32/include/mw/cmsettingsui.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>RCmConnectionMethod</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/cmconnectionmethod.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>RCmDestination</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/cmdestination.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>RCmManager</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/cmmanager.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TBearerPriority</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/cmmanagerdef.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/cmconnectionmethod.inl</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmconnectionmethoddef.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmdefconnvalues.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmgenconnsettings.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmmanager.inl</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmplugincsddef.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmplugindialcommondefs.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmpluginembdestinationdef.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmpluginhscsddef.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmpluginpacketdatadef.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmplugintundriverdef.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmpluginvpndef.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/cmpluginwlandef.h</code></span>
+</td></tr>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Connection_Settings_API_Fig1.png" title="Connection Method Manager API realization"><img alt="Connection Method Manager API realization" border="0" height="64" src="images/SPB_10_1_Connection_Settings_API_Fig1.png" width="318" /></a></div>
+<div style="text-align:center"><i>Connection Method Manager API realization</i></div>
+<p>The diagram below contains only the relevant details of the types of Connection Settings API. The full reference can be found in the header files.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Connection_Settings_API_Fig2.png" title="Class structure of the Connection Settings API"><img alt="Class structure of the Connection Settings API" border="0" height="642" src="images/SPB_10_1_Connection_Settings_API_Fig2.png" width="566" /></a></div>
+<div style="text-align:center"><i>Class structure of the Connection Settings API</i></div>
+<p><b><span class="plainlinks"><code>RCmManager</code> </span></b> is a general interface to the Connection Method Manager. It can be used to:
+</p>
+<ul><li> Get the bearer specific information, for exmaple use <span class="plainlinks"><code>ECmBearerHasUi</code> </span> to query if a bearer type has a UI dialog for the settings or not.
+</li><li> Get the Connection Method specific information such as <span class="plainlinks"><code>ECmBearer</code> </span> type to query the bearer type of the Connection Method.
+</li><li> Get the Connection Method or a list of Connection Methods using <code>ConnectionMethodL</code>.
+</li><li> Get the a list of Destinations using <code>AllDestinationsL</code>.
+</li><li> Read and change the priority values of the Connection Methods in Destination.
+</li><li> Read and write the Default Connection.
+</li><li> Create a Destination.
+</li><li> Create, move, remove, copy and delete a Connection Method.
+</li></ul>
+<p><b><span class="plainlinks"><code>RCmDestination</code> </span></b> is a representation of a Destination. It can be used to:
+</p>
+<ul><li> Get and set the information of the Destination.
+</li><li> Get the Name, ID, icon, protection, hidden value and connection status.
+</li><li> Get the Metadata information.
+</li><li> Get the count of Connection Methods
+</li><li> Get a Connection Method (in this Destination)
+</li><li> Get a priority of a Connection Method
+</li><li> Create a Connection Method (to this Destination)
+</li><li> Add a Connection Method (to this Destination)
+</li><li> Remove and delete a Connection Method (from this Destination)
+</li><li> Modify the priority of a Connection Method
+</li><li> Add an Embedded Destination
+</li></ul>
+<p><b><span class="plainlinks"><code>RCmConnectionMethod</code> </span></b> is a representation of a Connection Method. It can be used to:
+</p>
+<ul><li> Get and set the attributes of the Connection Methods.
+</li><li> Create copy of the Connection Method.
+</li><li> Delete the Connection Method.
+</li></ul>
+<p>The Connection Settings API also contains the following DEF header files, which
+contain constants and enumerations inside the <span class="plainlinks"><code>CMManager</code> </span> namespace. 
+The <i>cmpluginpacketdatadef.h</i> file for the packet data bearer type contains the <span class="plainlinks"><code>TConnectionMethodPacketDataSpecificAttributes</code> </span> enumeration
+type.
+</p><p>Some of these file names refer to plug-ins, such as <i>cmpluginpacketdatadef.h.</i> However, the
+plug-in architecture (different bearer types are realized as plug-ins in the
+Connection Method Manager) is hidden for the API clients. Usage of the
+API does not require any knowledge about the plug-in architecture of Connection
+Method Manager. 
+</p>
+<ul><li> <i> cmmanagerdef.h</i>
+</li><li> <i> cmconnectionmethoddef.h</i>
+</li><li> <i> cmdefconnvalues.h</i>
+</li><li> <i> cmpluginpacketdatadef.h</i>
+</li><li> <i> cmplugindialcommondefs.h</i>
+</li><li> <i> cmplugincsddef.h</i>
+</li><li> <i> cmpluginhscsddef.h</i>
+</li><li> <i> cmpluginembdestinationdef.h</i>
+</li><li> <i> cmpluginvpndef.h</i>
+</li><li> <i> cmpluginwlandef.h</i>
+</li></ul>
+<p>The rest of the headers contain the type definitions of the <span class="plainlinks"><code>RCmManager</code> </span>, <span class="plainlinks"><code>RCmDestination</code> </span> and
+the <span class="plainlinks"><code>RCmConnectionMethod</code> </span> classes.
+</p>
+<ul><li> <i>cmmanager.h</i> contains the type definition of <span class="plainlinks"><code>RCmManager</code> </span>
+</li><li> <i>cmdestination.h</i> contains the type definition of <span class="plainlinks"><code>RCmDestination</code> </span>
+</li><li> <i>cmconnectionmethod.h</i> contains the type definition of <span class="plainlinks"><code>RCmConnectionMethod</code> </span>
+</li></ul>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p><i>cmmanager.lib</i> must be linked to the application before the Connection Settings API is used. Add the following line to the MMP file of the application.
+</p>
+<pre>LIBRARY         cmmanager.lib
+</pre>
+<p>When using types in The Connection Settings API for getting information about
+Destinations and Connection Methods, the first step is to open a Connection
+Method Manager session.
+</p><p>Below is an example of the initialization process of Connection Settings
+API. The<i>cmmanager.h</i> header file must be included for using the <span class="plainlinks"><code>RCmManager</code> </span> type.
+</p>
+<pre>RCmManager cmManager;
+cmManager.OpenLC();
+
+The session has to be closed when it is not used any more:
+CleanupStack::PopAndDestroy(); // cmManager
+</pre>
+<a name="Creating.2C_modifying_and_deleting_a_Destination"><h3> <span class="mw-headline">2.1 Creating, modifying and deleting a Destination </span></h3>
+</a><p>After the Connection Method Manager is initialized, a Destination
+can be created in two ways. The recommended way is to call the <span class="plainlinks"><code>RCmManager::CreateDestinationL</code> </span> method
+with the name parameter (there is also another method which has also Destination
+ID as input parameter). The<i> cmdestination.h</i> header file must be included
+to use <span class="plainlinks"><code>RCmDestination</code> </span>.
+</p>
+<pre>//Create a Destination:
+RCmDestination destination;
+
+destination = iCmManager.CreateDestinationL( _L("Destination1") );
+destination.UpdateL();
+
+//The Destination can be modified, change the name of it in the following way:
+destination.SetNameL( _L("Destination2") );
+CleanupClosePushL(destinations);
+destination.UpdateL();
+
+Delete the destination:
+destination.DeleteLD();
+</pre>
+<a name="Reading_the_list_of_existing_Destinations"><h3> <span class="mw-headline">2.2 Reading the list of existing Destinations </span></h3>
+</a><p>The list of existing Destination IDs can be queried by invoking the <span class="plainlinks"><code>RCmManager::AllDestinationsL</code> </span> method.
+</p><p>The following example shows how to get the Destination ID list. Destination Ids can be used to get the Destination objects.
+</p>
+<pre>RArray&lt;TUint32&gt; destinations;
+CleanupClosePushL(destinations);
+
+iCmManager.AllDestinationsL(destinations);
+</pre>
+<p>The example goes through all the Destinations and retrieves the names of them.
+</p>
+<pre>RCmDestination destination;
+HBufC *name = NULL;
+
+for(TInt i = 0; i &lt; destinations.Count(); i++)
+    {
+    destination = iCmManager.DestinationL( destinations(i) );
+    CleanupClosePushL(destination);
+
+    name = destination.NameLC();
+
+    CleanupStack::PopAndDestroy(name); // destination.NameLC()
+    name = NULL;
+    CleanupStack::PopAndDestroy(); // destination
+    }
+</pre>
+<a name="Creatign.2C_copying.2C_moving.2C_removing_and_deleting_a_Connection_Method"><h3> <span class="mw-headline">2.3 Creatign, copying, moving, removing and deleting a Connection Method </span></h3>
+</a><p>A Connection Method can be created through 
+</p>
+<ul><li><span class="plainlinks"><code>RCmManager</code> </span> API.  In this case, the Connection Method must be added to some Destination or it will be a legacy and put to Uncategorized folder. The <i>cmconnectionmethod.h</i> header file must be included to use <span class="plainlinks"><code>RCmConnectionMethod</code> </span>.
+</li></ul>
+<pre>RCmConnectionMethod connectionMethod;
+connectionMethod = iCmManager.CreateConnectionMethodL( KUidPacketDataBearerType );
+destination.Add( connectionMethod );
+destination.UpdateL();
+</pre>
+<ul><li><span class="plainlinks"><code>RCmDestination</code> </span> API
+</li></ul>
+<pre>connetionMethod = destination.CreateConnectionMethodL( KUidPacketDataBearerType);
+destination.UpdateL();
+</pre>
+<p>A Connection Method can be copied by using <span class="plainlinks"><code>RCmManager</code> </span> API. In the example ID of the Connection Method is known.
+</p>
+<pre>RCmConnectionMethod connectionMethod = iCmManager.ConnectionMethodL( cmId );
+RCmDestination targetDestination = iCmManager.DestinationL( targetDestId );
+iCmManagerExt.CopyConnectionMethodL( targetDestination, connectionMethod );
+</pre>
+<p>Moving a Connection Method from one Destination to another can be achieved using <span class="plainlinks"><code>RCmManager</code> </span> API:
+</p>
+<pre>RCmConnectionMethod connectionMethod = iCmManager.ConnectionMethodL( cmId );
+
+RCmDestination sourceDestination = iCmManager.DestinationL( sourceId );
+RCmDestination targetDestination = iCmManager.DestinationL( targetId );
+iCmManager.MoveConnectionMethodL( sourceDestination, targetDestination, connectionMethod );
+</pre>
+<p>Removing a Connection Method from a Destination means that the link between
+that Connection Method and Destination is removed. Normally this means that
+the removed Connection Method is in the Uncategorized folder after removing.
+</p>
+<pre>RCmDestination destination = iCmManager.DestinationL( destId );
+RCmConnectionMethod connectionMethod = iCmManager.ConnectionMethodL( cmId );
+destination.RemoveConnectionMethodL( connectionMethod );
+destination.UpdateL();
+</pre>
+<p>Deleting a Connection Method can be achieved through <span class="plainlinks"><code>RCmDestination</code> </span> where
+that Connection Method exists or deleted through <span class="plainlinks"><code>RCmConnectionMethod</code> </span> API.
+The recommended way is to delete it through the <span class="plainlinks"><code>RCmDestination</code> </span> API.
+</p>
+<pre>RCmConnectionMethod connectionMethod = destination.ConnectionMethodL( cmId );
+destination.DeleteL( connectionMethod );
+destination.UpdateL();
+//or without the destination
+RCmConnectionMethod connectionMethod = iCmManager.ConnectionMethodL( cmId );
+TBool deleted = connectionMethod.DeleteL();
+</pre>
+<a name="Reading_the_list_of_existing_Connection_Methods"><h3> <span class="mw-headline">2.4 Reading the list of existing Connection Methods </span></h3>
+</a><p>The list of existing Destination IDs can be queried by invoking the <span class="plainlinks"><code>RCmManager::ConnectionMethodL</code> </span> method.
+</p><p>This example shows how to get the Connection Method ID list. Connection Method IDs can be used to get the Connection Method objects.
+</p>
+<pre>RArray&lt;TUint32&gt; connectionMethods;
+CleanupClosePushL( connectionMethods );
+
+iCmManager.ConnectionMethodL( connectionMethods );
+</pre>
+<p>The example goes through all the Destinations and retrieves the names of them.
+</p>
+<pre>RCmConnectionMethod connectionMethod;
+HBufC *name = NULL;
+
+for(TInt i = 0; i &lt; connectionMethods.Count(); i++)
+    {
+    connectionMethod = iCmManager.ConnectionMethodL( connectionMethods(i) );
+    CleanupClosePushL( connectionMethod );
+
+    name = ConenctionMethod.GetStringAttributeL( ECmName );
+	  // name can be e.g. printed out
+    delete name;
+    name = NULL;
+ 
+    CleanupStack::PopAndDestroy(); // connectionMethod
+    }
+</pre>
+<a name="Reading_the_existing_Connection_Methods_in_a_Destination"><h3> <span class="mw-headline">2.5 Reading the existing Connection Methods in a Destination </span></h3>
+</a><p>The number of Connection Methods in a Destination can be queried by calling
+the <span class="plainlinks"><code>RCmDestination::ConnectionMethodCount</code> </span> method.
+</p><p>The example lists the names of the Connection Methods in all Destinations.
+The<i> cmconnectionmethoddef.h</i> header file must be included for using <span class="plainlinks"><code>ECmName</code> </span> with
+Connection Method attribute enumeration.
+</p>
+<pre>RArray&lt;TUint32&gt; destinations;
+CleanupClosePushL(destinations);
+
+iCmManager.AllDestinationsL(destinations);
+
+RCmDestination destination;
+HBufC* name = NULL;
+
+for(TInt i = 0; i &lt; destinations.Count(); i++)
+    {
+    destination = cmManager.DestinationL( destinations(i) );
+    CleanupClosePushL(destination);
+
+    name = destination.NameLC();
+    // The name can be, for example, printed out
+    CleanupStack::PopAndDestroy( name ); // destination.NameLC()
+    name = NULL;
+
+    RCmConnectionMethod connectionMethod;
+
+    for( TInt j = 0; destination.ConnectionMethodCount(); j++ )
+        {
+         connectionMethod = destination.connectionMethodL( j);
+         CleanupClosePushL( connectionMethod );
+
+         name = ConenctionMethod.GetStringAttributeL( ECmName );
+         //The name can be printed out
+         delete name;
+         name = NULL;
+         CleanupStack::PopAndDestroy(); // connectionMethod
+         }
+    CleanupStack::PopAndDestroy(); // destination
+    }
+</pre>
+<a name="Reading_and_writing_the_attributes_of_a_Connection_Method"><h3> <span class="mw-headline">2.6 Reading and writing the attributes of a Connection Method </span></h3>
+</a><p>A Connection Method has a set of common attributes and a set of bearer specific
+attributes. The common attributes can be found in the <i>cmconnectionmethoddef.h</i> file,
+For exmaple, <span class="plainlinks"><code>ECmBearerType</code> </span> contains the bearer type of a Connection Method. <span class="plainlinks"><code>ECmName</code> </span> contains the name of the Connection Method.
+</p><p>The bearer specific attributes can be found in the <i>def.h</i> files of 
+bearer headers. For example, <i>cmpluginpacketdatadef.h</i> contains the bearer
+specific attributes of packet data bearer type, such as <span class="plainlinks"><code>EPacketDataOutGoing</code> </span>.
+</p><p>Each attribute has a type. For example, the type of <span class="plainlinks"><code>EPacketDataOutGoing</code> </span> is <span class="plainlinks"><code>TBool</code> </span>.
+</p><p>Get methods of <span class="plainlinks"><code>RCmConnectionMethod</code> </span> can be used for reading
+the attributes of a Connection Method:
+</p>
+<ul><li> <span class="plainlinks"><code>GetStringAttributeL</code> </span> for reading a string
+</li><li> <span class="plainlinks"><code>GetIntAttributeL</code> </span> for reading an integer
+</li><li> <span class="plainlinks"><code>GetBoolAttributeL</code> </span> for reading a Boolean
+</li><li> <span class="plainlinks"><code>GetString8AttributeL</code> </span> for reading an 8 bit string attribute
+</li></ul>
+<p>Set methods of <span class="plainlinks"><code>RCmConnectionMethod</code> </span> can be used for writing
+the attributes of a Connection Method:
+</p>
+<ul><li> <span class="plainlinks"><code>SetStringAttributeL</code> </span> for writing a string
+</li><li> <span class="plainlinks"><code>SetIntAttributeL</code> </span> for writing an integer
+</li><li> <span class="plainlinks"><code>SetBoolAttributeL</code> </span> for writing a Boolean
+</li><li> <span class="plainlinks"><code>SetString8AttributeL</code> </span> for writing an 8 bit string attribute.
+</li></ul>
+<p>The following is an example of reading and writing a couple of common attributes of the
+Connection Methods:
+</p>
+<pre>RCmConnectionMethod connectionMethod;
+
+connectionMethod = iCmManager.GetConnectionMethodL( cmId );
+CleanupClosePushL( connectionMethod );
+name = connectionMethod.GetStringAttributeL( ECmName );
+delete name;
+name = NULL;
+// change the name
+connectionMethod.SetStringAttributeL( ECmName, _L("NewName") );
+// change the hidden value
+TBool hidden = connectionMethod.GetBoolAttributeL( ECmHidden );
+if ( hidden )
+    {
+    connectionMethod.SetBoolAttributeL( ECmHidden, EFalse );
+    }
+else
+    {
+    connectionMethod.SetBoolAttributeL( ECmHidden, ETrue );
+    }
+CleanupStack::PopAndDestroy(); // connectionMethod
+</pre>
+<a name="Reading_the_attributes_of_a_bearer_type"><h3> <span class="mw-headline">2.7 Reading the attributes of a bearer type </span></h3>
+</a><p>Some attributes do not belong to a concrete Connection Method but they
+are the attributes of a bearer type. For example, <span class="plainlinks"><code>ECmBearerHasUi</code> </span> indicates if the bearer has a UI Settings dialog or not. These attributes can be queried by the <code>RCmManager::GetBearerInfoBoolL}}</code>, <code>GetBearerInfoIntL</code>, <code>GetBearerInfoStringL</code> and <code>GetBearerInfoString8L</code> methods.
+</p><p>The next example reads some attributes of the Packet Data bearer type. <span class="plainlinks"><code>KUidPacketDataBearerType</code> </span> comes
+from the Packet Data DEF <i>cmpluginpacketdatadef.h</i> header file.
+</p>
+<pre>TBool coverage = iCmManager.GetBearerInfoBoolL( KUidPacketDataBearerType, ECmCoverage );
+
+TUint defaultPriority = iCmManager.GetBearerInfoIntL( KUidPacketDataBearerType, ECmDefaultPriority );
+
+</pre>
+<p>Note that some attributes including bearer specific and Connection
+Method specific attributes require initialized UI context in the client application. For example, <span class="plainlinks"><code>ECmBearerIcon</code> </span> which gives back the bearer specific icon requires this.
+</p>
+<a name="Handling_of_an_Embedded_Destination"><h3> <span class="mw-headline">2.8 Handling of an Embedded Destination </span></h3>
+</a><p>Special handling is needed for Embedded Destinations. A destination can
+contain a link to another destination. This makes it possible to utilize
+the Connection Methods of another destination when creating the connection.
+This is called an Embedded Destination.
+</p><p>Embedded Destination is rarely used. Embedded Destination cannot be created
+by end users.
+</p><p>In The Connection Settings API, an Embedded Destination is represented as a
+Connection Method with Embedded Destination bearer type. Therefore, to be prepared
+for Embedded Destination first, the bearer type of the actual Connection Method
+must be checked. If the bearer type is Embedded Destination, the linked
+destination can be queried by calling the <span class="plainlinks"><code>RCmConnectionMethod::DestinationL</code> </span> method.
+</p><p>The next example is code fragment from a program, which iterates through
+the existing Destinations and Connection Methods. The <i>cmpluginembdestinationdef.h</i> header file
+must be included for the UID of the Embedded Destination bearer type (<span class="plainlinks"><code>KUidEmbeddedDestination</code> </span>).
+</p>
+<pre>RCmConnectionMethod connectionMethod;
+
+for( TInt i = 0; destination.ConnectionMethodCount(); i++ )
+    {
+    connectionMethod = destination.connectionMethodL( i );
+    CleanupClosePushL( connectionMethod );
+
+    TUint bearerType = connectionMethod.GetIntAttributeL( ECmBearerType );
+    if ( bearerType == KUidEmbeddedDestination )
+        {
+        RCmDestination embeddedDestination = connectionMethod.DestinationL();
+        // now we can e.g. ask the count of the CMs in the embedded destination
+        embeddedDestination.ConnectionMethodCount()
+        embeddedDestination.Close()
+        }
+    CleanupStack::PopAndDestroy(); // connectionMethod
+    }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.9 Error handling </span></h3>
+</a><p>The Connection Settings API uses the standard Symbian error reporting mechanism.
+Leaves and system wide error codes are used if the
+error is recoverable. A client application can handle these errors using the standard leave and TRAP mechanism
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.10 Memory and Performance Considerations </span></h3>
+</a><p>Opening a <span class="plainlinks"><code>CMManager</code> </span> session uses about 8 KB in
+a system, which supports five kinds of bearer types.
+</p><p>Using an example setup with six Destinations each containing three Connection
+Methods, and gettting the list of existing Destinations takes about 1 KB.
+</p><p>Getting an <span class="plainlinks"><code>RCmDestination</code> </span> object uses about 1 KB. Getting
+an <span class="plainlinks"><code>RCmConnectionMethod</code> </span> object uses about 2 KB.
+</p>
+<a name="Limitations_of_the_API"><h3> <span class="mw-headline">2.11 Limitations of the API </span></h3>
+</a><p>In some cases, the client application needs an initialized UI context to
+successfully invoke the methods of the API, for example when reading some UI related attributes
+such as the bearer specific icon.
+</p>
+<a name="Security_issues"><h3> <span class="mw-headline">2.12 Security issues </span></h3>
+</a><p>The Connection Method Manager runs in the process of the client application, and it has the same capabilities as the client application. The client application needs the <span class="plainlinks"><code>ReadDeviceData</code> </span> capability to access private user
+data such as user names or passwords through the API.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> ID</td><td> Identifier
+</td></tr>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> IAP</td><td> Internet Access Point
+</td></tr>
+<tr>
+<td> CM</td><td> Connection Method
+</td></tr>
+<tr>
+<td> CM Manager</td><td> Connection Method Manager
+</td></tr>
+<tr>
+<td> SNAP</td><td> Service Network Access Point
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> Connection Method</td><td> Connection Method is the new term for Internet Access Point. The naming is changed to make it easier for users to understand the concept of network connections within the new simplified UI structure.
+</td></tr>
+<tr>
+<td> Destination</td><td> Destination is an abstraction to hide the technical specific settings from the users of applications. Instead of Access Points the user can select destinations with its name such as Internet or Intranet, etc. Each destination can contain numerous access technologies (hence connection methods) that can be used to access the destination or service domain in question. When a connection to destination is going to be established, the device can automatically select the best available.
+<p>Destination, Destination 
+Network, SNAP refers to the same meaning.
+</p>
+</td></tr>
+<tr>
+<td> Bearer type</td><td> Access technology such as WLAN, Packet Data, VPN.
+</td></tr>
+<tr>
+<td> Embedded Destination</td><td> A destination can contain a link to another destination. This makes it possible to utilize the Connection Methods of another destination when creating the connection. This is called an Embedded Destination. Embedded Destination cannot be configured through the user interface.
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_ipconnmgmt_ipcm_pub_connection_settings_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:47 GMT -->
+</html>

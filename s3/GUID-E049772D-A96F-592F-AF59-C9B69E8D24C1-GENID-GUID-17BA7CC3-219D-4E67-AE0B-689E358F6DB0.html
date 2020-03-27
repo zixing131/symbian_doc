@@ -1,0 +1,81 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E049772D-A96F-592F-AF59-C9B69E8D24C1-GENID-GUID-17BA7CC3-219D-4E67-AE0B-689E358F6DB0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:52:20 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using the extended notifier framework" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E049772D-A96F-592F-AF59-C9B69E8D24C1-GENID-GUID-17BA7CC3-219D-4E67-AE0B-689E358F6DB0" /><meta name="DC.Language" content="en" /><title>Using
+the extended notifier framework </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E049772D-A96F-592F-AF59-C9B69E8D24C1-GENID-GUID-17BA7CC3-219D-4E67-AE0B-689E358F6DB0">Using
+the extended notifier framework</h1><div>
+<div id="GUID-41892CE3-A4CC-5761-9469-530D6D18EDFE-GENID-GUID-17BA7CC3-219D-4E67-AE0B-689E358F6DB0"><h3 class="section-title">The framework</h3> <p>Notifiers
+allow components with no direct UI linkage to interact with the user via an
+interface such as a dialog box. For example, a low level component might want
+to warn the user about a low battery level. Typically, such a component would
+not have direct access, or knowledge of, a UI. The solution to this problem
+is provided by what are known as notifiers and the extended notifier framework.
+The UI element (the dialog box) is provided by the device's UI
+through what are known as notifier plug-ins. </p> <p>The extended notifier
+framework is a system that loads these plug-in DLLs from <code>Z\sys\bin\notifiers</code>. </p> <p>These
+DLLs are expected to export a single factory function at ordinal #1 that returns
+an array of notifiers. A special notifier target type is supported by makmake.
+The second Uid for notifiers should be 0x10005522. </p> <p>The behaviour of
+notifiers is supplied by providing an implementation of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE445C4B-22EF-3A1F-8A69-57CB703BFAD0.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE445C4B-22EF-3A1F-8A69-57CB703BFAD0.html"><code class="apiname">MEikSrvNotifierBase2</code></a> interface
+. A notifier is associated with a channel and a priority. Priority is used
+to determine the order of activation if more than one notifier is activated
+at any time. Priority only affects notifiers on the same channel (for example,
+a screen or LED). This means that two notifiers can be active at the same
+time provided that they are on different channels. </p> <p>The channel and
+priority used by all the notifiers in the system needs to be considered carefully
+to avoid them interfering with each other in unexpected ways. The <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE445C4B-22EF-3A1F-8A69-57CB703BFAD0.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE445C4B-22EF-3A1F-8A69-57CB703BFAD0.html"><code class="apiname">MEikSrvNotifierBase2</code></a> derived
+class also needs to be implemented correctly. Notifiers run in the UIKON server
+thread and are accessed on the client side via <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A6B66713-FECA-3BE7-BB81-1AE5551AD83D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A6B66713-FECA-3BE7-BB81-1AE5551AD83D.html"><code class="apiname">RNotifier</code></a>.
+Note that if a notifier panics it will lead to a device reset. </p> </div>
+<div id="GUID-9322CFDB-D07E-54C3-86B1-13BFB082B175-GENID-GUID-17BA7CC3-219D-4E67-AE0B-689E358F6DB0"><h3 class="section-title">The factory
+function</h3> <p>The factory function at ordinal #1 is expected to return
+an array of notifiers. The following is a typical implementation: </p> <pre class="codeblock">EXPORT_C CArrayPtr&lt;MEikSrvNotifierBase2&gt;* NotifierArray()
+    {
+    CArrayPtrFlat&lt;MEikSrvNotifierBase2&gt;* notifiers=new CArrayPtrFlat&lt;MEikSrvNotifierBase2&gt;(5);
+       if (notifiers)
+        {
+        TRAPD(err, CreateNotifiersL(notifiers));
+        if(err)
+            {
+            TInt count = notifiers-&gt;Count();
+            while(count--)
+                {
+                (*notifiers)[count]-&gt;Release();
+                }
+            delete notifiers;
+            notifiers = NULL;
+            }
+        }
+    return(notifiers);
+    }
+</pre> <div class="note"><p><strong class="note_title">Note: </strong>Ownership of the notifier array or its contents is not
+transferred to the framework until this function returns. To avoid memory
+leaks, all acquired resources must be freed if anything goes wrong part of
+the way through its processing. </p></div> <p>Calling <code class="codeph">Release()</code> on
+a notifier should cause that notifier to free all of its resources, and as
+a minimum should call <code class="codeph">delete           this;</code>. See <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DE445C4B-22EF-3A1F-8A69-57CB703BFAD0.html#GUID-CF772B65-7D65-3ADC-B566-9ED2A263942F"><code class="apiname">MEikSrvNotifierBase2::Release()</code></a>. </p> <p>Returning
+a <code class="codeph">Null</code> value from this function causes the framework to leave
+with KErrNoMemory. </p> <p>The <code class="codeph">CreateNotifiersL()</code> function
+should be implemented as follows: </p> <pre class="codeblock">LOCAL_C void CreateNotifiersL(CArrayPtrFlat&lt;MEikSrvNotifierBase2&gt;* aNotifiers)
+    {
+    MEikSrvNotifierBase2* notifier;
+    notifier = CMyNotifierA::NewL();
+    CleanupStack::PushL(notifier);
+       aNotifiers-&gt;AppendL(notifier);
+       CleanupStack::Pop(notifier);
+    ... 
+    ...
+    // typically, repeat this procedure for as
+    // many notifiers as are implemented
+    // in the plug-in DLL.
+    }</pre> <div class="note"><p><strong class="note_title">Note: </strong>Use of the standard Symbian platform technique
+of using the cleanup stack to hold pointers to allocated objects for as long
+as these objects have no owner; this prevents memory leaks. For this reason,
+avoid using a technique such as <code class="codeph">aNotifiers-&gt;AppendL(CMyNotifierA::NewL());</code>,
+which, although shorter, will result in a memory leak if the <code class="codeph">AppendL()</code> operation
+fails. </p></div> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 9th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E049772D-A96F-592F-AF59-C9B69E8D24C1-GENID-GUID-17BA7CC3-219D-4E67-AE0B-689E358F6DB0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:52:20 GMT -->
+</html>

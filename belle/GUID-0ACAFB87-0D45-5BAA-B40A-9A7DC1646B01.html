@@ -1,0 +1,73 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0ACAFB87-0D45-5BAA-B40A-9A7DC1646B01.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:10 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Managing the RTCP packets and reports" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-6425B722-4095-56E3-9198-70BA3E06C617" /><meta name="DC.Relation" scheme="URI" content="GUID-C467E6CD-6656-55F6-BDDF-BFA4F187B14F" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0ACAFB87-0D45-5BAA-B40A-9A7DC1646B01" /><meta name="DC.Language" content="en" /><title>Managing the RTCP packets and reports </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0ACAFB87-0D45-5BAA-B40A-9A7DC1646B01">Managing the RTCP packets and reports</h1><div>
+<p>This section describes how to send various types of RTCP packets,
+set the stream parameters, get stream statistics and close the session. </p>
+<div id="GUID-663C6781-3137-5D48-A836-6ADDD4474805"><h3 class="section-title">Sending
+various RTCP packets</h3><p>To automatically send SR, RR, or SDES
+packets, call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97FC8566-E4AD-3881-8669-134798A88779.html#GUID-B32E14CD-DE13-3E89-96B4-5713CB7217A7"><code class="apiname">RRtpSession::SetRTCPAutoSend()</code></a> with
+its paramter set to ETrue. For more information about these packets,
+see Managing send and receive reports.</p><pre class="codeblock">session.SetRTCPAutoSend(ETrue);
+</pre><p>Set the RTCP auto-send time interval in microseconds
+by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97FC8566-E4AD-3881-8669-134798A88779.html#GUID-506A9D47-03DE-36D0-8466-D7BFB725FBB1"><code class="apiname">RRtpSession::SetRtcpInterval()</code></a>.</p><pre class="codeblock">session.SetRtcpInterval(1000);
+</pre><p>If auto-sending is set to EFalse, call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97FC8566-E4AD-3881-8669-134798A88779.html#GUID-7AF454C8-6943-3986-BC82-CF6BFB27AF7A"><code class="apiname">RRtpSession::SendRTCPPacketL()</code></a> to send a packet.</p><pre class="codeblock">//aPacket is a valid RTCP packet session.SendRTCPPacketL(aPacket);
+</pre><p>For more information, see the definition of TRtpSendPacketType.
+ </p><pre class="codeblock">Call RRtpSession::SendAppL() to send an APP packet.</pre><p>For an SDES RTP packet, call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97FC8566-E4AD-3881-8669-134798A88779.html#GUID-1D4254AC-043A-3BA7-ABF7-B008DC9F4D01"><code class="apiname">RRtpSession::SetSDESL()</code></a> to set the SDES details such as CNAME, NAME, PHONE, EMAIL and so
+on. You must set these details before the packet is sent. The CNAME
+must be unique for an RTP session.   <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97FC8566-E4AD-3881-8669-134798A88779.html#GUID-0B04130D-585C-31D9-A1F0-B4166BC26A92"><code class="apiname">RRtpSession::GetSDES()</code></a> enables you to fetch the data associated with the specified SDES
+item.  </p><p> You can set the data associated with a PRIV (Private
+Extensions) SDES item by calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97FC8566-E4AD-3881-8669-134798A88779.html#GUID-D7E02919-E39A-3CA0-A8C7-BE77504C0948"><code class="apiname">RRtpSession::SetPRIVL()</code></a>.  PRIV (Private Extensions) SDES is not supported.   Call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97FC8566-E4AD-3881-8669-134798A88779.html#GUID-00D4DBEA-3EDB-3F88-90B8-374D2CECB383"><code class="apiname">RRtpSession::ByeL()</code></a> to send an RTCP Bye packet.  </p> </div>
+<div id="GUID-ADEE78F6-E27B-4B9C-A130-00A09A52DC1F"><h3 class="section-title">Setting the stream parameters </h3> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97FC8566-E4AD-3881-8669-134798A88779.html#GUID-D4B7BEBB-BDE9-39D1-B86D-9BCA90FCBCDB"><code class="apiname">RRtpSession::SetRtpStreamParameters()</code></a> method
+sets the following stream parameters: </p> <ul>
+<li id="GUID-60CD5E08-6829-5675-AC64-6CAA3C6D53D9"><a name="GUID-60CD5E08-6829-5675-AC64-6CAA3C6D53D9"><!-- --></a><p>maximum number
+of sequential packets that must be received for a good stream. </p> </li>
+<li id="GUID-8ED20A24-B6D0-5CE4-A115-459FED0E885C"><a name="GUID-8ED20A24-B6D0-5CE4-A115-459FED0E885C"><!-- --></a><p>maximum number
+of dropped packets to be considered a dropout. </p> </li>
+<li id="GUID-688E9BB0-96E9-5090-B80F-1E75D27D2FCD"><a name="GUID-688E9BB0-96E9-5090-B80F-1E75D27D2FCD"><!-- --></a><p>maximum number
+of packets by which a packet can be delayed to be considered as dropped. </p> </li>
+</ul> <pre class="codeblock">SetRtpStreamParameters(1,100,3000);// set MinSequential, MaxMisorder &amp; MaxDropout </pre> </div>
+<div id="GUID-E45784EA-9203-4A87-A796-FC4C5A4B4E8F"><h3 class="section-title">Getting the stream statistics</h3> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97FC8566-E4AD-3881-8669-134798A88779.html#GUID-63B8D608-D078-3F8E-9ABD-2CD29F1396F5"><code class="apiname">RRtpSession::RtcpStatistics()</code></a> method provides sending and
+receiving statistics about the current active RTP session. The statistics
+depend on the contents of the latest Sender Report (SR) packets and
+Receiver Report (RR) packets. The returned TRtcpStatistics structure contains the following statistics: </p> <div class="tablenoborder"><a name="GUID-82B41FFA-00C1-5477-9727-2C3DBCA754D5"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-82B41FFA-00C1-5477-9727-2C3DBCA754D5" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e416359">Direction </th>
+<th class="cellrowborder" valign="top" id="d0e416362">Statistic </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e416359 "><p>Sending </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e416362 "><p>Total number of packets sent from the beginning of the RTP
+session to the latest SR. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e416359 "><p>Total number of payload octets sent from the beginning of
+the RTP session to the latest SR. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e416359 "><p>Receiving </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e416362 "><p>Inter-arrival jitter. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e416359 "><p>Total number of packets lost since the beginning of the
+RTP session. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e416359 "><p>Fraction of packets lost since the previous SR or RR. </p> </td>
+</tr>
+</tbody>
+</table></div> <p>For more information about these statistics, see the RTP
+standard in <a href="../rfc/rfc3550.txt" target="_blank">RFC 3550</a>. </p> </div>
+<div id="GUID-0F2E9A80-BADE-47AA-A356-59C79162ED4F"><h3 class="section-title">Closing a session</h3> <p> <code class="codeph">Close()</code> closes the RTP session. All the send and receive streams are disconnected
+after this call. </p> <pre class="codeblock">session.Close(); 
+delete session;</pre> </div>
+<div id="GUID-388D890E-5A8C-4D4D-A7D9-3AECD66B524C"><h3 class="section-title">See also</h3> <p><a href="GUID-FBA52F3B-0A7A-5FE3-82CD-72F88788D432.html#GUID-352B33B6-D02B-5ECB-B154-6CB06C21A377">Types of RTCP packets</a> </p> <p><a href="GUID-5287A403-1094-5682-A443-A6C2A04A1F23.html">Creating and Managing
+an RTP session</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 30th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0ACAFB87-0D45-5BAA-B40A-9A7DC1646B01.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:14 GMT -->
+</html>

@@ -1,0 +1,46 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-65F8675F-FF08-5707-BA5B-BF3B4B779393.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Handling SDP results" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-227B6970-A536-470F-B5A1-A1871F65D7F3" /><meta name="DC.Relation" scheme="URI" content="GUID-071A1E59-FE77-5D4D-B4D1-E6ECDF68BB03" /><meta name="DC.Relation" scheme="URI" content="GUID-EC7A9299-4272-5C1E-8A10-8267E154D56A" /><meta name="DC.Relation" scheme="URI" content="GUID-8D5E17DA-8EF1-52B4-9706-9836B8D6CE43" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-65F8675F-FF08-5707-BA5B-BF3B4B779393" /><meta name="DC.Language" content="en" /><title>Handling
+SDP results </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-65F8675F-FF08-5707-BA5B-BF3B4B779393">Handling
+SDP results</h1><div>
+<p>Clients that make service and attribute queries through <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html"><code class="apiname">CSdpAgent</code></a> must
+implement the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html"><code class="apiname">MSdpAgentNotifier</code></a> interface
+to handle the responses. </p>
+<div><h3 class="section-title">How to create an object to handle inquiry results</h3> <p>There
+are two kinds of results that require handling, they are: </p> <ul>
+<li id="GUID-5D797F13-A380-5286-905F-9DCB374224B7"><a name="GUID-5D797F13-A380-5286-905F-9DCB374224B7"><!-- --></a><p>Service Search Results,
+and </p> </li>
+<li id="GUID-49BAAE50-2EB9-5A64-910A-5C95CED036DE"><a name="GUID-49BAAE50-2EB9-5A64-910A-5C95CED036DE"><!-- --></a><p>Attribute Read Results </p> </li>
+</ul> <p>We will examine a simple handling example for both kinds below. </p><p>Note: 
+Queries are asynchronous. </p> </div>
+<div><h3 class="section-title">Handling service search results</h3> <p>When a service
+search request completes, it calls the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html"><code class="apiname">NextRecordRequestComplete()</code></a>: </p> <pre class="codeblock">virtual void NextRecordRequestComplete(TInt aError, TSdpServRecordHandle aHandle, TInt aTotalRecordsCount)</pre> <p> <code class="codeph">aHandle</code> gives the service record handle of the matching
+service, and can be used in a subsequent attribute query. <code class="codeph">aTotalRecordsCount</code> gives
+the total number of matching records. </p> </div>
+<div><h3 class="section-title">Handling attribute read results</h3> <p>When an attribute
+request completes, each single attribute is returned with its attribute ID
+using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html"><code class="apiname">AttributeRequestResult()</code></a>. </p> <pre class="codeblock">virtual void AttributeRequestResult(TSdpServRecordHandle aHandle, TSdpAttributeID aAttrID, CSdpAttrValue* aAttrValue)</pre> <p>The ID of the attribute is given in <code class="codeph">aAttrID</code>, and the
+attribute value itself in <code class="codeph">aAttrValue</code>. You can find the type
+of the attribute through <code class="codeph">aAttrValue-&gt;Type()</code>, cast <code class="codeph">aAttrValue</code> on
+this base to the correct subclass of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html"><code class="apiname">CSdpAttrValue</code></a>:
+for example, if the type is <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html"><code class="apiname">ETypeBoolean</code></a>,
+you can cast <code class="codeph">aAttrValue</code> to a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html"><code class="apiname">CSdpAttrValueBoolean</code></a>. </p> <p>When
+there are no more attributes to be returned, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AD76DB7F-CD45-3903-A07A-E94BE583CDB0.html"><code class="apiname">AttributeRequestComplete()</code></a> is
+called. </p> </div>
+<div><h3 class="section-title">Where Next?</h3> <p>The complete set of Service Discovery
+Agent tutorials are shown below: </p> <ul>
+<li id="GUID-7461DF52-06B4-55BE-B176-7F1F88851B7C"><a name="GUID-7461DF52-06B4-55BE-B176-7F1F88851B7C"><!-- --></a><p> <a href="GUID-275D7892-EEBD-5DBD-A9D7-F6A715B79659.html">Querying
+the SDP database</a> </p> </li>
+<li id="GUID-2C509727-D129-5DC6-8761-1975151FBA6C"><a name="GUID-2C509727-D129-5DC6-8761-1975151FBA6C"><!-- --></a><p> <a href="GUID-1EA7B3A5-7A94-5E8F-A0A8-9CA417E14032.html">Reading
+remote SDP service attributes</a> </p> </li>
+<li id="GUID-93251739-F226-5398-9F7B-A3BC599AB40F"><a name="GUID-93251739-F226-5398-9F7B-A3BC599AB40F"><!-- --></a><p> <strong>Handling SDP query
+results</strong> - This document </p> </li>
+</ul> <p>Also refer to the <a href="GUID-2F1C6B4C-2C23-5A35-A0D2-223EC6238F7D.html">Bluetooth
+Service Discovery Agent Overview</a> and the <a href="GUID-8451102A-8E68-5C86-9E40-D53183E32261.html">Bluetooth
+SDP Overview</a> for additional background information. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 5th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-65F8675F-FF08-5707-BA5B-BF3B4B779393.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:55 GMT -->
+</html>

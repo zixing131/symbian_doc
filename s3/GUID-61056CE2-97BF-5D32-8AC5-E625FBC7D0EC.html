@@ -1,0 +1,62 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-61056CE2-97BF-5D32-8AC5-E625FBC7D0EC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Modifying DOM Tree" /><meta name="abstract" content="This topic explains how to create or modify a DOM tree by adding nodes and changing their contents." /><meta name="description" content="This topic explains how to create or modify a DOM tree by adding nodes and changing their contents." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-82AF5F49-EE25-54C7-AEE9-D1F41BD5190F" /><meta name="DC.Relation" scheme="URI" content="GUID-A25E730C-F34D-5464-BE78-650B3DEA4A88" /><meta name="DC.Relation" scheme="URI" content="GUID-05A3E75B-25F9-54AC-8AF8-3E97F832E626" /><meta name="DC.Relation" scheme="URI" content="GUID-74E3A687-18BD-5255-9CB9-F4B01878A1E1" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-61056CE2-97BF-5D32-8AC5-E625FBC7D0EC" /><meta name="DC.Language" content="en" /><title>Modifying DOM Tree </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-61056CE2-97BF-5D32-8AC5-E625FBC7D0EC">Modifying DOM Tree</h1><div><p>This topic explains how to create or modify a DOM tree
+by adding nodes and changing their contents. </p>
+<div id="GUID-34D9CE40-7620-4D13-9E01-B4627D45ECBC"><h3 class="section-title">Context</h3><p> </p> <p>The following diagram shows a sequence of calls that create a DOM
+tree from an empty document. There are many functions in the DOM Engine
+API that add nodes to a tree: refer to the reference documentation
+of the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>TXmlEngElement class for a
+comprehensive list. </p> <div class="figure" id="GUID-31E4FB65-7C28-513B-B8C0-5B057DC64A50"><img src="GUID-3E0E2E54-CD8A-5BAF-A87B-BF51FD8890D6_d0e498289_href.png" /><p class="figure-title"><strong>Figure: </strong>              Creating a DOM tree            </p></div> </div><div id="GUID-5BD417F3-91A1-456F-987F-A5EE8708F0AC"><h3 class="section-title">Prerequisites</h3><p>Before you
+start, you must: </p> <ul>
+<li id="GUID-AB0E481B-349C-5C60-ACB7-06EBA299E149"><a name="GUID-AB0E481B-349C-5C60-ACB7-06EBA299E149"><!-- --></a><p>understand the
+concept of <a href="http://www.w3.org/DOM/" target="_blank">Document
+Object Model (DOM)</a> </p> </li>
+<li id="GUID-79A66EA2-4F81-57E9-A4DB-E64B5405B578"><a name="GUID-79A66EA2-4F81-57E9-A4DB-E64B5405B578"><!-- --></a><p>understand the
+structure and classes of the <a href="GUID-5ACFA8E4-3C4B-5851-A43E-9FA72D0B8403.html">XML DOM Engine </a> component </p> </li>
+</ul> </div>
+<h3>Steps</h3><ol id="GUID-DEA52036-E11C-5913-984B-663DD68D02DB"><a name="GUID-DEA52036-E11C-5913-984B-663DD68D02DB"><!-- --></a>
+<li id="GUID-E65A2FF6-2918-540B-97DB-C07500A6CB08"><a name="GUID-E65A2FF6-2918-540B-97DB-C07500A6CB08"><!-- --></a><p></p>
+Create an instance of <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>RXmlEngDocument. 
+ <pre class="codeblock">RXmlEngDocument myDoc;</pre>
+</li>
+<li id="GUID-858AD52F-0526-5DCC-B424-666D88F19E8E"><a name="GUID-858AD52F-0526-5DCC-B424-666D88F19E8E"><!-- --></a><p></p>
+Set the root node with the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>RXmlEngDocument::CreateDocumentElementL() function. 
+ <pre class="codeblock">_LIT8( KRootName, "playlist" );
+TXmlEngElement root = myDoc-&gt;CreateDocumentElementL( KRootName );</pre>
+</li>
+<li id="GUID-25D56F38-012F-5169-9925-07A6A7BBAC31"><a name="GUID-25D56F38-012F-5169-9925-07A6A7BBAC31"><!-- --></a><p></p>
+Add child nodes and attributes by calling the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>TXmlEngElement::AddNewElementL() and <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>TXmlEngElement::AddNewAttributeL() functions. 
+ <pre class="codeblock">_LIT8( KChildName, "song" );
+_LIT8( KAttrName, "filename" );
+
+for( TInt i=1;i&lt;6;i++ ) 
+    {
+          TXmlEngElement tempElement = root.AddNewElementL( KChildName );
+          TBuf8&lt;12&gt; value( _L8( "music0" ) );
+          value.AppendNum( i );
+          value.Append( _L8( ".mp3" ) );
+          tempElement.AddNewAttributeL( KAttrName, value );
+    }</pre>
+</li>
+<li id="GUID-559B34A9-4A69-57E3-AF2A-D3E7F81728B0"><a name="GUID-559B34A9-4A69-57E3-AF2A-D3E7F81728B0"><!-- --></a><p></p>
+Swap the first two song elements by calling the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'XML'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'XML']]]</strong>TXmlEngElement::MoveAfterSibling() function. 
+ <pre class="codeblock">TXmlEngNode swap = root.FirstChild();
+swap.MoveAfterSibling( swap.NextSibling() );</pre>
+</li>
+</ol>
+<div id="GUID-437E898C-B3E8-4740-AF53-3A1B9619D797"><h3 class="section-title">Results</h3><p>The result
+is a DOM tree corresponding to the following XML structure: </p> <pre class="codeblock">
+ &lt;playlist&gt;
+     &lt;song filename = "music02.mp3"/&gt;
+     &lt;song filename = "music01.mp3"/&gt;
+     &lt;song filename = "music03.mp3"/&gt;
+     &lt;song filename = "music04.mp3"/&gt;
+     &lt;song filename = "music05.mp3"/&gt;
+ &lt;/playlist&gt;
+</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 15th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-61056CE2-97BF-5D32-8AC5-E625FBC7D0EC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:42 GMT -->
+</html>

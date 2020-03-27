@@ -1,0 +1,632 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:19:40 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="ctype.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6" />
+<title>ctype.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6"><a name="GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">ctype.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-1BC2586D-6027-3909-9D27-BC8D0784DA93"><a name="GUID-1BC2586D-6027-3909-9D27-BC8D0784DA93"><!-- --></a>
+<a name="GUID-FDBC390B-CA0F-36D6-B661-A35A71FB0A5F"><!-- --></a><h3 class="sectiontitle">isalnum ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>isalnum</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The function isalnum returns non-zero if 'c' is alphanumeric i.e. it belongs to class alnum(see defns for definition). In other words, it returns non-zero if the test for isalpha or isdigit is non-zero, irrespective of the program's current locale. For single character representations, the value of the argument is representable as an unsigned char or the value of EOF.</p>
+<p class="p">The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class alnum, irrespective of the locale they belong to.</p>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //isalnum()
+#include&lt;stdio.h&gt; //printf()
+void test_isalnum()
+{
+   int arr[]={'8',0xe1,'5','Z',0xfd};
+   int i = 0;
+   int size = 5;
+   for( i=0; i&lt;size; i++)
+   {
+      int ret = isalnum(arr[i]); //call to the API with chars in arr[]
+      if( (!ret) != 0 )
+      {
+          printf("
+%c is not alphanumeric", arr[i]);
+      }
+      else
+      {
+          printf("
+%c is an alphanumeric ", arr[i]);
+      }
+   }
+   printf("
+");
+}</pre>
+ Output <pre class="pre codeblock">a is an alphanumeric
+ is an alphanumeric
+5 is an alphanumeric
+Z is an alphanumeric
+ is an alphanumeric</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6.html#GUID-43333F9F-FD1D-3009-B113-DA90B8B13238">isalpha()</a> <a class="xref" href="GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6.html#GUID-BF2C6DE0-52B3-3F53-963B-B07DB35F9DCA">isdigit()</a> <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-A0089A48-C289-346A-8D66-E83F8160FAC5">iswalnum()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The isalnum function returns zero if the character is not alphanumeric and returns non-zero if the character tests true.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-43333F9F-FD1D-3009-B113-DA90B8B13238"><a name="GUID-43333F9F-FD1D-3009-B113-DA90B8B13238"><!-- --></a>
+<a name="GUID-3EC78400-DE5E-3BF8-87D2-3CDF6AC9FB49"><!-- --></a><h3 class="sectiontitle">isalpha ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>isalpha</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The isalpha function returns non-zero if 'c' is an alphabet i.e. it belongs to class alpha (see defns for definition). In other words, it returns non-zero if the test for isupper or islower is non-zero,irrespective of the program's current locale. The function will return non-zero for also those characters that are alphabets and cannot be categorised as upper or lower case. For single character representations, the value of the argument is representable as an unsigned char or the value of EOF.</p>
+<p class="p">The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class alpha, irrespective of the locale they belong to.</p>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //isalpha()
+#include&lt;stdio.h&gt; //printf()
+void test_isalpha()
+{
+   int arr[]={'a',0xe1,'5','Z',0xfd};
+   int i = 0;
+   int size = 5;
+   for( i=0; i&lt;size; i++)
+   {
+      int ret = isalpha(arr[i]); //call to the API with chars in arr[]
+      if( (!ret) != 0 )
+      {
+        printf("
+%c is not an alphabet", arr[i]);
+      }
+      else
+      {
+        printf("
+%c is an alphabet", arr[i]);
+      }
+   }
+   printf("
+");
+}</pre>
+ Output <pre class="pre codeblock">a is an alphabet
+ is an alphabet
+5 is not an alphabet
+Z is an alphabet
+ is an alphabet</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6.html#GUID-B9D6B3EF-498C-3E47-A182-DB02775A3C46">islower()</a> <a class="xref" href="GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6.html#GUID-F3B74E23-AAE0-3D30-9B2D-21EAFDB794A0">isupper()</a> <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-4876B706-E45A-3E54-ABDB-DE6845D7FDC2">iswalpha()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The isalpha function returns non-zero if the character is an alphabet and zero otherwise.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-562BC3B7-EA22-3261-9B41-E5B57174A0CF"><a name="GUID-562BC3B7-EA22-3261-9B41-E5B57174A0CF"><!-- --></a>
+<a name="GUID-88A1DC55-20C9-312D-9582-7977E90B4D28"><!-- --></a><h3 class="sectiontitle">iscntrl ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>iscntrl</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The iscntrl function tests if 'c' is a control character i.e. it belongs to class cntrl(see defns for definition). For single character representations, the value of the argument is representable as an unsigned char or the value of EOF.</p>
+<p class="p">The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class cntrl, irrespective of the locale they belong to.</p>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //iscntrl()
+#include&lt;stdio.h&gt; //printf()
+int test_iscntrl()
+{
+   int arr[]={0x7F,9,A,$,\a };
+   int i = 0;
+   int size = 5;
+   for( i=0; i&lt;size; i++)
+   {
+      int ret = iscntrl(arr[i]); //call to the API with chars in arr[]
+      if( (!ret) != 0 )
+      {
+         printf("
+%c is not cntrl char ", arr[i]);
+      }
+      else
+      {
+         printf("
+%c is cntrl char", arr[i]);
+      }
+   }
+printf("
+");
+}</pre>
+ Output <pre class="pre codeblock"> is cntrl char
+9 is not cntrl char
+A is not cntrl char
+$ is not cntrl char
+ is cntrl char</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-A9E4D65E-8326-3667-88C7-240F948D0AC8">iswcntrl()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The iscntrl function returns non-zero if 'c' is control character and zero otherwise.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-BF2C6DE0-52B3-3F53-963B-B07DB35F9DCA"><a name="GUID-BF2C6DE0-52B3-3F53-963B-B07DB35F9DCA"><!-- --></a>
+<a name="GUID-386B77EB-2BA8-3223-9818-D520C4F62264"><!-- --></a><h3 class="sectiontitle">isdigit ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>isdigit</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The isdigit function tests if c is a decimal digit character. Regardless of locale, this includes the following characters only:</p>
+<div class="p">
+<pre class="pre codeblock">0  1   2   3   4 
+5 6   7   8   9 </pre>
+</div>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //isdigit()
+#include&lt;stdio.h&gt; //printf()
+void test_isdigit()
+{
+   int arr[]={'8',0xe1,'5','Z',0xfd};
+   int i = 0;
+   int size = 5;
+   for( i=0; i&lt;size; i++)
+   {
+     int ret = isdigit(arr[i]); //call to the API with chars in arr[]
+     if( (!ret) != 0 )
+     {
+         printf("
+%c is not a digit", arr[i]);
+     }
+     else
+     {
+         printf("
+%c is a digit", arr[i]);
+     }
+     }
+printf("
+");
+}</pre>
+ Output <pre class="pre codeblock">8 is a digit
+ is not a digit
+5 is a digit
+Z is not a digit
+ is not a digit</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-F01D54F7-16B6-3E1B-B7ED-0DA5416A603B">iswdigit()</a> defns()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The isdigit function returns non-zero if the character is a digit and zero otherwise.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-F0636101-4897-3743-8761-08B665CA67A5"><a name="GUID-F0636101-4897-3743-8761-08B665CA67A5"><!-- --></a>
+<a name="GUID-4E312B21-85A8-34EB-B8E1-3C708E4B2E3C"><!-- --></a><h3 class="sectiontitle">isgraph ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>isgraph</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The isgraph function returns non-zero if 'c' has visible representation i.e. it belongs to class graph(see defns for definition). It does not consider characters classified under class space and class cntrl (see defns for definition). For single character representations, the value of the argument is representable as an unsigned char or the value of EOF.</p>
+<p class="p">The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class graph, irrespective of the locale they belong to.</p>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //isgraph()
+#include&lt;stdio.h&gt; //printf()
+int test_isgraph()
+{
+   int arr[]={n,\f, 6,  };
+   int i = 0;
+   int size = 4;
+   for( i=0; i&lt;size; i++)
+   {
+     int ret = isgraph(arr[i]); //call to API with chars in arr[]
+     if( (!ret) != 0 )
+     {
+        printf("
+%c is not visible char ", arr[i]);
+     }
+     else
+     {
+        printf("
+%c is visible char", arr[i]);
+     }
+   }
+printf("
+");
+}</pre>
+ Output <pre class="pre codeblock">n is  visible char
+is not visible char
+6 is visible char
+ is not visible char</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-F07ABEFB-1CB8-3D17-B90E-78F30DC6DE13">iswgraph()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The isgraph function returns non-zero if 'c' has a visible representation and zero otherwise.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-B9D6B3EF-498C-3E47-A182-DB02775A3C46"><a name="GUID-B9D6B3EF-498C-3E47-A182-DB02775A3C46"><!-- --></a>
+<a name="GUID-8B15C0AB-43D5-3ED7-B6BA-6B52B00D5775"><!-- --></a><h3 class="sectiontitle">islower ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>islower</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The islower function tests if 'c' belongs to the set of lower-case letters i.e. it belongs to class lower(see defns for definition). For single character representations, the value of the argument is representable as an unsigned char or the value of EOF.</p>
+<p class="p">The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class lower, irrespective of the locale they belong to.</p>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //islower()
+#include&lt;stdio.h&gt; //printf()
+int test_islower()
+{
+  int arr[]={0x0126,0xee,'r','9','g'};
+  int i = 0;
+  int size = 5;
+  for( i=0; i&lt;size; i++)
+  {
+     int ret = islower(arr[i]); //call to the API with chars in the arr[]
+     if( (!ret) != 0 )
+     {
+         printf("
+%c is not in lower-case ", arr[i]);
+     }
+     else
+     {
+         printf("
+%c is in lower-case", arr[i]);
+     }
+  }
+printf("
+");
+}</pre>
+ Output <pre class="pre codeblock">&amp; is not in lower-case
+ is in lower-case
+r is in lower-case
+9 is not in lower-case
+g is in lower-case</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-E7B078CF-2F64-3352-A113-7C22EC144003">iswlower()</a> <a class="xref" href="GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6.html#GUID-554F3D36-4062-3ADD-B5CA-607043635899">tolower()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The islower function returns non-zero is 'c' is a lower-case alphabet and zero otherwise.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-CC3EE7D9-87C1-369E-93DB-062AFD2ECF37"><a name="GUID-CC3EE7D9-87C1-369E-93DB-062AFD2ECF37"><!-- --></a>
+<a name="GUID-69B21700-ABDE-3D03-A13E-78C4492E7281"><!-- --></a><h3 class="sectiontitle">isprint ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>isprint</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The isprint function returns true if 'c' is a printable character. It considers characters under class space, but characters falling under class cntrl will not be considered(see defns for definition of these classes).</p>
+<p class="p">For single character representations, the value of the argument is representable as an unsigned char or the value of EOF.</p>
+<p class="p">The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class print(see defns for definition), irrespective of the locale they belong to.</p>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //isprint()
+#include&lt;stdio.h&gt; //printf()
+int test_isprint()
+{
+   int arr[]={n,\f, 0xe1, 6,  };
+   int i = 0;
+   int size = 5;
+   for( i=0; i&lt;size; i++)
+   {
+      int ret = isprint(arr[i]); //call to the API with the chars in arr[]
+      if( (!ret) != 0 )
+      {
+         printf("
+%c is not printable char ", arr[i]);
+      }
+      else
+      {
+         printf("
+%c is printable char", arr[i]);
+      }
+   }
+printf("
+");
+}</pre>
+ Output <pre class="pre codeblock">n is printable char
+  is not printable char
+ is not printable char
+6 is printable char
+  is printable char</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-E61CF8FE-AF69-3FA4-8DBC-BA41DEDA433A">iswprint()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The isprint function returns non-zero if 'c' is printable and zero otherwise.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-DA3B9CC3-57F2-3223-A077-AC2795C8399C"><a name="GUID-DA3B9CC3-57F2-3223-A077-AC2795C8399C"><!-- --></a>
+<a name="GUID-70700AD2-23A6-3E93-B302-DAA2B01E9716"><!-- --></a><h3 class="sectiontitle">ispunct ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>ispunct</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The ispunct function tests if 'c' is a punctuation character i.e. it belongs to class punct(see defns for definition). Characters under class space or a character for which isalnum is true(non-zero) are excluded. In other words, it tests for punctuation characters. For single character representations, the value of the argument is representable as an unsigned char or the value of EOF.</p>
+<p class="p">The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class punct, irrespective of the locale they belong to.</p>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //ispunct()
+#include&lt;stdio.h&gt; //printf()
+int test_ispunct()
+{
+  int arr[]={0x3003,'3',0x301C,'*', '+'};
+  int i = 0;
+  int size = 5;
+  for( i=0; i&lt;size; i++)
+  {
+     int ret = ispunct(arr[i]); //call to the API with chars in arr[]
+     if( (!ret) != 0 )
+     {
+         printf("
+0x%x is not a punc char ", arr[i]);
+     }
+     else
+     {
+         printf("
+0x%x is a punc char", arr[i]);
+     }
+}
+printf("
+");
+return 0;
+}</pre>
+ Output <pre class="pre codeblock">0x3003 is a punc char
+0x33 is not a punc char
+0x301c is a punc char
+0x2a is a punc char
+0x2b is a punc char</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-9F6446CD-346A-3A7E-AE96-7146D70E039E">iswpunct()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The ispunct function returns non-zero if 'c' is a punctuation character and zero otherwise.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-5CFAFF6E-7896-3B5D-9B01-6A9D9E30DE8F"><a name="GUID-5CFAFF6E-7896-3B5D-9B01-6A9D9E30DE8F"><!-- --></a>
+<a name="GUID-E7FCA8E3-F619-3A89-81E8-E4AD5ED6442D"><!-- --></a><h3 class="sectiontitle">isspace ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>isspace</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The isspace function tests if 'c' is from among white-space characters i.e. it belongs to class space(see defns for definition). This includes the following standard characters:</p>
+<p class="p">SPACE</p>
+<p class="p">FORM-FEED</p>
+<p class="p">NEWLINE</p>
+<p class="p">CARRIAGE-RETURN</p>
+<p class="p">TAB</p>
+<p class="p">VERTICAL-TAB</p>
+<p class="p">For single character representations, the value of the argument is representable as an unsigned char or the value of EOF.</p>
+<p class="p">The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class space, irrespective of the locale they belong to.</p>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //isspace()
+#include&lt;stdio.h&gt; //printf()
+int test_isspace()
+{
+   int arr[]={'
+','0','w','R',0x3000,' '};
+   int i = 0;
+   int size = 5;
+   for( i=0; i&lt;size; i++)
+   {
+      int ret = isspace(arr[i]); //call to the API with chars in arr[]
+      if( (!ret) != 0 )
+      {
+         printf("
+%c is not space char ", arr[i]);
+      }
+      else
+      {
+         printf("
+%c is space char", arr[i]);
+      }
+   }
+printf("
+");
+}</pre>
+ Output <pre class="pre codeblock"> is space char
+0 is not space char
+w is not space char
+R is not space char
+   is space char</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-EB20D6CF-8916-32BF-9D8B-EF54423731E7">iswspace()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The isspace function returns non-zero if 'c' is space character and zero otherwise.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-F3B74E23-AAE0-3D30-9B2D-21EAFDB794A0"><a name="GUID-F3B74E23-AAE0-3D30-9B2D-21EAFDB794A0"><!-- --></a>
+<a name="GUID-A2491245-B7F8-3BF1-9A7C-B754757A5F89"><!-- --></a><h3 class="sectiontitle">isupper ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>isupper</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The isupper function tests if 'c' is an upper-case alphabet i.e. it belongs to class upper(see defns for definition). For single character representations, the value of the argument is representable as an unsigned char or the value of EOF.</p>
+<p class="p">The functionality of this API is independent of the program's current locale and so it returns non-zero for all the characters (of various locales supported) that belong to the class upper, irrespective of the locale they belong to.</p>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //isupper()
+#include&lt;stdio.h&gt; //printf()
+int test_isupper()
+{
+int arr[]={0x0126,'G','7','B',0x3041};
+int i = 0;
+int size = 5;
+for( i=0; i&lt;size; i++)
+{
+   int ret = isupper(arr[i]); //call to the API with chars in arr[]
+   if( (!ret) != 0 )
+   {
+        printf("
+%c is not in upper-case ", arr[i]);
+   }
+   else
+   {
+        printf("
+%c is in upper-case", arr[i]);
+   }
+   }
+printf("
+");
+}</pre>
+ Output <pre class="pre codeblock">&amp; is in upper-case
+G is in upper-case
+7 is not in upper-case
+B is in upper-case
+A is in upper-case</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-4220D83A-16AC-39CC-B1A3-CE15CBFE7B03">iswupper()</a> <a class="xref" href="GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6.html#GUID-AB19B647-1125-381E-A7AC-6CFD4DE2619B">toupper()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The isupper function returns non-zero if 'c' is in upper case and zero otherwise.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-E6D8C2C2-78BF-3075-9F88-4F63F9A87BC6"><a name="GUID-E6D8C2C2-78BF-3075-9F88-4F63F9A87BC6"><!-- --></a>
+<a name="GUID-69B04D71-05AB-3C38-A181-45D7E292E210"><!-- --></a><h3 class="sectiontitle">isxdigit ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>isxdigit</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<div class="p">The isxdigit function tests if c is a hexadecimal-digit character. Regardless of locale, this includes the following characters only: <pre class="pre codeblock">0  1   2   3   4 
+5 6   7   8   9 
+A B   C   D   E 
+F a   b   c   d 
+e f  </pre>
+</div>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //isxdigit()
+#include&lt;stdio.h&gt; //printf()
+int test_isxdigit()
+{
+   int arr[]={'F','a','M','9','2'};
+   int i = 0;
+   int size = 5;
+   for( i=0; i&lt;size; i++)
+   {
+      int ret = isxdigit(arr[i]); //call to the API with chars in arr[]
+      if( (!ret) != 0 )
+      {
+          printf("
+%c is not hex-digit ", arr[i]);
+      }
+      else
+      {
+          printf("
+%c is hex-digit", arr[i]);
+      }
+}
+printf("
+");
+}</pre>
+ Output <pre class="pre codeblock">F is hex-digit
+a is hex-digit
+M is not hex-digit
+9 is hex-digit
+2 is hex-digit</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-A891B678-D32E-345A-BD8D-28E802DD77F6">iswxdigit()</a> defns()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>The isxdigit function returns non-zero if 'c' is a character used for hex-representation and zero otherwise. The iswxdigit function should be used instead.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-554F3D36-4062-3ADD-B5CA-607043635899"><a name="GUID-554F3D36-4062-3ADD-B5CA-607043635899"><!-- --></a>
+<a name="GUID-3BC07B1C-A887-3D94-BB1C-86B0745A61E4"><!-- --></a><h3 class="sectiontitle">tolower ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>tolower</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The tolower function converts an upper-case letter to the corresponding lower-case letter. For single character representations, the value of the argument is representable as an unsigned char or the value of EOF .</p>
+<p class="p">The functionality of this API is independent of the program's current locale.</p>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt;  //tolower()
+#include&lt;stdio.h&gt; //printf()
+int test_tolower ()
+{
+   struct st
+   {
+    int input;
+    int output;
+   };
+   struct st  arr[]=
+   {
+   { 'Q', 'q' },
+   { 'g' , 'g' },
+   { '9' , '9' },
+   { '%' , '%' },
+   { '	' , '	' },
+   };
+   int i = 0;
+   int size = 5;
+   for( i=0; i&lt;size; i++)
+   {
+      int ret = tolower(arr[i].input);//call to the API with the chars in the arr[]
+      if( ret != arr[i].output )
+      {
+         printf("
+%c cannot convert ", arr[i].input);
+      }
+      else
+      {
+         printf("
+%c ", arr[i].output);
+      }
+   }
+printf("
+");
+}</pre>
+ Output <pre class="pre codeblock">q
+g
+9
+%</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6.html#GUID-B9D6B3EF-498C-3E47-A182-DB02775A3C46">islower()</a> <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-4BC6AC1B-F5CC-3403-AAD5-F9793058B826">towlower()</a> defns()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>If the argument is an upper-case letter, the tolower function returns the corresponding lower-case letter if there is one; otherwise the argument is returned unchanged. The wide version, towlower , should normally be used instead.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-AB19B647-1125-381E-A7AC-6CFD4DE2619B"><a name="GUID-AB19B647-1125-381E-A7AC-6CFD4DE2619B"><!-- --></a>
+<a name="GUID-872EE7F8-0205-32C6-9D72-B2AE0400A348"><!-- --></a><h3 class="sectiontitle">toupper ( int )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>toupper</td><td>(</td><td>int</td><td><span class="parameter"></span></td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">The toupper function converts a lower-case letter to the corresponding upper-case letter. For single character representations, the value of the argument is representable as an unsigned char or the value of EOF . The functionality of this API is independent of the program's current locale.</p>
+<div class="p">Examples: <pre class="pre codeblock">#include&lt;ctype.h&gt; //toupper()
+#include&lt;stdio.h&gt; //printf()
+int test_toupper()
+{
+   struct st
+   {
+     int input;
+     int output;
+   };
+   struct st  arr[]=
+   {
+   { 'q', 'Q' },
+   { 'G' , 'G' },
+   { '9' , '9' },
+   { '%' , '%' },
+   { '	' , '	' },
+   };
+   int i = 0;
+   int size = 5;
+   for( i=0; i&lt;size; i++)
+   {
+      int ret = toupper(arr[i].input);//call to the API with the chars in arr[]
+      if( ret != arr[i].output )
+      {
+          printf("
+%c cannot convert ", arr[i].input);
+      }
+      else
+      {
+          printf("
+%c ", arr[i].output);
+      }
+   }
+printf("
+");
+}</pre>
+ Output <pre class="pre codeblock">q
+G
+9
+%</pre>
+</div>
+<p class="p">See also: <a class="xref" href="GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6.html#GUID-F3B74E23-AAE0-3D30-9B2D-21EAFDB794A0">isupper()</a> <a class="xref" href="GUID-BF015F1E-6810-32CC-A7EC-53DBF509269C.html#GUID-700A6656-1457-3A92-B2DA-E34A1C5056BA">towupper()</a> defns()</p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>If the argument is a lower-case letter, the toupper function returns the corresponding upper-case letter if there is one; otherwise the argument is returned unchanged. The wide version, towupper , should normally be used instead.</dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-C9E8A4A2-356D-35F9-97FE-5CB08C556D2D"><a name="GUID-C9E8A4A2-356D-35F9-97FE-5CB08C556D2D"><!-- --></a>
+<h3 class="sectiontitle">_tolower</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">This macro always expect that the argument sent is always in uppercase and works only with c locale. else the behavior is undefined</p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-81EED2B0-6B19-3764-B5B0-46C2562D3A9D"><a name="GUID-81EED2B0-6B19-3764-B5B0-46C2562D3A9D"><!-- --></a>
+<h3 class="sectiontitle">_toupper</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">This macro always expect that the argument sent is always in lowercase and works only with c locale. else the behavior is undefined</p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-2BB9A386-C31D-3B2D-AA3A-2D6F1ADC6BB9"><a name="GUID-2BB9A386-C31D-3B2D-AA3A-2D6F1ADC6BB9"><!-- --></a>
+<h3 class="sectiontitle">isascii</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Checks if ascii.</p>
+</div>
+</p></div>
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-C5242D14-279E-32BB-A942-4B9D5B489FB8"><a name="GUID-C5242D14-279E-32BB-A942-4B9D5B489FB8"><!-- --></a>
+<h3 class="sectiontitle">toascii</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+<p class="p">Converts to ascii.</p>
+</div>
+</p></div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></div></div></div></div></div></div></div></div></div></p></div></div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-771D3A6D-DBDD-3746-B520-1057FA94DDD6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:19:40 GMT -->
+</html>

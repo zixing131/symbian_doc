@@ -1,0 +1,71 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-0E45B9A2-C4E8-4846-B52A-61A57D687F0D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:16:37 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Preparing to Use the LLCP Stack" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Relation" scheme="URI" content="GUID-C6E5BFD8-6367-44CC-B5F7-FCDAFD27BD43" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0E45B9A2-C4E8-4846-B52A-61A57D687F0D" /><meta name="DC.Language" content="en" /><title>Preparing to Use the LLCP Stack </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0E45B9A2-C4E8-4846-B52A-61A57D687F0D">Preparing to Use the LLCP Stack</h1><div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-2E1D5FCF-BF3A-45C6-9223-EDD900959EA5"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-2E1D5FCF-BF3A-45C6-9223-EDD900959EA5"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-2E1D5FCF-BF3A-45C6-9223-EDD900959EA5"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-2E1D5FCF-BF3A-45C6-9223-EDD900959EA5"><!-- --></a><p>Create an
+instance of <code class="codeph">the CLlcpProvider</code> class, which provides
+services to listen to LLCP-related events and creates connection objects
+between the local and remote devices.</p>
+</li>
+<li id="GUID-AC735FB0-D3BA-424F-862C-6269DF32B068-GENID-GUID-2E1D5FCF-BF3A-45C6-9223-EDD900959EA5"><a name="GUID-AC735FB0-D3BA-424F-862C-6269DF32B068-GENID-GUID-2E1D5FCF-BF3A-45C6-9223-EDD900959EA5"><!-- --></a><p>Add an LLCP-link
+listener and a connectionless-request listener to listen to the LLCP-link
+status, as shown in the following code snippet: </p>
+<pre class="codeblock">// CMyOwnLlcpApplication::Start()
+// -----------------------------------------------------------------------------
+//
+void CMyOwnLlcpApplication::Start()
+    {
+    if ( !iStarted )
+        {
+        // Adding an LLCP link listener
+        iLlcp-&gt;AddLlcpLinkListenerL( *this );
+        
+        // Adding a listener to SSAP 35. If any Connectionless transport 
+        // messages are sent to SSAP 35, this listener will handle them.
+        iLlcp-&gt;StartListeningConnLessRequestL( *this, KInterestingSsap );
+        
+        iStarted = ETrue;
+        }
+    }
+// -----------------------------------------------------------------------------
+// End of CMyOwnLlcpApplication::Start()
+
+</pre>
+<p>The <code class="codeph">CMyOwnLlcpApplication</code> object waits for
+notifications after the LLCP link between the local and the remote
+devices is established. <code class="codeph">CMyOwnLlcpApplication</code> is
+also notified when connectionless requests with <a href="http://standards.ieee.org/regauth/llc/llctutorial.html#http://standards.ieee.org/regauth/llc/llctutorial.html">SSAP</a> 35 (Source Service Access Point) are received.</p>
+</li>
+<li id="GUID-59D5BA3E-1EFD-4124-8525-44EAB3712264-GENID-GUID-2E1D5FCF-BF3A-45C6-9223-EDD900959EA5"><a name="GUID-59D5BA3E-1EFD-4124-8525-44EAB3712264-GENID-GUID-2E1D5FCF-BF3A-45C6-9223-EDD900959EA5"><!-- --></a><p>Remove all
+listeners from the <code class="codeph">CLlcpProvider</code> instance.</p>
+<pre class="codeblock">// CMyOwnLlcpApplication::Stop()
+// -----------------------------------------------------------------------------
+//
+void CMyOwnLlcpApplication::Stop()
+    {
+    if ( iStarted )
+        {
+        // Stopping listening to LLCP link
+        iLlcp-&gt;RemoveLlcpLinkListener();
+        
+        // Stopping listening to SSAP 35.
+        iLlcp-&gt;StopListeningConnLessRequest( KInterestingSsap );
+        iStarted = EFalse;
+        
+        Cleanup();
+        }
+    }
+// -----------------------------------------------------------------------------
+// End of CMyOwnLlcpApplication::Stop()
+
+</pre>
+<p>The following diagram illustrates how to prepare and use
+the LLCP stack:</p><div class="figure" id="GUID-F4EBB0DD-2571-4186-9B3A-36641CEC7530"><img src="GUID-9891E7EA-4277-498F-91BD-FD6C6AF1DBE4_d0e417519_href.png" /><p class="figure-title"><strong>Figure: </strong>Sequence diagram for preparing to use the LLCP stack</p></div>
+</li>
+</ol>
+</div></div></div><div class="footer"><p class="metadata">Last updated September 29th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-0E45B9A2-C4E8-4846-B52A-61A57D687F0D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:16:39 GMT -->
+</html>

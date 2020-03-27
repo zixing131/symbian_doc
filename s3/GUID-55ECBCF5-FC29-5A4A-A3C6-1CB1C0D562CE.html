@@ -1,0 +1,79 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-55ECBCF5-FC29-5A4A-A3C6-1CB1C0D562CE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Displaying Log Events" /><meta name="abstract" content="This tutorial describes how to display log events." /><meta name="description" content="This tutorial describes how to display log events." /><meta name="DC.Relation" scheme="URI" content="GUID-E4A950EA-5671-5755-B3EF-5D6B90E19AE6" /><meta name="DC.Relation" scheme="URI" content="GUID-BE65B3A7-04E8-5406-B46A-09E2608E0F1F" /><meta name="DC.Relation" scheme="URI" content="GUID-2022F702-9899-5798-8932-D70119C7177D" /><meta name="DC.Relation" scheme="URI" content="GUID-BCB0E50F-B22E-5964-BB68-BEE1870D9C79" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FBCBF8A0-7922-5881-A1C5-5DB41630E75A" /><meta name="DC.Relation" scheme="URI" content="GUID-45A03C42-652C-59BD-9A21-6346A96310DB" /><meta name="DC.Relation" scheme="URI" content="GUID-5B63D14D-007D-566F-A065-1A25FE4B97A3" /><meta name="DC.Relation" scheme="URI" content="GUID-132DBA2F-B913-5565-9720-015777630C22" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-55ECBCF5-FC29-5A4A-A3C6-1CB1C0D562CE" /><meta name="DC.Language" content="en" /><title>Displaying Log Events </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-55ECBCF5-FC29-5A4A-A3C6-1CB1C0D562CE">Displaying Log Events</h1><div><p>This tutorial describes how to display log events. </p>
+<div id="GUID-1C8DA1D1-AF6B-5478-AC1C-8D676C3F20CD"><h3 class="section-title">Context</h3><p>You create
+a view to be displayed in the viewer application by creating a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3A3E6F09-0F78-38E1-95F5-00C743F41073.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3A3E6F09-0F78-38E1-95F5-00C743F41073.html"><code class="apiname">CLogViewEvent</code></a> or a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F40F9556-F223-36A5-9812-6EF6FF3F5156.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F40F9556-F223-36A5-9812-6EF6FF3F5156.html"><code class="apiname">CLogViewRecent</code></a>. Both
+classes select entries from the log, usually subject to the constraint
+of a filter. </p> <p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3A3E6F09-0F78-38E1-95F5-00C743F41073.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3A3E6F09-0F78-38E1-95F5-00C743F41073.html"><code class="apiname">CLogViewEvent</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F40F9556-F223-36A5-9812-6EF6FF3F5156.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F40F9556-F223-36A5-9812-6EF6FF3F5156.html"><code class="apiname">CLogViewRecent</code></a> inherit functions from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F33ADAF2-FD57-3662-B3AC-1000B69289D6.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F33ADAF2-FD57-3662-B3AC-1000B69289D6.html"><code class="apiname">CLogView</code></a> which let you navigate through the items in the view: </p> <ul>
+<li id="GUID-36C5ED26-8C2C-55E0-B4E0-819D96792BBA"><a name="GUID-36C5ED26-8C2C-55E0-B4E0-819D96792BBA"><!-- --></a><p><code class="codeph">Event()</code></p> </li>
+<li id="GUID-6F490445-C4E1-534F-ACBE-49FFAFFD93CE"><a name="GUID-6F490445-C4E1-534F-ACBE-49FFAFFD93CE"><!-- --></a><p><code class="codeph">FirstL()</code> </p> </li>
+<li id="GUID-B81C17B3-E62F-5FE9-A364-226A2B113E48"><a name="GUID-B81C17B3-E62F-5FE9-A364-226A2B113E48"><!-- --></a><p><code class="codeph">LastL()</code> </p> </li>
+<li id="GUID-6C063C43-0885-5813-97B2-347115099379"><a name="GUID-6C063C43-0885-5813-97B2-347115099379"><!-- --></a><p><code class="codeph">NextL()</code> </p> </li>
+<li id="GUID-004184E7-25C0-5BCB-879D-A5EB28DE043F"><a name="GUID-004184E7-25C0-5BCB-879D-A5EB28DE043F"><!-- --></a><p><code class="codeph">PreviousL()</code> </p> </li>
+</ul> </div>
+<h3>Steps</h3><ol id="GUID-6ECCE6B5-6316-5EBD-9DD7-0C767BB07E19"><a name="GUID-6ECCE6B5-6316-5EBD-9DD7-0C767BB07E19"><!-- --></a>
+<li id="GUID-50196D27-187F-5F5B-B9A0-304F4E2C8E98"><a name="GUID-50196D27-187F-5F5B-B9A0-304F4E2C8E98"><!-- --></a><p>Create a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3A3E6F09-0F78-38E1-95F5-00C743F41073.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3A3E6F09-0F78-38E1-95F5-00C743F41073.html"><code class="apiname">CLogViewEvent</code></a> or a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F40F9556-F223-36A5-9812-6EF6FF3F5156.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F40F9556-F223-36A5-9812-6EF6FF3F5156.html"><code class="apiname">CLogViewRecent</code></a> class </p>
+</li>
+<li id="GUID-ECB3C368-32E9-54BA-BD82-01A2259CD452"><a name="GUID-ECB3C368-32E9-54BA-BD82-01A2259CD452"><!-- --></a><p></p>
+Set a filter for the logs 
+ <pre class="codeblock">    iLogViewEvent-&gt;SetFilterL(*iLogFilter,iStatus)</pre> 
+A <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F40F9556-F223-36A5-9812-6EF6FF3F5156.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F40F9556-F223-36A5-9812-6EF6FF3F5156.html"><code class="apiname">CLogViewRecent</code></a> has additional functionality
+to identify and filter out duplicate events. A view is a purely virtual
+table and its add and delete functions have no effect on the log itself. 
+</li>
+<li id="GUID-5B84E2B7-DE91-517E-925A-224FF47F09C7"><a name="GUID-5B84E2B7-DE91-517E-925A-224FF47F09C7"><!-- --></a><p></p>
+Create a view from the Log Engine using <code class="codeph">Event()</code>  
+A view is a list of events ordered chronologically, earliest
+first. A view always has a current event, which you retrieve with <code class="codeph">Event()</code>. When you create a view the current event is the
+first event, and you navigate through the list using the other functions
+which take a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html"><code class="apiname">TRequestStatus</code></a> as argument. 
+<ol type="i" id="GUID-9F6BC821-3364-483D-9604-17AC296FD677"><a name="GUID-9F6BC821-3364-483D-9604-17AC296FD677"><!-- --></a>
+<li id="GUID-A4C4E378-D6CB-464A-9925-DEAEB255568B"><a name="GUID-A4C4E378-D6CB-464A-9925-DEAEB255568B"><!-- --></a><p></p>
+<p>To get the first event in the view call </p><pre class="codeblock">if(CViewEvent.FirstL(aStatus))
+  {
+  User::WaitForRequest(aStatus); 
+  CLogEvent e = iViewEvent.Event(); 
+  }</pre>
+</li>
+<li id="GUID-329E6A07-4EAA-432D-91DC-329BF59ECEAD"><a name="GUID-329E6A07-4EAA-432D-91DC-329BF59ECEAD"><!-- --></a><p></p>
+<p>To get the last event in the view call</p><pre class="codeblock">if(CViewEvent.LastL(aStatus))
+  {
+  User::WaitForRequest(aStatus); 
+  CLogEvent e = iViewEvent.Event(); 
+  };</pre>
+</li>
+<li id="GUID-6438BDE1-297C-4A84-B888-43CFAC0632ED"><a name="GUID-6438BDE1-297C-4A84-B888-43CFAC0632ED"><!-- --></a><p></p>
+<p>To get the last event in the view call </p><pre class="codeblock">if(CViewEvent.FirstL(aStatus))
+  {
+  User::WaitForRequest(aStatus); 
+  CLogEvent e = iViewEvent.Event(); 
+  }</pre>
+</li>
+<li id="GUID-23286819-525E-49D4-B770-BFC5A90D5884"><a name="GUID-23286819-525E-49D4-B770-BFC5A90D5884"><!-- --></a><p></p>
+<p>and then inside a loop call</p><pre class="codeblock">while(CViewEvent.NextL(aStatus))
+  {
+  User::WaitForRequest(aStatus); 
+  CLogEvent e = iViewEvent.Event(); 
+  }</pre>
+</li>
+</ol>
+</li>
+<li id="GUID-71973716-996F-562A-97B0-A70B102850AF"><a name="GUID-71973716-996F-562A-97B0-A70B102850AF"><!-- --></a><p></p>
+The view can be displayed to the user. 
+</li>
+</ol>
+<div id="GUID-EEECF711-F465-4B09-87DF-485E3437621F"><h3 class="section-title">Next actions</h3><p>A recent
+view is similar to an event view but is designed specifically for
+the purpose of displaying such recent events as the distinct voice
+calls a device user has received since the last time of checking.
+In a recent view, the first event is the most recent.   </p></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-2022F702-9899-5798-8932-D70119C7177D.html">Setting
+Up A Log Engine Client</a></li></ul><h3>Related tasks</h3><ul><li><a href="GUID-E4A950EA-5671-5755-B3EF-5D6B90E19AE6.html">Maintaining
+Log Events</a></li><li><a href="GUID-BE65B3A7-04E8-5406-B46A-09E2608E0F1F.html">Requesting
+Log Engine Notifications</a></li><li><a href="GUID-BCB0E50F-B22E-5964-BB68-BEE1870D9C79.html">Configuring
+Log Engine </a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 3rd, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-55ECBCF5-FC29-5A4A-A3C6-1CB1C0D562CE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:01 GMT -->
+</html>

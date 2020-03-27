@@ -1,0 +1,73 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3B899F4B-6B3B-5664-A344-021D5BBE76D2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Bluetooth BTComm Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-227B6970-A536-470F-B5A1-A1871F65D7F3" /><meta name="DC.Relation" scheme="URI" content="GUID-071A1E59-FE77-5D4D-B4D1-E6ECDF68BB03" /><meta name="DC.Relation" scheme="URI" content="GUID-F5B774BD-8276-530D-B3B0-209F8E3BDBFB" /><meta name="DC.Relation" scheme="URI" content="GUID-1446CFB5-750F-51C8-8A30-46B103E26E88" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3B899F4B-6B3B-5664-A344-021D5BBE76D2" /><meta name="DC.Language" content="en" /><title>Bluetooth BTComm Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3B899F4B-6B3B-5664-A344-021D5BBE76D2">Bluetooth BTComm Overview</h1><div>
+<div id="GUID-76308052-1658-4486-9D9D-C62173EEF515"><h3 class="section-title">Purpose</h3> <p>BTComm provides the framework to produce an RS232 emulation plugin
+communicating over a Bluetooth RFComm connection. </p> </div>
+<div id="GUID-E9AC1164-E835-4045-9D39-C1AEEE463E78"><h3 class="section-title">Introduction</h3> <p>BTComm has no API of its own but instead works over the Serial
+Communications C32 server using the Ser comms C32 APIs. BTComm is
+itself provided by a serial communications module in the form of a
+CSY file. Bluetooth virtual serial ports are typically used for application
+debugging over Bluetooth. </p> </div>
+<div id="GUID-6261AE84-39CD-46CD-B201-EB08CE7FDFB9"><h3 class="section-title">Key
+Concepts</h3> <p>BTComm is used to create an emulated serial connection
+over the serial communications (Ser comms C32) server. There are three
+key concepts to consider when you need serial comms emulation over
+Bluetooth. </p> <ul>
+<li id="GUID-8A48EC39-71A0-523B-8D97-BE74C18EC4F9"><a name="GUID-8A48EC39-71A0-523B-8D97-BE74C18EC4F9"><!-- --></a><p> <strong>Serial Communications</strong> - A general discussion the Symbian Ser comms C32 classes that play
+a part in establishing a BTComm serial communications port. </p> </li>
+<li id="GUID-8E9BAAF5-FEB3-5BEE-9A8D-96985D3A00C2"><a name="GUID-8E9BAAF5-FEB3-5BEE-9A8D-96985D3A00C2"><!-- --></a><p> <strong>Communication
+Modules</strong> - A general discussion about communication modules. </p> </li>
+<li id="GUID-B9351DC6-3AD3-502E-ABEF-9A1A9A7CE0CA"><a name="GUID-B9351DC6-3AD3-502E-ABEF-9A1A9A7CE0CA"><!-- --></a><p> <strong>Communication
+Modes</strong> - A general discussion about the possible modes in which
+a BTComm port may be opened. </p> </li>
+</ul> <p><strong>Serial Communications </strong> </p> <p>BTComm provides Serial Communications
+emulation over Bluetooth. As such, the following Ser Comms C32 classes
+are used in making an RS232 BTComm connection: </p> <ul>
+<li id="GUID-0C8E80C0-F532-57E3-8870-5E1CB05599C1"><a name="GUID-0C8E80C0-F532-57E3-8870-5E1CB05599C1"><!-- --></a><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6B3CA99B-ABF2-32EA-935D-23AE5AE2C306.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6B3CA99B-ABF2-32EA-935D-23AE5AE2C306.html"><code class="apiname">RCommServ</code></a> - A session on the Serial Comms server. </p> </li>
+<li id="GUID-5B6E1E76-4E7E-503D-A0E7-A154FE751E0D"><a name="GUID-5B6E1E76-4E7E-503D-A0E7-A154FE751E0D"><!-- --></a><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html"><code class="apiname">RComm</code></a> - A subsession on the Serial Comms server. Objects of this class
+will check that the client has the correct capabilities to open the
+port. </p> </li>
+</ul> <p><strong>Serial Communication Sessions</strong> </p> <p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6B3CA99B-ABF2-32EA-935D-23AE5AE2C306.html#GUID-A202EC6D-2B5A-3BEA-BD29-E9E81FFC8803"><code class="apiname">RCommServ::Connect()</code></a> creates a session on the comms server. The desired serial protocol
+is loaded using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6B3CA99B-ABF2-32EA-935D-23AE5AE2C306.html#GUID-F851835B-4585-3C3A-B257-ADAE04CD95AA"><code class="apiname">RCommServ::LoadCommModule()</code></a> function. </p> <p> <em>Note:</em> Several instances of a module can
+be loaded, the reference count for the module will simply be incremented
+for each subsequent load. </p> <p><strong>Serial Communications Server</strong> </p> <p> <code class="codeph">RComm</code> provides several useful methods for serial communications including: </p> <ul>
+<li id="GUID-B16888E3-8429-5602-B852-74745B95277A"><a name="GUID-B16888E3-8429-5602-B852-74745B95277A"><!-- --></a><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-F2CBC6B8-0BE8-3361-8BDA-774BFB245BE6"><code class="apiname">RComm::Open()</code></a> Open a port on the serial server. </p> </li>
+<li id="GUID-912271F2-55EF-53E3-A30C-D3B536116588"><a name="GUID-912271F2-55EF-53E3-A30C-D3B536116588"><!-- --></a><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-5F3D449E-65E8-32E4-B316-247FC859D8D6"><code class="apiname">RComm::Close()</code></a> Closes the port. </p> </li>
+<li id="GUID-AFB248F5-0DAE-52A2-BA68-6D895EE6BE71"><a name="GUID-AFB248F5-0DAE-52A2-BA68-6D895EE6BE71"><!-- --></a><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-B0B6BC5D-4BCD-3A74-9E1C-17BA58BB7B33"><code class="apiname">RComm::Read()</code></a>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-D26D6D62-72F0-313C-B3D5-2CE28FDE9BED"><code class="apiname">RComm::ReadOneOrMore()</code></a> - Reading data over the
+port. </p> </li>
+<li id="GUID-A2D3AED3-5450-5C5B-AB51-A09E678A966E"><a name="GUID-A2D3AED3-5450-5C5B-AB51-A09E678A966E"><!-- --></a><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-27B1F841-8478-33E0-A168-11DC468183C0"><code class="apiname">RComm::Write()</code></a> - Writing data over the port. </p> </li>
+</ul> <p><strong>Opening the port </strong> </p> <p>Having connected to the server and
+configured the session the connection can be opened. There are two <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3B4E8ED5-72F7-3E51-B188-3C1045526DDF.html#GUID-F2CBC6B8-0BE8-3361-8BDA-774BFB245BE6"><code class="apiname">RComm::Open()</code></a> methods. For BTComm we are only interested
+in the three parameter version. The three parameters are <code class="codeph">aServer</code>, <code class="codeph">aName</code> and <code class="codeph">aMode</code>. The other <code class="codeph">RComm::Open()</code> also includes an <code class="codeph">aRole</code>. Roles
+are discussed in more detail below. </p> <p><strong>Communications Modules </strong> </p> <p>There are three Comm modules
+provided by default, they are: </p> <ul>
+<li id="GUID-37F66E66-A47A-5E52-8177-F30D51A73C7A"><a name="GUID-37F66E66-A47A-5E52-8177-F30D51A73C7A"><!-- --></a><p> <strong>ECUART</strong> - A customizable RS232 mode serial port module. </p> </li>
+<li id="GUID-9332CB97-AFA1-50AA-92C7-DFAA4FA00297"><a name="GUID-9332CB97-AFA1-50AA-92C7-DFAA4FA00297"><!-- --></a><p> <strong>IRCOMM</strong> - The Infrared mode serial port module. </p> </li>
+<li id="GUID-50B2AFD7-81B9-58C6-8F4E-1E7EC1C2E8B7"><a name="GUID-50B2AFD7-81B9-58C6-8F4E-1E7EC1C2E8B7"><!-- --></a><p> <strong>BTCOMM</strong> - The Bluetooth mode serial port module. </p> </li>
+</ul> <p>The <code class="codeph">BTCOMM.csy</code> module provides Serial over
+Bluetooth. The .csy extension is omitted in code. </p> <p><strong>Communication Modes</strong> </p> <p>The <code class="codeph">aMode</code> parameter
+takes a <code class="codeph">TCommAccess</code> mode. There are three possible
+modes defined by <code class="codeph">TCommAccess</code>, they are: </p> <ul>
+<li id="GUID-C7A8A2AB-7147-538F-BE1B-ED1094FE2897"><a name="GUID-C7A8A2AB-7147-538F-BE1B-ED1094FE2897"><!-- --></a><p> <strong>ECommExclusive</strong> - Opens a port in exclusive mode. Any attempt to open or access
+the port by another application will fail. </p> </li>
+<li id="GUID-D2456239-3744-5491-BB8A-C37554183E95"><a name="GUID-D2456239-3744-5491-BB8A-C37554183E95"><!-- --></a><p> <strong>ECommShared</strong> - Opens a port in shared mode. Other <code class="codeph">RComm</code> clients
+that are opened in <code class="codeph">ECommShared</code> mode can use the port. </p> </li>
+<li id="GUID-AA3DE280-81B4-5EB3-9331-4F256136A81F"><a name="GUID-AA3DE280-81B4-5EB3-9331-4F256136A81F"><!-- --></a><p> <strong>ECommPreemptable</strong> - Allows another <code class="codeph">RComm</code> client to pre-empt the port
+if being opened in one of the other two modes. </p> </li>
+</ul> <p>BTComm must be opened in Exclusive mode <code class="codeph">ECommExclusive</code>. </p> <p><strong>Roles</strong> </p> <p>There are two possible serial communication
+roles, they are: </p> <ul>
+<li id="GUID-321125B2-A6DA-5A6F-9C91-1D3AC8691EF3"><a name="GUID-321125B2-A6DA-5A6F-9C91-1D3AC8691EF3"><!-- --></a><p> <strong>DTE</strong> -
+Configures the connection as for a port of a computer. </p> </li>
+<li id="GUID-71F3723B-FEC6-580F-A387-5485A9AAFA61"><a name="GUID-71F3723B-FEC6-580F-A387-5485A9AAFA61"><!-- --></a><p> <strong>DCE</strong> -
+Configures the connection as for a modem. </p> </li>
+</ul> <p>The role can be omitted as BTComm only supports the DTE mode.
+In this mode the signal lines DTR and RTS are outputs while the others
+are inputs. If you require the DCE rolw use RFComm instead of BTComm. </p> </div>
+<div id="GUID-1E5F093F-5E3B-4A01-86D8-A76DC77C3F63"><h3 class="section-title">BTComm
+Tutorials</h3> <p><a href="GUID-9312621A-C0FF-59E9-8969-739B9E2F8B4C.html">Using BTComm</a> walks through the steps involved in setting up a BTComm connection. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 12th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-3B899F4B-6B3B-5664-A344-021D5BBE76D2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:55 GMT -->
+</html>

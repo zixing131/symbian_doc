@@ -1,0 +1,54 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1CC6FEF0-7D1E-5329-8276-22ACFE3DE362.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:32 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Subsessions within a session" /><meta name="abstract" content="Describes subsessions within a session." /><meta name="description" content="Describes subsessions within a session." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-6047DB3F-DC92-51DF-9EEB-00E79E890B54" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1CC6FEF0-7D1E-5329-8276-22ACFE3DE362" /><meta name="DC.Language" content="en" /><title>Subsessions
+within a session </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1CC6FEF0-7D1E-5329-8276-22ACFE3DE362">Subsessions
+within a session</h1><div><p>Describes subsessions within a session.</p>
+<p>Once a client has established a session with a server, it can then establish
+a number of subsessions with that server. Each subsession represents an independent
+channel of communication within the current session. </p>
+<p>Subsessions are useful if a single client needs to establish many channels
+of communication with the server. This is because subsessions have a much
+lower overhead than a full session. The main cost of a subsession is slightly
+increased programming complexity on the server side. </p>
+<p>The main points are: </p>
+<ul>
+<li id="GUID-66581D72-861A-5F70-B3F3-348C31615EA5"><a name="GUID-66581D72-861A-5F70-B3F3-348C31615EA5"><!-- --></a><p>the client has an <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1BBE1448-1DF8-33C4-BF9E-5A5F427AEE35.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-1BBE1448-1DF8-33C4-BF9E-5A5F427AEE35.html"><code class="apiname">RSubSessionBase</code></a> handle
+to the subsession </p> </li>
+<li id="GUID-7EEEB011-CB41-5E20-BF91-C6D01B4F71EE"><a name="GUID-7EEEB011-CB41-5E20-BF91-C6D01B4F71EE"><!-- --></a><p>the server uses a <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-9230EF62-376A-389C-B720-7C1EDCB7EA97.html"><code class="apiname">CObject</code></a> derived
+class to represent the subsession. </p> </li>
+</ul>
+<p>As a subsession is always referenced by a handle on the client side, the
+corresponding subsession object on the server side must generate a handle. </p>
+<p>For ordinary sessions, the generation of handles is done by the server
+framework. </p>
+<p>For subsessions, server side code must be explicitly written to do this.
+The <code class="codeph">CObject</code> class and its associated container (<code class="codeph">CObjectCon</code>)
+and index (<code class="codeph">CObjectIx</code>) classes provide the behaviour to achieve
+this. </p>
+<div id="GUID-4F58EC0B-5AC3-4961-B04F-2CE64185ECEF"><h3 class="section-title">Server side requirements</h3> <p>Each subsession is represented
+by an instance of a <code class="codeph">CObject</code> derived class. </p> <p>Subsession
+objects must be held in an object container, an instance of <code class="codeph">CObjectCon</code>.
+This means that the server 's <code class="codeph">CServer2</code> derived class must
+construct and maintain a <code class="codeph">CObjectCon</code> object. </p> <p>Object
+containers are constructed by and held in an object container index, an instance
+of a <code class="codeph">CObjectConIx</code>. This means that the server 's <code class="codeph">CServer2</code> derived
+class must construct and maintain a <code class="codeph">CObjectConIx</code> object. </p> <p>A
+unique handle number for a subsession object is generated when the subsession
+object is added to an object index, an instance of a <code class="codeph">CObjectIx</code>.
+This means that the server's <code class="codeph">CServer2</code> derived class must
+construct and maintain a <code class="codeph">CObjectIx</code> object. </p> <p>The handle
+number is a combination of a unique id assigned to the object's container
+and a number generated by the object index. </p> <div class="figure" id="GUID-14035881-8AD5-50B5-A285-5DD2D7E68FDA"><img src="GUID-A10EAF58-6B9F-55A5-B3E4-3D4B91A93C41_d0e303893_href.png" /><p>Subsession within a session</p></div> </div>
+<div id="GUID-93D80DDA-8E2E-462F-8A67-0982B456A8A6"><h3 class="section-title">Note</h3> <ul>
+<li id="GUID-49B41D98-027F-534F-86D7-3774CAC884F9"><a name="GUID-49B41D98-027F-534F-86D7-3774CAC884F9"><!-- --></a><p>Depending on the purpose
+of the server, more than one object container (a <code class="codeph">CObjectCon</code>)
+and more than one object index (a <code class="codeph">CObjectIx</code>) may be used.
+However, the server must have <em>one and only one</em> object container index
+(a <code class="codeph">CObjectConIx</code>) from which all object containers are generated. </p> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1CC6FEF0-7D1E-5329-8276-22ACFE3DE362.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:34 GMT -->
+</html>

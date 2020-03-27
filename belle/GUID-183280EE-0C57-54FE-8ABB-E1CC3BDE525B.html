@@ -1,0 +1,50 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-183280EE-0C57-54FE-8ABB-E1CC3BDE525B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Reading to a Data Stream" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-868D5B32-1CC4-506E-9C49-C86428B9A50F" /><meta name="DC.Relation" scheme="URI" content="GUID-582CAA4A-1240-5138-983D-D9C6EEAF5566" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-183280EE-0C57-54FE-8ABB-E1CC3BDE525B" /><meta name="DC.Language" content="en" /><title>Reading to a Data Stream </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-183280EE-0C57-54FE-8ABB-E1CC3BDE525B">Reading to a Data Stream</h1><div>
+<p>This tutorial describes how to copy data from a database into a
+data stream. </p>
+<div id="GUID-85AFEAE8-E4EA-4730-9D28-8700E3EEAE20"><h3 class="section-title">Introduction</h3> <p>You can read data from the
+table into a data stream in one chunk or in bits as desired. </p> </div>
+<div id="GUID-312139C0-05E6-490A-987D-198D7D9B741B"><h3 class="section-title">Basic procedure</h3> <p>The high level steps to
+read the data into a data stream are shown here: </p> <ol id="GUID-E30DA5B1-CC4E-59CD-ADF0-8C8A36BB5F3F">
+<li id="GUID-61A9000A-4915-51DF-9F85-8D99BDF5B526"><a name="GUID-61A9000A-4915-51DF-9F85-8D99BDF5B526"><!-- --></a><p>Configure your
+SQL statement and data stream. </p> </li>
+<li id="GUID-63659491-43A0-5020-9A95-F41124A14D5B"><a name="GUID-63659491-43A0-5020-9A95-F41124A14D5B"><!-- --></a><p>Read data to
+a stream. </p> </li>
+<li id="GUID-750CC613-90F8-5832-B75D-28B7EC00A1D0"><a name="GUID-750CC613-90F8-5832-B75D-28B7EC00A1D0"><!-- --></a><p>Clean up. </p> </li>
+</ol> </div>
+<div id="GUID-36046BCB-ACB1-4A74-A8CD-D92D5BBA185C"><h3 class="section-title">Detailed steps</h3> <p>To read the data into a
+data stream, do the following: </p> <p><strong>Configure your SQL statement and data stream</strong> </p> <ol id="GUID-DBC563EC-623B-547A-B3F8-56AF2CAF9A40">
+<li id="GUID-2206671E-AA58-561D-ACA9-4636DE315D72"><a name="GUID-2206671E-AA58-561D-ACA9-4636DE315D72"><!-- --></a><p>As a first step
+instantiate an object of the RSqlStatement and RSqlColumnReadStream class. Also declare the variables
+as required. </p> <pre class="codeblock">RSqlStatement myStatement;
+TInt err;
+TInt myColumnIndex;
+RSqlColumnReadStream myStream;
+</pre> </li>
+<li id="GUID-E5804513-1415-57F8-8672-A37E5510D749"><a name="GUID-E5804513-1415-57F8-8672-A37E5510D749"><!-- --></a><p>Clean up the
+stack. </p> <pre class="codeblock">CleanupClosePushL(myStream);</pre> </li>
+</ol> <p><strong>Read data to a stream</strong> </p> <ol id="GUID-0F218E4B-5A86-5F4B-A9E3-E9269FB35337">
+<li id="GUID-8B1F5CBB-98EC-541C-8808-3CF0A81FABFF"><a name="GUID-8B1F5CBB-98EC-541C-8808-3CF0A81FABFF"><!-- --></a><p>Open the stream
+for read and associate the data with it. </p> <pre class="codeblock">User::LeaveIfError(myStream.ColumnBinary(myStatement,myColumnIndex));</pre> </li>
+<li id="GUID-CD79E4F4-3EE4-54F9-BB8A-C37C5BC22FDB"><a name="GUID-CD79E4F4-3EE4-54F9-BB8A-C37C5BC22FDB"><!-- --></a><p>Determine the
+column size. </p> <pre class="codeblock">TInt size = myStatement.ColumnSize(myColumnIndex);</pre> </li>
+<li id="GUID-0DFC9A61-78CA-5FB3-B949-01CB10B5D3B0"><a name="GUID-0DFC9A61-78CA-5FB3-B949-01CB10B5D3B0"><!-- --></a><p>Instantiate
+an object of the RBuf class. Create a buffer of
+the size of the column. Then read the data into the buffer. </p> <pre class="codeblock">RBuf buf;
+        buf.CreateL(size);
+        CleanupClosePushL(buf);
+        myStream.ReadL(buf,size);
+</pre> </li>
+<li id="GUID-526F67C0-B219-509A-8B4F-328527C3984F"><a name="GUID-526F67C0-B219-509A-8B4F-328527C3984F"><!-- --></a><p>Close the buffer. </p> <pre class="codeblock">CleanupStack::PopAndDestroy();</pre> </li>
+</ol> <p><strong> Clean up</strong> </p> <p>Close the stream. </p> <pre class="codeblock">CleanupStack::PopAndDestroy();</pre> </div>
+<div id="GUID-BD8220ED-5500-4943-AF8C-AB0F3598E3F1"><h3 class="section-title">See also</h3> <p> <a href="GUID-C60DAE3D-7FB9-5619-9E5D-476A430705AF.html">Querying a Database</a> </p> <p> <a href="GUID-CCB9C61B-FB28-5CD9-A366-4A9584097897.html">Inserting a Row into a Table</a> </p> <p> <a href="GUID-B61EA8C5-0966-51DE-AC73-01DD34C7D3CC.html">Deleting
+Rows from a Table</a> </p> <p> <a href="GUID-72511204-FC90-54AA-9E2E-833318020318.html">Reading to a Buffer</a> </p> <p> <a href="GUID-3CCA6503-54DA-5558-85DC-93A22A81F565.html"> Reading to Memory </a> </p> <p>Reading to a Data Stream - This
+document </p> <p> <a href="GUID-B9A3B17E-BDEB-5F66-968C-080335A721AC.html">Writing to a Data Stream</a> </p> <p> <a href="GUID-C474376E-1766-5781-B5BF-3786C5B4D72E.html">Performing Scalar
+Queries</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 7th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-183280EE-0C57-54FE-8ABB-E1CC3BDE525B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+</html>

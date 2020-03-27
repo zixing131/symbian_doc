@@ -1,0 +1,229 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-32C1FC8B-F7D2-5275-BDF2-0D662551294C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:08 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Search-Sort Introduction" /><meta name="DC.Relation" scheme="URI" content="GUID-B26A4743-F331-5AC3-A40A-28B14B785857" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-44CF5471-564E-5790-935B-51193A4978D6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-32C1FC8B-F7D2-5275-BDF2-0D662551294C" /><meta name="DC.Language" content="en" /><title>Search-Sort Introduction </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-32C1FC8B-F7D2-5275-BDF2-0D662551294C">Search-Sort Introduction</h1><div>
+<p>In Symbian OS v9.3 and earlier, when a search or sort query is
+made by a client, Message Server searches in the permanent file store
+(a proprietary formatted file), and returns the result to the client. </p>
+<p>From Symbian^3 onwards Message Server operates with the SQL database
+to store index entries. With the SQL database implementation the Message
+Server makes a query on the SQL index entry table, and returns the
+result to the client. </p>
+<p>The Messaging Middleware module provides an enhanced API for searching
+and sorting messages. This API can be used only when the SQL database
+is used to store the index entries. The API has the following features: </p>
+<ul>
+<li id="GUID-ACA12109-0146-5E75-A966-7BC6BA760A02"><a name="GUID-ACA12109-0146-5E75-A966-7BC6BA760A02"><!-- --></a><p>Combined search
+(combination of more than one simple search criteria) </p> </li>
+<li id="GUID-945EFB6D-82CC-5E96-9487-37A6F0687C5A"><a name="GUID-945EFB6D-82CC-5E96-9487-37A6F0687C5A"><!-- --></a><p>Search based
+on whole and partial words </p> </li>
+<li id="GUID-AA68CB16-94F8-56D4-98A7-2FB7A0372D24"><a name="GUID-AA68CB16-94F8-56D4-98A7-2FB7A0372D24"><!-- --></a><p>Case sensitive
+search </p> </li>
+<li id="GUID-FBDF167C-9DFF-5AF6-9352-17750D4649E3"><a name="GUID-FBDF167C-9DFF-5AF6-9352-17750D4649E3"><!-- --></a><p>Wildcard search </p> </li>
+<li id="GUID-82B8AF61-5EE5-5DA1-96C8-EF94267D034D"><a name="GUID-82B8AF61-5EE5-5DA1-96C8-EF94267D034D"><!-- --></a><p>Count of total
+search results </p> </li>
+<li id="GUID-42BFEC5C-0703-51C5-952B-ACA571BDAFBD"><a name="GUID-42BFEC5C-0703-51C5-952B-ACA571BDAFBD"><!-- --></a><p>Single level
+sorting of search results </p> </li>
+<li id="GUID-ABDF3B62-0EDC-5256-858C-C958D84D00D1"><a name="GUID-ABDF3B62-0EDC-5256-858C-C958D84D00D1"><!-- --></a><p>Iterative mechanism
+for clients to access the search and sort results sequentially. </p> </li>
+</ul>
+<p>The following sections include basic information on the search-sort
+functionality, which is important to understand before using the search-sort
+APIs: </p>
+<ul>
+<li id="GUID-CF2F2278-378A-5CA8-8E0A-5B7300CDCAA6"><a name="GUID-CF2F2278-378A-5CA8-8E0A-5B7300CDCAA6"><!-- --></a><p><a href="#GUID-F682B9C3-8D9C-586B-94E5-67A24EB90180">Description</a> </p> </li>
+<li id="GUID-28C84BAA-BD23-5A95-9D9F-402754208292"><a name="GUID-28C84BAA-BD23-5A95-9D9F-402754208292"><!-- --></a><p><a href="#GUID-98960254-25D6-5F63-9788-255205B6D2BB">Search-sort API summary</a> </p> </li>
+<li id="GUID-B928EB9A-8999-5E5F-9C61-C0DFF9EDA401"><a name="GUID-B928EB9A-8999-5E5F-9C61-C0DFF9EDA401"><!-- --></a><p><a href="#GUID-995B61DB-FB68-591E-8810-1DA96C882435">Advantages</a> </p> </li>
+<li id="GUID-89A87B95-6A21-5CBD-B682-439E233AB29E"><a name="GUID-89A87B95-6A21-5CBD-B682-439E233AB29E"><!-- --></a><p><a href="#GUID-014C08BD-7FFC-5D2B-A107-316A70D52D12">Limitations</a> </p> </li>
+</ul>
+<div id="GUID-F682B9C3-8D9C-586B-94E5-67A24EB90180"><h3 class="section-title">Description</h3> <p>The search-sort functionality is based on the client-server architecture.
+The Messaging Middleware module provides an advanced search-sort capability
+if the index entries are stored in an SQL database. </p> <p>The client
+creates a search-sort query, and passes it to the Message Server.
+The Message Server searches in the search-sort cache to check whether
+the query is a repetitive query (a query that was already requested
+in the past and for which a query ID is maintained in the search-sort
+cache) or a new query. </p> <p>If it is a repetitive query, the Message
+Server gets the index entry from the SQL database, and provides the
+search result to the client. </p> <p>If it is a new query, the Message
+Server stores the search query in the cache, and passes the query
+to the SQL database. </p> <p>In both the cases, the Message Server
+gets the index entry from the SQL database, passes the result to the
+client, and maintains the query in the search-sort cache. </p> <p>The iterative method can be used for searching and sorting a new
+or a repetitive search query. </p> <p>The following table provides
+detailed information on the fields supported in the search-sort operation: </p> <div class="tablenoborder"><a name="GUID-0A7F291E-2B4E-5632-9D54-7C83CA8D1CE0"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-0A7F291E-2B4E-5632-9D54-7C83CA8D1CE0" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e374043">Operation</th>
+<th class="cellrowborder" valign="top" id="d0e374046">Header</th>
+<th class="cellrowborder" valign="top" id="d0e374049">Body</th>
+<th class="cellrowborder" valign="top" id="d0e374052">TMsvEntry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e374043 "><p> <strong> Searching</strong> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e374046 "><p>To, cc, bcc, from, subject </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e374049 "><p>Body part, whole and partial word (case sensitive and insensitive,
+whole word, wildcard) </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e374052 "><p>Attachment type, read, unread, new flag, priority, size,
+MTM type, iDescription, iDetails, and date and time. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e374043 "><p> <strong> Searching with explicit sorting</strong> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e374046 "><p>To, cc, bcc, from, subject </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e374049 "><p>-</p> </td>
+<td class="cellrowborder" valign="top" headers="d0e374052 "><p>Attachment type, read, unread, new flag, priority, size,
+MTM type, iDescription, iDetails, and date and time. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e374043 "><p> <strong>Sorting</strong> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e374046 "><p>To, cc, bcc, from, subject </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e374049 ">&nbsp;</td>
+<td class="cellrowborder" valign="top" headers="d0e374052 "><p>Attachment type, read, unread, new flag, priority, size,
+MTM type, iDescription, iDetails, and date and time. </p> </td>
+</tr>
+</tbody>
+</table></div> <p><strong>Key terms</strong> </p> <dl>
+<dt class="dlterm">Iterator</dt>
+<dd><p>An iterator is a method that allows a client to access the
+search and sort results sequentially. An iterator is useful when a
+client does not want to provide the memory to receive an array of
+results. </p> </dd>
+<dt class="dlterm">Search-sort cache</dt>
+<dd><p>Search-sort cache contains frequently requested search-sort
+queries. By default, this cache is set to 20 percent of the index
+entry cache. </p> </dd>
+</dl> </div>
+<div id="GUID-98960254-25D6-5F63-9788-255205B6D2BB"><h3 class="section-title">Search-sort
+API summary</h3> <p>Use the following APIs available in <code>msgs.dll</code> for searching and sorting messages: </p> <div class="figure" id="GUID-B16C2CC4-4269-5F23-88C3-33E87F198D88"><img src="GUID-0E91173A-BA80-5817-866A-7A284573EBCE_d0e374183_href.png" /><p class="figure-title"><strong>Figure: </strong>              High level class diagram of new search-sort API
+           </p></div> <ul>
+<li id="GUID-9A2D5945-9D5F-5235-BA4F-500CFE5B2CF0"><a name="GUID-9A2D5945-9D5F-5235-BA4F-500CFE5B2CF0"><!-- --></a><p> CMsvSearchSortOperation </p> <p>The CMsvSearchSortOperation class is
+used in the client application for enhanced search-sort operations
+on the message store. </p> <p>This class can be used for the following: </p> <ul>
+<li id="GUID-7FAD5025-F94D-5824-BFD7-BDFCB83C4F2D"><a name="GUID-7FAD5025-F94D-5824-BFD7-BDFCB83C4F2D"><!-- --></a><p>To run a simple
+or complex search-sort request. </p> </li>
+<li id="GUID-94DFA54C-B9B6-5154-BF09-46A45DFCCD1E"><a name="GUID-94DFA54C-B9B6-5154-BF09-46A45DFCCD1E"><!-- --></a><p>To repeat an
+earlier search-sort operation by using the queryId. </p> </li>
+<li id="GUID-FBB74619-7822-5EC8-BD69-E7D2F2943896"><a name="GUID-FBB74619-7822-5EC8-BD69-E7D2F2943896"><!-- --></a><p>To receive results
+either in one chunk using an array or one after the other using an
+iterative method. </p> <div class="note"><p><strong class="note_title">Note: </strong> The search-sort results can be received
+as a list of </p>TMsvId or <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html"><code class="apiname">TMsvEntry</code></a> objects.</div></li>
+</ul> </li>
+<li id="GUID-B757296A-97BD-5816-99BD-7897900CA1F4"><a name="GUID-B757296A-97BD-5816-99BD-7897900CA1F4"><!-- --></a><p> CMsvSearchSortQuery </p> <p>The CMsvSearchSortQuery class is used
+in the client application to create a search-sort query. It has an
+interface to add or set the query criteria on various message parts. </p> <p>This class provides the following search options: </p> <ul>
+<li id="GUID-F6ABCDEC-C50F-53BA-8817-CA88444765E7"><a name="GUID-F6ABCDEC-C50F-53BA-8817-CA88444765E7"><!-- --></a><p>Case sensitive
+search (SetCaseSensitiveOption) </p> <p>By default
+this option is set to false. </p> </li>
+<li id="GUID-C33F20AC-8F74-5CF6-9446-02227F274E59"><a name="GUID-C33F20AC-8F74-5CF6-9446-02227F274E59"><!-- --></a><p>Whole word search
+(SetWholeWord) </p> <p>By default this option is
+set to false. </p> </li>
+<li id="GUID-F9BDA832-A1B8-5596-B619-2A54936D48FB"><a name="GUID-F9BDA832-A1B8-5596-B619-2A54936D48FB"><!-- --></a><p>Wildcard search
+(SetWildCardSearch) </p> <p>Allow the use of the
+asterisk (*) and question mark (?) wildcards. By default this option
+is set to false. </p> </li>
+<li id="GUID-ACAC32F4-9E34-5A47-A5CB-F9B5D2AE1235"><a name="GUID-ACAC32F4-9E34-5A47-A5CB-F9B5D2AE1235"><!-- --></a><p>Subfolder search
+(SetSubFolderSearch) </p> <p>Include the entries
+within the subfolders in the search result. By default this option
+is set to false. </p> <div class="note"><p><strong class="note_title">Note: </strong> The subfolder option is valid only for
+a search query. </p></div> </li>
+<li id="GUID-AD053845-DB7D-5447-AD38-A348E51B6DE6"><a name="GUID-AD053845-DB7D-5447-AD38-A348E51B6DE6"><!-- --></a><p>Explicit single
+level sort (using the <code class="codeph">TMsvMessagePart                    
+ aMessagePart</code> parameter in the CMsvSearchSortQuery::AddSearchOptionL function. </p> <p>Sorting on one particular message part. </p> </li>
+</ul> <p>The CMsvSearchSortQuery class is used
+with the CMsvSearchSortOperation class when requesting
+a new search-sort operation. </p> <div class="note"><p><strong class="note_title">Important: </strong> By default,
+the search query results are not sorted. To receive a result in a
+sorted order, you must send a sort request by using the </p>CMsvSearchSortQuery::AddSortOptionL() function. Sort options can be used with search options when creating
+a search-sort query. </div></li>
+<li id="GUID-6DAE4181-212F-5988-AD0E-C1BF20503952"><a name="GUID-6DAE4181-212F-5988-AD0E-C1BF20503952"><!-- --></a><p> TMsvMessagePart </p> <p>The TMsvMessagePart is an enumeration
+type class that contains all parts of the message, including index
+entry and message header. Searching or sorting is done based on the TMsvMessagePart class. </p> </li>
+<li id="GUID-EFEB6199-FD8A-55F4-9524-02E5C4A65488"><a name="GUID-EFEB6199-FD8A-55F4-9524-02E5C4A65488"><!-- --></a><p> TMsvSearchSortResultType </p> <p>The TMsvSearchSortResultType is an enumeration
+class. The client uses TMsvSearchSortResultType to specify if the search and sort results are returned as TMsvId or <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5A23B804-2C06-3407-9D48-1BFB212D699F.html"><code class="apiname">TMsvEntry</code></a>. </p> </li>
+<li id="GUID-B07DA71A-4906-5EAB-8A4F-A103EB6F259F"><a name="GUID-B07DA71A-4906-5EAB-8A4F-A103EB6F259F"><!-- --></a><p> TMsvRelationOp </p> <p>The TMsvRelationOp is an enumeration
+type class that is used to provide relational operations between the
+search criteria value and the value in the message part of a message. </p> <p>For example, equal to, greater than, greater than or equal to,
+less than, and less than or equal to. </p> </li>
+<li id="GUID-0DA7A049-9FCA-5F7C-9C69-E357BBD5525D"><a name="GUID-0DA7A049-9FCA-5F7C-9C69-E357BBD5525D"><!-- --></a><p> TMsvSortOrder </p> <p>The TMsvSortOrder is an enumeration
+type class that is used to provide the sorting options for sorting
+queries. The search or sort results can be sorted in ascending or
+descending order. </p> </li>
+</ul> </div>
+<div id="GUID-995B61DB-FB68-591E-8810-1DA96C882435"><h3 class="section-title">Advantages</h3> <p>The following are the advantages of the enhanced search-sort
+functionality: </p> <ul>
+<li id="GUID-D6B66EA5-4E18-5065-8502-7FD78C0147C8"><a name="GUID-D6B66EA5-4E18-5065-8502-7FD78C0147C8"><!-- --></a><p>Search messages
+by the following fields: </p><div class="note"><p><strong class="note_title">Note: </strong> Most of the following fields are
+applicable to email messages: </p></div> <ul>
+<li id="GUID-77DB4B4B-DD60-5164-974A-BD892702FD2B"><a name="GUID-77DB4B4B-DD60-5164-974A-BD892702FD2B"><!-- --></a><p>Sender, recipient
+list (cc, to, bcc), subject </p> </li>
+<li id="GUID-C16729FC-8517-59BF-AEE7-CEF4B6929AC9"><a name="GUID-C16729FC-8517-59BF-AEE7-CEF4B6929AC9"><!-- --></a><p>Mail size and
+size range </p> </li>
+<li id="GUID-FDA2E776-CE39-55E6-900E-8EBE826EBABC"><a name="GUID-FDA2E776-CE39-55E6-900E-8EBE826EBABC"><!-- --></a><p>Date and date
+range </p> </li>
+<li id="GUID-24535174-207A-5095-ACCB-38F0A2B4704B"><a name="GUID-24535174-207A-5095-ACCB-38F0A2B4704B"><!-- --></a><p>Message type
+(SMS, Email, MMS, and BIO message) </p> </li>
+<li id="GUID-C190645B-B338-5C37-B506-BF783144923D"><a name="GUID-C190645B-B338-5C37-B506-BF783144923D"><!-- --></a><p>Priority (high,
+medium, and low) </p> </li>
+<li id="GUID-D8804E92-44D5-5730-A09F-BE5EE62FB505"><a name="GUID-D8804E92-44D5-5730-A09F-BE5EE62FB505"><!-- --></a><p>Attachment types
+(linked attachment and file attachment) </p> </li>
+<li id="GUID-68D9C896-B8B1-5FA4-B833-8A7E9E2A09D0"><a name="GUID-68D9C896-B8B1-5FA4-B833-8A7E9E2A09D0"><!-- --></a><p>Message status </p> <p>For example, New, Read, Unread, and so on. </p> </li>
+</ul> </li>
+<li id="GUID-D381A082-643C-502A-99A9-1813C2FE5B8D"><a name="GUID-D381A082-643C-502A-99A9-1813C2FE5B8D"><!-- --></a><p>Search messages
+containing a specified string in a specified message part. </p> </li>
+<li id="GUID-CB9D7CD8-41BF-55EA-B867-5C39192FC984"><a name="GUID-CB9D7CD8-41BF-55EA-B867-5C39192FC984"><!-- --></a><p>Search within
+subfolders of the parent folder. </p> </li>
+<li id="GUID-194B52B2-B443-51A2-A7CB-4595CEE0101E"><a name="GUID-194B52B2-B443-51A2-A7CB-4595CEE0101E"><!-- --></a><p>Provides combined
+search and sort options to the client. </p> </li>
+<li id="GUID-21C4E9F2-CF3C-552D-8A4E-E2714060DF87"><a name="GUID-21C4E9F2-CF3C-552D-8A4E-E2714060DF87"><!-- --></a><p>Provides explicit
+single level of sorting with implicit sort by data and time. </p> </li>
+<li id="GUID-2137FD0D-97F5-58DA-BDC0-2E39EFFA750F"><a name="GUID-2137FD0D-97F5-58DA-BDC0-2E39EFFA750F"><!-- --></a><p>Allows client
+to implement more versatile UI views. </p> </li>
+<li id="GUID-CECCA668-AEBD-5A26-AF0A-D591A7128F65"><a name="GUID-CECCA668-AEBD-5A26-AF0A-D591A7128F65"><!-- --></a><p>Returns total
+number of search-sort count without sending the resultant data. For
+example, the number of unread messages in the inbox. </p> </li>
+<li id="GUID-308007D7-B0AC-5E6E-8EB9-2CD56214BED1"><a name="GUID-308007D7-B0AC-5E6E-8EB9-2CD56214BED1"><!-- --></a><p>Provides good
+RAM performance for repetitive search-sort requests, as the Messaging
+framework maintains a search-sort cache for frequently used search-sort
+requests. </p> </li>
+</ul> </div>
+<div id="GUID-014C08BD-7FFC-5D2B-A107-316A70D52D12"><h3 class="section-title">Limitations</h3> <p>The following are the limitations of the advanced search and
+sort functionality: </p> <ul>
+<li id="GUID-1361069B-D79B-5F37-B6D2-5730B73152B4"><a name="GUID-1361069B-D79B-5F37-B6D2-5730B73152B4"><!-- --></a><p>The search-sort
+operation for a specific value in a specific message part is supported,
+but searching for a specific value in all message parts is not supported. </p> </li>
+<li id="GUID-F0E732EC-D4D5-53AE-A2F2-F09ADF134426"><a name="GUID-F0E732EC-D4D5-53AE-A2F2-F09ADF134426"><!-- --></a><p>Index entry
+is migrated to SQL. The header and body part are yet to be migrated
+to SQL. So the iterative method is supported only if the message parts
+in the index entry are used in creating the search-sort query. </p> </li>
+<li id="GUID-56127926-2AD8-50CE-81F3-E2CC5AE89EB7"><a name="GUID-56127926-2AD8-50CE-81F3-E2CC5AE89EB7"><!-- --></a><p>The following
+are not supported in the iterative method because the limitations
+of SQL: </p> <ul>
+<li id="GUID-F61AF937-A39E-5276-AE13-AEA2F48BF0C3"><a name="GUID-F61AF937-A39E-5276-AE13-AEA2F48BF0C3"><!-- --></a><p>Accessing the
+next set of values, that is, next <strong>n</strong> values (results). </p> </li>
+<li id="GUID-17F483B6-427F-59CD-8C47-88D5542E765B"><a name="GUID-17F483B6-427F-59CD-8C47-88D5542E765B"><!-- --></a><p>Accessing the
+previous value or the previous set of values. </p> </li>
+<li id="GUID-0323A0FD-DED7-5B44-B53E-565727B59E81"><a name="GUID-0323A0FD-DED7-5B44-B53E-565727B59E81"><!-- --></a><p>Accessing a
+random value or a random set of values. </p> </li>
+</ul> </li>
+<li id="GUID-C567013B-A385-50B4-BC30-325BB2B073DB"><a name="GUID-C567013B-A385-50B4-BC30-325BB2B073DB"><!-- --></a><p>Multi level
+sorting is not supported. </p> </li>
+<li id="GUID-B0BB3E72-1C5F-5F44-AA79-170B4BC2CFD2"><a name="GUID-B0BB3E72-1C5F-5F44-AA79-170B4BC2CFD2"><!-- --></a><p>A search query
+can use a maximum of five message parts as search criteria in a combined
+search. </p> </li>
+<li id="GUID-AFC8222E-ACF6-5F11-9D2C-773E9149473E"><a name="GUID-AFC8222E-ACF6-5F11-9D2C-773E9149473E"><!-- --></a><p>Sorting on message
+body is not supported. </p> </li>
+<li id="GUID-62916475-9920-5196-9DB3-4F9C517F759B"><a name="GUID-62916475-9920-5196-9DB3-4F9C517F759B"><!-- --></a><p>Search-sort
+operation cannot be performed on all the message parts present in
+index entry. The supported list consists of message parts present
+in message header, message body and a partial list of message parts
+from index entry. See the TMsvMessagePart enumeration
+class for the supported message parts. </p> </li>
+</ul> </div>
+</div><h3>Related reference</h3><ul><li><a href="GUID-B26A4743-F331-5AC3-A40A-28B14B785857.html">Example
+code</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 27th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-32C1FC8B-F7D2-5275-BDF2-0D662551294C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:09 GMT -->
+</html>

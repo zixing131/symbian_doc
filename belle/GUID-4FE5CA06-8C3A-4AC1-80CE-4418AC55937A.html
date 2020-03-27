@@ -1,0 +1,70 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4FE5CA06-8C3A-4AC1-80CE-4418AC55937A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:28 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Reading headers in a WSP buffer" /><meta name="abstract" content="TWspField object holds the name and value pair of the WSP header field. TWspHeaderSegmenter pulls the header / value pair out of the WSP buffer (into TWspField). Call TWspHeaderSegmenter::NextL() to iterate through the WSP buffer. It calls TWspPrimitiveDecoder." /><meta name="description" content="TWspField object holds the name and value pair of the WSP header field. TWspHeaderSegmenter pulls the header / value pair out of the WSP buffer (into TWspField). Call TWspHeaderSegmenter::NextL() to iterate through the WSP buffer. It calls TWspPrimitiveDecoder." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-94215E49-605B-51BA-B215-10BDA1A0C013" /><meta name="DC.Relation" scheme="URI" content="GUID-A602E35E-69BE-5F8C-A7E6-4B98E67BF382" /><meta name="DC.Relation" scheme="URI" content="GUID-96837414-3041-5E1E-A2E9-C18EECCF86D9" /><meta name="DC.Relation" scheme="URI" content="GUID-0BE9F825-9FF8-55A1-AF7C-A380A0C64735" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4FE5CA06-8C3A-4AC1-80CE-4418AC55937A" /><meta name="DC.Language" content="en" /><title>Reading
+headers in a WSP buffer </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4FE5CA06-8C3A-4AC1-80CE-4418AC55937A">Reading
+headers in a WSP buffer</h1><div><p><code class="codeph">TWspField</code> object holds the name and value pair
+of the WSP header field. <code class="codeph">TWspHeaderSegmenter</code> pulls the header
+/ value pair out of the WSP buffer (into <code class="codeph">TWspField</code>). Call <code class="codeph">TWspHeaderSegmenter::NextL()</code> to
+iterate through the WSP buffer. It calls <code class="codeph">TWspPrimitiveDecoder</code>.</p>
+<div id="GUID-CAFFF446-43D5-440C-9B32-C3B9A518D2D3"><h3 class="section-title">Context</h3> <p>The following are the steps to encode the WSP header:</p>
+</div><div id="GUID-333175CE-6D40-4F5C-9AD8-122A383CA3EF"><h3 class="section-title">Prerequisites</h3> <p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8E0D4BBE-BD06-396F-9517-45F9BFCDEF37.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8E0D4BBE-BD06-396F-9517-45F9BFCDEF37.html"><code class="apiname">CWspHeaderEncoder</code></a> allows you to encode
+the values and parameters of the header field. It creates one header at a
+time from the name / value pairs.</p> </div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-02D66992-9936-4062-AE67-6F72D2FD9A59"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-02D66992-9936-4062-AE67-6F72D2FD9A59"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-02D66992-9936-4062-AE67-6F72D2FD9A59"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-02D66992-9936-4062-AE67-6F72D2FD9A59"><!-- --></a><p></p>
+Create a header encoder object.
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">//creates a pointer to CWspHeaderEncoder object
+CWspHeaderEncoder* primEncoder = CWspHeaderEncoder::NewLC();</pre></div>
+</li>
+<li id="GUID-C40D9259-C67F-4DA8-B524-A29E3BE2D0E0"><a name="GUID-C40D9259-C67F-4DA8-B524-A29E3BE2D0E0"><!-- --></a><p></p>
+Start a new encoded header to encode the parameter value. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">// start a new encoded header
+primEncoder-&gt;StartHeaderL(0x27);</pre></div>
+</li>
+<li id="GUID-69650498-F216-4D21-B799-983B89022FA3"><a name="GUID-69650498-F216-4D21-B799-983B89022FA3"><!-- --></a><p></p>
+Call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8E0D4BBE-BD06-396F-9517-45F9BFCDEF37.html#GUID-D35C01C4-10A9-3BED-88F8-695DAC6411B7"><code class="apiname">CWspHeaderEncoder::StartValueLengthL()</code></a> to calculate
+the length of encodings that are added subsequently. The value calculated,
+is stored as part of the encoded string, as specified in the WSP standard. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">primEncoder-&gt;StartValueLengthL();</pre></div>
+</li>
+<li id="GUID-4958F0F4-1A49-4E3E-81F5-196DF68F253E"><a name="GUID-4958F0F4-1A49-4E3E-81F5-196DF68F253E"><!-- --></a><p></p>
+Encode the header field and add it to the encoded field. 
+ <strong>Note</strong>: The appropriate WSP method is used for encoding the header
+field of a data type such as integer, date, text string and so on. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">primEncoder-&gt;AddIntegerL(0x7F);
+primEncoder-&gt;AddUintVarL(0xff);
+primEncoder-&gt;AddLongIntL(999999);
+_LIT8(KString, "WSP Encode: String");
+primEncoder-&gt;AddTextStringL(KString);
+TDateTime time(2006,EMarch,20,06,36,30,000000); //create a date time object
+primEncoder-&gt;AddDateL(time); // add 
+TUInt intVal=489;
+primEncoder-&gt;AddLTokenL(intVal);
+_LIT8(KTokenText, "WSP Encode: Token Text");
+primEncoder-&gt;AddLTokenTextL(KTokenText);</pre></div>
+</li>
+<li id="GUID-E99EF950-7080-4718-98FD-69DA9E8074DD"><a name="GUID-E99EF950-7080-4718-98FD-69DA9E8074DD"><!-- --></a><p></p>
+Call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8E0D4BBE-BD06-396F-9517-45F9BFCDEF37.html#GUID-80F4AA16-53D6-3836-A048-DADCDFEF4652"><code class="apiname">CWspHeaderEncoder::EndValuesLengthL()</code></a> at the
+time of header construction when ValueLength can be calculated.
+</li>
+<li id="GUID-3A70308A-ACCA-4059-9D26-D82A70B610BD"><a name="GUID-3A70308A-ACCA-4059-9D26-D82A70B610BD"><!-- --></a><p></p>
+Assuming that the length of the header encodings has been calculated
+and added to the encoder field, call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8E0D4BBE-BD06-396F-9517-45F9BFCDEF37.html#GUID-80F4AA16-53D6-3836-A048-DADCDFEF4652"><code class="apiname">CWspHeaderEncoder::EndValuesLengthL()</code></a>.
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">primEncoder-&gt;EndValueLengthL();</pre></div>
+</li>
+<li id="GUID-9DEE2868-591D-488B-AAC9-D12EF2936CC2"><a name="GUID-9DEE2868-591D-488B-AAC9-D12EF2936CC2"><!-- --></a><p></p>
+Call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8E0D4BBE-BD06-396F-9517-45F9BFCDEF37.html#GUID-68A186E8-030B-3A0E-BFF0-ACCAD81C7F3D"><code class="apiname">CWspHeaderEncoder::EndHeaderL()</code></a>, to complete
+the header encoding. This completes and returns the encoded header field's
+8 bit buffer. <code class="codeph">EndHeaderL()</code> panics if <code class="codeph">EndValueLengthL()</code> is
+not called after <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8E0D4BBE-BD06-396F-9517-45F9BFCDEF37.html#GUID-D35C01C4-10A9-3BED-88F8-695DAC6411B7"><code class="apiname">CWspHeaderEncoder::StartValueLengthL()</code></a>. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">HBufC8* buf = primEncoder-&gt;EndHeaderL();</pre></div>
+<p>This returns a pointer to the buffer containing the encoded
+field. </p>
+</li>
+</ol>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 23rd, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4FE5CA06-8C3A-4AC1-80CE-4418AC55937A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:28 GMT -->
+</html>

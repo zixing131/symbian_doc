@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D2A3BE13-6CD9-3418-AA81-4466B76CF844.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:42:02 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2011"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2011"/>
+<meta name="DC.Type" content="cxxClass"/>
+<meta name="DC.Title" content="RCoeResourceLoader"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="GUID-D2A3BE13-6CD9-3418-AA81-4466B76CF844"/>
+<link rel="stylesheet" type="text/css" href="css/commonltr.css"/>
+<title>RCoeResourceLoader</title>
+<meta name="keywords" content="api"/><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css"/><link href="css/html.css" rel="stylesheet" type="text/css"/><link href="css/style.css" rel="stylesheet" type="text/css"/><link href="css/nwg.css" rel="stylesheet" type="text/css"/><link href="css/eclipse.css" rel="stylesheet" type="text/css"/></head>
+<body id="GUID-D2A3BE13-6CD9-3418-AA81-4466B76CF844"><a name="GUID-D2A3BE13-6CD9-3418-AA81-4466B76CF844"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+
+	<h1 class="sectiontitle">RCoeResourceLoader Class Reference</h1>
+	
+	<div class="section include"><p>#include 
+            
+                    &lt;mw/coeutils.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>class RCoeResourceLoader</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code"/><td><a href="#GUID-00208C87-A078-3C94-AAC5-9D1DBF7D350F">RCoeResourceLoader</a>(<a href="GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html">CCoeEnv</a> &amp;)</td></tr><tr class="bg"><td align="right" class="code">IMPORT_C void</td><td><a href="#GUID-042F6249-85B3-3C17-8AF5-017EB2D2B301">Close</a>()</td></tr><tr><td align="right" class="code">IMPORT_C <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td><a href="#GUID-8E66397E-62EC-3692-A09C-19AC833DA278">Open</a>(<a href="GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html">TFileName</a> &amp;)</td></tr><tr class="bg"><td align="right" class="code">IMPORT_C void</td><td><a href="#GUID-D53E4CB3-EC73-306D-9438-DB7C81ABA04B">OpenL</a>(<a href="GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html">TFileName</a> &amp;)</td></tr></tbody></table></div><div class="section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+			<p>Class encapsulates methods for opening and closing localised resource files in the CONE environment. The actual reading of resources from an opened resource file is done using various <a href="GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html#GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40">CCoeEnv</a> provided resource-reading methods. The Cone Resource Loader API consists of the <a href="GUID-D2A3BE13-6CD9-3418-AA81-4466B76CF844.html#GUID-D2A3BE13-6CD9-3418-AA81-4466B76CF844">RCoeResourceLoader</a> class.</p>
+
+			<p>Only one resource at a time may be opened by one <a href="GUID-D2A3BE13-6CD9-3418-AA81-4466B76CF844.html#GUID-D2A3BE13-6CD9-3418-AA81-4466B76CF844">RCoeResourceLoader</a> instance. You can use several <a href="GUID-D2A3BE13-6CD9-3418-AA81-4466B76CF844.html#GUID-D2A3BE13-6CD9-3418-AA81-4466B76CF844">RCoeResourceLoader</a> instances for accessing several resources simultaneously or use one instance and close the previous resource before opening a new one.</p>
+
+			<p>The implementation uses <a href="GUID-5F9CAA3E-D8BF-3488-9797-3B9FB4452930.html#GUID-9EB018F6-5270-3263-8388-49DAFF9F8C51">BaflUtils::NearestLanguageFile</a> to search for a localised resource in proper search order.</p>
+
+			<p>Usage example:</p>
+
+			<div class="p">
+				<pre class="codeblock">#include &lt;coeutils.h&gt;  
+
+// Get CCoeEnv instance
+CEikonEnv* eikEnv = CEikonEnv::Static();
+// Initialize loader
+RCoeResourceLoader rLoader(eikEnv);
+
+// Push resource loader to cleanup stack, so that it will always be properly 
+// closed when popped.
+CleanupClosePushL(rLoader);
+
+// Open resource file
+_LIT( KSampleResourceFileName, "Z:\\System\\Apps\\sample\\sample.rsc" );
+TFileName fileName(KSampleResourceFileName);
+rLoader.OpenL(fileName);
+
+// Read a resource   
+iSomeArray = eikEnv-&gt;ReadDesC16ArrayResourceL(R_SOME_RESOURCE);
+
+// Pop and destroy rLoader from stack. 
+// This also calls the rLoader close function after CleanupClosePushL is used.
+CleanupStack::PopAndDestroy(); // rLoader</pre>
+
+			</div>
+
+		</div>
+<h2 class="sectiontitle">Constructor &amp; Destructor Documentation</h2><div class="nested1" id="GUID-00208C87-A078-3C94-AAC5-9D1DBF7D350F"><a name="GUID-00208C87-A078-3C94-AAC5-9D1DBF7D350F"><!-- --></a>
+		<a name="GUID-73A7A695-E319-3F40-A7BB-8401071653A9"><!----></a><h3 class="sectiontitle">RCoeResourceLoader ( CCoeEnv &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C</td><td>RCoeResourceLoader</td><td>(</td><td><a href="GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html">CCoeEnv</a> &amp;</td><td><span class="parameter">aEnv</span></td><td>)</td><td/></tr></table></div><div class="section apidesc"/>
+<div class="section parameters"/>
+</div>
+
+	</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="nested1" id="GUID-042F6249-85B3-3C17-8AF5-017EB2D2B301"><a name="GUID-042F6249-85B3-3C17-8AF5-017EB2D2B301"><!-- --></a>
+		<h3 class="sectiontitle">Close (  )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>Close</td><td>(</td><td>)</td><td/></tr></table></div><div class="section apidesc"/>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-8E66397E-62EC-3692-A09C-19AC833DA278"><a name="GUID-8E66397E-62EC-3692-A09C-19AC833DA278"><!-- --></a>
+		<a name="GUID-044B67C2-76AB-3B69-9EE5-AA42971264F2"><!----></a><h3 class="sectiontitle">Open ( TFileName &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td>Open</td><td>(</td><td><a href="GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html">TFileName</a> &amp;</td><td><span class="parameter">aFileName</span></td><td>)</td><td/></tr></table></div><div class="section apidesc"/>
+<div class="section parameters"/>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-D53E4CB3-EC73-306D-9438-DB7C81ABA04B"><a name="GUID-D53E4CB3-EC73-306D-9438-DB7C81ABA04B"><!-- --></a>
+		<a name="GUID-02B908EA-3DAB-3259-A1F3-EFEB6D61D1A7"><!----></a><h3 class="sectiontitle">OpenL ( TFileName &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>OpenL</td><td>(</td><td><a href="GUID-0B9C8884-6BFF-35E2-AA6F-E4057B85AFCF.html">TFileName</a> &amp;</td><td><span class="parameter">aFileName</span></td><td>)</td><td/></tr></table></div><div class="section apidesc"/>
+<div class="section parameters"/>
+</div>
+
+	</div>
+
+	
+	
+	
+	
+</div></div><div class="footer"><hr/><div class="copy">© Nokia 2011.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-D2A3BE13-6CD9-3418-AA81-4466B76CF844.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:42:02 GMT -->
+</html>

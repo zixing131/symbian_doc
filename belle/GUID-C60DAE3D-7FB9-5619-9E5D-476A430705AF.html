@@ -1,0 +1,89 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C60DAE3D-7FB9-5619-9E5D-476A430705AF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Querying a database" /><meta name="abstract" content="This tutorial shows you how to create a simple SQL database query." /><meta name="description" content="This tutorial shows you how to create a simple SQL database query." /><meta name="DC.Relation" scheme="URI" content="GUID-22844C28-AB5B-5A6F-8863-7269464684B4" /><meta name="DC.Relation" scheme="URI" content="GUID-CCB9C61B-FB28-5CD9-A366-4A9584097897" /><meta name="DC.Relation" scheme="URI" content="GUID-B61EA8C5-0966-51DE-AC73-01DD34C7D3CC" /><meta name="DC.Relation" scheme="URI" content="GUID-72511204-FC90-54AA-9E2E-833318020318" /><meta name="DC.Relation" scheme="URI" content="GUID-3CCA6503-54DA-5558-85DC-93A22A81F565" /><meta name="DC.Relation" scheme="URI" content="GUID-183280EE-0C57-54FE-8ABB-E1CC3BDE525B" /><meta name="DC.Relation" scheme="URI" content="GUID-B9A3B17E-BDEB-5F66-968C-080335A721AC" /><meta name="DC.Relation" scheme="URI" content="GUID-C474376E-1766-5781-B5BF-3786C5B4D72E" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-868D5B32-1CC4-506E-9C49-C86428B9A50F" /><meta name="DC.Relation" scheme="URI" content="GUID-582CAA4A-1240-5138-983D-D9C6EEAF5566" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C60DAE3D-7FB9-5619-9E5D-476A430705AF" /><meta name="DC.Language" content="en" /><title>Querying
+a database </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C60DAE3D-7FB9-5619-9E5D-476A430705AF">Querying
+a database</h1><div><p>This tutorial shows you how to create a simple SQL database query. </p>
+<div id="GUID-0A238212-37C9-5B4B-A449-F8C81CE971A8"><h3 class="section-title">Introduction</h3> <p>This
+tutorial shows you how to wrap a SQL query statement into an RSqlStatement object
+to query a database. </p> <p>The SQL statement used for the tutorial is shown
+here: </p> <p><kbd class="userinput"><code class="parname">SELECT</code> <code>name</code> <code class="parname">FROM</code> <code>countries</code> <code class="parname">WHERE</code> <code>population &gt; 10</code> </kbd> </p> <p>The (<code class="codeph">SELECT</code>)
+results of the query will be the value in the '<code class="codeph">name</code>' column <code class="codeph">FROM</code> the
+'<code class="codeph">countries</code>' table <code class="codeph">WHERE</code> the value of the
+'<code class="codeph">population</code>' column of the same record is <code class="codeph">&gt;</code> the
+value specified. </p> </div>
+<div id="GUID-AF611AF2-85EC-4F02-B43F-A0EFAAEA9CAB"><h3 class="section-title">Procedure</h3> <ol id="GUID-2C39BABE-F2D4-510A-A406-D2C48412B6F8">
+<li id="GUID-56D39707-7D55-5843-8966-36223BB20EFC"><a name="GUID-56D39707-7D55-5843-8966-36223BB20EFC"><!-- --></a><p>Prepare the Statement: </p> <p>The
+steps to prepare a SQL statement are shown here. </p> <ol type="a" id="GUID-8B003014-94BB-5B4E-9D9C-8098A3642EA6">
+<li id="GUID-A988E274-8B21-5DCB-A616-06CD3C6F5680"><a name="GUID-A988E274-8B21-5DCB-A616-06CD3C6F5680"><!-- --></a><p>Set up some constants
+used by the SQL statement object to define the SQL query: </p> <div class="p"><pre class="codeblock">_LIT(kName,"name");
+_LIT(kPopulation,"population");
+_LIT(kVal,":Value");
+_LIT(kQueryString,"SELECT name FROM countries WHERE population &gt; :Value");</pre> </div> <p>This
+defines the query parameters. </p> </li>
+<li id="GUID-39F138F2-591F-586E-A06F-91981A1F6388"><a name="GUID-39F138F2-591F-586E-A06F-91981A1F6388"><!-- --></a><p>Instantiate the RSqlStatement SQL
+statement: </p> <div class="p"><pre class="codeblock">RSqlStatement myStatement;</pre> </div> </li>
+<li id="GUID-5FD16C7C-591D-5006-A177-C899314AA798"><a name="GUID-5FD16C7C-591D-5006-A177-C899314AA798"><!-- --></a><p>Define the indices to
+be used in the search: </p> <div class="p"><pre class="codeblock">TInt nameIndex = myStatement.ColumnIndex(kName); 
+TInt populationIndex = myStatement.ColumnIndex(kPopulation);</pre> </div> </li>
+<li id="GUID-17A647B3-6E8C-54FB-A21E-23425AD343FD"><a name="GUID-17A647B3-6E8C-54FB-A21E-23425AD343FD"><!-- --></a><p>Set the 32-bit integer
+value for the SQL parameter 'value': </p> <div class="p"><pre class="codeblock">TInt parameterIndex = myStatement.ParameterIndex(kVal);
+err = myStatement.BindInt(parameterIndex,10);</pre> </div> <p>The SQL
+parameter to which the integer is being assigned is identified by the constant <code class="codeph">kVal</code> from: </p> <div class="p"><pre class="codeblock">_LIT(kVal,":Value");
+...
+...WHERE population &gt; :Value")  </pre> </div> <p>The parameter plus constant,
+along with other parts of the statement, are converted into: </p> <p>in SQL
+syntax. </p> </li>
+<li id="GUID-AEBF05BB-08E7-5628-8B5F-8CD30F08D638"><a name="GUID-AEBF05BB-08E7-5628-8B5F-8CD30F08D638"><!-- --></a><p>Prepare the statement: </p> <div class="p"><pre class="codeblock">TInt err;
+err = myStatement.Prepare(countriesDatabase,kQueryString);</pre> </div> <p>This
+creates a parameterised SQL statement executable. </p> </li>
+</ol> </li>
+<li id="GUID-1153684C-697C-5C84-A15C-99C96820C8FB"><a name="GUID-1153684C-697C-5C84-A15C-99C96820C8FB"><!-- --></a><p>Run the SQL query: </p> <ol type="a" id="GUID-186BD930-F9A1-5244-BEA8-3774DC6D3F91">
+<li id="GUID-1D0B5C50-E1C6-51DC-8CCE-2C2B4C33F7F6"><a name="GUID-1D0B5C50-E1C6-51DC-8CCE-2C2B4C33F7F6"><!-- --></a><p>Search the records until
+a match is found: </p> <div class="p"><pre class="codeblock">while((err = myStatement.Next()) == KSqlAtRow)
+ {
+  Do something with the query results
+ }</pre> </div> <p>Next() fires the executable SQL statement and stops
+at and returns the matched record. </p> <p>Do something if no results are
+found. </p> <div class="p"><pre class="codeblock">if(err == KSqlAtEnd)
+    &lt;OK - no more records&gt;;
+else
+    &lt;process the error&gt;;</pre> </div> </li>
+</ol> </li>
+<li id="GUID-26B8C900-50D3-59D2-BACD-61C825B2A3A4"><a name="GUID-26B8C900-50D3-59D2-BACD-61C825B2A3A4"><!-- --></a><p>The query is done and
+you have the results. In this section we look at a simple way to do something
+with the results and we close the SQL statement object. </p> <ol type="a" id="GUID-79A55F5A-E42B-5AA2-B451-080E36100E0A">
+<li id="GUID-5F24A346-F2DA-5544-9AB2-DD046E4D80DD"><a name="GUID-5F24A346-F2DA-5544-9AB2-DD046E4D80DD"><!-- --></a><p>Get the results of the
+search: </p> <div class="p"><pre class="codeblock">TPtrC myData;
+myData = myStatement.ColumnTextL(nameIndex);
+RDebug::Print(_L("Name=%d\n"), myData);</pre> </div> </li>
+<li id="GUID-0C40380F-9A06-5546-A366-33EBAAA5E9D6"><a name="GUID-0C40380F-9A06-5546-A366-33EBAAA5E9D6"><!-- --></a><p>Close the SQL search
+statement: </p> <div class="p"><pre class="codeblock">err = myStatement.Close(); </pre> </div> <p>When
+the database search is finished the object should be closed to free up resources. </p> </li>
+</ol> </li>
+</ol><p> This section deals with finding and returning the first matching
+record</p><p>  only. Getting all matches in a database is briefly discussed
+at the end of this</p><p> section. </p> </div>
+<div id="GUID-8F3A39B6-6514-5A48-BE2E-7893D7625A9C-GENID-GUID-FA0CB62C-6A4F-4F04-976D-11C31DC1DB63"><h3 class="section-title"><!--no section title--></h3><p>Now that you have
+performed a basic database query you can start thinking about more advanced
+querying options. The following will show you how: </p> <ul>
+<li id="GUID-3F4608F9-92E9-52AA-8843-7535688A0D57"><a name="GUID-3F4608F9-92E9-52AA-8843-7535688A0D57"><!-- --></a><p> <a href="GUID-2610E11C-26FA-538E-A3E1-34AADA35F20B.html">Querying
+Databases: Basic</a> </p> </li>
+<li id="GUID-02919F4F-2F55-5446-9E5B-A1A8CBE9D017"><a name="GUID-02919F4F-2F55-5446-9E5B-A1A8CBE9D017"><!-- --></a><p> <a href="GUID-72511204-FC90-54AA-9E2E-833318020318.html">Reading
+to a buffer</a> </p> </li>
+<li id="GUID-2A715BF4-6BE3-50A0-8F46-DBD28C1494A7"><a name="GUID-2A715BF4-6BE3-50A0-8F46-DBD28C1494A7"><!-- --></a><p> <a href="GUID-3CCA6503-54DA-5558-85DC-93A22A81F565.html">Reading
+to memory</a> </p> </li>
+<li id="GUID-A4C14656-EE85-53B8-8859-F7F56BC49004"><a name="GUID-A4C14656-EE85-53B8-8859-F7F56BC49004"><!-- --></a><p> <a href="GUID-183280EE-0C57-54FE-8ABB-E1CC3BDE525B.html">Reading
+to a data stream</a> </p> </li>
+</ul> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-22844C28-AB5B-5A6F-8863-7269464684B4.html">SQL Overview</a></li><li><a href="GUID-CCB9C61B-FB28-5CD9-A366-4A9584097897.html">Inserting
+a row into a                 table</a></li><li><a href="GUID-B61EA8C5-0966-51DE-AC73-01DD34C7D3CC.html">Deleting
+Rows from a Table</a></li><li><a href="GUID-72511204-FC90-54AA-9E2E-833318020318.html">Reading to
+a                 buffer</a></li><li><a href="GUID-3CCA6503-54DA-5558-85DC-93A22A81F565.html">Reading to
+memory</a></li><li><a href="GUID-183280EE-0C57-54FE-8ABB-E1CC3BDE525B.html">Reading to
+a data                 stream</a></li><li><a href="GUID-B9A3B17E-BDEB-5F66-968C-080335A721AC.html">Writing to
+a data                 stream</a></li><li><a href="GUID-C474376E-1766-5781-B5BF-3786C5B4D72E.html">Scalar queries</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C60DAE3D-7FB9-5619-9E5D-476A430705AF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:08:15 GMT -->
+</html>

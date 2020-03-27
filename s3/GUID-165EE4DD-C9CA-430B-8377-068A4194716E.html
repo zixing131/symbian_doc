@@ -1,0 +1,79 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-165EE4DD-C9CA-430B-8377-068A4194716E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:43 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Modifying applications to support single-tap" /><meta name="abstract" content="Symbian^3 enhances the touch interaction by providing support for single-tap." /><meta name="description" content="Symbian^3 enhances the touch interaction by providing support for single-tap." /><meta name="DC.Relation" scheme="URI" content="GUID-AC8439C7-7E57-4829-AB4B-70BC394DD66F" /><meta name="DC.Relation" scheme="URI" content="GUID-244631CF-03F9-4C48-9802-682A76E9ECCC" /><meta name="DC.Relation" scheme="URI" content="GUID-E3A60844-EE37-4AF1-8921-59375C563723" /><meta name="DC.Relation" scheme="URI" content="GUID-361BB951-DB74-4D83-ACFC-812383C8129C" /><meta name="DC.Relation" scheme="URI" content="GUID-78453EBD-B4F3-4A78-AEAE-3D126DFED31F" /><meta name="DC.Relation" scheme="URI" content="GUID-2131E679-779D-427D-BD41-47D9949A8749" /><meta name="DC.Relation" scheme="URI" content="GUID-021E8B9C-4A1B-4C6D-B69E-4337A766C39A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-165EE4DD-C9CA-430B-8377-068A4194716E" /><meta name="DC.Language" content="en" /><title>Modifying applications to support single-tap </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-165EE4DD-C9CA-430B-8377-068A4194716E">Modifying applications to support single-tap</h1><div><p> Symbian^3 enhances the touch interaction by providing
+support for single-tap.</p>
+<div id="GUID-0EFB67F7-2936-4126-B13A-67402F696663"><h3 class="section-title">Context</h3><p>S60 5th
+Edition introduced touch support feature with double-tap to maintain
+binary and source code compatibility with the existing S60 3.x applications.
+The UI was focus driven, with the first tap for object selection (the
+corresponding event forwarded to the application) and the second tap
+for activation.</p><div class="p">Symbian^3 enhances the touch support with single
+tap for achieving better usability and development of platform and
+3rd party applications. The supporting UI is based on direct manipulation
+and is not focus driven, which means that a single-tap on the device
+selects and activates an event. This change modifies the touch behavior
+of certain UI components as listed below:<ul>
+<li><p>By default, none of the menu items are highlighted.</p></li>
+<li><p>Item specific options are displayed in stylus menus rather
+than in options menus.</p></li>
+<li><p>The side toolbar is hidden in the landscape layout view except
+in specific applications like the message viewer and editor.</p></li>
+</ul></div><p>It is highly recommended that you migrate your applications
+to single-tap to complement the platform UI behavior. However, if
+you do not migrate your applications to single-tap, they work the
+same way as in S60 5th Edition (touch support with double-tap). </p></div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-BC20A326-DCE1-41C3-A9DA-C792CB63925F"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-BC20A326-DCE1-41C3-A9DA-C792CB63925F"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-BC20A326-DCE1-41C3-A9DA-C792CB63925F"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-BC20A326-DCE1-41C3-A9DA-C792CB63925F"><!-- --></a><p>Include
+the EAknTouchCompatible and EAknSingleClickCompatible flags in your application's UI (<code class="codeph">CAknAppUi</code> ) constructor.</p>
+<p>For example, </p><pre class="codeblock">void CFileBrowseBaseView::ConstructL() //Called from framework (CEikDocument)
+{
+  ...
+    BaseConstructL(EAknEnableSkin | EAknEnableMSK | <strong>EAknTouchCompatible</strong> | <strong>EAknSingleClickCompatible</strong>);
+  ...
+}</pre>
+<p>The EAknTouchCompatible flag enables touch
+functionality. The EAknSingleClickCompatible flag
+enables single-click functionality on the Symbian device.</p>
+<p>The following illustrations show how applications behave
+before and after the single-tap changes are made:</p><div class="figure" id="GUID-7015C5AD-8162-4185-801C-BEF4352B9837"><img src="GUID-BF626AFA-F8E5-4049-BC3E-E947AD2D39A1_d0e2467_href.png" /><p class="figure-title"><strong>Figure: </strong>Double-tap enabled: By default, UI component is highlighted.</p></div><div class="figure" id="GUID-12C4AB22-ACF7-4A43-B322-ABB39B5653DC"><img src="GUID-CAB2A21A-B2EE-4B49-AC97-7F70BDC95755_d0e2474_href.png" /><p class="figure-title"><strong>Figure: </strong>Single-tap enabled: By default, no UI component is highlighted.</p></div>
+</li>
+<li id="GUID-CCF099FE-76F5-49AC-99A7-E834A07FD628"><a name="GUID-CCF099FE-76F5-49AC-99A7-E834A07FD628"><!-- --></a><p>Hide item-specific
+commands from the application's <a href="GUID-AC8439C7-7E57-4829-AB4B-70BC394DD66F.html">menus</a>, <a href="GUID-244631CF-03F9-4C48-9802-682A76E9ECCC.html">submenus</a> and <a href="GUID-E3A60844-EE37-4AF1-8921-59375C563723.html">toolbars</a>.
+Item-specific commands are functions that are specific to an item.
+For example, <strong>Edit</strong> is an item-specific command for an existing
+contact in the <strong>Phone book</strong>.</p>
+<p>As a result, all item-specific options are hidden in
+menus, submenus and toolbars and are displayed in the <a href="GUID-C4E728B4-3E84-49A4-83CB-DF146420D78A.html">stylus popup menus</a>. </p>
+</li>
+<li id="GUID-10C30123-1921-43E1-B39F-C41DC65991E6"><a name="GUID-10C30123-1921-43E1-B39F-C41DC65991E6"><!-- --></a><p><a href="GUID-361BB951-DB74-4D83-ACFC-812383C8129C.html">Activate items in
+a list</a> on single-tap.</p>
+</li>
+<li id="GUID-10F9F971-4E80-4D0A-90B2-7BDC9C40E0A9"><a name="GUID-10F9F971-4E80-4D0A-90B2-7BDC9C40E0A9"><!-- --></a><p><a href="GUID-78453EBD-B4F3-4A78-AEAE-3D126DFED31F.html">Disable stylus popup
+menu in AVKON lists</a>.</p>
+</li>
+<li id="GUID-FF167282-56A6-42F4-ABAE-5A53ECCC0E2F"><a name="GUID-FF167282-56A6-42F4-ABAE-5A53ECCC0E2F"><!-- --></a><p><a href="GUID-2131E679-779D-427D-BD41-47D9949A8749.html">Disable hardware
+key shortcuts</a>.</p>
+</li>
+</ol>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-AC8439C7-7E57-4829-AB4B-70BC394DD66F.html">Hiding
+item-specific commands in menus</a><div class="linkdesc">The item-specific commands and item-action commands in options
+menu must be flagged with the <code class="codeph">EEikMenuItemSpecific</code> and <code class="codeph">EEikMenuItemAction</code> flags
+introduced in Symbian^3. This enables the UI framework to hide them in the
+options menu and display them only in the stylus pop-up menu. The touch down
+and hold action opens the stylus pop-up menu. Touch down and release performs
+an action.</div></li><li class="ulchildlink"><a href="GUID-244631CF-03F9-4C48-9802-682A76E9ECCC.html">Hiding
+item-specific commands in submenus</a><div class="linkdesc">This document describes the changes required to your application's
+code for hiding item-specific commands in submenus.</div></li><li class="ulchildlink"><a href="GUID-E3A60844-EE37-4AF1-8921-59375C563723.html">Removing
+item-specific commands from the toolbar</a><div class="linkdesc">This document describes the changes required to your code to remove
+the item-specific commands from the toolbar.</div></li><li class="ulchildlink"><a href="GUID-361BB951-DB74-4D83-ACFC-812383C8129C.html">Activating
+items in a list</a><div class="linkdesc">This document describes the code changes required to activate items
+in a list on single-tap.</div></li><li class="ulchildlink"><a href="GUID-78453EBD-B4F3-4A78-AEAE-3D126DFED31F.html">Disabling
+stylus popup menus in AVKON lists</a><div class="linkdesc">This document describes how to disable stylus popup menus in AVKON
+lists.</div></li><li class="ulchildlink"><a href="GUID-2131E679-779D-427D-BD41-47D9949A8749.html">Disabling
+hardware key shortcuts</a><div class="linkdesc">This document describes how to disable hardware key shortcuts when
+none of the items in a list are highlighted.</div></li></ul></div></div><div class="footer"><p class="metadata">Last updated May 25th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-165EE4DD-C9CA-430B-8377-068A4194716E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:53 GMT -->
+</html>

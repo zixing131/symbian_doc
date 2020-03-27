@@ -1,0 +1,241 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-09A760FD-4C2A-5F79-91F2-DCC25A63699C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:44 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Handling DRM Content" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-315452C2-A1E2-5888-A694-6D2DE73A3F5E" /><meta name="DC.Relation" scheme="URI" content="GUID-E6C91CF2-A616-5E52-8BB2-630C42C8D540" /><meta name="DC.Relation" scheme="URI" content="GUID-7EE46FD9-DC9E-5C1F-9AC5-48F5212AF0CA" /><meta name="DC.Relation" scheme="URI" content="GUID-4F722225-57E2-52DD-81EA-8DD97728B07E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-09A760FD-4C2A-5F79-91F2-DCC25A63699C" /><meta name="DC.Language" content="en" /><title>Handling DRM Content </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-09A760FD-4C2A-5F79-91F2-DCC25A63699C">Handling DRM Content</h1><div>
+<p>Content Access Framework (CAF) provides services that enable agents
+to publish content in a generic manner that is easy for applications
+to use. Applications use the Consumer API to render a content and
+multimedia plug-ins. </p>
+<p> <strong>Note:</strong> Rendering is a process of reading data from a file,
+transforming it, then playing or displaying it on the device. </p>
+<p><strong>Access to content within archive files </strong> </p>
+<p>An archive file contains content objects and other containers within
+the file. Each container within the file may contain more content
+objects or further containers. Common examples of archive files are
+zip and tar files. </p>
+<p>CAF allows applications to open archive files and read content
+from inside them. The content objects and containers inside the file
+can be traversed using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-FC40011B-32D3-328B-BB59-35BEF46A215A"><code class="apiname">ContentAccess::CContent</code></a> class. The class allows applications to use the content within these
+container files without needing to understand any specifics of the
+compression or storage mechanism used by the archive. </p>
+<div id="GUID-8D8D2F42-9F2E-4258-BA24-64F3FA562907"><h3 class="section-title">Required
+background</h3> <p>Before you start, you must understand: </p> <ul>
+<li id="GUID-099EC8EB-0A45-5FBF-9F55-B38D9C0AFCA8"><a name="GUID-099EC8EB-0A45-5FBF-9F55-B38D9C0AFCA8"><!-- --></a><p><a href="GUID-84B6389A-55CC-53EB-8725-65F753FD7217.html"> Content Access Framework
+for DRM</a> </p> </li>
+<li id="GUID-16D006BB-3D7E-5439-BFFC-727EFF82D40E"><a name="GUID-16D006BB-3D7E-5439-BFFC-727EFF82D40E"><!-- --></a><p><a href="GUID-B5CC77D2-5871-51D8-B359-77EFC081B423.html">Files Containing
+Multiple Content Objects</a> </p> </li>
+</ul> </div>
+<div id="GUID-9B10EBB9-F5BC-47B3-83FA-CD38153F4869"><h3 class="section-title">Introduction</h3> <p>Content Access Framework also allows applications to open archive
+files and read content from inside them. The content objects and containers
+inside the file can be traversed using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-FC40011B-32D3-328B-BB59-35BEF46A215A"><code class="apiname">ContentAccess::CContent</code></a> class. This class allows applications to use the content within
+the container files without needing to understand any specifics of
+the compression or storage mechanism used by the archive. See <a href="GUID-B5CC77D2-5871-51D8-B359-77EFC081B423.html">Files Containing
+Multiple Content Objects</a> for more information. </p> <p>The
+following diagram is an example of a content file. The same diagram
+is used in the procedure to illustrate the implementation of Consumer
+API. </p> <div class="figure" id="GUID-BA86F65C-C34B-57C3-8FD5-A76C61EDF035"><img src="GUID-1467745D-7C3F-52EC-8C1E-7E2F505B7313_d0e444677_href.png" /><p class="figure-title"><strong>Figure: </strong>              Example content file            </p></div> </div>
+<div id="GUID-64EBCA06-3394-416C-81E6-37CA2E22286A"><h3 class="section-title">Procedure</h3> <ol id="GUID-FE716629-86BE-513F-82F5-89107FB41F0E">
+<li id="GUID-BD7166E0-7D9C-5F55-9DF3-1DE17AEBB80B"><a name="GUID-BD7166E0-7D9C-5F55-9DF3-1DE17AEBB80B"><!-- --></a><p><a href="#GUID-09F7434B-318B-5084-8E8B-54FA0ED48031">Create a content object</a>. </p> </li>
+<li id="GUID-2BADD3D3-D167-5212-942C-3A3CF4B7D25F"><a name="GUID-2BADD3D3-D167-5212-942C-3A3CF4B7D25F"><!-- --></a><p>Perform one
+or more of the following tasks as per your requirement: </p> <ul>
+<li id="GUID-8DFAF3E7-DC67-51E2-B609-85975BD6A564"><a name="GUID-8DFAF3E7-DC67-51E2-B609-85975BD6A564"><!-- --></a><p><a href="#GUID-26189931-0BE0-5BB7-98F1-9B7DF08C6C8F">List objects within a container</a>. </p> </li>
+<li id="GUID-74B9014B-EFCA-5BFA-8E15-286E837D832C"><a name="GUID-74B9014B-EFCA-5BFA-8E15-286E837D832C"><!-- --></a><p><a href="#GUID-03355CA5-D049-5625-9187-2E91FFAF703A">Open a container</a>. </p> </li>
+<li id="GUID-ACC262EF-BBD6-5811-9EE3-A346FE600694"><a name="GUID-ACC262EF-BBD6-5811-9EE3-A346FE600694"><!-- --></a><p><a href="#GUID-71C5AA3E-9C4B-5F77-B6D8-D09E00593EB8">Open the metadata specific to an agent</a>. </p> </li>
+<li id="GUID-34F3E3F3-816A-5B92-8772-05AD72910F56"><a name="GUID-34F3E3F3-816A-5B92-8772-05AD72910F56"><!-- --></a><p><a href="#GUID-5B42E479-D3F1-5B2A-8B6F-4841E49E4B3D">Display content object information</a>. </p> </li>
+<li id="GUID-5EC62609-8B8E-549A-806F-628C64FBE81B"><a name="GUID-5EC62609-8B8E-549A-806F-628C64FBE81B"><!-- --></a><p><a href="#GUID-20F9B6AC-F2B1-5E8E-93F2-8AE4AD0ED1F6">Retrieve the attributes of a content</a>. </p> </li>
+<li id="GUID-C5F1A5F7-D83B-5FD1-814C-4B0E9416C815"><a name="GUID-C5F1A5F7-D83B-5FD1-814C-4B0E9416C815"><!-- --></a><p><a href="#GUID-8D6C9025-7409-5019-88B2-A99A8E020443">Search for a MIME type within a file</a>. </p> </li>
+<li id="GUID-12C912EE-4195-5B3C-82C6-007E76629156"><a name="GUID-12C912EE-4195-5B3C-82C6-007E76629156"><!-- --></a><p><a href="#GUID-447A73D2-AF49-598E-865E-C2CEF1958C14">Read data from a content object</a>. </p> </li>
+<li id="GUID-A9FB0738-754E-5879-A2F5-E88C5F4C7751"><a name="GUID-A9FB0738-754E-5879-A2F5-E88C5F4C7751"><!-- --></a><p><a href="#GUID-AAFE84D9-01AF-5F27-9BC2-064A565F3D53">Handle data corruption</a>. </p> </li>
+<li id="GUID-E57145C0-DF25-5F32-9368-D86627E97B05"><a name="GUID-E57145C0-DF25-5F32-9368-D86627E97B05"><!-- --></a><p><a href="#GUID-15A1A9B3-BB5D-5677-BFE9-47EABD4064BF">Handle errors</a>. </p> </li>
+<li id="GUID-935D7FB6-15EB-5DFB-89A0-58C0C29E736D"><a name="GUID-935D7FB6-15EB-5DFB-89A0-58C0C29E736D"><!-- --></a><p><a href="#GUID-6A50AE44-E618-5D99-B5D8-7BBA8FE7948A">Handle rights for DRM content</a>. </p> </li>
+<li id="GUID-BEA5163A-5A5E-510B-AD36-313CC820DDBD"><a name="GUID-BEA5163A-5A5E-510B-AD36-313CC820DDBD"><!-- --></a><p><a href="#GUID-635EE5EF-469D-5FD3-9400-25DF95FD2E96">Get content object notifications</a>. </p> </li>
+<li id="GUID-2828C1A0-8E91-5B46-88FD-09CF0C36F40B"><a name="GUID-2828C1A0-8E91-5B46-88FD-09CF0C36F40B"><!-- --></a><p><a href="#GUID-DDAE0B57-B296-58E8-8220-AE5AA9BF7B8D">Close a container</a>. </p> </li>
+</ul> </li>
+</ol> <p id="GUID-09F7434B-318B-5084-8E8B-54FA0ED48031"><a name="GUID-09F7434B-318B-5084-8E8B-54FA0ED48031"><!-- --></a><strong>Create
+a CContent object</strong> </p> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-FC40011B-32D3-328B-BB59-35BEF46A215A"><code class="apiname">ContentAccess::CContent</code></a> object encapsulates a single file. It allows an application to look
+at the structure of the objects within the file and the attributes
+of those objects. </p> <p>There are two ways to create a <code class="codeph">CContent</code> object. The application can specify the URI of the content or it
+can supply an open file handle, see <a href="GUID-B5CC77D2-5871-51D8-B359-77EFC081B423.html#GUID-28BE6074-E800-5320-89DD-D047F5C0FD86">Objects used to identify a content object within a file</a>. </p> <pre class="codeblock">// Create a CContent with a URI 
+CContent *content = CContent::NewL(uri); 
+
+// Create a CContent with an existing file handle
+CContent *content = CContent::NewL(aFs, aFile);</pre> <p>Upon
+creation, <code class="codeph">CContent</code> selects the agent that handles
+the file. </p> <p id="GUID-26189931-0BE0-5BB7-98F1-9B7DF08C6C8F"><a name="GUID-26189931-0BE0-5BB7-98F1-9B7DF08C6C8F"><!-- --></a><strong>List objects within a container</strong> </p> <p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-FC40011B-32D3-328B-BB59-35BEF46A215A"><code class="apiname">ContentAccess::CContent</code></a> acts like a cursor, only able to list the contents of one container
+object at any one time. When <code class="codeph">CContent</code> is first opened,
+it views the top-level container within the file. The top level container
+is actually the file itself. This top level container concept applies
+to all files, regardless of how many content or container objects
+are inside. </p> <p>Even a content file such as a jpeg image is a
+container, it's just that the file only has the <code class="codeph">"DEFAULT"</code> object embedded inside. </p> <p>So, when the example file shown
+earlier is opened, the following objects can be seen by the <code class="codeph">CContent</code>: </p> <div class="figure" id="GUID-EC064DCF-FC5D-59AC-BF5F-378A57808A47"><img src="GUID-518FC822-AF10-57E8-990E-BB03C2D6ACBE_d0e444846_href.png" /></div> <p>In this top level container, there is only one embedded
+content object visible (the <code>.jpg</code> file) and two
+embedded container objects. </p> <pre class="codeblock">// Create an array to store the results of CContent::GetEmbeddedObjectsL() 
+RStreamablePtrArray&lt;CEmbeddedObject&gt; myArray; 
+CleanupClosePushL(myArray); 
+    
+// Get the embedded content objects in the current container 
+content-&gt;GetEmbeddedObjectsL(myArray, EContentObject); 
+
+i = myArray.Count(); // One content object 
+
+// clear the contents of the array 
+myArray.ResetAndDestroy(); 
+    
+// Get the number of container objects in the current container
+content-&gt;GetEmbeddedObjectsL(myArray, EContainerObject); 
+
+i = myArray.Count(); // Two container objects 
+                    
+// clear the contents of the array 
+myArray-&gt;ResetAndDestroy();</pre> <p id="GUID-03355CA5-D049-5625-9187-2E91FFAF703A"><a name="GUID-03355CA5-D049-5625-9187-2E91FFAF703A"><!-- --></a><strong>Open a container</strong> </p> <p>To investigate the objects inside a container, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-E8850092-D0CC-3791-9F22-B05406D1BFAC"><code class="apiname">ContentAccess::Content</code></a> must first open the container. This
+changes <code class="codeph">CContent</code>'s focus from the current container
+to the container specified in the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-BB793B8F-1A01-3169-99E6-4630E9B5581C"><code class="apiname">ContentAccess::CContent::OpenContainer()</code></a> function. </p> <p><em>Open container 1 from the top level of the
+file</em> </p> <pre class="codeblock">// Get the container objects in the top level of the file 
+content-&gt;GetEmbeddedObjects(myArray, EContainerObject); 
+
+// Find the Unique Id of the first container 
+TPtrC UniqueId = myArray[0]-&gt;UniqueId() 
+
+// Open the first container 
+content-&gt;OpenContainer(UniqueId);</pre> <p>Now <code class="codeph">CContent</code> can see the contents of Container 1: </p> <div class="figure" id="GUID-2A67C29A-FBF3-553E-B653-462F5128B2F4"><img src="GUID-DC7E3634-9762-542F-BDAE-AC1F2D03F55D_d0e444893_href.png" /></div> <p>At this point, listing the objects that <code class="codeph">CContent</code> can see gives six MP3 files and one container object. </p> <pre class="codeblock">// Get the embedded content objects in the current container 
+content-&gt;GetEmbeddedObjectsL(myArray, EContentObject); 
+                 
+i = myArray.Count(); // Six content objects
+myArray.ResetAndDestroy(); 
+                    
+// Get the number of container objects in the current container 
+content-&gt;GetEmbeddedObjectsL(myArray, EContainerObject);
+                          
+i = myArray.Count(); // One container object 
+myArray.ResetAndDestroy();</pre> <p> <strong> Note: </strong> The same
+process can be followed again to see the contents of Container 1.1. </p> <p id="GUID-71C5AA3E-9C4B-5F77-B6D8-D09E00593EB8"><a name="GUID-71C5AA3E-9C4B-5F77-B6D8-D09E00593EB8"><!-- --></a><strong>Open the metadata
+specific to an agent</strong> </p> <p>Some agents may expose metadata so
+they can be read using a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-B54C8391-FE69-324C-AC0A-1E88C2555F00"><code class="apiname">ContentAccess::CData</code></a> object.
+The format of these meta-data objects is not specified by the Content
+Access Framework but can be useful for applications familiar with
+the agent to read meta data this way. </p> <p> <code class="codeph">CData</code> objects for agent specific metadata can be opened in the same way
+content objects are opened, using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-32BA0116-1D7F-31B1-B80E-32E1F55803C3"><code class="apiname">ContentAccess::CContent::OpenContentL()</code></a> function. </p> <pre class="codeblock">// Create an array to store the embedded objects 
+...
+
+// Get the embedded "Agent Specific" objects in the current container
+content-&gt;GetEmbeddedObjectsL(myArray, EAgentSpecificObject); 
+
+// Get the unique Id of the first meta-data object 
+TPtrC uniqueId = myArray[0]-&gt;UniqueId();
+
+// create a CData object to read the meta data 
+CData *myMetaData = content-&gt;OpenContent(EPeek, uniqueId);</pre> <p id="GUID-5B42E479-D3F1-5B2A-8B6F-4841E49E4B3D"><a name="GUID-5B42E479-D3F1-5B2A-8B6F-4841E49E4B3D"><!-- --></a><strong>Display content
+object information</strong> </p> <p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-6613813A-5621-3F0F-B64F-DA2E1F89D7E7"><code class="apiname">ContentAccess::CContent::DisplayInfoL()</code></a> function allows the application to display file information, such
+as last modification date and DRM rights information. </p> <pre class="codeblock">...
+content-&gt;DisplayInfoL(TDisplayInfo  aInfo);
+...
+</pre> <p id="GUID-20F9B6AC-F2B1-5E8E-93F2-8AE4AD0ED1F6"><a name="GUID-20F9B6AC-F2B1-5E8E-93F2-8AE4AD0ED1F6"><!-- --></a><strong>Retrieve the attributes of a content</strong> </p> <p>Content and container
+objects have properties or attributes associated with it. Applications
+can retrieve single or mulitple attributes using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-4FA0F8A6-7F9A-3AE6-BDEE-B3C8A53B0207"><code class="apiname">ContentAccess::TAttributeCAF</code></a> enumeration and the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-BC242813-E0F0-3DFE-AF97-6BE808D570DE"><code class="apiname">ContentAccess::TStringAttribute</code></a> enumeration. </p> <p>The following example finds the
+author attribute of a content object. </p> <pre class="codeblock">// define a buffer to store the attribute value string 
+TBuf &lt;100&gt; buf; 
+    
+// retrieve the attribute 
+err = content-&gt;GetAttribute(EAuthor, buf, uniqueId); 
+
+// Display the author's name on screen 
+DisplayAuthor(buf);
+</pre> <p id="GUID-8D6C9025-7409-5019-88B2-A99A8E020443"><a name="GUID-8D6C9025-7409-5019-88B2-A99A8E020443"><!-- --></a><strong>Search for a MIME type within a file</strong> </p> <p>If an application
+wants to find all the content with a particular MIME type within a
+file, it must use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-FA4BB868-3297-39F0-BAB8-C4BF4F5A2B60"><code class="apiname">ContentAccess::CContent::Search()</code></a>. This function produces a list of all content objects with the specified
+MIME type that are stored under the current container. </p> <pre class="codeblock">// Create an array for storing the result of the search 
+RStreamablePtrArray&lt;CEmbeddedObject&gt; myArray; 
+
+// Find how many MP3 files are in Container 1 
+TInt numMp3 = content-&gt;Search(myArray, _L("mpeg/audio"), EFalse);</pre> <p id="GUID-447A73D2-AF49-598E-865E-C2CEF1958C14"><a name="GUID-447A73D2-AF49-598E-865E-C2CEF1958C14"><!-- --></a><strong>Read data from
+a content object</strong> </p> <p>The functions described earlier can be
+used to locate a particular content object within a file. <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-32BA0116-1D7F-31B1-B80E-32E1F55803C3"><code class="apiname">ContentAccess::CContent::OpenContentL()</code></a> can be used to
+read the content object. The <code class="codeph">UniqueId</code> parameter can
+be used to identify a particular object within the file. </p> <p>The
+call to <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-32BA0116-1D7F-31B1-B80E-32E1F55803C3"><code class="apiname">ContentAccess::CContent::OpenContentL()</code></a> leaves if the intent is not permitted. This could occur if the file
+is DRM-protected but no rights are present. </p> <p>If the file is
+DRM protected and the call to <code class="codeph">OpenContentL()</code> succeeds,
+the rights are not consumed at this point. CAF just checks that it
+is possible to use the content. </p> <pre class="codeblock">// Open the content object specified by uniqueId with the EPlay intent 
+CData* data = content-&gt;OpenContentL(EPlay, uniqueId);</pre> <p>If the application already knows the URI and unique ID of the content
+object it wants to read from, it can create a <code class="codeph">CData</code> object directly. </p> <pre class="codeblock">CData* data = CData::NewL(TVirtualPathPtr(uri, uniqueId), EPlay, EContentShareReadOnly);</pre> <p>Once the <code class="codeph">CData</code> object has been constructed,
+it allows the content object to be used as if it were a standalone
+unprotected file. The client must call <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B54C8391-FE69-324C-AC0A-1E88C2555F00.html#GUID-3E5B2A86-A06B-3710-99C9-FA205E99088F"><code class="apiname">ContentAccess::CData::ExecuteIntent()</code></a> when the rights must be consumed. If the file is not DRM-protected,
+the call is ignored by the agent handling the file. </p> <pre class="codeblock">TBuf8 &lt;256&gt; buf; 
+data-&gt;ExecuteIntent(EPlay); 
+data-&gt;Seek(ESEEK_START,SomePosition); 
+data-&gt;Read(buf);</pre> <p>There are several overloaded versions
+of the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B54C8391-FE69-324C-AC0A-1E88C2555F00.html#GUID-B6146300-5578-39D2-B7E2-19309B76A7F6"><code class="apiname">ContentAccess::CData::Read()</code></a> function. Only
+one is illustrated above for example purposes. </p> <p id="GUID-AAFE84D9-01AF-5F27-9BC2-064A565F3D53"><a name="GUID-AAFE84D9-01AF-5F27-9BC2-064A565F3D53"><!-- --></a><strong>Handle data corruption</strong> </p> <p>When consuming content it is possible that the content data
+and rights data can be corrupted. This may be due to various reasons
+including file or disk corruption, transmission errors and so on. </p> <p>If an agent detects corruption in a content object or in a rights
+object, it ends the current DRM operation. The <code class="codeph">KErrCACorruptContent</code>, <code class="codeph">KErrCACorruptRights</code> or <code class="codeph">KErrCorrupt</code> error code is sent to clients, depending on the type of corruption
+detected and how the client chooses to handle it. </p> <p> <strong>Note:</strong> It is recommended that clients be designed to handle such an error
+if received, as it can usually be considered a fatal error. </p> <pre class="codeblock">// Create a CData object to read the content
+...
+
+TRAP(err, data = content-&gt;OpenContentLC(EDisplay));
+
+if (err != KErrNone)
+        {
+        if (err == KErrCACorruptRights)
+                {
+                //Agent may have performed some error handling. 
+                //Client may need to perform some client specific operations(e.g. cleanup).
+                }
+        else if (err == KErrCorrupt)
+                {
+                DisplayErrorMsg('Unable to decode rights because it is corrupt!');
+                }
+        else if (err == ...)
+        ...
+        }       
+...
+</pre> <p id="GUID-15A1A9B3-BB5D-5677-BFE9-47EABD4064BF"><a name="GUID-15A1A9B3-BB5D-5677-BFE9-47EABD4064BF"><!-- --></a><strong>Handle errors</strong> </p> <p>Agents display the errors on screen when
+they occur. Once the error has been acknowledged by the user, the
+agent returns the error code to the client application. If a client
+application does not want errors displayed on screen, it can request
+to disable the agent UI using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-1E8D6785-C67D-3420-B686-7B736743C15A"><code class="apiname">ContentAccess::CContent::SetProperty()</code></a> function. </p> <pre class="codeblock">// Disable UI
+content-&gt;SetProperty(EAgentPropertyAgentUI , 0);
+</pre> <p>Some agents may present confirmation dialogs to the
+user before allowing them to perform certain operations. For example,
+when a user inadvertently tries to delete a DRM-protected file. The
+agent can present a dialog asking "are you sure?". The agent can then
+return the outcome of the delete to the application, that is <code class="codeph">KErrCancel</code>, if the user presses cancel. The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-1E8D6785-C67D-3420-B686-7B736743C15A"><code class="apiname">ContentAccess::CContent::SetProperty()</code></a> function can also be used to disable the confirmation dialogs. </p> <p id="GUID-6A50AE44-E618-5D99-B5D8-7BBA8FE7948A"><a name="GUID-6A50AE44-E618-5D99-B5D8-7BBA8FE7948A"><!-- --></a><strong>Handle rights
+for DRM content</strong> </p> <p>There are two functions available that
+give the application some control over the rights: </p> <p><em>Request
+rights</em> </p> <p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-BF3DA6BD-A779-3BD8-B668-DB8E900F9053"><code class="apiname"> ContentAccess::CContent::RequestRights()</code></a> allows the application to ask the agent to undertake whatever steps
+are necessary to obtain rights for the given content object. Some
+agents may not support this mechanism, in which case they returns <code class="codeph">KErrCANotSupported</code>. </p> <p>The request rights call includes
+a <code class="codeph">TRequestStatus</code> parameter, which allows the application
+to be notified of the outcome of the rights request. </p> <pre class="codeblock">content-&gt;RequestRights(status, uniqueId);</pre> <p><em>Display information</em></p> <p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-6613813A-5621-3F0F-B64F-DA2E1F89D7E7"><code class="apiname">ContentAccess::CContent::DisplayInfoL()</code></a> allows the application to ask the agent to display the file and/or
+rights information for the given content object. The call returns
+when the display is dismissed. </p> <p>Some agents may not support
+this mechanism, in which case they return <code class="codeph">KErrCANotSupported</code>. </p> <pre class="codeblock">content-&gt;DisplayInfoL(EFileProperties, uniqueId);</pre> <p id="GUID-635EE5EF-469D-5FD3-9400-25DF95FD2E96"><a name="GUID-635EE5EF-469D-5FD3-9400-25DF95FD2E96"><!-- --></a><strong>Get content object
+notifications</strong> </p> <p>The <code class="codeph">CContent</code> interface
+supports notification requests for content objects within files. The
+events for which an application can request notification are given
+by the enumeration <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0F5CE9B5-E674-3962-8376-CFB1ECB2F601.html#GUID-20035389-F839-3ACF-B892-B6A58A13460A"><code class="apiname">ContentAccess::TEventMask</code></a>. </p> <p>The following example requests and cancels notification for rights
+becoming available: </p> <pre class="codeblock">// Request notification when rights become available for a particular content object
+content-&gt;NotifyStatusChange(ERightsAvailable, status, uniqueId);
+
+// Cancel notification request
+content-&gt;CancelNotifyStatusChange(status, uniqueId);</pre> <p id="GUID-DDAE0B57-B296-58E8-8220-AE5AA9BF7B8D"><a name="GUID-DDAE0B57-B296-58E8-8220-AE5AA9BF7B8D"><!-- --></a><strong>Close a container</strong> </p> <p>To close a container, use the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FC40011B-32D3-328B-BB59-35BEF46A215A.html#GUID-E4CAB325-A0BC-3A43-A1CD-F099B478B188"><code class="apiname">ContentAccess::CContent::CloseContainer()</code></a> function. </p> <p>For example, Container 1.1 is closed and Container
+1 is still open: </p> <pre class="codeblock">//Close Container 1.1 
+content-&gt;CloseContainer(); 
+
+// Get the embedded content objects in the current container 
+content-&gt;GetEmbeddedObjectsL(myArray, EContentObject);
+i = myArray.Count(); // Six content objects 
+myArray.ResetAndDestroy(); 
+
+// Get the number of container objects in the current container 
+content-&gt;GetEmbeddedObjectsL(myArray, EContainerObject); 
+i = myArray.Count(); // One container object 
+myArray.ResetAndDestroy();</pre> <div class="figure" id="GUID-F3A1B237-A07C-5AE7-82F1-5DAA3BA65553"><img src="GUID-DC7E3634-9762-542F-BDAE-AC1F2D03F55D_d0e445197_href.png" /></div> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 31st, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-09A760FD-4C2A-5F79-91F2-DCC25A63699C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:47 GMT -->
+</html>

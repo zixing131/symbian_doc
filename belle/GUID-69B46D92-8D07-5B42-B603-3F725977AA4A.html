@@ -1,0 +1,45 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-69B46D92-8D07-5B42-B603-3F725977AA4A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:30 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="DHCP" /><meta name="abstract" content="The Dynamic Host Configuration Protocol (DHCP) is an Internet standard defined in RFC2131 (IPv4) and RFC3315 (IPv6)." /><meta name="description" content="The Dynamic Host Configuration Protocol (DHCP) is an Internet standard defined in RFC2131 (IPv4) and RFC3315 (IPv6)." /><meta name="DC.Relation" scheme="URI" content="GUID-45E1953A-DEFB-5E48-AC96-443A3234F913" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-B144EAB9-53AB-579B-9E12-B16518E4FC01" /><meta name="DC.Relation" scheme="URI" content="GUID-DBD4964D-7728-5E57-8BBA-824F98D0CCF8" /><meta name="DC.Relation" scheme="URI" content="GUID-7510C121-A23F-50E0-8130-16AF552BC497" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-69B46D92-8D07-5B42-B603-3F725977AA4A" /><meta name="DC.Language" content="en" /><title>DHCP </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-69B46D92-8D07-5B42-B603-3F725977AA4A">DHCP</h1><div><p>The Dynamic Host Configuration Protocol (DHCP) is an Internet standard
+defined in RFC2131 (IPv4) and RFC3315 (IPv6). </p>
+<p>The DHCP client implementation in Symbian platform enables the client applications
+to configure a network connection with a DHCP server. </p>
+<p>For more details on the DHCP standards, see RFC2131<a href="../rfc/rfc2131.txt" target="_blank">RFC2131</a> for IPv4, and RFC3315<a href="../rfc/rfc3315.txt" target="_blank">RFC3315</a> for IPv6.</p>
+<p>This document explains the following concepts: </p>
+<ul>
+<li id="GUID-77B3171B-FCF4-5744-B288-AFCC81B93488"><a name="GUID-77B3171B-FCF4-5744-B288-AFCC81B93488"><!-- --></a><p>DHCP States </p> </li>
+<li id="GUID-460F04A8-5FF1-578F-B129-3C61264044D4"><a name="GUID-460F04A8-5FF1-578F-B129-3C61264044D4"><!-- --></a><p>DHCP Options </p> </li>
+</ul>
+<div id="GUID-D83FB908-53EC-4019-A8E4-8B633FEC7F0B"><h3 class="section-title">DHCP States </h3> <p>The
+following are the states of the DHCP daemon in Symbian platform: </p> <ul>
+<li id="GUID-ACD085A9-E25C-58A8-859E-1E42BC467089"><a name="GUID-ACD085A9-E25C-58A8-859E-1E42BC467089"><!-- --></a><p>DHCP Discover </p> </li>
+<li id="GUID-18AAC18A-9A29-5B5D-AEC1-E64B8A81A149"><a name="GUID-18AAC18A-9A29-5B5D-AEC1-E64B8A81A149"><!-- --></a><p>Bind </p> </li>
+<li id="GUID-04DF8A2D-4CCD-59A3-8346-CF7D5E1F176C"><a name="GUID-04DF8A2D-4CCD-59A3-8346-CF7D5E1F176C"><!-- --></a><p>Renew lease </p> </li>
+<li id="GUID-56E8EDB9-EBF7-5A66-B85B-E0685BED0C6C"><a name="GUID-56E8EDB9-EBF7-5A66-B85B-E0685BED0C6C"><!-- --></a><p>Release lease </p> </li>
+</ul> <p><strong>DHCP Discover </strong> </p> <p>This stage gets the IP address from
+the server by the DHCP clients. The DHCP client sends a DISCOVER message to
+the DHCP server and waits for the responses from the various DHCP servers. </p> <p><strong>Bind </strong> </p> <p>The
+DHCP server acknowledges the BIND request with an IP address. The client selects
+one of the IP addresses and responds back with a BIND message. If the DHCP
+server acknowledges the BIND request, the client can use the IP address. If
+the server responds with a negative acknowledgement, the DHCP client begins
+the DHCP DISCOVER state. </p> <p><strong>Renew lease </strong> </p> <p>The DHCP server
+issues an IP address, called a lease, during the bind state. When the lease
+is about to expire the client requests the server to renew the lease. If the
+client is connected to the same network the lease gets renewed. If the client
+has moved to a domain with a different DHCP server the client requests a new
+IP address using DISCOVER message. </p> <p><strong>Release lease </strong> </p> <p>When
+the DHCP client does not require a connection it releases the lease, so that
+it can be configured to any other client requesting a connection. </p> </div>
+<div id="GUID-C5F11CA2-8880-4FDB-8065-149C5EAA7A44"><h3 class="section-title">DHCP Options</h3> <p>To
+obtain the network parameters from the DHCP server, the client uses the DHCP
+options. The Internet standard <a href="../rfc/rfc2132.txt" target="_blank">RFC 2132</a> specifies the various DHCP options. The client
+uses the aOptionLevel and aOptionName arguments
+while calling <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-9F820CF9-1D4F-3452-983B-E0C694D6783A"><code class="apiname">RConnection::Ioctl()</code></a> function. </p> </div>
+</div><h3>Related tasks</h3><ul><li><a href="GUID-45E1953A-DEFB-5E48-AC96-443A3234F913.html">Retrieving
+an IP Network  Parameters</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated February 5th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-69B46D92-8D07-5B42-B603-3F725977AA4A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:34 GMT -->
+</html>

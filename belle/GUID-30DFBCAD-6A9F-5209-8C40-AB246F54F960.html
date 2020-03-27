@@ -1,0 +1,48 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-30DFBCAD-6A9F-5209-8C40-AB246F54F960.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:30 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="QoS API Tutorial" /><meta name="abstract" content="How to use the RSubConnection API for QoS." /><meta name="description" content="How to use the RSubConnection API for QoS." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-B144EAB9-53AB-579B-9E12-B16518E4FC01" /><meta name="DC.Relation" scheme="URI" content="GUID-B5E17404-4D2D-5EE3-B30B-DFDC5E0739FF" /><meta name="DC.Relation" scheme="URI" content="GUID-9A20701F-5744-5F5F-BB0C-AB58EFB7D087" /><meta name="DC.Relation" scheme="URI" content="GUID-550ED2C7-C2F1-5D48-AC5A-C652EB51FCA8" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-30DFBCAD-6A9F-5209-8C40-AB246F54F960" /><meta name="DC.Language" content="en" /><title> QoS API Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-30DFBCAD-6A9F-5209-8C40-AB246F54F960"> QoS API Tutorial</h1><div><p>How to use the <code class="codeph">RSubConnection</code> API for
+QoS. </p>
+<div id="GUID-54E41E79-A768-4599-B22B-40CBE4D909D9"><h3 class="section-title">Context</h3><p>Quality
+of Service is implemented by setting parameters on a channel, a sub-connection <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html"><code class="apiname">RSubConnection</code></a> within a connection <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a>.</p></div>
+<h3>Steps</h3><ol id="GUID-08112C18-3A2F-5624-BE17-AA20C4276104"><a name="GUID-08112C18-3A2F-5624-BE17-AA20C4276104"><!-- --></a>
+<li id="GUID-9D8E746E-B384-54A6-A6D4-2D5ECF882DC5"><a name="GUID-9D8E746E-B384-54A6-A6D4-2D5ECF882DC5"><!-- --></a><p>Set parameters
+on a channel that is a sub-connection, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html"><code class="apiname">RSubConnection</code></a>. </p>
+<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> contains one or more sub-connections.
+A default sub-connection is created automatically with the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-BED8A733-2ED7-31AD-A911-C1F4707C67FD.html"><code class="apiname">RConnection</code></a> and any added RSubConnections. The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html"><code class="apiname">RSubConnection</code></a> API provides the functionality
+to divide a connection that is provided by the <code class="codeph">RConnection</code> API into channels. The channels have properties such as bandwidth
+and latency. 
+</li>
+<li id="GUID-FB7F7F5A-498B-530B-9F45-EEEC17773A08"><a name="GUID-FB7F7F5A-498B-530B-9F45-EEEC17773A08"><!-- --></a><p>Apply an <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-27AA9BD2-9754-3BAE-8C2D-59937E1924CF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-27AA9BD2-9754-3BAE-8C2D-59937E1924CF.html"><code class="apiname">RSubConParameterBundle</code></a> to the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html"><code class="apiname">RSubConnection</code></a> to set the sub-connection properties. </p>
+The parameter bundle consists of families of parameters. A family
+is a connected set of parameters, such as QoS. Two families are defined,
+Quality of Service, KSubConQoSFamily and Authorisation, KSubConAuthorisationFamily. 
+</li>
+<li id="GUID-5F819733-168B-5793-921E-8C752D382DE7"><a name="GUID-5F819733-168B-5793-921E-8C752D382DE7"><!-- --></a><p>Group the
+parameters that apply to an <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AFDA357-EE44-3788-9CAB-162B874134BF.html"><code class="apiname">RSubConnection</code></a> into <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5181C974-94F7-3C7D-9FFE-F38BD11001EB.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5181C974-94F7-3C7D-9FFE-F38BD11001EB.html"><code class="apiname">CSubConParameterFamily</code></a> families. </p>
+Each parameter family contains parameter sets that are either
+generic or extension. There is one generic parameter set in a family
+and zero or more extension parameter sets. 
+</li>
+<li id="GUID-875333D1-493F-53BA-AB9F-891F73920E7F"><a name="GUID-875333D1-493F-53BA-AB9F-891F73920E7F"><!-- --></a><p>Each family
+of parameters consists of the values ERequested and the minimum you want to accept <code class="codeph">EAcceptable</code>. </p>
+If you do not specify the <code class="codeph">EAcceptable</code> then
+the <code class="codeph">ERequested</code> is used as the minimum acceptable. 
+</li>
+<li id="GUID-E9B31E46-CC7E-552E-8A79-8E3A803B5601"><a name="GUID-E9B31E46-CC7E-552E-8A79-8E3A803B5601"><!-- --></a><p>When the
+parameters are applied and the subconnection is used then the parameter
+family is updated with a third set of values that is the <code class="codeph">EGranted</code>. </p>
+The <code class="codeph">EGranted</code> is between the <code class="codeph">EAcceptable</code> and the <code class="codeph">ERequested</code>. 
+</li>
+<li id="GUID-A7588A14-75CF-59AA-90E4-6412FEF794E4"><a name="GUID-A7588A14-75CF-59AA-90E4-6412FEF794E4"><!-- --></a><p>An event
+is raised to inform that the parameters are rejected or not granted. </p>
+This occurs after the initial request, asynchronous event notification
+is used to inform the application what is negotiated. The application
+must monitor for the granted or rejected event notification. 
+</li>
+</ol>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 13th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-30DFBCAD-6A9F-5209-8C40-AB246F54F960.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:07:30 GMT -->
+</html>

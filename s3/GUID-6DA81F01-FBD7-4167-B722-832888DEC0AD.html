@@ -1,0 +1,33 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6DA81F01-FBD7-4167-B722-832888DEC0AD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Reserving light targets" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-DC011D9C-6C39-5BB9-A7CC-4447AB97A2D2" /><meta name="DC.Relation" scheme="URI" content="GUID-F2289115-B1F0-595D-AA1C-3E01F08911CA" /><meta name="DC.Relation" scheme="URI" content="GUID-2E3BE23C-B9DC-5B5D-A56A-1DB819EFC9A6" /><meta name="DC.Relation" scheme="URI" content="GUID-D4E06508-4346-5294-995A-64B403467EC5" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-6DA81F01-FBD7-4167-B722-832888DEC0AD" /><meta name="DC.Language" content="en" /><title>Reserving
+light targets </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-6DA81F01-FBD7-4167-B722-832888DEC0AD">Reserving
+light targets</h1><div>
+<div><h3 class="section-title">Context</h3> <p>The <code class="codeph">ReserveLightL()</code> call reserves the
+light target(s) exclusively for this client. Multiple lights can be specified
+by using bitwise-or.</p><p>A higher priority client can cause lower priority
+client reservation to be temporarily suspended. Commands can still be issued
+in suspended state, but they are not acted upon unless suspension is lifted
+within a specified duration. The suspended client does not receive any notification
+about the suspension. If the light target is already reserved by a higher
+or an equal priority application, reserving still succeeds but gets suspended
+immediately. In such case, only the virtual state of the lights is remembered
+by the session; actual lights are not controlled. When suspended reservation
+is activated, the actual lights state is restored to the same as the virtual
+state.</p><p>The following code snippet demonstrates how to reserve multiple
+light targets:</p><pre class="codeblock">//aRestoreState = ETrue means that any previously frozen state will be restored.
+// aForceNoCCoeEnv = EFalse means that the CCoeEnv background/foreground status
+// is always used to control further reservations.
+iLight-&gt;ReserveLightL( ( CHWRMLight::EPrimaryDisplay | CHWRMLight::EPrimaryKeyboard ), ETrue, EFalse );</pre><p>Calling
+the <code class="codeph">ReserveLightL()</code> method without second and third parameters
+is equal to calling <code class="codeph">ReserveLightL( aTarget, EFalse, EFalse )</code>,
+that is, any previously frozen state is not restored and the <code class="codeph">CCoeEnv</code> background/foreground
+status is always used to control further reservations.</p><p><strong>Note</strong>:
+Light can be controlled without a reservation, if there is no other client
+with a reservation.</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 21st, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-6DA81F01-FBD7-4167-B722-832888DEC0AD.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+</html>

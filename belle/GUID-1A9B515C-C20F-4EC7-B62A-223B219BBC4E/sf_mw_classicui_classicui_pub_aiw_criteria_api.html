@@ -1,0 +1,369 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_aiw_criteria_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:32 GMT -->
+<head><title>AIW Criteria API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i464"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>AIW Criteria API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.2</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.3</span> <span class="toctext">Class Structure</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Criteria_item_resource"><span class="tocnumber">1.3.1</span> <span class="toctext">Criteria item resource</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Defining_the_consumer.27s_interest_in_a_resource_file"><span class="tocnumber">2.1</span> <span class="toctext">Defining the consumer's interest in a resource file</span></a></li>
+<li class="toclevel-2"><a href="#Defining_the_consumer.27s_interest_dynamically"><span class="tocnumber">2.2</span> <span class="toctext">Defining the consumer's interest dynamically</span></a></li>
+<li class="toclevel-2"><a href="#Making_asynchronous_service_calls"><span class="tocnumber">2.3</span> <span class="toctext">Making asynchronous service calls</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Cancelling_an_asynchronous_service_command"><span class="tocnumber">2.3.1</span> <span class="toctext">Cancelling an asynchronous service command</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.4</span> <span class="toctext">Error handling</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The purpose of AIW Criteria API is to offer the definitions and classes
+for utilizing the AIW criteria items and interests. An interest is an array
+of criteria items, and it defines what AIW services the consumer application
+is interested in using. The AIW services are, in turn, offered by the AIW
+service providers.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 3.2
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>servicehandler.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/aiw_criteria_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/aiw_criteria_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>AIW Criteria API can be categorized as a library API, and it is one of
+the AIW Consumer APIs. The API provides some resource structures, enumerations
+and classes for AIW consumers to manage their criteria items and interests.
+</p><p>This API offers a class encapsulating a criteria item and a definition
+for a criteria item array. The consumers may use these items to manage their
+interests.
+</p><p>This API also defines several enumerations. These include the AIW service
+commands, service command options, service classes, event codes for asynchronous
+AIW services, and resource definitions for defining AIW criteria items in
+resource files.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.2 Use Cases </span></h3>
+</a><p>The most important use cases of AIW Criteria API are the following:
+</p>
+<ul><li> Defining the consumer's interest in a resource file
+</li><li> Defining the consumer's interest dynamically
+</li><li> Making asynchronous service calls.
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.3 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAiwCriteriaItem <td><span class="plainlinks"><code>/epoc32/include/mw/AiwCommon.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>MAiwNotifyCallback</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AiwCommon.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/AiwCommon.hrh</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/AiwCommon.rh</code></span>
+</td></tr>
+<p>The classes of AIW Criteria API are shown in Figure 1:
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_AIW_Criteria_API_Classes.png" title="Class diagram of the AIW Criteria API"><img alt="Class diagram of the AIW Criteria API" border="0" height="297" src="images/SPB_10_1_AIW_Criteria_API_Classes.png" width="422" /></a></div>
+<div style="text-align:center"><i>Class diagram of the AIW Criteria API</i></div>
+<p>The class <span class="plainlinks"><code>CAiwCriteriaItem</code> </span> encapsulates an AIW criteria
+item. The class is derived from <span class="plainlinks"><code>CBase</code> </span>, and it mostly contains
+getters and setters for different criteria item fields.
+</p><p>Criteria item instances can be collected to a specific <span class="plainlinks"><code>RCriteriaArray</code> </span>,
+which is a typedef of a pointer array containing <span class="plainlinks"><code>CAiwCriteriaItem</code> </span> pointers.
+This forms the consumer application's AIW interest.
+</p><p><span class="plainlinks"><code>MAiwNotifyCallback</code> </span> is an abstract callback interface for
+handling asynchronous AIW service calls.
+</p>
+<a name="Criteria_item_resource"><h4> <span class="mw-headline">1.3.1 Criteria item resource </span></h4>
+</a><p>The following table gives a detailed description of the fields in a criteria
+item resource.
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td> <b> Label</b></td><td> <b> Meaning</b>
+</td></tr>
+<tr>
+<td> LONG id</td><td> Criteria id number. This field is used for binding the criteria item
+<p>to a placeholder. Several criteria items may have the same criteria id. In
+such case one placeholder can refer to several criteria items. The criteria
+item id can be any selected number as long as connections to placeholders
+are not mixed up with each other.
+</p>
+</td></tr>
+<tr>
+<td> LONG serviceCmd</td><td> Defines the AIW service command id for this criteria.
+</td></tr>
+<tr>
+<td> LTEXT8 contentType</td><td> Specifies the requested content type.
+</td></tr>
+<tr>
+<td> LONG serviceClass</td><td> Specifies service class for this criteria. Possible values are <span class="plainlinks"><code>KAiwClassBase</code> </span> and <span class="plainlinks"><code>KAiwClassMenu</code> </span>.
+</td></tr>
+<tr>
+<td> LONG defaultProvider</td><td> Default provider is the first provider that is allowed to insert its
+<p>menu items to the menu. If no default provider is defined or the default provider
+is not available in the system, the order of provider menu items in the menu
+is random. Together with <span class="plainlinks"><code><font color="darkred">maxProviders</font></code> </span> field the consumer
+application can force Service Handler to override other providers and use
+a specific provider if available.
+</p>
+</td></tr>
+<tr>
+<td> BYTE maxProviders</td><td> This value defines the maximum number of providers that can be attached
+<p>to this criteria item. If there are more matching providers available than
+the value given in this field, the group of selected providers is random (with
+one exception, see the previous item).
+</p>
+</td></tr>
+<tr>
+<td> BYTE loadOptions</td><td> Specifies load options for criteria. The following load options bits
+<p>are defined: <span class="plainlinks"><code>AIW_OPTIONS_ROM_ONLY</code> </span> Only ROM based providers
+can be attached to this criteria.
+</p>
+</td></tr></table>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>See the use cases below.
+</p>
+<a name="Defining_the_consumer.27s_interest_in_a_resource_file"><h3> <span class="mw-headline">2.1 Defining the consumer's interest in a resource file </span></h3>
+</a><p>The consumer's interest is usually defined in a resource file. An example
+case containing menu and base service interests is shown below:
+</p>
+<pre>#include &lt;AiwCommon.rh&gt;
+</pre>
+<pre>RESOURCE AIW_INTEREST r_aiwexample_menuinterest
+    {
+    items =
+        {
+        AIW_CRITERIA_ITEM
+            {
+            id = EAIWExampleHelpPlaceholder;
+            serviceCmd = KAiwCmdHelp;
+            contentType = "*";
+            serviceClass = KAiwClassMenu;
+            }
+        };
+    }
+</pre>
+<pre>RESOURCE AIW_INTEREST r_aiwexample_baseinterest
+    {
+    items =
+        {
+        AIW_CRITERIA_ITEM
+            {
+            id = EAIWExampleBaseServiceId;
+            serviceCmd = KAiwCmdMnShowMap;
+            contentType = "application/x-landmark";
+            serviceClass = KAiwClassBase;
+            }
+        };
+    }
+</pre>
+<p>In this example, only one criteria item is defined per each interest, but
+there could be more as well, separated by comma.
+</p><p>The first criteria item refers to a menu service, i.e. the corresponding
+AIW provider(s) are supposed to add menu item(s) to the consumer application's
+menu. The second one refers to a base service. Using base service commands
+do not require any menus. The id enumerations should be defined in the consumer
+application's HRH file.
+</p><p>The menu items for menu services are defined in a <span class="plainlinks"><code>MENU_PANE</code> </span> resource.
+An example is given below:
+</p>
+<pre>RESOURCE MENU_PANE r_aiwexample_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EAIWExampleHelpPlaceholder;
+            txt = "Help submenu";
+            cascade = AIW_INTELLIGENT_CASCADE_ID | AIW_LOCK_SUBMENU_TITLE;
+            },
+        MENU_ITEM
+            {
+            command = EAknSoftkeyExit;
+            txt = "Exit";
+            }
+        };
+    }
+</pre>
+<p>In this example, the first item is an AIW menu item and the second is a
+normal menu item. <span class="plainlinks"><code>AIW_INTELLIGENT_CASCADE_ID</code> </span> tells that the
+AIW framework should place the AIW menu items in a submenu, if the provider(s)
+offer several AIW menu items. If there is only menu item available, it is
+located at the main level.
+</p><p><span class="plainlinks"><code>AIW_LOCK_SUBMENU_TITLE</code> </span> tells the AIW framework that the
+consumer defined string "Help submenu" should be used if the submenu exists.
+This means that if some provider suggests a submenu title, it will be ignored.
+</p>
+<a name="Defining_the_consumer.27s_interest_dynamically"><h3> <span class="mw-headline">2.2 Defining the consumer's interest dynamically </span></h3>
+</a><p>The interest may also be defined dynamically. See example below:
+</p>
+<pre>// Create AIW service handler
+CAiwServiceHandler* serviceHandler = CAiwServiceHandler::NewLC();
+</pre>
+<pre>// Create AIW interest
+RCriteriaArray interest;
+CleanupClosePushL(interest);
+_LIT8(KContentTypeLandmark, "application/x-landmark");
+CAiwCriteriaItem* criteria = CAiwCriteriaItem::NewLC(KAiwCmdMnShowMap, KAiwCmdMnShowMap, KContentTypeLandmark);
+</pre>
+<pre>// We are using a base service.
+TUid base;
+base.iUid = KAiwClassBase;
+criteria-&gt;SetServiceClass(base);
+</pre>
+<pre>User::LeaveIfError(interest.Append(criteria));
+</pre>
+<pre>// Attach the interest to the AIW framework.
+serviceHandler-&gt;AttachL(interest);
+</pre>
+<pre>...
+// Execute AIW commands etc.
+...
+</pre>
+<pre>// Pop and destroy when not any more needed.
+CleanupStack::PopAndDestroy(3); // criteria, interest, servicehandler
+</pre>
+<p>In this example, the <span class="plainlinks"><code>KAiwCmdMnShowMap</code> </span> constant is used
+also as a criteria item id. This approach is also OK, the consumer can decide
+the id it uses (and for base services the criteria item id is quite meaningless).
+</p>
+<a name="Making_asynchronous_service_calls"><h3> <span class="mw-headline">2.3 Making asynchronous service calls </span></h3>
+</a><p>Some AIW service providers might support asynchronous service calls. This
+might be the case e.g. in such situations, where the processing takes so much
+time that the provider cannot return immediately.
+</p><p>In such case the consumer should derive from class <span class="plainlinks"><code>MAiwNotifyCallback</code> </span> and
+implement its <span class="plainlinks"><code>MAiwNotifyCallback::HandleNotifyL()</code> </span> method.
+When the consumer calls either the <span class="plainlinks"><code>CAiwServiceHandler::ExecuteMenuCmdL()</code> </span> or <span class="plainlinks"><code>CAiwServiceHandler::ExecuteServiceCmdL()</code> </span>, it should set
+the <span class="plainlinks"><code><font color="darkred">aCallback</font></code> </span> pointer to the M class in question and also
+set the <span class="plainlinks"><code><font color="darkred">aCmdOptions</font></code> </span> to <span class="plainlinks"><code>KAiwOptASyncronous</code> </span>.
+The service provider may then call that callback method with e.g. <span class="plainlinks"><code>KAiwEventCompleted</code> </span> when
+finished. See<i> AiwCommon.hrh</i> for a list of possible event codes.
+</p><p>An example how to derive from <span class="plainlinks"><code>MAiwNotifyCallback</code> </span> is shown
+below:
+</p>
+<pre>#include &lt;AiwCommon.rh&gt;
+...
+class CMyConsumerApp : public MAiwNotifyCallback
+    {
+    ...
+    public:
+        // From MAiwNotifyCallback
+        virtual TInt HandleNotifyL(
+            TInt aCmdId,
+            TInt aEventId,
+            CAiwGenericParamList&amp; aEventParamList,
+            const CAiwGenericParamList&amp; aInParamList);
+    ...
+</pre>
+<p>The implementation for <span class="plainlinks"><code><font color="darkred">HandleNotifyL()</font></code> </span> could look like
+the following:
+</p>
+<pre>TInt CMyConsumerApp::HandleNotifyL(
+    TInt /*aCmdId*/,
+    TInt aEventId,
+    CAiwGenericParamList&amp; /*aEventParamList*/,
+    const CAiwGenericParamList&amp; /*aInParamList*/)
+    {
+    // Service command (aCmdId) can be checked here, if necessary.
+</pre>
+<pre>    // Check the event code.
+    switch (aEventId)
+        {
+        case KAiwEventCanceled:
+            {
+            // Handle cancellation...
+            break;
+            }
+        case KAiwEventCompleted:
+            {
+            // Handle completion...
+            break;
+            }
+        ...
+        // Other event codes can be handled here as well.
+        ...
+        default:
+            break;
+        }
+</pre>
+<pre>    return KErrNone;
+    }
+</pre>
+<p>Asynchronous command handing can be requested as shown below:
+</p>
+<pre>void CMyConsumerApp::HandleCommandL(TInt aCommand)
+    {
+    ...
+    // Execute AIW menu service command asynchronously. Remember to check from
+    // the provider documentation whether it supports asynchronous command handling.
+    // No input and output paramters are used in this example. Check from the
+    // provider documentation whether those are required.
+    iServiceHandler-&gt;ExecuteMenuCmdL(
+        aCommand,                           // The menu command
+        iServiceHandler-&gt;InParamListL(),    // No input parameters used
+        iServiceHandler-&gt;OutParamListL(),   // No output parameters used
+        KAiwOptASyncronous,                 // Asynchronous command handling requested
+        this );                             // MAiwNotifyCallback pointer
+    ...
+</pre>
+<a name="Cancelling_an_asynchronous_service_command"><h4> <span class="mw-headline">2.3.1 Cancelling an asynchronous service command </span></h4>
+</a><p>Some AIW service providers might support cancelling an asynchronous service
+command execution. To cancel a command, the <span class="plainlinks"><code><font color="darkred">ExecuteMenuCmdL()</font></code> </span> or <span class="plainlinks"><code><font color="darkred">ExecuteServiceCmdL()</font></code> </span> should
+be called with exactly the same parameters as was used to start the command,
+but with the exception that the cancel option bit <span class="plainlinks"><code>KAiwOptCancel</code> </span> must
+be set. See the following example:
+</p>
+<pre>    iServiceHandler-&gt;ExecuteMenuCmdL(
+        aCommand,                           // The menu command
+        iServiceHandler-&gt;InParamListL(),    // No input parameters used
+        iServiceHandler-&gt;OutParamListL(),   // No output parameters used
+        KAiwOptASyncronous|KAiwOptCancel,   // Cancel requested.
+        this );                             // MAiwNotifyCallback pointer
+</pre>
+<p>If the service provider supports cancel functionality and cancelling was
+successful, it will call the consumer's <span class="plainlinks"><code><font color="darkred">HandleNotifyL()</font></code> </span> with <span class="plainlinks"><code>KAiwEventCanceled</code> </span>.
+This callback is synchronous. Refer to the provider documentation whether
+it supports the cancel functionality.
+</p>
+<a name="Error_handling"><h3> <span class="mw-headline">2.4 Error handling </span></h3>
+</a><p>Some methods may leave, for example if running out of memory. Normal Symbian
+OS error handling practises should be used, including e.g. using cleanup stack
+and <span class="plainlinks"><code>TRAP</code> </span> harness.
+</p>
+<div class="copy"><?php include ("copy.html"); ??></div></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_aiw_criteria_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:33 GMT -->
+</html>

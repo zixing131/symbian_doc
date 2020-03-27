@@ -1,0 +1,91 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C3086910-D7B4-5549-BF65-374C8B602E8F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:26 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Compressing and Decompressing Memory Streams" /><meta name="abstract" content="The Zip Compression Library, EZLib provides stream compression and decompression functionality for the Symbian platforms. This tutorial summarizes the procedure involved in the compression and decompression of memory streams by EZLib." /><meta name="description" content="The Zip Compression Library, EZLib provides stream compression and decompression functionality for the Symbian platforms. This tutorial summarizes the procedure involved in the compression and decompression of memory streams by EZLib." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-9208E03A-CC7A-57A9-84BD-778B99040842" /><meta name="DC.Relation" scheme="URI" content="GUID-5D14ADEC-ED83-5FA4-B551-C57CAE4F79BE" /><meta name="DC.Relation" scheme="URI" content="GUID-7AAAC6EA-784D-51E6-AD6B-521C9F5C4DBD" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C3086910-D7B4-5549-BF65-374C8B602E8F" /><meta name="DC.Language" content="en" /><title>Compressing
+and Decompressing Memory Streams  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C3086910-D7B4-5549-BF65-374C8B602E8F">Compressing
+and Decompressing Memory Streams </h1><div><p>The Zip Compression Library, EZLib provides stream compression
+and decompression functionality for the Symbian platforms. This tutorial summarizes
+the procedure involved in the compression and decompression of memory streams
+by EZLib. </p>
+<div id="GUID-FF2527FF-1DFC-59B3-AC6D-5D7FDF7CCDF7"><h3 class="section-title">Context</h3><p>The functions used
+for memory stream compression and decompression are provided by the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AEF8BCC8-6B24-3D59-AD3A-17B5203B3AA5.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AEF8BCC8-6B24-3D59-AD3A-17B5203B3AA5.html"><code class="apiname">CEZCompressor</code></a> class. </p> <p>The
+compression can be executed in single or multiple steps. This is depenedent
+on the buffer size of the memory stream. Small buffers are compressed in a
+single step. Larger buffers are compressed in small chunks repeatedly till
+the entire buffer is compressed. Clients must respond to callbacks from the
+library to provide information and resources required to complete the task. </p> </div>
+<h3>Steps</h3><ol id="GUID-9F423FB8-8AC5-54EC-B879-04EFA022FD38"><a name="GUID-9F423FB8-8AC5-54EC-B879-04EFA022FD38"><!-- --></a>
+<li id="GUID-D640BCC5-5F5D-5377-9553-F86F5E5D0D56"><a name="GUID-D640BCC5-5F5D-5377-9553-F86F5E5D0D56"><!-- --></a><p></p>
+Define a buffer manager that implements <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B90BA6D6-72A2-3EB8-B8EF-CD5408107A9E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B90BA6D6-72A2-3EB8-B8EF-CD5408107A9E.html"><code class="apiname">MEZBufferManager</code></a>. 
+</li>
+<li id="GUID-C8020D99-632E-578A-85A4-4934380A0FD2"><a name="GUID-C8020D99-632E-578A-85A4-4934380A0FD2"><!-- --></a><p></p>
+Create an instance of the classs <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AEF8BCC8-6B24-3D59-AD3A-17B5203B3AA5.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AEF8BCC8-6B24-3D59-AD3A-17B5203B3AA5.html"><code class="apiname">CEZCompressor</code></a>. 
+<ol type="i" id="GUID-F4B79439-492C-56A1-A1D9-D92139842405"><a name="GUID-F4B79439-492C-56A1-A1D9-D92139842405"><!-- --></a>
+<li id="GUID-C43B76C8-7A9A-5F41-9A9F-210A9267D50E"><a name="GUID-C43B76C8-7A9A-5F41-9A9F-210A9267D50E"><!-- --></a><p></p>
+Invoke <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AEF8BCC8-6B24-3D59-AD3A-17B5203B3AA5.html#GUID-8A60D49C-5E3A-3CF8-9738-B53E7439910A"><code class="apiname">CEZCompressor::CompressL()</code></a> for small buffers. 
+</li>
+<li id="GUID-06D723F2-2B7A-5865-B32F-945CE361A4E9"><a name="GUID-06D723F2-2B7A-5865-B32F-945CE361A4E9"><!-- --></a><p></p>
+Invoke <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-AEF8BCC8-6B24-3D59-AD3A-17B5203B3AA5.html#GUID-03E4E3A2-3830-3209-9D7B-A2238B5AF219"><code class="apiname">CEZCompressor::DeflateL()</code></a> repeatedly on larger
+buffers until the entire buffer is compressed. 
+</li>
+</ol>
+<pre class="codeblock">class CBufferManager : public CBase, public MEZBufferManager
+    {
+public:
+  CBufferManager* CBufferManager::NewLC();
+  CBufferManager* CBufferManager::NewL();
+    ~CBufferManager();
+    void InitializeL(CEZZStream &amp;aZStream);
+    void NeedInputL(CEZZStream &amp;aZStream);
+    void NeedOutputL(CEZZStream &amp;aZStream);
+    void FinalizeL(CEZZStream &amp;aZStream);
+    };
+        
+CBufferManager* CBufferManager::NewLC()
+    {
+    CBufferManager* bm = new (ELeave) CBufferManager();
+    CleanupStack::PushL(bm);
+    return bm;
+    }
+
+CBufferManager* CBufferManager::NewL()
+    {
+    CBufferManager* bm = new (ELeave) CBufferManager();
+    CleanupStack::PushL(bm);
+    CleanupStack::Pop();
+    return bm;
+    }
+ 
+static void doExampleL()
+    {
+    
+  CBufferManager* bm = CBufferManager::NewLC();
+  //TInt aLevel = EDefaultCompression, TInt aWindowBits = EMaxWBits, TInt aMemLevel = EDefMemLevel, TStrategy aStrategy = EDefaultStrategy);
+  CEZCompressor* iCEZCompressor = CEZCompressor::NewLC(*bm); // all other flag values are default in its constructer
+   
+  while(icompressor-&gt;DeflateL())
+        {       
+        }     
+   
+
+  CleanupStack::PopAndDestroy(2);
+
+    }
+</pre>
+</li>
+</ol>
+<div id="GUID-4B702763-6D4E-5C32-803B-042024622BAE"><h3 class="section-title">Next actions</h3><p>To decompress the
+memory streams: </p> <ol id="GUID-F4AEDE06-67FC-5624-9D36-FC08D5B460C2">
+<li id="GUID-5F44590E-8F53-5B75-ADC9-59073140BA57"><a name="GUID-5F44590E-8F53-5B75-ADC9-59073140BA57"><!-- --></a><p>Define a buffer manager
+that implements <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B90BA6D6-72A2-3EB8-B8EF-CD5408107A9E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B90BA6D6-72A2-3EB8-B8EF-CD5408107A9E.html"><code class="apiname">MEZBufferManager</code></a>. </p> </li>
+<li id="GUID-014484C5-7F1A-5350-B0AD-383091DDA300"><a name="GUID-014484C5-7F1A-5350-B0AD-383091DDA300"><!-- --></a><p>Create an instance of
+the classs <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BC3CEC02-B747-38FB-8B35-E7390DB06E35.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BC3CEC02-B747-38FB-8B35-E7390DB06E35.html"><code class="apiname">CEZDecompressor</code></a>. </p> </li>
+<li id="GUID-EAE82B73-E86B-5E81-8E19-22FCD5EA95AC"><a name="GUID-EAE82B73-E86B-5E81-8E19-22FCD5EA95AC"><!-- --></a><p>Invoke <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BC3CEC02-B747-38FB-8B35-E7390DB06E35.html#GUID-D9133787-E96C-3E9B-8991-0F0184C7AE7E"><code class="apiname">CEZDecompressor::DecompressL()</code></a> for
+small buffers. </p> <p>Invoke <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-BC3CEC02-B747-38FB-8B35-E7390DB06E35.html#GUID-0AC99B66-412B-3CCF-84DA-D7BC0F0D32B2"><code class="apiname">CEZDecompressor::InflateL()</code></a> repeatedly
+on larger buffers until the entire buffer is compressed. </p> </li>
+</ol> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 26th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C3086910-D7B4-5549-BF65-374C8B602E8F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:26 GMT -->
+</html>

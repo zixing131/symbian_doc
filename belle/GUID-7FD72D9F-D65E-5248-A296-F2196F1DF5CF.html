@@ -1,0 +1,130 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7FD72D9F-D65E-5248-A296-F2196F1DF5CF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:53 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Upgrade Types" /><meta name="DC.Relation" scheme="URI" content="GUID-D9D20EE0-AC86-512A-91C0-EA0ACF3912A7" /><meta name="DC.Relation" scheme="URI" content="GUID-7F65B69A-6AC1-509C-91E8-9E49ED0BFEC0" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-0AF47934-0A16-51A2-9254-992D7C6B322B" /><meta name="DC.Relation" scheme="URI" content="GUID-8E160B29-18C4-574B-9259-9A8E958CDA91" /><meta name="DC.Relation" scheme="URI" content="GUID-ED2D5BEA-AD2A-51CE-8CBC-8B5E33DD6356" /><meta name="DC.Relation" scheme="URI" content="GUID-C55D1D74-B764-5DD1-8C43-5A5138578EAC" /><meta name="DC.Relation" scheme="URI" content="GUID-9DCD2076-0F73-5BB7-85BF-580567E0AB53" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-7FD72D9F-D65E-5248-A296-F2196F1DF5CF" /><meta name="DC.Language" content="en" /><title> Upgrade Types </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-7FD72D9F-D65E-5248-A296-F2196F1DF5CF"> Upgrade Types</h1><div>
+<p>The PKG file supporting upgrades must contain package-header section
+with definitions for different types of upgrades. For details see, <a href="GUID-D9D20EE0-AC86-512A-91C0-EA0ACF3912A7.html">Package-Header</a>. </p>
+<p>The following table lists the different types of upgrades possible: </p>
+<div class="tablenoborder"><a name="GUID-F082562E-66EA-58F7-A77A-ED512E9E7FA7"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-F082562E-66EA-58F7-A77A-ED512E9E7FA7" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Type</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Package UID</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Package name</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Version</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Global vendor name</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Notes</strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">SA</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Same </p> </td>
+<td class="cellrowborder" valign="top"><p>Need not match </p> </td>
+<td class="cellrowborder" valign="top"><p>Higher (not mandatory) </p> </td>
+<td class="cellrowborder" valign="top"><p>Same </p> </td>
+<td class="cellrowborder" valign="top"><p>Can overwrite (replace) files </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">SP</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Same </p> </td>
+<td class="cellrowborder" valign="top"><p>Different </p> </td>
+<td class="cellrowborder" valign="top"><p>Not required </p> </td>
+<td class="cellrowborder" valign="top"><p>Not required </p> </td>
+<td class="cellrowborder" valign="top"><p>Cannot overwrite (replace) files </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">PU</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Same </p> </td>
+<td class="cellrowborder" valign="top"><p>Need not match </p> </td>
+<td class="cellrowborder" valign="top"><p>Higher (not mandatory) </p> </td>
+<td class="cellrowborder" valign="top"><p>Not required </p> </td>
+<td class="cellrowborder" valign="top"><p>Can overwrite (replace) files </p> </td>
+</tr>
+</tbody>
+</table></div>
+<div id="GUID-973A80AD-16C3-469C-BF15-946B464B0361"><h3 class="section-title">SA
+- Full Upgrade</h3> <p>The full upgrade is specified using the <code class="codeph">SA</code> tag in the package-header. In full upgrade, the original
+package is entirely replaced by the new one. The original files that
+are not available in the new package are removed from the Symbian
+device. After upgrade, the new package cannot be removed separately
+from the original. To remove the upgrade, the entire package must
+be removed. </p> <p>If the upgrade causes an executable to be <em>removed</em>, the corresponding private directory is deleted. Any folders and
+files that are created by the application outside its private directory
+are not removed. The application must remove these files. </p> <p> <strong>Important:</strong> It is recommended that files created by an application
+be located in the private directory of the application. </p> <p>If
+the upgrade causes an executable to be <em>replaced</em>, the private
+directory is not removed. </p> <p> <strong>Notes</strong>: </p> <ul>
+<li id="GUID-E726EE1F-F977-5DDA-9AFD-E0AEEC789D6D"><a name="GUID-E726EE1F-F977-5DDA-9AFD-E0AEEC789D6D"><!-- --></a><p>An upgrading
+package of type <code class="codeph">SA</code> cannot overwrite files installed
+by a patch. For upgrading such packages, the patch must be uninstalled
+first. </p> </li>
+<li><p>An upgrading package of type <code class="codeph">SA(NR)</code> can upgrade
+files installed by <code class="codeph">SA(NR)</code>.</p></li>
+<li id="GUID-18DB72B9-55EC-581C-B705-343720F62B34"><a name="GUID-18DB72B9-55EC-581C-B705-343720F62B34"><!-- --></a><p>To be identified
+as an upgrade, the upgrading package file must have the same package
+UID as the original. If the package UID differs, it is considered
+to be an unrelated package and not an upgrade.</p> </li>
+<li id="GUID-76D8A7B8-3DD2-5D14-835A-031C2B1EE0C8"><a name="GUID-76D8A7B8-3DD2-5D14-835A-031C2B1EE0C8"><!-- --></a><p>If a patch upgrades
+an <code class="codeph">SA</code> package, the patch is not uninstalled by new <code class="codeph">SA</code> upgrade. </p> </li>
+<li id="GUID-EEEE413A-522E-52D2-9B8B-BA5933DD0000"><a name="GUID-EEEE413A-522E-52D2-9B8B-BA5933DD0000"><!-- --></a><p>The <code class="codeph">RR</code> and <code class="codeph">RB</code> executables in the base package
+are run during the upgrade. See, <a href="GUID-B3BE018B-0EC5-5866-9BD7-50CBF5670324.html#GUID-B913501B-A5AB-5ADB-96FF-8060DD45A87E">run-options</a> for details. </p> </li>
+</ul> </div>
+<div id="GUID-21D55F55-09BF-4EB8-A244-E2EE0D945A90"><h3 class="section-title">SP
+- Patch Upgrade</h3> <p>The patch upgrade is specified using the <code class="codeph">SP</code> tag in the package-header. This is an augmentation to
+an existing package (<em>base package</em>). A typical example for this
+requirement is to provide additional levels of a game. A patch upgrade
+cannot overwrite files in RAM, however, it can eclipse files in ROM.
+A patch can be uninstalled separately from the base package. The installation
+fails if a patch modifies or replaces an existing file in the base
+package. </p> <p>A patch can only add files to a base package and
+cannot overwrite files. This is the only difference between patch
+upgrade and partial upgrade. </p> <p> <strong>Notes</strong>: </p> <ul>
+<li id="GUID-BDE060BA-2846-5E05-93BD-CEE9136651A7"><a name="GUID-BDE060BA-2846-5E05-93BD-CEE9136651A7"><!-- --></a><p>If two patches
+with same package name and UID are installed, the second patch is
+treated as an upgrade of the first patch. The second patch replaces
+the first patch entirely. </p> </li>
+<li id="GUID-92611923-8DEB-5E45-89D5-9712C1C26CD4"><a name="GUID-92611923-8DEB-5E45-89D5-9712C1C26CD4"><!-- --></a><p>An OS component
+does not need a Stub SIS file to be patched. However, if the requirement
+is to patch files in the private directory of the component, a stub
+SIS file is required which specifies the relevant executables (<code>.exe</code>). </p> <p> <strong>Important</strong>: If the patch installs
+files to more than one private directory, all relevant EXEs must be
+specified in the Stub file. </p> <p>If a Stub SIS file is required,
+the patch must have the same package UID and non-localized vendor
+name as the package it is upgrading. The package name must be different
+to distinguish the patch from the existing component. </p> </li>
+<li id="GUID-ED91317F-65E8-5E52-AFE4-5D5A94126AA1"><a name="GUID-ED91317F-65E8-5E52-AFE4-5D5A94126AA1"><!-- --></a><p>A patch can
+install files to the import directory of the component (<code>\private\</code> <em>&lt;SID&gt;</em> <code>\import\</code>) without the requirement of a Stub SIS file. However, the import
+directory must already exist. The software installer does not create
+it. </p> <p>The purpose of the import directory is to enable other
+packages to install files to it. </p> </li>
+</ul> </div>
+<div id="GUID-10466C53-07C2-4483-9B7F-0B6ED8DCA051"><h3 class="section-title">PU
+- Partial Upgrade</h3> <p>The partial upgrade is specified using
+the <code class="codeph">PU</code> tag in the package-header. This upgrade is
+a variation of <code class="codeph">SA</code> in that any files present in the
+base package that are missing in the new package are not removed.
+A partial upgrade can only add or overwrite files. This allows an
+upgrading SIS file to replace just the parts of a base package which
+requires replacement. </p> <p> <strong>Notes</strong>: </p> <ul>
+<li id="GUID-3EAFFA91-9929-5E94-825C-6CF648886A77"><a name="GUID-3EAFFA91-9929-5E94-825C-6CF648886A77"><!-- --></a><p>When creating
+a <code class="codeph">PU</code> package, the drive selection dialog must be
+suppressed, so that the upgrade is installed on the same drive as
+the existing package and not to the drive selected by the Symbian
+device user. </p> </li>
+<li id="GUID-349A16C1-3876-5B90-AD15-56027407EA08"><a name="GUID-349A16C1-3876-5B90-AD15-56027407EA08"><!-- --></a><p>Unlike packages
+installed using the <code class="codeph">SA</code> or <code class="codeph">SP</code> options,
+a partial upgrade package is not listed as a removable component after
+installation, so the base package must be removed and reinstalled
+to remove the changes. </p> </li>
+<li id="GUID-3E6FDB35-55D5-5BD7-9E0E-C60F5D6B7476"><a name="GUID-3E6FDB35-55D5-5BD7-9E0E-C60F5D6B7476"><!-- --></a><p>A partial upgrade
+cannot overwrite files installed by a patch. </p> </li>
+<li id="GUID-B335BF5B-B45C-558F-BDEE-09C2676AC133"><a name="GUID-B335BF5B-B45C-558F-BDEE-09C2676AC133"><!-- --></a><p>The <code class="codeph">RR</code> and <code class="codeph">RB</code> executables in the base package
+are run during the upgrade. See, <a href="GUID-B3BE018B-0EC5-5866-9BD7-50CBF5670324.html#GUID-B913501B-A5AB-5ADB-96FF-8060DD45A87E">run-options</a> for details. </p> </li>
+<li id="GUID-CCCCE6F7-EA61-5617-A692-D57EB856C133"><a name="GUID-CCCCE6F7-EA61-5617-A692-D57EB856C133"><!-- --></a><p>It is not mandatory
+to specify the RU option for upgrading applications on the ROM. </p> </li>
+</ul> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-7F65B69A-6AC1-509C-91E8-9E49ED0BFEC0.html">Upgrading
+OS Components</a></li></ul><h3>Related reference</h3><ul><li><a href="GUID-D9D20EE0-AC86-512A-91C0-EA0ACF3912A7.html">Package-Header</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated February 28th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7FD72D9F-D65E-5248-A296-F2196F1DF5CF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:53 GMT -->
+</html>

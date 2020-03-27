@@ -1,0 +1,126 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-EF62BF88-3687-505D-8BD7-EEDF36246E56.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:36 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Graphics Hardware Acceleration" /><meta name="abstract" content="This topic describes some of the issues surrounding the use of graphics hardware to improve graphics performance. It also provides a summary of the components that device creators need to adapt to take advantage of graphics hardware." /><meta name="description" content="This topic describes some of the issues surrounding the use of graphics hardware to improve graphics performance. It also provides a summary of the components that device creators need to adapt to take advantage of graphics hardware." /><meta name="DC.Relation" scheme="URI" content="GUID-99BC101A-9466-59EE-B5C9-7622BAF6E6FF" /><meta name="DC.Relation" scheme="URI" content="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C" /><meta name="DC.Relation" scheme="URI" content="GUID-F64E6551-670E-5E12-8103-DE504D3EC94F" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-99BC101A-9466-59EE-B5C9-7622BAF6E6FF" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-EF62BF88-3687-505D-8BD7-EEDF36246E56" /><meta name="DC.Language" content="en" /><title>Graphics
+Hardware Acceleration </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-EF62BF88-3687-505D-8BD7-EEDF36246E56">Graphics
+Hardware Acceleration</h1><div><p>This topic describes some of the issues surrounding the use of
+graphics hardware to improve graphics performance. It also provides a summary
+of the components that device creators need to adapt to take advantage of
+graphics hardware. </p>
+<div><h3 class="section-title">Background</h3> <p><strong>Graphics acceleration hardware </strong> </p> <p>A
+graphics accelerator or Graphics Processing Unit (GPU) is a dedicated hardware
+processor that works in parallel with the main processor (CPU). By relieving
+the CPU of highly intensive graphics processing, a GPU makes it is possible
+to achieve sophisticated screen displays (such as video, animated graphics
+and 3D games) without compromising other aspects of performance. </p> <p><strong>Animations </strong> </p> <p>Animation
+involves transferring and manipulating large amounts of data (stored as bitmaps
+or instructions) from one area of memory and putting them into another (the
+screen buffer). Frame rates may be between 10 and 30 frames per second (depending
+on requirements and sources). </p> <p><strong>Composition </strong> </p> <p>Manufacturers
+of smartphones face the complexity of displaying on the screen a mixture of
+different types of content, such as streaming video, the camera viewfinder
+and regular UI elements with animated icons. These different types of content
+come from different places—such as multimedia sources (streaming video), camera
+hardware, the Window Server and EGL (3D and vector graphics). The different
+types of content are displayed in different areas of the screen and are updated
+by different processes. The graphics system must be capable not only of creating
+sophisticated graphical output from each source simultaneously but also of
+composing (compositing) them at up to 30 frames per second. For an introduction
+to how ScreenPlay handles this challenge, see <a href="GUID-859CAA08-59C9-5FD3-98DE-6BDD0D6ED50B.html">Graphics
+Composition</a>. </p> <p><strong>Optimization </strong> </p> <p>GPUs work best when
+they do so uninterrupted. They usually have a 'long processing pipe' (a lot
+of data cached in memory) and flushing it or allowing it to empty reduces
+effectiveness. This can be avoided by avoiding the following: </p> <ul>
+<li id="GUID-827CF5E4-86EE-5766-BAF4-395205461FF0"><a name="GUID-827CF5E4-86EE-5766-BAF4-395205461FF0"><!-- --></a><p> <strong>Context switching</strong>.
+The working data (such as color information, vertex positions, transformations
+and textures) is known as the <em>context</em>. If more than one application
+wants to use the processor at the same time, the processor must swap between
+them. This involves the processor saving the context from one application,
+flushing its buffers, and loading the context from the next. Context switching
+is time consuming and disruptive. </p> </li>
+<li id="GUID-5C98575F-A0EA-5B9F-ACCC-C7A0D2B93058"><a name="GUID-5C98575F-A0EA-5B9F-ACCC-C7A0D2B93058"><!-- --></a><p> <strong>Copying and reformatting
+data</strong>. Changing the format and copying pixel data involves time and memory.
+If the GPU and CPU cannot share memory and data formats, much time, processing
+power and memory is required to copy and convert data. </p> </li>
+</ul> <p>ScreenPlay avoids context switching and reformatting and copying
+data wherever possible. </p> <p><strong>Hardware variety </strong> </p> <p>The combination
+of hardware acceleration, animation and composition would be a substantial
+challenge in a fixed, dedicated hardware architecture. The Symbian platform,
+however, is designed to operate on a variety of hardware architectures, only
+some of which are capable of graphics acceleration and processing. The Symbian
+graphics subsystem can be customized to take advantage of a variety graphics
+processing hardware. Customization is via 'back end' components which do not
+affect the public API. </p> </div>
+<div><h3 class="section-title">The hardware adaptation components</h3> <p>Here we provide
+information about which graphics components device creators can adapt or replace.
+Components that can be adapted or replaced to suit the hardware are generally
+called <em>adaptations</em>. Adaptable and replaceable components that do not
+depend on the hardware are called <em>customizations</em> and are indicated
+by an asterisk (*) in the following table. </p> <p>The details vary depending
+on whether the <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay</a> or <a href="GUID-F64E6551-670E-5E12-8103-DE504D3EC94F.html">non-ScreenPlay</a> variant
+is in use. </p> <div class="tablenoborder"><a name="GUID-C401C8AE-7EE2-5B8F-9B17-B8C2E5E6B5B6"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-C401C8AE-7EE2-5B8F-9B17-B8C2E5E6B5B6" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e246962">ScreenPlay</th>
+<th class="cellrowborder" valign="top" id="d0e246965">Non-ScreenPlay</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">OpenGLES Implementation</td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">OpenGLES Implementation</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">OpenVG Implementation</td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">OpenVG Implementation</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">EGL Implementation</td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">EGL Implementation </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">Screen Driver</td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">Screen Driver</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">Extended Bitmap Rasterizer Plug-in</td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">Extended Bitmap Rasterizer Plug-in </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">DirectGDI Adaptation </td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">Graphics Resource Adaptation </td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">&nbsp;</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">GCE Adaptation</td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">OpenWF Composition Engine</td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">&nbsp;</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">Surface Manager</td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">Surface Update </td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">&nbsp;</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e246962 ">Render Stages* </td>
+<td class="cellrowborder" valign="top" headers="d0e246965 ">&nbsp;</td>
+</tr>
+</tbody>
+</table></div> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-99BC101A-9466-59EE-B5C9-7622BAF6E6FF.html">Graphics
+Concepts</a></li><li><a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">The ScreenPlay
+Architecture</a></li><li><a href="GUID-F64E6551-670E-5E12-8103-DE504D3EC94F.html">The Non-ScreenPlay
+Architecture</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated March 4th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-EF62BF88-3687-505D-8BD7-EEDF36246E56.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:36 GMT -->
+</html>

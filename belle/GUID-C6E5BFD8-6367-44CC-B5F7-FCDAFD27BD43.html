@@ -1,0 +1,34 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5BFD8-6367-44CC-B5F7-FCDAFD27BD43.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:24 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content='Transferring and Receiving the "Hello World!" ASCII Text Using the LLCP Stack (Connectionless)' /><meta name="abstract" content='This section describes how to use the LLCP stack to perform a connectionless transfer and receipt of the "Hello World!" ASCII text, to and from a remote device.' /><meta name="description" content='This section describes how to use the LLCP stack to perform a connectionless transfer and receipt of the "Hello World!" ASCII text, to and from a remote device.' /><meta name="DC.Relation" scheme="URI" content="GUID-86CC5E66-1219-4161-9204-C19A28550FE3" /><meta name="DC.Relation" scheme="URI" content="GUID-0E45B9A2-C4E8-4846-B52A-61A57D687F0D" /><meta name="DC.Relation" scheme="URI" content="GUID-6D657EA1-01DE-4724-ACC4-77C8B8390FCD" /><meta name="DC.Relation" scheme="URI" content="GUID-1206DC36-8A71-409E-A06A-D4AAF8158E73" /><meta name="DC.Relation" scheme="URI" content="GUID-9CC4A22A-75D1-4D23-B7A8-EB04D82B1A07" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C6E5BFD8-6367-44CC-B5F7-FCDAFD27BD43" /><meta name="DC.Language" content="en" /><title>Transferring and Receiving the "Hello World!" ASCII Text Using
+the LLCP Stack (Connectionless) </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C6E5BFD8-6367-44CC-B5F7-FCDAFD27BD43">Transferring and Receiving the "Hello World!" ASCII Text Using
+the LLCP Stack (Connectionless)</h1><div><p>This section describes how to use the LLCP stack to perform
+a connectionless transfer and receipt of the "Hello World!" ASCII
+text, to and from a remote device.</p>
+<div id="GUID-DC0950BC-01F9-488D-8742-B0A1AC9D51E6-GENID-GUID-97A1D423-893D-4DA1-AD17-15C95354D32A"><h3 class="section-title">Context</h3><p><code class="codeph">COwnLlcpConnection</code> is a wrapper for the <code class="codeph">MLlcpConnLessTransporter</code> interface, which is used to transfer and receive data to and from
+a remote device. </p><p><strong>Note</strong>: In this "Hello World!" example,
+one <code class="codeph">COwnLlcpConnection</code> object is restricted to either
+transferring data or receiving data. To transfer data and receive
+data simultaneously, two <code class="codeph">COwnLlcpConnection</code> objects
+are required.</p><p><code class="codeph">CMyOwnLlcpApplication</code> is an example
+class, which can send and receive the "Hello World!" ASCII text to
+and from a remote device. <code class="codeph">CMyOwnLlcpApplication</code> uses
+two <code class="codeph">COwnLlcpConnection</code> objects to transfer and receive
+the data. <code class="codeph">iLocalConnection</code> and <code class="codeph">iRemoteConnection</code> member variables are used to transfer and receive the data respectively. <code class="codeph">MLlcpReceiveCb</code> is an internal interface for <code class="codeph">COwnLlcpConnection</code>.</p><p><code class="codeph">MLlcpEventUpdater</code> provides an interface
+for the application framework to get notifications from <code class="codeph">CMyOwnLlcpApplication</code>.</p><p>Refer to the <code class="codeph">connlesstransporterexample.h</code> header file for more information. The following class diagram illustrates
+the relationship between the interfaces:</p><div class="figure" id="GUID-00D6A54A-9EA3-4EED-BD74-56B6A2AF0AA8"><img src="GUID-5C20DFD5-784E-44F8-BB2B-C2260C87298A_d0e430436_href.png" /><p class="figure-title"><strong>Figure: </strong>Class diagram of LLCP Connectionless Transport Example</p></div></div><div id="GUID-D4C9D5B8-2BFC-48C8-BBFA-637B14211954-GENID-GUID-97A1D423-893D-4DA1-AD17-15C95354D32A"><h3 class="section-title">Prerequisites</h3><p>Before you
+begin, refer to the following header files and NFC libraries:</p><ul>
+<li><code class="codeph">llcpprovider.h</code></li>
+<li><code class="codeph">llcpconnlesstransporter.h</code></li>
+<li><code class="codeph">llcpconnlesslistener.h</code></li>
+<li><code class="codeph">llcplinklistener.h</code></li>
+<li><code class="codeph">nfc.lib</code></li>
+<li><code class="codeph">llcp.lib</code></li>
+</ul><p></p><p></p></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-0E45B9A2-C4E8-4846-B52A-61A57D687F0D.html">Preparing to Use the LLCP Stack</a></li><li class="ulchildlink"><a href="GUID-6D657EA1-01DE-4724-ACC4-77C8B8390FCD.html">Handling Callback Methods</a></li><li class="ulchildlink"><a href="GUID-1206DC36-8A71-409E-A06A-D4AAF8158E73.html">Transferring Data to the Remote Device</a></li><li class="ulchildlink"><a href="GUID-9CC4A22A-75D1-4D23-B7A8-EB04D82B1A07.html">Receiving Data from the Remote Device</a></li></ul><h3>Related information</h3><ul><li><a href="GUID-7A72B008-901E-454D-AD93-F99555CA904A.html">NFC
+Services Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated September 29th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5BFD8-6367-44CC-B5F7-FCDAFD27BD43.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:27 GMT -->
+</html>

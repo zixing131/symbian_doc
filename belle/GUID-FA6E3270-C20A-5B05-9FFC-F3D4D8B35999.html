@@ -1,0 +1,38 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FA6E3270-C20A-5B05-9FFC-F3D4D8B35999.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to create and open a file" /><meta name="abstract" content="This topic describes the interface used to create, open, read from and write to a single file." /><meta name="description" content="This topic describes the interface used to create, open, read from and write to a single file." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-BB9760B4-4F3F-5326-81FB-B644C82F0E65" /><meta name="DC.Relation" scheme="URI" content="GUID-198DCED1-F429-5C95-A51D-53AE416687E8" /><meta name="DC.Relation" scheme="URI" content="GUID-30B2AF3F-E120-5D47-AAA2-529555625B55" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FA6E3270-C20A-5B05-9FFC-F3D4D8B35999" /><meta name="DC.Language" content="en" /><title>How
+to create and open a file </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FA6E3270-C20A-5B05-9FFC-F3D4D8B35999">How
+to create and open a file</h1><div><p>This topic describes the interface used to create, open, read from
+and write to a single file.</p>
+<p>The RFile interface is used to create, open, read from
+and write to a single file. </p>
+<div id="GUID-4E0574F0-91EF-4F5A-ABAB-18A5A37FF3E1"><h3 class="section-title">Creating and opening a file</h3> <p>A common pattern is
+to attempt to open an existing file, without replacing its existing data,
+and create it if it does not exist. </p> <ol id="GUID-42702312-C0C9-5788-8819-4BB5730320B5">
+<li id="GUID-31FFB1C8-AB53-581B-835E-0C33839CEEA5"><a name="GUID-31FFB1C8-AB53-581B-835E-0C33839CEEA5"><!-- --></a><p>Use <code class="codeph">Open()</code> to
+open an existing file for reading or writing - an error is returned if it
+does not already exist. </p> </li>
+<li id="GUID-9CC8F1EA-196E-5A77-AA80-9BBA198C3B62"><a name="GUID-9CC8F1EA-196E-5A77-AA80-9BBA198C3B62"><!-- --></a><p>Use <code class="codeph">Create()</code> to
+create and open a new file for writing. </p> </li>
+</ol> <pre class="codeblock">TInt err=file.Open(fsSession,fileName,shareMode);
+if (err==KErrNotFound) // file does not exist - create it
+    err=file.Create(fsSession,fileName,shareMode);</pre> </div>
+<div id="GUID-618128B4-085E-453B-BD16-9DDFD2212B2C"><h3 class="section-title">Specifying a share and access mode</h3> <p>Use various
+flags to specify how a file is opened. </p> <pre class="codeblock">
+// Open a file as text, writable, and shared with other clients
+RFile file;
+_LIT(KFileName, "FILENAME.CPP");
+file.Open(fsSession,KFileName,EFileStreamText|EFileWrite|EFileShareAny);</pre> <div class="note"><p><strong class="note_title">Note: </strong></p><ul>
+<li id="GUID-6124BD90-9267-523E-BC8E-590BED022083"><a name="GUID-6124BD90-9267-523E-BC8E-590BED022083"><!-- --></a><p>If another <code class="codeph">RFile</code> object
+tries to open this file in <code class="codeph">EFileShareExclusive</code> or <code class="codeph">EFileShareReadersOnly</code> mode,
+access is denied. It can only be accessed in <code class="codeph">EFileShareAny</code> mode. </p> </li>
+<li id="GUID-45948CEF-7780-51E4-B862-F7A8A5983EE5"><a name="GUID-45948CEF-7780-51E4-B862-F7A8A5983EE5"><!-- --></a><p>If a file is not closed
+explicitly (using <code class="codeph">RFile::Close()</code>), it will be closed when
+the server session associated with it is closed. </p> </li>
+</ul></div> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FA6E3270-C20A-5B05-9FFC-F3D4D8B35999.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:02 GMT -->
+</html>

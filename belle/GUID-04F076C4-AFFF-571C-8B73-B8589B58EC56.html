@@ -1,0 +1,34 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-04F076C4-AFFF-571C-8B73-B8589B58EC56.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:21 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Limitations of Clocks and Timers" /><meta name="DC.Relation" scheme="URI" content="GUID-9AC6774A-41E9-5298-8696-0A317A09E1E9" /><meta name="DC.Relation" scheme="URI" content="GUID-29AE56A8-DA08-5FB3-89F1-26B4308336BC" /><meta name="DC.Relation" scheme="URI" content="GUID-B4039418-6499-555D-AC24-9B49161299F2" /><meta name="DC.Relation" scheme="URI" content="GUID-21740D07-5F49-5D9C-9FEA-92958AF3805B" /><meta name="DC.Relation" scheme="URI" content="GUID-8B37D53D-77E1-58C6-9A44-3376A450228B" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-E21287EF-7211-590B-A1E3-E0B37069FCB2" /><meta name="DC.Relation" scheme="URI" content="GUID-6565B222-4036-5C3D-8319-4CDDA3F2098D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-04F076C4-AFFF-571C-8B73-B8589B58EC56" /><meta name="DC.Language" content="en" /><title>Limitations
+of Clocks and Timers </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-04F076C4-AFFF-571C-8B73-B8589B58EC56">Limitations
+of Clocks and Timers</h1><div>
+<p>The following are some of the limitations of the clocks and timers feature
+supported on the Symbian platform: </p>
+<ul>
+<li id="GUID-5998F7A9-741F-51C8-8942-5B7BB05BE1C9"><a name="GUID-5998F7A9-741F-51C8-8942-5B7BB05BE1C9"><!-- --></a><p>The clock and timer
+APIs of the Librt library provide the same level of resolution
+as that of the Symbian platform APIs, such as <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8A423EA2-4264-30C9-9579-0466994E6E88.html#GUID-3F302410-5CC2-3CCB-82F4-47E953E7A29B"><code class="apiname">RTimer::At()</code></a>, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8A423EA2-4264-30C9-9579-0466994E6E88.html#GUID-C2BD996C-81E3-3309-917A-731B0BD2C450"><code class="apiname">RTimer::After()</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8A423EA2-4264-30C9-9579-0466994E6E88.html#GUID-EB3B05D9-5EEF-34A2-99F9-9FEA31EF3005"><code class="apiname">RTimer::HighRes()</code></a>. Any requests beyond the functionality provided by these APIs will be considered
+as invalid. </p> </li>
+<li id="GUID-91D21D58-8590-5498-9F1E-C8720AAC96DB"><a name="GUID-91D21D58-8590-5498-9F1E-C8720AAC96DB"><!-- --></a><p>The Symbian platform
+does not support process level clocks and therefore all clock and timer solutions
+are based on the clock available to the user level process. The clock has
+a <code class="codeph">clock_id</code> of <code class="codeph">CLOCK_REALTIME</code>, and can be
+retrieved using clock_getcpuclockid() by passing <strong>0</strong> in
+the <code class="codeph">pid_t</code> parameter. </p> </li>
+<li id="GUID-F4E57415-4006-520A-9FA1-71BBE7EBFC06"><a name="GUID-F4E57415-4006-520A-9FA1-71BBE7EBFC06"><!-- --></a><p>An application or library
+that uses the Librt library clock functions must link to <code>librt.dll</code> prior
+to all other libraries in the link order. This is because both <code>libc.dll</code> and <code>librt.dll</code> provide
+similar clock interfaces but only the Librt library is modified to behave
+according to the LSB 3.1 specification. </p> </li>
+</ul>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-9AC6774A-41E9-5298-8696-0A317A09E1E9.html">Librt Overview</a></li><li><a href="GUID-29AE56A8-DA08-5FB3-89F1-26B4308336BC.html">Modifying
+a Clock Time</a></li><li><a href="GUID-B4039418-6499-555D-AC24-9B49161299F2.html">Raising a
+Periodic Timer                 Request</a></li><li><a href="GUID-21740D07-5F49-5D9C-9FEA-92958AF3805B.html">Raising an
+Absolute Timer                 Request</a></li><li><a href="GUID-8B37D53D-77E1-58C6-9A44-3376A450228B.html">Shared Memory
+Tutorial</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 28th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-04F076C4-AFFF-571C-8B73-B8589B58EC56.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:21 GMT -->
+</html>

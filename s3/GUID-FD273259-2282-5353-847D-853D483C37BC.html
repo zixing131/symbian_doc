@@ -1,0 +1,176 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FD273259-2282-5353-847D-853D483C37BC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:18 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using TDesC8 Class" /><meta name="abstract" content="Use TDescC8 for interfaces which takes binary data or explicit narrow text, regardless of the build variant, but which does not need to change the data." /><meta name="description" content="Use TDescC8 for interfaces which takes binary data or explicit narrow text, regardless of the build variant, but which does not need to change the data." /><meta name="DC.Relation" scheme="URI" content="GUID-7830BAAB-40DD-5E55-84B5-8DCA888E68E7#GUID-235E272D-6F5A-5740-8150-9698C8C8D55D" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Relation" scheme="URI" content="GUID-11EEFB3D-0414-5BEB-9D78-56A4B9154008" /><meta name="DC.Relation" scheme="URI" content="GUID-E8BEE049-6814-543B-8A88-889E434A5D92" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FD273259-2282-5353-847D-853D483C37BC" /><meta name="DC.Language" content="en" /><title>Using TDesC8 Class </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FD273259-2282-5353-847D-853D483C37BC">Using TDesC8 Class</h1><div><p>Use TDescC8 for interfaces which takes binary data or explicit
+narrow text, regardless of the build variant, but which does not need
+to change the data. </p>
+<div id="GUID-F1F7E9F9-0B79-5F45-9C67-587A74BBE209"><h3 class="section-title">Using
+in a function interface</h3> <p>Interfaces which take binary data
+or narrow text, use descriptors in the specification of that interface.
+All 8 bit concrete descriptors are derived from <code class="codeph">TDesC8</code> which means that the interface can accept any 8 bit descriptor.</p> <p>The following code fragment shows the most common function prototype
+pattern.</p> <pre class="codeblock">void ClassX::foo(const TDesC8&amp; anArg);</pre> <p>The use
+of <code class="codeph">TDesC8</code> ensures that the data cannot be modified
+through the descriptor; <code class="codeph">const</code> is an extra guarantee
+that the data cannot be changed.</p> <p>In practice, nearly all code
+uses the build independent variant, <code class="codeph">TDesC</code>, unless
+an explicit 8 bit or 16 bit build variant is required.</p> </div>
+<div id="GUID-2342D6CC-9781-5353-A2D4-EBA6FAC6E0E2"><h3 class="section-title">Extract
+leftmost part of data</h3> <p>The code fragment shows how the leftmost
+part of data in a descriptor can be accessed, using the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-0593A69B-B19A-3D2C-861A-216892E60180"><code class="apiname">TDesC8::Left()</code></a> member function.</p> <p>The behaviour is the same for the build
+independent variant, TDesC, replacing <code class="codeph">_LIT8</code> with <code class="codeph">_LIT</code>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html"><code class="apiname">TBufC8</code></a> with <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html"><code class="apiname">TBufC</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6DF731E4-5691-31C4-BEE0-03A3873F15EC.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6DF731E4-5691-31C4-BEE0-03A3873F15EC.html"><code class="apiname">TPtrC8</code></a> with TPtrC.</p> <pre class="codeblock">_LIT8(KData,"abcdefg");
+TBufC8&lt;8&gt; str(KData);
+...
+str.Left(4);</pre> <p>The call to <code class="codeph">Left()</code> returns a non-modifiable pointer descriptor representing the data
+string "<code class="codeph">abcd</code>"; this has length 4. The original data
+contained in, and represented by, the non-modifiable buffer descriptor <code class="codeph">str</code>, is not changed in any way.</p> <pre class="codeblock">_LIT8(KData,"abcdefg");
+TBufC8&lt;8&gt; str(KData);
+...
+str.Left(256);</pre> <p>This call to <code class="codeph">Left()</code> returns a non-modifiable pointer descriptor representing the data
+string "<code class="codeph">abcdefg</code>", i.e. the whole content of the descriptor <code class="codeph">str</code>; this has length 7.</p> <p>Note that the following call
+to <code class="codeph">Left()</code> results in a panic.</p> <pre class="codeblock">_LIT8(KData,"abcdefg");
+TBufC8&lt;8&gt; str(KData);
+...
+str.Left(-1);           // Panic !</pre> </div>
+<div id="GUID-1842A134-AFBF-5282-8052-424C7BF66963"><h3 class="section-title">Extract
+rightmost part of data</h3> <p>The code fragment shows how the
+rightmost part of data in a descriptor can be accessed, using the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-4113AD10-171C-38C0-B3B5-93FF0BFCBBC5"><code class="apiname">TDesC8::Right()</code></a> member function.</p> <p>The behaviour is
+the same for the build independent variant, TDesC, replacing <code class="codeph">_LIT8</code> with <code class="codeph">_LIT</code>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html"><code class="apiname">TBufC8</code></a> with <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html"><code class="apiname">TBufC</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6DF731E4-5691-31C4-BEE0-03A3873F15EC.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6DF731E4-5691-31C4-BEE0-03A3873F15EC.html"><code class="apiname">TPtrC8</code></a> with TPtrC.</p> <pre class="codeblock">_LIT8(KData,"abcdefg");
+TBufC8&lt;8&gt; str(KData);
+...
+str.Right(4);</pre> <p>The call to <code class="codeph">Right()</code> returns
+a non-modifiable pointer descriptor representing the data string "<code class="codeph">defg</code>"; this has length 4. The original data contained in,
+and represented by, the non-modifiable buffer descriptor <code class="codeph">str</code>, is not changed in any way.</p> <pre class="codeblock">_LIT8(KData,"abcdefg");
+TBufC8&lt;8&gt; str(KData);
+...
+str.Right(256);</pre> <p>This call to <code class="codeph">Right()</code> returns a non-modifiable pointer descriptor representing the data
+string "<code class="codeph">abcdefg</code>", i.e. the whole content of the descriptor <code class="codeph">str</code>; this has length 7.</p> <p>Note that the following call
+to <code class="codeph">Right()</code> results in a panic.</p> <pre class="codeblock">_LIT8(KData,"abcdefg");
+TBufC8&lt;8&gt; str(KData);
+...
+str.Right(-1);          // Panic !</pre> </div>
+<div id="GUID-C72FC6C5-5D89-5797-B1E1-F8BD913F1CC7"><h3 class="section-title">Extract
+middle portion of the data</h3> <p>The code fragment shows how
+a portion of data within a descriptor can be accessed, using the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-E02A80AB-4479-376A-82FC-099BA20F6A01"><code class="apiname">TDesC8::Mid()</code></a> member function. Each call to<code class="codeph">Mid()</code> returns a non-modifiable pointer descriptor representing the selected
+portions of data.</p> <p>The behaviour is the same for the build independent
+variant,TDesC, replacing <code class="codeph">_LIT8</code> with <code class="codeph">_LIT</code>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html"><code class="apiname">TBufC8</code></a> with<a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html"><code class="apiname">TBufC</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6DF731E4-5691-31C4-BEE0-03A3873F15EC.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6DF731E4-5691-31C4-BEE0-03A3873F15EC.html"><code class="apiname">TPtrC8</code></a> withTPtrC.</p> <pre class="codeblock">_LIT8(KData,"abcdefg");
+TBufC8 str(KData);
+...
+str.Mid(0);   //returns TPtrC8 representing "abcdefg";  length is 7
+str.Mid(1);   //returns TPtrC8 representing "bcdefg";   length is 6
+str.Mid(6);   //returns TPtrC8 representing "g";        length is 1
+str.Mid(3,3); //returns TPtrC8 representing "def";      length is 3
+str.Mid(0,7); //returns TPtrC8 representing "abcdefg";  length is 7
+...
+str.Mid(8);   // Panics !
+str.Mid(3,5); // Panics !</pre> </div>
+<div id="GUID-884F8704-067A-5DF2-9FCE-7AC6FC8A2CD2"><h3 class="section-title">Comparing
+data</h3> <p>This code fragment shows the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-1C79CC6C-9C60-3C91-84C0-84363B5A7B70"><code class="apiname">TDesC8::Compare()</code></a> function.</p> <p>The behaviour is the same for the build independent
+variant, TDesC, replacing <code class="codeph">_LIT8</code> with <code class="codeph">_LIT</code>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html"><code class="apiname">TBufC8</code></a> with <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html"><code class="apiname">TBufC</code></a>.</p> <pre class="codeblock">_LIT8(Kabcd,  "abcd");
+_LIT8(Kabcde, "abcde");
+_LIT8(Kabc,   "abc");
+_LIT8(Kabcx,  "abcx");
+...
+TBufC8&lt;8&gt; str(Kabcd);
+...
+str.Compare(Kabcde);    // returns -ve
+str.Compare(Kabc);      // returns +ve
+str.Compare(Kabcd);     // returns zero
+str.Compare(Kabcx);     // returns -ve</pre> <p>This result
+of the comparison means that:</p> <ul>
+<li id="GUID-CE717629-1A33-5C6F-BBC0-F69B86297D8F"><a name="GUID-CE717629-1A33-5C6F-BBC0-F69B86297D8F"><!-- --></a><p>"abcd" is less
+than "abcde".</p> </li>
+<li id="GUID-22640DC7-3446-5310-AC92-9E04ACE2B8BF"><a name="GUID-22640DC7-3446-5310-AC92-9E04ACE2B8BF"><!-- --></a><p>"abcd" is greater
+than "abc".</p> </li>
+<li id="GUID-4A5A34DB-9B24-5F9B-A4CF-B07D5D93DDF0"><a name="GUID-4A5A34DB-9B24-5F9B-A4CF-B07D5D93DDF0"><!-- --></a><p>"abcd" is equal
+to "abcd".</p> </li>
+<li id="GUID-71EF4AC1-8C0B-5A4A-8484-DBD6D0551A6C"><a name="GUID-71EF4AC1-8C0B-5A4A-8484-DBD6D0551A6C"><!-- --></a><p>"abcd" is less
+than "abcx".</p> </li>
+</ul> </div>
+<div id="GUID-F8DC34F6-C155-5085-9E76-2135603A802B"><h3 class="section-title">Locating
+a character</h3> <p>This code fragment shows the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-2D247FCC-C975-39C4-947F-A1E89C273033"><code class="apiname">TDesC8::Locate()</code></a> function.</p> <p>The behaviour is the same for the build independent
+variant, TDesC, replacing <code class="codeph">_LIT8</code> with <code class="codeph">_LIT</code>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html"><code class="apiname">TBufC8</code></a> with <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html"><code class="apiname">TBufC</code></a>.</p> <pre class="codeblock">_LIT8(Kabcd,"abcd");
+TBufC8&lt;8&gt; str(Kabcd);
+...
+str.Locate('d');   // returns 3
+str.Locate('a');   // returns 0
+str.Locate('b');   // returns 1
+str.Locate('x');   // returns KErrNotFound</pre> </div>
+<div id="GUID-F7BEE7D3-AF21-5774-BFC1-97C8CFFE08ED"><h3 class="section-title">Finding
+data</h3> <p>This code fragment shows the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-1D939364-6C89-3CAA-BC0D-2F20BFBCF725"><code class="apiname">TDesC8::Find()</code></a> function.</p> <p>The behaviour is the same for the build independent
+variant,TDesC, replacing <code class="codeph">_LIT8</code> with <code class="codeph">_LIT</code>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html"><code class="apiname">TBufC8</code></a> with <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html"><code class="apiname">TBufC</code></a>.</p> <pre class="codeblock">_LIT8(KAtoZ,"abcdefghijklmnopqrstuvwxyz");
+TBufC8&lt;32&gt; str(KAtoZ);
+...
+_LIT8(KFind1,"abc");
+str.Find(KFind1);            // returns 0
+
+_LIT8(KFInd2,"bcde");
+str.Find(KFInd2);            // returns 1
+
+_LIT8(KFind3,"uvwxyz");
+str.Find(KFind3);            // returns 20
+
+_LIT8(KFind4,"0123");
+str.Find(KFind4);            // returns KErrNotFound
+
+_LIT8(KFind5,"abcdefghijklmnopqrstuvwxyz01");
+str.Find(KFind5);            // returns KErrNotFound
+
+str.Find(KNullDesC8);        // returns 0</pre> </div>
+<div id="GUID-D192C3B7-1418-55BE-B70D-143D3FDD82DB"><h3 class="section-title">Pattern
+matching</h3> <p>This code fragment shows the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-9BCB8339-2937-362D-85FF-3E5AE3A2CAFD"><code class="apiname">TDesC8::Match()</code></a> function.</p> <p>The behaviour is the same for the build independent
+variant,TDesC, replacing <code class="codeph">_LIT8</code> with <code class="codeph">_LIT</code>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html"><code class="apiname">TBufC8</code></a> with <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html"><code class="apiname">TBufC</code></a>.</p> <pre class="codeblock">_LIT8(KAtoZ,"abcdefghijklmnopqrstuvwxyz");
+TBufC8&lt;32&gt; str(KAtoZ);
+    ...
+_LIT8(KMatch1,"*ijk*");
+str.Match(KMatch1);          //returns -&gt; 8
+
+_LIT8(KMatch2,"*i?k*");
+str.Match(KMatch2);          //        -&gt; 8
+
+_LIT8(KMatch3,"ijk*");
+str.Match(KMatch3);          //        -&gt; KErrNotFound
+
+_LIT8(KMatch4,"abcd");
+str.Match(KMatch4);          //        -&gt; KErrNotFound
+
+_LIT8(KMatch5,"*i*mn*");
+str.Match(KMatch5);          //        -&gt; 8
+
+_LIT8(KMatch6,"abcdef*");
+str.Match(KMatch6);          //        -&gt; 0
+
+_LIT8(KMatch7,"*");
+str.Match(KMatch7);          //        -&gt; 0
+
+_LIT8(KMatch8,"*y*");
+str.Match(KMatch8);          //        -&gt; 24
+
+_lit8(KMatch9,"*i??k*");
+str.Match(KMatch9);          //        -&gt; KErrNotFound</pre> <p>To test for the existence of a pattern within a text string,
+the pattern must start and end with an '<code class="codeph">*</code>'.</p> </div>
+<div id="GUID-B53507BB-D45B-5440-A025-B9690E15FACD"><h3 class="section-title">Referencing
+a data item</h3> <p>The code fragment shows how a data item can
+be referenced using<code class="codeph">operator[]()</code>.</p> <p>The behaviour
+is the same for the build independent variant,TDesC, replacing <code class="codeph">_LIT8</code> with <code class="codeph">_LIT</code>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html"><code class="apiname">TBufC8</code></a> with <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html"><code class="apiname">TBufC</code></a>.</p> <pre class="codeblock">_LIT8(KData,"abcdefg");
+TBufC8&lt;8&gt; str(KData);
+...
+str[0];                 // returns reference to 'a'
+str[3];                 // returns reference to 'd'
+str[7];                 // Panics !!</pre> </div>
+<div id="GUID-83CFA0F7-A209-5E69-BE6B-4D5B17626202"><h3 class="section-title">Creating
+a heap descriptor</h3> <p>The code fragments show how a heap descriptor
+is created from an existing descriptor using the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-E6A17C44-EADD-3224-A16A-96263F16D004"><code class="apiname">TDesC8::AllocL()</code></a> member function.</p> <p>The behaviour is the same for the build
+independent variant,TDesC, replacing <code class="codeph">_LIT8</code> with <code class="codeph">_LIT</code>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5B1CA2E7-E3A7-3AF8-9EB0-662E130C45DA.html"><code class="apiname">TBufC8</code></a> with <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4D64E4B7-6BEE-3900-A115-460FE5B2D79E.html"><code class="apiname">TBufC</code></a>, and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-2A528453-0279-3E47-838C-F8A8D29B88F1.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-2A528453-0279-3E47-838C-F8A8D29B88F1.html"><code class="apiname">HBufC8</code></a> with HBufC.</p> <pre class="codeblock">_LIT8(KData,"abcdefg");
+TBufC8&lt;16&gt; str(KData);
+...
+HBufC8* ptr;
+...
+ptr = str.AllocL();     //Creates and returns address of
+...                     //heap descriptor. The new heap descriptor
+...                     //contains a copy of the original data.
+ptr-&gt;Length();           //Returns 7; the length of "abcdfeg"</pre> </div>
+</div><h3>Related information</h3><ul><li><a href="GUID-7830BAAB-40DD-5E55-84B5-8DCA888E68E7.html#GUID-235E272D-6F5A-5740-8150-9698C8C8D55D">Using TDesC                   in a function interface</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 8th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FD273259-2282-5353-847D-853D483C37BC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:18 GMT -->
+</html>

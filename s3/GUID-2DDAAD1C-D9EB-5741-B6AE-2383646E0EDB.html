@@ -1,0 +1,61 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-2DDAAD1C-D9EB-5741-B6AE-2383646E0EDB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:05 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Pointer descriptors" /><meta name="abstract" content="Describes non-modifiable pointer descriptors and modifiable pointer descriptors." /><meta name="description" content="Describes non-modifiable pointer descriptors and modifiable pointer descriptors." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-DBF88873-21B1-5493-8EBF-C9071D314A09" /><meta name="DC.Relation" scheme="URI" content="GUID-11EEFB3D-0414-5BEB-9D78-56A4B9154008" /><meta name="DC.Relation" scheme="URI" content="GUID-4C4B6098-38B4-5BD0-8E58-712511EBE074" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-2DDAAD1C-D9EB-5741-B6AE-2383646E0EDB" /><meta name="DC.Language" content="en" /><title>Pointer
+descriptors </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-2DDAAD1C-D9EB-5741-B6AE-2383646E0EDB">Pointer
+descriptors</h1><div><p>Describes non-modifiable pointer descriptors and modifiable pointer
+descriptors.</p>
+<p>A pointer descriptor represents data which can live in ROM or RAM and this
+location is separate from the pointer descriptor object itself. </p>
+<p>A pointer descriptor is an instance of a class that encapsulates a pointer
+to the location of the data. </p>
+<p>A pointer descriptor comes in two forms: </p>
+<ul>
+<li id="GUID-A836665F-9AB7-5364-891E-6297D68B291D"><a name="GUID-A836665F-9AB7-5364-891E-6297D68B291D"><!-- --></a><p>a non-modifiable pointer
+descriptor. </p> </li>
+<li id="GUID-C46BB0C8-08ED-5835-9516-D164383D1313"><a name="GUID-C46BB0C8-08ED-5835-9516-D164383D1313"><!-- --></a><p>a modifiable pointer
+descriptor. </p> </li>
+</ul>
+<div id="GUID-DE207726-9C75-4DD9-964A-6B7B16226C4A"><h3 class="section-title">Non-modifiable pointer descriptor</h3> <p>The data represented
+by a non-modifiable pointer descriptor can be accessed, but not changed, through
+this descriptor. </p> <p>Data is accessed through functions provided by the
+base class. </p> <p>A non-modifiable pointer descriptor is supplied in two
+variants: </p> <ul>
+<li id="GUID-CF4D06B5-B5EB-5C4D-BA87-B990053CD15D"><a name="GUID-CF4D06B5-B5EB-5C4D-BA87-B990053CD15D"><!-- --></a><p>the 16 bit variant,
+a <code class="codeph">TPtrC16</code>, for representing Unicode strings. </p> </li>
+<li id="GUID-A1005460-2D2A-5DB4-9414-2747056A7DBC"><a name="GUID-A1005460-2D2A-5DB4-9414-2747056A7DBC"><!-- --></a><p>the 8 bit variant, a <code class="codeph">TPtrC8</code>,
+for representing non-Unicode strings and binary data. </p> </li>
+</ul> <p>There is also a build independent type, <code class="codeph">TPtrC</code>. This
+is the type which is most commonly used in program code; the appropriate variant
+is selected at build time. </p> <p>An explicit 8 bit variant is chosen for
+binary data. The explicit 16 bit variant is rarely used. </p> <p>The base
+class, <code class="codeph">TDesC</code>, contains a data member which holds the length
+of the data. The following drawing shows the layout of a <code class="codeph">TPtrC</code> object
+for a string of five characters representing the English word "Hello". </p> <div class="figure" id="GUID-D3F0600A-D575-5309-8182-CFA98D184E29"><img src="GUID-37D2EFAE-FB55-5015-90CE-1361144C411E_d0e281548_href.png" /><p>Non-modifiable pointer descriptor</p></div> </div>
+<div id="GUID-33072A44-C95A-4688-AB85-019EFDC4F1B2"><h3 class="section-title">Modifiable pointer descriptor</h3> <p>The data represented
+by a modifiable pointer descriptor can be both accessed and changed through
+this descriptor. </p> <p>The length of the data can vary between zero and
+the maximum length. The maximum length of the descriptor is set by the constructor.
+When the length of the data is less than the maximum, a portion of the data
+area represented by the descriptor is unused. </p> <p>Data is accessed and
+modified through functions provided by the base classes. </p> <p>A modifiable
+pointer descriptor is supplied in two variants: </p> <ul>
+<li id="GUID-2DD694B8-8408-58F8-BE98-1D031666DEC5"><a name="GUID-2DD694B8-8408-58F8-BE98-1D031666DEC5"><!-- --></a><p>the 16 bit variant,
+a <code class="codeph">TPtr16</code>, for representing Unicode strings. </p> </li>
+<li id="GUID-5D1EB254-6B9D-576C-9631-3461AC8FFD32"><a name="GUID-5D1EB254-6B9D-576C-9631-3461AC8FFD32"><!-- --></a><p>the 8 bit variant, a <code class="codeph">TPtr8</code>,
+for representing non-Unicode strings and binary data. </p> </li>
+</ul> <p>There is also a build independent type, <code class="codeph">TPtr</code>. This
+is the type which is most commonly used in program code; the appropriate variant
+is selected at build time. </p> <p>An explicit 8 bit variant is chosen for
+binary data. The explicit 16 bit variant is rarely used. </p> <p>The base
+class <code class="codeph">TDesC</code>, contains a data member that holds the length
+of the data. The base class <code class="codeph">TDes</code>, contains a data member
+that holds the maximum length of the data. The following drawing shows the
+layout of a <code class="codeph">TPtr</code> object for a string of five characters representing
+the English word "Hello". The maximum length to be represented by the descriptor
+is 12. </p> <div class="figure" id="GUID-B6213E7F-AE00-5854-BBB7-C82BE71CB495"><img src="GUID-8983A095-3F5A-5262-8920-8A13ADD045DC_d0e281613_href.png" /><p>Modifiable pointer descriptor</p></div> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-2DDAAD1C-D9EB-5741-B6AE-2383646E0EDB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:08 GMT -->
+</html>

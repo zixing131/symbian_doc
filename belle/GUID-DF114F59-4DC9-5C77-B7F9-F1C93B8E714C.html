@@ -1,0 +1,45 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DF114F59-4DC9-5C77-B7F9-F1C93B8E714C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="SMS Encoding and Decoding" /><meta name="abstract" content="This section describes the SMS encoding and decoding concepts. The encoding and decoding of the SMS messages is done in the SMS stack." /><meta name="description" content="This section describes the SMS encoding and decoding concepts. The encoding and decoding of the SMS messages is done in the SMS stack." /><meta name="DC.Relation" scheme="URI" content="GUID-785701A4-615B-5590-91C6-FD29C56FB2E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FE94596E-B5BB-51FE-BE38-069840323915" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-34E7AAF2-EC62-5BF6-B9E7-C7D346BCDF93" /><meta name="DC.Relation" scheme="URI" content="GUID-6BA58045-3864-599A-878E-0C7AE7E9741B" /><meta name="DC.Relation" scheme="URI" content="GUID-E0DA7DE7-FD5A-5C1D-A53C-870966F00445" /><meta name="DC.Relation" scheme="URI" content="GUID-30C21015-C433-5465-87A7-DA5A9C4AD7BD" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-DF114F59-4DC9-5C77-B7F9-F1C93B8E714C" /><meta name="DC.Language" content="en" /><title>SMS
+Encoding and Decoding </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-DF114F59-4DC9-5C77-B7F9-F1C93B8E714C">SMS
+Encoding and Decoding</h1><div><p>This section describes the SMS encoding and decoding concepts.
+The encoding and decoding of the SMS messages is done in the SMS stack. </p>
+<p>The GSMU of the SMS stack provides the relevant methods for encoding and
+decoding the messages. The character converter (CharConv) components provide
+the plug-ins required and the mapping table for encoding and decoding. </p>
+<div id="GUID-FC24C6B7-1CC7-5D95-826D-18AAFB627753"><h3 class="section-title">Encoding</h3> <p>The
+default method for encoding is 7 bit method. Some languages contain the characters
+based on Latin but with additional accented characters, these accented characters
+cannot be encoded using the 7 bit converters. The default 7 bit encoding method
+allows 160 characters per SMS message. 8 bit encoding is also possible. The
+8 bit encoding supports 140 characters in a message. The additional characters
+can be supported in two forms: </p> <p><strong>Unicode </strong> </p> <p>The accented
+languages can be encoded using 16 bit Unicode. The disadvantage of using Unicode
+is that it limits the message data to 70 characters. Unicode encoding leads
+to increase in cost for the end user. For example if a user sends a message
+with 100 characters using Unicode encoding will require two separate SMS messages
+instead of 1 message using 7 bit encoding. </p> <p><strong>Alternative encoder </strong> </p> <p>The
+second method available to support the accented Latin based characters are
+to use alternative encoder which perform a Lossy conversion. In Lossy conversion
+the accented characters are encoded to the nearest GSM character. For example
+Á is encoded as A. For more information see <a href="GUID-FE94596E-B5BB-51FE-BE38-069840323915.html#GUID-918FF2E3-B9F4-5C61-8DBA-F9143DB16460">Lossy
+7 Bit Encoding</a>. </p> </div>
+<div id="GUID-949DCFCD-9156-594E-828C-2C554C288C56"><h3 class="section-title">Decoding</h3> <p>Decoding
+of SMS messages does not require any alternative converter as the existing
+converter can decode 16 bit Unicode characters. If the incoming message is
+7 bit encoded, there is no loss of information. </p> </div>
+<div id="GUID-8752F0EC-90F3-578C-823D-8B569684BF79"><h3 class="section-title">National Languages</h3> <p>Some
+of the national languages supported are: </p> <ul>
+<li id="GUID-02E9DFC9-6A19-52CA-B981-78FD06B8B11C"><a name="GUID-02E9DFC9-6A19-52CA-B981-78FD06B8B11C"><!-- --></a><p>Turkish </p> </li>
+<li id="GUID-02E0BC2A-B978-573D-8E50-1012EC3F809A"><a name="GUID-02E0BC2A-B978-573D-8E50-1012EC3F809A"><!-- --></a><p>Spanish </p> </li>
+<li id="GUID-ED89406B-2B9C-5635-9F12-895FB714FBFB"><a name="GUID-ED89406B-2B9C-5635-9F12-895FB714FBFB"><!-- --></a><p>Portuguese </p> </li>
+</ul> <p>These national languages can be identified using the enumeration
+in TSmsNationalLanguageIdentifier. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-785701A4-615B-5590-91C6-FD29C56FB2E7.html">Using Alternative
+Encoder</a></li><li><a href="GUID-FE94596E-B5BB-51FE-BE38-069840323915.html">Encoding
+Types</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 21st, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DF114F59-4DC9-5C77-B7F9-F1C93B8E714C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:00 GMT -->
+</html>

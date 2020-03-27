@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-80196AAC-27E7-340A-B988-0B4CBFF2630A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:17:47 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="topic" />
+<meta name="DC.Title" content="Padding" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-80196AAC-27E7-340A-B988-0B4CBFF2630A" />
+<title>Padding</title>
+<link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-80196AAC-27E7-340A-B988-0B4CBFF2630A"><a name="GUID-80196AAC-27E7-340A-B988-0B4CBFF2630A"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="title pageHeading topictitle1">Padding</h1>
+<div class="body">
+<p class="p">For those Cipher sub-classes that are block based, there are modes that require a full block on encryption and decryption - Cipher Block Chaining mode and Electronic Code Book modes are good examples.</p>
+<p class="p">Since real world messages are not always a convenient multiple of a block size, we have to adding <em class="ph i">padding</em>. There are a number of padding modes that QCA supports, including not doing any padding at all.</p>
+<p class="p">If you are not going to use padding, then you can pass QCA::Cipher::NoPadding as the pad argument to the Cipher sub-class, however it is then your responsibility to pass in appropriate data for the mode that you are using.</p>
+<p class="p">The most common padding scheme is known as PKCS#7 (also PKCS#1), and it specifies that the pad bytes are all equal to the length of the padding ( for example, if you need three pad bytes to complete the block, then the padding is 0x03 0x03 0x03 ).</p>
+<p class="p">On encryption, for algorithm / mode combinations that require padding, you will get a block of ciphertext when the input plain text block is complete. When you call final(), you will get out the ciphertext that corresponds to the last part of the plain text, plus any padding. If you had provided plaintext that matched up with a block size, then the cipher text block is generated from pure padding - you always get at least some padding, to ensure that the padding can be safely removed on decryption.</p>
+<p class="p">On decryption, for algorithm / mode combinations that use padding, you will get back a block of plaintext when the input ciphertext block is complete. When you call final(), you will get a block that has been stripped of ciphertext. </p>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-80196AAC-27E7-340A-B988-0B4CBFF2630A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:17:47 GMT -->
+</html>

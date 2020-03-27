@@ -1,0 +1,161 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-2CCD1748-9EDE-5383-9941-A3051E06F3E2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Standard C++ Support on the Symbian Platform" /><meta name="DC.Relation" scheme="URI" content="GUID-D6BEAF0D-844D-51F4-8DB7-FB1D60E17FE3" /><meta name="DC.Relation" scheme="URI" content="GUID-F7FEB759-E64D-5B6D-9017-C5E982E4FC16" /><meta name="DC.Relation" scheme="URI" content="GUID-CDE8CD85-8467-5B36-A0AC-41D1D98151CA" /><meta name="DC.Relation" scheme="URI" content="GUID-E331B72B-84AF-558A-9B8F-73E5E50B58C7" /><meta name="DC.Relation" scheme="URI" content="GUID-AF2CE612-F12E-5A18-81A5-C303992D2D46" /><meta name="DC.Relation" scheme="URI" content="GUID-5B3F5296-D6D0-5D25-8362-141DF5927E52" /><meta name="DC.Relation" scheme="URI" content="GUID-D32E52C9-F05C-5F1E-8B49-243D555C353C" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-2C5B58F2-6BD2-5C2B-8E1B-CFB3D7EB6ED9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-2CCD1748-9EDE-5383-9941-A3051E06F3E2" /><meta name="DC.Language" content="en" /><title>Standard
+C++ Support on the Symbian Platform </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-2CCD1748-9EDE-5383-9941-A3051E06F3E2">Standard
+C++ Support on the Symbian Platform</h1><div>
+<p>This topic describes the Standard C++ runtime features supported on Symbian^3. </p>
+<ul>
+<li id="GUID-F620B47D-35A9-54DF-89FC-031C3B3A50D4"><a name="GUID-F620B47D-35A9-54DF-89FC-031C3B3A50D4"><!-- --></a><p><a href="#GUID-B44FDC08-487F-589B-8355-CF6EAB3F25BC">Global operator new</a> </p> </li>
+<li id="GUID-2BF296E4-1204-599D-889B-46CD0FEFCC52"><a name="GUID-2BF296E4-1204-599D-889B-46CD0FEFCC52"><!-- --></a><p><a href="#GUID-ED64EEBA-A52D-5008-8F5F-11019BC5B1E2">new_handler</a> </p> </li>
+<li id="GUID-E53A2527-BF8A-5578-AF29-B4E1862E958E"><a name="GUID-E53A2527-BF8A-5578-AF29-B4E1862E958E"><!-- --></a><p><a href="#GUID-FEC1BFE6-0219-5EE8-93D1-C0D5BCFA8A26">Global object destruction</a> </p> </li>
+<li id="GUID-303ADDE1-83D6-5449-B508-6C6DBD7DDFC9"><a name="GUID-303ADDE1-83D6-5449-B508-6C6DBD7DDFC9"><!-- --></a><p><a href="#GUID-1D9D2701-FD3E-57D1-952B-FB8C057FE055">STL</a> </p> </li>
+</ul>
+<div id="GUID-B44FDC08-487F-589B-8355-CF6EAB3F25BC"><h3 class="section-title">Global operator
+new</h3> <p>In Standard C++, when dynamic memory allocation (using <code class="codeph">operator
+          new</code>) fails and if a handler is not set to handle it, the
+code throws an exception (<code class="codeph">std::bad_alloc</code>). But in Symbian
+C++, when dynamic memory allocation fails, the code returns <strong>NULL</strong>. </p> <p>When
+you write Standard C++ code on Symbian C++ ensure that you either use Symbian
+C++ semantics of operator new or Standard C++ semantics of operator new in
+your code. You can use the global <code class="codeph">operator new</code> as per the
+Standard C++ specification on the Symbian platform by either: </p> <ul>
+<li id="GUID-3E72A8F5-F68B-5454-8F20-67CC53FDC37F"><a name="GUID-3E72A8F5-F68B-5454-8F20-67CC53FDC37F"><!-- --></a><p>Building your application
+or library using the STD target type. </p> </li>
+<li id="GUID-40D77F25-4EE4-578A-B51E-451F7655CBA6"><a name="GUID-40D77F25-4EE4-578A-B51E-451F7655CBA6"><!-- --></a><p>Using the <code class="codeph">MMP</code> keyword, <code class="codeph">STDCPP</code>. </p> </li>
+</ul> <p> <strong>Note:</strong> For detailed information about problems that can occur
+while using the global <code class="codeph">operator new</code>, see <a href="GUID-AF2CE612-F12E-5A18-81A5-C303992D2D46.html#GUID-39350E32-26C2-5440-B221-10EE693CCF18">Use of operator new</a>. </p> <p> <strong>Warning:</strong> The Symbian build system
+does not permit you to mix the Standard C++ <code class="codeph">operator new</code> and
+the Symbian C++ <code class="codeph">operator new</code>. </p> <p><strong>Example</strong> </p> <p>The
+following example code illustrates how to use the global <code class="codeph">operator
+new</code> when you write Standard C++ code on the Symbian platform and
+your target type is a non-STD target type, for example, <code class="codeph">exe</code>. </p> <p>You
+must add the <code class="codeph">MMP</code> keyword, <code class="codeph">STDCPP</code> in the <code>.mmp</code> file
+as shown in the following code: </p> <pre class="codeblock">//operator_new_example.mmp
+Target             operator_new_example.exe
+Targettype        exe
+//The STDCPP keyword specifies Standard C++ 
+STDCPP
+Source            operator_new.cpp
+Systeminclude        /epoc32/include/stdapis/stlportv5
+Systeminclude        /epoc32/include/stdapis
+Library            libstdcppv5.lib libc.lib
+Capability        all -tcb</pre> <pre class="codeblock">//operator_new.cpp
+#include &lt;new&gt;
+int main()
+    {
+    try
+        {
+        int *ptr = new int(0);
+        //do something
+        }
+    catch(std::bad_alloc)
+        {
+        return 1;
+        }
+    delete ptr;
+    return 0;
+    }</pre> </div>
+<div id="GUID-ED64EEBA-A52D-5008-8F5F-11019BC5B1E2"><h3 class="section-title">new_handler</h3> <p>The <code class="codeph">new_handler()</code> function
+of Standard C++ is fully supported on the Symbian platform (the global <code class="codeph">operator
+new</code> restrictions are applicable). You can use the new_handler function
+to handle an out of memory scenario caused by the global <code class="codeph">operator
+new</code> when dynamic memory allocation fails. </p> <p>The following code
+illustrates how to set and invoke a <code class="codeph">new_handler</code>: </p> <pre class="codeblock">#include &lt;new&gt;
+int one_huge_chunk = 0xa000;
+int *last_huge_chunk=NULL;
+void foo()
+    {
+    /*
+    * This is the new_handler and it frees the last successful allocation so
+    * that the subsequent call to operator new has some free memory.
+    */
+    delete [] last_huge_chunk;
+    }
+void bar()
+    {
+    last_huge_chunk    = new int[one_huge_chunk];
+    }
+int main()
+    {
+    std::new_handler h_new;
+    try
+        {
+        while(1)
+            {
+            // Keep allocating until we reach OOM (out of memory) condition. At OOM
+            // the default new handler throws std::bad_alloc
+            bar();
+            }
+        }
+    catch(std::bad_alloc ba)
+    {
+    /*
+    * Once the handler is set, failure of 'new' will call the handler to
+    * get some free memory... 
+    */
+    h_new = (std::new_handler)&amp;foo;
+    try
+        {
+        /*
+        * Try once more to see if our handler actually freed up some memory
+        */
+        bar();
+        }
+    catch(...)
+        {
+        }
+    return 0;
+    } 
+    /*Failed to throw std::bad_alloc*/
+    return 1;
+    }</pre> <p> <strong>Important Note:</strong> The <code class="codeph">targettype</code> of
+this executable must either be <code class="codeph">STDEXE</code> /<code class="codeph">STDDLL</code> or
+its <code>.mmp</code> file must use the <code class="codeph">STDCPP</code> keyword. </p> </div>
+<div id="GUID-FEC1BFE6-0219-5EE8-93D1-C0D5BCFA8A26"><h3 class="section-title">Global object
+destructors</h3> <p>Global objects are supported both in a statically or
+dynamically loaded Standard C++ DLL. Their constructors are invoked when the
+DLL is loaded and their destructors are invoked when the reference count of
+the DLL falls to zero. </p> <p><strong>Example</strong> </p> <p>The following example
+illustrates the construction and destruction of a global object: </p> <pre class="codeblock">// glob_data.cpp
+#include &lt;iostream&gt;
+// class definition
+class AClass
+    {
+    AClass()
+        {
+        std::cout &lt;&lt; “ctor()” &lt;&lt; std::endl; // inline constructor
+        }
+    ~AClass()
+        {
+        std::cout &lt;&lt; “dtor()” &lt;&lt;std::endl; // inline destructor
+        }
+    };
+AClass GlobData; // global instance of AClass
+int main()
+    {
+    std::cout &lt;&lt; “main()” &lt;&lt; std::endl;
+    }</pre> <p>The output of this example must be: </p> <pre class="codeblock">ctor
+main
+dtor</pre> </div>
+<div id="GUID-1D9D2701-FD3E-57D1-952B-FB8C057FE055"><h3 class="section-title">STL</h3> <p>Here
+are some key facts about STL support on the Symbian platform: </p> <ul>
+<li id="GUID-F0FCA9CA-7417-5D07-A6AA-F679B3A3A41A"><a name="GUID-F0FCA9CA-7417-5D07-A6AA-F679B3A3A41A"><!-- --></a><p>The Standard C++ implementation
+on the Symbian platform is based on STLPort version 5.1.4. </p> </li>
+<li id="GUID-FB97F095-533F-582D-BD28-667D1BD6863A"><a name="GUID-FB97F095-533F-582D-BD28-667D1BD6863A"><!-- --></a><p>The Standard C++ header
+files are available in the <code>${EPOCROOT}/epoc32/include/stdapis/stlportv5</code> directory. </p> </li>
+<li id="GUID-F6381C75-4C30-5627-8AAA-7D8F1FF53565"><a name="GUID-F6381C75-4C30-5627-8AAA-7D8F1FF53565"><!-- --></a><p>The Standard C++ library
+name that you must use is <code>libstdcppv5.lib</code>. The value
+5 (in the library name) being based on the STL Port version number, which
+is 5. </p> </li>
+</ul> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-D6BEAF0D-844D-51F4-8DB7-FB1D60E17FE3.html">Copyright
+Acknowledgments for Standard C++ (STLport)</a></li><li><a href="GUID-F7FEB759-E64D-5B6D-9017-C5E982E4FC16.html">Standard
+C++ Library Overview</a></li><li><a href="GUID-CDE8CD85-8467-5B36-A0AC-41D1D98151CA.html"> Developing
+Applications or Libraries                 Using Standard C++</a></li><li><a href="GUID-E331B72B-84AF-558A-9B8F-73E5E50B58C7.html">Building
+a Standard C++ Application or Library</a></li><li><a href="GUID-AF2CE612-F12E-5A18-81A5-C303992D2D46.html">Possible
+Problems</a></li><li><a href="GUID-5B3F5296-D6D0-5D25-8362-141DF5927E52.html">Troubleshooting</a></li><li><a href="GUID-D32E52C9-F05C-5F1E-8B49-243D555C353C.html">Known Issues</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 28th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-2CCD1748-9EDE-5383-9941-A3051E06F3E2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:00 GMT -->
+</html>

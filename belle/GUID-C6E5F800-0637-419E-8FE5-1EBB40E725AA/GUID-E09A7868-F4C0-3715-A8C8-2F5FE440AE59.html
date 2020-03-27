@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E09A7868-F4C0-3715-A8C8-2F5FE440AE59.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:19:25 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxStruct" />
+<meta name="DC.Title" content="_GObjectClass" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-E09A7868-F4C0-3715-A8C8-2F5FE440AE59" />
+<title>_GObjectClass</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-E09A7868-F4C0-3715-A8C8-2F5FE440AE59"><a name="GUID-E09A7868-F4C0-3715-A8C8-2F5FE440AE59"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">_GObjectClass Struct Reference</h1>
+<div class="state state apiQualifier apiQualifier cxxStructDeclarationFile section include"><p>#include 
+            
+                    &lt;stdapis/glib-2.0/gobject/gobject.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>struct _GObjectClass</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Attributes</th></tr></thead><tbody><tr><td align="right" valign="top" class="code">
+<a class="xref xref apiRelation" href="GUID-D104C8C3-DD18-3E70-84FF-9D0A8005ECB7.html">GSList</a> *</td><td><a href="#GUID-A21525AF-0DB9-3844-9976-54E6F0586579">construct_properties</a></td></tr><tr class="bg"><td align="right" valign="top" class="code">void(*</td><td><a href="#GUID-16169BDE-9760-302B-87D2-D966CE833439">constructed</a></td></tr><tr><td align="right" valign="top" class="code">
+<a class="xref xref apiRelation" href="GUID-5C550344-0CF4-3F3A-BEC0-200CF8208183.html">GObject</a> *(*</td><td><a href="#GUID-C1F653DE-023B-31DD-A278-F8DB36790289">constructor</a></td></tr><tr class="bg"><td align="right" valign="top" class="code">void(*</td><td><a href="#GUID-8A7861B2-211F-3AD7-BAD8-6CAC15B24E9F">dispatch_properties_changed</a></td></tr><tr><td align="right" valign="top" class="code">void(*</td><td><a href="#GUID-FEB2F151-12DC-3B90-B56D-CC27296AAE0F">dispose</a></td></tr><tr class="bg"><td align="right" valign="top" class="code">void(*</td><td><a href="#GUID-10B462B4-2C49-313F-AF67-01C44067FCAF">finalize</a></td></tr><tr><td align="right" valign="top" class="code">
+<a class="xref xref apiRelation" href="GUID-7DCFEFCE-C274-3EFD-8F23-F4C0D7845A1F.html">GTypeClass</a>
+</td><td><a href="#GUID-67AE16E5-541A-314A-8A47-A38028FCC977">g_type_class</a></td></tr><tr class="bg"><td align="right" valign="top" class="code">void(*</td><td><a href="#GUID-A606F401-2245-393B-AAAD-5C4808291300">get_property</a></td></tr><tr><td align="right" valign="top" class="code">void(*</td><td><a href="#GUID-CE7A9021-E0C5-3877-BA54-2B5AC9B96B31">notify</a></td></tr><tr class="bg"><td align="right" valign="top" class="code">
+<a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gpointer</a>
+</td><td><a href="#GUID-F0CE14C4-FC8B-3046-8ABA-7A2A003BE038">pdummy</a></td></tr><tr><td align="right" valign="top" class="code">void(*</td><td><a href="#GUID-D1B7F775-347A-3F36-9063-FFB6AE350BBA">set_property</a></td></tr></tbody></table></div><div class="section section apiDesc section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+<p class="p">GObjectClass: : the parent class : the  function is called by g_object_new () to complete the object initialization after all the construction properties are set. The first thing a  implementation must do is chain up to the  of the parent class. Overriding  should be rarely needed, e.g. to handle construct properties, or to implement singletons. : the generic setter for all properties of this type. Should be overridden for every type with properties. Implementations of  don't need to emit property change notification explicitly, this is handled by the type system. : the generic getter for all properties of this type. Should be overridden for every type with properties. : the  function is supposed to drop all references to other objects, but keep the instance otherwise intact, so that client method invocations still work. It may be run multiple times (due to reference loops). Before returning,  should chain up to the  method of the parent class. : instance finalization function, should finish the finalization of the instance begun in  and chain up to the  method of the parent class. : emits property change notification for a bunch of properties. Overriding  should be rarely needed. : the class closure for the notify signal : the  function is called by <a class="xref" href="GUID-2B42288F-5B59-3D42-A0EC-1236BD434F12.html#GUID-1A3AE1E5-E38A-3F63-9C62-C8E42D685507">g_object_new()</a> as the final step of the object creation process. At the point of the call, all construction properties have been set on the object. The purpose of this call is to allow for object initialisation steps that can only be performed after construction properties have been set.  implementors should chain up to the  call of their parent class to allow it to complete its initialisation.</p>
+<p class="p">The class structure for the &lt;structname&gt;GObject&lt;/structname&gt; type.</p>
+<p class="p">&lt;title&gt;Implementing singletons using a constructor&lt;/title&gt; &lt;programlisting&gt; static MySingleton *the_singleton = NULL;</p>
+<p class="p">static GObject* my_singleton_constructor (GType type, guint n_construct_params, GObjectConstructParam *construct_params) { GObject *object;</p>
+<p class="p">if (!the_singleton) { object = G_OBJECT_CLASS (parent_class)-&gt;constructor (type, n_construct_params, construct_params); the_singleton = MY_SINGLETON (object); } else object = g_object_ref (G_OBJECT (the_singleton));</p>
+<p class="p">return object; } &lt;/programlisting&gt;</p>
+</div>
+<h2 class="sectiontitle">Member Attribute Documentation</h2><div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-A21525AF-0DB9-3844-9976-54E6F0586579"><a name="GUID-A21525AF-0DB9-3844-9976-54E6F0586579"><!-- --></a>
+<h3 class="sectiontitle">construct_properties</h3>
+<div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-D104C8C3-DD18-3E70-84FF-9D0A8005ECB7.html">GSList</a> *</td><td>construct_properties</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-16169BDE-9760-302B-87D2-D966CE833439"><a name="GUID-16169BDE-9760-302B-87D2-D966CE833439"><!-- --></a>
+<h3 class="sectiontitle">constructed</h3>
+<div class="section signature"><table class="signature"><tr><td>void(*</td><td>constructed</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-C1F653DE-023B-31DD-A278-F8DB36790289"><a name="GUID-C1F653DE-023B-31DD-A278-F8DB36790289"><!-- --></a>
+<h3 class="sectiontitle">constructor</h3>
+<div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-5C550344-0CF4-3F3A-BEC0-200CF8208183.html">GObject</a> *(*</td><td>constructor</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-8A7861B2-211F-3AD7-BAD8-6CAC15B24E9F"><a name="GUID-8A7861B2-211F-3AD7-BAD8-6CAC15B24E9F"><!-- --></a>
+<h3 class="sectiontitle">dispatch_properties_changed</h3>
+<div class="section signature"><table class="signature"><tr><td>void(*</td><td>dispatch_properties_changed</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-FEB2F151-12DC-3B90-B56D-CC27296AAE0F"><a name="GUID-FEB2F151-12DC-3B90-B56D-CC27296AAE0F"><!-- --></a>
+<h3 class="sectiontitle">dispose</h3>
+<div class="section signature"><table class="signature"><tr><td>void(*</td><td>dispose</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-10B462B4-2C49-313F-AF67-01C44067FCAF"><a name="GUID-10B462B4-2C49-313F-AF67-01C44067FCAF"><!-- --></a>
+<h3 class="sectiontitle">finalize</h3>
+<div class="section signature"><table class="signature"><tr><td>void(*</td><td>finalize</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-67AE16E5-541A-314A-8A47-A38028FCC977"><a name="GUID-67AE16E5-541A-314A-8A47-A38028FCC977"><!-- --></a>
+<h3 class="sectiontitle">g_type_class</h3>
+<div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-7DCFEFCE-C274-3EFD-8F23-F4C0D7845A1F.html">GTypeClass</a>
+</td><td>g_type_class</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-A606F401-2245-393B-AAAD-5C4808291300"><a name="GUID-A606F401-2245-393B-AAAD-5C4808291300"><!-- --></a>
+<h3 class="sectiontitle">get_property</h3>
+<div class="section signature"><table class="signature"><tr><td>void(*</td><td>get_property</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-CE7A9021-E0C5-3877-BA54-2B5AC9B96B31"><a name="GUID-CE7A9021-E0C5-3877-BA54-2B5AC9B96B31"><!-- --></a>
+<h3 class="sectiontitle">notify</h3>
+<div class="section signature"><table class="signature"><tr><td>void(*</td><td>notify</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-F0CE14C4-FC8B-3046-8ABA-7A2A003BE038"><a name="GUID-F0CE14C4-FC8B-3046-8ABA-7A2A003BE038"><!-- --></a>
+<h3 class="sectiontitle">pdummy</h3>
+<div class="section signature"><table class="signature"><tr><td>
+<a class="xref xref apiRelation" href="GUID-A1774D19-C7DD-3397-9D4F-0095BFAE07E2.html">gpointer</a>
+</td><td>pdummy</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-D1B7F775-347A-3F36-9063-FFB6AE350BBA"><a name="GUID-D1B7F775-347A-3F36-9063-FFB6AE350BBA"><!-- --></a>
+<h3 class="sectiontitle">set_property</h3>
+<div class="section signature"><table class="signature"><tr><td>void(*</td><td>set_property</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></div></div></div></div></div></div></div></div></div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E09A7868-F4C0-3715-A8C8-2F5FE440AE59.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:19:25 GMT -->
+</html>

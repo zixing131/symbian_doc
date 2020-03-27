@@ -1,0 +1,171 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-05D2DFDE-FDCE-457E-8714-2315F1069B48.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Exceptions and error handling" /><meta name="abstract" content="Symbian C++ uses its own exception mechanism consisting of TRAPs, Leaves, and the Cleanup Stack, which must be handled correctly for use with the standard C++ mechanism of try, catch and exceptions used by Qt. Symbian and Qt also make extensive use of error codes which require handling or translation when code from both APIs is used." /><meta name="description" content="Symbian C++ uses its own exception mechanism consisting of TRAPs, Leaves, and the Cleanup Stack, which must be handled correctly for use with the standard C++ mechanism of try, catch and exceptions used by Qt. Symbian and Qt also make extensive use of error codes which require handling or translation when code from both APIs is used." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-D1F69FDA-6ED7-4E29-BCD4-250DF3C4841B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-05D2DFDE-FDCE-457E-8714-2315F1069B48" /><meta name="DC.Language" content="en" /><title>Exceptions and error handling </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-05D2DFDE-FDCE-457E-8714-2315F1069B48">Exceptions and error handling</h1><div><p>Symbian C++ uses its own exception mechanism consisting
+of TRAPs, Leaves, and the Cleanup Stack, which must be handled correctly
+for use with the standard C++ mechanism of try, catch and exceptions
+used by Qt. Symbian and Qt also make extensive use of error codes
+which require handling or translation when code from both APIs is
+used.</p>
+<div id="GUID-38975047-2E7C-4D26-A21F-D91D414F3028"><h3 class="section-title">Symbian
+exceptions and errors</h3><p>Symbian C++ uses its own exception
+mechanism consisting of TRAPs (somewhat equivalent to <em>try</em>),
+Leaves (a bit like <em>throw</em>), and the <a href="GUID-1FFE4ED5-7B2E-58A0-9D08-A096F53F37AB.html">Cleanup Stack</a> (which allows locally scoped heap-allocated objects to be safely
+deleted in the event of an exception). </p><p>Potentially leaving
+code is run inside a <a href="GUID-3AD20E0C-F364-533F-9FBC-227478CA9982.html">TRAP</a> macro.
+In the event of a Leave, the call stack is unwound up to the TRAP,
+automatic variables are deallocated and the Cleanup Stack deletes
+or otherwise cleans up any objects on the current TRAP level. The
+TRAP macro returns the leave error code (a single integer) and execution
+continues immediately afterwards (there is no separate "catch"). Much
+like catch blocks, the code following a TRAP is expected to handle
+leave codes that it understands, and Leave again with any that it
+does not understand. </p><pre class="codeblock">TInt result;
+TRAP(result, MayLeaveL());
+ 
+if (KErrNone!=result) {
+// Deal with errors that can be handled at this level
+// Leave again with any errors you choose not to handle
+}</pre><div class="p"><div class="note"><p><strong class="note_title">Note: </strong>TRAPs are relatively heavy weight in terms of
+executable size and RAM consumption. While these can be nested and
+used at any level, it is usually better to trap at a high level, grouping
+a number of Leaving functions.</p></div>Symbian uses a naming convention
+for functions and <a href="GUID-2458916B-55B2-5E08-A825-4EBDB3503E67.html">class types</a> to help developers understand how to safely allocate
+objects to prevent memory leaks: </div><ul>
+<li><p>Functions that might <code class="codeph">Leave</code> are by convention
+named with a trailing <code class="codeph">L</code> (or <code class="codeph">LC</code> to
+indicate that the object remains on the Cleanup Stack when the method
+returns). </p></li>
+<li><p>Classes that should be allocated on the heap usually first
+derive from <code class="codeph">CBase</code> and are named with the <code class="codeph">C</code> prefix. </p><ul>
+<li><p><code class="codeph">CBase</code> provides zero member initialization
+on construction, an overload of new that Leaves (<code class="codeph">new (ELeave)</code>) in the event of allocation failure, and a virtual destructor that
+the Cleanup Stack can use to delete  the object in the event of a
+Leave. (The cleanup stack also provides methods to delete other heap-based
+objects that are not derived from <code class="codeph">CBase</code>, such as
+arrays and interface classes.) </p></li>
+<li><p>C classes are constructed using the leave-safe <a href="GUID-48AD5B98-DBA8-4601-A158-12559985BCEB.html">two-phase construction</a> idiom. </p></li>
+</ul></li>
+<li><p>The T prefix is used for stack-allocated classes that do not
+own pointers to heap resources and do not have a destructor. </p></li>
+<li><p>The R prefix is used for stack classes that own resources elsewhere
+– and therefore require explicit support for cleanup. </p></li>
+</ul><p>In Symbian's original implementation, the destructors of automatic
+variables were not called in the event of a Leave. As a result smart
+pointers could not be used for local object cleanup. The naming conventions
+allow you to work out whether objects require explicit cleanup support
+via the cleanup stack (R, C classes) or not (T classes).</p><p><a href="GUID-26D7BC6E-509C-51C5-9B86-437F3AEEB2EA.html">Exception Handling</a> in the Symbian guide provides a more detailed discussion of how
+the exception mechanism works and how to write leave-safe code. Leave-safe
+object construction is discussed in the introduction to <a href="GUID-48AD5B98-DBA8-4601-A158-12559985BCEB.html">Two-phase construction</a> and in more detail in <a href="GUID-5EBA3C03-2E4E-5DBA-BB5B-0D40DAB3C39B.html">Two Phase Construction</a> in the Symbian Guide. </p><div class="p"><div class="note"><p><strong class="note_title">Note: </strong>At the time Symbian C++ was created,
+standard C++ try-catch-throw exception handling was considered too
+memory-expensive for an embedded operating system. In addition, there
+was limited support in the compilers in use at that time.  Standard
+C++ exception support was added in Symbian OS v9.</p></div></div><p>Symbian's
+exception handling mechanism is now implemented in terms of try, catch
+and throw. You can use try, catch and throw  in standard C++ code,
+and even mix them with Symbian C++ (with care).</p><p>Symbian functions
+use either Leaves or error codes to signal an exception condition.
+Returning an error is usually preferred to Leaving when the error
+condition is "expected" (for example, attempting to read past the
+end of a file). However, there are no firm rules (other than class
+construction always leaves with <code class="codeph">KErrNoMemory</code> if there
+is no memory to allocate the object), and you will see errors and
+Leaves used in an ad-hoc manner within the Symbian C++ APIs. It is
+considered bad programming practice to have a function that leaves <em>and</em> returns an error, or to convert a leave to an error (using
+a TRAP without good reason). </p><p>There is a set of global error
+codes (negative integer values), defined in <code>e32err.h</code>. Other error codes are defined within individual components
+– there are a number of lists, including the one on <a href="http://www.newlc.com/fr/Symbian-OS-Error-Codes.html" target="_blank">www.newlc.com</a>. </p><p>Symbian defines a second
+class of exception called a <a href="GUID-B2DDCCB6-4350-4A67-9015-DE7094C0F590.html">panic</a>. A Panic
+is used to signal programmatic errors and results in immediate termination
+of the application – this is an appropriate response to misuse of
+an API. </p></div>
+<div id="GUID-4C1CC3A2-AF9D-4635-940B-CB5F87C50FCA"><h3 class="section-title">Qt
+exceptions and error codes</h3><p>Qt supports the standard C++
+exception handling mechanism where it is available on the underlying
+platform and compiler. </p><p>Although Qt has supported the mechanism
+for third-party code since the beginning, historically Qt framework
+code has not used the mechanism (for reasons of cross-platform compatibility).
+Instead Qt code uses locally defined error codes to notify client
+code of error conditions. When there is a failure to allocate memory,
+framework code simply returns a null pointer and fails on first pointer
+dereference (except for some larger objects, where special measures
+are taken). </p><p>Qt 4.6 supports basic <a href="http://qt.nokia.com/doc/exceptionsafety.html" target="_blank">exception safety</a> (component invariants are preserved and no
+resources are leaked) for Qt's container classes as well as for the <code class="codeph">QFile</code> class: </p><ul>
+<li><p>The <code class="codeph">QScopedPointer</code> smart-pointer has been
+added to allow locally scoped objects to be cleaned up in the event
+of an exception (during use or on construction). </p></li>
+<li><p>Objects now throw <code class="codeph">std::bad_alloc</code> if memory
+cannot be allocated (using <a href="http://qt.nokia.com/doc/qtglobal.html#q_check_ptrx" target="_blank">q_check_ptr()</a> to check the returned pointer). </p></li>
+<li><p>try/catch blocks have been added where appropriate.</p></li>
+</ul><p>Qt does not (at the time of writing) define its own exception
+class hierarchy, and the framework code only throws <code class="codeph">std::bad_alloc</code>. Qt itself still uses error codes rather than exceptions to propagate
+errors other than allocation failure. Developers should assume that
+almost any Qt class can <code class="codeph">throw</code>, and that where it
+interacts with third-party code, it can throw virtually anything.
+(An exception is <code class="codeph">QScopedPointer</code>'s constructor, which
+means that it can safely be used for cleaning up locally scoped objects.)
+When Qt catches exceptions, it always rethrows them if they are not
+handled. </p><p>You should use the macros <code class="codeph">QT_TRY</code>, <code class="codeph">QT_CATCH</code>, <code class="codeph">QT_THROW</code>, and <code class="codeph">QT_RETHROW</code> (defined in <code>qglobal.h</code>) in preference to calling
+try, catch and throw  directly. This ensures that exception handling
+code is only compiled on platforms that support exceptions. Note that
+if you write your application to be exception safe, it will work whether
+exceptions are enabled or not. </p></div>
+<div id="GUID-10D7581D-2E10-4674-9297-AABD04C46AAA"><h3 class="section-title">Mixing
+Symbian C++ and Qt exception handling</h3><p>Qt uses standard C++
+exceptions while Symbian C++ uses Leaves. Although Leaves are implemented
+in terms of exceptions, care needs to be taken to interleave the two
+idioms. </p><p><a href="http://qt.nokia.com/doc/symbianexceptionsafety.html" target="_blank">Symbian exception safety</a> succinctly explains
+the issues, and describes the barrier functions that you can use to
+convert between the idioms. </p><p>The barrier functions allow you
+to catch standard exceptions and convert them to Symbian errors or
+leaves for propagation into Symbian code, and similarly to convert
+Symbian C++ leaves or errors into standard exceptions. The methods
+are listed here for convenience: <a href="http://qt.nokia.com/doc/qtglobal.html#qt_symbian_throwIfError" target="_blank">qt_symbian_throwIfError()</a>, <a href="http://qt.nokia.com/doc/qtglobal.html#q_check_ptrx" target="_blank">q_check_ptr()</a>, <a href="http://qt.nokia.com/doc/qtglobal.html#QT_TRAP_THROWING" target="_blank">QT_TRAP_THROWING()</a>, <a href="http://qt.nokia.com/doc/qtglobal.html#qt_symbian_exception2Error" target="_blank">qt_symbian_exception2Error()</a>, <a href="http://qt.nokia.com/doc/qtglobal.html#qt_symbian_exception2LeaveL" target="_blank">qt_symbian_exception2LeaveL()</a>, <a href="http://qt.nokia.com/doc/qtglobal.html#QT_TRYCATCH_ERROR" target="_blank">QT_TRYCATCH_ERROR()</a>, <a href="http://qt.nokia.com/doc/qtglobal.html#QT_TRYCATCH_LEAVING" target="_blank">QT_TRYCATCH_LEAVING()</a>. </p><p>The barrier
+methods can only catch and convert <em>standard exceptions</em> – application-specific
+exceptions propagate through, and cause the application to terminate
+if they reach a TRAP. This is expected behavior – by convention code
+should catch and handle only those exceptions that it understands
+– all other exceptions must be re-thrown. </p><div class="p"><div class="note"><p><strong class="note_title">Note: </strong>It is tempting
+to catch all exceptions with catch (...) or QT_CATCH (...)  to prevent
+them propagating to a TRAP and terminating the application. However,
+if you do this the error condition still exists – all you have done
+is remove any opportunity for the application to handle the error
+appropriately – the code may still leak memory or fail in an unpredictable
+and hard-to-debug manner.</p></div></div><p>There are a few cases that
+are worth more detailed consideration: where a function must not fail,
+and where it can fail but must not throw or leave. In both cases "must
+not fail" should be treated as "must not fail with a leave or standard
+exception" – other exceptions must be allowed to propagate. </p><div class="p">Destructors are a case where a function must not fail (throw exceptions
+or Leave). When implementing a destructor: <ul>
+<li><p>Try to only use functions that will not fail </p></li>
+<li><p>If you must call a function that can Leave, stop it from propagating
+using a TRAP macro. </p></li>
+<li><p>If you must call a function that can throw, stop standard exceptions
+with a <code class="codeph">QT_CATCH</code> (<code class="codeph">const std::exception&amp;</code>). Other exceptions must be allowed to propagate – do not <code class="codeph">QT_CATCH (...)</code> without rethrowing the exception. </p></li>
+<li><p>A logical consequence of this is that a Qt slot connected to
+the <code class="codeph">QObject::destroyed()</code> signal must be implemented
+as if it were destructor code, following all the rules above (it is
+emitted in the <code class="codeph">QObject</code> destructor). </p></li>
+</ul></div><div class="p">Some functions can fail, but must not throw or leave.
+For example Symbian C++ callback methods that do not have the L suffix
+cannot leave because the calling code may not have been written to
+be leave-safe. Nor can it throw, because there may be a TRAP at a
+higher level: <ul>
+<li><p>If the function can return an error code, you can use the Qt
+barrier functions to convert leaves or standard exceptions to errors. </p></li>
+<li><p>If the function prototype does not allow errors to be returned,
+you can absorb errors you understand but must throw others. </p></li>
+<li><p>In both cases, non-standard exceptions must be allowed to propagate. </p></li>
+</ul></div></div>
+<div id="GUID-B6E77357-9661-41ED-81D2-6F12A4131C52-GENID-GUID-8DE0204E-C5D3-4CC0-A53C-29DED7799B53"><h3 class="section-title">Copyright
+note</h3><p>Most of the material in this topic is based with permission
+on a Symbian Foundation wiki article <cite>Apps:Using Qt and Symbian
+C++ Together</cite> . The version used was that available at Symbian
+Foundation on 3 November 2010. The content in this page is licensed
+under the Creative Commons Attribution-Share Alike 2.0 UK: England
+&amp; Wales License (<a href="http://creativecommons.org/licenses/by-sa/2.0/uk" target="_blank">http://creativecommons.org/licenses/by-sa/2.0/uk</a>).</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 18th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-05D2DFDE-FDCE-457E-8714-2315F1069B48.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:00 GMT -->
+</html>

@@ -1,0 +1,79 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-6DAF85AD-E412-5823-81C2-FC1755A90A84.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="What are elements" /><meta name="abstract" content="This topic describes elements. All items that can be stored in the Comms Database are elements. The topic also discusses the structure of the unique numeric Id and the attributes that control access to elements." /><meta name="description" content="This topic describes elements. All items that can be stored in the Comms Database are elements. The topic also discusses the structure of the unique numeric Id and the attributes that control access to elements." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-C3018CEE-865B-595A-A735-40E11665E50A" /><meta name="DC.Relation" scheme="URI" content="GUID-BD971173-E009-58DA-AF9C-F4AAFF77B138" /><meta name="DC.Relation" scheme="URI" content="GUID-1AFDDD6F-CB99-587D-A0B5-D3F5B27F7135" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-6DAF85AD-E412-5823-81C2-FC1755A90A84" /><meta name="DC.Language" content="en" /><title>What
+are elements </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-6DAF85AD-E412-5823-81C2-FC1755A90A84">What
+are elements</h1><div><p>This topic describes elements. All items that can be stored in
+the Comms Database are elements. The topic also discusses the structure of
+the unique numeric Id and the attributes that control access to elements. </p>
+<p>An element is represented by the CMDBElement class.
+The class is a base class for all items that can be stored in the Comms Database.
+The class contains the data that is common to all items that can be stored
+in the Comms database. </p>
+<p>Elements contain three pieces of information: </p>
+<ul>
+<li id="GUID-42CDC895-ADD7-53E1-86C8-BDCA97874D80"><a name="GUID-42CDC895-ADD7-53E1-86C8-BDCA97874D80"><!-- --></a><p>a unique numeric Id
+that defines the location of the element in the database. The Id defines the
+meaning of the element in the database schema as a specific Table, Column,
+Record or Field. A numeric Id also allows for fast access and retrieval of
+an element. </p> </li>
+<li id="GUID-370BB127-A262-561F-BB53-CFD71D7EF61E"><a name="GUID-370BB127-A262-561F-BB53-CFD71D7EF61E"><!-- --></a><p>a set of attributes
+that controls access to the data. </p> </li>
+<li id="GUID-F533113D-25EF-5CAE-8AA4-FF05CA8894B6"><a name="GUID-F533113D-25EF-5CAE-8AA4-FF05CA8894B6"><!-- --></a><p>a value that can be
+a single numeric type, a Boolean type, a descriptor, or a composite of one
+or more nested elements. </p> </li>
+</ul>
+<p> CMDBElement derives from MMetaDatabase. <code class="codeph">MMetaDatabase</code> provides
+the behaviour that allows an element to operate with the Comms Database. [See
+accessing the database or words to that effect.] </p>
+<div class="figure" id="GUID-3FE9490C-8766-5F31-9147-7F20A03BBF2D"><img src="GUID-4B7FA629-BFC9-594B-B253-AC920EAD6E67_d0e126689_href.png" /></div>
+<div id="GUID-4DDD4947-D379-5B68-8DC0-B67B074FA852"><h3 class="section-title">The Element
+Id</h3> <p>The <code class="codeph">iElementId</code> data member of CMDBElement is
+a 32 bit number that contains: </p> <ul>
+<li id="GUID-4F41A6A2-79FC-5CA7-AC9C-B242D7DC925E"><a name="GUID-4F41A6A2-79FC-5CA7-AC9C-B242D7DC925E"><!-- --></a><p>the unique numeric Id
+that shows the location of the element in the database. This numeric Id is
+known as the Element Id. </p> </li>
+<li id="GUID-D8EFDBE9-A897-56F8-939A-E3942FCC34F2"><a name="GUID-D8EFDBE9-A897-56F8-939A-E3942FCC34F2"><!-- --></a><p>the set of attributes
+that controls access to the data. The bits define the access levels. </p> </li>
+</ul> <p>Both pieces of information are encoded in the 32 bit number. The
+32 bit number is a TMDBElementId type. </p> <p>The CMDBElement class provides member functions to
+access and to change the information in the Element Id. </p></div>
+<div><h3 class="section-title"><!--no section title--></h3> <p id="GUID-32E556BC-55C3-5FBD-9A60-9708139C20D6"><a name="GUID-32E556BC-55C3-5FBD-9A60-9708139C20D6"><!-- --></a><strong>The unique
+numeric Id</strong> </p> <p>The unique numeric Id has two parts: the Type Id and
+the Record Id. </p> <p>The Type Id defines the type of element; the Record
+Id identifies an instance of this type of element. </p> <p>The class CMDBElement provides the member functions CommsDat::CMDBElement::TypeId() and CommsDat::CMDBElement::RecordId() to
+extract this information. </p> <p>Internally, the Type Id includes a 8 bit
+number and a 7 bit number. The 8 bit number is the Table Id and the 7 bit
+number is the Column Id. The Type Id and the Record Id are in defined locations
+in the 32 bit number <code class="codeph">iElementId</code>. </p> <div class="figure" id="GUID-B3A732DF-8D24-532C-A4AB-D5B42408D832"><img src="GUID-0B151FE8-21E1-58A1-BEB3-5502EDF052C0_d0e126775_href.png" /></div> <p>The header file <code>comsdat.h</code> contains the constants
+that define the location of these Ids in the 32 bit number: </p> <div class="tablenoborder"><a name="GUID-1369F999-F42E-5268-AF6F-0D5C9A362878"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-1369F999-F42E-5268-AF6F-0D5C9A362878" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Table Id </p> </td>
+<td class="cellrowborder" valign="top"><p> KCDMaskShowRecordType </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Column Id </p> </td>
+<td class="cellrowborder" valign="top"><p> KCDMaskShowFieldType </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>Type Id </p> </td>
+<td class="cellrowborder" valign="top"><p> KCDMaskShowType </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>Record Id </p> </td>
+<td class="cellrowborder" valign="top"><p> KCDMaskShowRecordId </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div><h3 class="section-title"><!--no section title--></h3><p id="GUID-EE8E5985-4159-5780-8001-E51EB4821D05"><a name="GUID-EE8E5985-4159-5780-8001-E51EB4821D05"><!-- --></a><strong> The set of
+attributes that controls access to the data</strong> </p><p>The access levels of
+an element are defined by the bits in the element. The TCDAttributeFlags enum
+defines the access levels of an element. These bits are stored in the fourth
+byte of the <code class="codeph">iElementId</code> member of CMDBElement. </p><div class="figure" id="GUID-A1C2FF44-AA19-42B8-8F10-E927170A317A"><img src="GUID-46673FC4-ADA9-59D1-A743-B4784425D240_d0e126888_href.png" /></div><p> KCDMaskShowAttributes in the header file <code>comsdat.h</code> defines
+the location of these access control bits in the 32 bit number.</p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 9th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-6DAF85AD-E412-5823-81C2-FC1755A90A84.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:28 GMT -->
+</html>

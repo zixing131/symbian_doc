@@ -1,0 +1,138 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-ABE77283-EED8-5A33-B574-3B771EF11086.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:20 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to Use ULogger with Comms" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-8905A627-1D13-5066-ABC4-7E0AF07D96A5" /><meta name="DC.Relation" scheme="URI" content="GUID-FD8AD44E-271D-514C-A52A-513E7C8AD207" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-ABE77283-EED8-5A33-B574-3B771EF11086" /><meta name="DC.Language" content="en" /><title>How to Use ULogger with Comms </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-ABE77283-EED8-5A33-B574-3B771EF11086">How to Use ULogger with Comms</h1><div>
+<p>This tutorial summarizes one approach for enabling, retrieving
+and post-processing the ULogger logs for Comms. ULogger is part of
+the Unified Trace framework which replaces other logging mechanisms
+for Symbian platform including Flogger and CDU. </p>
+<p>The Unified Trace framework has greater flexibility and speed compared
+to Flogger and CDU. </p>
+<div id="GUID-6FF10945-4E25-4F91-BDA4-CC363EEC2480"><h3 class="section-title">Introduction</h3> <p>The Comms logging which has been migrated to ULogger is as follows: </p> <ul>
+<li id="GUID-677DDC92-E655-50AD-85A3-7B6817F9E12A"><a name="GUID-677DDC92-E655-50AD-85A3-7B6817F9E12A"><!-- --></a><p>Comms Framework
+Node messages - creation and destruction of Nodes and messages between
+Nodes. </p> </li>
+<li id="GUID-E496D531-2CF2-5042-8820-BC8CE75CE4C6"><a name="GUID-E496D531-2CF2-5042-8820-BC8CE75CE4C6"><!-- --></a><p>Mesh Machine
+messages </p> </li>
+<li id="GUID-E4892E5F-845B-5672-AB90-944A8B7DAEBE"><a name="GUID-E4892E5F-845B-5672-AB90-944A8B7DAEBE"><!-- --></a><p>data to support
+the SVG generation </p> </li>
+</ul> <p>This logging replaces some of what was logged through the
+"<code class="codeph">LOG CFNode *</code> ", "<code class="codeph">LOG Mesh *</code> " and
+"<code class="codeph">LOG ESock *</code> " tags. In the case of the <code class="codeph">ESock</code> tag, the logging which is written to ULogger is also written to
+CDU. </p> <p>This usage description assumes that the development tools
+already include ULogger support. </p><p>Note: For more information,
+see <strong>Symbian^3 Tools Guide &gt; Debugging</strong>.</p> </div>
+<div id="GUID-BB759C19-49DA-48EA-8550-11B897A2E768"><h3 class="section-title">Procedure
+- Using ULogger</h3> <p><strong>Requirements</strong></p> <p>The following binaries must include logging:</p><ul>
+<li><p><code>nodemessages.dll</code></p> </li>
+<li><p><code>meshmachine.dll</code> </p> </li>
+<li><p><code>commsfw.dll</code></p> </li>
+<li><p><code>serverden.dll</code></p> </li>
+<li><p><code>esocksvr.dll</code></p> </li>
+</ul><p> To enable logging for a binary either use the UDEB version
+of the  binary or rebuild the binary with the <code class="codeph">SYMBIAN_TRACE_ENABLED</code> macro defined. </p></div>
+<div id="GUID-72A353DC-CFD8-482E-B2E4-9CCCCD1C9BBA"><h3 class="section-title">Steps</h3> <ol>
+<li id="GUID-E3B09A4E-C87A-45F9-8DE6-653BA1A2E426"><a name="GUID-E3B09A4E-C87A-45F9-8DE6-653BA1A2E426"><!-- --></a><p><strong>Start Eshell</strong> - ULogger only supports asynchronous logging, so from EShell start
+a second instance of EShell. </p> <pre class="codeblock">start eshell</pre> <p>                 This allows ULogger to be stopped even if the
+code under observation does not exit normally. </p> </li>
+<li id="GUID-8A912D95-8D99-4D2A-9A5E-C51132924DAC"><a name="GUID-8A912D95-8D99-4D2A-9A5E-C51132924DAC"><!-- --></a><p>
+<strong>Set the ULogger Filters</strong> - To allow Comms logging enable
+the following filters: </p><div class="tablenoborder"><a name="GUID-56D45DFD-FD08-4B16-AB72-E5DD51C888E1"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-56D45DFD-FD08-4B16-AB72-E5DD51C888E1" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e125810">Level</th>
+<th class="cellrowborder" valign="top" id="d0e125813">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e125810 "> <p>                         194                        </p></td>
+<td class="cellrowborder" valign="top" headers="d0e125813 "> <p>                         Node Messages                
+       </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e125810 "> <p>                         195                        </p></td>
+<td class="cellrowborder" valign="top" headers="d0e125813 "> <p>                         Mesh Machine                 
+      </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e125810 "> <p>                         196                        </p></td>
+<td class="cellrowborder" valign="top" headers="d0e125813 "> <p>                         SVG Logging - provides extra logging
+so that 194 and 195                         can be displayed in an
+SVG file                        </p></td>
+</tr>
+</tbody>
+</table></div> <p>                 The following filter is also useful:
+               </p> <div class="tablenoborder"><a name="GUID-F2BA543D-0396-4552-9546-EF332B6BD747"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-F2BA543D-0396-4552-9546-EF332B6BD747" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e125875">Level</th>
+<th class="cellrowborder" valign="top" id="d0e125878">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e125875 "> <p>                         3</p></td>
+<td class="cellrowborder" valign="top" headers="d0e125878 "> <p>                         Kernel Thread ID's - Thread and
+process creation                        </p></td>
+</tr>
+</tbody>
+</table></div> <p>Set these filters with the following command:</p> <pre class="codeblock">ulogger -efv 194 195 3 196
+</pre> </li>
+<li id="GUID-72C31641-7F65-4AA8-83BB-752E7A6EE77E"><a name="GUID-72C31641-7F65-4AA8-83BB-752E7A6EE77E"><!-- --></a><p>
+<strong>Start ULogger</strong> - The following command starts ULogger 
+               with the filter:                </p> <pre class="codeblock">
+ 
+ulogger -rv</pre> </li>
+<li id="GUID-CEDCDC01-1E86-4A67-9822-D94370DAF5E8"><a name="GUID-CEDCDC01-1E86-4A67-9822-D94370DAF5E8"><!-- --></a><p>
+<strong>Run the code under observation</strong> - In the first Eshell 
+               session, run the code to be tested or debugged.   
+            </p> </li>
+<li id="GUID-8EA473A7-6609-48C2-8E66-BA56D0178669"><a name="GUID-8EA473A7-6609-48C2-8E66-BA56D0178669"><!-- --></a><p>
+<strong>Stop ULogger</strong> - To stop ULogger and generate the      
+          logs, use the command:                </p> <pre class="codeblock">ulogger -qv</pre> </li>
+<li id="GUID-AC7549F8-4010-45D6-8C76-9322C16C86A1"><a name="GUID-AC7549F8-4010-45D6-8C76-9322C16C86A1"><!-- --></a><p>
+<strong>Process the binary logs into text</strong> - The log file     
+           created by ULogger is in a binary format and is located
+in the                 <code>c:\logs</code> folder on the
+device.                </p> <p>                 To use the log file,
+the file must be converted to a text format.                     
+          </p> <p>                 The Comms software has a decoder
+to interpret the ULogger output                 for Comms. This decoder
+is an MS Windows-compatible application and is located           
+     in <code>…\os\commsfw\commsfwtools\</code>.         
+      </p> <p>                 An example command to run the decoder
+is:                </p> <pre class="codeblock">utracedecoder - -message-def esockmessages.definition.txt ulogger.log &gt; log.txt</pre> <p>                 The decoder uses a definition file to decipher
+the binary data in                 the log, and the decoder has definition
+files configured for the current scope                 of Comms logging.
+This example uses the ESock messages definition file, which      
+          is located in                 <code>…\os\commsfw\commsfwtools\commstools\utracedecoder\data\esockmessages.definition.txt</code>.                                </p> <p>                 The output
+in log.txt contains an interpretation of the original            
+    binary logs.                </p> </li>
+<li id="GUID-73E7C874-4487-492C-875C-642ECEBDF74F"><a name="GUID-73E7C874-4487-492C-875C-642ECEBDF74F"><!-- --></a><p>
+<strong>Generating the SVG diagram</strong> - The exchange of         
+       messages between Nodes can be rendered into a diagram.    
+           </p> <p>                 From <code>…\os\commsfw\commsfwtools\commstools\svg</code> run                 <code>parseit.bat</code> specifying
+the path to the generated log.txt file:                </p> <pre class="codeblock">parseit.bat /log M:\path_to_log_file\log.txt</pre><div class="figure" id="GUID-F6E85A8D-09B3-40A1-B3DC-5B968C3F1A4C"><span>Example SVG output from the Message Sequence Display Tool </span><img src="GUID-D7E5FECF-0B29-5908-A163-37036DF165E1_d0e125996_href.png" /></div> <p>                 Key to the SVG diagram:                </p> <ol type="a">
+<li id="GUID-64C07144-E5BD-465E-915F-1A867AD62FAB"><a name="GUID-64C07144-E5BD-465E-915F-1A867AD62FAB"><!-- --></a><p>           
+           Vertical black lines are tagged with names to represent
+node                       lifetimes. For example: <code class="codeph">IPCpr</code> </p> </li>
+<li id="GUID-4BEE656D-9DEB-402B-B3A9-3A5C822B5E99"><a name="GUID-4BEE656D-9DEB-402B-B3A9-3A5C822B5E99"><!-- --></a><p>           
+           Vertical lines forking from the node lifetime lines are
+                      MeshMachine activity lifetimes.            
+        </p> </li>
+<li id="GUID-BA5C28EF-856F-45CD-B6B8-AD1C0D663CA1"><a name="GUID-BA5C28EF-856F-45CD-B6B8-AD1C0D663CA1"><!-- --></a><p>           
+           Black horizontal lines are message deliveries.        
+            </p> </li>
+<li id="GUID-61D41E05-7269-4A95-843D-E536141E56E0"><a name="GUID-61D41E05-7269-4A95-843D-E536141E56E0"><!-- --></a><p>           
+           Green horizontal lines are message postings.          
+          </p> </li>
+</ol> <p>                     New message types can be added to the
+definition files. See the documentation with the utracedecoder component.
+                </p> </li>
+</ol></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 30th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-ABE77283-EED8-5A33-B574-3B771EF11086.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:21 GMT -->
+</html>

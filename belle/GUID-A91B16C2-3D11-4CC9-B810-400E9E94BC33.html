@@ -1,0 +1,104 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A91B16C2-3D11-4CC9-B810-400E9E94BC33.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Localization" /><meta name="DC.Relation" scheme="URI" content="GUID-C1DC7F74-CEED-4CCD-B24A-2ECC89A67AB4" /><meta name="DC.Relation" scheme="URI" content="GUID-6353E690-B19D-444C-88FE-42B0AD47DB6C" /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-9F54E3BC-E902-4DB8-A653-0A10A76DAA0C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A91B16C2-3D11-4CC9-B810-400E9E94BC33" /><meta name="DC.Language" content="en" /><title>Localization </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A91B16C2-3D11-4CC9-B810-400E9E94BC33">Localization</h1><div>
+<p>The application localization process uses <code>.ts</code> files as specified by the <a href="http://developer.qt.nokia.com/doc/qt-4.8/linguist-ts-file-format.html" target="_blank">Qt <code>.ts</code> file format</a>. Instead
+of source strings that Qt localization is based on, the localization
+can use unique text ID for each localizable text string.</p>
+<div id="GUID-167A1C53-8039-4C2B-B5AA-2F18B14E543D"><h3 class="section-title">Creating <code>.ts</code> files</h3><p>Design all the text strings in the
+application, as well as the source for them, right in the early stages
+of the software project. As a developer, you just need to know enough
+about the format and content of the <code>.ts</code> files
+to handle the implementation part of the localized <code>.ts</code> files.</p><p>To support the translators' work, the <code>.ts</code> file can also provide additional comments (as allowed by the <code>.ts</code> format). Sufficient commenting helps the translator
+to visualize the context where the text string occurs. It also helps
+them to decide which words can be omitted or abbreviated, if necessary,
+without reducing understandability and usability.</p><p>To create
+the different translations from the <code>.ts</code> file,
+you can use the NTR tool available on <a href="http://www.developer.nokia.com/info/sw.nokia.com/id/aa9b8774-5713-4552-a80f-d3a3bb763565/NTR.html" target="_blank">Nokia Developer website</a>.</p><div class="p"><div class="note"><p><strong class="note_title">Note: </strong> The </p><code>.ts</code> files are just the human-readable 'source' format
+of localization files. The <code>.ts</code> files need to
+be generated into binary <code>.qm</code> files, from which
+the application can search and display the translations in the UI.</div></div><p>Make sure all the language-specific <code>.ts</code> files are named correctly.</p></div>
+<div id="GUID-4082B9DB-184B-4894-B559-C4602C394786"><h3 class="section-title">Using
+placeholders in text strings</h3><p>You can use placeholders in
+text strings to insert content at runtime. For example, when you want
+to display a question such as <kbd class="userinput">Add &lt;person X&gt; to chat
+contacts?</kbd> to the user, use a placeholder in the text string
+to mark the place where the person's name will be inserted. The actual
+inserting is done in code using arguments.</p><p>When you create text
+strings that use placeholders, remember the following guidelines:</p><ul>
+<li><p>Do not use placeholders when referring to numbers of technical
+standards and version numbers. Use numbers in the text string, for
+example, 'PIN2 code' and 'Japanese (ISO 2022)'.</p></li>
+<li><p>In some cases, it may be necessary to limit the length of inserted
+content. For example, the length of text may vary considerably in
+different languages, and different display sizes pose different limitations
+on the space available for the string.</p></li>
+<li><p>In general, avoid using too many placeholders in one string:</p><ul>
+<li><p>With multiple placeholders, translations can easily become
+difficult to understand for end users. This is because the length
+of inserted content is often unpredictable, and it may have to be
+abbreviated if space is limited. For example, if a string contains
+both a username and a service name, the translation of the inserted
+text may have to be severely abbreviated. The resulting text string
+may no longer be very informative, or even understandable (for example,
+'abcd... has logged in Abcd...').</p></li>
+<li><p>If a string has multiple placeholders and little text to provide
+context, translators may have difficulties understanding the meaning
+of a particular placeholder.</p></li>
+</ul></li>
+</ul><p>When numbering the placeholders, always start from 1, and
+continue in order. You can use a mixture of different placeholder
+types in one string, as long as the numbering runs correctly (for
+example, <code class="parname">%1</code>, <code class="parname">%Ln</code>, <code class="parname">%L2</code>).</p></div>
+<div id="GUID-BE6ED5E1-3C29-4DEB-820F-816847C191C9"><h3 class="section-title">Defining
+singular and plural forms in the <code>.ts</code> file</h3><p>If a language uses plurality, this affects the translations needed
+for text strings. Depending on the language, the plural form may have
+nothing to do with the text element in singular form: the stem of
+the word may be completely different, and the inflection may also
+vary. For example:</p><ul>
+<li><p>Some languages do not use plural forms at all (for example,
+Chinese and Japanese).</p></li>
+<li><p>Some languages use different forms to indicate duality and
+plurality (for example, Russian).</p></li>
+<li><p>The form used with zero (0) can be different: some languages
+use singular and some use plural.</p></li>
+<li><p>Some languages use different forms for specific numbers. For
+example, Arabic uses various different forms such as a form for zero,
+singular, dual, "minority plural", plural, and plural for 100, 200,
+and so on.</p></li>
+</ul><p>This also determines how many translations a specific language
+requires for a text string. Depending on the language, there can be
+1-6 translations. For example:</p><ul>
+<li><p>Chinese only requires 1 translation, because the same form
+of the noun is used with any number.</p></li>
+<li><p>English requires 2 translations: one for '1', and another one
+for other numbers ('0' also uses the plural form).</p></li>
+<li><p>French requires 2 translations: one for '0' or '1', and another
+one for other numbers.</p></li>
+<li><p>Polish requires 3 translations: one for '1', another one for
+'22', '32', '42' and so on, a third translation for other numbers.</p></li>
+</ul><div class="p"><div class="note"><p><strong class="note_title">Note: </strong>One text string can contain only one %Ln placeholder.
+If the text string contains two placeholders indicating quantity,
+you need to implement plural support by creating four separate alternatives:</p><ul>
+<li><p><code class="codeph">%L1 file, %L2 folder</code></p></li>
+<li><p><code class="codeph">%L1 file, %L2 folders</code></p></li>
+<li><p><code class="codeph">%L1 files, %L2 folder</code></p></li>
+<li><p><code class="codeph">%L1 files, %L2 folders </code></p></li>
+</ul></div></div><p>For numbers that do not indicate quantity (for
+example, <code class="codeph">Group %L1</code>) and thus do not require multiple
+translations, use the number placeholder format <code class="codeph">%L1</code>, <code class="codeph">%L2</code>, and so on.</p><p>Qt provides a <code>numerus.cpp</code> file (available in <code>sf\mw\qt\tools\linguist\shared\</code>), which defines the singular and plural forms used in each of the
+supported languages.</p><p>You define the singular and plural translations
+needed using <code class="parname">numerusform</code> tags in the <code>.ts</code> files. You must define the translations in correct
+order, matching the order specified in <code>numerus.cpp</code>. For example, you would define English translations in this order:</p><pre class="codeblock">   &lt;translation&gt;
+      &lt;numerusform&gt;%Ln translation&lt;/numerusform&gt;
+      &lt;numerusform&gt;%Ln translations&lt;/numerusform&gt;
+   &lt;/translation&gt;
+</pre><p>You insert the quantity in the placeholder using arguments
+in code.</p></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-C1DC7F74-CEED-4CCD-B24A-2ECC89A67AB4.html">Clear and concise language</a><div class="linkdesc">Use clear and concise language.</div></li><li class="ulchildlink"><a href="GUID-6353E690-B19D-444C-88FE-42B0AD47DB6C.html">Avoiding concatenation</a><div class="linkdesc">Developers often use concatenation in string handling:
+they construct strings from parts in their code at run time (in effect
+reusing text strings). </div></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A91B16C2-3D11-4CC9-B810-400E9E94BC33.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+</html>

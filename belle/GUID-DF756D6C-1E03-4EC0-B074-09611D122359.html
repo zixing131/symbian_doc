@@ -1,0 +1,90 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DF756D6C-1E03-4EC0-B074-09611D122359.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:12 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Storing location information on a mobile device" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-7F476137-5E7F-5288-9F4A-6C20F0A1AD9B" /><meta name="DC.Relation" scheme="URI" content="GUID-1E158DE6-33F5-4B45-8923-28117EBAB68A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-DF756D6C-1E03-4EC0-B074-09611D122359" /><title>Storing location information on a mobile device </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-DF756D6C-1E03-4EC0-B074-09611D122359">Storing location information on a mobile device</h1><div>
+<p>Location information may be stored as database entries called <em>landmarks</em> that contain at least a name and a location.</p>
+<p>Typical use cases include:</p>
+<ul>
+<li><p>Sending location information that is stored according
+to the World Geodetic System (WGS 84) to another device.</p>
+</li>
+<li><p>Finding sites within a set distance of a stored point.</p>
+</li>
+</ul>
+<div class="note"><p><strong class="note_title">Note: </strong>The SDK does not include a map API, and therefore you must use
+a third party API to display the location information you receive
+on a map. </p>
+</div>
+<div id="GUID-10327A77-B899-4F7F-9F12-094855387BAB"><h3 class="section-title">Saving
+location information on a mobile device</h3>
+<p>To store location information on your mobile device:</p>
+<ol>
+<li id="GUID-820AF19E-FD11-46E6-A865-6CFF62AD5508"><a name="GUID-820AF19E-FD11-46E6-A865-6CFF62AD5508"><!-- --></a><p>Make
+use of the methods of the Landmarks API when constructing your application.</p>
+<p>The CPosLandmarkDatabase class is used for
+accessing the database with the landmarks information and the CPosLandmark class contains the location information.</p>
+<p>For detailed information on how to do this, refer to the following
+topics in <strong>Symbian C++ API specifications</strong>:</p>
+<ul>
+<li><p>Using landmarks database for a discussion of how
+to start accessing the database with the location information, including
+a structure diagram.</p></li>
+<li><p>Managing landmarks for code samples of opening, editing,
+and adding location information to a database</p></li>
+<li><p>Listening to database events for possible events
+type passed to your application and code samples for implementing
+a listener</p>
+<p>The TPosLmEvent class is used in listening
+for events.</p>
+</li>
+</ul>
+</li>
+<li id="GUID-8B69F55D-48B1-469B-83CA-31F0353DCBF0"><a name="GUID-8B69F55D-48B1-469B-83CA-31F0353DCBF0"><!-- --></a><p>Make
+sure <code class="codeph">eposlandmarks.lib</code> is accessible to your linker
+when compiling your application by including it in your .mmp file
+or by editing the project properties in your IDE, depending on your
+build environment.</p></li>
+<li id="GUID-09A43DDB-5BA1-470D-B5A3-5084D2BA124A"><a name="GUID-09A43DDB-5BA1-470D-B5A3-5084D2BA124A"><!-- --></a><p>Make
+sure you have the correct capabilities information set for your application,
+depending on your application you may need <code class="codeph">LocalServices</code>, <code class="codeph">NetworkServices</code>, <code class="codeph">ReadDeviceData</code>, <code class="codeph">ReadUserData</code>, <code class="codeph">WriteDeviceData</code>, and <code class="codeph">WriteUserData</code>.</p></li>
+</ol>
+</div>
+<div id="GUID-8D41C21E-0334-4679-B4D2-709B96C34076"><h3 class="section-title">Additional
+information on storing location information</h3>
+<p>For more information see, </p>
+<ul>
+<li><p>API description for a description of the API and
+its class structure</p></li>
+<li><p>Using the Landmarks API for a general overview on
+how to create applications using the API</p></li>
+<li><p>For a reference example on searching and manipulating
+the information in the location database, see <code class="codeph">LocationLandmarksRefAppForS60</code> in the SDK (<code class="codeph">&lt;SDK installation directory&gt;\S60CppExamples\</code>)</p></li>
+<li><p>For a reference example on how to use common UI components
+to work with landmark data, see <code class="codeph">LocationLandmarksUIRefApp</code> in the SDK (<code class="codeph">&lt;SDK installation directory&gt;\S60CppExamples\AutoAdaptedToTouchEx\</code>)</p></li>
+</ul>
+</div>
+<div id="GUID-987E85BE-B14B-4248-853F-F7BC5EF48BE7"><h3 class="section-title">Related
+Symbian APIs</h3>
+<p>The Symbian platform also offers the following related APIs:</p>
+<ul>
+<li><p>Landmarks API for accessing the database</p>
+</li>
+<li><p>Landmarks Database Management API for creating and
+deleting databases</p></li>
+<li><p>Landmarks Search API for allowing mobile devices
+users to search the database</p></li>
+<li><p>Landmarks UI Add/Edit API for allowing mobile device
+users to add and edit landmarks</p></li>
+<li><p>Landmarks UI Selector API for displaying and selecting
+landmarks</p></li>
+<li><p>Location Acquisition API for finding the location
+of a mobile device</p></li>
+</ul>
+<p>For more information about these APIs, see <strong>Symbian C++ API
+specifications</strong>.</p>
+</div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 24th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-DF756D6C-1E03-4EC0-B074-09611D122359.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:02:12 GMT -->
+</html>

@@ -1,0 +1,76 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-92AD13DF-216A-4B5A-9C6D-5FA50BB0D692.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Sensor Data Compensator Overview" /><meta name="abstract" content="The Sensor Data Compensator provides APIs to correct sensor data, based on device or display orientation. That is, using the APIs, the coordinate system can be adjusted appropriately to get correct sensor axis data in relation to the Symbian device user's current display orientation." /><meta name="description" content="The Sensor Data Compensator provides APIs to correct sensor data, based on device or display orientation. That is, using the APIs, the coordinate system can be adjusted appropriately to get correct sensor axis data in relation to the Symbian device user's current display orientation." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-E3ADCC42-ACFC-49FC-88FF-8196CE61014B" /><meta name="DC.Relation" scheme="URI" content="GUID-7FB1B44E-B3FF-4765-88E3-A7FDB4FA8413" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-92AD13DF-216A-4B5A-9C6D-5FA50BB0D692" /><meta name="DC.Language" content="en" /><title>Sensor
+Data Compensator Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-92AD13DF-216A-4B5A-9C6D-5FA50BB0D692">Sensor
+Data Compensator Overview</h1><div><p>The Sensor Data Compensator provides APIs to correct sensor data,
+based on device or display orientation. That is, using the APIs, the coordinate
+system can be adjusted appropriately to get correct sensor axis data in relation
+to the Symbian device user's current display orientation.</p>
+<div id="GUID-173CC4BB-4C2D-43B0-9ADD-85C716B9297B"><h3 class="section-title">Description</h3>
+<p>The sensor channel APIs retrieve coordinate information and angle
+data from different sensors when a display or device orientation change is
+detected. The data is bound to the device form factor and hardware configuration
+using device based coordinate system. Using the data, the sensor data compensator
+APIs can adjust the coordinate system to match the changed system characteristics.
+This procedure is called sensor data compensation. </p><p>For example, if
+a display orientation change (as illustrated in the following figure) is detected,
+the accelerometer sensor provides axis data using the device base coordinate
+system. To convert the axis data to match the current display orientation,
+sensor data compensator APIs can be used. The data compensator APIs enable
+you to adjust the coordinate system to match the changed system characteristics.</p><div class="figure" id="GUID-CB810DA3-6532-47DF-878E-A0D8A07ACC7C"><img src="GUID-24B8686D-727A-47A8-B01D-1BA1FBC8F771_d0e158956_href.png" /><p class="figure-title"><strong>Figure: </strong>Example to illustrate adjustment of the coordinate system due to device
+orientation change</p></div><p>To convert the sensor data to the compensated values, the adjustment
+values (for example, interchanged x-axis with y-axis) for each device state
+that the compensation is applied to, must be configured and taken as an input
+for calculations.</p><div class="figure" id="GUID-15844543-6586-43AE-87C8-B90A4D24404D"><span>The figure depicts the correction of coordinate system in the Symbian
+device</span><img src="GUID-BF822A89-F932-400F-82FC-FB998B768EBF_d0e158968_href.png" /><p class="figure-title"><strong>Figure: </strong>Correcting the coordinate system of a Symbian device</p></div><p>The following example explains how the sensor data compensation works,
+by illustrating the behavior of maps application of the Symbian device when
+the keyboard is in opened and closed state. </p><div class="tablenoborder"><a name="GUID-6CF1E7CE-0076-415F-BF6A-E92034B6F6D4"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-6CF1E7CE-0076-415F-BF6A-E92034B6F6D4" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e158983">Symbian device position</th>
+<th class="cellrowborder" valign="top" id="d0e158986">Symbian device movement</th>
+<th class="cellrowborder" valign="top" id="d0e158989">Application behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e158983 ">The keyboard is closed and the display is upward and parallel with
+the table surface</td>
+<td class="cellrowborder" valign="top" headers="d0e158986 ">The Symbian device spins around the z-axis</td>
+<td class="cellrowborder" valign="top" headers="d0e158989 ">The compass needle points to the north and the map does not move on
+the screen.</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e158983 ">The keyboard is opened and the display is upward and parallel with
+the table surface</td>
+<td class="cellrowborder" valign="top" headers="d0e158986 ">The Symbian device spins around the z-axis</td>
+<td class="cellrowborder" valign="top" headers="d0e158989 ">The compass needle points to the north and the map is always in the
+north-south direction on the screen.</td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-983C07BB-4B1A-4030-A533-22728BDCF281"><h3 class="section-title">APIs</h3><div class="tablenoborder"><a name="GUID-B0112D3A-0CCB-47FF-BF2C-6DC4EE1217A7"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B0112D3A-0CCB-47FF-BF2C-6DC4EE1217A7" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e159037">API</th>
+<th class="cellrowborder" valign="top" id="d0e159040">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e159037 ">CSensorDataCompensator</td>
+<td class="cellrowborder" valign="top" headers="d0e159040 ">The sensor data compensator class provides functions to
+compensate sensor data.</td>
+</tr>
+</tbody>
+</table></div></div>
+<div id="GUID-E046AE53-A268-4085-8BF4-293873115857"><h3 class="section-title">Typical Uses</h3><ul>
+<li><p><a href="GUID-64AC6F53-A9A5-46FD-BCC6-4A9BD8D4DB5C.html">Compensating
+Sensor Data</a></p></li>
+</ul></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 21st, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-92AD13DF-216A-4B5A-9C6D-5FA50BB0D692.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:45 GMT -->
+</html>

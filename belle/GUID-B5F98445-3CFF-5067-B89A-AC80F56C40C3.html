@@ -1,0 +1,113 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B5F98445-3CFF-5067-B89A-AC80F56C40C3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Porting Data Recognizers to Secure Platform" /><meta name="abstract" content="This page describes how to migrate data recognizers to the secure version of the Symbian platform." /><meta name="description" content="This page describes how to migrate data recognizers to the secure version of the Symbian platform." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58CA15F8-D984-5D07-8C00-161FA16A8FD3" /><meta name="DC.Relation" scheme="URI" content="GUID-1578590A-FC00-5C3B-8BF9-F6E43CA9D9A0" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E19490-4179-548F-9DA8-9AE637FAC9E2" /><meta name="DC.Relation" scheme="URI" content="GUID-C4CC3CA3-8C02-5F73-A482-4F849DD08111" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B5F98445-3CFF-5067-B89A-AC80F56C40C3" /><meta name="DC.Language" content="en" /><title>Porting
+Data Recognizers to Secure Platform </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B5F98445-3CFF-5067-B89A-AC80F56C40C3">Porting
+Data Recognizers to Secure Platform</h1><div><p>This page describes how to migrate data recognizers to the secure
+version of the Symbian platform. </p>
+<div id="GUID-322F3E8C-2835-4B73-88AD-C537A20E0329"><h3 class="section-title">Procedure</h3> <p id="GUID-37D4A6C5-1A14-5CE3-A852-1AAD412C57DA"><a name="GUID-37D4A6C5-1A14-5CE3-A852-1AAD412C57DA"><!-- --></a><strong>Converting
+data recognizers into ECOM plugins</strong> </p> <ol id="GUID-56EF676C-103E-5B68-85A1-D6A66B9EC046">
+<li id="GUID-18ED65F4-B508-5DC7-8869-A5035C7922B3"><a name="GUID-18ED65F4-B508-5DC7-8869-A5035C7922B3"><!-- --></a><strong>Changing the project
+specification (.mmp) file</strong> - Change the project specification (<code>.mmp</code>)
+file to specify an ECOM plug-in. For example: <div class="p"><pre class="codeblock">target            EXAMPLEREC.DLL 
+targettype        PLUGIN 
+UID                0x10009D8D &lt;DLLUID&gt; 
+capability        ProtServ 
+sourcepath        ..\path 
+systeminclude    ..\inc 
+systeminclude    ..\inc\ecom  
+source            EXAMPLEREC.CPP 
+start resource    &lt;DLLUID&gt;.RSC  
+TARGET            examplerec.rsc  
+library            EUSER.LIB APMIME.LIB</pre> </div> </li>
+<li id="GUID-202CFB50-4DE2-5BD5-8F3B-03C3305DD992"><a name="GUID-202CFB50-4DE2-5BD5-8F3B-03C3305DD992"><!-- --></a><p><strong>Changing the ECOM
+resource file</strong> - Change the ECOM resource file to specify:</p> <ul>
+<li id="GUID-E0038901-3017-5B9D-9F2E-4ACC3877AEE6"><a name="GUID-E0038901-3017-5B9D-9F2E-4ACC3877AEE6"><!-- --></a><p>interface UID. This
+identifies the plugin scheme, and should be <code class="codeph">0x101F7D87</code> for
+data recognizers </p> </li>
+<li id="GUID-C4D4DAB8-DD0B-597D-A9A8-E3A202A15688"><a name="GUID-C4D4DAB8-DD0B-597D-A9A8-E3A202A15688"><!-- --></a><p>implementation UID.
+This uniquely identifies the plugin. </p> </li>
+</ul><p>For example: </p> <pre class="codeblock">#include &lt;RegistryInfo.rh&gt; 
+RESOURCE REGISTRY_INFO r_registry
+{ 
+dll_uid = &lt;DLLUID&gt;;  // Should match the name of this file 
+                    // The name of the resource file is &lt;DLLUID&gt;.rss 
+interfaces =  
+    { 
+    INTERFACE_INFO 
+        { 
+        interface_uid = 0x101F7D87; // Const for all data recognizers 
+        implementations = 
+            { 
+            IMPLEMENTATION_INFO 
+                { 
+                implementation_uid = &lt;Unique Implementation Uid&gt;;  
+                version_no = 1; 
+                display_name = "DataRecName"; 
+                default_data = "";  
+                opaque_data = ""; 
+                } 
+            }; 
+        } 
+    }; 
+}</pre></li>
+<li id="GUID-0C63777C-524D-55F3-9C17-34D2FB26A1E3"><a name="GUID-0C63777C-524D-55F3-9C17-34D2FB26A1E3"><!-- --></a><p><strong>Changing the source
+code</strong> - </p> Both the data recognizer's <code>.h</code> and <code>.cpp</code> files
+need code adding to create the data recognizer. For example: <p><strong>example.h</strong> </p> <pre class="codeblock">
+class CExampleDataRecognizer : public CApaDataRecognizerType
+     {
+     public:
+         static CApaDataRecognizerType* CreateRecognizerL();
+     };</pre> <p><strong>example.cpp</strong> </p> <pre class="codeblock">
+CApaDataRecognizerType* CExampleDataRecognizer::CreateRecognizerL()
+    {
+    return new (ELeave) CExampleDataRecognizer ();
+    }
+
+const TImplementationProxy ImplementationTable[] =
+    { 
+    IMPLEMENTATION_PROXY_ENTRY(UNIQUE IMPLEMENTATION UID, CExampleDataRecognizer::CreateRecognizerL)
+    };
+
+EXPORT_C const TImplementationProxy* ImplementationGroupProxy(TInt&amp; aTableCount)
+    {
+    aTableCount = sizeof(ImplementationTable) / sizeof(TImplementationProxy);
+    return ImplementationTable;
+    }
+
+// Remove the previously EXPORTED function
+EXPORT_C CApaDataRecognizerType* CreateRecognizer ()
+    {
+    }</pre></li>
+</ol> <p id="GUID-7AA2AA79-4CD2-5C44-BE9B-66051E22514F"><a name="GUID-7AA2AA79-4CD2-5C44-BE9B-66051E22514F"><!-- --></a><strong>Converting data
+recognizers into pre-platform security style plugins</strong> </p> <p>You can convert
+data recognizers into plug-ins of the sort used before Platform Security was
+introduced by: </p> <ol id="GUID-BC2F8B96-B270-58A2-A4BD-D09EDB7F7A7A">
+<li id="GUID-BA29280D-2CE5-5E8C-8805-8D841EB364C7"><a name="GUID-BA29280D-2CE5-5E8C-8805-8D841EB364C7"><!-- --></a><strong>Changing the project
+specification (.mmp) file</strong> - Change the project specification (<code>.mmp</code>)
+file to specify a plug-in of the style used before Platform Security was introduced.
+For example: <div class="p"><pre class="codeblock">
+target            EXAMPLEREC.MDL 
+targettype        DLL 
+UID                0x10003A37 &lt;DLLUID&gt; 
+capability        TrustedUI ProtServ 
+sourcepath        ..\path 
+systeminclude    ..\inc 
+source            EXAMPLEREC.CPP 
+library            EUSER.LIB APMIME.LIB</pre> </div> </li>
+<li id="GUID-757324F0-742B-5FC7-A809-DBAC0ECFA5F9"><a name="GUID-757324F0-742B-5FC7-A809-DBAC0ECFA5F9"><!-- --></a><p><strong>Changing the source
+code</strong> - The data recognizer's <code>.cpp</code> file needs code
+adding to create the data recognizer. For example:</p> <p><strong>example.cpp</strong> </p> <pre class="codeblock">EXPORT_C CApaDataRecognizerType* CreateRecognizer() 
+    { 
+    CExampleDataRecognizer * thing=NULL; 
+    thing = new CExampleDataRecognizer(); 
+    return thing; // null if new failed 
+    }</pre></li>
+</ol> </div>
+<div id="GUID-C7BCBCEB-5135-4F9D-BC22-69922CE4F776"><h3 class="section-title">See also</h3> <p><a href="GUID-1AAA88BB-19AD-5B8E-993C-11F4B7CD90EB.html">Writing
+a MIME Recognizer</a>. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 28th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B5F98445-3CFF-5067-B89A-AC80F56C40C3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:25 GMT -->
+</html>

@@ -1,0 +1,46 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-623CA1EE-4D25-495A-BD2F-BA7BF95D6D9C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Creating a Vibra instance to control the vibra" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-DC011D9C-6C39-5BB9-A7CC-4447AB97A2D2" /><meta name="DC.Relation" scheme="URI" content="GUID-F2289115-B1F0-595D-AA1C-3E01F08911CA" /><meta name="DC.Relation" scheme="URI" content="GUID-2E3BE23C-B9DC-5B5D-A56A-1DB819EFC9A6" /><meta name="DC.Relation" scheme="URI" content="GUID-D78DCB72-7CEE-5075-A6FA-58D57AB5BA73" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-623CA1EE-4D25-495A-BD2F-BA7BF95D6D9C" /><meta name="DC.Language" content="en" /><title>Creating
+a Vibra instance to control the vibra </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-623CA1EE-4D25-495A-BD2F-BA7BF95D6D9C">Creating
+a Vibra instance to control the vibra</h1><div>
+<div><h3 class="section-title">Context</h3> <p>A <code class="codeph">CHWRMVibra</code> instance can be created by
+using <code class="codeph">NewL()</code> or <code class="codeph">NewLC()</code> methods. After this,
+vibra can be directly controlled via the provided class methods.</p><p><strong>Without
+notify handling</strong></p><p>The user has to create an instance of the <code class="codeph">CHWRMVibra</code> implementation
+class using the <code class="codeph">NewL()</code> or <code class="codeph">NewLC()</code> constructor
+without a parameter. The following code snippet demonstrates how to create
+an instance without notify handling to control the device vibra:</p><pre class="codeblock">CHWRMVibra* vibra = CHWRMVibra::NewLC(); // No callbacks</pre><p><strong>With notify handling </strong></p><p>The client must derive a class from
+the <code class="codeph">MHWRMVibraObserver</code> interface and implement the <code class="codeph">VibraModeChanged()</code> and <code class="codeph">VibraStatusChanged()</code> methods.</p><p>The following code snippet gives an example of the header of the class
+implemented by the client:</p><pre class="codeblock">// INCLUDES
+#include HWRMVibra.h // Link against HWRMVibraClient.lib.
+class CVibraStatusObserver : public CBase,
+                             public MHWRMVibraObserver
+    {
+    public:
+        CVibraStatusObserver();
+        ~CVibraStatusObserver();
+        void ConstructL();
+        static CVibraStatusObserver* NewL(); 
+        // from MHWRMVibraObserver
+        virtual void VibraModeChanged( CHWRMVibra::TVibraModeState aStatus );
+        virtual void VibraStatusChanged( CHWRMVibra::TVibraStatus aStatus );
+    private:
+        CHWRMVibra* iVibra;
+    };
+</pre><p>Create an instance of the <code class="codeph">CHWRMVibra</code> implementation
+class using the <code class="codeph">NewL()</code> or <code class="codeph">NewLC()</code> constructor
+with a parameter. This parameter is a pointer to an object that is derived
+from <code class="codeph">MHWRMVibraObserver</code>. Every vibra user setting profile
+change causes the notification using <code class="codeph">MHWRMVibraObserver::VibraModeChanged()</code>.
+Every vibra status change causes the notification using <code class="codeph">MHWRMVibraObserver::VibraStatusChanged()</code>. </p><p>The
+following code snippet demonstrates how to create an instance with notify
+handling to control the device vibra:</p><pre class="codeblock">void CVibraStatusObserver::ConstructL()
+    {
+    iVibra = CHWRMVibra::NewL( this )
+    }</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 20th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-623CA1EE-4D25-495A-BD2F-BA7BF95D6D9C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:34 GMT -->
+</html>

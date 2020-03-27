@@ -1,0 +1,60 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C73318E7-44E2-5F42-BDB0-AAE9BD72BF5C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:32 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using TCallBack" /><meta name="abstract" content="This document describes the TCallBack class." /><meta name="description" content="This document describes the TCallBack class." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-B507490F-6BD3-5DF5-97E4-EFDFEA2B4EDD" /><meta name="DC.Relation" scheme="URI" content="GUID-C2608BF5-CDA7-530A-B67A-0414C7FA585D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C73318E7-44E2-5F42-BDB0-AAE9BD72BF5C" /><meta name="DC.Language" content="en" /><title>Using
+TCallBack </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C73318E7-44E2-5F42-BDB0-AAE9BD72BF5C">Using
+TCallBack</h1><div><p>This document describes the TCallBack class.</p>
+<p>The class encapsulates a pointer to a function which takes an argument
+of type <code class="codeph">TAny*</code> and returns a <code class="codeph">TInt</code>. The class
+is generally useful but, in particular, simplifies the programming interface
+of the <code class="codeph">CIdle</code> and <code class="codeph">CPeriodic</code> classes.</p>
+<p>Given a suitable function and a pointer to an object, a callback is constructed
+simply. The function must be a non-member function or a static member of a
+class. For example:</p>
+<pre class="codeblock">TInt Foo(TAny *);  // a non-member function
+X* pX=new X;       // a class X object</pre>
+<p>or, as a static member of class <code class="codeph">X</code>:</p>
+<pre class="codeblock">TInt X::Foo(TAny *); // a static function of class X
+X* pX=new X;         // a class X object</pre>
+<p>A callback function returns a true value to indicate whether it should
+be called again. This is important when used with the <code class="codeph">CIdle</code> and <code class="codeph">CPeriodic</code> classes.
+The following code fragment shows the programming paradigm:</p>
+<pre class="codeblock">TCallBack cb(Foo,pX);  // construction of the callback</pre>
+<pre class="codeblock">for (;;)
+ {
+ if (!cb.CallBack()) // invoke callback until it returns
+  {    // a false value
+  break;
+  }
+ }</pre>
+<p>Calling <code class="codeph">cb.CallBack()</code> results in a call to the callback
+function <code class="codeph">Foo()</code> passing it the pointer <code class="codeph">pX</code>.</p>
+<p>A common requirement is for the callback function to be a non-static member
+of a class. This can be implemented by passing, to the callback function,
+a pointer to an instance of the class of which it is a static member. For
+example:</p>
+<pre class="codeblock">class X
+ {
+ static X* NewL();
+ static TInt Foo(TAny* pX);
+private:
+ TInt DoFoo();
+ ...
+ }</pre>
+<p>where the static function <code class="codeph">Foo()</code> is implemented as:</p>
+<pre class="codeblock">static TInt X::Foo(TAny* pX)
+ {
+ return ((X*)pX)-&gt;DoFoo();
+ }</pre>
+<p>Typically, create an instance of class <code class="codeph">X</code> and, at some
+later stage, create the callback:</p>
+<pre class="codeblock">...
+X* pX = X::NewL();
+...
+TCallBack cb(Foo,pX);
+...</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C73318E7-44E2-5F42-BDB0-AAE9BD72BF5C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:32 GMT -->
+</html>

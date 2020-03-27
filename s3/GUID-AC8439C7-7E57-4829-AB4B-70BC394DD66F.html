@@ -1,0 +1,102 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-AC8439C7-7E57-4829-AB4B-70BC394DD66F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:53 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Hiding item-specific commands in menus" /><meta name="abstract" content="The item-specific commands and item-action commands in options menu must be flagged with the EEikMenuItemSpecific and EEikMenuItemAction flags introduced in Symbian^3. This enables the UI framework to hide them in the options menu and display them only in the stylus pop-up menu. The touch down and hold action opens the stylus pop-up menu. Touch down and release performs an action." /><meta name="description" content="The item-specific commands and item-action commands in options menu must be flagged with the EEikMenuItemSpecific and EEikMenuItemAction flags introduced in Symbian^3. This enables the UI framework to hide them in the options menu and display them only in the stylus pop-up menu. The touch down and hold action opens the stylus pop-up menu. Touch down and release performs an action." /><meta name="DC.Relation" scheme="URI" content="GUID-021E8B9C-4A1B-4C6D-B69E-4337A766C39A" /><meta name="DC.Relation" scheme="URI" content="GUID-165EE4DD-C9CA-430B-8377-068A4194716E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-AC8439C7-7E57-4829-AB4B-70BC394DD66F" /><meta name="DC.Language" content="en" /><title>Hiding
+item-specific commands in menus </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-AC8439C7-7E57-4829-AB4B-70BC394DD66F">Hiding
+item-specific commands in menus</h1><div><p>The item-specific commands and item-action commands in options
+menu must be flagged with the <code class="codeph">EEikMenuItemSpecific</code> and <code class="codeph">EEikMenuItemAction</code> flags
+introduced in Symbian^3. This enables the UI framework to hide them in the
+options menu and display them only in the stylus pop-up menu. The touch down
+and hold action opens the stylus pop-up menu. Touch down and release performs
+an action.</p>
+<div id="GUID-29AA14A9-B1E0-4C9A-A5BB-446351A11C87"><h3 class="section-title">Context</h3><p>Actions like opening
+a radio button list and virtual input are performed on the first tap. These
+actions are normally handled by the UI framework. However, if your application
+contains an implementation of its own for handling these actions (for example,
+opening a custom component on the second tap) it must be changed to follow
+the single-tap style.</p> </div>
+<h3>Steps</h3><ul id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-27267635-B1B0-42CF-BE44-E4EE5095FB7B"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-27267635-B1B0-42CF-BE44-E4EE5095FB7B"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-27267635-B1B0-42CF-BE44-E4EE5095FB7B"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-27267635-B1B0-42CF-BE44-E4EE5095FB7B"><!-- --></a><p>Add the <code class="codeph">EEikMenuItemAction</code> flag
+to all item-action commands in your options menu resource definitions. Menu
+item-action commands are functions that are called during touch down and release
+on an item (for example, <strong>Open</strong> action).</p>
+<p>For example, </p><pre class="codeblock">/**
+ *AppList View menuitems (Counters)
+ */
+RESOURCE MENU_PANE r_logs_applist_menu
+{
+ items =
+ {
+  MENU_ITEM
+  {
+   command = ELogsCmdMenuOpen;
+   txt = qtn_logs_cmd_open;
+ //---------------------------------------------------------------
+// Include the following line to the list-item action commands
+<strong>   flags =EEikMenuItemAction;
+</strong>
+//----------------------------------------------------------------
+  }
+ };
+}</pre>
+</li>
+<li id="GUID-192D8B8E-4521-40F0-81F1-7970D2487AF5"><a name="GUID-192D8B8E-4521-40F0-81F1-7970D2487AF5"><!-- --></a><p>Add the <code class="codeph">EEikMenuItemSpecific</code> flag
+to all (other than item-action) item-specific commands in options menu resource
+definitions.</p>
+<p>For example, </p><pre class="codeblock">RESOURCE MENU_PANE r_common_event_menu_send_events
+{
+ items =
+ {
+  MENU_ITEM /* Send */
+  {
+   command = ELogsCmdMenuSendUi;
+   txt = qtn_stm_om_send;
+//-------------------------------------------------------------------------
+//Add the following line to the list item-specific commands
+<strong>   flags = EEikMenuItemSpecific;
+</strong>//-------------------------------------------------------------------------
+
+  },
+  MENU_ITEM /* Clear list */
+  { command = ELogsCmdMenuDeleteAll;
+   txt = qtn_stm_om_delete_all; }
+ };
+}</pre>
+<div class="note"><p><strong class="note_title">Note: </strong> An application view containing </p><a href="GUID-1AA32C40-CDE0-4627-A634-7C07BB1ED67B.html">forms</a> need
+not flag item-specific commands, as forms are always highlighted.</div>
+</li>
+<li id="GUID-D8010D5A-5703-4AC6-AC05-819689785680"><a name="GUID-D8010D5A-5703-4AC6-AC05-819689785680"><!-- --></a><p>If your application
+code dynamically adds or removes menu items,  you must change
+the flag value of the menu pane using the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-F6168582-DFF1-31DF-87F9-FF2AEC5EE0FF.html#GUID-DC63590B-B1CE-3B80-BDFE-6827A381F3AD"><code class="apiname">CEikMenuPane::SetItemSpecific()</code></a> function.</p>
+<p>For example, </p><pre class="codeblock">/* Add send message item to menu above position pos */
+TInt pos = 0;
+
+/* Returns pointer to menu item */
+aMenuPane-&gt;ItemAndPos(ELogsCmdMenuSendUi, pos);
+
+/* Delete marker item from menu */
+aMenuPane-&gt;DeleteMenuItem(ELogsCmdMenuSendUi);
+
+/* No need here yet to tailor subitems in SendUi menu */
+TSendingCapabilities capabilities(0, 0, 0);
+LogsAppUi()
+-&gt;
+SendUiL()
+-&gt;AddSendMenuItemL
+ (
+  *aMenuPane, pos, /* Position in menupane */ ELogsCmdMenuSendUi, /* Command id to be used for "Send" menu item */
+   capabilities
+ );
+aMenuPane-&gt;SetItemTextL(ELogsCmdMenuSendUi, iSendUiText-&gt;Des());
+//-------------------------------------------------------------
+// Include the following line to dynamically change the flag value
+<strong>
+aMenuPane-&gt;SetItemSpecific(ELogsCmdMenuSendUi, ETrue);
+</strong>//-----------------------------------------------------------------</pre>
+</li>
+</ul>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 12th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-AC8439C7-7E57-4829-AB4B-70BC394DD66F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:49:53 GMT -->
+</html>

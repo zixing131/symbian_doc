@@ -1,0 +1,2181 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_ipconnmgmt_ipcm_pub_connection_monitor_server_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:44 GMT -->
+<head><title>Connection Monitor Server API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i733 i737"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Connection Monitor Server API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Emulator_support"><span class="tocnumber">1.1.1</span> <span class="toctext">Emulator support</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Connecting_and_disconnecting"><span class="tocnumber">2.1</span> <span class="toctext">Connecting and disconnecting</span></a></li>
+<li class="toclevel-2"><a href="#Getting_basic_connection_level_information"><span class="tocnumber">2.2</span> <span class="toctext">Getting basic connection level information</span></a></li>
+<li class="toclevel-2"><a href="#Cancelling_a_request"><span class="tocnumber">2.3</span> <span class="toctext">Cancelling a request</span></a></li>
+<li class="toclevel-2"><a href="#Stopping_a_connection"><span class="tocnumber">2.4</span> <span class="toctext">Stopping a connection</span></a></li>
+<li class="toclevel-2"><a href="#Registering_for_events"><span class="tocnumber">2.5</span> <span class="toctext">Registering for events</span></a></li>
+<li class="toclevel-2"><a href="#Catching_events"><span class="tocnumber">2.6</span> <span class="toctext">Catching events</span></a></li>
+<li class="toclevel-2"><a href="#Using_TInt_attributes"><span class="tocnumber">2.7</span> <span class="toctext">Using TInt attributes</span></a></li>
+<li class="toclevel-2"><a href="#Using_TUint_attributes"><span class="tocnumber">2.8</span> <span class="toctext">Using TUint attributes</span></a></li>
+<li class="toclevel-2"><a href="#Using_TBool_attributes"><span class="tocnumber">2.9</span> <span class="toctext">Using TBool attributes</span></a></li>
+<li class="toclevel-2"><a href="#Using_string_attributes"><span class="tocnumber">2.10</span> <span class="toctext">Using string attributes</span></a></li>
+<li class="toclevel-2"><a href="#Using_packaged_attributes"><span class="tocnumber">2.11</span> <span class="toctext">Using packaged attributes</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.12</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.13</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Extensions_to_the_API"><span class="tocnumber">2.14</span> <span class="toctext">Extensions to the API</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The Connection Monitor Server provides an API for applications to get information
+about active data connections and other data connection related information
+such as connection method availability and WLAN information. Client applications
+can receive this information through requests and events. The Connection Monitor Server
+API also provides a way to close connections.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 2.6
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>ConnMon.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/ipconnmgmt/ipcm_pub/connection_monitor_server_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/ipconnmgmt/ipcm_pub/connection_monitor_server_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>The Connection Monitor Server API is a server-client API. It is an active
+object-based implementation encapsulating a client-server session interface.
+The API is defined in <i>rconnmon.h</i>.
+</p>
+<a name="Emulator_support"><h4> <span class="mw-headline">1.1.1 Emulator support </span></h4>
+</a><p>This API is supported in the WINS and WINSCW emulator environment with the
+following exception:
+</p>
+<ul><li> The WLAN related functionality is not supported.
+</li></ul>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>The Connection Monitor Server API is an SDK API and is introduced in Symbian OS, S60 2.6.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+<ul><li> Connecting with and disconnecting from the server.
+</li></ul>
+<ul><li> Getting basic connection level information.
+</li></ul>
+<ul><li> Cancelling a request.
+</li></ul>
+<ul><li> Stopping a connection.
+</li></ul>
+<ul><li> Registering for events.
+</li></ul>
+<ul><li> Catching events.
+</li></ul>
+<ul><li> Using TInt attributes.
+</li></ul>
+<ul><li> Using TUint attributes.
+</li></ul>
+<ul><li> Using TBool attributes.
+</li></ul>
+<ul><li> Using string attributes.
+</li></ul>
+<ul><li> Using packaged attributes.
+</li></ul>
+</a><a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CConnMonBearerAvailabilityChange <td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CConnMonBearerChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonBearerGroupChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonBearerInfoChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonConnectionActivityChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonConnectionStatusChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonCreateConnection</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonCreateSubConnection</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonDeleteConnection</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonDeleteSubConnection</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonDownlinkDataThreshold</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonEventBase</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonGenericEvent</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonIapAvailabilityChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonNetworkRegistrationChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonNetworkStatusChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonNewWLANNetworkDetected</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonOldWLANNetworkLost</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonPacketDataAvailable</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonPacketDataUnavailable</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonSNAPsAvailabilityChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonSignalStrengthChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonSnapContentChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonTransmitPowerChange</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonUplinkDataThreshold</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonWlanNetwork</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonWlanNetworksPtrArrayPckg</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonWlanProbeRawBuffer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CConnMonWlanProbeRawBuffersPckg</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>ConnMonIdsArrayPckg</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MConnectionMonitorObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MDesSerializer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>RConnectionMonitor</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TConnMonBearerGroupInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TConnMonClientEnum</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TConnMonIap</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TConnMonIapInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TConnMonId</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TConnMonNetwork</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TConnMonNetworkNames</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TConnMonSNAPId</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TConnMonSNAPInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/rconnmon.h</code></span>
+</td></tr>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Connection_Monitor_Server_API_classdiagram.png" title="Interface classes"><img alt="Interface classes" border="0" height="462" src="images/SPB_10_1_Connection_Monitor_Server_API_classdiagram.png" width="606" /></a></div>
+<div style="text-align:center"><i>Interface classes</i></div>
+<p>Clients can access the Connection Monitor Server by creating an object from
+the <span class="plainlinks"><code>RConnectionMonitor</code> </span> class. This class is derived from <span class="plainlinks"><code>RSessionBase</code> </span> and
+it provides methods for retrieving and setting attribute values from or to the Connection
+Monitor Server.
+</p><p>In order to get notifications from the Connection Monitor Server, a client 
+needs to implement the <span class="plainlinks"><code>MConnectionMonitorObserver</code> </span> class and
+its pure virtual <code>EventL</code> method. The Connection Monitor Server
+API calls this method when an event occurs. Different events are implemented
+as classes and all of them have a common base class.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>A client application instantiates the <span class="plainlinks"><code>RConnectionMonitor</code> </span> class first to access its API methods. If the client application wants to listen to notifications, it must implement the <span class="plainlinks"><code>MConnectionMonitorObserver</code> </span> class
+and register an instance of it to the API. Most of the API calls are asynchronous and can be cancelled.
+</p>
+<a name="Connecting_and_disconnecting"><h3> <span class="mw-headline">2.1 Connecting and disconnecting </span></h3>
+</a><p>For simplicity, the instance of <span class="plainlinks"><code>RConnectionMonitor</code> </span> is
+an automatic variable in the example below. When the instance of <span class="plainlinks"><code>RConnectionMonitor</code> </span> is
+a member variable, <code>ConnectL()&lt;code&gt; must be called when constructing the object and &lt;code&gt;Close()</code> should be called when destructing.
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+
+// Open RConnectionMonitor object
+monitor.ConnectL();
+
+// ...
+
+// Close the RConnectionMonitor object when it is not needed any more
+monitor.Close();
+</pre>
+<a name="Getting_basic_connection_level_information"><h3> <span class="mw-headline">2.2 Getting basic connection level information </span></h3>
+</a><p>The following example shows how to retrieve various connection level information.
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+TUint connectionCount( 0 );
+TUint subConnectionCount( 0 );
+TUint connectionId( 0 );
+
+monitor.ConnectL(); // Open RConnectionMonitor object
+
+// Get connection count
+monitor.GetConnectionCount(
+        connectionCount,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+if ( connectionCount == 0 ) { /* No connection */ }
+
+// Get connection info (1st connection)
+TInt error = monitor.GetConnectionInfo(
+        1,
+        connectionId,
+        subConnectionCount );
+if ( error != KErrNone ) { // Error }
+
+TBuf&lt;KConnMonMaxStringAttributeLength&gt; iapName;
+TUint iapId = 0;
+TUint downlinkData = 0;
+TUint uplinkData = 0;
+TInt signalStrength = 0;
+TBool connectionActivity = EFalse;
+TInt bearer = 0;
+
+TBuf&lt;CConnMonWlanNetwork::KMaxNameLength&gt; ssid;
+TUint transmitPower = 0;
+TInt networkMode = 0;
+TInt securityMode = 0;
+
+TBuf&lt;KConnMonMaxStringAttributeLength&gt; apName;
+
+// Get connection IAP name
+monitor.GetStringAttribute(
+        connectionId,
+        0,
+        KIAPName,
+        iapName,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+
+// Get connection IAP ID
+monitor.GetUintAttribute(
+        connectionId,
+        0,
+        KIAPId,
+        iapId,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+
+// Get connection downlink data (in bytes)
+monitor.GetUintAttribute(
+        connectionId,
+        0,
+        KDownlinkData,
+        downlinkData,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+
+// Get connection uplink data (in bytes)
+monitor.GetUintAttribute(
+        connectionId,
+        0,
+        KUplinkData,
+        uplinkData,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+
+// Get the signal strength (in mW)
+monitor.GetIntAttribute(
+        connectionId,
+        0,
+        KSignalStrength,
+        signalStrength,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+
+// Get the current connection activity
+monitor.GetBoolAttribute(
+        connectionId,
+        0,
+        KConnectionActive,
+        connectionActivity,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+
+// Get the connection bearer
+monitor.GetIntAttribute(
+        connectionId,
+        0,
+        KBearer,
+        bearer,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+
+if ( bearer == EBearerWLAN )
+    {
+    // Get ssid name
+    monitor.GetStringAttribute(
+            connectionId,
+            0,
+            KNetworkName,
+            ssid,
+            status );
+    User::WaitForRequest( status );
+    if ( status.Int() != KErrNone ) { /* Error */ }
+
+    // Get the WLAN transmit power
+    monitor.GetUintAttribute(
+            connectionId,
+            0,
+            KTransmitPower,
+            transmitPower,
+            status );
+    User::WaitForRequest( status );
+    if ( status.Int() != KErrNone ) { /* Error */ }
+
+    // Get the network mode
+    monitor.GetIntAttribute(
+            connectionId,
+            0,
+            KNetworkMode,
+            networkMode,
+            status );
+    User::WaitForRequest( status );
+    if ( status.Int() != KErrNone ) { /* Error */ }
+
+    // Get the security mode
+    monitor.GetIntAttribute(
+            connectionId,
+            0,
+            KSecurityMode,
+            securityMode,
+            status );
+    User::WaitForRequest( status );
+    if ( status.Int() != KErrNone ) { /* Error */ }
+    }
+else
+    {
+    // Get access point name
+    monitor.GetStringAttribute(
+            connectionId,
+            0,
+            KAccessPointName,
+            apName,
+            status );
+    User::WaitForRequest( status );
+    if ( status.Int() != KErrNone ) { /* Error */ }
+    }
+
+monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<a name="Cancelling_a_request"><h3> <span class="mw-headline">2.3 Cancelling a request </span></h3>
+</a><p>The following example shows how to cancel an outstanding Connection Monitor request.
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+TInt error( KErrNone );
+
+monitor.ConnectL(); // Open the RConnectionMonitor object
+
+// Buffer for WLAN information
+CConnMonWlanNetworksPtrArrayPckg* wlanBuf =
+        new( ELeave ) CConnMonWlanNetworksPtrArrayPckg( 2048 );
+TPtr wlanPtr( wlanBuf-&gt;Buf()-&gt;Des() );
+
+// Set a 120 second WLAN scan delay
+TUint scanDelay = 120;
+error = monitor.SetUintAttribute(
+        EBearerIdWLAN,
+        0,
+        KWlanScanMaxDelay,
+        scanDelay );
+if ( error != KErrNone ) { /* Error */ }
+
+// Request a WLAN scan. Scan will complete in 2 minutes, or sooner if some
+// other process initiates a WLAN scan.
+monitor.GetPckgAttribute(
+        EBearerIdWLAN,
+        0,
+        KWlanNetworks,
+        wlanPtr,
+        status );
+
+// To cancel the WLAN scan request:
+monitor.CancelAsyncRequest( EConnMonGetPckgAttribute );
+
+User::WaitForRequest( status ); // Should return immediately
+error = status.Int();
+if ( error == KErrNone ) { /* Request was completed before cancel */ }
+else if ( error == KErrCancel ) { /* Request has been cancelled */ }
+else { /* Error */ }
+
+delete wlanBuf;
+monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<a name="Stopping_a_connection"><h3> <span class="mw-headline">2.4 Stopping a connection </span></h3>
+</a><p>The following example shows how to close a connection.
+</p>
+<pre>// To close a specific connection:
+// (requires NetworkServices and NetworkControl capabilities)
+TInt error = monitor.SetBoolAttribute(
+        connectionId,
+        0,
+        KConnectionStop,
+        ETrue );
+if ( error != KErrNone ) { /* Error */ }
+
+// To close all connections:
+// (requires NetworkServices and NetworkControl capabilities)
+TInt error = monitor.SetBoolAttribute(
+        EBearerIdAll,
+        0,
+        KConnectionStopAll,
+        ETrue );
+if ( error != KErrNone ) { /* Error */ }
+</pre>
+<a name="Registering_for_events"><h3> <span class="mw-headline">2.5 Registering for events </span></h3>
+</a><p>The following example shows how to register as an event listener for ConnMon
+events. Most events are sent to registered listeners by default, but some
+events are disabled by default because they are heavier and cause extra processing.
+If the client is interested in these special events, the relevant threshold
+values need to be set before calling <code>NotifyEventL()</code>. 
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+TUint connectionCount( 0 );
+TUint subConnectionCount( 0 );
+TUint connectionId( 0 );
+
+monitor.ConnectL(); // Open the RConnectionMonitor object
+
+// Get the number of connections
+monitor.GetConnectionCount(
+        connectionCount,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+if ( connectionCount == 0 ) { /* No connection */ }
+
+// Get the connection information for the first connection)
+TInt error = monitor.GetConnectionInfo(
+        1,
+        connectionId,
+        subConnectionCount );
+if ( error != KErrNone ) { /* Error */ }
+
+// Some events are not sent by default. To receive them, relevant threshold
+// values need to be set before registering the event listener.
+
+// To receive EConnMonConnectionActivityChange events for a specific connection
+error = monitor.SetUintAttribute( connectionId, 0, KActivityTimeThreshold, 10 );
+if ( error != KErrNone ) { /* Error */ }
+
+// To receive EConnMonDownlinkDataThreshold events for a specific connection
+error = monitor.SetUintAttribute( connectionId, 0, KDownlinkDataThreshold, 32768 );
+if ( error != KErrNone ) { /* Error */ }
+
+// To receive EConnMonUplinkDataThreshold events for a specific connection
+error = monitor.SetUintAttribute( connectionId, 0, KUplinkDataThreshold, 16384 );
+if ( error != KErrNone ) { /* Error */ }
+
+// To receive EConnMonBearerAvailabilityChange events
+error = monitor.SetUintAttribute( EBearerIdAll, 0, KBearerAvailabilityThreshold, 1 );
+if ( error != KErrNone ) { /* Error */ }
+
+// To receive EConnMonSignalStrengthChange events
+error = monitor.SetUintAttribute( EBearerIdAll, 0, KSignalStrengthThreshold, 1 );
+if ( error != KErrNone ) { /* Error */ }
+
+// To receive EConnMonBearerInfoChange and EConnMonBearerGroupChange events
+// instead of the more limited EConnMonBearerChange event
+error = monitor.SetUintAttribute( EBearerIdAll, 0, KBearerGroupThreshold, 1 );
+if ( error != KErrNone ) { /* Error */ }
+
+// Register for events. iObserver is an instance of the class that implements
+// the event handler. In this example it is an instance of MyClass (See the next
+// use case)
+CMyConnMonObserver* iObserver = new( ELeave ) CMyConnMonObserver();
+error = monitor.NotifyEventL( *iObserver );
+if ( error != KErrNone ) { /* Error */ }
+
+// ...
+
+// Events must be cancelled and RConnectionMonitor object must be closed when not
+// needed any more.
+monitor.CancelNotifications();
+delete iObserver;
+iObserver = NULL;
+
+monitor.Close(); // Close the RConnectionMonitor object
+
+</pre>
+<a name="Catching_events"><h3> <span class="mw-headline">2.6 Catching events </span></h3>
+</a><p>The following example shows an example implementation of a ConnMon event
+handler. Normally a client is only interested in a limited set of ConnMon
+events and ignores the rest.
+</p>
+<pre>class CMyConnMonObserver : public CBase, public MConnectionMonitorObserver
+    {
+    private:
+        void EventL( const CConnMonEventBase&amp; aEvent );
+    };
+
+void CMyConnMonObserver::EventL( const CConnMonEventBase&amp; aEvent )
+    {
+    switch( aEvent.EventType() )
+        {
+        case EConnMonCreateConnection:
+            {
+            CConnMonCreateConnection* realEvent;
+            realEvent = ( CConnMonCreateConnection* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId();
+            }
+            break;
+        case EConnMonDeleteConnection:
+            {
+            CConnMonDeleteConnection* realEvent;
+            realEvent = ( CConnMonDeleteConnection* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId();
+            TUint downlinkData = realEvent-&gt;DownlinkData();
+            TUint uplinkData = realEvent-&gt;UplinkData();
+            TBool authoritativeDelete = realEvent-&gt;AuthoritativeDelete();
+            }
+            break;
+        case EConnMonCreateSubConnection:
+            {
+            CConnMonCreateSubConnection* realEvent;
+            realEvent = ( CConnMonCreateSubConnection* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId();
+            TUint subConnectionId = realEvent-&gt;SubConnectionId();
+            }
+            break;
+        case EConnMonDeleteSubConnection:
+            {
+            CConnMonDeleteSubConnection* realEvent;
+            realEvent = ( CConnMonDeleteSubConnection* ) &amp;aEvent;
+</pre>
+<pre>            TUint connectionId = realEvent-&gt;ConnectionId();
+            TUint subConnectionId = realEvent-&gt;SubConnectionId();
+            TUint downlinkData = realEvent-&gt;DownlinkData();
+            TUint uplinkData = realEvent-&gt;UplinkData();
+            TBool authoritativeDelete = realEvent-&gt;AuthoritativeDelete();
+            }
+            break;
+        case EConnMonDownlinkDataThreshold:
+            {
+            CConnMonDownlinkDataThreshold* realEvent;
+            realEvent = ( CConnMonDownlinkDataThreshold* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId();
+            TUint subConnectionId = realEvent-&gt;SubConnectionId();
+            TUint downlinkData = realEvent-&gt;DownlinkData();
+            }
+            break;
+        case EConnMonUplinkDataThreshold:
+            {
+            CConnMonUplinkDataThreshold* realEvent;
+            realEvent = ( CConnMonUplinkDataThreshold* ) &amp;aEvent;
+</pre>
+<pre>            TUint connectionId = realEvent-&gt;ConnectionId();
+            TUint subConnectionId = realEvent-&gt;SubConnectionId();
+            TUint uplinkData = realEvent-&gt;UplinkData();
+            }
+            break;
+        case EConnMonNetworkStatusChange:
+            {
+            CConnMonNetworkStatusChange* realEvent;
+            realEvent = ( CConnMonNetworkStatusChange* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId(); // generic
+            // TConnMonNetworkStatus
+            TInt networkStatus = realEvent-&gt;NetworkStatus();
+            }
+            break;
+        case EConnMonConnectionStatusChange:
+            {
+            CConnMonConnectionStatusChange* realEvent;
+            realEvent = ( CConnMonConnectionStatusChange* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId();
+            TUint subConnectionId = realEvent-&gt;SubConnectionId();
+            TInt connectionStatus = realEvent-&gt;ConnectionStatus();
+            // See nifvar.h for details on connection status values
+            }
+            break;
+        case EConnMonConnectionActivityChange:
+            {
+            CConnMonConnectionActivityChange* realEvent;
+            realEvent = ( CConnMonConnectionActivityChange* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId();
+            TUint subConnectionId = realEvent-&gt;SubConnectionId();
+            TBool connectionActivity = realEvent-&gt;ConnectionActivity();
+            }
+            break;
+        case EConnMonNetworkRegistrationChange:
+            {
+            CConnMonNetworkRegistrationChange* realEvent;
+            realEvent = ( CConnMonNetworkRegistrationChange* ) &amp;aEvent;
+</pre>
+<pre>            TUint connectionId = realEvent-&gt;ConnectionId(); // generic
+            // TConnMonNetworkRegistration
+            TInt networkRegistrationStatus = realEvent-&gt;RegistrationStatus();
+            }
+            break;
+        case EConnMonBearerChange:
+            {
+            CConnMonBearerChange* realEvent;
+            realEvent = ( CConnMonBearerChange* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId(); // generic
+            TInt bearerChange = realEvent-&gt;Bearer();
+            }
+            break;
+        case EConnMonSignalStrengthChange:
+            {
+            CConnMonSignalStrengthChange* realEvent;
+            realEvent = ( CConnMonSignalStrengthChange* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId(); // generic
+            TInt signalStrengthChange = realEvent-&gt;SignalStrength();
+            }
+            break;
+        case EConnMonBearerAvailabilityChange:
+            {
+            CConnMonBearerAvailabilityChange* realEvent;
+            realEvent = ( CConnMonBearerAvailabilityChange* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId(); // generic
+            TBool bearerAvailability = realEvent-&gt;Availability();
+            }
+            break;
+        case EConnMonIapAvailabilityChange:
+            {
+            CConnMonIapAvailabilityChange* realEvent;
+            realEvent = ( CConnMonIapAvailabilityChange* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId(); // generic
+            TConnMonIapInfo iaps = realEvent-&gt;IapAvailability();
+</pre>
+<pre>            for ( TUint i = 0; i &lt; iaps.Count(); i++ )
+                {
+                TUint iapId = iaps.iIap(i).iIapId;
+                }
+            }
+            break;
+        case EConnMonTransmitPowerChange:
+            {
+            CConnMonTransmitPowerChange* realEvent;
+            realEvent = (CConnMonTransmitPowerChange* ) &amp;aEvent;
+</pre>
+<pre>            TUint connectionId = realEvent-&gt;ConnectionId();
+            TUint txPwrNow = realEvent-&gt;TransmitPower();
+            }
+            break;
+        case EConnMonSNAPsAvailabilityChange:
+            {
+            CConnMonSNAPsAvailabilityChange* realEvent;
+            realEvent = ( CConnMonSNAPsAvailabilityChange* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId(); // generic
+            TUint snapCount = realEvent-&gt;SNAPsAvailabile();
+            TConnMonSNAPInfo snaps = realEvent-&gt;SNAPAvailability();
+</pre>
+<pre>            for ( TUint i = 0; i &lt; snaps.Count(); i++ )
+                {
+                TUint snapId = snaps.iSNAP(i).iSNAPId;
+                }
+            }
+            break;
+        case EConnMonNewWLANNetworkDetected:
+            {
+            CConnMonNewWLANNetworkDetected* realEvent;
+            realEvent = ( CConnMonNewWLANNetworkDetected* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId(); // generic
+            }
+            break;
+        case EConnMonOldWLANNetworkLost:
+            {
+            CConnMonOldWLANNetworkLost* realEvent;
+            realEvent = ( CConnMonOldWLANNetworkLost* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId(); // generic
+            }
+            break;
+        case EConnMonPacketDataAvailable:
+            {
+            CConnMonPacketDataAvailable* realEvent;
+            realEvent = ( CConnMonPacketDataAvailable* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId(); // generic
+            }
+            break;
+        case EConnMonPacketDataUnavailable:
+            {
+            CConnMonPacketDataUnavailable* realEvent;
+            realEvent = ( CConnMonPacketDataUnavailable* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId(); // generic
+            }
+            break;
+        case EConnMonBearerInfoChange:
+            {
+            CConnMonBearerInfoChange* realEvent;
+            realEvent = ( CConnMonBearerInfoChange* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId();
+            TInt bearerInfo = realEvent-&gt;BearerInfo(); // TConnMonBearerInfo
+            }
+            break;
+        case EConnMonBearerGroupChange:
+            {
+            CConnMonBearerGroupChange* realEvent;
+            realEvent = ( CConnMonBearerGroupChange* ) &amp;aEvent;
+
+            TUint connectionId = realEvent-&gt;ConnectionId();
+            TBool bearerGroupInternal = realEvent-&gt;Internal();
+            TUint bearerGroups1 = 0;
+            TUint bearerGroups2 = 0;
+            // TConnMonBearerGroup
+            realEvent-&gt;BearerGroups( bearerGroups1, bearerGroups2 );
+            }
+            break;
+        default:
+            // For future events, unrecognized events must not crash the application
+            break;
+        }
+    }
+</pre>
+<p><b>EConnMonCreateConnection event</b>
+This event is triggered when a new connection has been created. The connection
+ID passed in the event is a new ID number ConnMon assigned to the new connection.
+</p><p><b>EConnMonDeleteConnection event</b>
+This event is triggered when a connection has been deleted. The connection
+ID passed in the event is the connection ID of the deleted connection.
+</p><p><b>EConnMonCreateSubConnection event</b>
+This event is triggered when a new subconnection has been created. Subconnections
+are not supported currently.
+</p><p><b>EConnMonDeleteSubConnection event</b>
+This event is triggered when a subconnection has been deleted. Subconnections
+are not supported currently.
+</p><p><b>EConnMonDownlinkDataThreshold event</b>
+This event is triggered when there is a sufficient change in the volume
+of downlink data for a specific connection. The event is sent each time a
+client specified amount ( <span class="plainlinks"><code>KDownlinkDataThreshold</code> </span>) of new data
+has been sent. If another ConnMon client has requested for these events for
+the same connection, the smallest threshold value is used globally. If <span class="plainlinks"><code>KDownlinkDataThreshold</code> </span> is
+0 (default), events are not sent for that connection. To prevent rapid flooding
+of these events, different bearers have appropriate minimum threshold values
+which is used to override too small thresholds when necessary.
+</p><p>See TUint attributes [Connection_Monitor_Server_API_Specification.topic3.8.1 ] and [Connection_Monitor_Server_API_Specification.topic3.8.8 ].
+</p><p><b>EConnMonUplinkDataThreshold event</b>
+This event is triggered when there is a sufficient change in the volume
+of uplink data for a specific connection. The event is sent each time a client
+specified amount ( <span class="plainlinks"><code>KUplinkDataThreshold</code> </span>) of new data has been
+received. If another ConnMon client has requested for these events for the
+same connection, the smallest threshold value will be used globally. If <span class="plainlinks"><code>KUplinkDataThreshold</code> </span> is
+0 (default), events are not sent for that connection. To prevent rapid flooding
+of these events, different bearers have appropriate minimum threshold values
+which are used to override too small thresholds when necessary.
+</p><p>See TUint attributes [Connection_Monitor_Server_API_Specification.topic3.8.2 ] and [Connection_Monitor_Server_API_Specification.topic3.8.9 ].
+</p><p><b>EConnMonNetworkStatusChange event</b>
+This event is triggered when network status changes for some packet data
+connection. The connection ID passed in the event is a bearer specific connection
+ID (see <span class="plainlinks"><code>TConnMonBearerId</code> </span>). The same information can be retrieved
+with TInt attribute <span class="plainlinks"><code>KNetworkStatus</code> </span>.
+</p><p>See TInt attribute [Connection_Monitor_Server_API_Specification.topic3.7.2 ].
+</p><p><b>EConnMonConnectionStatusChange event</b>
+This event is triggered when the status of some connection changes. The
+same information can be retrieved with TInt attribute <span class="plainlinks"><code>KConnectionStatus</code> </span>.
+Connection status values are defined in<i> nifvar.h</i>.
+</p><p>See TInt attribute [Connection_Monitor_Server_API_Specification.topic3.7.3 ].
+</p><p><b>EConnMonConnectionActivityChange event</b>
+This event is triggered when some connection changes from active to idle
+or vice versa. The client must set <span class="plainlinks"><code>KActivityTimeThreshold</code> </span> to
+receive these events. <span class="plainlinks"><code>KActivityTimeThreshold</code> </span> defines the
+period (in seconds) for checking whether the connection is active or not.
+The minimum allowed value is 5 seconds. The connection is considered active,
+if data has been passed during the last period, otherwise it is considered
+inactive. The same information can be retrieved with TBool attribute <span class="plainlinks"><code>KConnectionActive</code> </span>.
+</p><p>See TUint attribute [Connection_Monitor_Server_API_Specification.topic3.8.7 ] and
+TBool attribute [Connection_Monitor_Server_API_Specification.topic3.9.1 ].
+</p><p><b>EConnMonNetworkRegistrationChange event</b>
+This event is triggered when network registration status (GSM/GPRS/WCDMA)
+changes. The connection ID passed in the event is a bearer specific connection
+ID (see <span class="plainlinks"><code>TConnMonBearerId</code> </span>). The same information can be retrieved
+with TInt attribute <span class="plainlinks"><code>KNetworkRegistration</code> </span>. Network registration
+values are defined in <span class="plainlinks"><code>TConnMonNetworkRegistration</code> </span>.
+</p><p>See TInt attribute [Connection_Monitor_Server_API_Specification.topic3.7.5 ].
+</p><p><b>EConnMonBearerChange event</b>
+This event is triggered when bearer type (GPRS/EdgeGPRS/WCDMA) changes.
+The connection ID passed in the event is a bearer specific connection ID,
+either <span class="plainlinks"><code>EBearerIdGPRS</code> </span> or <span class="plainlinks"><code>EBearerIdWCDMA</code> </span>(see <span class="plainlinks"><code>TConnMonBearerId</code> </span>).
+The new bearer passed in the event can be <span class="plainlinks"><code>EBearerGPRS</code> </span>, <span class="plainlinks"><code>EBearerEdgeGPRS</code> </span> or <span class="plainlinks"><code>EBearerWCDMA</code> </span>(see <span class="plainlinks"><code>TConnMonBearerType</code> </span>). The same information can be retrieved with
+TInt attribute <span class="plainlinks"><code>KBearer</code> </span>.
+</p><p>Note: If TUint attribute <span class="plainlinks"><code>KBearerGroupThreshold</code> </span> is set,
+these events are disabled and events <span class="plainlinks"><code>EConnMonBearerInfoChange</code> </span> and <span class="plainlinks"><code>EConnMonBearerGroupChange</code> </span> are
+used instead. Use these events, for example, if HSDPA related information
+is required.
+</p><p>See TInt attribute [Connection_Monitor_Server_API_Specification.topic3.7.1 ] and
+TUint attribute [Connection_Monitor_Server_API_Specification.topic3.8.12 ].
+</p><p><b>EConnMonSignalStrengthChange event</b>
+This event is triggered when signal strength changes. The connection ID
+passed in the event is a bearer specific connection ID (see <span class="plainlinks"><code>TConnMonBearerId</code> </span>).
+This event is valid only for cellular bearers (such as GPRS and WCDMA) and not
+for other bearers, e.g. WLAN. The client must set <span class="plainlinks"><code>KSignalStrengthThreshold</code> </span> to
+1 to receive these events.
+</p><p>See TInt attribute [Connection_Monitor_Server_API_Specification.topic3.7.6 ] and
+TUint attribute [Connection_Monitor_Server_API_Specification.topic3.8.11 ].
+</p><p><b>EConnMonBearerAvailabilityChange event</b>
+This event is triggered when the availability of some bearer changes. The
+connection ID passed in the event is a bearer specific connection ID (see <span class="plainlinks"><code>TConnMonBearerId</code> </span>).
+The client must set <span class="plainlinks"><code>KBearerAvailabilityThreshold</code> </span> to 1 to
+receive these events. Using this event for detecting changes in WLAN availability
+requires WLAN background scanning to be enabled.
+</p><p>See TUint attribute [Connection_Monitor_Server_API_Specification.topic3.8.10 ] and
+TBool attribute [Connection_Monitor_Server_API_Specification.topic3.9.2 ].
+</p><p><b>EConnMonIapAvailabilityChange event</b>
+This event is triggered when IAP availability changes. The connection ID
+passed in the event is the generic connection ID <span class="plainlinks"><code>EBearerIdAll</code> </span>.
+The ID numbers of available IAPs are included in the event (see <span class="plainlinks"><code>TConnMonIapInfo</code> </span>).
+The same information can be retrieved with packaged attribute <span class="plainlinks"><code>KIapAvailability</code> </span>.
+</p><p>See packaged attribute [Connection_Monitor_Server_API_Specification.topic3.11.4 ].
+</p><p><b>EConnMonTransmitPowerChange event</b>
+This event is triggered when the used WLAN transmit power changes. The
+connection ID passed in the event is the bearer specific connection ID <span class="plainlinks"><code>EBearerIdWLAN</code> </span>.
+Transmit power is given in milliwatts (mW). The same information can be retrieved
+with TUint attribute <span class="plainlinks"><code>KTransmitPower</code> </span>.
+</p><p>See TUint attribute [Connection_Monitor_Server_API_Specification.topic3.8.5 ].
+</p><p><b>EConnMonSNAPsAvailabilityChange event</b>
+This event is triggered when SNAP availability changes. The connection
+ID passed in the event is the generic connection ID <span class="plainlinks"><code>EBearerIdAll</code> </span>.
+The ID numbers of available SNAPs are included in the event (see <span class="plainlinks"><code>TConnMonSNAPInfo</code> </span>).
+The same information can be retrieved with packaged attributes <span class="plainlinks"><code>KSNAPsAvailability</code> </span> and <span class="plainlinks"><code>KAvailableSNAPsIds</code> </span>.
+</p><p>See packaged attributes [Connection_Monitor_Server_API_Specification.topic3.11.5 ] and [Connection_Monitor_Server_API_Specification.topic3.11.6 ].
+</p><p><b>EConnMonNewWLANNetworkDetected event</b>
+This event is triggered when new WLAN networks are detected during a WLAN
+scan. The connection ID passed in the event is the bearer specific connection
+ID <span class="plainlinks"><code>EBearerIdWLAN</code> </span>. To receive these events, WLAN background
+scanning must be enabled, or some other mechanism must be used to trigger
+the necessary WLAN scans.
+</p><p><b>EConnMonOldWLANNetworkLost event</b>
+This event is triggered when one or more WLAN networks have been lost since
+the last WLAN scan. The connection ID passed in the event is the bearer specific
+connection ID <span class="plainlinks"><code>EBearerIdWLAN</code> </span>. To receive these events, WLAN
+background scanning must be enabled, or some other mechanism must be used
+to trigger the necessary WLAN scans.
+</p><p><b>EConnMonPacketDataAvailable event</b>
+This event is triggered when GPRS or WCDMA bearer availability changes,
+a phone call is started, or a phone call ends. The connection ID passed in
+the event is a bearer specific connection ID, either <span class="plainlinks"><code>EBearerIdGPRS</code> </span> or <span class="plainlinks"><code>EBearerIdWCDMA</code> </span>(see <span class="plainlinks"><code>TConnMonBearerId</code> </span>).
+</p><p><span class="plainlinks"><code>EConnMonPacketDataAvailable</code> </span> and <span class="plainlinks"><code>EConnMonPacketDataUnavailable</code> </span> events
+form a pair. Two events are always sent, one with connection ID <span class="plainlinks"><code>EBearerIdGPRS</code> </span> for
+2G network, and one with connection ID <span class="plainlinks"><code>EBearerIdWCDMA</code> </span> for
+3G network. The event for the network that the phone is not registered to
+is always of type <span class="plainlinks"><code>EConnMonPacketDataUnavailable</code> </span>. If the phone
+does not support dual transfer mode and a call is started, a GPRS or WCDMA
+packet data connection is put on hold. In this scenario, both are of type <span class="plainlinks"><code>EConnMonPacketDataUnavailable</code> </span>.
+The same information can be retrieved with TBool attribute <span class="plainlinks"><code>KPacketDataAvailability</code> </span>.
+</p><p>See TBool attribute [Connection_Monitor_Server_API_Specification.topic3.9.3 ].
+</p><p><b>EConnMonPacketDataUnavailable event</b>
+This event is triggered when GPRS or WCDMA bearer availability changes,
+a phone call is started, or a phone call ends. The connection ID passed in
+the event is a bearer specific connection ID, either <span class="plainlinks"><code>EBearerIdGPRS</code> </span> or <span class="plainlinks"><code>EBearerIdWCDMA</code> </span>(see <span class="plainlinks"><code>TConnMonBearerId</code> </span>).
+</p><p><span class="plainlinks"><code>EConnMonPacketDataUnavailable</code> </span> and <span class="plainlinks"><code>EConnMonPacketDataAvailable</code> </span> events
+form a pair. Two events are always sent, one with connection ID <span class="plainlinks"><code>EBearerIdGPRS</code> </span> for
+2G network, and one with connection ID <span class="plainlinks"><code>EBearerIdWCDMA</code> </span> for
+3G network. The event for the network that the phone is not registered to
+is always of type <span class="plainlinks"><code>EConnMonPacketDataUnavailable</code> </span>. If the phone
+does not support dual transfer mode and a call is started, a GPRS or WCDMA
+packet data connection is put on hold. In this scenario, both are of type <span class="plainlinks"><code>EConnMonPacketDataUnavailable</code> </span>.
+The same information can be retrieved with TBool attribute <span class="plainlinks"><code>KPacketDataAvailability</code> </span>.
+</p><p>See TBool attribute [Connection_Monitor_Server_API_Specification.topic3.9.3 ].
+</p><p><b>EConnMonBearerInfoChange</b>
+This event is triggered when there is a change in bearer information for
+an existing connection, or if the network mode changes e.g. from 2G to 3G.
+For connection specific events, the connection ID passed in the event is the
+respective connection specific ID, and for network level events, the connection
+ID is <span class="plainlinks"><code>EBearerIdAll</code> </span>. The same connection level information
+can be retrieved with TInt attribute <span class="plainlinks"><code>KBearerInfo</code> </span>. The bearer
+info values are defined in <span class="plainlinks"><code>TConnMonBearerInfo</code> </span>.
+</p><p>Note: The client needs to set the TUint attribute <span class="plainlinks"><code>KBearerGroupThreshold</code> </span> in
+order to receive these events. This also disables the <span class="plainlinks"><code>EConnMonBearerChange</code> </span> events.
+</p><p>See TInt attribute [Connection_Monitor_Server_API_Specification.topic3.7.9 ],
+TUint attribute [Connection_Monitor_Server_API_Specification.topic3.8.12 ] and [Connection_Monitor_Server_API_Specification.topic3.6.11 ] event.
+</p><p><b>EConnMonBearerGroupChange event</b>
+This event is triggered when there is a change in bearer group information
+for an existing connection. The connection ID passed in the event is the respective
+connection specific ID. The same information can be retrieved with packaged
+attribute <span class="plainlinks"><code>KBearerGroupInfo</code> </span>. The bearer group bitmask is defined
+in <span class="plainlinks"><code>TConnMonBearerGroup</code> </span>.
+</p><p>Note: The client needs to set the TUint attribute <span class="plainlinks"><code>KBearerGroupThreshold</code> </span> in
+order to receive these events. This also disables <span class="plainlinks"><code>EConnMonBearerChange</code> </span> events.
+</p><p>See packaged attribute [Connection_Monitor_Server_API_Specification.topic3.11.8 ],
+TUint attribute [Connection_Monitor_Server_API_Specification.topic3.8.12 ] and [Connection_Monitor_Server_API_Specification.topic3.6.11 ] event.
+</p>
+<a name="Using_TInt_attributes"><h3> <span class="mw-headline">2.7 Using TInt attributes </span></h3>
+</a><p>These attributes are used with <span class="plainlinks"><code>RConnectionMonitor::GetIntAttribute()</code> </span> and <span class="plainlinks"><code>RConnectionMonitor::SetIntAttribute()</code> </span> methods.
+</p><p><b>KBearer attribute</b>
+Used with <code>GetIntAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection, or the bearer specific
+connection ID <span class="plainlinks"><code>EBearerIdGPRS</code> </span>.
+</p><p>This attribute is used to retrieve the bearer of a connection. If the bearer
+specific connection ID <span class="plainlinks"><code>EBearerIdGPRS</code> </span> is used as connection
+ID parameter, ConnMon checks if EDGE is in use. If yes, <span class="plainlinks"><code>EBearerEdgeGPRS</code> </span> is
+returned, if not, <span class="plainlinks"><code>EBearerGPRS</code> </span> is returned. Connection bearer
+types are defined in <span class="plainlinks"><code>TConnMonBearerType</code> </span>.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.11 ] event.
+</p><p><b>KNetworkStatus attribute</b>
+Used with <code>GetIntAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection, or a bearer specific
+connection ID. Supported bearer specific connection IDs are:
+</p>
+<ul><li> <span class="plainlinks"><code>EBearerIdGPRS</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWCDMA</code> </span>
+</li></ul>
+<p>This attribute is used to retrieve the current network status of the phone.
+Network status values are defined in <span class="plainlinks"><code>TConnMonNetworkStatus</code> </span>.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.7 ] event.
+</p><p><b>KConnectionStatus attribute</b>
+Used with <code>GetIntAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve the current status/progress information
+of a connection. Connection status values are defined in<i> nifvar.h</i>.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.8 ] event.
+</p><p><b>KProtocolType attribute</b>
+Used with <code>GetIntAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve the protocol type (type of PDP) of a
+connection. Protocol types are defined in <span class="plainlinks"><code>TConnMonProtocolType</code> </span>.
+</p><p><b>KNetworkRegistration attribute</b>
+Used with <code>GetIntAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection, or a bearer specific
+connection ID. Supported bearer specific connection IDs are:
+</p>
+<ul><li> <span class="plainlinks"><code>EBearerIdCSD</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdGSM</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdGPRS</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWCDMA</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWcdmaCSD</code> </span>
+</li></ul>
+<p>This attribute is used to retrieve the current network registration status
+of the phone. Network registration values are defined in <span class="plainlinks"><code>TConnMonNetworkRegistration</code> </span>.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.10 ] event.
+</p><p><b>KSignalStrength attribute</b>
+Used with <code>GetIntAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection, or a bearer specific
+connection ID. Supported bearer specific connection IDs are:
+</p>
+<ul><li> <span class="plainlinks"><code>EBearerIdCSD</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdGSM</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdGPRS</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWCDMA</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWcdmaCSD</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWLAN</code> </span>
+</li></ul>
+<p>This attribute is used to retrieve the current signal strength. For WLAN,
+if an active WLAN connection is present, the signal strength of that connection
+is returned. Otherwise a WLAN scan is performed and the signal strength of
+the strongest network found is returned.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.12 ] event.
+</p><p><b>KNetworkMode attribute</b>
+Used with <code>GetIntAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing WLAN connection.
+</p><p>This attribute is used to retrieve the network mode of an active WLAN connection.
+WLAN network modes are defined in <span class="plainlinks"><code>TConnMonNetworkMode</code> </span>.
+</p><p><b>KSecurityMode attribute</b>
+Used with <code>GetIntAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing WLAN connection.
+</p><p>This attribute is used to retrieve the security mode of an active WLAN
+connection. WLAN connection security modes are defined in <span class="plainlinks"><code>TConnMonSecurityMode</code> </span>.
+</p><p><b>KBearerInfo attribute</b>
+Used with <code>GetIntAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve the current bearer information for an
+existing connection. Bearer information values are defined in <span class="plainlinks"><code>TConnMonBearerInfo</code> </span>.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.21 ] event.
+</p><p><b>KWlanScanCacheLifetime attribute</b>
+Used with <code>GetIntAttribute()</code> and <code>SetIntAttribute()</code>.
+Parameter <code>aConnectionId</code> must be a valid connection ID for
+an existing WLAN connection, or the bearer specific connection ID <span class="plainlinks"><code>EBearerIdWLAN</code> </span>.
+</p><p>This attribute is used to control the behaviour of WLAN scanning together
+with TUint attribute <span class="plainlinks"><code>KWlanScanMaxDelay</code> </span>. These attributes
+are client specific, and do not directly affect other ConnMon clients. <span class="plainlinks"><code>KWlanScanCacheLifetime</code> </span> represents
+the age (in seconds) of WLAN scan results that the client is willing to accept.
+The valid value range is 0-60 seconds. Greater values are automatically set
+to the maximum allowed value. The value -1 represents the device specific
+default value (usually 7 seconds). The bigger this value is, the more likely
+it is there will be a suitable WLAN scan result in cache when a WLAN scan
+request is made. This leads to faster completion of WLAN scan requests and
+also less frequent WLAN scanning performed by the device, which in turn leads
+to longer battery life.
+</p><p>Note: <span class="plainlinks"><code>KWlanScanCacheLifetime</code> </span> attribute is ignored unless
+TUint attribute <span class="plainlinks"><code>KWlanScanMaxDelay</code> </span> is set to 0.
+</p><p>See TUint attribute [Connection_Monitor_Server_API_Specification.topic3.8.13 ].
+</p>
+<a name="Using_TUint_attributes"><h3> <span class="mw-headline">2.8 Using TUint attributes </span></h3>
+</a><p>These attributes are used with the <span class="plainlinks"><code>RConnectionMonitor::GetUintAttribute()</code> </span> and <span class="plainlinks"><code>RConnectionMonitor::SetUintAttribute()</code> </span> methods.
+</p><p><b>KDownlinkData attribute</b>
+Used with <code>GetUintAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve the amount of data in bytes transferred
+by this connection from the remote endpoint.
+</p><p><b>KUplinkData attribute</b>
+Used with <code>GetUintAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve the amount of data in bytes transferred
+by this connection to the remote endpoint.
+</p><p><b>KIAPId attribute</b>
+Used with <code>GetUintAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve the IAP ID of an active connection.
+</p><p><b>KNetworkIdentifier attribute</b>
+Used with <code>GetUintAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve the network ID of an active connection.
+</p><p><b>KTransmitPower attribute</b>
+Used with <code>GetUintAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing WLAN connection.
+</p><p>This attribute is used to retrieve the transmit power of an active WLAN
+connection.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.15 ] event.
+</p><p><b>KMobilePhoneNetworkMode attribute</b>
+Used with <code>GetUintAttribute()</code>. Parameter <code>aConnectionId</code> is
+not used with this attribute.
+</p><p>This attribute is used to retrieve the current phone network mode. The
+network modes are defined in <span class="plainlinks"><code>TConnMonMobilePhoneNetworkMode</code> </span>.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.11 ] and [Connection_Monitor_Server_API_Specification.topic3.6.21 ] events.
+</p><p><b>KActivityTimeThreshold attribute</b>
+Used with <code>GetUintAttribute()</code> and <code>SetUintAttribute</code>.
+Parameter <code>aConnectionId</code> must be a valid connection ID for
+an existing connection.
+</p><p>This attribute controls connection activity monitoring for a connection.
+It defines the period (in seconds) for checking whether the connection is
+active or not. The minimum allowed value is 5 seconds. The default value 0
+means monitoring is disabled and <span class="plainlinks"><code>EConnMonConnectionActivityChange</code> </span> events
+are not sent for this connection. If set to a value in between these, the
+minimum allowed value is used.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.9 ] event.
+</p><p><b>KDownlinkDataThreshold attribute</b>
+Used with <code>GetUintAttribute()</code> and <code>SetUintAttribute</code>.
+Parameter <code>aConnectionId</code> must be a valid connection ID for
+an existing connection.
+</p><p>This attribute controls downlink data amount monitoring for a connection.
+It defines the amount of data (in bytes) that needs to be received by a connection
+before a new <span class="plainlinks"><code>EConnMonDownlinkDataThreshold</code> </span> event is generated.
+The minimum allowed value is 4096 bytes, but this can be higher depending
+on the bearer of the connection. This is to prevent event flooding on higher
+bandwidth networks. The default value 0 means monitoring is disabled and the <span class="plainlinks"><code>EConnMonDownlinkDataThreshold</code> </span> events
+are not sent for this connection.
+</p><p>The bearer specific minimum values are:
+</p>
+<ul><li> Normal: 4096 bytes.
+</li></ul>
+<ul><li> 2G network: 20480 bytes.
+</li></ul>
+<ul><li> 3G network: 51200 bytes.
+</li></ul>
+<ul><li> WLAN network: 102400 bytes.
+</li></ul>
+<p>See the [Connection_Monitor_Server_API_Specification.topic3.6.5 ] event.
+</p><p><b>KUplinkDataThreshold attribute</b>
+Used with <code>GetUintAttribute()</code> and <code>SetUintAttribute</code>.
+Parameter <code>aConnectionId</code> must be a valid connection ID for
+an existing connection.
+</p><p>This attribute controls uplink data amount monitoring for a connection.
+It defines the amount of data (in bytes) that needs to be sent by a connection
+before a new <span class="plainlinks"><code>EConnMonUplinkDataThreshold</code> </span> event is generated.
+The minimum allowed value is 4096 bytes, but this can be higher depending
+on the bearer of the connection. This is to prevent event flooding on higher
+bandwidth networks. The default value 0 means monitoring is disabled and the <span class="plainlinks"><code>EConnMonUplinkDataThreshold</code> </span> events
+are not sent for this connection.
+</p><p>The bearer specific minimum values are:
+</p>
+<ul><li> Normal: 4096 bytes.
+</li></ul>
+<ul><li> 2G network: 20480 bytes.
+</li></ul>
+<ul><li> 3G network: 51200 bytes.
+</li></ul>
+<ul><li> WLAN network: 102400 bytes.
+</li></ul>
+<p>See the [Connection_Monitor_Server_API_Specification.topic3.6.6 ] event.
+</p><p><b>KBearerAvailabilityThreshold attribute</b>
+Used with <code>GetUintAttribute()</code> and <code>SetUintAttribute</code>.
+Parameter <code>aConnectionId</code> is not used with this attribute.
+</p><p>This attribute controls bearer availability monitoring. Set to 1 to receive
+notifications from ConnMon when bearer availability changes. The default value
+0 means monitoring is disabled and the <span class="plainlinks"><code>EConnMonBearerAvailabilityChange</code> </span> events
+are not sent.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.13 ] event.
+</p><p><b>KSignalStrengthThreshold attribute</b>
+Used with <code>GetUintAttribute()</code> and <code>SetUintAttribute</code>.
+Parameter <code>aConnectionId</code> is not used with this attribute.
+</p><p>This attribute controls cellular network signal strength monitoring. Set
+to 1 to receive notifications from ConnMon when cellular network signal strength
+changes. The default value 0 means monitoring is disabled and the <span class="plainlinks"><code>EConnMonSignalStrengthChange</code> </span> events
+are not sent.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.12 ] event.
+</p><p><b>KBearerGroupThreshold attribute</b>
+Used with <code>GetUintAttribute()</code> and <code>SetUintAttribute</code>.
+Parameter <code>aConnectionId</code> is not used with this attribute.
+</p><p>This attribute controls whether ConnMon is sending a client <span class="plainlinks"><code>EConnMonBearerChange</code> </span> events,
+or <span class="plainlinks"><code>EConnMonBearerInfoChange</code> </span> and <span class="plainlinks"><code>EConnMonBearerGroupChange</code> </span> events.
+The new <span class="plainlinks"><code>EConnMonBearerChange</code> </span> and <span class="plainlinks"><code>EConnMonBearerInfoChange</code> </span> events
+are more up to date, and designed to be extendable. Set to 1 to take them
+into use. The default value 0 means <span class="plainlinks"><code>EConnMonBearerChange</code> </span> events
+are used instead, and <span class="plainlinks"><code>EConnMonBearerInfoChange</code> </span> and <span class="plainlinks"><code>EConnMonBearerGroupChange</code> </span> are
+not sent.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.11 ], [Connection_Monitor_Server_API_Specification.topic3.6.21 ] and [Connection_Monitor_Server_API_Specification.topic3.6.22 ] events.
+</p><p><b>KWlanScanMaxDelay attribute</b>
+Used with <code>GetUintAttribute()</code> and <code>SetUintAttribute</code>.
+Parameter <code>aConnectionId</code> must be a valid connection ID for
+an existing WLAN connection, or the bearer specific connection ID <span class="plainlinks"><code>EBearerIdWLAN</code> </span>.
+</p><p>This attribute is used to control the behaviour of WLAN scanning together
+with TInt attribute <span class="plainlinks"><code>KWlanScanCacheLifetime</code> </span>. These attributes
+are client specific, and do not directly affect other ConnMon clients. <span class="plainlinks"><code>KWlanScanMaxDelay</code> </span> represents
+the time (in seconds) the client is willing to wait for WLAN scan results.
+These WLAN scan results will be up to date, and thus the device is forced
+to perform a WLAN scan. The valid value range is 0-1200 seconds. Greater values
+are automatically set to the maximum allowed value. If another process triggers
+a WLAN scan while a scan request is waiting for this delay, the request is
+completed early with the fresh scan results.
+</p><p>Note: When <span class="plainlinks"><code>KWlanScanMaxDelay</code> </span> is set to 0 (the default
+value), cached WLAN scan results may be used instead. TInt attribute <span class="plainlinks"><code>KWlanScanCacheLifetime</code> </span> can
+be used to control the maximum allowed age of these cached WLAN scan results.
+</p><p>See the TInt attribute [Connection_Monitor_Server_API_Specification.topic3.7.10 ].
+</p>
+<a name="Using_TBool_attributes"><h3> <span class="mw-headline">2.9 Using TBool attributes </span></h3>
+</a><p>These attributes are used with the <span class="plainlinks"><code>RConnectionMonitor::GetBoolAttribute()</code> </span> and <span class="plainlinks"><code>RConnectionMonitor::SetBoolAttribute()</code> </span> methods.
+</p><p><b>KConnectionActive attribute</b>
+Used with <code>GetBoolAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to check if a connection is active or not. If <span class="plainlinks"><code>EConnMonConnectionActivityChange</code> </span> events
+are enabled for this connection, ConnMon returns the current cached information
+immediately. If these events are not enabled (default), ConnMon completes
+this request in approximately 1 second. The connection is considered active,
+if data has been passed during this time, otherwise it is considered inactive.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.9 ] event.
+</p><p><b>KBearerAvailability attribute</b>
+Used with <code>GetBoolAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection, or a bearer specific
+connection ID. Supported bearer specific connection IDs are:
+</p>
+<ul><li> <span class="plainlinks"><code>EBearerIdCSD</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdGPRS</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWCDMA</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWcdmaCSD</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWLAN</code> </span>
+</li></ul>
+<p>This attribute is used to find out if a bearer is currently available.
+To check for a specific bearer, the given connection ID should be one of the
+bearer specific connection IDs. If the given connection ID belongs to a valid
+connection, the availability of the bearer used by that connection is checked.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.13 ] event.
+</p><p><b>KPacketDataAvailability attribute</b>
+Used with <code>GetBoolAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a bearer specific connection ID. Supported bearer specific connection IDs
+are:
+</p>
+<ul><li> <span class="plainlinks"><code>EBearerIdGPRS</code> </span>
+</li><li> <span class="plainlinks"><code>EBearerIdWCDMA</code> </span>
+</li></ul>
+<p>This attribute is used to retrieve the packet data availability status
+for a 2G or 3G network. The status is false if the bearer is not available,
+or the phone does not support dual transfer mode and a phone call is currently
+active.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.19 ] and [Connection_Monitor_Server_API_Specification.topic3.6.20 ] events.
+</p><p><b>KConnectionStop attribute</b>
+Used with <code>SetBoolAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>By setting this attribute to <span class="plainlinks"><code>ETrue</code> </span>, the connection referred
+to by the connection ID is closed.
+</p><p>Note: The client must have the <code>NetworkServices</code> and <code>NetworkControl</code> capabilities
+to use this attribute.
+</p><p><b>KConnectionStopAll attribute</b>
+Used with <code>SetBoolAttribute()</code>. Parameter <code>aConnectionId</code> is
+not used with this attribute.
+</p><p>By setting this attribute to <span class="plainlinks"><code>ETrue</code> </span>, all connections on
+the device are closed.
+</p><p>Note: The client must have the <code>NetworkServices</code> and <code>NetworkControl</code> capabilities
+to use this attribute.
+</p>
+<a name="Using_string_attributes"><h3> <span class="mw-headline">2.10 Using string attributes </span></h3>
+</a><p>These attributes are used with the <span class="plainlinks"><code>RConnectionMonitor::GetStringAttribute()</code> </span> and <span class="plainlinks"><code>RConnectionMonitor::SetStringAttribute()</code> </span> methods.
+</p><p><b>KIAPName attribute</b>
+Used with <code>GetStringAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve the IAP name a connection is connected
+through.
+</p><p><b>KAccessPointName attribute</b>
+Used with <code>GetStringAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve the access point name from the IAP the
+connection is connected through.
+</p><p><b>KTelNumber attribute</b>
+Used with <code>GetStringAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve the used telephone number for a connection,
+when applicable.
+</p><p><b>KNetworkName attribute</b>
+Used with <code>GetStringAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing WLAN connection.
+</p><p>This attribute is used to retrieve the network name (SSID) of the WLAN
+that a connection is connected to. A WLAN name can be up to 32 characters
+long.
+</p><p><b>KWlanSsid attribute</b>
+Used with <code>GetStringAttribute()</code> and <code>SetStringAttribute()</code>.
+Parameter <code>aConnectionId</code> must be a valid connection ID for
+an existing WLAN connection, or the bearer specific connection ID <span class="plainlinks"><code>EBearerIdWLAN</code> </span>.
+</p><p>This attribute is used to set the SSID value to be used when performing
+a WLAN scan for networks with a specific SSID.
+</p><p>See the packaged attribute [Connection_Monitor_Server_API_Specification.topic3.11.9 ].
+</p>
+<a name="Using_packaged_attributes"><h3> <span class="mw-headline">2.11 Using packaged attributes </span></h3>
+</a><p>These attributes are used with the <span class="plainlinks"><code>RConnectionMonitor::GetPckgAttribute()</code> </span> method.
+</p><p><b>KStartTime attribute</b>
+Used with <code>GetPckgAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve a connections start time. The information
+is transferred through a package (see <span class="plainlinks"><code>TConnMonTimeBuf</code> </span>).
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+TUint connectionCount( 0 );
+TUint subConnectionCount( 0 );
+TUint connectionId( 0 );
+
+monitor.ConnectL(); // Open RConnectionMonitor object
+
+// Get connection count
+monitor.GetConnectionCount(
+        connectionCount,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+if ( connectionCount == 0 ) { /* No connection */ }
+
+// Get connection info (1st connection)
+TInt error = monitor.GetConnectionInfo(
+        1,
+        connectionId,
+        subConnectionCount );
+if ( error != KErrNone ) { /* Error */ }
+
+// Get connection duration (1st connection)
+TConnMonTimeBuf timeBuffer;
+monitor.GetPckgAttribute(
+        connectionId,
+        0,
+        KStartTime,
+        timeBuffer,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+
+TTimeIntervalSeconds connectionDurationInSecs;
+TTime now;
+now.UniversalTime();
+now.SecondsFrom( timeBuffer(), connectionDurationInSecs );
+
+monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p><b>KClientInfo attribute</b>
+Used with <code>GetPckgAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve the client UID for all clients using
+a specific connection. ConnMon does not include itself in the results. The
+information is transferred through a package (see <span class="plainlinks"><code>TConnMonClientEnumBuf</code> </span>).
+The package class has a fixed size array and is limited to a maximum of 10
+( <code>KConnMonMaxClientUids</code>) UIDs.
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+TUint connectionCount( 0 );
+TUint subConnectionCount( 0 );
+TUint connectionId( 0 );
+
+monitor.ConnectL(); // Open RConnectionMonitor object
+
+// Get connection count
+monitor.GetConnectionCount(
+        connectionCount,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+if ( connectionCount == 0 ) { /* No connection */ }
+
+// Get connection info (1st connection)
+TInt error = monitor.GetConnectionInfo(
+        1,
+        connectionId,
+        subConnectionCount );
+if ( error != KErrNone ) { /* Error */}
+
+// Get connection client info
+TConnMonClientEnumBuf buf;
+monitor.GetPckgAttribute(
+        connectionId,
+        0,
+        KClientInfo,
+        buf,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+
+TUint clientCount = buf().iCount;
+for ( TInt i = 0; i &lt; clientCount; i++ )
+    {
+    TInt32 clientUid = buf().iUid(i).iUid;
+    // ...
+    }
+
+monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p><b>KNetworkNames attribute</b>
+Used with <code>GetPckgAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing WLAN connection, or the bearer specific
+connection ID <span class="plainlinks"><code>EBearerIdWLAN</code> </span>.
+</p><p>This attribute is used to retrieve information about available WLANs. This
+includes the network name (SSID), signal strength and mode (see <span class="plainlinks"><code>TConnMonNetworkMode</code> </span>).
+A WLAN scan is performed to obtain this information. The networks are sorted
+according to signal strength, strongest network first. The information is
+transferred through a package (see <span class="plainlinks"><code>TConnMonNetworkNamesBuf</code> </span>).
+The package class has a fixed size array and is limited to a maximum of 10
+( <span class="plainlinks"><code>KConnMonMaxNetworkCount</code> </span>) network information objects.
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+</pre>
+<pre>monitor.ConnectL(); // Open RConnectionMonitor object
+</pre>
+<pre>// Buffer for basic WLAN information (max. 10 networks)
+TConnMonNetworkNamesBuf buf;
+</pre>
+<pre>monitor.GetPckgAttribute(
+        EBearerIdWLAN,
+        0,
+        KNetworkNames,
+        buf,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+</pre>
+<pre>TInt wlanCount = buf().Count();
+TBuf&lt;CConnMonWlanNetwork::KMaxNameLength&gt; wlanName;
+TInt wlanSignalStrength = 0;
+TInt wlanMode = 0; // TConnMonNetworkMode
+</pre>
+<pre>for ( TInt i = 0; i &lt; wlanCount; i++ )
+    {
+    wlanName.Copy( buf().iNetwork(i).iName );
+    wlanSignalStrength = buf().iNetwork(i).iSignalStrength;
+    wlanMode = buf().iNetwork(i).iType;
+    // ...
+    }
+</pre>
+<pre>monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p><b>KIapAvailability attribute</b>
+Used with <code>GetPckgAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a bearer specific connection ID. Supported bearer specific connection IDs
+are:
+</p>
+<ul><li> <span class="plainlinks"><code>EBearerIdAll</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdGPRS</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWCDMA</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdCSD</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWcdmaCSD</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdLAN</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdWLAN</code> </span>
+</li></ul>
+<ul><li> <span class="plainlinks"><code>EBearerIdVirtualVPN</code> </span>
+</li></ul>
+<p>This attribute is used to retrieve bearer specific available IAP IDs, or
+all available IAP IDs, depending on the given connection ID. The information
+is transferred through a package (see <span class="plainlinks"><code>TConnMonIapInfoBuf</code> </span>).
+The package class has a fixed size array and is limited to a maximum of 25
+( <span class="plainlinks"><code>KConnMonMaxIAPCount</code> </span>) IDs.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.14 ] event.
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+</pre>
+<pre>monitor.ConnectL(); // Open RConnectionMonitor object
+</pre>
+<pre>// Buffer for IAP info
+TConnMonIapInfoBuf iapBuffer;
+</pre>
+<pre>monitor.GetPckgAttribute(
+        EBearerIdAll,
+        0,
+        KIapAvailability,
+        iapBuffer,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+</pre>
+<pre>TUint iapCount = iapBuffer().Count();
+for ( TInt i = 0; i &lt; iapCount; i++ )
+    {
+    TUint iapId = iapBuffer().iIap(i).iIapId;
+    // ...
+    }
+</pre>
+<pre>monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p><b>KSNAPsAvailability attribute</b>
+Used with <code>GetPckgAttribute()</code>. Parameter <code>aConnectionId</code> is
+not used with this attribute.
+</p><p>This attribute is used to retrieve available SNAP IDs. The information
+is transferred through a package (see <span class="plainlinks"><code>TConnMonSNAPInfoBuf</code> </span>).
+The package class has a fixed size array and is limited to a maximum of 25
+( <span class="plainlinks"><code>KConnMonMaxSNAPsCount</code> </span>) IDs.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.16 ] event.
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+</pre>
+<pre>monitor.ConnectL(); // Open RConnectionMonitor object
+</pre>
+<pre>// Buffer for SNAP information
+TConnMonSNAPInfoBuf snapBuffer;
+</pre>
+<pre>monitor.GetPckgAttribute(
+        EBearerIdAll,
+        0,
+        KSNAPsAvailability,
+        snapBuffer,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+</pre>
+<pre>TUint snapCount = snapBuffer().Count();
+for ( TInt i = 0; i &lt; snapCount; i++ )
+    {
+    TUint snapId = snapBuffer().iSNAP(i).iSNAPId;
+    // ...
+    }
+</pre>
+<pre>monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p><b>KAvailableSNAPsIds attribute</b>
+Used with <code>GetPckgAttribute()</code>. Parameter <code>aConnectionId</code> is
+not used with this attribute.
+</p><p>This attribute is used to retrieve available SNAP IDs. The information
+is transferred through a package (see <span class="plainlinks"><code>ConnMonIdsArrayPckg</code> </span>).
+The package class has a buffer that the client needs to allocate memory for,
+thus the size is not limited. The buffer also contains the total amount of
+available SNAPs and how many of those fit inside the buffer.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.16 ] event.
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+</pre>
+<pre>monitor.ConnectL(); // Open RConnectionMonitor object
+</pre>
+<pre>// Buffer for SNAP information
+ConnMonIdsArrayPckg idBuffer( 32 ); // Buffer size 32
+TPtr idBufferPtr( idBuffer.Buf()-&gt;Des() );
+</pre>
+<pre>monitor.GetPckgAttribute(
+        EBearerIdAll,
+        0,
+        KAvailableSNAPsIds,
+        idBufferPtr,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+</pre>
+<pre>// Amount of available SNAP IDs on the phone
+TUint totalAmount = idBuffer.Buf()-&gt;Des()(0);
+// Amount of available SNAP IDs that fit inside the buffer
+TUint bufferAmount = idBuffer.Buf()-&gt;Des()(1);
+</pre>
+<pre>if ( bufferAmount != totalAmount )
+    {
+    // Buffer was too small, all IDs did not fit.
+    // Minimum space needed is ( totalAmount * 2 ) + 2
+    }
+</pre>
+<pre>// Unpack buffer to an RArray&lt;TConnMonId&gt;
+RConnMonIdsArray idArray;
+idBuffer.UnpackToL( idArray );
+for ( TInt i = 0; i &lt; idArray.Count(); i++ )
+    {
+    TConnMonId id = idArray(i);
+    TUint idNumber = id.Id();
+    // ...
+    }
+idArray.Close();
+</pre>
+<pre>monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p><b>KWlanNetworks attribute</b>
+Used with <code>GetPckgAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing WLAN connection, or the bearer specific
+connection ID <span class="plainlinks"><code>EBearerIdWLAN</code> </span>.
+</p><p>This attribute is used to perform a broadcast WLAN scan. The information
+is transferred through a package (see <span class="plainlinks"><code>CConnMonWlanNetworksPtrArrayPckg</code> </span>).
+The package class has a buffer that the client needs to allocate memory for.
+The buffer is filled with WLANs sorted by signal strength, strongest network
+first. The buffer also contains the total amount of available WLANs and how
+many of those fit inside the buffer.
+</p><p>Note: TInt attribute <span class="plainlinks"><code>KWlanScanCacheLifetime</code> </span> and TUint
+attribute <span class="plainlinks"><code>KWlanScanMaxDelay</code> </span> can be used to control the timing
+and age of the actual scan results.
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.17 ] and [Connection_Monitor_Server_API_Specification.topic3.6.18 ] events,
+TInt attribute [Connection_Monitor_Server_API_Specification.topic3.7.10 ] and
+TUint attribute [Connection_Monitor_Server_API_Specification.topic3.8.13 ].
+</p><p>Example how to perform a normal WLAN scan:
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+</pre>
+<pre>monitor.ConnectL(); // Open RConnectionMonitor object
+</pre>
+<pre>// Buffer for WLAN information
+CConnMonWlanNetworksPtrArrayPckg* wlanBuf =
+        new( ELeave ) CConnMonWlanNetworksPtrArrayPckg( 2048 );
+TPtr wlanPtr( wlanBuf-&gt;Buf()-&gt;Des() );
+</pre>
+<pre>monitor.GetPckgAttribute(
+        EBearerIdWLAN,
+        0,
+        KWlanNetworks,
+        wlanPtr,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+</pre>
+<pre>RConnMonWlanNetworksPtrArray wlanPtrArray;
+wlanBuf-&gt;UnpackToL( wlanPtrArray );
+</pre>
+<pre>// Amount of WLANs found
+TUint totalAmount = wlanBuf-&gt;Buf()-&gt;Des()(0);
+// Amount of WLANs that fit inside the buffer
+TUint bufferAmount = wlanBuf-&gt;Buf()-&gt;Des()(1);
+</pre>
+<pre>for ( TInt i = 0; i &lt; wlanPtrArray.Count(); i++ )
+    {
+    TBuf&lt;CConnMonWlanNetwork::KMaxNameLength&gt; wlanName = wlanPtrArray(i)-&gt;Name();
+    TBuf8&lt;CConnMonWlanNetwork::KWlanBssId&gt; wlanBssid = wlanPtrArray(i)-&gt;WlanBssid();
+    TUint wlanConnectionMode = wlanPtrArray(i)-&gt;ConnectionMode();
+    TUint wlanSignalStrength = wlanPtrArray(i)-&gt;SignalStrength();
+    TUint wlanSecurityMode = wlanPtrArray(i)-&gt;SecurityMode();
+</pre>
+<pre>    // ...
+    delete wlanPtrArray(i);
+    }
+wlanPtrArray.Close();
+delete wlanBuf;
+</pre>
+<pre>monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p>Example how to perform a WLAN scan with some voluntary delay added:
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+</pre>
+<pre>monitor.ConnectL(); // Open RConnectionMonitor object
+</pre>
+<pre>// Buffer for WLAN information
+CConnMonWlanNetworksPtrArrayPckg* wlanBuf =
+        new( ELeave ) CConnMonWlanNetworksPtrArrayPckg( 2048 );
+TPtr wlanPtr( wlanBuf-&gt;Buf()-&gt;Des() );
+</pre>
+<pre>// Set a 120 second WLAN scan delay
+TUint scanDelay = 120;
+TInt error = monitor.SetUintAttribute(
+        EBearerIdWLAN,
+        0,
+        KWlanScanMaxDelay,
+        scanDelay );
+if ( error != KErrNone ) { /* Error */ }
+</pre>
+<pre>// Request a WLAN scan. Scan will complete in 2 minutes, or sooner if some
+// other process initiates a WLAN scan.
+monitor.GetPckgAttribute(
+        EBearerIdWLAN,
+        0,
+        KWlanNetworks,
+        wlanPtr,
+        status );
+User::WaitForRequest( status ); // Will take up to 2 minutes
+if ( status.Int() != KErrNone ) { /* Error */ }
+</pre>
+<pre>RConnMonWlanNetworksPtrArray wlanPtrArray;
+wlanBuf-&gt;UnpackToL( wlanPtrArray );
+</pre>
+<pre>// Amount of WLANs found
+TUint totalAmount = wlanBuf-&gt;Buf()-&gt;Des()(0);
+// Amount of WLANs that fit inside the buffer
+TUint bufferAmount = wlanBuf-&gt;Buf()-&gt;Des()(1);
+</pre>
+<pre>for ( TInt i = 0; i &lt; wlanPtrArray.Count(); i++ )
+    {
+    TBuf&lt;CConnMonWlanNetwork::KMaxNameLength&gt; wlanName = wlanPtrArray(i)-&gt;Name();
+    TBuf8&lt;CConnMonWlanNetwork::KWlanBssId&gt; wlanBssid = wlanPtrArray(i)-&gt;WlanBssid();
+    TUint wlanConnectionMode = wlanPtrArray(i)-&gt;ConnectionMode();
+    TUint wlanSignalStrength = wlanPtrArray(i)-&gt;SignalStrength();
+    TUint wlanSecurityMode = wlanPtrArray(i)-&gt;SecurityMode();
+</pre>
+<pre>    // ...
+    delete wlanPtrArray(i);
+    }
+wlanPtrArray.Close();
+delete wlanBuf;
+</pre>
+<pre>monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p><b>KBearerGroupInfo attribute</b>
+Used with <code>GetPckgAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing connection.
+</p><p>This attribute is used to retrieve bearer group information for a connection.
+The bearer group information is a bitmask containing bearer type related information.
+The bitmask is defined in <span class="plainlinks"><code>TConnMonBearerGroup</code> </span>. The information
+is transferred through a package (see <span class="plainlinks"><code>TConnMonBearerGroupInfoBuf</code> </span>).
+</p><p>See the [Connection_Monitor_Server_API_Specification.topic3.6.22 ] event.
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+TUint connectionCount( 0 );
+TUint subConnectionCount( 0 );
+TUint connectionId( 0 );
+</pre>
+<pre>monitor.ConnectL(); // Open RConnectionMonitor object
+</pre>
+<pre>// Get connection count
+monitor.GetConnectionCount(
+        connectionCount,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+if ( connectionCount == 0 ) { /* No connection */ }
+</pre>
+<pre>// Get connection info (1st connection)
+TInt error = monitor.GetConnectionInfo(
+        1,
+        connectionId,
+        subConnectionCount );
+if ( error != KErrNone ) { /* Error */ }
+</pre>
+<pre>// Get bearer group info
+TConnMonBearerGroupInfoBuf bearerGroupInfoBuf;
+monitor.GetPckgAttribute(
+        connectionId,
+        0,
+        KBearerGroupInfo,
+        bearerGroupInfoBuf,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+</pre>
+<pre>TBool internal = bearerGroupInfoBuf().iInternal;
+TUint bearerGroupMask = bearerGroupInfoBuf().iBearerGroups;
+</pre>
+<pre>monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p><b>KWlanSsidNetworks attribute</b>
+Used with <code>GetPckgAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing WLAN connection, or the bearer specific
+connection ID <span class="plainlinks"><code>EBearerIdWLAN</code> </span>.
+</p><p>This attribute is used to perform a WLAN scan for networks with a specific
+SSID. The SSID is set with the string attribute <span class="plainlinks"><code>KWlanSsid</code> </span>.
+If the SSID is empty (default), a normal broadcast scan is made. The request
+works the same way as package attribute <span class="plainlinks"><code>KWlanNetworks</code> </span>, but
+multiple simultaneous SSID scan requests from one client are not allowed.
+Any extra concurrent requests are completed with error code <span class="plainlinks"><code>KErrInUse</code> </span>.
+The information is transferred through a package (see <span class="plainlinks"><code>CConnMonWlanNetworksPtrArrayPckg</code> </span>).
+The package class has a buffer that the client needs to allocate memory for.
+The buffer is filled with WLANs sorted by signal strength, strongest network
+first. The buffer also contains the total amount of available WLANs and how
+many of those fit inside the buffer.
+</p><p>See string attribute [Connection_Monitor_Server_API_Specification.topic3.10.5 ] and
+packaged attribute [Connection_Monitor_Server_API_Specification.topic3.11.7 ].
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+</pre>
+<pre>monitor.ConnectL(); // Open RConnectionMonitor object
+</pre>
+<pre>// Buffer for WLAN information
+CConnMonWlanNetworksPtrArrayPckg* wlanBuf =
+        new( ELeave ) CConnMonWlanNetworksPtrArrayPckg( 1024 );
+TPtr wlanPtr( wlanBuf-&gt;Buf()-&gt;Des() );
+</pre>
+<pre>// String attribute for SSID scan
+TBuf&lt;32&gt; ssidString;
+ssidString.Copy( _L("MyWlan") );
+</pre>
+<pre>TInt error = monitor.SetStringAttribute(
+        EBearerIdWLAN,
+        0,
+        KWlanSsid,
+        ssidString );
+if ( error != KErrNone ) { /* error */ }
+</pre>
+<pre>monitor.GetPckgAttribute(
+        EBearerIdWLAN,
+        0,
+        KWlanSsidNetworks,
+        wlanPtr,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+</pre>
+<pre>RConnMonWlanNetworksPtrArray wlanPtrArray;
+wlanBuf-&gt;UnpackToL( wlanPtrArray );
+</pre>
+<pre>// Amount of WLANs found
+TUint totalAmount = wlanBuf-&gt;Buf()-&gt;Des()(0);
+// Amount of WLANs that fit inside the buffer
+TUint bufferAmount = wlanBuf-&gt;Buf()-&gt;Des()(1);
+</pre>
+<pre>for ( TInt i = 0; i &lt; wlanPtrArray.Count(); i++ )
+    {
+    TBuf&lt;CConnMonWlanNetwork::KMaxNameLength&gt; wlanName = wlanPtrArray(i)-&gt;Name();
+    TBuf8&lt;CConnMonWlanNetwork::KWlanBssId&gt; wlanBssid = wlanPtrArray(i)-&gt;WlanBssid();
+    TUint wlanConnectionMode = wlanPtrArray(i)-&gt;ConnectionMode();
+    TUint wlanSignalStrength = wlanPtrArray(i)-&gt;SignalStrength();
+    TUint wlanSecurityMode = wlanPtrArray(i)-&gt;SecurityMode();
+</pre>
+<pre>    // ...
+    delete wlanPtrArray(i);
+    }
+wlanPtrArray.Close();
+delete wlanBuf;
+</pre>
+<pre>monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p><b>KWlanCurrentNetwork attribute</b>
+Used with <code>GetPckgAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing WLAN connection, or the bearer specific
+connection ID <span class="plainlinks"><code>EBearerIdWLAN</code> </span>.
+</p><p>This attribute is used to retrieve information about the currently used
+WLAN. The request works the same way as package attribute <span class="plainlinks"><code>KWlanNetworks</code> </span>.
+The information is transferred through a package (see <span class="plainlinks"><code>CConnMonWlanNetworksPtrArrayPckg</code> </span>).
+The package class has a buffer that the client needs to allocate memory for,
+but it only needs enough memory to contain one WLAN object. If the connection
+ID given as parameter is for an existing connection, the request succeeds
+only if that connection is using WLAN bearer. In case the connection ID is
+invalid or the connection bearer is not WLAN, the request is completed with <span class="plainlinks"><code>KErrArgument</code> </span>.
+If the connection ID given as parameter is <span class="plainlinks"><code>EBearerIdWLAN</code> </span>,
+the request succeeds if there is a WLAN connection active. If not, the request
+is completed with <span class="plainlinks"><code>KErrNotFound</code> </span>.
+</p><p>See packaged attribute [Connection_Monitor_Server_API_Specification.topic3.11.7 ].
+</p><p>Retrieving information about currently used WLAN using the bearer specific
+connection ID:
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+</pre>
+<pre>monitor.ConnectL(); // Open RConnectionMonitor object
+</pre>
+<pre>// Buffer for WLAN information
+CConnMonWlanNetworksPtrArrayPckg* currentWlanBuf =
+        new( ELeave ) CConnMonWlanNetworksPtrArrayPckg( 80 );
+TPtr currentWlanPtr( currentWlanBuf-&gt;Buf()-&gt;Des() );
+</pre>
+<pre>// Get info for currently used WLAN
+monitor.GetPckgAttribute(
+        EBearerIdWLAN,
+        0,
+        KWlanCurrentNetwork,
+        currentWlanPtr,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() == KErrNotFound ) { /* No WLAN connection active */ }
+else if ( status.Int() != KErrNone ) { /* Error */ }
+else
+    {
+    // Process the results
+    RConnMonWlanNetworksPtrArray currentWlan;
+    currentWlanBuf-&gt;UnpackToL( currentWlan );
+</pre>
+<pre>    // With KWlanCurrentNetwork and no errors, both should be 1
+    TUint totalAmount = currentWlanBuf-&gt;Buf()-&gt;Des()(0);
+    TUint bufferAmount = currentWlanBuf-&gt;Buf()-&gt;Des()(1);
+</pre>
+<pre>    for ( TInt i = 0; i &lt; currentWlan.Count(); i++ )
+        {
+        TBuf&lt;CConnMonWlanNetwork::KMaxNameLength&gt; name = currentWlan(i)-&gt;Name();
+        TBuf8&lt;CConnMonWlanNetwork::KWlanBssId&gt; bssid = currentWlan(i)-&gt;WlanBssid();
+        TUint connectionMode = currentWlan(i)-&gt;ConnectionMode();
+        TUint signalStrength = currentWlan(i)-&gt;SignalStrength();
+        TUint securityMode = currentWlan(i)-&gt;SecurityMode();
+</pre>
+<pre>        // ...
+        delete currentWlan(i);
+        }
+    currentWlan.Close();
+    }
+delete currentWlanBuf;
+</pre>
+<pre>monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p>Retrieving information about currently used WLAN using a connection specific
+connection ID:
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+TUint connectionCount( 0 );
+TUint subConnectionCount( 0 );
+TUint connectionId( 0 );
+</pre>
+<pre>monitor.ConnectL(); // Open RConnectionMonitor object
+</pre>
+<pre>// Get connection count
+monitor.GetConnectionCount(
+        connectionCount,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+if ( connectionCount == 0 ) { /* No connection */ }
+</pre>
+<pre>// Get connection info (1st connection)
+TInt error = monitor.GetConnectionInfo(
+        1,
+        connectionId,
+        subConnectionCount );
+if ( error != KErrNone ) { /* Error */ }
+</pre>
+<pre>// Buffer for WLAN information, need space for only 1 WLAN
+CConnMonWlanNetworksPtrArrayPckg* currentWlanBuf =
+        new( ELeave ) CConnMonWlanNetworksPtrArrayPckg( 80 );
+TPtr currentWlanPtr( currentWlanBuf-&gt;Buf()-&gt;Des() );
+</pre>
+<pre>// Get info for currently used WLAN
+monitor.GetPckgAttribute(
+        connectionId,
+        0,
+        KWlanCurrentNetwork,
+        currentWlanPtr,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() == KErrArgument ) { /* Bad connection ID or bearer was not WLAN */ }
+else if ( status.Int() != KErrNone ) { /* Error */ }
+else
+    {
+    // Process the results
+    RConnMonWlanNetworksPtrArray currentWlan;
+    currentWlanBuf-&gt;UnpackToL( currentWlan );
+</pre>
+<pre>    // With KWlanCurrentNetwork and no errors, both should be 1
+    TUint totalAmount = currentWlanBuf-&gt;Buf()-&gt;Des()(0);
+    TUint bufferAmount = currentWlanBuf-&gt;Buf()-&gt;Des()(1);
+</pre>
+<pre>    if ( bufferAmount == 1 )
+        {
+        TBuf&lt;CConnMonWlanNetwork::KMaxNameLength&gt; name = currentWlan(0)-&gt;Name();
+        TBuf8&lt;CConnMonWlanNetwork::KWlanBssId&gt; bssid = currentWlan(0)-&gt;WlanBssid();
+        TUint connectionMode = currentWlan(0)-&gt;ConnectionMode();
+        TUint signalStrength = currentWlan(0)-&gt;SignalStrength();
+        TUint securityMode = currentWlan(0)-&gt;SecurityMode();
+</pre>
+<pre>        // ...
+        delete currentWlan(0);
+        }
+    currentWlan.Close();
+    }
+delete currentWlanBuf;
+</pre>
+<pre>monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<p><b>KWlanProbeRawBuffers attribute</b>
+Used with <code>GetPckgAttribute()</code>. Parameter <code>aConnectionId</code> must
+be a valid connection ID for an existing WLAN connection, or the bearer specific
+connection ID <span class="plainlinks"><code>EBearerIdWLAN</code> </span>.
+</p><p>This attribute is used to perform a broadcast WLAN scan and retrieve the
+beacon frames for found WLANs. The information is transferred through a package
+(see <span class="plainlinks"><code>CConnMonWlanProbeRawBuffersPckg</code> </span>). The package class
+has a buffer that the client needs to allocate memory for. The buffer is filled
+with WLAN beacon frames in no specific order, until all frames are entered,
+or the buffer runs out of space. The buffer also contains the total amount
+of available WLANs and the amount of beacon frames that fit inside the buffer.
+The size of a beacon frame is usually somewhere between 60 and 300 bytes.
+It consists of a fixed length header and a variable length body.
+</p><p>The beacon frame header structure:
+</p>
+<ul><li> 2 bytes: Frame control.
+</li></ul>
+<ul><li> 2 bytes: Duration.
+</li></ul>
+<ul><li> 6 bytes: Destination address.
+</li></ul>
+<ul><li> 6 bytes: Source address.
+</li></ul>
+<ul><li> 6 bytes: BSSID.
+</li></ul>
+<ul><li> 2 bytes: Sequence control.
+</li></ul>
+<ul><li> 8 bytes: Timestamp.
+</li></ul>
+<ul><li> 2 bytes: Beacon interval.
+</li></ul>
+<ul><li> 2 bytes: Capability information.
+</li></ul>
+<ul><li> Body.
+</li></ul>
+<p>This gives 36 bytes and body.
+</p><p>The beacon frame body consists of a sequence of information elements (IE).
+</p><p>The IE structure:
+</p>
+<ul><li> 1 byte: Information element ID.
+</li></ul>
+<ul><li> 1 byte: Information element length x (in bytes, max. 255, can be 0).
+</li></ul>
+<ul><li> x bytes: Information element data.
+</li></ul>
+<p>This gives x+2 bytes per IE.
+</p>
+<pre>#include &lt;rconnmon.h&gt;
+RConnectionMonitor monitor;
+TRequestStatus status;
+</pre>
+<pre>monitor.ConnectL(); // Open RConnectionMonitor object
+</pre>
+<pre>// Buffer for WLAN beacon frame information
+CConnMonWlanProbeRawBuffersPckg* wlanBeaconsBuf =
+        new( ELeave ) CConnMonWlanProbeRawBuffersPckg( 4096 );
+TPtr8 wlanBeaconsPtr( wlanBeaconsBuf-&gt;Buf()-&gt;Des() );
+</pre>
+<pre>monitor.GetPckgAttribute(
+        EBearerIdWLAN,
+        0,
+        KWlanProbeRawBuffers,
+        wlanBeaconsPtr,
+        status );
+User::WaitForRequest( status );
+if ( status.Int() != KErrNone ) { /* Error */ }
+</pre>
+<pre>// Amount of WLAN networks found
+TUint totalAmount = wlanBeaconsBuf-&gt;Total();
+// Amount of beacon frames that fit inside the buffer
+TUint bufferAmount = wlanBeaconsBuf-&gt;Count();
+</pre>
+<pre>RConnMonWlanProbeRawBuffersPtrArray wlanBeaconsPtrArray;
+wlanBeaconsBuf-&gt;UnpackToL( wlanBeaconsPtrArray );
+</pre>
+<pre>for ( TInt i = 0; i &lt; wlanBeaconsPtrArray.Count(); i++ )
+    {
+    CConnMonWlanProbeRawBuffer* beacon( wlanBeaconsPtrArray(i) );
+    TInt beaconLength = beacon-&gt;RawBuffer()-&gt;Length();
+</pre>
+<pre>    TInt ieCount = 0; // Number if IEs
+    TInt ieId = 0;
+    TInt ieLength = 0;
+    // Header is 36 bytes, body (Information Elements) starts at position 36
+    TInt index = 36;
+</pre>
+<pre>    while ( index &lt; beaconLength )
+        {
+        ieCount++;
+        ieId = beacon-&gt;RawBuffer()-&gt;Des()(index++);
+        ieLength = beacon-&gt;RawBuffer()-&gt;Des()(index++);
+        index += ieLength;
+        // ...
+        }
+    if ( index != beaconLength ) { /* error */ }
+    // ...
+    delete beacon;
+    }
+wlanBeaconsPtrArray.Close();
+delete wlanBeaconsBuf;
+</pre>
+<pre>monitor.Close(); // Close the RConnectionMonitor object
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.12 Error handling </span></h3>
+</a><p>The Connection Monitor Server uses the Symbian generic error codes. The following table
+contains the most common connection monitor error codes.
+</p>
+<table border="1" cellspacing="0">
+<tr bgcolor="gray">
+<th> Error code</th><th> Possible cause
+</th></tr>
+<tr>
+<td> <span class="plainlinks"><code>KErrNotFound</code> </span></td><td> A request is made with an invalid connection ID parameter, or the connection is already closed.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>KErrCancel</code> </span></td><td> A request is cancelled by the client, and ConnMon completes it with <span class="plainlinks"><code>KErrCancel</code> </span>.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>KErrNoMemory</code> </span></td><td> There is not enough memory in the system to complete an operation.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>KErrNotSupported</code> </span></td><td> The requested functionality is not supported by ConnMon.
+</td></tr>
+<tr>
+<td> <span class="plainlinks"><code>KErrArgument</code> </span></td><td> A request is made with a bad attribute or connection ID combination.
+</td></tr></table>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.13 Memory and Performance Considerations </span></h3>
+</a><p>The memory overhead caused by the usage of the interface can be ignored. It is highest when using WLAN scanning related functionality, and it is about 16 Kbytes at its peak.
+</p>
+<a name="Extensions_to_the_API"><h3> <span class="mw-headline">2.14 Extensions to the API </span></h3>
+</a><p>The Connection Monitor Server API is designed to be extensible with new
+query attributes and notifications without breaking the binary compatibility
+in clients. However, it requires that the clients can handle the unrecognized
+notifications. This can be achieved, for example, by ignoring them.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> ConnMon</td><td> Connection Monitor Server
+</td></tr>
+<tr>
+<td> IAP</td><td> Internet Access Point
+</td></tr>
+<tr>
+<td> SNAP</td><td> Service Network Access Points, a list of IAPs
+</td></tr>
+<tr>
+<td> UID</td><td> Unique Identifier
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<tr>
+<td> ETel</td><td> Symbian Telephony Server
+</td></tr>
+<tr>
+<td> Connection</td><td> In this document, connection refers to an IAP level connection. If two applications have a data connection activated with the same IAP (and therefore the same network interface), the number of connections is 1. Identified with
+<p>a connection ID.
+</p>
+</td></tr>
+<tr>
+<td> Subconnection</td><td> A PDP context within a certain IAP. The existing connection has always at least one subconnection. Currently valid only in case of GPRS or UMTS. If secondary PDP contexts are not used, subconnection means almost the same as connection. Identified with a subconnection ID. Support for sub- connections is not implemented.
+</td></tr>
+<tr>
+<td> Client of connection</td><td> An application using a certain connection. Identified with UID.
+</td></tr>
+<tr>
+<td> Internal connection</td><td> An internal connection is started by an application running on the device.
+</td></tr>
+<tr>
+<td> External connection</td><td> An external connection is started by an application running for example, on the PC and the phone is used in the modem mode.
+</td></tr>
+<tr>
+<td> IAP availability</td><td> An IAP is available, if there is an active connection through this
+<p>IAP, or there is a possibility to start a connection through this IAP right
+away.
+</p>
+</td></tr>
+<tr>
+<td> SNAP availability</td><td> A SNAP is available, if there is any available IAP inside this SNAP.
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_ipconnmgmt_ipcm_pub_connection_monitor_server_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:12:45 GMT -->
+</html>

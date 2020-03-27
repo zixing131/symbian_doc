@@ -1,0 +1,48 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-895A685E-83E8-51A3-A823-3A0E07B1E609.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:41 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Exporting the Implementation Factories" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-9E92EE30-F2E2-5F28-BB2A-391C09EC69D2" /><meta name="DC.Relation" scheme="URI" content="GUID-110A0151-5719-51BC-8506-C18BE57FB400" /><meta name="DC.Relation" scheme="URI" content="GUID-57F29787-B425-53EA-9DB4-372B77543584" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-895A685E-83E8-51A3-A823-3A0E07B1E609" /><meta name="DC.Language" content="en" /><title>Exporting
+the Implementation Factories  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-895A685E-83E8-51A3-A823-3A0E07B1E609">Exporting
+the Implementation Factories </h1><div><div><p>An implementation collection gathers one or more interface implementations
+in a DLL. It provides necessary information to the plug-in framework to use
+them. The collection must export a single function that provides an array.
+This array maps the UID of each implementation it contains with a pointer
+to its factory instantiation function (NewL() in our example). </p></div>
+<h3>Steps</h3><ol id="GUID-B972BA4F-6146-59A7-AA8E-8ACC704F34FB"><a name="GUID-B972BA4F-6146-59A7-AA8E-8ACC704F34FB"><!-- --></a>
+<li id="GUID-E2BCAA54-9873-5AB5-93F8-6F1CE28D184D"><a name="GUID-E2BCAA54-9873-5AB5-93F8-6F1CE28D184D"><!-- --></a><p></p>
+Define a UID for each implementation. This UID maps to the instantiation
+function of the implementation. Construct an array of UID's for all the implementations
+in the collection. 
+ <pre class="codeblock">// Define the interface UIDs
+const TImplementationProxy ImplementationTable[] = 
+    {
+    {{0x10009DC3}, CImplementationClassOne::NewL();},
+    {{0x10009DC4}, CImplementationClassTwo::NewL();}
+    };
+    }</pre>
+</li>
+<li id="GUID-D465B0AD-350A-597F-A0AB-D71F44F1CAEB"><a name="GUID-D465B0AD-350A-597F-A0AB-D71F44F1CAEB"><!-- --></a><p></p>
+The signature of this exported function must be: 
+ <pre class="codeblock">const TImplementationProxy* ImplementationGroupProxy(TInt&amp; aTableCount);</pre>
+</li>
+<li id="GUID-43C85534-AD27-5F72-A57E-5271397C1C21"><a name="GUID-43C85534-AD27-5F72-A57E-5271397C1C21"><!-- --></a><p></p>
+The exported function returns a pointer to an array of <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A91AD391-D638-3FD4-93E3-B77B85767CCD.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A91AD391-D638-3FD4-93E3-B77B85767CCD.html"><code class="apiname">TImplementationProxy</code></a> objects. 
+</li>
+<li id="GUID-D66DC4B4-3B8A-59CF-A74E-2FE499F5CA83"><a name="GUID-D66DC4B4-3B8A-59CF-A74E-2FE499F5CA83"><!-- --></a><p></p>
+Each <code class="codeph">TImplementationProxy</code> contains a UID and a function
+pointer. 
+ <code class="codeph">aTableCount</code> should be set to the number of items in
+the array. 
+ <pre class="codeblock">EXPORT_C const TImplementationProxy* ImplementationGroupProxy(TInt&amp; aTableCount)
+    {
+    aTableCount = sizeof(ImplementationTable) / sizeof(TImplementationProxy);
+
+    return ImplementationTable;
+    }</pre>
+</li>
+</ol>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 15th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-895A685E-83E8-51A3-A823-3A0E07B1E609.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:41 GMT -->
+</html>

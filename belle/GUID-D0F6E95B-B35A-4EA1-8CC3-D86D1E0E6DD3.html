@@ -1,0 +1,76 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D0F6E95B-B35A-4EA1-8CC3-D86D1E0E6DD3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:22 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Creating stylus pop-up menu" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-8C40E993-C9A0-423D-979D-7BB11CE091C1" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-FA9679A1-6FD7-4FB6-883A-D5719388A2B6" /><meta name="DC.Relation" scheme="URI" content="GUID-B8BCC4F0-7F55-4728-B7EA-3280CA822C91" /><meta name="DC.Relation" scheme="URI" content="GUID-8F04D882-B846-4A0D-B858-15FDA85758FA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D0F6E95B-B35A-4EA1-8CC3-D86D1E0E6DD3" /><meta name="DC.Language" content="en" /><title>Creating stylus pop-up menu </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D0F6E95B-B35A-4EA1-8CC3-D86D1E0E6DD3">Creating stylus pop-up menu</h1><div>
+<p>Construct the menu using the method CAknStylusPopUpMenu::NewL()in the class .</p>
+<div class="note"><p><strong class="note_title">Note: </strong>The last parameter in the constructor is a pointer to the
+preview pop-up from which the stylus pop-up menu is launched. If you
+are not constructing a pop-up menu for a preview pop-up, set the parameter
+as <code class="codeph">NULL</code>.</p></div>
+<p>To construct the menu from a resource, use the method CAknStylusPopUpMenu::ConstructFromResourceL().</p>
+<p>The following example illustrates a stylus pop-up menu opened in
+the location (not a preview pop-up) where the user taps with the stylus
+as well as the resource that defines the menu items:</p>
+<div class="note"><p><strong class="note_title">Note: </strong>The menu is constructed only once: when <code class="codeph">HandlePointerEventL</code> runs for the first time. Later the already constructed menu is shown
+again.</p></div>
+<div class="p">The following code snippets explain how to create and display Stylus
+pop-up menu:<ul>
+<li><p><strong>Creating directly:</strong></p><pre class="codeblock">// member variable point to the stylus Popup menu
+CAknStylusPopUpMenu * iPopupMenu ;
+_LIT(KItem1, "Item 1");
+_LIT(KItem2, "Item 2");
+_LIT(KItem3, "Item 3");
+_LIT(KItem4, "Item 4");
+enum StylusPopupMenuCommand
+	{
+	StylusMenuCommand1 = 0 ,
+	StylusMenuCommand2,
+	StylusMenuCommand3,
+	StylusMenuCommand4
+	};
+// create object , “this” is a object implement the interface 
+// MEikMenuObserver
+iPopupMenu = CAknStylusPopUpMenu::NewL( this , TPoint( 0 , 0 ) );
+// add menu item
+iPopupMenu-&gt;AddMenuItemL( KItem1 , StylusMenuCommand1 );
+iPopupMenu-&gt;AddMenuItemL( KItem2 , StylusMenuCommand2 );
+iPopupMenu-&gt;AddMenuItemL( KItem3 , StylusMenuCommand3 );
+iPopupMenu-&gt;AddMenuItemL( KItem4 , StylusMenuCommand4 );
+</pre></li>
+<li><p><strong>Creating through resource file:</strong></p><pre class="codeblock">RESOURCE STYLUS_POPUP_MENU r_stylus_popup_menu
+	{
+		items =
+		{
+			STYLUS_POPUP_MENU_ITEM
+				{
+					txt = "Menu Item 1";
+					command = EStylusPopupCommand1;				},
+			STYLUS_POPUP_MENU_ITEM
+				{
+					txt = "Menu Item 2";
+					command = EStylusPopupCommand2;				},
+			STYLUS_POPUP_MENU_ITEM
+				{
+					txt = "Menu Item 3";
+					command = EStylusPopupCommand3;
+				}
+		};
+	}
+// create object
+iPopupMenu = CAknStylusPopUpMenu::NewL( this , TPoint( 0 , 0 ) );
+{
+	TResourceReader reader;
+	iCoeEnv-&gt;CreateResourceReaderLC( 
+                       reader , 
+                       R_STYLUS_POPUP_MENU );
+	iPopupMenu-&gt;ConstructFromResourceL( reader );
+		// destroy reader
+	CleanupStack::PopAndDestroy();
+}
+</pre></li>
+</ul></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D0F6E95B-B35A-4EA1-8CC3-D86D1E0E6DD3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:53:22 GMT -->
+</html>

@@ -1,0 +1,53 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-78175610-72F4-5CAF-B1E9-9A761347C9DB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:21 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Hello World: A minimal console application" /><meta name="abstract" content="This section describes the steps to build the Hello World project on the emulator." /><meta name="description" content="This section describes the steps to build the Hello World project on the emulator." /><meta name="DC.Relation" scheme="URI" content="GUID-0AF47934-0A16-51A2-9254-992D7C6B322B" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-440FDF7D-B9A0-5767-9FF8-412803C0D2A9" /><meta name="DC.Relation" scheme="URI" content="GUID-F7C9824F-0598-56A1-AC2B-24904E997588" /><meta name="DC.Relation" scheme="URI" content="GUID-F51062B0-90BB-5659-9F23-2FF25116D78A" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-78175610-72F4-5CAF-B1E9-9A761347C9DB" /><title>Hello
+World: A minimal console application </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-78175610-72F4-5CAF-B1E9-9A761347C9DB">Hello
+World: A minimal console application</h1><div><p>This section describes the steps to build the Hello World
+project on the emulator.</p>
+<div id="CONTEXT_860ECC705FBE48F2B9F0EDD54C40E65E"><h3 class="section-title">Context</h3><p>The code
+in this section has been taken from the <code>Hello</code> example.</p><p>This example demonstrates the most basic use of STDLIB.
+It consists of the single source code file, <code>slhello.c</code> whose sole function, <code class="codeph">main()</code> calls <code class="codeph">printf()</code>.</p><p>The <code>Hello</code> example's project definition
+file (<code>Hello.mmp</code>) contains the following:</p><pre class="codeblock">TTARGET		hello.exe
+TARGETTYPE	exe
+UID      	0
+SOURCEPATH	.
+SOURCE		slhello.c
+SYSTEMINCLUDE	\epoc32\include\libc  \epoc32\include
+
+LIBRARY		estlib.lib euser.lib 
+STATICLIBRARY	ecrt0.lib</pre><div class="note"><p><strong class="note_title">Note: </strong></p><ul id="UL_DFDA8F9623D74CA297DE7441131DB52D">
+<li id="LI_B1C004435F2D43C1B1FDE677EEBA847C"><a name="LI_B1C004435F2D43C1B1FDE677EEBA847C"><!-- --></a>The import library <code>estlib.lib</code> is the C standard library.</li>
+<li id="LI_EF2D86C46EC849CBB89C035811A0A3FA"><a name="LI_EF2D86C46EC849CBB89C035811A0A3FA"><!-- --></a>The project also links
+to <code>ecrt0.lib</code>. This file provides the <code class="codeph">E32Main()</code> entrypoint for a <code>.exe</code>. It
+also provides other services including command-line parsing, and it
+calls <code class="codeph">main()</code>.</li>
+<li id="LI_08D804A3357E42279398B608D9C94D63"><a name="LI_08D804A3357E42279398B608D9C94D63"><!-- --></a>The <code class="codeph">SYSTEMINCLUDE</code> path specifies <code>\epoc32\include\libc\</code>, which
+is the location for STDLIB's header files.</li>
+</ul></div> </div>
+<h3>Steps</h3><ol id="STEPS_FDBDA20C062F4610B084E58AD673A4E1"><a name="STEPS_FDBDA20C062F4610B084E58AD673A4E1"><!-- --></a>
+<li id="STEP_AD6C049FEF1C4BA89DEFD358291184A3"><a name="STEP_AD6C049FEF1C4BA89DEFD358291184A3"><!-- --></a><p>To build <code>Hello</code> for the Emulator, run <code>bldmake</code> from the directory where the <code>bld.inf</code> file is
+located:</p>
+<div class="p"><p><strong>Example: </strong>bldmake bldfiles</p></div>
+ This creates the &lt;file&gt;abld.bat&lt;/file&gt; batch file.
+</li>
+<li id="STEP_51BCB62257004034AAEDACCDCB219974"><a name="STEP_51BCB62257004034AAEDACCDCB219974"><!-- --></a><p>Use <code>abld</code> to build the project, for instance:</p>
+<div class="p"><p><strong>Example: </strong>abld build wins udeb</p></div>
+</li>
+<li id="STEP_6C69AE8D4AA64378BFE1B6AE443663A4"><a name="STEP_6C69AE8D4AA64378BFE1B6AE443663A4"><!-- --></a><p>To run it, invoke <code>hello.exe</code></p>
+</li>
+<li id="STEP_859A8F380CF04A4E86DC4CD787724E9E"><a name="STEP_859A8F380CF04A4E86DC4CD787724E9E"><!-- --></a><p>To build <code>Hello</code> for the target machine, invoke <code class="codeph">bldmake</code> and <code class="codeph">abld</code>, specifying the appropriate target platform.</p>
+</li>
+<li id="STEP_155632C1EC5B47C0A513D196B947AD8F"><a name="STEP_155632C1EC5B47C0A513D196B947AD8F"><!-- --></a><p>To install software
+on the target device create a <code>.sis</code> file using
+the Symbian Installation system. </p>
+ See the <a href="GUID-0AF47934-0A16-51A2-9254-992D7C6B322B.html">Application Installation
+Guide</a>
+</li>
+</ol>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-0AF47934-0A16-51A2-9254-992D7C6B322B.html">Application
+Installation Guide</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated July 8th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-78175610-72F4-5CAF-B1E9-9A761347C9DB.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:21 GMT -->
+</html>

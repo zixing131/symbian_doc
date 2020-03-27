@@ -1,0 +1,61 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-830E40D0-7DEE-5EFB-BCC6-EC0AA7FF7A02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:59 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="View Server Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58CA15F8-D984-5D07-8C00-161FA16A8FD3" /><meta name="DC.Relation" scheme="URI" content="GUID-D468BDDD-FC61-5571-A4E2-334B6BB9C1E3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-830E40D0-7DEE-5EFB-BCC6-EC0AA7FF7A02" /><meta name="DC.Language" content="en" /><title>View
+Server Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-830E40D0-7DEE-5EFB-BCC6-EC0AA7FF7A02">View
+Server Overview</h1><div>
+<div><h3 class="section-title">Purpose</h3> <p>This API allows applications to make and
+receive requests to show a particular view of data. Small amounts of data
+may be passed in such requests. The view architecture allows a high level
+of integration between applications. This is particularly useful for enabling
+users to navigate through the UI on the basis of the tasks they are working
+on, rather than perceiving separate applications. </p> </div>
+<div><h3 class="section-title">Architectural relationships</h3> <p>Views are UI classes
+(almost invariably controls) that implement the Symbian view interface. They
+display application data and are owned by the application's main user interface
+class (the AppUi). </p> <p>The inter-process communication required to make
+and receive requests to display particular views is handled by a dedicated
+server. <strong>The client/server interface is not to be used directly by applications,
+but through framework functions in the AppUi (CCoeAppUi).</strong> </p> <div class="figure" id="GUID-DBF38DC9-0A01-532F-83E4-B0BDC5103DB7"><img src="GUID-347ACB44-5D07-5EA6-8751-E424A118859D_d0e164456_href.jpg" /><p class="figure-title"><strong>Figure: </strong>              View Server architecture            </p></div> </div>
+<div><h3 class="section-title">Description</h3> <p>The API has several key concepts: </p> <p><strong>Abstract
+view interface</strong> </p> <p>The abstract view interface is implemented by application
+views to receive activation and deactivation requests from the view server.
+The activation method allows a message (a Direct Navigational Link, or DNL),
+encapsulated in a descriptor, to be passed to the view (for example, the name
+of a file that should be displayed in the view). Note that although view classes
+are usually derived from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a> the view architecture
+does not impose any restriction on which type of object implements the view
+interface. </p> <p>The abstract view interface is provided by <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-2C5E3F6C-6679-3914-9736-62296E7715A7.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-2C5E3F6C-6679-3914-9736-62296E7715A7.html"><code class="apiname">MCoeView</code></a>. </p> <p><strong>View
+ID</strong> </p> <p>The view ID identifies a view uniquely. It consists of two
+UIDs: the application's UID, which is allocated by Symbian, and a view UID,
+which is allocated by the Symbian developer. The view UID is not strictly
+a UID (though it is of the the same <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-530281E6-29FC-33F2-BC9B-610FBA389444.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-530281E6-29FC-33F2-BC9B-610FBA389444.html"><code class="apiname">TUid</code></a> type) and needs
+only to be unique within the application and different from the application
+UID. </p> <p>The view ID is provided by <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3DEA9A17-CB50-3DCD-87AC-0E91B377FB0E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3DEA9A17-CB50-3DCD-87AC-0E91B377FB0E.html"><code class="apiname">TVwsViewId</code></a>. </p> <p><strong>Registration</strong> </p> <p>Views
+are registered with the View Server. There are functions in <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3AC2CDAC-0291-309F-A020-049BC9F2CF90.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3AC2CDAC-0291-309F-A020-049BC9F2CF90.html"><code class="apiname">CCoeAppUi</code></a> to
+do this. Once registered other applications may activate them by specifying
+their view IDs. Applications which do not implement views may still participate
+in the view architecture, though to a lesser degree, by registering themselves
+using their application UID. </p> <p><strong>Activation, deactivation &amp; screen
+device change</strong> </p> <p>Activation is the process of switching, or linking
+to a view. Again, there are functions in <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3AC2CDAC-0291-309F-A020-049BC9F2CF90.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-3AC2CDAC-0291-309F-A020-049BC9F2CF90.html"><code class="apiname">CCoeAppUi</code></a> to activate
+and deactivate a specified view. The new view is activated and the old view
+is deactivated. Activation and deactivation events enable to actions to be
+performed by both new and old views. Similarly views need to know when screen
+orientation (portrait to landscape) or size (flip closed to flip open) has
+changed. </p> <p><strong>Observation</strong> </p> <p>Besides creating events and calling
+framework functions on activation, deactivation and screen device change the
+view architecture also supports three view observer interfaces which are also
+notified when such actions occur, namely <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-916B51B5-44BB-3010-B974-8D5D14D37169.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-916B51B5-44BB-3010-B974-8D5D14D37169.html"><code class="apiname">MCoeViewObserver</code></a>, <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-994248C5-B9C2-3932-A499-2A6A4E7A552E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-994248C5-B9C2-3932-A499-2A6A4E7A552E.html"><code class="apiname">MCoeViewActivationObserver</code></a> &amp; <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-8D9CBC46-6057-3FDC-906C-35BEBDA00D16.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-8D9CBC46-6057-3FDC-906C-35BEBDA00D16.html"><code class="apiname">MCoeViewDeactivationObserver</code></a>. </p> </div>
+<div><h3 class="section-title">See also</h3><ul>
+<li><p><a href="GUID-37E8A48E-09B8-5958-9263-B33EDAE3F7C6.html">UI Control Framework
+Overview</a></p></li>
+<li><p><a href="GUID-1C802DBD-1453-5C69-94D5-FB0229C544D6.html">Uikon Overview</a></p></li>
+<li><p><a href="GUID-BBC374AD-88E6-5C58-88BB-B939C2948DDA.html">Application
+UI</a> </p></li>
+</ul></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 23rd, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-830E40D0-7DEE-5EFB-BCC6-EC0AA7FF7A02.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:00 GMT -->
+</html>

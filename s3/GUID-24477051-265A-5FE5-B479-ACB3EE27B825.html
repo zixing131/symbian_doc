@@ -1,0 +1,83 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-24477051-265A-5FE5-B479-ACB3EE27B825.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:08:13 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Synchronisation Techniques" /><meta name="abstract" content="Describes the use of RThread::Rendezvous() to synchronize threads." /><meta name="description" content="Describes the use of RThread::Rendezvous() to synchronize threads." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-BBBFC0AF-2E35-5F5C-A3A5-57C4196A6CDA" /><meta name="DC.Relation" scheme="URI" content="GUID-91EBB6E0-932D-506D-B041-7FB8A531EFDD" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-24477051-265A-5FE5-B479-ACB3EE27B825" /><meta name="DC.Language" content="en" /><title>Synchronisation
+Techniques </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-24477051-265A-5FE5-B479-ACB3EE27B825">Synchronisation
+Techniques</h1><div><p>Describes the use of <code class="codeph">RThread::Rendezvous()</code> to
+synchronize threads.</p>
+<p>There are a number of techniques to synchronize or coordinate the activities
+of your threads with one another: </p>
+<ul>
+<li id="GUID-E5EC8F8C-2129-5750-AFDC-F4B15E3874C9"><a name="GUID-E5EC8F8C-2129-5750-AFDC-F4B15E3874C9"><!-- --></a><p> <a href="#GUID-68FCE30C-5487-501E-842C-6895717FD636">Thread Rendezvous</a> </p> </li>
+</ul>
+<div id="GUID-68FCE30C-5487-501E-842C-6895717FD636"><h3 class="section-title">Thread Rendezvous</h3> <p>The <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B0E661BC-4058-3256-B9C3-5A4FD52F6DE5.html#GUID-83AADCC6-1AD8-32D8-A6E6-B86B47C97DC2"><code class="apiname">RThread::Rendezvous()</code></a> function
+allows a thread to signal that it has reached a point in its execution. This
+works in a similar way to the Logon() function, except
+that Logon() signals the termination of a thread, and Rendezvous() signals
+that a particular point within the thread has been reached. </p> <p>The classic
+use for this function is in a server, where the main thread must wait until
+the initialisation of the server thread has completed before continuing. </p> </div>
+<div id="GUID-7A87E7D5-255B-4626-ADB0-7A8F3F839C3C"><h3 class="section-title">Using Rendezvous</h3> <p>The
+following example shows code a function creating a thread and then waiting
+for it to reach a certain point before continuing. The code shown here is
+taken from <code>…\examples\base\threadsandprocesses\Rendezvous\</code>,
+which you can build and run. </p> <pre class="codeblock">      // create threads to wait for
+    RThread thread;
+
+        // indicate completion status
+    TRequestStatus myThreadRendezvousStatus;
+
+        // pass 500 as the parameter to MyThread        
+    TInt r=thread.Create(KMsgMyThreadName, MyThread, KDefaultStackSize, KHeapSize,KHeapSize,(TAny*) 2000000, EOwnerThread); 
+    if (r!=KErrNone)
+        {   
+        console-&gt;Printf(KMsgCreateThreadFailed);
+            return;
+        }
+        // create rendezvous
+    thread.Rendezvous(myThreadRendezvousStatus);
+
+        //EXCECUTE THREAD!
+    console-&gt;Printf(KMsgStartThread);                    
+    thread.Resume();
+
+    User::WaitForRequest(myThreadRendezvousStatus);
+    if(myThreadRendezvousStatus==KErrNone)
+        {
+        console-&gt;Printf(KMsgThreadRendezvousReached);
+        }
+        else
+        {
+        console-&gt;Printf(KMsgSomethingIsWrong);   
+        }   
+        
+    thread.Close();
+    console-&gt;Printf(KMsgEndOfTest);</pre> <p>The following function
+is the <code class="codeph">MyThread()</code> function created in the previous example.
+The <code class="codeph">MyThread()</code> function calls the rendezvous function to
+signal that the rendezvous point has been reached, <code class="codeph">MyThread()</code> can
+then continue. </p> <pre class="codeblock">TInt MyThread(TAny* aParameter)
+    {
+        // simulate some processing
+    User::After((TInt)aParameter);      
+            
+            // signal Rendezvous
+    RThread::Rendezvous(KErrNone);
+    
+        // simulate some processing
+    User::After((TInt)aParameter);      
+    
+    return(KErrNone);
+    }</pre> <div class="note"><p><strong class="note_title">Note: </strong> <code class="codeph">MyThread()</code> can fail before signalling
+the Rendezvous, for example, if <code class="codeph">MyThread()</code> panics
+with a <code class="codeph">KERN-EXEC 3</code>, then the Rendezvous completes
+with the reason code <code class="codeph">KErrDied</code> or another system wide error
+code other than <code class="codeph">KErrNone</code>. </p></div><p>If MyThread() enters
+a never ending loop before the rendezvous is reached, then this situation
+cannot be detected and results in the calling thread waiting indefinitely
+for the rendezvous. This can be avoided by careful programming. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated March 25th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-24477051-265A-5FE5-B479-ACB3EE27B825.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:08:13 GMT -->
+</html>

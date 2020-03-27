@@ -1,0 +1,66 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-33D93E96-98A9-4116-9028-3241D76A1036.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Enabling additional touch events for your application" /><meta name="abstract" content="The Symbian platform provides additional touch events to enable drag events and to specify screen areas for touch events." /><meta name="description" content="The Symbian platform provides additional touch events to enable drag events and to specify screen areas for touch events." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Relation" scheme="URI" content="GUID-A9330FEF-C559-4E2B-B064-0151FDADEA8C" /><meta name="DC.Relation" scheme="URI" content="GUID-26A4F760-C85A-4030-8910-15D239323E9D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-33D93E96-98A9-4116-9028-3241D76A1036" /><meta name="DC.Language" content="en" /><title>Enabling additional touch events for your application </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-33D93E96-98A9-4116-9028-3241D76A1036">Enabling additional touch events for your application</h1><div><p>The Symbian platform provides additional touch events to
+enable drag events and to specify screen areas for touch events.</p>
+<p>By default, the Symbian platform sends only <code class="parname">EButton1Up</code> and <code class="parname">EButton1Down</code> touch events to applications.</p>
+<p>If you want to enable <code class="parname">EDrag</code> touch events,
+implement <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-66B1D0C0-BFBB-36DB-BCC2-5563895251D5"><code class="apiname">CCoeControl::EnableDragEvents()</code></a> in your
+container class.</p>
+<p>When the mobile device user drags the stylus on the screen, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-5375D595-CF6A-38F6-9D62-E8DDF2D2BCF6"><code class="apiname">TPointerEvent::EDrag()</code></a> events are sent. When dragging stops,
+the application receives the event <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-5BADE607-E845-34B2-9C2D-B6882B7D4288"><code class="apiname">TPointerEvent::EButton1Up()</code></a>.</p>
+<pre class="codeblock">void CTableauControl::ConstructL( const TRect&amp; aRect )
+    {
+    // This is parent window
+    CreateWindowL();
+
+    EnableDragEvents();
+
+    SetRect( aRect );
+    SetExtentToWholeScreen();
+    
+    
+    // Initialize component array
+    InitComponentArrayL();
+    
+    
+	 //Implement your own logic here
+  	 ActivateL();
+    }</pre>
+<p>It is enough that the container control set <code class="codeph">EnableDragEvents()</code> in its construction. <code class="codeph">EnableDragEvents()</code> need not
+be set again for the child controls to receive dragging events.</p>
+<div id="GUID-7B30F0D5-1EAE-4F40-B04F-6A3953BCC634"><h3 class="section-title">Controlling
+which control receives a touch event</h3><p>Particularly when you
+are receiving drag events it may be that an object in the window may
+be drawn by one control, while the pointer is over another control.
+In cases where you want to ensure that pointer events are received
+by the intended control, implement <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-172FDC09-7870-3FD0-9252-340178C58C28"><code class="apiname">CCoeControl::SetPointerCapture()</code></a>.</p><p>When a control receives a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-26CE2524-04BC-3592-A7E5-7EEC792A466E"><code class="apiname">TPointerEvent::EButton1Down()</code></a> event, all events will be sent to this control until the next <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-5BADE607-E845-34B2-9C2D-B6882B7D4288"><code class="apiname">TPointerEvent::EButton1Up()</code></a> event. If you want to have
+events to be sent to another control before the<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-5BADE607-E845-34B2-9C2D-B6882B7D4288"><code class="apiname">TPointerEvent::EButton1Up()</code></a> event, call <code class="codeph">SetPointerCapture(ETrue)</code> from the new
+control. </p><p>When the new control has received its pointer event
+and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-1FFA0073-3D83-388E-A824-08C31F90CC54.html#GUID-5BADE607-E845-34B2-9C2D-B6882B7D4288"><code class="apiname">TPointerEvent::EButton1Up()</code></a> has been received,
+you have to call <code class="codeph">SetPointerCapture(EFalse)</code> from the
+new control to stop events being sent to it indefinitely.</p></div>
+<div id="GUID-8C337F8B-346A-430A-9A7A-A48B53031421"><h3 class="section-title">Specifying
+screen areas for touch events</h3><p>To specify screen areas (<code class="codeph">TRect</code>) for touch events, see the example below.</p><pre class="codeblock">void CTableauControl::HandlePointerEventL(const TPointerEvent&amp; aPointerEvent)
+    {
+    // Does the user point exit text on screen? 
+    // iExitRect is rectangle of the text area on screen.
+    if (iExitRect.Contains(aPointerEvent.iPosition))
+        {
+        if (iEikonEnv-&gt;QueryWinL(_L("Klondike"),_L("Exit?")))
+            {
+            // Exit was pointed, then do exit   
+            (static_cast&lt;CKlondikeAppUi*&gt;(iEikonEnv-&gt;AppUi()))-&gt;HandleCommandL(EEikCmdExit);
+            return;
+            }
+        }
+    ...
+    }</pre></div>
+<div id="GUID-8B12AF1C-A98A-416D-A586-807CFC2B839D"><h3 class="section-title">Ignoring
+events other than pointer up in your control</h3><p>In cases where
+you want to make sure your control receives only touch <code class="parname">EButton1Up</code> events after receiving a touch <code class="parname">EButton1Down</code> event, implement <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-885AF2EB-587A-323B-99B5-019B2E7EBC78"><code class="apiname">CCoeControl::IgnoreEventsUntilNextPointerUp()</code></a>. </p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated May 31st, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-33D93E96-98A9-4116-9028-3241D76A1036.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:34 GMT -->
+</html>

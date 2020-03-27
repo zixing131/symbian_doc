@@ -1,0 +1,106 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4F5E644B-B2DD-5CD3-B763-E134F1916E62.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:14 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use array keys" /><meta name="abstract" content="This document describes how to use array keys." /><meta name="description" content="This document describes how to use array keys." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Relation" scheme="URI" content="GUID-E18584A9-4F16-51D0-89CB-96275A588F54" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-4F5E644B-B2DD-5CD3-B763-E134F1916E62" /><meta name="DC.Language" content="en" /><title>How to use array keys </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-4F5E644B-B2DD-5CD3-B763-E134F1916E62">How to use array keys</h1><div><p>This document describes how to use array keys.</p>
+<p>To access an array by key construct a <code class="codeph">TKeyArrayFix</code>, <code class="codeph">TKeyArrayVar</code> or <code class="codeph">TKeyArrayPak</code> object.
+The choice depends on the array type used and the member function
+accessed.</p>
+<p>The following code fragments show how this is done. They construct
+and manipulate an array of <code class="codeph">TBankAct</code> objects that
+contain data members representing typical bank account details.</p>
+<p>The <code class="codeph">TBankAct</code> class is defined as:</p>
+<pre class="codeblock">class TBankAct
+    {
+public :
+    TBuf&lt;32&gt; iActName;
+    TUint    iActNum;
+    TUint    iActValue;
+    }</pre>
+<p>The following code builds a <code class="codeph">CArrayFixFlat</code> containing
+three elements of type <code class="codeph">TBankAct</code>, as follows:</p>
+<pre class="codeblock">CArrayFixFlat&lt;TBankAct&gt; *anArray;</pre>
+<pre class="codeblock">anArray = new CArrayFixFlat&lt;TBankAct&gt;(3);
+TBankAct bankact;
+...
+_LIT(KName1,"A.Bloggs");
+_LIT(KName2,"F.B.Wittering");
+_LIT(KName3,"Z.Makepeace");
+...
+bankact.iActName  = KName1;
+bankact.iActNum   = 3;
+bankact.iActValue = 300;
+anArray-&gt;AppendL(bankact);
+...
+bankact.iActName  = KName2;
+bankact.iActNum   = 1;
+bankact.iActValue = 6000;
+anArray-&gt;AppendL(bankact);
+...
+bankact.iActName  = KName3;
+bankact.iActNum   = 2;
+bankact.iActValue = 32;
+anArray-&gt;AppendL(bankact);
+...</pre>
+<div id="GUID-BFC4A425-65CC-4DC0-B7F8-C2FAAB10714D"><h3 class="section-title">Sorting
+the array</h3> <p>To sort the array into account number order,
+first construct a <code class="codeph">TKeyArrayFix</code> object to define the
+location and type of key on which to sort the array:</p> <pre class="codeblock">TKeyArrayFix actNumKey(_FOFF(TBankAct,iActNum),ECmpTUint);</pre> <p>In practice, a data member like <code class="codeph">iActNum</code> may
+be private, in which case this statement may not be permitted by the
+compiler. Two solutions are:</p> <ol id="GUID-21F6AC95-7A84-5B65-8D59-03F96064B53A">
+<li id="GUID-8478D06F-A5B4-598D-B022-5D3D1032F082"><a name="GUID-8478D06F-A5B4-598D-B022-5D3D1032F082"><!-- --></a><p>Make the class
+in which <code class="codeph">actNumKey</code> is declared a friend of <code class="codeph">TBankAct</code> </p> </li>
+<li id="GUID-A733C432-A117-5DD0-9715-E38673428E9E"><a name="GUID-A733C432-A117-5DD0-9715-E38673428E9E"><!-- --></a><p>Declare a public <code class="codeph">const</code> <code class="codeph">static</code> <code class="codeph">TInt</code> data
+member <code class="codeph">iOffset</code> (for example) in the <code class="codeph">TBankAct</code> class and include a line of code:</p> </li>
+</ol> <ul>
+<li id="GUID-99C1E792-0BD4-5C13-A793-30B8D48E195D"><a name="GUID-99C1E792-0BD4-5C13-A793-30B8D48E195D"><!-- --></a><p><code class="codeph">const
+TInt TBankAct::iOffset =           _FOFF(TBankAct,iActNum);</code> </p> </li>
+</ul> <p><code class="codeph">actNumKey</code> can then be constructed:</p> <pre class="codeblock">TKeyArrayFix actNumKey(bankact.iOffset,ECmpTUint);</pre> <p><code class="codeph">ECmpTUint</code> is an enumerator of the <code class="codeph">TKeyCmpNumeric</code> enumeration; this constructor defines a numeric key.</p> <p>Now
+use the key definition to do the sort:</p> <pre class="codeblock">...
+anArray-&gt;Sort(actNumKey);
+...</pre> </div>
+<div id="GUID-648B5871-3FFE-42D4-BC64-0DDEEDF851C5"><h3 class="section-title">Re-sort
+the array</h3> <p>Re-sort the array into account name order, ignoring
+the case of the name, and then insert another element into the array
+maintaining the same order.</p> <p>First, construct another <code class="codeph">TKeyArrayFix</code> object:</p> <pre class="codeblock">TKeyArrayFix actNameKey(_FOFF(TBankAct,iActName),ECmpFolded);</pre> <p><code class="codeph">ECmpFolded</code> is an enumerator of the <code class="codeph">TKeyCmpText</code> enumeration; this constructor defines a descriptor key.</p> <p>Now
+use the key definition to re-sort the array and insert a new element
+into the correct place:</p> <pre class="codeblock">...
+anArray-&gt;Sort(actNameKey);
+...
+_LIT(KNewName,"W.B.NewPerson");
+...
+bankact.iActName  = KNewName;
+bankact.iActNum   = 69;
+bankact.iActValue = 24;
+...
+anArray-&gt;InsertIsqL(bankact,actNameKey);
+...</pre> <p>Note that the function <code class="codeph">InsertIsqL()</code> does not permit duplicates. If there is already an element with
+the same account name in the array, then the call to the function
+leaves with<code class="codeph">KErrAlreadyExists</code>.</p> <p>Use the key
+definition to find an array element with a specific name and change
+the <code class="codeph">iActValue</code> data member of that element:</p> <pre class="codeblock">
+...
+_LIT(KFindName,"A.Bloggs");
+bankact.iActName = KFindName;
+...
+TInt position;
+if (anArray-&gt;FindIsq(bankact,actNameKey,position))
+    {
+    //  array element NOT found
+    ...
+    }
+else
+    {
+    (*anArray)[position].iActValue = 40,000,000;
+    ...
+    }</pre> <p><strong>Notes</strong> </p> <ul>
+<li id="GUID-7BF21EA6-9138-53D9-A4E1-854CBC11D307"><a name="GUID-7BF21EA6-9138-53D9-A4E1-854CBC11D307"><!-- --></a><p>Sorting a packed
+array is achieved using the <code class="codeph">SortL()</code> member function.</p> </li>
+<li id="GUID-FCB18138-3B8E-545E-AA18-99ED50D697C9"><a name="GUID-FCB18138-3B8E-545E-AA18-99ED50D697C9"><!-- --></a><p>Although the
+example uses an array of fixed length objects and a <code class="codeph">TKeyArrayFix</code> object, the same techniques apply to variable length and packed
+arrays.</p> </li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated December 30th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-4F5E644B-B2DD-5CD3-B763-E134F1916E62.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:14 GMT -->
+</html>

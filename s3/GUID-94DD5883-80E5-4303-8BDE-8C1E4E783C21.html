@@ -1,0 +1,89 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-94DD5883-80E5-4303-8BDE-8C1E4E783C21.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:56 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Create and Populate a Message" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-63816E09-46C7-503A-ADA0-E350C7ACF3C4" /><meta name="DC.Relation" scheme="URI" content="GUID-F7598A84-9736-5310-AAA4-5BCC4BE46C16" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-94DD5883-80E5-4303-8BDE-8C1E4E783C21" /><meta name="DC.Language" content="en" /><title>Create
+and Populate a Message </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-94DD5883-80E5-4303-8BDE-8C1E4E783C21">Create
+and Populate a Message</h1><div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-309BBC8C-6B6A-48B3-834B-C680BDF8B439"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-309BBC8C-6B6A-48B3-834B-C680BDF8B439"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-309BBC8C-6B6A-48B3-834B-C680BDF8B439"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-309BBC8C-6B6A-48B3-834B-C680BDF8B439"><!-- --></a><p>Creating a message
+and setting its contents are done through <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html"><code class="apiname">RSendAsMessage</code></a>.
+To create a message, use one of the following methods specifying either the
+service ID or message type obtained from <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CB2BB982-F91D-3E06-8D66-56731AA60EB8.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-CB2BB982-F91D-3E06-8D66-56731AA60EB8.html"><code class="apiname">CSendAsMessageTypes</code></a> or <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-90C4FDEE-3E4D-32B3-85E1-52C157AC4AC4.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-90C4FDEE-3E4D-32B3-85E1-52C157AC4AC4.html"><code class="apiname">CSendAsAccounts</code></a>.
+The contents of the message can then be set.</p>
+<pre class="codeblock">void CreateL(RSendAs&amp; aSendAs, TSendAsAccount aAccount);void CreateL(RSendAs&amp; aSendAs, TUid aMessageType);</pre>
+</li>
+<li id="GUID-DB0041DF-4657-4372-A323-8C26911784CB"><a name="GUID-DB0041DF-4657-4372-A323-8C26911784CB"><!-- --></a><p>Add recipients to
+the message.</p>
+<p>The recipient type is one of the <code class="codeph">TSendAsRecipientType</code> enumeration
+values. The <code class="codeph">TSendAsRecipientType</code> parameter of <code class="codeph">AddRecipientL()</code> specifies
+whether the recipient is of a 'To' , 'Cc' or 'Bcc' type. If the message type
+does not support 'Cc' recipients, the recipient is instead treated as a 'To'
+recipient. If the 'Bcc' field is not supported, the methods return <code class="codeph">KErrNotSupported</code>.
+ </p>
+<pre class="codeblock">/**
+Creates a SendAs message
+@param aMessage An RSendAsMessage reference, used to create a message
+*/
+void CSendAs2Example::CreateL( RSendAsMessage&amp; aMessage)
+    {
+     ...
+     
+    aMessage.CreateL(iSendAs, sendAsMtmUid);
+    // Set the body text of this message using a plain descriptor. 
+    // The object must have an open message to use this method.
+    aMessage.SetBodyTextL(KBodyText);
+    
+    // The characterset to be set for the message.
+    aMessage.SetCharcterSetL(256);
+ 
+    // Add recipients to this message.
+    aMessage.AddRecipientL(KAddress1, KAlias1, RSendAsMessage::ESendAsRecipientTo);
+    aMessage.AddRecipientL(KAddress3, RSendAsMessage::ESendAsRecipientCc);
+    aMessage.AddRecipientL(KAddress4, KAlias2, RSendAsMessage::ESendAsRecipientCc);
+
+    CMsvEntry* entry = CMsvEntry::NewL(*iSession, KMsvDraftEntryId, 
+    TMsvSelectionOrdering(KMsvNoGrouping,EMsvSortByNone,ETrue));
+    CleanupStack::PushL(entry);
+    
+    // Sets the context to the specified entry.
+    entry-&gt;SetEntryL(KMsvDraftEntryId);
+    if(iSelection-&gt;Count() &gt;= 1)
+        {
+        entry-&gt;SetEntryL((*iSelection)[0]);
+        };
+        
+    CleanupStack::PopAndDestroy(entry);
+    }</pre>
+</li>
+<li id="GUID-E7E6BA38-C20C-46CC-9D31-3F131339CA8B"><a name="GUID-E7E6BA38-C20C-46CC-9D31-3F131339CA8B"><!-- --></a><p>Add attachments,
+if required.</p>
+<p><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html"><code class="apiname">RSendAsMessage</code></a> has the methods to support attachments:</p><pre class="codeblock">IMPORT_C void AddAttachment(const TDesC&amp; aFilePath, TRequestStatus&amp; aStatus);
+
+IMPORT_C void AddAttachment(const TDesC&amp; aFilePath, const TDesC8&amp; aMimeType, TRequestStatus&amp; aStatus);
+
+IMPORT_C void AddAttachment(RFile&amp; aFile, const TDesC8&amp; aMimeType, TRequestStatus&amp; aStatus);
+
+IMPORT_C void AddAttachment(RFile&amp; aFile, TRequestStatus&amp; aStatus);
+
+IMPORT_C void AddLinkedAttachment(const TDesC&amp; aFilePath, const TDesC8&amp; aMimeType, TRequestStatus&amp; aStatus);
+
+IMPORT_C void AddLinkedAttachment(const TDesC&amp; aFilePath, TRequestStatus&amp; aStatus);
+
+IMPORT_C void CreateAttachmentL(TDes&amp; aFileName, RFile&amp; aAttachmentFile);
+
+IMPORT_C void CreateAttachmentL(TDes&amp; aFileName, RFile&amp; aAttachmentFile, const TDesC8&amp; aMimeType);</pre><p>See
+Attachment Tutorial for more information on the above methods.</p>
+</li>
+<li id="GUID-382A5F4C-CC39-46E8-86AE-420A2A02210F"><a name="GUID-382A5F4C-CC39-46E8-86AE-420A2A02210F"><!-- --></a><p>Launch an editor, if required.</p>
+<p>The <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-FAAB36A9-38D3-343C-BC53-79CF19D82D8A"><code class="apiname">RSendAsMessage::LaunchEditorAndCloseL()</code></a> function
+allows a client application to launch the editor (as provided by UI MTM) for
+the created message. The handle to the message is closed, so it can no longer
+be accessed through <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4499491F-FA1A-38E1-BB13-1AB184A31DA6.html"><code class="apiname">RSendAsMessage</code></a>.</p>
+</li>
+</ol>
+<div><h3 class="section-title">Results</h3> <p>Result of carrying out the task</p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 13th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-94DD5883-80E5-4303-8BDE-8C1E4E783C21.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:12:56 GMT -->
+</html>

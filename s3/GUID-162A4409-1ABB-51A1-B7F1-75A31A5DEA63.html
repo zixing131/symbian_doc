@@ -1,0 +1,79 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-162A4409-1ABB-51A1-B7F1-75A31A5DEA63.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:32 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Using CIdle" /><meta name="abstract" content="This document describes how to use the CIdle class to implement long running background tasks." /><meta name="description" content="This document describes how to use the CIdle class to implement long running background tasks." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-B507490F-6BD3-5DF5-97E4-EFDFEA2B4EDD" /><meta name="DC.Relation" scheme="URI" content="GUID-C2608BF5-CDA7-530A-B67A-0414C7FA585D" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-162A4409-1ABB-51A1-B7F1-75A31A5DEA63" /><meta name="DC.Language" content="en" /><title>Using
+CIdle </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-162A4409-1ABB-51A1-B7F1-75A31A5DEA63">Using
+CIdle</h1><div><p>This document describes how to use the CIdle class to implement
+long running background tasks.</p>
+<p>An instance of the <code class="codeph">CIdle</code> class, an idle time active object,
+can be used to perform low-priority processing when no higher-priority active
+objects are ready to run. </p>
+<p>An idle time active object together with its associated callback function
+may be used to implement potentially long running background tasks, such as
+spreadsheet recalculation and word processor repagination. </p>
+<p>A typical example is a background re-calculation in a spreadsheet. Assume
+that the spreadsheet is encapsulated by some class <code class="codeph">CSheet</code>. </p>
+<pre class="codeblock">class CSheet
+ {
+ ...
+ TInt LaunchReCalcL();
+ TInt DoBackgroundRecalc();
+ static TInt BackgroundRecalc(TAny *aSheet);
+ ...
+private:
+ CIdle* iRecalc;
+ ...
+ };</pre>
+<p>Assume that a <code class="codeph">CSheet</code> object has been created and that,
+as a result of user interaction or some other event, a background re-calculation
+is launched by a call to <code class="codeph">LaunchReCalc()</code>. The implementation
+of this function would construct a <code class="codeph">CIdle</code> object, specifying
+a suitably low priority. The value <code class="codeph">CActive::EPriorityIdle</code> is
+recommended: </p>
+<pre class="codeblock">TInt CSheet::LaunchReCalcL()
+ {
+ ...
+ if (!(iRecalc))
+  {
+  iRecalc = CIdle::NewL(CActive::EPriorityIdle);
+  }
+ ...
+ iRecalc-&gt;Start(TCallBack(BackgroundRecalc,this)); 
+ ...
+ };</pre>
+<p>To start the background recalculation which is performed by the <code class="codeph">DoBackGroundRecalc()</code> member
+function of <code class="codeph">CSheet</code>, start by coding: </p>
+<pre class="codeblock">iRecalc-&gt;Start(TCallBack(BackgroundRecalc,this));</pre>
+<p> <code class="codeph">CIdle::Start()</code> requires a <code class="codeph">TCallBack</code> object
+to encapsulate the function to be called and a pointer to be passed as a parameter
+to that function. As the encapsulated function must either be static or a
+non-member function, the easiest way to handle this is to pass the static
+function <code class="codeph">BackgroundRecalc()</code> and a pointer to the sheet object
+itself. <code class="codeph">BackgroundRecalc()</code> then calls the non-static <code class="codeph">DoBackgroundRecalc()</code>: </p>
+<pre class="codeblock">TInt Sheet::BackgroundRecalc(TAny* aSheet)
+ {
+ return ((CSheet*)aSheet)-&gt;DoBackgroundRecalc();
+ }</pre>
+<p> <code class="codeph">BackgroundRecalc()</code> is called when there are no higher
+priority active objects with events to process. It does a small amount of
+recalculation before returning. </p>
+<p>If the function has further work to do, it returns a true value to ensure
+that it is called again when there is no other higher priority event to handle.
+When the function finally completes its recalculation task, it returns a false
+value; the function is not called again. </p>
+<p>Typically, an object such as <code class="codeph">CSheet</code> or some other object
+accessible from <code class="codeph">CSheet</code>, keeps track of the state of the re-calculation. </p>
+<p>It is important for application responsiveness that each iteration of the
+idle time object take only a short time. All other events handled by the active
+scheduler, even high-priority ones, cannot be processed until the idle time
+object's callback function returns. </p>
+<p>When the background recalculation is complete, the callback function is
+not called again. The idle time active object can be destroyed or left until
+needed again. </p>
+<p>If <code class="codeph">Cancel()</code> is called, the callback function is not called
+again. An application would need to implement appropriate cleanup. </p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-162A4409-1ABB-51A1-B7F1-75A31A5DEA63.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:32 GMT -->
+</html>

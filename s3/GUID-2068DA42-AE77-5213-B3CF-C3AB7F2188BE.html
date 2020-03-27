@@ -1,0 +1,57 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-2068DA42-AE77-5213-B3CF-C3AB7F2188BE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:21 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Using a FAT Filename Conversion Plug-in" /><meta name="abstract" content="This section describes how to dynamically load and call a FAT Filename Conversion plug-in to convert file names between Unicode and Windows code page." /><meta name="description" content="This section describes how to dynamically load and call a FAT Filename Conversion plug-in to convert file names between Unicode and Windows code page." /><meta name="DC.Relation" scheme="URI" content="GUID-026E865E-12FA-59A9-B923-309B65790E23" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DCA2F4D-ABE6-52A0-AC4E-5AAC1AB5909D" /><meta name="DC.Relation" scheme="URI" content="GUID-F3406651-0B57-50FD-81CA-A3D4000D5625" /><meta name="DC.Relation" scheme="URI" content="GUID-0584846D-D4D9-5093-8FE5-764CCFBA813F" /><meta name="DC.Relation" scheme="URI" content="GUID-F4320746-68DF-50B6-817A-24E46DFBF77B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-2068DA42-AE77-5213-B3CF-C3AB7F2188BE" /><meta name="DC.Language" content="en" /><title>Using
+a FAT Filename Conversion Plug-in </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-2068DA42-AE77-5213-B3CF-C3AB7F2188BE">Using
+a FAT Filename Conversion Plug-in</h1><div><p>This section describes how to dynamically load and call a FAT Filename
+Conversion plug-in to convert file names between Unicode and Windows code
+page. </p>
+<div><h3 class="section-title">Prerequisites</h3><p>This tutorial assumes that you have an understanding of the following: </p> <ul>
+<li id="GUID-DB5761AA-9988-5D61-B42B-9DA5AF0B154B"><a name="GUID-DB5761AA-9988-5D61-B42B-9DA5AF0B154B"><!-- --></a><p><a href="GUID-66231EA2-BDEF-582D-A4B9-F356B590038D.html">FAT
+Filename Conversion Plug-ins Overview</a> introduces Windows code page
+and the main purpose of the Plug-ins component. </p> </li>
+</ul> </div>
+<h3>Steps</h3><ol id="GUID-FA2D288A-1D18-504A-86EA-C89876400630"><a name="GUID-FA2D288A-1D18-504A-86EA-C89876400630"><!-- --></a>
+<li id="GUID-3706C5D9-0767-528C-A071-7597C8EE8780"><a name="GUID-3706C5D9-0767-528C-A071-7597C8EE8780"><!-- --></a><p>Load
+the FAT Filename Conversion plug-in DLL. </p>
+<pre class="codeblock">_LIT(KName,"cp1250");  //The name of the plug-in DLL
+const TUid KPluginUid={0x10206A9C}; //DLL UID acquired from Symbian
+RLibrary lib;
+
+//Encapsulate the UID of this DLL in TUidType.
+const TUidType serverUid(KNullUid,KNullUid,KPluginUid);    
+
+//load the DLL
+User::LeaveIfError(lib.Load(KName,serverUid));</pre>
+<p>In this example, <code>cp1250.dll</code> is dynamically loaded.
+A function is then called to convert a character from Unicode to CP1250.  </p>
+</li>
+<li id="GUID-3DB9A9F0-244D-5037-82DA-458C89EF80F2"><a name="GUID-3DB9A9F0-244D-5037-82DA-458C89EF80F2"><!-- --></a><p></p>
+Get the exported function from the DLL. 
+ <pre class="codeblock">// Function at ordinal 1 converts text from a Unicode to CP1250.
+TLibraryFunction function1 = lib.Lookup(1);
+
+typedef void (*TConvertFromUnicodeL)(TDes8&amp;, const TDesC16&amp;);    
+TConvertFromUnicodeL aConvertFromUnicodeL = 
+                            reinterpret_cast &lt;TConvertFromUnicodeL&gt; (function1);</pre>
+</li>
+<li id="GUID-CD49317B-9C3D-565C-B31E-0471109FA1A7"><a name="GUID-CD49317B-9C3D-565C-B31E-0471109FA1A7"><!-- --></a><p></p>
+Call the function to convert the text from Unicode to CP1250. 
+ <pre class="codeblock">TBuf8&lt;15&gt; foreign1;
+_LIT16(Uni_1, "\x0053\x0059\x004D\x0042\x0049\x0041\x004E\xFFFD\x20AC\x02C7\x2015");
+const TDesC16&amp; unicode1(Uni_1);
+(*aConvertFromUnicodeL)(foreign1, unicode1);
+...</pre>
+</li>
+<li id="GUID-7E911758-4430-5507-829F-6096564611F2"><a name="GUID-7E911758-4430-5507-829F-6096564611F2"><!-- --></a><p></p>
+Close the DLL. 
+ <pre class="codeblock">lib.Close();</pre>
+</li>
+</ol>
+<div><h3 class="section-title">Results</h3><p>The parameter <code class="codeph">foreign1</code> is returned with the value <code class="codeph">"\0x53\0x59\0x4D\0x42\0x49\0x41\0x4E\0x81\0x80\0xA1\0x5F"</code> which is in the CP1250 encoding. </p> </div>
+</div><h3>Related tasks</h3><ul><li><a href="GUID-026E865E-12FA-59A9-B923-309B65790E23.html">Creating
+a FAT Filename Conversion                 Plug-in</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 23rd, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-2068DA42-AE77-5213-B3CF-C3AB7F2188BE.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:19:21 GMT -->
+</html>

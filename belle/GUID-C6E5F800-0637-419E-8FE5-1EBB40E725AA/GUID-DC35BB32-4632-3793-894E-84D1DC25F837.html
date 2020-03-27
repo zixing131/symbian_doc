@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DC35BB32-4632-3793-894E-84D1DC25F837.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:22:01 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxFile" />
+<meta name="DC.Title" content="utime.html" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-DC35BB32-4632-3793-894E-84D1DC25F837" />
+<title>utime.h</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-DC35BB32-4632-3793-894E-84D1DC25F837"><a name="GUID-DC35BB32-4632-3793-894E-84D1DC25F837"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">utime.h File Reference</h1>
+<div class="body refbody apiDetail apiClassifierDetail cxxFileDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiValue cxxTypedef nested1" id="GUID-77F2BC7C-8164-32B5-9944-90C208562815"><a name="GUID-77F2BC7C-8164-32B5-9944-90C208562815"><!-- --></a>
+<h3 class="sectiontitle">Typedef time_t</h3>
+<div class="section signature"><table class="signature"><tr><td>typedef 
+					<a class="xref xref apiRelation" href="GUID-6B9FA9E3-BBBA-3B9F-8538-94583F2D3BA4.html">__time_t</a>
+</td><td>time_t</td></tr></table></div><div class="section section apiDesc section apidesc">
+</div>
+<div class="topic reference apiRef apiOperation cxxDefine nested1" id="GUID-B2FA5370-4959-35E7-8259-E9A8C7D6DA7E"><a name="GUID-B2FA5370-4959-35E7-8259-E9A8C7D6DA7E"><!-- --></a>
+<h3 class="sectiontitle">_TIME_T_DECLARED</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxDefineDetail"><p class="shortdesc">
+<div class="section section apiDesc section apidesc">
+</div>
+</p></div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-20EA197A-562A-3ADF-9C0C-969CEC05114C"><a name="GUID-20EA197A-562A-3ADF-9C0C-969CEC05114C"><!-- --></a>
+<a name="GUID-234DE8F8-1D41-3BE0-980B-37ACF281DDA6"><!-- --></a><h3 class="sectiontitle">utime ( const char *, const struct utimbuf * )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C int</td><td>utime</td><td>(</td><td>const char *</td><td><span class="parameter">,</span></td></tr><tr><td colspan="3"> </td><td>const struct <a class="xref xref apiRelation" href="GUID-8FB2FB38-00E4-3144-B092-BFE5AD87BF7D.html">utimbuf</a> *</td><td><span class="parameter"></span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">This interface is obsoleted by utimes.</p>
+<p class="p">The utime function sets the access and modification times of the named file from the actime and modtime fields of the struct utimbuf pointed at by filetimes.</p>
+<p class="p">If the times are specified (the timep argument is non- NULL) the caller must be the owner of the file or be the super-user.</p>
+<p class="p">If the times are not specified (the timep argument is NULL) the caller must be the owner of the file, have permission to write the file, or be the super-user.</p>
+<div class="p">Examples: <pre class="pre codeblock">/* Detailed description:  Sample usage of utime system call
+  Preconditions:  Example.txt file should exist in the working directory
+ */
+#include &lt;stdio.h&gt;
+#include &lt;utime.h&gt;
+int main()
+{
+  struct utimbuf Time ;
+  if(utime("Example.txt" , &amp;Time;) &lt; 0 ) 
+  {
+     printf("Utime call failed") ;
+     return -1 ;
+  }
+  printf("Utime call succeded") ;
+  return 0 ;
+}</pre>
+ Output <pre class="pre codeblock">Utime call succeded</pre>
+</div>
+<p class="p">Limitations:</p>
+<p class="p">KErrNotReady of Symbian error code is mapped to ENOENT, which typically means drive not found or filesystem not mounted on the drive.</p>
+<p class="p">
+</p><p class="p">See also: <a class="xref" href="GUID-664A60D0-493A-3497-AB7D-6938CADF6C4D.html#GUID-8CDF76C6-29A3-3747-8229-FF2101C9BD84">stat()</a> <a class="xref" href="GUID-BFE42A4B-8624-32D6-9FF4-217649125C12.html#GUID-DCA30BD5-D7C7-394B-8ADA-5FB242DB9003">utimes()</a></p>
+</div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters">
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>errno is set appropriately.</dd></dl></div>
+<div class="section capability"><table class="capability"><tr><th class="capability">Capability</th></tr><tr><td class="capabilitycode">Deferred</td><td class="capabilityvalue"></td></tr></table></div></div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</div></p></div></div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DC35BB32-4632-3793-894E-84D1DC25F837.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:22:01 GMT -->
+</html>

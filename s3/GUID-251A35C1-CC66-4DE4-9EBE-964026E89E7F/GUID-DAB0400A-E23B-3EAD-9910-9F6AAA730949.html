@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DAB0400A-E23B-3EAD-9910-9F6AAA730949.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 08:02:43 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2011"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2011"/>
+<meta name="DC.Type" content="cxxClass"/>
+<meta name="DC.Title" content="TSoInetLastErr"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="GUID-DAB0400A-E23B-3EAD-9910-9F6AAA730949"/>
+<link rel="stylesheet" type="text/css" href="css/commonltr.css"/>
+<title>TSoInetLastErr</title>
+<meta name="keywords" content="api"/><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css"/><link href="css/html.css" rel="stylesheet" type="text/css"/><link href="css/style.css" rel="stylesheet" type="text/css"/><link href="css/nwg.css" rel="stylesheet" type="text/css"/><link href="css/eclipse.css" rel="stylesheet" type="text/css"/></head>
+<body id="GUID-DAB0400A-E23B-3EAD-9910-9F6AAA730949"><a name="GUID-DAB0400A-E23B-3EAD-9910-9F6AAA730949"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+
+	<h1 class="sectiontitle">TSoInetLastErr Class Reference</h1>
+	
+	<div class="section include"><p>#include 
+            
+                    &lt;in_sock.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>class TSoInetLastErr</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Attributes</th></tr></thead><tbody><tr><td align="right" valign="top" class="code">
+					<a href="GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE.html">TInetAddr</a>
+				</td><td><a href="#GUID-73027DCB-9ED0-3D82-96B1-ACBE5FDC6F40">iDstAddr</a></td></tr><tr class="bg"><td align="right" valign="top" class="code">
+					<a href="GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE.html">TInetAddr</a>
+				</td><td><a href="#GUID-13255346-C69C-310C-BF50-8854D3E09A1F">iErrAddr</a></td></tr><tr><td align="right" valign="top" class="code">
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td><a href="#GUID-A1EF5D8B-A73E-3E17-AEE9-247E1A3392D1">iErrCode</a></td></tr><tr class="bg"><td align="right" valign="top" class="code">
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td><a href="#GUID-9E06AFF1-8698-3C1C-8DE0-90929C5829D6">iErrType</a></td></tr><tr><td align="right" valign="top" class="code">
+					<a href="GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE.html">TInetAddr</a>
+				</td><td><a href="#GUID-5BA18362-E4B2-3BD9-8455-97D95A6C76D1">iSrcAddr</a></td></tr><tr class="bg"><td align="right" valign="top" class="code">
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td><a href="#GUID-8A7AB77A-0F9D-3C90-AE61-0E0C94C5D172">iStatus</a></td></tr></tbody></table></div><div class="section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+			<p>Error information for TCP/IP protocols.</p>
+
+			<p>An object of this class is returned packaged as a TPckgBuf&lt;TSoInetLastErr&gt; in the option argument of <a href="GUID-D4F08503-F1EF-3531-9C3C-4AF24A6255F0.html#GUID-41FD432E-DC9E-3AEA-9202-560272B6A353">RSocket::GetOpt()</a>, when this function is called with (KSolInetIp, KSoInetLastError). The data members of this object are updated whenever a packet carrying an ICMP message is received.</p>
+
+			<div class="p">
+				<div class="note"><span class="notetitle">Note:</span> 
+					<div class="p">
+						<a href="GUID-B1F54040-B8AA-3C97-BA2F-982A7D11E0AB.html#GUID-B1F54040-B8AA-3C97-BA2F-982A7D11E0AB">This</a> class is originally defined only for the IPv4 environment, and there is no definite way of knowing whether the fields iErrType and iErrCode contain ICMPv4 or ICMPv6 codes. A solution that will give the correct answer in most normal cases, is <pre class="codeblock">	TSoInetLastErr p;
+	...
+	if (p.iErrAddr.Family() == KAfInet || p.iErrAddr.IsV4Mapped())
+		// assume ICMPv4 type and code
+	else
+		// assume ICMPv6 type and code</pre>
+</div>
+
+				</div>
+Alternatively, the error can be interpreted based on the member variable iStatus, if it contains one of the extended error codes. These are are common for both IPv4 and IPv6.</div>
+
+		</div>
+<h2 class="sectiontitle">Member Attribute Documentation</h2><div class="nested1" id="GUID-73027DCB-9ED0-3D82-96B1-ACBE5FDC6F40"><a name="GUID-73027DCB-9ED0-3D82-96B1-ACBE5FDC6F40"><!-- --></a>
+		<h3 class="sectiontitle">iDstAddr</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>
+					<a href="GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE.html">TInetAddr</a>
+				</td><td>iDstAddr</td></tr></table></div><div class="section apidesc">
+				<p>A <a href="GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE.html#GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE">TInetAddr</a> with the IP address and port set to the destination address and port of the failed datagram. </p>
+
+			</div>
+
+	</div>
+<div class="nested1" id="GUID-13255346-C69C-310C-BF50-8854D3E09A1F"><a name="GUID-13255346-C69C-310C-BF50-8854D3E09A1F"><!-- --></a>
+		<h3 class="sectiontitle">iErrAddr</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>
+					<a href="GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE.html">TInetAddr</a>
+				</td><td>iErrAddr</td></tr></table></div><div class="section apidesc">
+				<p>A <a href="GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE.html#GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE">TInetAddr</a> with the IP address set to the address of the host that generated the error. </p>
+
+			</div>
+
+	</div>
+<div class="nested1" id="GUID-A1EF5D8B-A73E-3E17-AEE9-247E1A3392D1"><a name="GUID-A1EF5D8B-A73E-3E17-AEE9-247E1A3392D1"><!-- --></a>
+		<h3 class="sectiontitle">iErrCode</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td>iErrCode</td></tr></table></div><div class="section apidesc">
+				<p>The value of the Code field of the last ICMP message. </p>
+
+			</div>
+
+	</div>
+<div class="nested1" id="GUID-9E06AFF1-8698-3C1C-8DE0-90929C5829D6"><a name="GUID-9E06AFF1-8698-3C1C-8DE0-90929C5829D6"><!-- --></a>
+		<h3 class="sectiontitle">iErrType</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td>iErrType</td></tr></table></div><div class="section apidesc">
+				<p>The value of the Type field of the last ICMP message. </p>
+
+			</div>
+
+	</div>
+<div class="nested1" id="GUID-5BA18362-E4B2-3BD9-8455-97D95A6C76D1"><a name="GUID-5BA18362-E4B2-3BD9-8455-97D95A6C76D1"><!-- --></a>
+		<h3 class="sectiontitle">iSrcAddr</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>
+					<a href="GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE.html">TInetAddr</a>
+				</td><td>iSrcAddr</td></tr></table></div><div class="section apidesc">
+				<p>A <a href="GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE.html#GUID-142E102F-ED08-3312-B19E-BEEAF001D3DE">TInetAddr</a> with the IP address and port set to the source address and port of the failed datagram. </p>
+
+			</div>
+
+	</div>
+<div class="nested1" id="GUID-8A7AB77A-0F9D-3C90-AE61-0E0C94C5D172"><a name="GUID-8A7AB77A-0F9D-3C90-AE61-0E0C94C5D172"><!-- --></a>
+		<h3 class="sectiontitle">iStatus</h3>
+		
+		<div class="section signature"><table class="signature"><tr><td>
+					<a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>
+				</td><td>iStatus</td></tr></table></div><div class="section apidesc">
+				<p>The error code returned by the last ESOCK API function called. </p>
+
+			</div>
+
+	</div>
+
+	
+	
+	
+	
+	
+	
+</div></div><div class="footer"><hr/><div class="copy">© Nokia 2011.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DAB0400A-E23B-3EAD-9910-9F6AAA730949.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 08:02:43 GMT -->
+</html>

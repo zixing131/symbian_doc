@@ -1,0 +1,40 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1AA32C40-CDE0-4627-A634-7C07BB1ED67B-GENID-GUID-522057DE-FF09-4EC6-8F82-C4AF6AF1ACB8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:48:17 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Forms" /><meta name="DC.Relation" scheme="URI" content="GUID-53C71C87-BFD9-4C9A-8A90-6735494F300C-GENID-GUID-D8EB490E-2229-474C-9D24-B76588006219" /><meta name="DC.Relation" scheme="URI" content="GUID-A5756C5F-9C93-4949-8B60-03DCA1BAF683-GENID-GUID-D9C936F1-BAC3-4668-911F-AEAD92046111" /><meta name="DC.Relation" scheme="URI" content="GUID-53C71C87-BFD9-4C9A-8A90-6735494F300C-GENID-GUID-D8EB490E-2229-474C-9D24-B76588006219" /><meta name="DC.Relation" scheme="URI" content="GUID-A5756C5F-9C93-4949-8B60-03DCA1BAF683-GENID-GUID-D9C936F1-BAC3-4668-911F-AEAD92046111" /><meta name="DC.Relation" scheme="URI" content="GUID-03DE8DB5-BF37-4E02-BFB7-D14BD8B3E1BA" /><meta name="DC.Relation" scheme="URI" content="GUID-E05B471F-6B74-4A33-91A8-6F30F1A2951E" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-36F720B1-4FA7-452E-9062-62923E8A70D6" /><meta name="DC.Relation" scheme="URI" content="GUID-114C52FE-C8C5-4418-9C73-CEBB228C7542-GENID-GUID-AEFEE7A9-73A5-40BF-8714-D62320CD0492" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1AA32C40-CDE0-4627-A634-7C07BB1ED67B-GENID-GUID-522057DE-FF09-4EC6-8F82-C4AF6AF1ACB8" /><meta name="DC.Language" content="en" /><title>Forms </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1AA32C40-CDE0-4627-A634-7C07BB1ED67B-GENID-GUID-522057DE-FF09-4EC6-8F82-C4AF6AF1ACB8">Forms</h1><div>
+<p>A form is a specific kind of selection list, where all items (fields)
+have some editable content. </p>
+<p>A form can be in the View state or in the Edit state. The item
+layouts and functionality are different in these states:</p>
+<ul>
+<li><p>In the View state, the items are not editable. The form functions
+and looks are similar to selection list. Items can be selected to
+perform an application-specific function. </p></li>
+<li><p>In the Edit state, the user can edit all the fields. Forms
+can contain text fields (alphanumeric or numeric content), pop-up
+fields and sliders.</p></li>
+</ul>
+<p>The user can switch from the View state to the Edit state using
+the Edit command in the Options menu. In the Edit state, the contents
+of the form can be accepted using the right softkey labeled as Done.
+The form then returns to the View state.</p>
+<div id="GUID-CB9AC4F2-4C2B-49AA-9FCE-E9EA7209CC50-GENID-GUID-522057DE-FF09-4EC6-8F82-C4AF6AF1ACB8"><h3 class="section-title">Using forms in applications</h3><p>The API to use for creating forms is the Form API. For more information,
+see <strong>Symbian C++ API specifications</strong>.</p><p>Typically, a form
+will be derived from the class CAknForm and the
+methods CAknForm::SaveFormDataL() and CAknForm::DoNotSaveFormData() will be implemented by the
+developer. These are called when users switch from edit mode to view
+mode and are prompted by the form as to whether they wish to save
+their modifications.</p><p>For customization, the class <code class="codeph">CAknForm</code> provides a single-line or double-line layout and it is possible
+to use icons on forms. </p><p>In the following example, the form is
+pushed on the cleanup stack before CAknForm:: ConstructL() (a potentially leaving method) is called, and popped off before CAknDialog:: ExecuteLD(). </p><pre class="codeblock">CAknExFormAdd* form = new(ELeave) CAknExFormAdd;
+CleanupStack::PushL(form);
+form-&gt;ConstructL();
+CleanupStack::Pop();
+form-&gt;ExecuteLD(R_AKNEXFORM_TEXT_FIELD_DIALOG);
+</pre></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-53C71C87-BFD9-4C9A-8A90-6735494F300C-GENID-GUID-D8EB490E-2229-474C-9D24-B76588006219.html">Always-editable forms</a></li><li class="ulchildlink"><a href="GUID-A5756C5F-9C93-4949-8B60-03DCA1BAF683-GENID-GUID-D9C936F1-BAC3-4668-911F-AEAD92046111.html">Form items</a></li><li class="ulchildlink"><a href="GUID-53C71C87-BFD9-4C9A-8A90-6735494F300C-GENID-GUID-D8EB490E-2229-474C-9D24-B76588006219.html">Always-editable forms</a></li><li class="ulchildlink"><a href="GUID-A5756C5F-9C93-4949-8B60-03DCA1BAF683-GENID-GUID-D9C936F1-BAC3-4668-911F-AEAD92046111.html">Form items</a></li><li class="ulchildlink"><a href="GUID-03DE8DB5-BF37-4E02-BFB7-D14BD8B3E1BA.html">Forms
+without the options softkey</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 25th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1AA32C40-CDE0-4627-A634-7C07BB1ED67B-GENID-GUID-522057DE-FF09-4EC6-8F82-C4AF6AF1ACB8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:48:17 GMT -->
+</html>

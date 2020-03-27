@@ -1,0 +1,98 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-0AD34BA6-D0C5-5AD7-B8E1-F737BB5FC0AC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:12 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Redraw Stores" /><meta name="abstract" content="Redraw stores store the sequence of drawing commands representing window contents. Whenever possible, the Window Server performs server-initiated redraws by repeating the sequence of stored commands, rather than by sending redraw requests to the client. This minimises the number of client-server transactions and means that redraws are done as soon as the server detects that they are needed. This topic explains some of the background to redraw stores." /><meta name="description" content="Redraw stores store the sequence of drawing commands representing window contents. Whenever possible, the Window Server performs server-initiated redraws by repeating the sequence of stored commands, rather than by sending redraw requests to the client. This minimises the number of client-server transactions and means that redraws are done as soon as the server detects that they are needed. This topic explains some of the background to redraw stores." /><meta name="DC.Relation" scheme="URI" content="GUID-484B51EC-2209-5492-8E9C-9D792AB0DF35" /><meta name="DC.Relation" scheme="URI" content="GUID-1D529BDC-6665-58E2-AB3F-7023D8A84F69" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-862D3B3B-3369-5FF4-B81A-ED5BE415B035" /><meta name="DC.Relation" scheme="URI" content="GUID-E29CAFA8-523D-57D2-AC1B-D6D01741550B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0AD34BA6-D0C5-5AD7-B8E1-F737BB5FC0AC" /><meta name="DC.Language" content="en" /><title>Redraw Stores </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0AD34BA6-D0C5-5AD7-B8E1-F737BB5FC0AC">Redraw Stores</h1><div><p>Redraw stores store the sequence of drawing commands representing
+window contents. Whenever possible, the Window Server performs server-initiated
+redraws by repeating the sequence of stored commands, rather than
+by sending redraw requests to the client. This minimises the number
+of client-server transactions and means that redraws are done as soon
+as the server detects that they are needed. This topic explains some
+of the background to redraw stores. </p>
+<p> <strong>Variant</strong>: Both (ScreenPlay and non-ScreenPlay). <strong>Target
+audience</strong>: Device creators. </p>
+<p>The classes involved with redraw stores are as follows: </p>
+<div class="figure" id="GUID-85C23EC3-BADE-5DE1-872D-0D8399209874"><img src="GUID-40437D9A-7503-5087-851A-D1269F0AF9A9_d0e245039_href.png" /><p class="figure-title"><strong>Figure: </strong>           Redraw stores class diagram          </p></div>
+<p> <code class="codeph">CWsRedrawMsgWindow</code> is the class representing
+a redraw store. Draw commands are stored in a number of segments,
+stored in the nested class <code class="codeph">CRedrawSegment</code>. </p>
+<p>Redraw drawing takes place as follows: </p>
+<ol id="GUID-2C26C7D9-1C38-55E1-BF14-A36A9F9F05F3">
+<li id="GUID-2FCE8CBF-6BF3-5033-8BB7-935D0B276F7C"><a name="GUID-2FCE8CBF-6BF3-5033-8BB7-935D0B276F7C"><!-- --></a><p>A call to <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-28202F81-52FE-30F5-8B8C-ABED0915822E"><code class="apiname">RWindow::Invalidate()</code></a> causes either the whole window, or
+a rectangle within it, to be marked as invalid. </p> </li>
+<li id="GUID-EB4CAD7F-1B3C-5D2A-85FD-31D0C7F9503D"><a name="GUID-EB4CAD7F-1B3C-5D2A-85FD-31D0C7F9503D"><!-- --></a><p>Next, a call
+to <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-9337538E-7A53-3153-A330-968B5E4F2FF2"><code class="apiname">RWindow::BeginRedraw()</code></a> is made, either for the
+whole window or for a rectangle within it. </p> </li>
+<li id="GUID-88AF657A-8C5E-5CE8-BEF9-F8C1E34F6174"><a name="GUID-88AF657A-8C5E-5CE8-BEF9-F8C1E34F6174"><!-- --></a><p>Draw operations
+take place. </p> </li>
+<li id="GUID-58BC4A48-5035-582D-BE17-C15A885F4B5F"><a name="GUID-58BC4A48-5035-582D-BE17-C15A885F4B5F"><!-- --></a><p>Finally there
+is a call to <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-3DE16607-AD3B-3946-BEB3-88512EAAB9CE"><code class="apiname">RWindow::EndRedraw()</code></a>. </p> </li>
+</ol>
+<p>In this sequence, the draw operations within the <code class="codeph">BeginRedraw()</code> and <code class="codeph">EndRedraw()</code> brackets are interpreted as <em>replacing</em> whatever drawing was previously present in the affected
+rectangle. </p>
+<p>It is important to bracket all drawing within <code class="codeph">BeginRedraw(TRect)</code> and <code class="codeph">EndRedraw(TRect)</code> calls. In ScreenPlay, the
+Window Server ignores all drawing not within <code class="codeph">BeginRedraw()</code> and <code class="codeph">EndRedraw()</code> brackets and triggers a full-window
+redraw. In debug builds, there is an option to panic clients violating
+this convention. </p>
+<p>For more information, see <a href="GUID-8DB1C618-597C-560C-95A2-C0AB2CEBB027.html">Redraw Drawing</a>. </p>
+<div id="GUID-27FE041D-3DE3-4290-AF6D-38DDB8970008"><h3 class="section-title">Redraw
+segments and non-redraw handling</h3> <p>When the Window Server
+receives a batch of redraw drawing, everything between a BeginRedraw/EndRedraw
+bracket is stored in a single <strong>redraw segment</strong>. The segment is
+marked as <code class="codeph">ESegmentTypePendingRedraw</code> while it is being
+received, and <code class="codeph">ESegmentTypeRedraw</code> once it is complete. </p> <p>Redraw segments have a region to which they apply. For <code class="codeph">ESegmentTypeRedraw</code>, the region is initially set to be the
+rectangle passed into the <code class="codeph">BeginRedraw()</code> call. When
+a new<code class="codeph">ESegmentTypeRedraw</code> is created, its region is
+subtracted from the regions of all existing segments. This reflects
+the fact that redraw drawing <em>replaces</em> existing drawing. If,
+as a consequence of new redraw drawing, the region of an existing
+segment becomes empty, that segment is discarded. Its drawing has
+been replaced everywhere, so it is no longer needed. </p> <p>What
+happens to drawing that is received between an <code class="codeph">EndRedraw</code> and the next <code class="codeph">BeginRedraw</code> —and which is therefore <strong>non-redraw drawing</strong> —depends on which variant is in use: </p> <ul>
+<li id="GUID-0B29AC2F-AD48-5EAB-B3BE-B8FC296B092A"><a name="GUID-0B29AC2F-AD48-5EAB-B3BE-B8FC296B092A"><!-- --></a><p>In ScreenPlay,
+non-redraw drawing is not stored in a segment but instead triggers
+the Window Server to invalidate the entire window. This means that
+the client application must then perform a full window redraw. </p> </li>
+<li id="GUID-B592A6D0-68B7-5A16-B179-9F78C5FCDBB3"><a name="GUID-B592A6D0-68B7-5A16-B179-9F78C5FCDBB3"><!-- --></a><p>In the non-ScreenPlay
+variant, non-redraw drawing is stored in a segment marked as <code class="codeph">ESegmentTypeNonRedraw</code>. For these segments the region is
+initially set to be the whole window and does not affect the regions
+of existing segments, because non-redraw drawing is drawn over existing
+drawing. </p> </li>
+</ul> </div>
+<div id="GUID-DB24B91E-6628-4B6E-AE9A-ACAB30AA02C3"><h3 class="section-title"> Redraw
+store playback</h3> <p>When playback is required, the redraw store
+goes through the redraw segments and replays them if the region for
+the segment intersects the region that is to be redrawn. It follows
+from the way that they are managed that the regions of redraw segments
+are mutually disjoint. This means that in ScreenPlay they can be replayed
+in any order. This is also true in the non-ScreenPlay when there are
+only redraw segments present. </p> <p>In the non-ScreenPlay variant,
+any non-redraw segments are replayed in earliest-first order, because
+they draw on top of earlier drawing. </p> </div>
+<div id="GUID-74EC09C2-BB39-42B2-B765-191A7E17A4D6"><h3 class="section-title"> Aging
+of non-redraw segments</h3> <p> <strong>Variant</strong>: Non-ScreenPlay
+only. </p> <p>Non-redraw segments can cause inefficient operation
+of redraw stores. For this reason, in the non-ScreenPlay variant where
+non-redraw segments are still used, the Window Server "ages" them.
+That is, non-redraw segments are considered to have a finite lifetime,
+after which they are discarded. When a non-redraw segment is discarded,
+the Window Server makes a redraw request to the client asking it to
+provide new draw operations for the invalid region. </p> <p>The lifetime
+for non-redraw segments is set in the <a href="GUID-1D529BDC-6665-58E2-AB3F-7023D8A84F69.html">WSINI.INI file</a> using the parameter <code class="codeph">NONREDRAWAGELIMIT</code>, followed
+by a duration in microseconds. If this line is not present in the <code class="codeph">WSINI.INI</code>, a default of one second is used. </p> </div>
+<div id="GUID-8CE71B67-21F3-4D16-9A1A-70A70A24EFD3"><h3 class="section-title">Atomic
+Redraws</h3> <p> <strong>Variant</strong>: Both (ScreenPlay and non-ScreenPlay). </p> <p>Another <a href="GUID-1D529BDC-6665-58E2-AB3F-7023D8A84F69.html">WSINI.INI file</a> setting that affects redraw storing is <code class="codeph">ATOMICREDRAWS</code>. If this parameter is present, new draw operations
+received after a <code class="codeph">BeginRedraw()</code> are not considered
+valid until the corresponding <code class="codeph">EndRedraw()</code> is received.
+In particular, a new segment does not replace existing segments until
+it is complete. This has the consequence that if redraw store playback
+is required before the <code class="codeph">EndRedraw()</code> for a new segment
+is received, draw operations from old segments for that region are
+used instead. Thus drawing within <code class="codeph">Begin/EndRedraw</code> brackets can be considered as an atomic operation. This eliminates
+one potential source of flicker. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-484B51EC-2209-5492-8E9C-9D792AB0DF35.html">Graphics
+and Drawing </a></li></ul><h3>Related reference</h3><ul><li><a href="GUID-1D529BDC-6665-58E2-AB3F-7023D8A84F69.html">The
+wsini.ini File Reference</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 30th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-0AD34BA6-D0C5-5AD7-B8E1-F737BB5FC0AC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:14 GMT -->
+</html>

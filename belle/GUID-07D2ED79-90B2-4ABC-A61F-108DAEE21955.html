@@ -1,0 +1,128 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-07D2ED79-90B2-4ABC-A61F-108DAEE21955.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:21 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Implementing framework requirements" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Relation" scheme="URI" content="GUID-BDDDF68F-F7C3-43AF-8B6C-C77C701FD2A9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-07D2ED79-90B2-4ABC-A61F-108DAEE21955" /><title>Implementing framework requirements </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-07D2ED79-90B2-4ABC-A61F-108DAEE21955">Implementing framework requirements</h1><div>
+<div class="figure" id="GUID-0BBC3D60-0EF0-4446-A1A5-CF84A4728C72"><img src="GUID-3382507E-1B21-418C-A908-DD3F688C0672_d0e76963_href.png" /><p class="figure-title"><strong>Figure: </strong>Application Menu</p></div>
+<p>In the Symbian platform, mobile device users start applications
+from the application menu. When the mobile device user selects an
+application, the application framework calls the application's entry
+point to launch the application. In some cases, applications can also
+be started by other executables.</p>
+<div class="figure" id="GUID-5A76CBEA-8AF3-4F68-B2FB-9F402D748DF3"><img src="GUID-CC4CA423-0A14-457C-8CBE-4A9F0E8D0B96_d0e76971_href.png" /><p class="figure-title"><strong>Figure: </strong>Application launch</p></div>
+<p>When an application starts, objects are created in the following
+order:</p>
+<ol>
+<li id="GUID-BC07E865-8B42-4654-90F9-4644B202EDBC"><a name="GUID-BC07E865-8B42-4654-90F9-4644B202EDBC"><!-- --></a><p>application
+(CAknApplication)</p></li>
+<li id="GUID-0B6D8737-8FC7-486B-B3ED-6F91CFA69670"><a name="GUID-0B6D8737-8FC7-486B-B3ED-6F91CFA69670"><!-- --></a><p>document
+(CAknDocument)</p></li>
+<li id="GUID-FAAD10CF-2F0F-4589-B2B8-A2A8A3696CA5"><a name="GUID-FAAD10CF-2F0F-4589-B2B8-A2A8A3696CA5"><!-- --></a><p>UI
+controller (CAknAppUI or CAknAppViewUI depending upon your approach)</p></li>
+<li id="GUID-ED56D892-18C4-447C-A7AB-811E1D90C2DA"><a name="GUID-ED56D892-18C4-447C-A7AB-811E1D90C2DA"><!-- --></a><p>view
+controller (CAknView) in <a href="GUID-68B999C2-0993-4804-9624-42C3D88BE5C7.html">Symbian view applications</a></p></li>
+<li id="GUID-5BFF07E4-6575-4B23-9FA5-824DB057A55C"><a name="GUID-5BFF07E4-6575-4B23-9FA5-824DB057A55C"><!-- --></a><p>view
+(<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a>)</p></li>
+</ol>
+<div id="GUID-B8AA011F-23EB-4BA5-9FA6-1382D37E13A9"><h3 class="section-title">Entry
+point</h3>
+<p>The two methods that you need to implement for the entry point
+are as follows:</p>
+<ul>
+<li><p>an entry point for the application, with the following
+syntax:</p>
+<pre class="codeblock">GLDEF_C TInt E32Main()
+    {
+    return EikStart::RunApplication( NewApplication );
+    }</pre>
+<p>where:</p>
+<p><code class="parname">E32Main()</code> is the entry point method called
+by the application framework</p>
+<p><code class="parname">return EikStart::RunApplication(NewApplication )</code> calls EikStart::RunApplication()</p>
+</li>
+<li><p>a non-leaving factory method that creates a new instance
+of the application class, or <code class="parname">NULL</code> if the class
+cannot be instantiated. The expected syntax is as follows:</p>
+<pre class="codeblock">LOCAL_C CApaApplication* NewApplication()
+    {
+    return new CMyAppClass;
+    }</pre>
+<p>where:</p>
+<p><code class="parname">NewApplication()</code> is a method that returns
+a pointer to a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html"><code class="apiname">CApaApplication</code></a> object.</p>
+<p><code class="parname">return new CMyAppClass</code> returns an instance
+of the application class as created by the CAknApplication derived class</p>
+<p>The application framework expects the factory method to have
+exactly this prototype. In other words, the factory function should
+be like the above code fragment.</p>
+</li>
+</ul>
+</div>
+<div id="GUID-63C94373-F55D-4B58-9637-7BA0E1B14ACF"><h3 class="section-title">CAknApplication</h3>
+<p>You must implement at least the following two methods in your CAknApplication derived class:</p>
+<ul>
+<li><p>a method that returns the application UID. The syntax
+is as follows:</p>
+<pre class="codeblock">TUid CMyAppClass::AppDllUid() const
+    {
+    return KUidMyApp;
+    }</pre>
+<p>where:</p>
+<p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html#GUID-669C19DC-04C9-3979-A87E-8F9EFA8E4D99"><code class="apiname">CApaApplication::AppDllUid()</code></a> is used to get
+the application UID</p>
+<p><code class="parname">KUidMyApp</code> is the UID for your application,
+which is typically declared in an application header file.</p>
+<p>The application framework calls the <code class="parname">AppDllUid()</code> method to get the application UID. The application framework checks
+to see if there is an instance of the application with the same UID
+already running. If so, then the application framework switches to
+the already existing application. </p>
+<div class="note"><p><strong class="note_title">Note: </strong>You must return the same UID that you declared for the UID3
+in the <code class="parname">mmp</code> and <a href="GUID-FE9017F4-4197-472F-A3E7-267169A51ABD.html">registration</a> files.</p>
+</div>
+</li>
+<li><p>a factory function for creating an object of the
+document class for your application. The expected syntax is as follows:</p>
+<pre class="codeblock">CApaDocument* CMyAppClass::CreateDocumentL()
+    {
+    return CMyAppDocument::NewL( *this );
+    }
+</pre>
+<p>where:</p>
+<p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E36E2F07-09E7-32BC-BB83-14DF9232E7D9.html#GUID-D0810109-8F11-3B65-8806-9A61317D2128"><code class="apiname">CEikApplication::CreateDocumentL()</code></a> is called
+by the application framework.</p>
+<p> <code class="parname">return CMyAppDocument::NewL( *this )</code> returns
+an instance of the CAknDocument derived class of
+your application. It represents the data that relates to a particular
+instance of the application and owns the application <a href="GUID-FD2CDEB8-0784-4BE5-A775-170F57D71BBC.html">UI controller</a>.</p>
+</li>
+</ul>
+<div class="note"><p><strong class="note_title">Note: </strong>The application framework owns the document object and is responsible
+for destroying it.</p>
+</div>
+</div>
+<div id="GUID-73A8D2EE-F22A-483D-A23A-5E46D709A718"><h3 class="section-title">CAknDocument</h3>
+<p>You must implement a CAknDocument derived
+class for your application, even if you do not store data, as this
+is the class that owns the <a href="GUID-FD2CDEB8-0784-4BE5-A775-170F57D71BBC.html">UI controller</a> for your application. The expected syntax for creating the UI controller
+class is as follows:</p>
+<pre class="codeblock">CEikAppUi* CMyAppDocument::CreateAppUiL()
+    {
+    return new ( ELeave ) CMyAppAppUi;
+    }</pre>
+<p>where:</p>
+<ul>
+<li><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B33A8A56-D1BE-3E3D-B5AC-F644A5C764DB.html#GUID-37544F28-FD9A-3E11-96B8-7DA8BC84CC59"><code class="apiname">CEikDocument::CreateAppUiL()</code></a> carries
+out the first phase construction of the UI controller</p></li>
+<li><p><code class="parname">new ( ELeave ) CMyAppAppUi </code> is
+a method that creates an instance of the UI controller class of your
+application</p></li>
+</ul>
+<p>The application framework owns the UI controller object of the
+application and is responsible for destroying it. There are two alternate
+classes from which you can derive your UI controller class, CAknAppUi or CAknViewAppUi.</p>
+<p>For more information on the UI controller options, see <a href="GUID-FD2CDEB8-0784-4BE5-A775-170F57D71BBC.html">UI controller</a></p>
+</div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 31st, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-07D2ED79-90B2-4ABC-A61F-108DAEE21955.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:23 GMT -->
+</html>

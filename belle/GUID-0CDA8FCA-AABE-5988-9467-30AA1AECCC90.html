@@ -1,0 +1,76 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0CDA8FCA-AABE-5988-9467-30AA1AECCC90.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:36 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Creating and Deleting a Session: Tutorial" /><meta name="abstract" content="This tutorial shows you how to create and delete a session with the Comms Database." /><meta name="description" content="This tutorial shows you how to create and delete a session with the Comms Database." /><meta name="DC.Relation" scheme="URI" content="GUID-1AFDDD6F-CB99-587D-A0B5-D3F5B27F7135" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-C3018CEE-865B-595A-A735-40E11665E50A" /><meta name="DC.Relation" scheme="URI" content="GUID-BD971173-E009-58DA-AF9C-F4AAFF77B138" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0CDA8FCA-AABE-5988-9467-30AA1AECCC90" /><meta name="DC.Language" content="en" /><title>Creating
+and Deleting a Session: Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0CDA8FCA-AABE-5988-9467-30AA1AECCC90">Creating
+and Deleting a Session: Tutorial</h1><div><p>This tutorial shows you how to create and delete a session with
+the Comms Database. </p>
+<div id="GUID-13169F3C-A14A-56F2-9805-315510A1ED6D"><h3 class="section-title">Context</h3><p>You create a session
+with the Comms Database before you start to read and write the data. You can
+also set the access attributes for the session. </p> </div><div id="GUID-120922C5-07D1-504F-ABA7-9ECDE4BE5CFA"><h3 class="section-title">Prerequisites</h3><p>Before you start,
+you must understand: </p> <ul>
+<li id="GUID-E663CC7F-6F20-5425-9FDE-39645B22F292"><a name="GUID-E663CC7F-6F20-5425-9FDE-39645B22F292"><!-- --></a><p>the general concept
+of the Comms Database </p> </li>
+<li id="GUID-1E784DD6-CE6B-58B3-BCF6-EE8578A46211"><a name="GUID-1E784DD6-CE6B-58B3-BCF6-EE8578A46211"><!-- --></a><p>the specific concept
+of Comms Database Sessions </p> </li>
+<li id="GUID-60084A0B-78DF-54C1-AEB3-A93415FFE77D"><a name="GUID-60084A0B-78DF-54C1-AEB3-A93415FFE77D"><!-- --></a><p>how to write and build
+application code to run on Symbian platform </p> </li>
+</ul> </div>
+<h3>Steps</h3><ol id="GUID-D7867EDD-C29B-573E-AF0C-7BA32B35F9EF"><a name="GUID-D7867EDD-C29B-573E-AF0C-7BA32B35F9EF"><!-- --></a>
+<li id="GUID-E7217733-86F3-5085-B194-049A795AB5B5"><a name="GUID-E7217733-86F3-5085-B194-049A795AB5B5"><!-- --></a><p>Include the header
+files, define namespaces, and declare constants. </p>
+
+The<code>CommsDatTypesV1_1.h</code> header file defines the
+classes and API items that the tool or application requires. This header file
+includes all other required header files. 
+
+Define the CommsDat namesapce. 
+
+Define a TVersion set with the
+version information. 
+
+The location of this code depends on the structure of the tool or application. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">#include &lt;CommsDatTypesV1_1.h&gt; 
+
+// Add a declaration like this for each specific version you need.
+// In this example, the major version number, the minor version number
+// and the build number are all 1.
+#define KCDVersion1_1 TVersion(1,1,1) 
+
+using namespace CommsDat;
+
+...</pre> </div>
+</li>
+<li id="GUID-68B7A254-9E14-5E1D-8A48-8848F33C3F5E"><a name="GUID-68B7A254-9E14-5E1D-8A48-8848F33C3F5E"><!-- --></a><p>Create the session. </p>
+
+You select the version of the interface when you create the session. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">...
+// for the version 1.1.1 defined in step 1
+CMDBSession* iDb = CMDBSession::NewL(KCDVersion1_1); 
+...</pre> </div>
+</li>
+<li id="GUID-75A1BC43-4A18-5CC6-BA43-6B4F33357ADC"><a name="GUID-75A1BC43-4A18-5CC6-BA43-6B4F33357ADC"><!-- --></a><p>Set the access attributes
+for the session. </p>
+
+This is an optional step. 
+<div class="p"><p><strong>Example: </strong>The following code allows the tool or application to see the elements
+that are marked as hidden in the Comms Database. The </p><code class="codeph">ECHidden</code> symbol
+is an enum value of the TCDAttributeFlags enum.
+You can also set the other access attributes, but the hidden attribute is
+the most common use case. </div>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">...
+iDb-&gt;SetAttributeMask(ECDHidden); 
+...</pre> </div>
+</li>
+<li id="GUID-8AD04100-7ACD-5B93-A0F9-94BFDD5B464C"><a name="GUID-8AD04100-7ACD-5B93-A0F9-94BFDD5B464C"><!-- --></a><p>Delete the session
+object after the tool or application has finished its use of the Comms Database </p>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">...
+delete iDb;</pre> </div>
+</li>
+</ol>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-1AFDDD6F-CB99-587D-A0B5-D3F5B27F7135.html">Comms Database
+concepts</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated February 4th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0CDA8FCA-AABE-5988-9467-30AA1AECCC90.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:36 GMT -->
+</html>

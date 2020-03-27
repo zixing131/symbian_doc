@@ -1,0 +1,120 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3D450B34-F439-4A29-AA95-6BBDE9AEB004.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:53 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Playing DRM-protected audio content" /><meta name="abstract" content="This topic provides instructions to play DRM-protected audio content using the DRM APIs." /><meta name="description" content="This topic provides instructions to play DRM-protected audio content using the DRM APIs." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5F38F219-B22D-42E6-973A-B4DBBC5984F8" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3D450B34-F439-4A29-AA95-6BBDE9AEB004" /><meta name="DC.Language" content="en" /><title>Playing DRM-protected audio content </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3D450B34-F439-4A29-AA95-6BBDE9AEB004">Playing DRM-protected audio content</h1><div><p>This topic provides instructions to play DRM-protected
+audio content using the DRM APIs.</p>
+<div id="GUID-3F9EF966-3E47-40E6-AE18-A4F201600FB9"><h3 class="section-title">Context</h3><p>You can
+use the DRM Audio Player API to play  DRM-protected audio content
+on a mobile device. If you need to read or edit the audio content,
+use the <a href="GUID-7EE46FD9-DC9E-5C1F-9AC5-48F5212AF0CA.html">Content
+Access Framework</a> (CAF) API. </p><p>The following is a list
+of all the DRM-related APIs that will be useful for handling DRM-protected
+content:</p><ul>
+<li><p>DRM Audio Player API — Allows you to play DRM-protected files
+without DRM capability.</p></li>
+<li><p><a href="GUID-7EE46FD9-DC9E-5C1F-9AC5-48F5212AF0CA.html">Content
+Access Framework</a> (CAF) API — Allows you to read and edit DRM
+content.</p></li>
+<li><p><a href="specs/guides/DRM_Helper_API_Specification/DRM_Helper_API_Specification.html#specs/guides/DRM_Helper_API_Specification/DRM_Helper_API_Specification.html">DRM Helper API</a> — Allows you to deal with DRM-specific
+error situations, such as getting rights details, registering and
+unregistering DRM-protected content for automated use, and getting
+details of DRM-protected content. The DRM Helper API is a library
+API and can be used alongside the DRM Audio Player API or the CAF
+API</p></li>
+<li><p><a href="specs/guides/OMA_DRM_CAF_Agent_API_Specification/OMA_DRM_CAF_Agent_API_Specification.html#specs/guides/OMA_DRM_CAF_Agent_API_Specification/OMA_DRM_CAF_Agent_API_Specification.html">OMA DRM CAF Agent API</a>— Allows you to access OMA
+DRM-specific content and rights. This API requires CAF API.</p></li>
+<li><p><a href="specs/guides/DRM_License_Checker_API_Specification/DRM_License_Checker_API_Specification.html#specs/guides/DRM_License_Checker_API_Specification/DRM_License_Checker_API_Specification.html">DRM License Checker API</a> — Allows you to use DRM
+to protect data files in applications. This API is not related to
+the APIs above and is not necessary for playing multimedia content.</p></li>
+</ul><div class="figure" id="GUID-E2AA2159-3F86-4B0F-BF69-99DA1D2B3B71"><img src="GUID-0F237B26-B6F0-4B47-BFAD-8CD318B471FD_d0e160566_href.png" /><p class="figure-title"><strong>Figure: </strong>The relationship between different DRM-related APIs</p></div><p>For information on downloading <a href="GUID-A7862778-D52F-4747-8642-3F16A7C65BB7.html">DRM-protected content</a>, see <a href="GUID-377F7C19-C799-45CE-9ADA-4BB884B422BA.html">Browsing
+&amp; downloading</a>, and on playing DRM-free content, see the <a href="http://www.developer.nokia.com/Community/Wiki/Playing_audio_files" target="_blank">Playing Audio Files</a> example on Nokia Developer.</p><div class="p"><div class="note"><p><strong class="note_title">Important: </strong></p><ul>
+<li><p>OMA DRM and WMDRM are not interoperable. Mobile device users
+are not able to use content created in one DRM system in the other
+one.</p></li>
+<li><p>Multimedia applications consume the battery power rapidly.
+For information on better power management, see <a href="http://www.developer.nokia.com/Design/Power_management/Documentation.xhtml" target="_blank">Power Management</a> on Nokia Developer.</p></li>
+</ul></div></div></div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-C3599399-EB07-437E-A57B-9913A8DB3481"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-C3599399-EB07-437E-A57B-9913A8DB3481"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-C3599399-EB07-437E-A57B-9913A8DB3481"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-C3599399-EB07-437E-A57B-9913A8DB3481"><!-- --></a><p>Use the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A9B91A71-AC55-3D69-A16A-A983C63E0EEA.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A9B91A71-AC55-3D69-A16A-A983C63E0EEA.html"><code class="apiname">CDrmPlayerUtility</code></a> class. <code class="codeph">CDrmPlayerUtility</code> provides the same interface as <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-778D24B5-A68E-3C91-B66A-69007FBA4791.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-778D24B5-A68E-3C91-B66A-69007FBA4791.html"><code class="apiname">CMdaAudioPlayerUtility</code></a>. Except the class name, most of the code is same.</p>
+<p>The following code snippet demonstrates how to use <code class="codeph">CDrmPlayerUtility</code>:</p><pre class="codeblock">#include &lt;drmaudiosampleplayer.h&gt;
+CDrmAudioExample::CDrmAudioExample()
+    {
+    }
+ 
+CDrmAudioExample::~CDrmAudioExample()
+    {
+    if (iPlayerUtility)
+        {
+        iPlayerUtility-&gt;Stop();
+        delete iPlayerUtility;
+        }
+    iFile.Close();
+    }
+	
+void CDrmAudioExample::PlayL(const TDesC&amp; aFileName)
+    {
+    // Delete old instance of iPlayerUtility and close the file.
+    if (iPlayerUtility)
+        {
+        iPlayerUtility-&gt;Stop();
+        delete iPlayerUtility;
+        iPlayerUtility = 0;
+        }
+    iFile.Close();
+	
+    // Create a new instance of iPlayerUtility and open the file.
+    iPlayerUtility = CDrmPlayerUtility::NewL(
+        *this, EMdaPriorityNormal, EMdaPriorityPreferenceNone);
+    iFile.Open(CCoeEnv::Static()-&gt;FsSession(), aFileName,
+        EFileShareReadersOnly | EFileStream | EFileRead);
+    iPlayerUtility-&gt;OpenFileL(iFile);	
+    }
+ 
+void  CDrmAudioExample::MdapcInitComplete(TInt aError,
+        const TTimeIntervalMicroSeconds &amp;aDuration)
+    {
+    if (KErrNone == aError)
+        {
+        // Set the volume to half of the maximum volume.
+        iPlayerUtility-&gt;SetVolume( iPlayerUtility-&gt;MaxVolume() / 2 );
+        iPlayerUtility-&gt;Play();
+        }
+    }
+ 
+void CDrmAudioExample::MdapcPlayComplete(TInt aError)
+    {
+    }
+class CDrmAudioExample: public CBase, MDrmAudioPlayerCallback
+    {
+public: // Constructor and destructor
+ 
+    CDrmAudioExample();	
+    ~CDrmAudioExample();
+	
+public: // Public methods
+ 
+    void PlayL(const TDesC&amp; aFileName);
+ 
+private: // From MdrmAudioPlayerCallback
+	
+    void  MdapcInitComplete(TInt aError,
+        const TTimeIntervalMicroSeconds &amp;aDuration);
+    void  MdapcPlayComplete (TInt aError);
+	
+private: // Member variables
+ 
+    CDrmPlayerUtility* iPlayerUtility;
+    RFile iFile;
+	
+    };</pre>
+</li>
+<li id="GUID-2DF3BC1A-D3D7-40B7-B49C-30A6791CBAE6"><a name="GUID-2DF3BC1A-D3D7-40B7-B49C-30A6791CBAE6"><!-- --></a><p> Add <code class="codeph">drmaudioplayutility.lib</code> to the <code class="codeph">mmp</code> file.</p>
+</li>
+<li id="GUID-01F88D20-9167-4011-97A2-E0ADF548134C"><a name="GUID-01F88D20-9167-4011-97A2-E0ADF548134C"><!-- --></a><p>Add <code class="codeph">DRM</code> or <code class="codeph">MultimediaDD</code> capabilities to the <code class="codeph">mmp</code> flle, based on your application needs.</p>
+</li>
+</ol>
+</div></div></div><div class="footer"><p class="metadata">Last updated June 23rd, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3D450B34-F439-4A29-AA95-6BBDE9AEB004.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:00:55 GMT -->
+</html>

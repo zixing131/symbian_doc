@@ -1,0 +1,59 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-971C9B81-1D6F-59E7-9416-385A0787D642.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:52:28 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="The control stack" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-E079315A-E5B6-4D33-B7E3-88697A3F11A4" /><meta name="DC.Relation" scheme="URI" content="GUID-6C16417B-5B37-5310-B59A-750D971AA6D4" /><meta name="DC.Relation" scheme="URI" content="GUID-BBC374AD-88E6-5C58-88BB-B939C2948DDA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-971C9B81-1D6F-59E7-9416-385A0787D642" /><meta name="DC.Language" content="en" /><title>The
+control stack </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-971C9B81-1D6F-59E7-9416-385A0787D642">The
+control stack</h1><div>
+<p>The control stack is a mechanism provided by the control framework for
+handling key press events. The Window Server, which generates events for control
+framework applications, channels all key press events to the application that
+currently has keyboard focus (Strictly speaking it channels key press events
+to the <em>window group</em> ). It is up to the application itself
+to channel the event to the correct destination as the Window Server does
+not associate a key press event with a particular control. </p>
+<p>In control framework applications using the <em>standard app     
+   UI</em> the control stack contains a list of controls that wish to
+receive keyboard events. Controls are added to the stack using <code class="codeph">CCoeAppUi::AddToStackL()</code> and
+their ordering on the stack determines their priority in receiving key events:
+The one with the lowest position on the stack receiving key events first.
+When a key press event occurs, it is offered to each control on the stack
+in turn until it is consumed (i.e. used by that control). </p>
+<p>The ordering of controls on the stack is determined by their priority,
+a value passed to <code class="codeph">CCoeAppUi::AddToStackL()</code>. If several controls
+on the stack have the same priority, their ordering is determined by the order
+in which they were added to the stack. </p>
+<pre class="codeblock">enum
+    {
+    ECoeStackPriorityDefault=0,  // Low Priority
+    ECoeStackPriorityMenu=10,
+    ECoeStackPriorityDialog=50,
+    ECoeStackPriorityCba=60,
+    ECoeStackPriorityAlert=200,
+    ECoeStackPriorityFep=250,
+    ECoeStackPriorityEnvironmentFilter=300  // High Priority
+    };
+</pre>
+<p>The diagram below shows a hypothetical stack containing 4 controls added
+in the following order: control A (priority <code class="codeph">ECoeStackPriorityDialog</code>),
+control B (<code class="codeph">ECoeStackPriorityMenu</code>), control C (<code class="codeph">ECoeStackPriorityDefault</code> —
+used for application views) and control D (<code class="codeph">ECoeStackPriorityDialog</code>). </p>
+<div class="figure" id="GUID-02308139-5BC5-5098-BE15-178434158843"><img src="GUID-7AC4C1C2-D796-508F-93CF-21F061F49A30_d0e69367_href.png" /><p class="figure-title"><strong>Figure: </strong>           Example showing the order and priority of controls on the
+control stack                    </p></div>
+<p>On the stack shown in the diagram key-press events will be offered first
+to control D, followed by A, B and C in that order. A control on the stack
+can refuse key press events by setting a flag. This might be done by a dialogs
+when it is not visible. </p>
+<p>Applications use the control stack to channel key press events to destinations
+in decreasing order of priority, such as: </p>
+<ul>
+<li id="GUID-EA1211C7-F2F1-5469-8EEB-66D44BC7542D"><a name="GUID-EA1211C7-F2F1-5469-8EEB-66D44BC7542D"><!-- --></a><p>debug keys </p> </li>
+<li id="GUID-D4063EC0-102F-563D-9D56-84760F447F7A"><a name="GUID-D4063EC0-102F-563D-9D56-84760F447F7A"><!-- --></a><p>any active dialog </p> </li>
+<li id="GUID-1ABFD001-B3A4-55C1-9D6A-F268457B8619"><a name="GUID-1ABFD001-B3A4-55C1-9D6A-F268457B8619"><!-- --></a><p>any menu bar (i.e.,
+its <em>hot-keys</em>) </p> </li>
+<li id="GUID-DAD2BC72-CC2A-501A-BD40-E2234D4AE1F2"><a name="GUID-DAD2BC72-CC2A-501A-BD40-E2234D4AE1F2"><!-- --></a><p>the application view </p> </li>
+</ul>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 13th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-971C9B81-1D6F-59E7-9416-385A0787D642.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:52:30 GMT -->
+</html>

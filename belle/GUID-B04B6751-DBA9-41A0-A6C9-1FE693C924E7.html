@@ -1,0 +1,143 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B04B6751-DBA9-41A0-A6C9-1FE693C924E7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Handling locale-dependent data" /><meta name="abstract" content="Make sure the application is able to format language- and region-dependent elements correctly (for example, dates, times and currencies)." /><meta name="description" content="Make sure the application is able to format language- and region-dependent elements correctly (for example, dates, times and currencies)." /><meta name="DC.Relation" scheme="URI" content="GUID-D70A082A-9236-4C68-9C1C-49093323E693" /><meta name="DC.Relation" scheme="URI" content="GUID-9F54E3BC-E902-4DB8-A653-0A10A76DAA0C" /><meta name="DC.Relation" scheme="URI" content="GUID-3C151C7A-3EEC-4EDE-9C19-44A93175D626" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B04B6751-DBA9-41A0-A6C9-1FE693C924E7" /><meta name="DC.Language" content="en" /><title>Handling locale-dependent data </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B04B6751-DBA9-41A0-A6C9-1FE693C924E7">Handling locale-dependent data</h1><div><p>Make sure the application is able to format language- and
+region-dependent elements correctly (for example, dates, times and
+currencies).</p>
+<p>To produce code that takes the locale into account, it is recommended
+that you use the components provided by the platform to handle language-
+and country-specific data formats. Qt's <a href="http://developer.qt.nokia.com/doc/qt-4.8/qlocale.html" target="_blank"><code class="codeph">QLocale</code></a> class provides functions
+for formatting locale-related data.</p>
+<p>The Symbian locale model separates locale settings into language,
+region, and collation settings. For example, for the Chinese market,
+a device using English language-related locale data could use Chinese
+region data (for example, currency and measurement units), and Chinese
+collation for comparing and sorting strings.</p>
+<p>If your application only retrieves the locale data, you only need
+to listen to the <code class="codeph">QEvent::LocaleChange()</code> event from
+the standard Qt event system, and update the UI with new locale data. </p>
+<p>Locale data change is not handled seamlessly in Qt/QML. In order
+to react to Symbian locale changes, some coding on Qt side is needed.
+When Locale data is changed (for example, user changes time separator
+character in Time and Date Settings), Qt will send a <code class="codeph">QEvent::LocaleChange()</code> event. Simply listening for this event and updating the data in
+QML is enough.</p>
+<pre class="codeblock">bool appInstance::event(QEvent *event) {
+    if(event-&gt;type() == QEvent::LocaleChange) {
+        updateQMLData</pre>
+<p>There are two basic approaches on how to update the UI/data on
+QML side. One can either get the data from C++ to QML by utilising
+Q_INVOKABLE, or set the data from C++ to QML by using setContextProperty.
+In the code example, the latter approach is chosen. The reasoning
+supporting this approach is that QML will stay declarative, no need
+to code anything on QML side.</p>
+<p>In application cpp:</p>
+<pre class="codeblock">view.rootContext()-&gt;setContextProperty("timeNow", QDateTime::currentDateTime().toString(Qt::SystemLocaleShortDate));
+</pre>
+<p>And in QML:</p>
+<pre class="codeblock">Text {
+        text:  qsTr("time separator: %1").arg(timeNow)
+    }</pre>
+<p>Note that time and date separators are the only few things which
+can be currently changed by user. Other QLocale data changes are generated
+otherwise.</p>
+<p>To test the example code, just unzip it and open the <code>.pro</code> file with Qt Creator. To test on Windows XP, run
+the application, go to Control Panel, choose <strong class="uicontrol">Regional and
+Language Options</strong>. Under <strong class="uicontrol">Regional Options</strong> tab, choose an item from topmost pull down menu (NOT the "location").
+Hit <strong class="uicontrol">Apply</strong>. See the changes in the application.</p>
+<p>To test on device, get device connected to the PC so that you can
+run QML applications from Qt Creator. You may have to install Qt 4.7.1
+or later and TRK to the device. When the application is running on
+the device, go to settings-&gt;phone-&gt;time and date-&gt;Date Separator.
+Change that to something else than the current. Go back to the application
+and verify the changes.</p>
+<p>Here is a good document how C++ and QML can talk to each other:
+ <a href="http://doc.qt.nokia.com/4.7-snapshot/qtbinding.html" target="_blank">Qt binding</a>.</p>
+<div id="GUID-E7FD45CE-3A17-4A4C-A19E-F450D7E31704"><h3 class="section-title">User-modifiable
+locale settings</h3><p>In Symbian devices, users can modify the
+following locale settings:</p><ul>
+<li><p>Time format and separator character</p></li>
+<li><p>Date format and separator character. Out of the four separators
+that are defined, users can only change the two middle ones.</p></li>
+<li><p>Digits (Arabic, Urdu, Farsi, and Hindi only). In the Arabic
+UI, the user can select whether the default digits are European or
+Arabic-Indic digits (numerals).</p></li>
+</ul><p>If the user changes the device language, the changes made
+for the previous language are saved, and will be restored when the
+user switches back to that language. For example, if the user often
+switches between two languages that use a different date format, the
+user can define a different date format to be used for each device
+language. The device may also modify some locale-related settings
+automatically, for example, update the date from the network due to
+a daylight savings change, or if the user moves to a different time
+zone.</p></div>
+<div id="GUID-318CB512-BE7C-4F84-A2E0-A52097DF5AD6"><h3 class="section-title">Locale
+support available in Qt</h3><p>The Qt platform provide functions
+for formatting the following language- and region-dependent elements:</p><div class="tablenoborder"><a name="GUID-3876BCAB-2792-4B2B-A96D-E4351E33A78F"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-3876BCAB-2792-4B2B-A96D-E4351E33A78F" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="23.5%" id="d0e20751"><p>Functionality</p></th>
+<th class="cellrowborder" valign="top" width="76.5%" id="d0e20755"><p>Classes to use</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="23.5%" headers="d0e20751 "><p>Dates and times</p></td>
+<td class="cellrowborder" valign="top" width="76.5%" headers="d0e20755 "><p><code class="codeph">QLocale</code> provides detailed functions for
+handling specific parts of date and time expressions, such as the
+number of components used in the expressions, or the separators used
+between the components.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="23.5%" headers="d0e20751 "><p>Numbers</p></td>
+<td class="cellrowborder" valign="top" width="76.5%" headers="d0e20755 "><p><code class="codeph">QLocale</code> provides functions for formatting
+number expressions, such as the decimal separator used.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="23.5%" headers="d0e20751 "><p>Currencies</p></td>
+<td class="cellrowborder" valign="top" width="76.5%" headers="d0e20755 "><p><code class="codeph">QLocale</code> provides detailed functions for
+handling specific parts of currency expressions, such as the currency
+symbol used, or how negative currencies are formatted.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="23.5%" headers="d0e20751 "><p>Measurement units</p></td>
+<td class="cellrowborder" valign="top" width="76.5%" headers="d0e20755 "><p><code class="codeph">QLocale</code> provides functions for handling
+measurement expressions, such as whether the metric or imperial measurement
+system is used. This can be defined separately for short and long
+distances.</p></td>
+</tr>
+</tbody>
+</table></div></div>
+<div id="GUID-D3238860-A65A-42F5-9EE2-CB084C1E57A6"><h3 class="section-title">Locale-dependent
+handling <em>not</em> available in Qt</h3><p>Qt classes do <strong>not</strong> support handling of the following locale-dependent data:</p><ul>
+<li><p>Addresses may vary, for example, in the number of
+address fields used and in which order they are given. Make sure that
+there are no mandatory fields (for example, state). Examples of formatting
+addresses:</p><ul>
+<li><p>United States: <code class="codeph">&lt;first name&gt; &lt;last name&gt; &lt;house
+number&gt; &lt;street&gt; &lt;city&gt; &lt;state abbreviation&gt; &lt;zip code&gt;
+&lt;country&gt;</code></p></li>
+<li><p>Finland: <code class="codeph">&lt;first name&gt; &lt;last name&gt; &lt;street&gt;
+&lt;house number&gt; &lt;postal code&gt; &lt;city&gt; &lt;country&gt;</code></p></li>
+<li><p>Russia: <code class="codeph">&lt;country&gt; &lt;postal code&gt; [region] &lt;city&gt;
+&lt;street&gt; &lt;house number&gt; &lt;apartment number&gt; &lt;last name&gt;
+&lt;first name&gt; &lt;paternal name&gt;</code></p></li>
+</ul></li>
+<li><p>The digits in phone numbers may be grouped differently depending
+on the locale, and the separator used may vary. In Symbian, number
+grouping for phone numbers is only available for the US English variant.
+An example of formatting phone numbers is 555-1212.</p></li>
+<li><p>Names of measurement units, for example, kB</p></li>
+<li><p>Paper sizes, for example, DIN A, US letter and legal sizes,
+and Japanese sizes</p></li>
+<li><p>List separator, for example, a comma or semicolon</p></li>
+<li><p>Order of the first name and last name. For example, in Hungarian,
+Chinese, and Japanese, the last name is displayed before the first
+name.</p></li>
+</ul><p>To enable the localization of this data, do not hard code
+it. You can provide the localized data in the <code>.ts</code> translations files. Alternatively, you can enable users to set the
+data. For user-changeable settings, there must be a localizable default.</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B04B6751-DBA9-41A0-A6C9-1FE693C924E7.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:03 GMT -->
+</html>

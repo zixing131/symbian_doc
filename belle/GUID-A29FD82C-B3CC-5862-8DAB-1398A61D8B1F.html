@@ -1,0 +1,165 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A29FD82C-B3CC-5862-8DAB-1398A61D8B1F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:16 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-6425B722-4095-56E3-9198-70BA3E06C617" /><meta name="DC.Relation" scheme="URI" content="GUID-057F1F82-56AF-5696-853E-79196A3D567E" /><meta name="DC.Relation" scheme="URI" content="GUID-E339A683-94E2-54E8-BB2B-286B11B0FCE3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A29FD82C-B3CC-5862-8DAB-1398A61D8B1F" /><meta name="DC.Language" content="en" /><title>Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A29FD82C-B3CC-5862-8DAB-1398A61D8B1F">Overview</h1><div>
+<p>The SIP Client API manages the multimedia sessions, subscribes to events,
+and sends SIP messages. It also provides access to the basic services of the
+SIP stack such as: </p>
+<ul>
+<li id="GUID-E9BF6031-1DAF-5238-A306-C44F0F91682D"><a name="GUID-E9BF6031-1DAF-5238-A306-C44F0F91682D"><!-- --></a><p>Sending and receiving
+of SIP messages </p> </li>
+<li id="GUID-C6A3FA97-1F09-587E-9504-9685D8306B04"><a name="GUID-C6A3FA97-1F09-587E-9504-9685D8306B04"><!-- --></a><p>Creating registrations </p> </li>
+<li id="GUID-A02F02C7-A903-53E0-A64E-F0B62C93A90F"><a name="GUID-A02F02C7-A903-53E0-A64E-F0B62C93A90F"><!-- --></a><p>Forming and tearing
+down dialogs initiated by INVITE, REFER and SUBSCRIBE requests </p> </li>
+</ul>
+<div id="GUID-8D3D5FB3-6037-5956-B3F0-DB14BD1BB17B"><h3 class="section-title">Architectural
+relationships</h3> <p>The SIP Client API uses the client-server mechanism
+to interact with the SIP stack. This means more than one client can use the
+SIP stack at the same time. The calls to the SIP Client API are synchronous.
+The SIP Client API implements a set of callback functions to pass the events
+back to the application. </p> <p><strong>Capability information</strong> </p> <p>The
+following table describes the capabilities required to use the SIP Client
+API and the conditions in which they are required: </p> <div class="tablenoborder"><a name="GUID-B3DCF31A-C6D5-58B9-87FA-B2CD3E0ABA1F"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B3DCF31A-C6D5-58B9-87FA-B2CD3E0ABA1F" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e417586">Capability </th>
+<th class="cellrowborder" valign="top" id="d0e417589">Reason needed </th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e417586 "><p>NetworkServices </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e417589 "><p>to send or receive SIP messages </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e417586 "><p>WriteDeviceData </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e417589 "><p>to create an instance of the CSIP class </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e417586 "><p>NetworkControl </p> <p>Location </p> <p>ReadDeviceData </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e417589 "><p>to use the function <code class="codeph">CSIPConnection::SetOptL()</code> </p> </td>
+</tr>
+</tbody>
+</table></div> <p><strong>Extending the API</strong> </p> <p>SIP Client API cannot be extended. </p> </div>
+<div id="GUID-E055BF09-9605-57E6-9502-CB3F4CAC29B8"><h3 class="section-title">SIP Client
+API class structure</h3> <ul>
+<li id="GUID-3E500E7D-ECB9-50F8-B996-A212EE294E68"><a name="GUID-3E500E7D-ECB9-50F8-B996-A212EE294E68"><!-- --></a><p> <a href="#GUID-581B8017-EAA0-59CB-A9CB-490370E0CEC9"> CSIP, MSIPObserver, CSIPConnection and MSIPConnectionObserver</a> </p> </li>
+<li id="GUID-461F8201-ED85-582A-945C-7471F9BF27AA"><a name="GUID-461F8201-ED85-582A-945C-7471F9BF27AA"><!-- --></a><p> <a href="#GUID-0E726099-31C4-5DD4-9AEA-67765589F462">Registration services</a> </p> </li>
+<li id="GUID-F69AEAB7-0E13-5673-B696-843957CC4C72"><a name="GUID-F69AEAB7-0E13-5673-B696-843957CC4C72"><!-- --></a><p> <a href="#GUID-80CE8929-9DFD-5DCA-A929-662BD996223B"> SIP dialog associations</a> </p> </li>
+<li id="GUID-BFE257A7-EF1A-58BF-A047-00E0B11B1FD3"><a name="GUID-BFE257A7-EF1A-58BF-A047-00E0B11B1FD3"><!-- --></a><p> <a href="#GUID-B0D208E4-D1F9-5C5F-B937-11118E778074">Requests sent to, and received from, the network</a> </p> </li>
+<li id="GUID-D0AC4583-B181-501C-A97A-63F094AD4046"><a name="GUID-D0AC4583-B181-501C-A97A-63F094AD4046"><!-- --></a><p> <a href="#GUID-0427709F-CD4B-5363-9377-10402B8A5819">SIP message related classes</a> </p> </li>
+<li id="GUID-31ED307B-2285-5DE0-A83B-D0CB7A8C585D"><a name="GUID-31ED307B-2285-5DE0-A83B-D0CB7A8C585D"><!-- --></a><p> <a href="#GUID-4E4FAFCA-0BF6-510C-B8E3-28A83936A154">Automatically refreshing a SIP request</a> </p> </li>
+<li id="GUID-B6E46736-A250-5064-B4F8-595A20025478"><a name="GUID-B6E46736-A250-5064-B4F8-595A20025478"><!-- --></a><p> <a href="#GUID-B71BC486-18C2-5E71-965E-0881FBA9CE85">Managing HTTP digest security settings</a> </p> </li>
+</ul> <p id="GUID-581B8017-EAA0-59CB-A9CB-490370E0CEC9"><a name="GUID-581B8017-EAA0-59CB-A9CB-490370E0CEC9"><!-- --></a><strong> CSIP, MSIPObserver,
+CSIPConnection and MSIPConnectionObserver </strong> </p> <div class="figure" id="GUID-0834012C-083F-5FA0-B29D-E3E852165528"><img src="GUID-4381EA7F-BE75-5B43-BE97-C97D71D04377_d0e417730_href.png" /></div> <p>An application creates a single instance of the CSIP class,
+and implements the callback functions defined by MSIPObserver.
+The <code class="codeph">CSIP</code> uses the <code class="codeph">MSIPObserver</code> functions.
+The CSIP class asks the supported security mechanisms and
+determines whether a CSIPConnection object exists for a
+given IAP. </p> <p>The CSIP object creates an instance
+of CSIPConnection that allows you to send standalone SIP
+requests and ask for the state of the network connection. Responses are received
+through the MSIPConnectionObserver interface that defines
+a set of callback functions that an application must implement. </p> <p>An
+application can have many CSIPConnection objects, but each
+of them must have a different IAP. </p> <p id="GUID-0E726099-31C4-5DD4-9AEA-67765589F462"><a name="GUID-0E726099-31C4-5DD4-9AEA-67765589F462"><!-- --></a><strong>Registration
+services</strong> </p> <div class="figure" id="GUID-63E38B2E-975E-554C-8EDC-65B8BBA86838"><img src="GUID-E4543D60-A9D0-5121-9540-993BB15D3275_d0e417787_href.png" /></div> <p>An existing CSIPConnection is required to create
+an instance of <code class="codeph">CSIPRegistrationBinding</code>. The CSIPRegistrationBinding class
+provides services for registration, updating the registration, and deregistration.
+This class also provides instructions to the SIP stack to automatically refresh
+the registration, and to query and set the outbound proxy used by the registration. </p> <p id="GUID-80CE8929-9DFD-5DCA-A929-662BD996223B"><a name="GUID-80CE8929-9DFD-5DCA-A929-662BD996223B"><!-- --></a><strong> SIP dialog
+associations</strong> </p> <div class="figure" id="GUID-4870BE80-44B6-50F0-B77E-73FEAD136304"><img src="GUID-17D1489B-F7F7-5CA7-9F81-850AA9ACEFEB_d0e417812_href.png" /></div> <p> CSIPDialogAssocBase is the base class for SIP
+dialog associations, such as CSIPInviteDialogAssoc, CSIPSubscribeDialogAssoc, CSIPReferDialogAssoc and CSIPNotifyDialogAssoc. The CSIPDialogAssocBase class
+is used to obtain the associated SIP dialog, for the associated CSIPDialog instance,
+and for sending a non-target Refresh request within the dialog. </p> <p> <strong> Note: </strong> The
+SIP Client API creates the CSIPDialog instance, it cannot
+be created by the application. </p> <p>If any of the CSIPInviteDialogAssoc, CSIPSubscribeDialogAssoc, CSIPReferDialogAssoc and CSIPNotifyDialogAssoc objects
+are associated, they are bound to an existing CSIPDialog object,
+or they can be used to create a new <code class="codeph">CSIPDialog</code> object. </p> <p> <strong>Note:</strong> </p> <ul>
+<li id="GUID-6A085F6F-C243-53AD-B33C-F37D14DFE0A4"><a name="GUID-6A085F6F-C243-53AD-B33C-F37D14DFE0A4"><!-- --></a><p> CSIPInviteDialogAssoc allows
+an application to initiate a dialog and to send <code class="codeph">INVITE</code>,,<code class="codeph">PRACK</code>,,<code class="codeph">ACK</code>, <code class="codeph">UPDATE,</code> and <code class="codeph">BYE</code> requests related to the dialog. </p> </li>
+<li id="GUID-19C504F0-EAD5-524A-82E9-2D15BFA2A6D2"><a name="GUID-19C504F0-EAD5-524A-82E9-2D15BFA2A6D2"><!-- --></a><p> CSIPSubscribeDialogAssoc allows
+an application to subscribe to different events by sending SUBSCRIBE and UNSUBSCRIBE
+requests. It also orders the SIP stack to automatically refresh the SUBSCRIBE
+request. </p> </li>
+<li id="GUID-C47B74D8-2251-5FCC-A356-1364EB61CF05"><a name="GUID-C47B74D8-2251-5FCC-A356-1364EB61CF05"><!-- --></a><p> CSIPReferDialogAssoc allows
+an application to define and send REFER requests. </p> </li>
+<li id="GUID-18AD2000-2A37-5CD9-8118-8B3322211D28"><a name="GUID-18AD2000-2A37-5CD9-8118-8B3322211D28"><!-- --></a><p>  CSIPNotifyDialogAssoc allows
+an application to define and send NOTIFY requests. </p> </li>
+</ul> <p id="GUID-B0D208E4-D1F9-5C5F-B937-11118E778074"><a name="GUID-B0D208E4-D1F9-5C5F-B937-11118E778074"><!-- --></a><strong>Sent and received
+network requests</strong> </p> <div class="figure" id="GUID-2E0C9020-1863-5644-BF7E-62B4DB9104D2"><img src="GUID-F5A82F61-B93A-5652-93A4-B9CE877B4D4A_d0e417949_href.png" /></div> <p>When a SIP request is sent to the network, the SIP Client API implementation
+creates a CSIPClientTransaction object and returns it to
+the application. A <code class="codeph">CSIPClientTransaction</code> object represents
+the SIP transaction and consists of the SIP request and the SIP response.
+After receiving a response, the application gets CSIPResponseElements from
+the <code class="codeph">CSIPClientTransaction</code> object. <strong>Note:</strong> Some client
+transactions can also be cancelled or refreshed. </p> <p>When a SIP request
+is received from the network, it is passed to the application as a CSIPServerTransaction object.
+The application gets CSIPRequestElements from the <code class="codeph">CSIPServerTransaction</code> object.
+A <code class="codeph">CSIPRequestElements</code> object describes the kind of SIP request
+received. After the application determines the type of response to send, it
+uses the CSIPServerTransaction to send the responses. </p> <p> CSIPTransactionBase is
+the base class for CSIPClientTransaction and CSIPServerTransaction.
+It provides the functions to obtain the current state of the transaction and
+the transaction type. Some operations are only allowed when the transaction
+is in a certain state. <strong>Note:</strong> The SIP Client API creates instances of CSIPClientTransaction and CSIPServerTransaction and they cannot be created by the application. </p> <p id="GUID-0427709F-CD4B-5363-9377-10402B8A5819"><a name="GUID-0427709F-CD4B-5363-9377-10402B8A5819"><!-- --></a><strong>SIP
+message related classes</strong> </p> <div class="figure" id="GUID-B99CF040-E91F-5281-8AAC-2151049C0EA8"><img src="GUID-6290D35A-7A41-5B9E-882A-E14F6D165ED7_d0e418026_href.png" /></div> <p>When a SIP request is sent to the network, the SIP Client API implementation
+creates a CSIPClientTransaction object and returns it to
+the application. A <code class="codeph">CSIPClientTransaction</code> object represents
+the SIP transaction and consists of the SIP request and the SIP response.
+After receiving a response the application gets CSIPResponseElements from
+the <code class="codeph">CSIPClientTransaction</code> object. <strong>Note:</strong> Some client
+transactions can be cancelled or refreshed. </p> <p>When a SIP request is
+received from the network, it is passed to the application as a CSIPServerTransaction object.
+The application gets CSIPRequestElements from the <code class="codeph">CSIPServerTransaction</code> object.
+A <code class="codeph">CSIPRequestElements</code> object describes the type of SIP request
+received. After the application determines the type of response to send, it
+uses the <code class="codeph">CSIPServerTransaction</code> to send the responses. </p> <p> CSIPTransactionBase is
+the base class for CSIPClientTransaction and CSIPServerTransaction.
+It provides functions to obtain the current state of the transaction and the
+transaction type. Some operations are only allowed when the transaction is
+in a certain state. <strong>Note:</strong> The SIP Client API creates instances of CSIPClientTransaction and CSIPServerTransaction and they cannot be created by the application. </p> <p id="GUID-4E4FAFCA-0BF6-510C-B8E3-28A83936A154"><a name="GUID-4E4FAFCA-0BF6-510C-B8E3-28A83936A154"><!-- --></a><strong> Automatically
+refreshing a SIP request</strong> </p> <div class="figure" id="GUID-49ACB697-512C-5FCF-AD48-20D6AAB0FEFC"><img src="GUID-6B9E5B8D-E2F7-5972-ABFB-49F7F466EBBD_d0e418102_href.png" /></div> <p>The SIP stack automatically refreshes a SIP request using the CSIPRefresh object. <code class="codeph">REGISTER</code>, <code class="codeph">SUBSCRIBE</code> and a request outside the dialog are refreshed. After
+sending a refresh request, the application queries the state of the refresh
+from <code class="codeph">CSIPRefresh</code>. </p> <p> <code class="codeph">CSIPRefresh</code> provides
+functions for updating and terminating the refresh, for requests outside the
+dialog. The CSIPRegistrationBinding and CSIPSubscribeDialogAssoc classes
+are used to update and terminate a refreshed <code class="codeph">REGISTER</code> or <code class="codeph">SUBSCRIBE</code>. </p> <p id="GUID-B71BC486-18C2-5E71-965E-0881FBA9CE85"><a name="GUID-B71BC486-18C2-5E71-965E-0881FBA9CE85"><!-- --></a><strong> Managing HTTP digest security
+settings </strong> </p> <div class="figure" id="GUID-7C296C1B-67E3-569F-A5E9-92A4F7922088"><img src="GUID-1704898B-7836-53C2-8743-F733836EDE7B_d0e418148_href.png" /></div> <p>An application must create an instance of the CSIP class
+to use <code class="codeph">CSIPHttpDigest</code>. The CSIPHttpDigest class
+manages HTTP digest security settings and contains only static functions. </p> </div>
+<div id="GUID-4195FAF9-D0D7-5046-BD62-9A314791BEFE"><h3 class="section-title">Memory used</h3> <p>After
+the CSIP and CSIPConnection objects
+are created, most of the memory consumed is by CSIPMessageElements, CSIPRequestElements and CSIPResponseElements classes. CSIPTransactionBase holds the most recent SIP
+response in a CSIPResponseElements object. When another
+response is received, the previous CSIPResponseElements object
+is deleted and a new one is created. </p> <p> CSIPClientTransaction contains
+a CSIPRequestElements object until the SIP request is transferred
+to the server side of the SIP stack. CSIPServerTransaction contains
+the SIP request as CSIPRequestElements. The application
+owns the CSIPClientTransaction and CSIPServerTransaction objects.
+When the transaction terminates, the application deletes these objects to
+conserve memory. </p> <p>A non-<code class="codeph">INVITE</code> <code class="codeph">CSIPClientTransaction</code> is
+deleted when it has received a final response or when the <code class="codeph">ErrorOccured()</code> callback
+is called. A non-<code class="codeph">INVITE</code> <code class="codeph">CSIPServerTransaction</code> is
+deleted after the application sends a final response. </p> <p>The <code class="codeph">INVITE</code> related
+transactions are deleted if the <code class="codeph">ErrorOccured()</code> callback function
+is called. These transactions behave differently because of the presence of
+an <code class="codeph">ACK</code>. </p> <p>When the application sends a 2xx response
+to an <code class="codeph">INVITE</code> related CSIPServerTransaction,
+it enters the CSIPTransactionBase::ETerminated state and
+it is deleted at this point. A new CSIPServerTransaction object
+receives the ACK. </p> <p>When the application sends an <code class="codeph">INVITE</code> request
+and the <code class="codeph">CSIPClientTransaction</code> receives a 2xx response, the
+transaction enters the <code class="codeph">CSIPTransactionBase::ETerminated</code> state.
+The associated <code class="codeph">CSIPClientTransaction</code> must not be deleted
+as it is required to send the <code class="codeph">ACK</code> and also to receive the MSIPConnectionObserver::InviteCompleted() callback.
+An <code class="codeph">INVITE</code> related <code class="codeph">CSIPClientTransaction</code> must
+be deleted only after a <code class="codeph">MSIPConnectionObserver::InviteCompleted</code> or MSIPConnectionObserver
+::ErrorOccured event is received, or if the state of the associated CSIPConnection goes
+to CSIPConnection::EInactive or CSIPConnection::EUnavailable. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 21st, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A29FD82C-B3CC-5862-8DAB-1398A61D8B1F.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:21 GMT -->
+</html>

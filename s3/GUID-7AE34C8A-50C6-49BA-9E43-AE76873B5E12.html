@@ -1,0 +1,38 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-7AE34C8A-50C6-49BA-9E43-AE76873B5E12.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:58:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Handling toolbar item events" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-E35887BB-7E58-438C-AA27-97B2CDE7E069_overview-GUID-8C40E993-C9A0-423D-979D-7BB11CE091C1" /><meta name="DC.Relation" scheme="URI" content="GUID-E35887BB-7E58-438C-AA27-97B2CDE7E069_overview-GUID-FA9679A1-6FD7-4FB6-883A-D5719388A2B6" /><meta name="DC.Relation" scheme="URI" content="GUID-B05B61B8-1217-441F-BAFA-C209C8F123C5" /><meta name="DC.Relation" scheme="URI" content="GUID-95CE2206-7AE0-48C0-97A7-4E2082F9F662" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-7AE34C8A-50C6-49BA-9E43-AE76873B5E12" /><meta name="DC.Language" content="en" /><title>Handling toolbar item events </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-7AE34C8A-50C6-49BA-9E43-AE76873B5E12">Handling toolbar item events</h1><div>
+<div id="GUID-02BDEE97-B697-4717-9F51-AF66DC633ECE"><h3 class="section-title"><!--no section title--></h3> <p>To
+be able to receive toolbar item events in your application or application
+view, you must implement the toolbar observer interface in the view
+and register the view to the toolbar:</p> <p>To receive toolbar item
+events, use the observer class <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4C4ADE30-EE2A-31FE-B029-D0C62632064F.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-4C4ADE30-EE2A-31FE-B029-D0C62632064F.html"><code class="apiname">MAknToolbarObserver</code></a>.</p> <p>The example below shows how to set the toolbar observer.</p> <pre class="codeblock">void CMyAppView::ConstructL( TInt aResId )
+    {
+    BaseConstructL( aResId );
+    CAknToolbar* toolbar = Toolbar();
+    if ( toolbar )
+        {
+        toolbar-&gt;SetToolbarObserver( this );
+        }
+    }
+</pre> </div>
+<div id="GUID-2A2D6414-96F3-4364-87F4-F16E4966DDF9"><h3 class="section-title"><!--no section title--></h3> <p>Handle toolbar item events in <code class="codeph">MAknToolbarObserver</code>’s <code class="codeph">OfferToolbarEventL()</code>.</p><p><code class="codeph">OfferToolbarEventL()</code> is called when the toolbar item state
+has changed, for example when a button is pressed. When handling a
+toolbar event, the control in question can be identified from the
+commandid that is sent as a parameter in the method. The ID belongs
+to that control it was sent from (in case of a button, the ID of the
+button that was pressed).</p> <p>The example below illustrates
+how to implement <code class="codeph">OfferToolBarEventL()</code>.</p> <pre class="codeblock">void CMyAppView::OfferToolbarEventL( TInt aCommandId )
+    {
+    if ( aCommandId == KButtonId )
+        {
+        // do button function
+        …
+        }
+    }
+</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 14th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-7AE34C8A-50C6-49BA-9E43-AE76873B5E12.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:58:40 GMT -->
+</html>

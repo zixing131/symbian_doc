@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12AE645E-CEEB-3254-BCA6-A4C72D67BC88.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:45:12 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2011"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2011"/>
+<meta name="DC.Type" content="cxxClass"/>
+<meta name="DC.Title" content="MCLFPostFilter"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="GUID-12AE645E-CEEB-3254-BCA6-A4C72D67BC88"/>
+<link rel="stylesheet" type="text/css" href="css/commonltr.css"/>
+<title>MCLFPostFilter</title>
+<meta name="keywords" content="api"/><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css"/><link href="css/html.css" rel="stylesheet" type="text/css"/><link href="css/style.css" rel="stylesheet" type="text/css"/><link href="css/nwg.css" rel="stylesheet" type="text/css"/><link href="css/eclipse.css" rel="stylesheet" type="text/css"/></head>
+<body id="GUID-12AE645E-CEEB-3254-BCA6-A4C72D67BC88"><a name="GUID-12AE645E-CEEB-3254-BCA6-A4C72D67BC88"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+
+	<h1 class="sectiontitle">MCLFPostFilter Class Reference</h1>
+	
+	<div class="section include"><p>#include 
+            
+                    &lt;mw/MCLFPostFilter.h&gt;
+                </p></div>
+<div class="section linkagainst" id="GUID-12AE645E-CEEB-3254-BCA6-A4C72D67BC88__linkagainst"><a name="GUID-12AE645E-CEEB-3254-BCA6-A4C72D67BC88__linkagainst"><!-- --></a><p>Link against: ContentListingFramework.lib</p></div>
+<div class="section signature"><table class="signature"><tr><td>class MCLFPostFilter</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-B7F767E0-6EB8-337C-BE6B-49A91DB90FA3">FilterItemsL</a>(const <a href="GUID-399F3F71-FF53-3D9A-9A9A-0E1B20F4B21A.html">TArray</a>&lt; <a href="GUID-43D088F8-B5DF-343A-8021-46EF92841458.html">MCLFItem</a> * &gt; &amp;, <a href="GUID-AAA13D1F-1BD7-3331-BB8C-11FA2795B53F.html">RPointerArray</a>&lt; <a href="GUID-43D088F8-B5DF-343A-8021-46EF92841458.html">MCLFItem</a> &gt; &amp;)</td></tr></tbody></table><table class="member-index"><thead><tr><th colspan="2">Protected Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">virtual </td><td><a href="#GUID-D58ACBFD-BA78-3C63-9F3E-86363DDA4F49">~MCLFPostFilter</a>()</td></tr></tbody></table></div><div class="section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+			<div class="p">Post filter interface for Content Listing Framework. With this interface client you can add own post filter to exclude items from list model. Example: <pre class="codeblock">  // This example filters items by drive letter:
+  // Items that are in phone memory are included to the list model.
+  // All other items will be filtered.
+  void CMyFilter::FilterItemsL( const TArray&lt;MCLFItem*&gt;&amp; aItemList,
+                                RPointerArray&lt;MCLFItem&gt;&amp; aFilteredItemList )
+      {
+      TCharF phoneMemory( PathInfo::PhoneMemoryRootPath()[0] );
+      TInt count( aItemList.Count() );
+      for( TInt i = 0 ; i &lt; count ; ++i )
+          {
+          TPtrC ptr;
+          MCLFItem* item = aItemList[i];
+          TInt error( item-&gt;GetField( ECLFFieldIdDrive, ptr ) );
+          if( error == KErrNone )
+              {
+              TCharF memory( ptr[0] );
+              if( memory == phoneMemory )
+                  {
+                  aFilteredItemList.AppendL( item );
+                  }
+              }
+          }
+      }</pre>
+ <dl class="since"><dt class="dlterm">Since</dt>
+<dd>S60 3.1 </dd>
+</dl>
+</div>
+
+		</div>
+<h2 class="sectiontitle">Constructor &amp; Destructor Documentation</h2><div class="nested1" id="GUID-D58ACBFD-BA78-3C63-9F3E-86363DDA4F49"><a name="GUID-D58ACBFD-BA78-3C63-9F3E-86363DDA4F49"><!-- --></a>
+		<h3 class="sectiontitle">~MCLFPostFilter (  )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>~MCLFPostFilter</td><td>(</td><td>)</td><td>[protected, inline, virtual]</td></tr></table></div><div class="section apidesc">
+				<p>Destructor. </p>
+
+			</div>
+</div>
+
+	</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="nested1" id="GUID-B7F767E0-6EB8-337C-BE6B-49A91DB90FA3"><a name="GUID-B7F767E0-6EB8-337C-BE6B-49A91DB90FA3"><!-- --></a>
+		<a name="GUID-66C2AF75-D0CB-38B8-B2D6-C935D4CB46F1"><!----></a><h3 class="sectiontitle">FilterItemsL ( const TArray&lt; MCLFItem * &gt; &amp;, RPointerArray&lt; MCLFItem &gt; &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>FilterItemsL</td><td>(</td><td>const <a href="GUID-399F3F71-FF53-3D9A-9A9A-0E1B20F4B21A.html">TArray</a>&lt; <a href="GUID-43D088F8-B5DF-343A-8021-46EF92841458.html">MCLFItem</a> * &gt; &amp;</td><td><span class="parameter">aItemList</span>,</td></tr><tr><td colspan="3"> </td><td><a href="GUID-AAA13D1F-1BD7-3331-BB8C-11FA2795B53F.html">RPointerArray</a>&lt; <a href="GUID-43D088F8-B5DF-343A-8021-46EF92841458.html">MCLFItem</a> &gt; &amp;</td><td><span class="parameter">aFilteredItemList</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">[pure virtual]</td></tr></table></div><div class="section apidesc">
+				<div class="p">Abstract method to filter source list. This method is called when the filtering process is executed by list model refresh. <dl class="since"><dt class="dlterm">Since</dt>
+<dd>S60 3.1 </dd>
+</dl>
+</div>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aItemList</td><td>Source list, contains all items that are in the list model  </td></tr><tr class="bg"><td class="parameter">aFilteredItemList</td><td>Filtered/destination list, contains all items that will be in the list model after filtering.  </td></tr></table></div>
+</div>
+
+	</div>
+
+	
+	
+</div></div><div class="footer"><hr/><div class="copy">© Nokia 2011.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-12AE645E-CEEB-3254-BCA6-A4C72D67BC88.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:45:12 GMT -->
+</html>

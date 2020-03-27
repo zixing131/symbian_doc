@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_messagingmw_msgfw_pub_send_ui_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:06 GMT -->
+<head><title>Send UI API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i808 i809"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Send UI API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.2</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.3</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Creating_an_instance_of_CSendUi"><span class="tocnumber">2.1</span> <span class="toctext">Creating an instance of CSendUi</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_message_to_be_sent"><span class="tocnumber">2.2</span> <span class="toctext">Creating a message to be sent</span></a></li>
+<li class="toclevel-2"><a href="#Displaying_a_list_of_available_messaging_services_for_end_users_to_choose_from"><span class="tocnumber">2.3</span> <span class="toctext">Displaying a list of available messaging services for end users to choose from</span></a></li>
+<li class="toclevel-2"><a href="#Sending_a_message_using_a_specified_MTM"><span class="tocnumber">2.4</span> <span class="toctext">Sending a message using a specified MTM</span></a></li>
+<li class="toclevel-2"><a href="#Validating_a_message_service"><span class="tocnumber">2.5</span> <span class="toctext">Validating a message service</span></a></li>
+<li class="toclevel-2"><a href="#Launching_a_messaging_editor_to_allow_end_users_to_complete_and_send_a_message"><span class="tocnumber">2.6</span> <span class="toctext">Launching a messaging editor to allow end users to complete and send a message</span></a></li>
+<li class="toclevel-2"><a href="#Security_issues"><span class="tocnumber">2.7</span> <span class="toctext">Security issues</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The Send UI API provides a method to easily create and
+send messages through available services. These services are device dependant
+but normally include SMS, MMS, Email, Bluetooth and Infrared. In addition
+to these MTM-based options, services based on the ECom architecture
+may also be available and can send meeting requests or upload MMS messages.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>sendui.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/messagingmw/msgfw_pub/send_ui_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/messagingmw/msgfw_pub/send_ui_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>The Send UI API is a library API. It provides a simple way to incorporate messaging functionality into an application. It is not part of the Messaging architecture but provides an interface to available messaging MTMs and appropriate ECom
+plug-ins.
+</p><p>The Send UI API is aimed at end-user applications because the message creation and sending may require user intervention.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.2 Use Cases </span></h3>
+<ul><li> Creating an instance of CSendUi
+</li><li> Creating a message to be sent
+</li><li> Displaying a list of available messaging services for end users to choose from
+</li><li> Sending a message using a specified MTM
+</li><li> Validating a message service
+</li><li> Launching a messaging editor to allow end users to complete and send a message
+</li></ul>
+</a><a name="Class_Structure"><h3> <span class="mw-headline">1.3 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CMessageAddress <td><span class="plainlinks"><code>/epoc32/include/mw/CMessageAddress.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CMessageData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/CMessageData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSendUi</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/sendui.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CSendingServiceInfo</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/CSendingServiceInfo.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TSendingCapabilities</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/TSendingCapabilities.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/SendUiConsts.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/SenduiMtmUids.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/TSendingCapabilities.inl</code></span>
+</td></tr>
+<ul><li>The main class of the SendUI API is called <span class="plainlinks"><code>CSendUi</code> </span>. A client application must create an instance of that class in order to launch the messaging functionality provided through this API. 
+</li><li><span class="plainlinks"><code>CMessageData</code> </span> encapsulates the message data to be sent, 
+</li><li><span class="plainlinks"><code>CMessageAddress</code> </span> encapsulates recipient details.
+</li><li><span class="plainlinks"><code>CServiceInfo</code> </span> encapsulates an ECom sending service, allowing information such as the name of the service and its capabilities to be retrieved.
+</li><li><span class="plainlinks"><code>TSendingCapabilities</code> </span> has public member data members that are used to define the capabilities of a service in terms of message attributes.
+</li></ul>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Send_Ui_API_CSendUI.png" title="Class diagram of the Send UI API"><img alt="Class diagram of the Send UI API" border="0" height="424" src="images/SPB_10_1_Send_Ui_API_CSendUI.png" width="849" /></a></div>
+<div style="text-align:center"><i>Class diagram of the Send UI API</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Creating_an_instance_of_CSendUi"><h3> <span class="mw-headline">2.1 Creating an instance of CSendUi </span></h3>
+</a><p><span class="plainlinks"><code>CSendUi</code> </span> is the key class in the API and creating an instance of <span class="plainlinks"><code>CSendUi</code> </span> is the starting point for most operations. Note that the creation of a <span class="plainlinks"><code>CSendUi</code> </span> object is expensive. Therefore, you must only create the object when it is used for the first time.
+</p>
+<pre>// Create an instance of CSendUi
+iSendUi = CSendUi::NewL();
+</pre>
+<a name="Creating_a_message_to_be_sent"><h3> <span class="mw-headline">2.2 Creating a message to be sent </span></h3>
+</a><p>The <span class="plainlinks"><code>CMessageData</code> </span> class encapsulates message data for use
+with the sending services accessed through <span class="plainlinks"><code>CSendUi</code> </span>. The <span class="plainlinks"><code>CMessageData</code> </span> class
+allows message recipients, subject line, message body text and attachments
+attributes to be set. The attributes are set depending on the sending service to
+be used. For example, if a file is to be sent through Infrared, only the
+attachment attribute is relevant. For an MMS message, all attributes may be
+set.
+</p>
+<pre>// Data to be used - this  is normally defined in a resource file
+// or created dynamically
+_LIT(KAddress, "07738123456");
+_LIT(KAlias, "Sam");
+_LIT(KBodyData, "This is the message body");
+_LIT(KSubject, "This is the subject");
+
+// Create the message data instance
+CMessageData* message = CMessageData::NewLC();
+
+// Add an address
+// Note, there are also options for the CC address
+// and BCC adress used in an email
+message-&gt;AppendToAddressL(KAddress, KAlias);
+
+// Add a subject line
+message-&gt;SetSubjectL(&amp;KSubject);
+
+// Add the body text
+// The preferred method of setting the body text is to add it as an attachment
+// It is also possible to use the body text field and that is shown here
+// The body text needs to be a rich text object
+// create the formatting and then the rich text object
+iParaFormatLayer = CParaFormatLayer::NewL();
+iCharFormatLayer = CCharFormatLayer::NewL();
+iRichText = CRichText::NewL(iParaFormatLayer, iCharFormatLayer);
+// Populate the rich text object with some text
+TInt pos = 0; // Insertion position of text will be zero
+iRichText-&gt;InsertL(pos, KBodyData);
+
+// Set the body text
+message-&gt;SetBodyTextL(iRichText);
+</pre>
+<p>To set an address, two descriptor parameters are required. The first represents
+the actual address and the second is an alias that may be displayed by a messaging
+editor. The <span class="plainlinks"><code>CMessageData</code> </span> class stores the address values
+in a <span class="plainlinks"><code>CMessageAddress</code> </span> object. The <span class="plainlinks"><code>CMessageData</code> </span> class
+holds an array of address objects for each type of recipient (To, Cc, Bcc)
+and the data can be accessed through its getter functions.
+</p><p>Note that <span class="plainlinks"><code>CMessageData::SetSubjectL()</code> </span> takes a const TDesC* as a parameter, instead of the usual const TDesC&amp;.
+</p><p>To use the body text field, you need to create a rich text object. The <span class="plainlinks"><code>CMessageData</code> </span> class
+does not take ownership of the rich text object. Therefore once the body
+text has been set it can be deleted. An alternative and preferred method
+to use the body text function is to add any message text as an attachment
+using <code>AppendAttachmentL()</code> or <code>AppendAttachmentHandleL()</code>.
+</p>
+<a name="Displaying_a_list_of_available_messaging_services_for_end_users_to_choose_from"><h3> <span class="mw-headline">2.3 Displaying a list of available messaging services for end users to choose from </span></h3>
+</a><p>Messages can be sent through available MTM or ECom services. In some circumstances,
+it may be appropriate to allow end users to select the required mechanism.
+For example, if an application creates an image which can then be sent to
+a friend, the user can be asked to decide whether to use Infrared, Bluetooth,
+MMS or email. It is possible to filter the choices offered to users based on certain criteria and preferences.
+</p><p>There are two functions available that offer very similar functionality, <span class="plainlinks"><code>CSendUi::ShowSendQueryL()</code> </span> and <span class="plainlinks"><code>CSendUi::.ShowTypedQueryL()</code> </span>. The difference between the two functions is that <code>ShowTypedQueryL()</code> offers
+some control over the title of the list dialog.  The dialog is displayed to end users to present the choice of services.
+</p><p>Filtering of the options presented to end users is based on:
+</p>
+<ul><li> The attributes of the message being sent. If the message to be sent has attributes defined, the capabilities (defined in <span class="plainlinks"><code>TSendingCapabilities::TSendingFlags</code> </span>) required to send that message are used to filter out unsuitable services.
+</li><li> Criteria specified using a <span class="plainlinks"><code>TSendingCapabilities</code> </span> object.
+</li><li> A list of services that should not be offered. They are specified by their UIDs.
+</li></ul>
+<p>In the following example, a request is made for services that can support
+a message with an attachment (using a <span class="plainlinks"><code>TSendingCapabilities</code> </span> object), but not for the MMS service.
+</p>
+<pre>// We need to send an attachment
+TSendingCapabilities sendingCapabilities;
+sendingCapabilities.iFlags = TSendingCapabilities::ESupportsAttachments;
+
+// We're not interested in MMS
+CArrayFixFlat&lt;TUid&gt;* array = new (ELeave) CArrayFixFlat&lt;TUid&gt;(1);
+CleanupStack::PushL(array);
+array-&gt;AppendL(KSenduiMtmMmsUid);
+
+// Show the list of options to end users and save the UID of the required service.
+TUid uid = iSendUi-&gt;ShowTypedQueryL(CSendUi::ESendMenu, NULL, sendingCapabilities, array);
+
+// clean up
+CleanupStack::PopAndDestroy(array);
+</pre>
+<p>The <span class="plainlinks"><code>KSenduiMtmMmsUid</code> </span> constant that shows that MMS is excluded from the list of display options is defined in <i>SendUiConsts.h</i>. The constants for other MTM and ECom services are also defined in this file.
+</p><p>The list of services presented to end users is dependent on the device being used. The following diagram shows the list of services available on the emulator. Note that not all listed services work on the emulator.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Send_UI_API_ServicesList.gif" title="Send UI Messaging Services available on the Emulator"><img alt="Send UI Messaging Services available on the Emulator" border="0" height="234" src="images/SPB_10_1_Send_UI_API_ServicesList.gif" width="353" /></a></div>
+<div style="text-align:center"><i>Send UI Messaging Services available on the Emulator</i></div>
+<a name="Sending_a_message_using_a_specified_MTM"><h3> <span class="mw-headline">2.4 Sending a message using a specified MTM </span></h3>
+</a><p><span class="plainlinks"><code>CSendUi::CreateAndSendMessageL()</code> </span> allows a message to be created
+using <span class="plainlinks"><code>CMessageData</code> </span> and to be sent using a service specified by
+a <span class="plainlinks"><code>TUid</code> </span>. For some services, messaging sending requires
+user intervention. For example, the MMS service will launch the MMS editor
+with the message data loaded, and the user will have the opportunity to amend
+the message and will need to send it using the editor's menu options. The
+Bluetooth service will search for devices in range and send the message to
+the selected device. The IR service will just try to send the message immediately.
+</p><p>The <code>CreateAndSendMessageL()</code> function is simple to use. A message ( <span class="plainlinks"><code>CMessageData</code> </span>) can be created and the Uid of the service can be selected by the user or chosen from those listed in<i> SendUiConsts.h</i>.
+</p>
+<pre>CMessageData* message = CMessageData::NewLC();
+// fill in message details
+...
+// Send message using Bluetooth MTM
+iSendUi-&gt;CreateAndSendMessageL(KSenduiMtmBtUid, message);
+CleanupStack::PopAndDestroy(message);
+</pre>
+<p><code>CreateAndSendMessageL()</code> takes a <span class="plainlinks"><code>CMessageData*</code> </span>, but it does not take ownership. Therefore, the appropriate cleanup needs to be performed.
+</p>
+<a name="Validating_a_message_service"><h3> <span class="mw-headline">2.5 Validating a message service </span></h3>
+</a><p>Using <span class="plainlinks"><code>CSendUi::ValidateServiceL()</code> </span>, it is possible to verify
+that the selected service can handle the capabilities required for a particular
+message. In the following example, a check is made to test if the SMS MTM
+supports sending of messages with attachments. This example also shows how to use the <code>ValidateServiceL()</code> function with the constant <span class="plainlinks"><code>KSenduiMtmSmsUid</code> </span> to define the service. In practice, it is more used to validate a user selected service.
+</p>
+<pre>TSendingCapabilities sendingCapabilities;
+sendingCapabilities.iFlags = TSendingCapabilities::ESupportsAttachments;
+
+TBool serviceAvailable = iSendUi-&gt;ValidateServiceL(KSenduiMtmSmsUid, sendingCapabilities);
+
+_LIT(KSupports, "Supports attachments");
+_LIT(KNoSupport, "Does not supports attachments");
+
+CAknInformationNote* note = new (ELeave) CAknInformationNote();
+if (serviceAvailable)
+    {
+    note-&gt;ExecuteLD(KSupports);
+    }
+else // SMS does not support attachments
+    {
+    note-&gt;ExecuteLD(KNoSupport);
+    }
+</pre>
+<a name="Launching_a_messaging_editor_to_allow_end_users_to_complete_and_send_a_message"><h3> <span class="mw-headline">2.6 Launching a messaging editor to allow end users to complete and send a message </span></h3>
+</a><p>The function <span class="plainlinks"><code>CSendUi::ShowQueryAndSendL()</code> </span> combines the
+functionality of <span class="plainlinks"><code>CSendUi::ShowSendQueryL()</code> </span> and <span class="plainlinks"><code>CSendUi::CreateAndSendMessageL()</code> </span>.
+It presents a list of available services to end users (based on the specified filtering
+restrictions). In addition, once a service has been selected, it launches the
+appropriate messaging editor or sends a message. For example, if the
+messaging editor is launched and the MMS MTM is selected, end users can modify the message and send it using the editor's menu.
+</p>
+<pre>_LIT(KAttachmentPath, "C:\\Data\\Images\\Picture.jpg");
+</pre>
+<pre>CMessageData* message = CMessageData::NewLC();
+// We are sending a picture therefore we need the service to support attachments
+TSendingCapabilities sendingCapabilities;
+sendingCapabilities.iFlags = TSendingCapabilities::ESupportsAttachments;
+// Add the picture to our message
+message-&gt;AppendAttachmentL(KAttachmentPath);
+//Show the user the options and send the message (or launch the editor)
+iSendUi-&gt;ShowQueryAndSendL(message, sendingCapabilities);
+CleanupStack::PopAndDestroy(message);
+</pre>
+<p><span class="plainlinks"><code>CSendUi::ShowTypedQueryAndSendL()</code> </span> offers similar functionality
+to <code>ShowQueryAndSendL()</code> but with more control over the menu
+title.
+</p>
+<a name="Security_issues"><h3> <span class="mw-headline">2.7 Security issues </span></h3>
+</a><p>The capabilities required to use the Send UI API are:
+</p>
+<ul><li><code>LocalServices</code>
+</li><li><code>NetworkServices</code>
+</li><li><code>ReadDeviceData</code>
+</li><li><code>WriteDeviceData</code>
+</li><li><code>ReadUserData</code>
+</li><li><code>WriteUserData</code>
+</li><li><code>DRM</code> if DRM protected files are sent through MMS.
+</li></ul>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> ECom</td><td> Epoc Component object model. Symbian OS framework for plug-in DLLs
+</td></tr>
+<tr>
+<td> MTM</td><td> Message Type Module. A group of components that together provide message handling for a particular protocol
+</td></tr>
+<tr>
+<td> MMS</td><td> Multimedia Messaging Service Protocol defined by 3GPP. Messaging for text, images and audio
+</td></tr>
+<tr>
+<td> SMS</td><td> Short Message Service. A GSM digital mobile phone standard which enables a single short text message up to 160 characters long to be sent to a mobile phone
+</td></tr>
+<tr>
+<td> IR</td><td> Infrared
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_messagingmw_msgfw_pub_send_ui_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:07 GMT -->
+</html>

@@ -1,0 +1,139 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-60B979FB-43BD-480E-8E17-1D3DA2002CB1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:55:29 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Slider pop-up" /><meta name="DC.Relation" scheme="URI" content="GUID-CB163645-CB5E-4DB5-9830-B97D12FDCBF5" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-CCE6DC36-625C-487C-9AD8-F1BF8E36080A" /><meta name="DC.Relation" scheme="URI" content="GUID-3A923665-D003-461B-9332-28689CFB39E5" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-60B979FB-43BD-480E-8E17-1D3DA2002CB1" /><meta name="DC.Language" content="en" /><title>Slider pop-up </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-60B979FB-43BD-480E-8E17-1D3DA2002CB1">Slider pop-up</h1><div>
+<p>The Slider pop-up component can be used for situations where a
+value is changed with a slider, for example when changing zoom or
+volume level. The common Slider pop-up component has a set of elements
+from which to select and modify the slider in question, for example,
+value ranges, whether to have current value as text included, or additional
+icons related to the slider.</p>
+<p>For application specific slider pop-up the application may define
+ways to open the pop-up. For common pop-up such as Volume Control,
+ways to open the pop-up are defined. The Slider pop-up has default
+time-out after which it disappears, but for good reason this time-out
+can be overridden by the application. </p>
+<p>Instead of using the pop-up, the application may define the slider
+to be always visible (fixed in the layout). If slider is fixed in
+the layout, the pop-up is not shown.</p>
+<p>The orientation of the slider pop-up can be either horizontal or
+vertical. The orientation and location are always the same across
+applications, unless application uses the slider as fixed in the layout.
+Value growth direction in Slider is always either up or right depending
+on the Slider orientation in the UI. </p>
+<div class="tablenoborder"><a name="GUID-7A441CF1-6B7B-43EF-9E31-AF45034B49FB"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-7A441CF1-6B7B-43EF-9E31-AF45034B49FB" frame="border" border="1" rules="all"><caption><strong>Table: </strong>Default
+touch events for the Slider pop-up</caption>
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="26.666666666666668%" id="d0e85436"><p>User action</p></th>
+<th class="cellrowborder" valign="top" width="33.666666666666664%" id="d0e85440"><p>State change</p></th>
+<th class="cellrowborder" valign="top" width="39.666666666666664%" id="d0e85444"><p>Feedback</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e85436 "><p>Touch down (on slider)</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e85440 "><p>Slider thumb is moved to the nearest slider step position
+on the slider. Value is changed accordingly.</p><p>If touch down event
+is performed in the middle of two slider step positions, the slider
+thumb is moved towards the greater (larger) value.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e85444 "><p>Tactile: No touch down effect. Sensitive slider effect and
+audio feedback is provided when the thumb moves.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e85436 "><p>Touch down (on slider thumb)</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e85440 "><p>Slider thumb is activated and can be moved.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e85444 "><p>Tactile: Sensitive slider effect is provided with touch
+down.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e85436 "><p>Touch release</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e85440 "><p>No effect</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e85444 "><p>Tactile: Sensitive slider effect is provided with the touch
+release (on slider thumb).</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e85436 "><p>Touch down and hold (on slider)</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e85440 "><p>Moves the thumb step by step to the place where touched
+down.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e85444 "><p>Tactile: Hold slider effect is given with long touch on
+the slider. Effect is bound to the steps. If there are more than 15
+steps, then smooth slider effect is given instead.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e85436 "><p>Touch down and hold (on slider thumb)</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e85440 "><p>Inactive</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e85444 "><p>Tactile: No effect</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e85436 "><p>Touch down and move</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e85440 "><p>Slider thumb is moved along with the touch event. It moves
+step by step via its possible positions. Value is changing accordingly. </p><p>If touch release in the middle of two slider step positions, the
+slider thumb is moved towards the greater (larger) value. </p><div class="p"><div class="note"><p><strong class="note_title">Note: </strong>The slider control area is the entire main pane area.</p></div></div></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e85444 "><p>Tactile: Smooth slider effect is provide when dragging from
+the thumb. </p><p>Smooth feedback can be increasing and decreasing
+when there is a meaning to use this kind of feature, for example,
+in volume and zoom slider.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e85436 "><p>Touch down and cancel (slider thumb)</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e85440 "><p>Slider thumb is moved to the nearest slider step position
+where it was when the touch left the slider control area.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e85444 "><p>Tactile: No feedback is provide with touch release after
+drag outside.</p></td>
+</tr>
+</tbody>
+</table></div>
+<p></p>
+<div class="tablenoborder"><a name="GUID-905C951F-5C5D-431E-84E9-384EFDBE3192"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-905C951F-5C5D-431E-84E9-384EFDBE3192" frame="border" border="1" rules="all"><caption><strong>Table: </strong>Default
+touch events for the Minus / Plus indicators.</caption>
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" width="26.666666666666668%" id="d0e85584"><p>User action</p></th>
+<th class="cellrowborder" valign="top" width="33.666666666666664%" id="d0e85588"><p>State change</p></th>
+<th class="cellrowborder" valign="top" width="39.666666666666664%" id="d0e85592"><p>Feedback</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e85584 "><p>Touch down</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e85588 "><p>Slider thumb moves either up or down. Direction depends
+on which indicator has been touched.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e85592 "><p>Tactile: Sensitive button effect and audio feedback is provided
+with the touch down event.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e85584 "><p>Touch down and hold (keep touch down)</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e85588 "><p>This action performs a “key repeat”, similar to many single
+touch down and release on the indicator.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e85592 "><p>Tactile: Sensitive button effect provided with steps.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e85584 "><p>Touch release</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e85588 "><p>Slider thumb stops in its position</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e85592 "><p>Tactile: Sensitive button effect given with touch release
+event.</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" width="26.666666666666668%" headers="d0e85584 "><p>Touch down and move outside and release the control area</p></td>
+<td class="cellrowborder" valign="top" width="33.666666666666664%" headers="d0e85588 "><p>Slider’s thumb remains in the position, where it was, before
+moving out of both pop-up and indicator area.</p></td>
+<td class="cellrowborder" valign="top" width="39.666666666666664%" headers="d0e85592 "><p>Tactile: No effect</p></td>
+</tr>
+</tbody>
+</table></div>
+<div id="GUID-1B1C405D-61EF-4E54-8704-23EA67FEC11A"><h3 class="section-title">Using slider pop-ups in
+applications</h3><p>The API to use for the slider pop-up is the
+Slider API.</p><p>To use a slider pop-up in your application, create
+an instance of the class CAknSlider.</p><p>Use
+the method CAknSlider::SetValueL() to set the slider
+handle's position. To set the range of acceptable values, use the
+method CAknSlider::SetRange(). To set the step
+size, use the method CAknSlider::SetStepSize().</p><p>To set the texts for the minimum and maximum values, use the methods CAknSlider::SetMinimumTextL() and  CAknSlider::SetMaximumTextL(). </p><p>To enable drag events in the slider, use the method CAknSlider::EnableDrag().</p><p>To use a custom
+graphic in your slider component, use the method CAknSlider::SetGraphics().</p></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-CB163645-CB5E-4DB5-9830-B97D12FDCBF5.html">Volume
+Control pop-up</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 12th, 2011</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-60B979FB-43BD-480E-8E17-1D3DA2002CB1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:55:29 GMT -->
+</html>

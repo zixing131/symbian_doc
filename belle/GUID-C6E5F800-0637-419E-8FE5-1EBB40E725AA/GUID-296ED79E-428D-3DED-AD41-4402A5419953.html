@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-296ED79E-428D-3DED-AD41-4402A5419953.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:14:09 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="copyright" content="(C) Copyright 2005" />
+<meta name="DC.rights.owner" content="(C) Copyright 2005" />
+<meta name="DC.Type" content="cxxClass" />
+<meta name="DC.Title" content="CImCacheManager" />
+<meta name="abstract" content="" />
+<meta name="description" content="" />
+<meta name="DC.Format" content="XHTML" />
+<meta name="DC.Identifier" content="GUID-296ED79E-428D-3DED-AD41-4402A5419953" />
+<title>CImCacheManager</title>
+<meta name="keywords" content="api" /><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css" />
+<link href="css/s60/style.css" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp3.html" rel="stylesheet" type="text/css" />
+<link href="PLUGINS_ROOT/com.nokia.forum.library/css/category-cover_cpp3.html" rel="stylesheet" type="text/css" /></head>
+<body id="GUID-296ED79E-428D-3DED-AD41-4402A5419953"><a name="GUID-296ED79E-428D-3DED-AD41-4402A5419953"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+<h1 class="sectiontitle">CImCacheManager Class Reference</h1>
+<div class="state state apiQualifier apiQualifier cxxClassDeclarationFile section include"><p>#include 
+            
+                    &lt;mw/cacheman.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>class CImCacheManager</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Protected Attributes</th></tr></thead><tbody><tr><td align="right" valign="top" class="code">CMsvEntry *</td><td><a href="#GUID-6C8E5644-DF49-3C48-B46A-4D2F56B66DA2">iCurrentEntry</a></td></tr></tbody></table><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code"></td><td><a href="#GUID-C7559EDC-8D58-3E28-872E-7E7D47799001">~CImCacheManager</a>()</td></tr><tr class="bg"><td align="right" class="code">IMPORT_C void</td><td><a href="#GUID-C9C803E7-7B24-303D-B055-9D2EA0332F91">DoCancel</a>()</td></tr><tr><td align="right" class="code">IMPORT_C const <a class="xref xref apiRelation" href="GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html">TDesC8</a> &amp;</td><td><a href="#GUID-98D0DBF5-AA6A-3CAC-966A-783A0FC8EB61">ProgressL</a>()</td></tr><tr class="bg"><td align="right" class="code">IMPORT_C void</td><td><a href="#GUID-F3A8B1B7-867D-3448-8546-D9FD921CE7EF">StartL</a>(TMsvId, <a class="xref xref apiRelation" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html">TRequestStatus</a> &amp;)</td></tr><tr><td align="right" class="code">IMPORT_C void</td><td><a href="#GUID-64052353-9101-3DC7-B464-B2160AB093A9">StartL</a>(const <a class="xref xref apiRelation" href="GUID-6BC8851B-D913-3CE5-B343-5163661E8AD5.html">CMsvEntrySelection</a> &amp;, <a class="xref xref apiRelation" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html">TRequestStatus</a> &amp;)</td></tr></tbody></table><table class="member-index"><thead><tr><th colspan="2">Protected Member Functions</th></tr></thead><tbody><tr><td align="right" class="code"></td><td><a href="#GUID-9658B31D-6A2E-3E47-8EE4-ED60C9A11D7E">CImCacheManager</a>(CMsvSession &amp;, <a class="xref xref apiRelation" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html">TRequestStatus</a> &amp;)</td></tr><tr class="bg"><td align="right" class="code">IMPORT_C void</td><td><a href="#GUID-66989067-8A20-3FF7-8B2E-B6BEA4805DA1">ConstructL</a>()</td></tr><tr><td align="right" class="code">IMPORT_C void</td><td><a href="#GUID-C99E8341-960D-318C-B3A8-0E04AAA9B980">RunL</a>()</td></tr></tbody></table></div><div class="section section apiDesc section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+<p class="p">Provides management of the local cache of messages in remote mailboxes.</p>
+<p class="p">A mailbox that is being used in disconnected mode allows the user access to message data by opening the message directly from the remote mailbox. If the required message has been downloaded previously, then it will not necessarily need to be downloaded again. This functionality is achieved by preserving the message data locally, under the remote service entry. The preserved message data acts as a cache to allow the user access to the message without the need for it to be downloaded every time.</p>
+<p class="p">The cache management functionality is required to reduce the amount of memory that is consumed by the message cache. <a class="xref" href="GUID-296ED79E-428D-3DED-AD41-4402A5419953.html#GUID-296ED79E-428D-3DED-AD41-4402A5419953">CImCacheManager</a> provides a mechanism for asynchronously traversing a message tree and for removing text and attachment data from messages. Deleting more message data will free up more memory but there is a higher chance that a user will need to download a message for a second time.</p>
+<p class="p">
+<a class="xref" href="GUID-296ED79E-428D-3DED-AD41-4402A5419953.html#GUID-296ED79E-428D-3DED-AD41-4402A5419953">CImCacheManager</a> is an abstract base class, which can be specialised to implement a filter (Filter()) that decides if data for a message shoulded be deleted: for example, deletion could be restricted to 'all read messages over a week old,' or, 'all read messages, over 20K in size which are also over a day old.'   </p>
+</div>
+<h2 class="sectiontitle">Member Attribute Documentation</h2><div class="topic reference apiRef apiValue cxxVariable nested1" id="GUID-6C8E5644-DF49-3C48-B46A-4D2F56B66DA2"><a name="GUID-6C8E5644-DF49-3C48-B46A-4D2F56B66DA2"><!-- --></a>
+<h3 class="sectiontitle">iCurrentEntry</h3>
+<div class="section signature"><table class="signature"><tr><td>CMsvEntry *</td><td>iCurrentEntry</td><td>[protected]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Message entry currently being processed. </p>
+</div>
+</div>
+<h2 class="sectiontitle">Constructor &amp; Destructor Documentation</h2><div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-9658B31D-6A2E-3E47-8EE4-ED60C9A11D7E"><a name="GUID-9658B31D-6A2E-3E47-8EE4-ED60C9A11D7E"><!-- --></a>
+<a name="GUID-524D82DC-A1A9-32AF-86C0-612A2659EAB5"><!-- --></a><h3 class="sectiontitle">CImCacheManager ( CMsvSession &amp;, TRequestStatus &amp; )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C</td><td>CImCacheManager</td><td>(</td><td>CMsvSession &amp;</td><td><span class="parameter">aSession</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html">TRequestStatus</a> &amp;</td><td><span class="parameter">aObserverRequestStatus</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">[protected]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Constructor.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aSession</td><td>Message server session  </td></tr><tr class="bg"><td class="parameter">aObserverRequestStatus</td><td>Unused  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-C7559EDC-8D58-3E28-872E-7E7D47799001"><a name="GUID-C7559EDC-8D58-3E28-872E-7E7D47799001"><!-- --></a>
+<h3 class="sectiontitle">~CImCacheManager (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C</td><td>~CImCacheManager</td><td>(</td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Destructor.</p>
+<p class="p">This cancels any operation in progress. </p>
+</div>
+</div>
+</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-66989067-8A20-3FF7-8B2E-B6BEA4805DA1"><a name="GUID-66989067-8A20-3FF7-8B2E-B6BEA4805DA1"><!-- --></a>
+<h3 class="sectiontitle">ConstructL (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>ConstructL</td><td>(</td><td>)</td><td>[protected]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Second phase constructor.</p>
+<p class="p">All classes derived from <a class="xref" href="GUID-296ED79E-428D-3DED-AD41-4402A5419953.html#GUID-296ED79E-428D-3DED-AD41-4402A5419953">CImCacheManager</a> must call this function before <a class="xref" href="GUID-296ED79E-428D-3DED-AD41-4402A5419953.html#GUID-F3A8B1B7-867D-3448-8546-D9FD921CE7EF">StartL()</a> is called. </p>
+</div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-C9C803E7-7B24-303D-B055-9D2EA0332F91"><a name="GUID-C9C803E7-7B24-303D-B055-9D2EA0332F91"><!-- --></a>
+<h3 class="sectiontitle">DoCancel (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>DoCancel</td><td>(</td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Implements the active object cancellation protocol for a cache cleanup operation.</p>
+<p class="p">As the cache manager is an active object, a cache cleanup operation started by Start() can be cancelled using <a class="xref" href="GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-A8C4BD4D-4D85-31E3-AA9F-4F8675D608C5">CActive::Cancel()</a>.</p>
+<p class="p">Cancellation halts any further deletion of message data, but does not restore any data that has already been deleted by the cleanup operation.</p>
+<p class="p">
+</p><p class="p">See also: <a class="xref" href="GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-A8C4BD4D-4D85-31E3-AA9F-4F8675D608C5">CActive::Cancel()</a> </p>
+</div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-98D0DBF5-AA6A-3CAC-966A-783A0FC8EB61"><a name="GUID-98D0DBF5-AA6A-3CAC-966A-783A0FC8EB61"><!-- --></a>
+<h3 class="sectiontitle">ProgressL (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C const <a class="xref xref apiRelation" href="GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html">TDesC8</a> &amp;</td><td>ProgressL</td><td>(</td><td>)</td><td></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Gets information on the progress of the operation.</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefNote cxxFunctionReturnDesc section returnsdoc"><dl class="returnsdoc"><dt class="dlterm">Return Value</dt><dd>Packaged TImCacheManagerProgress object holding operation progress details </dd></dl></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-C99E8341-960D-318C-B3A8-0E04AAA9B980"><a name="GUID-C99E8341-960D-318C-B3A8-0E04AAA9B980"><!-- --></a>
+<h3 class="sectiontitle">RunL (  )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>RunL</td><td>(</td><td>)</td><td>[protected]</td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Implements the active object completion protocol for a cache cleanup operation.</p>
+<p class="p">
+</p><p class="p">See also: <a class="xref" href="GUID-067293BF-B28C-3CEC-92F4-1351A795EA7F.html#GUID-5D018F25-5173-36C1-A0B9-5C3A33211C5D">CActive::RunL()</a> </p>
+</div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-F3A8B1B7-867D-3448-8546-D9FD921CE7EF"><a name="GUID-F3A8B1B7-867D-3448-8546-D9FD921CE7EF"><!-- --></a>
+<a name="GUID-FCD0A017-4017-37ED-B404-48AAF214EA15"><!-- --></a><h3 class="sectiontitle">StartL ( TMsvId, TRequestStatus &amp; )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>StartL</td><td>(</td><td>TMsvId</td><td><span class="parameter">aRootEntry</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html">TRequestStatus</a> &amp;</td><td><span class="parameter">aStatus</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Performs a recursive cache cleanup starting from a specified root entry.</p>
+<p class="p">Cached data for entries below the specified root are cleaned-up if they meet the criteria specified by the implementation of Filter().</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aRootEntry</td><td>Entry from which to start cache cleanup  </td></tr><tr class="bg"><td class="parameter">aStatus</td><td>Asynchronous status word signalled when the operation is complete  </td></tr></table></div>
+</div>
+</div>
+<div class="topic reference apiRef apiOperation cxxFunction nested1" id="GUID-64052353-9101-3DC7-B464-B2160AB093A9"><a name="GUID-64052353-9101-3DC7-B464-B2160AB093A9"><!-- --></a>
+<h3 class="sectiontitle">StartL ( const CMsvEntrySelection &amp;, TRequestStatus &amp; )</h3>
+<div class="body refbody apiDetail apiOperationDetail cxxFunctionDetail section functiondetail"><div class="section signature"><table class="signature"><tr><td>IMPORT_C void</td><td>StartL</td><td>(</td><td>const <a class="xref xref apiRelation" href="GUID-6BC8851B-D913-3CE5-B343-5163661E8AD5.html">CMsvEntrySelection</a> &amp;</td><td><span class="parameter">aSelection</span>,</td></tr><tr><td colspan="3"> </td><td><a class="xref xref apiRelation" href="GUID-E0B34F3E-D4C4-3232-B8B1-7DB35B454646.html">TRequestStatus</a> &amp;</td><td><span class="parameter">aStatus</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2"></td></tr></table></div><div class="section section apiDesc section apidesc">
+<p class="p">Performs a recursive cache cleanup for a specified selection of root entries.</p>
+<p class="p">Cached data for entries below the specified roots are cleaned-up if they meet the criteria specified by the implementation of Filter().</p>
+<p class="p">
+</p></div>
+<div class="ph ph apiDefItem apiDefItem cxxFunctionParameters section parameters"><table class="parameters"><tr><th>Parameters</th></tr><tr><td class="parameter">aSelection</td><td>List of entries from which to start cache cleanup  </td></tr><tr class="bg"><td class="parameter">aStatus</td><td>Asynchronous status word signalled when the operation is complete  </td></tr></table></div>
+</div>
+</div>
+</div></div><div class="footer"><hr /><div class="copy">© Nokia 2005.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-296ED79E-428D-3DED-AD41-4402A5419953.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:14:09 GMT -->
+</html>

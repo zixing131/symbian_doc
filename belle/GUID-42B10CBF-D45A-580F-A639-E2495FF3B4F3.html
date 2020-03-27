@@ -1,0 +1,127 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-42B10CBF-D45A-580F-A639-E2495FF3B4F3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Remote Call Termination Tutorial" /><meta name="abstract" content="This tutorial describes how to detect when a caller at the remote end of the connection has terminated a call with the telephony API for applications." /><meta name="description" content="This tutorial describes how to detect when a caller at the remote end of the connection has terminated a call with the telephony API for applications." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-34E7AAF2-EC62-5BF6-B9E7-C7D346BCDF93" /><meta name="DC.Relation" scheme="URI" content="GUID-0F647342-E069-5444-9370-58520375543A" /><meta name="DC.Relation" scheme="URI" content="GUID-7C197DC1-43CA-5146-B81D-36B685A1D0C9" /><meta name="DC.Relation" scheme="URI" content="GUID-844C335C-E8FD-5DF8-8E05-7DB1DF4C3360" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-42B10CBF-D45A-580F-A639-E2495FF3B4F3" /><meta name="DC.Language" content="en" /><title>Remote
+Call Termination Tutorial  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-42B10CBF-D45A-580F-A639-E2495FF3B4F3">Remote
+Call Termination Tutorial </h1><div><p>This tutorial describes how to detect when a caller at the remote
+end of the connection has terminated a call with the telephony API for applications. </p>
+<div><h3 class="section-title">Context</h3><p><code class="codeph">CTelephony</code> represents the status of your calls
+with a <code class="codeph">CTelephony::TCallStatus</code> Possible status values include <em>Idle</em>, <em>Ringing</em>, <em>On-Hold</em>.</p><ul>
+<li><p>When a call status changes from </p><code class="codeph">CTelephony::EStatusConnected </code> to <code class="codeph">CTelephony::EStatusIdle</code> then
+the call has terminated. </li>
+<li><p>When a call status changes from </p><code class="codeph">CTelephony::EStatusHold
+ </code> to <code class="codeph">CTelephony::EStatusIdle</code> then the call has terminated. </li>
+</ul><p>The method starts an asynchonous operation that completes when the
+calls's status changes. At this point, the call's new status is written into
+the <code class="codeph">CTelephony::TCallStatusV1Pckg</code>.</p></div>
+<h3>Steps</h3><ol id="GUID-AA3B542C-797F-56C7-A6B6-8218FAFBB5D2"><a name="GUID-AA3B542C-797F-56C7-A6B6-8218FAFBB5D2"><!-- --></a>
+<li id="GUID-9DE15571-A8FC-5101-A597-EA03F1BED4AC"><a name="GUID-9DE15571-A8FC-5101-A597-EA03F1BED4AC"><!-- --></a><p></p>
+create a new instance of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony</code></a>. 
+</li>
+<li id="GUID-AE2D9BB9-A111-572A-9720-44DAD351FEE1"><a name="GUID-AE2D9BB9-A111-572A-9720-44DAD351FEE1"><!-- --></a><p></p>
+use <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::NotifyChange()</code></a> to
+detect changes in the voice line status. 
+Pass a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::EOwnedCall1StatusChange</code></a> to
+detect a change in call 1, and pass it <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::EOwnedCall2StatusChange</code></a> for
+call 2. Also pass an empty <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::TCallStatusV1Pckg</code></a>. 
+</li>
+<li id="GUID-57B7B41E-8A8D-500C-86A2-6EB75D8E06A6"><a name="GUID-57B7B41E-8A8D-500C-86A2-6EB75D8E06A6"><!-- --></a><p></p>
+pass the enumeration <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::EOwnedCall1StatusChangeCancel</code></a> to
+cancel the request for call1 notification and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97D402C8-B4B7-385A-92B3-D3FCC0CA575A.html"><code class="apiname">CTelephony::EOwnedCall2StatusChangeCancel </code></a> for
+call2 notification. 
+</li>
+</ol>
+<div id="GUID-8255D372-823D-52D0-9082-4EF7E7808A83"><h3 class="section-title">Remote call
+termination example</h3> <pre class="codeblock">#include &lt;e32base.h&gt;
+#include &lt;Etel3rdParty.h&gt;
+
+class CClientApp : public CActive
+    { 
+
+private:
+    CTelephony* iTelephony;
+    CTelephony::TCallId iCallId;
+                CTelephony::TCallStatusV1 iCallStatusV1;
+                CTelephony::TCallStatusV1Pckg iCallStatusV1Pckg;
+    CTelephony::TNotificationEvent iEvent;
+
+public:
+    CClientApp(CTelephony* aTelephony, CTelephony::TCallId aCallId);
+    TInt SomeFunction();
+
+private:
+    /*
+       These are the pure virtual methods from CActive that  
+       MUST be implemented by all active objects
+       */
+    void RunL();
+    void DoCancel();
+   };
+
+CClientApp::CClientApp(CTelephony* aTelephony, CTelephony::TCallId aCallId)
+    : CActive(EPriorityStandard),
+      iTelephony(aTelephony),
+      iCallId(aCallId),
+      iCallStatusV1Pckg(iCallStatusV1)
+    {
+    //default constructor
+    }
+
+TInt CClientApp::SomeFunction()
+    {
+    switch(iCallId)
+       {
+       case CTelephony::EISVCall1:
+          iEvent = CTelephony::EOwnedCall1StatusChange;
+          break;
+
+       case CTelephony::EISVCall2:
+          iEvent = CTelephony::EOwnedCall2StatusChange;
+          break;
+
+       default:
+          // We have not been given a valid call ID, so return an error
+          return KErrArgument;
+       }
+
+    iTelephony-&gt;NotifyChange(iStatus, iEvent, iCallStatusV1Pckg);
+    SetActive();
+    return KErrNone;
+    }
+
+void CClientApp::RunL()
+    {
+    if(iStatus==KErrNone)
+       {
+       // The status of the call has changed.
+       if(iCallStatusV1.iStatus == CTelephony::EStatusIdle)
+          {
+          // The call has been terminated.
+          }
+       else
+          {
+          // The call has not yet been terminated, so request notification again
+          iTelephony-&gt;NotifyChange(iStatus, iEvent, iCallStatusV1Pckg);
+          SetActive();
+          }
+       }
+    }
+
+void CClientApp::DoCancel()
+    {
+    CTelephony::TCancellationRequest cancelRequest;
+    if(iCallId == CTelephony::EISVCall1)
+       {
+       cancelRequest = CTelephony::EOwnedCall1StatusChangeCancel;
+       }
+    else // iCallId == CTelephony::EISVCall2
+       {
+       cancelRequest = CTelephony::EOwnedCall2StatusChangeCancel;
+       }
+    iTelephony-&gt;CancelAsync(cancelRequest);
+    }</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 5th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-42B10CBF-D45A-580F-A639-E2495FF3B4F3.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:01 GMT -->
+</html>

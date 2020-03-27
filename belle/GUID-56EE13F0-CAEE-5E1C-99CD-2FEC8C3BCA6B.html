@@ -1,0 +1,91 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-56EE13F0-CAEE-5E1C-99CD-2FEC8C3BCA6B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:49 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Dynamic Arrays Overview" /><meta name="abstract" content="This document is an overview of dynamic arrays." /><meta name="description" content="This document is an overview of dynamic arrays." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-56EE13F0-CAEE-5E1C-99CD-2FEC8C3BCA6B" /><meta name="DC.Language" content="en" /><title>Dynamic Arrays Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-56EE13F0-CAEE-5E1C-99CD-2FEC8C3BCA6B">Dynamic Arrays Overview</h1><div><p>This document is an overview of dynamic arrays.</p>
+<div id="GUID-5562FF9A-483E-4145-B07E-1ABF08B8C103"><h3 class="section-title">Purpose</h3> <p>Provides families of dynamically expandible heap-based arrays.</p> </div>
+<div id="GUID-E5166C8B-0428-4007-A7FA-A2A7CD84B356"><h3 class="section-title">Description</h3> <p>A large number of concrete classes provide dynamic arrays that
+are suitable for different circumstances. Unlike standard C++ arrays
+or the Symbian platform Fixed Size Arrays, the number of elements
+in a dynamic array can be altered at run-time.</p> <p>The arrays are
+divided into two families:</p> <ul>
+<li id="GUID-99FEBCD8-0B2C-5E2A-BCF7-AD8762795E0A"><a name="GUID-99FEBCD8-0B2C-5E2A-BCF7-AD8762795E0A"><!-- --></a><p>the simple dynamic
+array family is for use in most cases</p> </li>
+<li id="GUID-107EDF8D-27BB-530D-AF81-74F7B78AB666"><a name="GUID-107EDF8D-27BB-530D-AF81-74F7B78AB666"><!-- --></a><p>the extended
+dynamic array family allows advanced properties, such as the organisation
+of the array storage in memory, to be specified</p> </li>
+</ul> <p>The array classes are all templated. The template parameter
+defines the type of object which is to form an array element. </p> <p><strong>Simple dynamic array family</strong> </p> <p>The simple dynamic array
+family offers arrays of objects, integers, and pointers. The array
+is always stored in a single memory area.</p> <p>Object arrays are
+provided by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FAEBF321-6B08-3041-A01F-B1E7282D0707.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FAEBF321-6B08-3041-A01F-B1E7282D0707.html"><code class="apiname">RArray</code></a>.</p> <p>Integer arrays are provided
+by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6FCD6EC2-7293-37A9-8292-3FA05CCEE50B.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-6FCD6EC2-7293-37A9-8292-3FA05CCEE50B.html"><code class="apiname">RArray&lt;TInt&gt;</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97995D22-5A1C-3271-8D63-22D8703B676B.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-97995D22-5A1C-3271-8D63-22D8703B676B.html"><code class="apiname">RArray&lt;TUint&gt;</code></a>.</p> <p>Pointer arrays are provided by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AAA13D1F-1BD7-3331-BB8C-11FA2795B53F.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AAA13D1F-1BD7-3331-BB8C-11FA2795B53F.html"><code class="apiname">RPointerArray</code></a>.</p> <p><strong>Extended dynamic array family</strong> </p> <p>The extended dynamic
+array family, derived from <code class="codeph">CBase</code>, allows the client
+to specify explicitly combinations of element properties and storage
+type. These terms are explained below.</p> <p><strong>Element properties</strong> </p> <p>Options for element properties
+are:</p> <p><strong>Fixed length</strong> </p> <p>All elements are of the same size (<code class="codeph">CArrayFixBase</code>).</p> <p><strong>Variable length</strong> </p> <p>Elements can be of different sizes
+(<code class="codeph">CArrayVarBase</code>).</p> <p><strong>Pointer</strong> </p> <p>Elements are pointers to <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html"><code class="apiname">CBase</code></a> -derived objects.</p> <p><strong>Untyped</strong> </p> <p>Elements are <code class="codeph">TAny</code> objects.</p> <p><strong>Storage type</strong> </p> <p>Options for storage type are:</p> <p><strong>Flat buffer</strong> </p> <p>The elements are stored in a single memory
+area, and are of fixed length.</p> <p><strong>Segmented</strong> </p> <p>The elements are stored in multiple memory
+areas.</p> <p><strong>Packed</strong> </p> <p>The elements are stored in a single memory
+area, but can be of variable length.</p> <p>Different storage types
+present trade-offs between efficiency of memory usage and speed.</p> <p><strong>Class summary</strong> </p> <p>The following matrix demonstrates the
+concrete classes that are available. Storage type is shown horizontally,
+element properties vertically.</p> <div class="tablenoborder"><a name="GUID-3CA8DCBC-6A22-56F0-9462-CA1C51D2F286"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-3CA8DCBC-6A22-56F0-9462-CA1C51D2F286" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e282182">Flat</th>
+<th class="cellrowborder" valign="top" id="d0e282185"> Segmented</th>
+<th class="cellrowborder" valign="top" id="d0e282188"> Packed</th>
+</tr>
+<tr class="title bg ">
+<th class="cellrowborder" valign="top" id="d0e282194"> Fixed-length element</th>
+</tr>
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e282200"> Variable-length element</th>
+</tr>
+<tr class="title bg ">
+<th class="cellrowborder" valign="top" id="d0e282206"> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html"><code class="apiname">CBase</code></a> -pointer elements</th>
+</tr>
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e282216"> Untyped elements (fixed length)</th>
+</tr>
+<tr class="title bg ">
+<th class="cellrowborder" valign="top" id="d0e282222"> Untyped elements (variable length)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e282182 d0e282194 d0e282200 d0e282206 d0e282216 d0e282222 ">&nbsp;</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e282182 d0e282194 d0e282200 d0e282206 d0e282216 d0e282222 "><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-12C65B99-553E-35CA-B36F-2F77BFC972B3.html"><code class="apiname">CArrayFixFlat</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e282185 "><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EE7C55C7-9CB2-3EE8-869C-8283B6723D5C.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-EE7C55C7-9CB2-3EE8-869C-8283B6723D5C.html"><code class="apiname">CArrayFixSeg</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e282188 ">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e282182 d0e282194 d0e282200 d0e282206 d0e282216 d0e282222 "><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5BC7EAFE-FC9C-3E86-BFDC-FDE9FE086D53.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5BC7EAFE-FC9C-3E86-BFDC-FDE9FE086D53.html"><code class="apiname">CArrayVarFlat</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e282185 "><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-35439B46-B078-3B9F-9199-CC8F8DD4C1DB.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-35439B46-B078-3B9F-9199-CC8F8DD4C1DB.html"><code class="apiname">CArrayVarSeg</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e282188 "><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4D6E6B46-32B5-34AD-BD8A-84BF6B2B7C81.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4D6E6B46-32B5-34AD-BD8A-84BF6B2B7C81.html"><code class="apiname">CArrayPakFlat</code></a> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e282182 d0e282194 d0e282200 d0e282206 d0e282216 d0e282222 "><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FCE7D958-96AA-346D-8D22-0EF24B9DB7CC.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-FCE7D958-96AA-346D-8D22-0EF24B9DB7CC.html"><code class="apiname">CArrayPtrFlat</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e282185 "><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A9BDCF9A-6A29-3329-898A-13CA8FF26510.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-A9BDCF9A-6A29-3329-898A-13CA8FF26510.html"><code class="apiname">CArrayPtrSeg</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e282188 ">&nbsp;</td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e282182 d0e282194 d0e282200 d0e282206 d0e282216 d0e282222 "><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E9669326-3E63-3E66-BC99-F6BF08F26BA4.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E9669326-3E63-3E66-BC99-F6BF08F26BA4.html"><code class="apiname">CArrayFixFlat&lt;TAny&gt;</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e282185 "><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-645011B2-5976-34AF-9B39-D68CD9037224.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-645011B2-5976-34AF-9B39-D68CD9037224.html"><code class="apiname">CArrayFixSeg&lt;TAny&gt;</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e282188 ">&nbsp;</td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e282182 d0e282194 d0e282200 d0e282206 d0e282216 d0e282222 "><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4FFD4229-66A7-3861-8498-9187555EBA66.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4FFD4229-66A7-3861-8498-9187555EBA66.html"><code class="apiname">CArrayVar&lt;TAny&gt;</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e282185 ">&nbsp;</td>
+<td class="cellrowborder" valign="top" headers="d0e282188 "><p><a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C5F51D78-35D2-3477-897C-A45BB0810D99.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C5F51D78-35D2-3477-897C-A45BB0810D99.html"><code class="apiname">CArrayPak&lt;TAny&gt;</code></a> </p> </td>
+</tr>
+</tbody>
+</table></div> <p>Base classes are not shown on the above table. The inheritance
+hierarchies are based on the flat, segmented, packed divisions.</p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 3rd, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-56EE13F0-CAEE-5E1C-99CD-2FEC8C3BCA6B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:49 GMT -->
+</html>

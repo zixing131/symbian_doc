@@ -1,0 +1,47 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1E2DB50A-D8D7-595D-8448-77F057655E82.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Writing a Client MTM" /><meta name="DC.Relation" scheme="URI" content="GUID-59217FA7-3078-53CA-88B3-78D6FB788271" /><meta name="DC.Relation" scheme="URI" content="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5DD1010C-1648-5086-BA80-BC25F3C7A2C4" /><meta name="DC.Relation" scheme="URI" content="GUID-C290FA5E-8E41-5D19-B8C1-F88491EE6388" /><meta name="DC.Relation" scheme="URI" content="GUID-B394A824-8745-505E-8429-8B9B6D418387" /><meta name="DC.Relation" scheme="URI" content="GUID-DD27A452-8B0F-5C6D-A2E6-FC21145468B6" /><meta name="DC.Relation" scheme="URI" content="GUID-7FCDAC24-BFEF-590B-B569-04AA262EBF06" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1E2DB50A-D8D7-595D-8448-77F057655E82" /><meta name="DC.Language" content="en" /><title>Writing a Client MTM </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1E2DB50A-D8D7-595D-8448-77F057655E82">Writing a Client MTM</h1><div><div><p>This section describes the initial steps to be performed
+to write a Client MTM. It does not explain the implementation of all <a href="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC.html">Client MTM functionality</a>. </p></div>
+<div id="GUID-C6BACA1F-6CB6-42E0-8E06-9B66D7FDEB26"><h3 class="section-title">Context</h3><p>The main
+function of the Client MTM is to load the entry currently referred
+to by the MTM’s context, and save it once any changes have been made
+to it. An individual entry’s store is represented by the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html"><code class="apiname">CMsvStore</code></a> class. Finally, after any changes are made to
+a store that stores the message body, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8CB90FA2-A6CF-3FA2-81FF-7D22EFD9C2CE.html#GUID-F1D4FE2A-8BB9-3CC2-9C30-DC053848A6B5"><code class="apiname">CMsvStore::CommitL()</code></a> must be called to commit those changes. </p> </div>
+<h3>Steps</h3><ol id="GUID-6A78327C-5D21-5913-9404-7153B2002264"><a name="GUID-6A78327C-5D21-5913-9404-7153B2002264"><!-- --></a>
+<li id="GUID-BC043CD5-E41A-5534-A2ED-0C6003723004"><a name="GUID-BC043CD5-E41A-5534-A2ED-0C6003723004"><!-- --></a><p></p>
+Derive a class from the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-177AF50B-14EF-3C45-AE22-1FEE5678261D.html"><code class="apiname">CBaseMtm</code></a> class. 
+</li>
+<li id="GUID-7A80C910-9012-57FF-8A7A-4A63631BBE33"><a name="GUID-7A80C910-9012-57FF-8A7A-4A63631BBE33"><!-- --></a><p></p>
+Register it using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0D5D7FAC-4F14-3046-92FB-873B8350FF4C.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0D5D7FAC-4F14-3046-92FB-873B8350FF4C.html"><code class="apiname">CRegisteredMtmDll</code></a> parameter. 
+</li>
+<li id="GUID-B0606F56-C9D4-532F-B866-2D2AF54EC71C"><a name="GUID-B0606F56-C9D4-532F-B866-2D2AF54EC71C"><!-- --></a><p></p>
+Create a session with Message Server using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DA04D96-F0AD-3FDC-9E36-1C27D889AF4B.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2DA04D96-F0AD-3FDC-9E36-1C27D889AF4B.html"><code class="apiname">CMsvSession</code></a> parameter. 
+</li>
+<li id="GUID-72F50006-EA9B-5BF3-8A8F-BC51C4434F9D"><a name="GUID-72F50006-EA9B-5BF3-8A8F-BC51C4434F9D"><!-- --></a><p></p>
+Create the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-AF724192-6580-3DE3-9287-3A005C0AA932.html"><code class="apiname">CMsvOperation</code></a> -based classes for
+performing the different operations that are required for your Messaging
+protocol. See <a href="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC.html#GUID-6DD0912E-1E82-5BAD-889C-5FA79E5E800C">Client-side operations</a>. 
+</li>
+</ol>
+<div><h3 class="section-title">Client MTM example</h3><pre class="codeblock">// 
+// CTextMtmClient
+//      Implements CBaseMtm to provide Client-side Text MTM     
+//
+
+EXPORT_C CTextMtmClient* CTextMtmClient::NewL(CRegisteredMtmDll&amp; aRegisteredMtmDll, CMsvSession&amp; aMsvSession)
+// Factory function
+    {
+    CTextMtmClient* self = new (ELeave) CTextMtmClient(aRegisteredMtmDll,aMsvSession);
+    CleanupStack::PushL(self);
+    self-&gt;ConstructL();
+    CleanupStack::Pop();
+    return self;
+    }</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-59217FA7-3078-53CA-88B3-78D6FB788271.html">MTM
+overview</a></li><li><a href="GUID-E180D222-CC4F-5007-93FC-C339BBE708BC.html">Client
+MTM</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated January 17th, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1E2DB50A-D8D7-595D-8448-77F057655E82.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:03:09 GMT -->
+</html>

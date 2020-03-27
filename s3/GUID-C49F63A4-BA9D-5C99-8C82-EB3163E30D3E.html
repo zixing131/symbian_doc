@@ -1,0 +1,37 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C49F63A4-BA9D-5C99-8C82-EB3163E30D3E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to prompt the user to select a remote device" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-227B6970-A536-470F-B5A1-A1871F65D7F3" /><meta name="DC.Relation" scheme="URI" content="GUID-6CE12919-FF81-5254-BA12-385F589FEA44" /><meta name="DC.Relation" scheme="URI" content="GUID-11E05C4A-CC94-5A0E-9D07-1863FB03747F" /><meta name="DC.Relation" scheme="URI" content="GUID-9668ADA2-7170-57AC-A5D7-1350894413FF" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C49F63A4-BA9D-5C99-8C82-EB3163E30D3E" /><meta name="DC.Language" content="en" /><title>How to prompt the user to select a remote device </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C49F63A4-BA9D-5C99-8C82-EB3163E30D3E">How to prompt the user to select a remote device</h1><div><p>When there are several suitable remote devices, you can want to prompt the user to pick the one to which a connection should be made. A dialog to do this is supplied. Note that the dialog is not provided by a standard dialog class as this would require a Bluetooth client to have its own UI, and for this to be brought to the foreground. Instead, clients request a background thread called the notifier server to create the dialog: the server can put a dialog over the UI of whatever application happens to have the foreground.</p> <p>To use the dialog:</p> <ol id="GUID-3EAFB634-327F-578B-B739-E1C689999D39"><li id="GUID-E5598C77-5F6D-5D45-84E2-60B2F2463561"><a name="GUID-E5598C77-5F6D-5D45-84E2-60B2F2463561"><!-- --></a><p>Create an <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A6B66713-FECA-3BE7-BB81-1AE5551AD83D.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A6B66713-FECA-3BE7-BB81-1AE5551AD83D.html"><code class="apiname">RNotifier</code></a> object, and connect it with <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A6B66713-FECA-3BE7-BB81-1AE5551AD83D.html#GUID-C3191BF8-2F6F-36CC-B5CF-92AC58249E09"><code class="apiname">RNotifier::Connect()</code></a> </p> </li> <li id="GUID-9E199C38-33A9-5E49-BF21-6917D2D5110F"><a name="GUID-9E199C38-33A9-5E49-BF21-6917D2D5110F"><!-- --></a><p>Call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A6B66713-FECA-3BE7-BB81-1AE5551AD83D.html#GUID-A5E799C6-E6E4-3C58-A053-F4307179060F"><code class="apiname">RNotifier::StartNotifierAndGetResponse()</code></a> passing in:</p> <ul><li id="GUID-5B591C13-E8EC-53E6-BD26-90345D31C8BC"><a name="GUID-5B591C13-E8EC-53E6-BD26-90345D31C8BC"><!-- --></a><p>the UID of the authorisation plug-in (KDeviceSelectionNotifierUid)</p> </li> <li id="GUID-87019B90-CC1F-55A9-B447-03C13E86E10E"><a name="GUID-87019B90-CC1F-55A9-B447-03C13E86E10E"><!-- --></a><p>the device and/or service classes by which to filter suitable remote devices; these are packaged in a TBTDeviceSelectionParamsPckg </p> </li> <li id="GUID-918D02D7-46D5-513E-A31F-8E2C06452EF3"><a name="GUID-918D02D7-46D5-513E-A31F-8E2C06452EF3"><!-- --></a><p>a Bluetooth address object that on completion of the dialog will hold information about the device the user selected in a packaged <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C6AB3507-A05F-3AC3-9C73-58529D4A106C.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-C6AB3507-A05F-3AC3-9C73-58529D4A106C.html"><code class="apiname">TBTDeviceResponseParams</code></a>.</p> </li> </ul> </li> <li id="GUID-A2CF8242-B588-5463-8714-D2E59712EAB0"><a name="GUID-A2CF8242-B588-5463-8714-D2E59712EAB0"><!-- --></a><p>When the <code class="codeph">StartNotifierAndGetResponse()</code> calls completes, extract the device information returned from its buffer.</p> </li> <li id="GUID-B1CC149D-7EB7-5B97-9846-3940C544D643"><a name="GUID-B1CC149D-7EB7-5B97-9846-3940C544D643"><!-- --></a><p>Clean up by cancelling and closing the notifier.</p> </li> </ol> <p><strong>Example</strong> </p> <pre class="codeblock">// 1. Create a notifier
+RNotifier not;
+User::LeaveIfError(not.Connect());
+
+// 2. Start the device selection plug-in
+TBTDeviceSelectionParams selectionFilter;
+TUUID targetServiceClass(0x2345);
+selectionFilter.SetUUID(targetServiceClass);
+TBTDeviceSelectionParamsPckg pckg(selectionFilter);
+TBTDeviceResponseParams result;
+TBTDeviceResponseParamsPckg resultPckg(result);
+TRequestStatus status;
+not.StartNotifierAndGetResponse(status, KDeviceSelectionNotifierUid, pckg, resultPckg);
+User::After(2000000);
+
+// 3. Extract device name if it was returned
+User::WaitForRequest(status);
+TPtrC name;
+if (status.Int() == KErrNone)
+    {
+    if (resultPckg.IsValidDeviceName())
+        {
+     name.Set(resultPckg().DeviceName());
+        }
+    }
+    
+// 4. Clean up
+not.CancelNotifier(KDeviceSelectionNotifierUid);
+not.Close();
+</pre> </div></div></div><div class="footer"><p class="metadata">Last updated October 9th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-C49F63A4-BA9D-5C99-8C82-EB3163E30D3E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 05:51:01 GMT -->
+</html>

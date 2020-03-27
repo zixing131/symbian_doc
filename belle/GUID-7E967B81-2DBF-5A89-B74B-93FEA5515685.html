@@ -1,0 +1,28 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7E967B81-2DBF-5A89-B74B-93FEA5515685.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use new with automatic leave on failure" /><meta name="abstract" content="Provides code snippets to show you how to use new with automatic leave on failure" /><meta name="description" content="Provides code snippets to show you how to use new with automatic leave on failure" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-61DEE78D-4E78-5367-BC8A-F99D3B4E9D5A" /><meta name="DC.Relation" scheme="URI" content="GUID-26D7BC6E-509C-51C5-9B86-437F3AEEB2EA" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-7E967B81-2DBF-5A89-B74B-93FEA5515685" /><meta name="DC.Language" content="en" /><title>How
+to use new with automatic leave on failure </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-7E967B81-2DBF-5A89-B74B-93FEA5515685">How
+to use new with automatic leave on failure</h1><div><p>Provides code snippets to show you how to use <code class="codeph">new</code> with
+automatic leave on failure</p>
+<p>The case of <code class="codeph">new</code> failing is so common that a version of <code class="codeph">operator
+new()</code> has been written which takes a single parameter <code class="codeph">ELeave</code>,
+indicating that it must leave if it was unable to allocate memory.</p>
+<p>Use <code class="codeph">operator new()</code> so that there is no need to check the
+result of the <code class="codeph">new</code>.</p>
+<pre class="codeblock">void doExampleL()
+ {
+ // attempt to allocate, leave if could not
+ CExample* myExample = new (ELeave) CExample;
+ // new (ELeave) replaces new followed by check
+ // do something
+ myExample-&gt;iInt = 5;
+ testConsole.Printf(_LIT("Value of iInt is %d.\n"),myExample-&gt;iInt);
+ // delete
+ delete myExample;
+ }</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-7E967B81-2DBF-5A89-B74B-93FEA5515685.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:55 GMT -->
+</html>

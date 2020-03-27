@@ -1,0 +1,443 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_navigation_pane_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:21 GMT -->
+<head><title>Navigation Pane API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i497"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Navigation Pane API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Navigation_pane"><span class="tocnumber">2.1</span> <span class="toctext">Navigation pane</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Accessing_the_default_navigation_pane_control"><span class="tocnumber">2.1.1</span> <span class="toctext">Accessing the default navigation pane control</span></a></li>
+<li class="toclevel-3"><a href="#Creating_navigation_pane_from_resource_with_a_label_control"><span class="tocnumber">2.1.2</span> <span class="toctext">Creating navigation pane from resource with a label control</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Navigation_pane_decorator_buttons_and_events"><span class="tocnumber">2.2</span> <span class="toctext">Navigation pane decorator buttons and events</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Manipulating_decorator_buttons"><span class="tocnumber">2.2.1</span> <span class="toctext">Manipulating decorator buttons</span></a></li>
+<li class="toclevel-3"><a href="#Observing_decorator_events"><span class="tocnumber">2.2.2</span> <span class="toctext">Observing decorator events</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Using_navigation_pane.27s_control_stack"><span class="tocnumber">2.3</span> <span class="toctext">Using navigation pane's control stack</span></a></li>
+<li class="toclevel-2"><a href="#Navigation_pane_decorator_and_label_control"><span class="tocnumber">2.4</span> <span class="toctext">Navigation pane decorator and label control</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Creating_decorator_dynamically_from_resource_with_a_label_control"><span class="tocnumber">2.4.1</span> <span class="toctext">Creating decorator dynamically from resource with a label control</span></a></li>
+<li class="toclevel-3"><a href="#Creating_decorator_dynamically_with_a_label_control"><span class="tocnumber">2.4.2</span> <span class="toctext">Creating decorator dynamically with a label control</span></a></li>
+<li class="toclevel-3"><a href="#Accessing_decorator_created_from_resource"><span class="tocnumber">2.4.3</span> <span class="toctext">Accessing decorator created from resource</span></a></li>
+<li class="toclevel-3"><a href="#Setting_text_of_label_control_in_decorator"><span class="tocnumber">2.4.4</span> <span class="toctext">Setting text of label control in decorator</span></a></li>
+<li class="toclevel-3"><a href="#Getting_text_of_label_control_in_decorator"><span class="tocnumber">2.4.5</span> <span class="toctext">Getting text of label control in decorator</span></a></li>
+<li class="toclevel-3"><a href="#Creating_a_decorator_with_a_label_in_a_single_call"><span class="tocnumber">2.4.6</span> <span class="toctext">Creating a decorator with a label in a single call</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.5</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.6</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The principal use of the navigation pane is to display information about
+the current state and view, and to help the user navigate in the application.
+The pane can contain tabs, a navigation label, a navigation image, a hint
+text, a volume control indicator or editor indicators.
+</p><p>Navigation pane can be used to help switch between different views of the
+application using tabs, displaying the progress of an ongoing process, or
+just a note, that gives the user some additional information.
+</p><p>Navigation pane is a sub pane of the Status pane.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>avkon.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/navigation_pane_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/navigation_pane_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Navigation Pane API provides support for accessing the application's navigation
+pane. Each application has its own navigation pane.
+</p><p>The navigation pane control contains factory methods for each pre-implemented
+navigation pane control type: <span class="plainlinks"><code><font color="darkred">CreateTabGroupL()</font></code> </span>, <span class="plainlinks"><code><font color="darkred">CreateNavigationLabelL()</font></code> </span> and <span class="plainlinks"><code><font color="darkred">CreateNavigationImageL()</font></code> </span>. These methods return navigation decorator objects. A decorator object contains
+the control itself and in addition it provides support for navigation arrows,
+etc.
+</p><p>The navigation pane contains an object stack. The navigation decorator
+objects can be pushed in and popped out to/from the navigation pane stack.
+The topmost object on the navigation pane control stack is shown in the pane.
+Only the editor indicators have priority over others. The editor indicator
+control is always on top if it exists in the stack.
+</p><p>When a navigation decorator object is deleted, it is popped out from the
+navigation pane control stack automatically. Explicit pop operation is not
+needed.
+</p><p>Navigation Pane API's most important classes are <span class="plainlinks"><code>CAknNavigationControlContainer</code> </span>, <span class="plainlinks"><code>CAknNavigationDecorator</code> </span> and <span class="plainlinks"><code>CAknNaviLabel</code> </span>. The container control contains a stack of objects
+and the top item is shown on the pane. The decorator decorates the actual
+navigation pane controls. Label is the actual control decoration on the navigation
+pane.
+</p><p>Navigation pane controls can be created at runtime, or from resource files,
+using the <span class="plainlinks"><code>NAVI_DECORATOR</code> </span> and <span class="plainlinks"><code>NAVI_LABEL</code> </span> resource
+headers.
+</p><p>Navigation Pane API can be used by any application that is designed to
+show information outside the view area of the application.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Navigation Pane API is an SDK API and part of S60 release 3.x.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of Navigation Pane API are:
+</p>
+<ul><li> Accessing the default navigation pane control
+</li><li> Creating navigation pane from resource with a label control
+</li><li> Manipulating decorator buttons
+</li><li> Observing decorator events
+</li><li> Using the navigation pane's control stack
+</li><li> Creating decorator dynamically from resource with a label control
+</li><li> Creating decorator  dynamically with a label control
+</li><li> Accessing decorator created from resource
+</li><li> Setting text of label control in decorator
+</li><li> Getting text of label control in decorator
+</li><li> Creating a decorator with a label in a single call
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAknNaviLabel <td><span class="plainlinks"><code>/epoc32/include/mw/aknnavilabel.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CAknNavigationControlContainer</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnavi.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknNavigationDecorator</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnavide.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknNaviDecoratorObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknNaviDecoratorObserver.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknNavigationContainerInterface</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnavi.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknNavigationDecoratorInterface</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/aknnavi.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknNavigationObserver</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknNaviObserver.h</code></span>
+</td></tr>
+<p>Navigation Pane API contains small number of classes providing functionality
+of the interface. The main classes are: <span class="plainlinks"><code>CAknNavigationControlContainer</code> </span>, <span class="plainlinks"><code>CAknNavigationDecorator</code> </span>, <span class="plainlinks"><code>CAknNaviLabel</code> </span>.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Navigation_Pane.png" title="Navigation Pane API"><img alt="Navigation Pane API" border="0" height="361" src="images/SPB_10_1_Navigation_Pane.png" width="545" /></a></div>
+<div style="text-align:center"><i>Navigation Pane API</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Navigation_pane"><h3> <span class="mw-headline">2.1 Navigation pane </span></h3>
+</a><p>Navigation pane consists of a navigation decorators, and a navigation decorator
+controls. The navigation pane decorator control can be a label, tab group,
+or volume control. The control inside the navigation pane can be accessed
+by the containing decorator.
+</p>
+<a name="Accessing_the_default_navigation_pane_control"><h4> <span class="mw-headline">2.1.1 Accessing the default navigation pane control </span></h4>
+</a><p>When using Navigation Pane API, the first step is to access a pointer to
+the application's status pane by calling the <span class="plainlinks"><code>CAknAppUi::StatusPane()</code> </span> method. <span class="plainlinks"><code>CAknAppUi</code> </span> is
+the base class of the application UI. After getting a pointer to the Status
+pane, the default pointer to the Navigation pane can be accessed. <span class="plainlinks"><code><font color="darkred">iNaviPane</font></code> </span> is
+a pointer to <span class="plainlinks"><code>CAknNavigationControlContainer</code> </span>.
+</p><p>The status pane layout is read from AVKON resources. The layout resource
+contains also information about the control that is put inside the sub panes.
+It depends on the status pane layout if <span class="plainlinks"><code>CAknNavigationControlContainer</code> </span> is
+available.
+</p>
+<pre>// Gets a pointer to the status pane
+CEikStatusPane* sp = StatusPane();
+</pre>
+<pre>// Fetch pointer to the default navi pane control
+iNaviPane = ( CAknNavigationControlContainer*)sp-&gt;ControlL(
+              TUid::Uid(EEikStatusPaneUidNavi));
+</pre>
+<a name="Creating_navigation_pane_from_resource_with_a_label_control"><h4> <span class="mw-headline">2.1.2 Creating navigation pane from resource with a label control </span></h4>
+</a><p>The first step of creating a navigation pane is to specify the status pane
+and the navigation pane decorator resources. Status pane's ID and type field
+values are defined in<i> avkon.hrh</i>. Decorator's resource type is defined
+as <span class="plainlinks"><code>ENaviDecoratorLabel</code> </span> since the decorator contains a label
+control.
+</p>
+<pre>RESOURCE EIK_APP_INFO
+    {
+    status_pane = r_app_status_pane;
+    }
+</pre>
+<pre>RESOURCE STATUS_PANE_APP_MODEL r_app_status_pane
+    {
+    panes=
+        {
+        SPANE_PANE
+            {
+            id = EEikStatusPaneUidNavi;
+            type = EAknCtNaviPane;
+            resource = r_navi_decorator;
+            }
+        };
+</pre>
+<pre>    }
+</pre>
+<pre>RESOURCE NAVI_DECORATOR r_navi_decorator
+    {
+    type = ENaviDecoratorLabel;
+    control = NAVI_LABEL
+        {
+        txt="label";
+        };
+    }
+</pre>
+<a name="Navigation_pane_decorator_buttons_and_events"><h3> <span class="mw-headline">2.2 Navigation pane decorator buttons and events </span></h3>
+</a><a name="Manipulating_decorator_buttons"><h4> <span class="mw-headline">2.2.1 Manipulating decorator buttons </span></h4>
+</a><p>Navigation pane buttons are shown as arrows at both ends of the navigation
+pane. Each button's dimness can be changed independently. Note that navigation
+pane buttons are not visible by default. <span class="plainlinks"><code>CAknNavigationDecorator::MakeScrollButtonVisible()</code> </span> must
+be called to display the two buttons in navigation pane. After setting the
+visibility, buttons can be dimmed by calling the <span class="plainlinks"><code>CAknNavigationDecorator::SetScrollButtonDimmed()</code> </span> method.
+</p>
+<pre>// Set the visibility of the buttons
+iDecorator-&gt;MakeScrollButtonVisible( ETrue );
+// Show the left arrow button
+iDecorator-&gt;SetScrollButtonDimmed(CAknNavigationDecorator::ELeftButton, EFalse);
+// Hide the right arrow button
+iDecorator-&gt;SetScrollButtonDimmed(CAknNavigationDecorator::ERightButton, ETrue);
+</pre>
+<a name="Observing_decorator_events"><h4> <span class="mw-headline">2.2.2 Observing decorator events </span></h4>
+</a><p>Decorator can send the <span class="plainlinks"><code>EAknNaviDecoratorEventRightTabArrow</code> </span>,
+and <span class="plainlinks"><code>EAknNaviDecoratorEventLeftTabArrow</code> </span> events to an observer
+object. To handle these events, an observer has to be registered to the decorator
+object. The object that observes decorator events, must derive from the class <span class="plainlinks"><code>MAknNaviDecoratorObserver</code> </span> and
+must implement the <span class="plainlinks"><code><font color="darkred">HandleNaviDecoratorEventL()</font></code> </span> method, which
+will get the decorator's pointer events.
+</p><p>In the example, <span class="plainlinks"><code>CMyAppUi</code> </span> observes the decorator events.
+</p>
+<pre>class CMyAppUi : public CAknViewAppUi, MAknNaviDecoratorObserver
+     {
+     &#8230;
+     // From MAknNaviDecoratorObserver
+     void HandleNaviDecoratorEventL( TInt aEventID );
+     &#8230;
+     };
+</pre>
+<p>Register this object to decorator, so the object receives events. <span class="plainlinks"><code><font color="darkred">iDecorator</font></code> </span> is
+a  pointer to <span class="plainlinks"><code>CAknNavigationDecorator</code> </span>.
+</p>
+<pre>void CMyAppUi::Construct()
+     {
+     &#8230;
+     // Access status pane
+     CEikStatusPane* sp = StatusPane();
+     // Get a pointer to navi pane
+     iNaviPane = (CAknNavigationControlContainer*)sp-&gt;ControlL(
+        TUid::Uid(EEikStatusPaneUidNavi));
+     // Get a pointer to the decorator created from resource
+     iDecorator = iNaviPane-&gt;ResourceDecorator();
+     // Register this object as an observer of decorator
+     iDecorator-&gt;SetNaviDecoratorObserver( this );
+     &#8230;
+     }
+</pre>
+<p><span class="plainlinks"><code><font color="darkred">HandleNaviDecoratorEventL()</font></code> </span> now can receive decorator
+events.
+</p>
+<pre>void CMyAppUi::HandleNaviDecoratorEventL( TInt aEventID )
+     {
+     if ( aEventID == EAknNaviDecoratorEventRightTabArrow )
+          {
+          // Do Event handling code here&#8230;
+          }
+     else if (aEventID == EAknNaviDecoratorEventRightTabArrow )
+          {
+          // Do Event handling code here&#8230;
+          }
+     }
+</pre>
+<a name="Using_navigation_pane.27s_control_stack"><h3> <span class="mw-headline">2.3 Using navigation pane's control stack </span></h3>
+</a><p>To make navigation pane decorators visible on navigation pane, decorator
+objects must be put on the navigation pane's control stack. The topmost object
+on the navigation pane control stack is shown in the pane. The decorators
+can be popped, replaced, and pushed to the stack. If the same decorator is
+pushed to the stack, and the same decorator was already on the stack, then
+that decorator becomes the topmost object on the stack, and is shown in the
+pane. In the following example <span class="plainlinks"><code><font color="darkred">iDecorator1</font></code> </span>, <span class="plainlinks"><code><font color="darkred">iDecorator2</font></code> </span>, <span class="plainlinks"><code><font color="darkred">iDecorator3</font></code> </span> are
+pointers to <span class="plainlinks"><code>CAknNavigationDecorator</code> </span>.
+</p>
+<pre>// Two different decorators are pushed to the control stack
+// iDecorator2 will be shown on the navigation pane
+iNaviPane-&gt;PushL( *iDecorator1 );
+iNaviPane-&gt;PushL( *iDecorator2 );
+</pre>
+<pre>// Pushing iDecorator1 again
+// iDecorator1 will be shown on the navigation pane
+iNaviPane-&gt;PushL( *iDecorator1 );
+</pre>
+<pre>// Pop the topmost opject from the stack ( *iDecorator1 )
+// iDecorator2 will be shown on the navigation pane
+iNaviPane-&gt;Pop( iDecorator1 );
+</pre>
+<pre>// Replace iDecorator2 with iDecorator3
+// iDecorator3 will be shown on the navigation pane
+iNaviPane-&gt;ReplaceL( *iDecorator2, *iDecorator3 );
+</pre>
+<a name="Navigation_pane_decorator_and_label_control"><h3> <span class="mw-headline">2.4 Navigation pane decorator and label control </span></h3>
+</a><a name="Creating_decorator_dynamically_from_resource_with_a_label_control"><h4> <span class="mw-headline">2.4.1 Creating decorator dynamically from resource with a label control </span></h4>
+</a><p>Create navigation pane decorator in resource file.
+</p>
+<pre>RESOURCE NAVI_DECORATOR r_navi_decorator_a
+    {
+    type = ENaviDecoratorLabel;
+    control = NAVI_LABEL
+        {
+        txt="label_a";
+        };
+    }
+</pre>
+<p>A navigation pane decorator resource identifier is passed to <span class="plainlinks"><code>CAknNavigationControlContainer::ConstructNavigationDecoratorFromResourceL()</code> </span>.
+</p><p>In the following example <span class="plainlinks"><code><font color="darkred">iDecorator</font></code> </span> is a pointer to <span class="plainlinks"><code>CAknNavigationDecorator</code> </span>.
+This way multiple navigation pane decorators can be defined in the resource
+file, which later can be used to create navigation pane decorator controls.
+Navigation pane decorators visibility can be changed using the navigation
+pane's control stack. See [Navigation_Pane_API_Specification.topic3.3 Using navigation pane's control stack].
+</p>
+<pre>TResourceReader reader;
+</pre>
+<pre>// Read the resource
+iEikonEnv-&gt;CreateResourceReaderLC( reader, R_NAVI_DECORATOR_A );
+</pre>
+<pre>// Construct the decorator from resource
+iDecorator = iNaviPane-&gt;ConstructNavigationDecoratorFromResourceL( reader );
+// Destroy the object that was put on CleanupStack by
+// CreateResourceReaderLC()
+CleanupStack::PopAndDestroy();
+</pre>
+<a name="Creating_decorator_dynamically_with_a_label_control"><h4> <span class="mw-headline">2.4.2 Creating decorator dynamically with a label control </span></h4>
+</a><p>Navigation pane decorator objects can also be created dynamically. First
+a label object must be created, that later is added to the navigation decorator
+object. In the example below <span class="plainlinks"><code><font color="darkred">iNaviLabel</font></code> </span> is a pointer to <span class="plainlinks"><code>CAknNaviLabel</code> </span>.
+</p>
+<pre>// Create the label object
+iNaviLabel = new( ELeave ) CAknNaviLabel;
+// Set label type and label text
+iNaviLabel-&gt;SetNaviLabelType( CAknNaviLabel:: ENavigationLabel);
+iNaviLabel-&gt;SetTextL( _L( "label" ) );
+</pre>
+<pre>// Create the decorator object with the label
+iDecorator = CAknNavigationDecorator::NewL( iNaviPane, iNaviLabel, CAknNavigationDecorator::ENaviLabel );
+</pre>
+<a name="Accessing_decorator_created_from_resource"><h4> <span class="mw-headline">2.4.3 Accessing decorator created from resource </span></h4>
+</a><p>This example shows how to get the decorator object that was constructed
+from resources as described in the [Navigation_Pane_API3.html API description]. <span class="plainlinks"><code><font color="darkred">iDecorator</font></code> </span> is a pointer to <span class="plainlinks"><code>CAknNavigationDecorator</code> </span>.
+Subsequent calling attempts return NULL.
+</p>
+<pre>// Get the decorator constructed from resource
+iDecorator = iNaviPane-&gt;ResourceDecorator();
+</pre>
+<a name="Setting_text_of_label_control_in_decorator"><h4> <span class="mw-headline">2.4.4 Setting text of label control in decorator </span></h4>
+</a><p>It is very simple to change the text of the label control.
+</p>
+<pre>// Setting the new text of the label
+iNaviLabel-&gt;SetTextL( _L( "new label" ) );
+</pre>
+<p>This example shows how to change the label if the navigation pane was constructed
+from resource.
+</p>
+<pre>// Get the decorator constructed from resource
+iDecorator = iNaviPane-&gt;ResourceDecorator();
+// Getting the control from the decorator object
+iNaviLabel = ( CAknNaviLabel* )iDecorator-&gt;DecoratedControl();
+// Change text
+iNaviLabel-&gt;SetTextL( _L( "new label" ) );
+</pre>
+<a name="Getting_text_of_label_control_in_decorator"><h4> <span class="mw-headline">2.4.5 Getting text of label control in decorator </span></h4>
+</a><p>In this example the text of the label is displayed as an info message.
+</p>
+<pre>// Label text as info message
+CEikonEnv::Static()-&gt;InfoMsg( *iNaviLabel-&gt;Text() );
+</pre>
+<a name="Creating_a_decorator_with_a_label_in_a_single_call"><h4> <span class="mw-headline">2.4.6 Creating a decorator with a label in a single call </span></h4>
+</a><p>Decorator and the required label control can be created easily with this
+function. The method <span class="plainlinks"><code>CAknNavigationControlContainer::CreateNavigationLabelL()</code> </span> creates
+a decorator and a label object in a single call. For creating and using tab
+group controls, see the <a href="sf_mw_classicui_classicui_pub_tabs_api.html" title="sf_mw_classicui_classicui_pub_tabs_api.html">Tabs API</a> documentation.
+</p>
+<pre>// Create the decorator and the label control
+iDecorator = iNaviPane-&gt;CreateNavigationLabelL( _L("label") );
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.5 Error handling </span></h3>
+</a><p>Navigation Pane API uses standard Symbian OS error reporting mechanism.
+Possible panic circumstances and panic codes are indicated in class or method
+descriptions.
+</p><p>Leaves and system wide error codes as function return values are used if
+the error is recoverable. A client application can handle these errors similarly
+as a normal Symbian platform application.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.6 Memory and Performance Considerations </span></h3>
+</a><p>The amount of reserved memory for application owned navigation pane controls
+depend on the application, but despite the application the amount of reserved
+memory is relatively small.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Navigation Pane API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> AVKON</td><td> S60 extensions and modifications to Uikon and other parts of the Symbian
+<p>OS application framework.
+</p>
+</td></tr></table>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Navigation Pane API definitions</b>
+</caption>
+<tr>
+<td> Navigation pane</td><td> Display information about the current state and view, and
+<p>to help the user navigate in the application.
+</p>
+</td></tr>
+<tr>
+<td> Decorator</td><td> Decorator contains navigation pane controls.
+</td></tr>
+<tr>
+<td> Control stack</td><td> Control stack holds decorator object. The topmost decorator is displayed
+<p>on the navigation pane.
+</p>
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_navigation_pane_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:21 GMT -->
+</html>

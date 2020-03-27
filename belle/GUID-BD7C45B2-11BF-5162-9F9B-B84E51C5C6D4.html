@@ -1,0 +1,153 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-BD7C45B2-11BF-5162-9F9B-B84E51C5C6D4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:23 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Embeddable Applications" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58CA15F8-D984-5D07-8C00-161FA16A8FD3" /><meta name="DC.Relation" scheme="URI" content="GUID-1578590A-FC00-5C3B-8BF9-F6E43CA9D9A0" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E19490-4179-548F-9DA8-9AE637FAC9E2" /><meta name="DC.Relation" scheme="URI" content="GUID-C4CC3CA3-8C02-5F73-A482-4F849DD08111" /><meta name="DC.Relation" scheme="URI" content="GUID-3CAD7211-2164-5F93-9EA7-7167E1C14012" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-BD7C45B2-11BF-5162-9F9B-B84E51C5C6D4" /><meta name="DC.Language" content="en" /><title>Embeddable Applications </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-BD7C45B2-11BF-5162-9F9B-B84E51C5C6D4">Embeddable Applications</h1><div>
+<div id="GUID-4CE56897-FEB9-523F-843A-E5BAFFDBBCDB"><h3 class="section-title">Procedure</h3> <p>Embeddable applications are implemented as ECom plug-ins. The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html"><code class="apiname">CApaApplication</code></a> class defines the interface, and the majority
+of an application's code will be in the ECom plug-in. To allow an
+embeddable application to run as a standalone application a small
+EXE also needs to be created which calls the <code class="codeph">EikStart::RunApplication()</code> function, but this time specifying the UID of the ECom plug-in rather
+than a pointer to the factory function. </p> <p>This section describes
+the steps for converting an existing embeddable application to an
+ECom plug-in and executable. </p> <p id="GUID-D3711552-3728-592E-9244-4A94D17B430D"><a name="GUID-D3711552-3728-592E-9244-4A94D17B430D"><!-- --></a><strong>Creating the ECom
+plug-in</strong> </p> <p>The MMP file of the embeddable application needs
+to be changed to create an ECom plug-in instead of a DLL application,
+using the following lines: </p> <pre class="codeblock">TARGET Example_embedded.dll 
+TARGETTYPE PLUGIN 
+UID 0x10009d8d 0x01010101</pre> <p>where <code class="codeph">0x01010101</code> is a newly allocated UID, not the application's original UID - this
+is used elsewhere, see below. </p> <p>The MMP file also needs to create
+the ECom plug-in resource, and the original resource line needs to
+be modified so the application resource file(s) are created in the
+correct directory. </p> <pre class="codeblock">START RESOURCE 01010101.rss 
+#ifdef SYMBIAN_SECURE_ECOM 
+TARGET Example_embedded.rsc 
+#endif 
+END 
+
+START RESOURCE Example.rss 
+HEADER 
+TARGETPATH \resource\apps 
+LANG SC
+END</pre> <p>The <code>01010101.rss</code> ECom plug-in
+resource file uses the standard format for ECom plug-ins, where the
+interface definition UID for <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C0297A58-2E39-3211-A2B4-C334192CE2A7.html"><code class="apiname">CApaApplication</code></a> s
+is: </p> <pre class="codeblock">const TUid KUidFileEmbeddedApplicationInterfaceUid={0x101f8c96};</pre> <p>The implementation UID should be the application's original UID
+(<code class="codeph">0x01234567</code> in the example below), and therefore
+the file should look like this: </p> <pre class="codeblock">#include &lt;RegistryInfo.rh&gt; 
+RESOURCE REGISTRY_INFO
+    {
+    dll_uid = 0x01010101; 
+    interfaces =
+        {
+        INTERFACE_INFO
+            {
+            interface_uid=0x101f8c96;
+            implementations=
+                {
+                IMPLEMENTATION_INFO
+                    {
+                    implementation_uid=0x01234567;
+                    version_no=1;
+                    }
+                };
+            }
+        };
+    }</pre> <p> <code> ECom.lib</code> should be included
+in the library section in the MMP file. </p> <p>The AIF section is
+not needed as the application information is now provided by the registration
+file, localizable resource file and icon file. A registration file
+should be provided to inform the framework about the embeddable capability
+of the plug-in. This can be achieved by setting the ‘embeddability'
+flag in <code class="codeph">APP_REGISTRATION_INFO</code> structure. If a stub
+EXE is provided to start the ECom plug-in, set the embeddability flag
+to <code class="codeph">KAppEmbeddable</code>, otherwise set <code class="codeph">KAppEmbeddableOnly</code>. For more information about the registration file please refer to
+the <a href="GUID-D8302B04-D850-5FA7-A1AD-F5C40CF6A1EF.html">How to
+port guide - data caged applications</a> document. </p> <p>The
+code for the application should no longer export the <code class="codeph">NewApplication()</code> function at ordinal 1, but instead the function which informs the
+ECom framework of the implementations this ECom plug-in provides (as
+is standard for an ECom plug-in). This is demonstrated by the following
+code: </p> <pre class="codeblock">#include "ExampleApp.h" 
+#include &lt;ecom.h&gt; 
+#include &lt;implementationproxy.h&gt; 
+GLDEF_C TInt E32Dll(TDllReason)
+    {
+    return KErrNone;
+    }
+
+LOCAL_C CApaApplication* NewApplication()
+    {
+    return new CExampleApplication;
+    }
+
+LOCAL_D const TImplementationProxy ImplementationTable[]= 
+    { 
+    IMPLEMENTATION_PROXY_ENTRY(0x01234567, NewApplication)
+    };
+EXPORT_C const TImplementationProxy* ImplementationGroupProxy(TInt&amp; aTableCount) 
+    { 
+    aTableCount=sizeof(ImplementationTable)/sizeof(ImplementationTable[0]);
+    return ImplementationTable; 
+    }</pre> <p id="GUID-F2901432-ED44-576A-B081-D3AF916C9A93"><a name="GUID-F2901432-ED44-576A-B081-D3AF916C9A93"><!-- --></a><strong>Creating the standalone EXE for the application</strong> </p> <p>The
+MMP file for the standalone EXE should create an EXE-app (as described
+in the section above) and the EXE should have the application's UID
+as its third UID. The AIF file should be replaced by a registration
+file. The registration file is used to inform the framework that the
+application is capable of being embedded by setting <code class="codeph">KAppEmbeddable</code> in the ‘embeddability' field of the <code class="codeph">APP_REGISTRATION_INFO</code> structure. </p> <pre class="codeblock">#if !defined(EKA2) &amp;&amp; defined(WINS)
+TARGET Example.app 
+TARGETTYPE exedll 
+deffile \epoc32\release\wins\exedllapp.def 
+#else 
+TARGET Example.exe 
+TARGETTYPE exe 
+#endif 
+UID 0x100039CE 0x01234567 
+TARGETPATH \sys\bin 
+EPOCSTACKSIZE 0x5000 
+SOURCEPATH . 
+SOURCE Example_Standalone.cpp 
+USERINCLUDE . 
+SYSTEMINCLUDE \epoc32\include
+
+// Application exe registration resource file 
+start resource     Example_reg.rss 
+targetpath     \private\10003a3f\apps 
+lang        sc 
+end
+
+LIBRARY euser.lib apparc.lib eikcore.lib</pre> <p>The executable
+need only be a 'stub' to start the application architecture with the
+ECom UID. Therefore the single source file should contain code similar
+to the following: </p> <pre class="codeblock">#include &lt;e32std.h&gt; 
+#include &lt;eikstart.h&gt;
+
+const TUid KExampleUid = {0x01234567}; 
+GLDEF_C TInt E32Main()
+    {
+    return EikStart::RunApplication(KExampleUid);
+    } 
+#if defined(__WINS__) &amp;&amp; !defined(EKA2) 
+GLDEF_C TInt E32Dll(TDllReason)
+    {
+    return KErrNone;
+    } 
+EXPORT_C TInt WinsMain(TDesC* aCmdLine)
+    {
+    return EikStart::RunApplication(KExampleUid, aCmdLine);
+    } 
+#endif</pre> <p>Finally, the <code>bld.inf</code> for
+the application needs to be modified to build both MMP files, for
+example: </p> <pre class="codeblock">PRJ_MMPFILES 
+Example_embedded.MMP 
+Example_standalone.MMP</pre> <p id="GUID-C75A516F-B0BA-5E5C-8C86-2A4FBA9C3034"><a name="GUID-C75A516F-B0BA-5E5C-8C86-2A4FBA9C3034"><!-- --></a><strong>Embedding a new-style
+application in an existing application</strong> </p> <p>To add a new document
+to an application, an overload of <code class="codeph">CApaProcess::AddNewDocumentL()</code> has been created which can accept an ECom UID or an ECom CImplementationInformation reference. However, the existing
+overload of <code class="codeph">AddNewDocumentL()</code> handles the case where
+the application for the document is an EXE, and attempts to find an
+ECom plug-in with the correct UID to create the embedded application.
+Therefore, existing applications (which perhaps offer a list of available
+embeddable applications to the user) do not need to be modified. Also,
+the internalizing and externalizing of embedded documents (through <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-F9CF2D9A-DF57-3603-896F-E2D5A2AE7481.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-F9CF2D9A-DF57-3603-896F-E2D5A2AE7481.html"><code class="apiname">CApaDoor</code></a>) works with no modifications necessary. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-BD7C45B2-11BF-5162-9F9B-B84E51C5C6D4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:23 GMT -->
+</html>

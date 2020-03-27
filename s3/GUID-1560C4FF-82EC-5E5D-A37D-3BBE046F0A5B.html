@@ -1,0 +1,81 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1560C4FF-82EC-5E5D-A37D-3BBE046F0A5B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Target Types" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-2016EF4B-F001-5EB2-8095-6048582511D6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-1560C4FF-82EC-5E5D-A37D-3BBE046F0A5B" /><meta name="DC.Language" content="en" /><title>Target
+Types </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-1560C4FF-82EC-5E5D-A37D-3BBE046F0A5B">Target
+Types</h1><div>
+<ul>
+<li id="GUID-2254E482-D730-5661-9878-6B90F17977F4"><a name="GUID-2254E482-D730-5661-9878-6B90F17977F4"><!-- --></a><p><a href="#GUID-5D0338E0-E2D4-5904-9B21-244CA52DD91B">Generation of STDEXE, STDDLL and STDLIB</a> </p> </li>
+<li id="GUID-F57FF724-6A83-5746-B85E-7548B8BD911A"><a name="GUID-F57FF724-6A83-5746-B85E-7548B8BD911A"><!-- --></a><p><a href="#GUID-801FC48D-BCE4-51A1-8D27-F66505A6C6AA">WCHARENTRYPOINT - new keyword</a> </p> </li>
+<li id="GUID-D9117869-204F-51ED-8E40-F6D5F4D5889B"><a name="GUID-D9117869-204F-51ED-8E40-F6D5F4D5889B"><!-- --></a><p><a href="#GUID-21D63C00-362C-50AE-BCAF-65572BF23F5E">External functions and symbols exported by default</a> </p> </li>
+</ul>
+<div id="GUID-5D0338E0-E2D4-5904-9B21-244CA52DD91B"><h3 class="section-title">Generation
+of STDEXE, STDDLL and STDLIB</h3> <p>The introduction of two new Symbian
+platform target types, <code class="codeph">STDEXE</code> and <code class="codeph">STDDLL</code>,
+was required to enable the specific options for compilers and linkers to generate
+P.I.P.S. executables. </p> <p>P.I.P.S. executables are implemented using native
+Symbian platform executables linked statically to the glue code. The target
+types <code class="codeph">STDEXE</code> and <code class="codeph">STDDLL</code> make symbol information
+available for lookup by name. </p> <p>For each new target type the following
+library files, system files and include paths are included <em>by default</em>.
+The table below shows the additional libraries and paths for the new target
+types. </p> <div class="tablenoborder"><a name="GUID-8C82882E-0F2A-5CD0-B318-04FD5FC88A01"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-8C82882E-0F2A-5CD0-B318-04FD5FC88A01" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <strong>Target Type</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>File/Path</strong> </p> </td>
+<td class="cellrowborder" valign="top"><p> <strong>Purpose</strong> </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">STDEXE</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code>libcrt0.lib</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Multithreaded 'glue code' library. Provides the E32Main() entry
+point for a <code>.exe</code> that uses the char main() function. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">STDEXE</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code>libwcrt0.lib</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Multithreaded 'glue code' library. Provides the <code class="codeph">E32Main()</code> entry
+point for a <code>.exe</code> that uses the wide char <code class="codeph">main()</code> function. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">STDEXE</code> | <code class="codeph">STDDLL</code> | <code class="codeph">STDLIB</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code>euser.lib</code>, <code>backend.lib</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Fundamental libraries that are linked by default for <code class="codeph">STDEXE</code> s
+and <code class="codeph">STDDLL</code> s. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p> <code class="codeph">STDEXE</code> | <code class="codeph">STDDLL</code> | <code class="codeph">STDLIB</code> </p> </td>
+<td class="cellrowborder" valign="top"><p> <code>\epoc32\include\stdapis</code> </p> </td>
+<td class="cellrowborder" valign="top"><p>Location of standard header files for P.I.P.S.. </p> </td>
+</tr>
+</tbody>
+</table></div> <p>The new target types for P.I.P.S. are <code class="codeph">STDEXE</code>, <code class="codeph">STDDLL</code> and <code class="codeph">STDLIB</code> (<code class="codeph">STDLIB</code> s are the P.I.P.S. static libraries). For <code class="codeph">STDLIB</code> s, the
+user need not annotate source with EXPORT_C or IMPORT_C.
+All symbols with <code class="codeph">extern</code> linkage are: </p> <ol id="GUID-9D6A6BB0-C2DC-50F5-B5D4-97CBD381D10A">
+<li id="GUID-7828C346-6ED2-5B6A-B89D-12D988FED39E"><a name="GUID-7828C346-6ED2-5B6A-B89D-12D988FED39E"><!-- --></a><p>exported if they are
+defined in the module, and </p> </li>
+<li id="GUID-42BFE700-719A-5DE9-8732-30E82DBAE304"><a name="GUID-42BFE700-719A-5DE9-8732-30E82DBAE304"><!-- --></a><p>imported if they are
+referred to but not defined. </p> </li>
+</ol> <p>The compiler marks the symbols imported/exported for <code class="codeph">STDLIB</code> s,
+while for native Static Libraries the user explicitly needs to specify <code class="codeph">EXPORT_C</code> /<code class="codeph">IMPORT_C</code>. </p> </div>
+<div id="GUID-801FC48D-BCE4-51A1-8D27-F66505A6C6AA"><h3 class="section-title">WCHARENTRYPOINT
+- new keyword</h3> <p>The user should include the new keyword <code class="codeph">WCHARENTRYPOINT</code> in
+MMP files to select the <a href="GUID-6CDDDD1E-BDB9-5C61-8EFD-8B3369F5A12D.html#GUID-49C7F951-8317-5F41-B1B9-9F7B8803E655">Glue
+code (CRT0)</a> library for the wide char main entry point, <code>libwcrt0.lib</code>.
+This option is valid only for the <code class="codeph">STDEXE</code> target type and
+will be ignored if used with other target types. </p> </div>
+<div id="GUID-21D63C00-362C-50AE-BCAF-65572BF23F5E"><h3 class="section-title">External functions
+and symbols exported by default </h3> <p>With a <code class="codeph">STDDLL</code> library,
+functions and data with external linkage are exported by default, without
+any requirement for the IMPORT_C and EXPORT_C declarations
+in header or source files. It is important to note that in the Linux world
+all symbols with external linkage are visible outside a shared object. </p> <p>When
+porting C APIs to the Symbian platform, the user should use the
+new <code class="codeph">STDDLL</code> target type to indicate to the tool chain that
+all functions and global data should be exported. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 28th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-1560C4FF-82EC-5E5D-A37D-3BBE046F0A5B.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:01:34 GMT -->
+</html>

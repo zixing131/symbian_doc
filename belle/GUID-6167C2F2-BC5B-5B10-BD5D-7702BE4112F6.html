@@ -1,0 +1,60 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-6167C2F2-BC5B-5B10-BD5D-7702BE4112F6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:34 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="View Server Tutorial" /><meta name="DC.Relation" scheme="URI" content="GUID-830E40D0-7DEE-5EFB-BCC6-EC0AA7FF7A02" /><meta name="DC.Relation" scheme="URI" content="GUID-37E8A48E-09B8-5958-9263-B33EDAE3F7C6" /><meta name="DC.Relation" scheme="URI" content="GUID-2D6689C2-F17D-48A8-8EC9-3D83BCAA3681" /><meta name="DC.Relation" scheme="URI" content="GUID-6FD4E7A4-D215-4CFB-BC7A-23065DE95C5C" /><meta name="DC.Relation" scheme="URI" content="GUID-4ADDDAFE-0941-4787-B07B-F5B7D8D5B1AA" /><meta name="DC.Relation" scheme="URI" content="GUID-A399508A-DE6A-490D-9BFB-4FCF56FF9D4C" /><meta name="DC.Relation" scheme="URI" content="GUID-13D2B45C-3A2A-497A-8D6A-87BE34D1DE69" /><meta name="DC.Relation" scheme="URI" content="GUID-940E3C48-D0ED-419A-9172-E4856C6CA809" /><meta name="DC.Relation" scheme="URI" content="GUID-210A181E-5EB6-4626-9E7E-8761A2272D79" /><meta name="DC.Relation" scheme="URI" content="GUID-AC6FCBB0-E4FD-4D30-B000-1F652B2EE96A" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58CA15F8-D984-5D07-8C00-161FA16A8FD3" /><meta name="DC.Relation" scheme="URI" content="GUID-D468BDDD-FC61-5571-A4E2-334B6BB9C1E3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-6167C2F2-BC5B-5B10-BD5D-7702BE4112F6" /><meta name="DC.Language" content="en" /><title>View
+Server Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-6167C2F2-BC5B-5B10-BD5D-7702BE4112F6">View
+Server Tutorial</h1><div>
+<p>The UI Control Framework <a href="GUID-6C16417B-5B37-5310-B59A-750D971AA6D4.html">(CONE)</a> provides <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3AC2CDAC-0291-309F-A020-049BC9F2CF90.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3AC2CDAC-0291-309F-A020-049BC9F2CF90.html"><code class="apiname">CCoeAppUi</code></a> that
+provides an interface to the View Server, which enables seamless switching
+between different views across various applications. </p>
+<div><h3 class="section-title">Introduction</h3> <p>The UI framework built on Cone/uikon
+can make a choice to use the View Server. </p> <p>The view architecture allows
+applications to make and receive requests to show a particular view of their
+data. It allows applications to have integration between their user interfaces.
+This particularly allows the user to navigate through the UI on the basis
+of the task they are working on, rather than perceiving separate applications.
+For example, an application provides a view of a given Contact, any other
+application may display a contact using that view. </p> <p>Views are UI controls
+that are derived from the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2C5E3F6C-6679-3914-9736-62296E7715A7.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2C5E3F6C-6679-3914-9736-62296E7715A7.html"><code class="apiname">MCoeView</code></a> abstract view interface
+and display application data. Typically views are top-level window-owning
+controls. Each view is given a unique identifier of type <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3DEA9A17-CB50-3DCD-87AC-0E91B377FB0E.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3DEA9A17-CB50-3DCD-87AC-0E91B377FB0E.html"><code class="apiname">TVwsViewId</code></a>. <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3DEA9A17-CB50-3DCD-87AC-0E91B377FB0E.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-3DEA9A17-CB50-3DCD-87AC-0E91B377FB0E.html"><code class="apiname">TVwsViewId</code></a> is
+a combination of the UID of the application and the UID of the view within
+the application. An application participating in the view switching must complete
+the steps given in the procedure section.</p> </div>
+<div><h3 class="section-title">Procedure</h3> <ol id="GUID-5DC514F9-9040-5D61-BC2C-FE04BA11B51C">
+<li id="GUID-1696E5F0-DB4A-5F40-B6E8-810FA93DC5A5"><a name="GUID-1696E5F0-DB4A-5F40-B6E8-810FA93DC5A5"><!-- --></a><p><a href="GUID-AC6FCBB0-E4FD-4D30-B000-1F652B2EE96A.html">Create
+an instance of <code class="apiname">CCoeAppUi</code></a> </p> </li>
+<li id="GUID-441C5876-D063-568F-A814-B85464DBCE27"><a name="GUID-441C5876-D063-568F-A814-B85464DBCE27"><!-- --></a><p><a href="GUID-13D2B45C-3A2A-497A-8D6A-87BE34D1DE69.html">Implement
+the observer functions to get notification on events, if required.</a> </p> </li>
+<li id="GUID-32128AF4-8773-5105-B5C0-490668AB08C4"><a name="GUID-32128AF4-8773-5105-B5C0-490668AB08C4"><!-- --></a><p><a href="GUID-A399508A-DE6A-490D-9BFB-4FCF56FF9D4C.html">Derive
+a class from the <code class="apiname">MCoeView</code> class.</a> </p> </li>
+<li id="GUID-C95EBECB-3503-5BB6-B0CC-8964C76074A8"><a name="GUID-C95EBECB-3503-5BB6-B0CC-8964C76074A8"><!-- --></a><p><a href="GUID-6FD4E7A4-D215-4CFB-BC7A-23065DE95C5C.html">Add
+the view to the control stack to receive key events.</a> </p> </li>
+<li id="GUID-9996BF57-3220-5D74-B7A1-5CD56D63F905"><a name="GUID-9996BF57-3220-5D74-B7A1-5CD56D63F905"><!-- --></a><p><a href="GUID-940E3C48-D0ED-419A-9172-E4856C6CA809.html">Register
+the view with the View Server. </a></p> </li>
+<li id="GUID-C571AF24-46FA-517C-A765-1745973FE8DF"><a name="GUID-C571AF24-46FA-517C-A765-1745973FE8DF"><!-- --></a><p>Perform one or more
+of the following tasks: </p> <ol type="a" id="GUID-A24F5604-C2CF-52DF-BDD4-BF4FDB36325B">
+<li id="GUID-63CFD000-82CB-5842-9AF4-05FA34C0E24C"><a name="GUID-63CFD000-82CB-5842-9AF4-05FA34C0E24C"><!-- --></a><p><a href="GUID-2D6689C2-F17D-48A8-8EC9-3D83BCAA3681.html">Activate
+a view through the client session.</a> </p> <p>If the view which has to
+be activated is not registered with the server when an activation request
+arrives, the view server starts the application associated with that view. </p> </li>
+<li id="GUID-18668608-892D-57CF-9619-B5D141E5AA37"><a name="GUID-18668608-892D-57CF-9619-B5D141E5AA37"><!-- --></a><p><a href="GUID-210A181E-5EB6-4626-9E7E-8761A2272D79.html">Set
+a view as a default view.</a> </p> </li>
+<li id="GUID-6A1FBF71-8F52-58C2-AEFA-FC4ED601CDD1"><a name="GUID-6A1FBF71-8F52-58C2-AEFA-FC4ED601CDD1"><!-- --></a><p><a href="GUID-4ADDDAFE-0941-4787-B07B-F5B7D8D5B1AA.html">Deregister
+a view</a>, if required. </p> </li>
+</ol> </li>
+</ol> </div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-2D6689C2-F17D-48A8-8EC9-3D83BCAA3681.html">Activate
+a view</a></li><li class="ulchildlink"><a href="GUID-6FD4E7A4-D215-4CFB-BC7A-23065DE95C5C.html">Add
+a view to the control stack</a></li><li class="ulchildlink"><a href="GUID-4ADDDAFE-0941-4787-B07B-F5B7D8D5B1AA.html">Deregister
+a view</a></li><li class="ulchildlink"><a href="GUID-A399508A-DE6A-490D-9BFB-4FCF56FF9D4C.html">Derive
+a class from the MCoeView class</a></li><li class="ulchildlink"><a href="GUID-13D2B45C-3A2A-497A-8D6A-87BE34D1DE69.html">Implement
+the observer functions</a></li><li class="ulchildlink"><a href="GUID-940E3C48-D0ED-419A-9172-E4856C6CA809.html">Register
+a view with the View Server</a></li><li class="ulchildlink"><a href="GUID-210A181E-5EB6-4626-9E7E-8761A2272D79.html">Set
+a view as a default view</a></li><li class="ulchildlink"><a href="GUID-AC6FCBB0-E4FD-4D30-B000-1F652B2EE96A.html">Create
+an instance of CCoeAppUi</a></li></ul><h3>Related concepts</h3><ul><li><a href="GUID-830E40D0-7DEE-5EFB-BCC6-EC0AA7FF7A02.html">View Server
+Overview</a></li><li><a href="GUID-37E8A48E-09B8-5958-9263-B33EDAE3F7C6.html">Control Stack</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 14th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-6167C2F2-BC5B-5B10-BD5D-7702BE4112F6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:34 GMT -->
+</html>

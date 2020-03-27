@@ -1,0 +1,152 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-EF69E74F-7EDA-4E10-954A-DA9D74FB9017.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:16:22 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Reading NDEF Messages" /><meta name="abstract" content="This tutorial describes how to read NDEF messages using the NFC Discovery API. This API provides access to NFC tags based on the NFC tag type or the NDEF message type. The NDEF messages are then read from NFC tags." /><meta name="description" content="This tutorial describes how to read NDEF messages using the NFC Discovery API. This API provides access to NFC tags based on the NFC tag type or the NDEF message type. The NDEF messages are then read from NFC tags." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-EF69E74F-7EDA-4E10-954A-DA9D74FB9017" /><meta name="DC.Language" content="en" /><title>Reading NDEF Messages </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-EF69E74F-7EDA-4E10-954A-DA9D74FB9017">Reading NDEF Messages</h1><div><p>This tutorial describes how to read NDEF messages using
+the NFC Discovery API. This API provides access to NFC tags based
+on the NFC tag type or the NDEF message type. The NDEF messages are
+then read from NFC tags.</p>
+<div id="GUID-76940608-EA37-48CB-BBCD-974E255E6B66"><h3 class="section-title">Prerequisites</h3><div class="p">Before you
+begin, refer to the following header files:<ul>
+<li><p><code>nfcserver.h</code></p></li>
+<li><p><code>ndefmessagelistener.h</code> </p></li>
+<li><p><code>ndefdiscovery.h</code> </p></li>
+<li><p><code>ndefmessage.h</code></p></li>
+</ul></div></div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-71D91117-B68C-4F58-81A3-45F51F7657D3"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-71D91117-B68C-4F58-81A3-45F51F7657D3"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-71D91117-B68C-4F58-81A3-45F51F7657D3"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-71D91117-B68C-4F58-81A3-45F51F7657D3"><!-- --></a><p>Create a
+class that inherits the <code class="codeph">MNdefMessageListener</code> and <code class="codeph">CBase</code> classes.</p>
+</li>
+<li id="GUID-04F0A699-1099-44A7-830C-38E2537803CF"><a name="GUID-04F0A699-1099-44A7-830C-38E2537803CF"><!-- --></a><p>Add an <code class="codeph">MNdefMessageListener</code> object to listen to the received NDEF-message
+actions using the <code class="codeph">CNdefDiscovery::AddNdefMessageListener()</code> method.</p>
+<pre class="codeblock">CActiveScheduler* iScheduler = new( ELeave ) CActiveScheduler();
+CActiveScheduler::Install( iScheduler );
+RNfcServer iNfcServer;
+iNfcServer.Open();
+CNdefDiscovery* iNdefDiscovery = CNdefDiscovery::NewL( iNfcServer );
+iNdefDiscovery-&gt;AddNdefMessageListener( *this );</pre>
+</li>
+<li id="GUID-55742F9E-E8F9-471A-91F5-A9B80F960BAA"><a name="GUID-55742F9E-E8F9-471A-91F5-A9B80F960BAA"><!-- --></a><p>Subscribe
+NDEF messages to the NFC server using the <code class="codeph">CNdefDiscovery::AddNdefSubscription()</code> method.</p>
+<pre class="codeblock">CNdefRecord::TNdefRecordTnf tnf = CNdefRecord::ENfcWellKnown;
+    {
+    _LIT8( KSmartPoster, "Sp" );
+    TInt error = iNdefDiscovery-&gt;AddNdefSubscription( tnf, KSmartPoster, 100 );
+    if( KErrNone == error )
+        {
+        CActiveScheduler::Start();
+        }
+    }
+</pre>
+</li>
+<li id="GUID-9608E856-2105-435A-A5FA-A3FD350C5F05"><a name="GUID-9608E856-2105-435A-A5FA-A3FD350C5F05"><!-- --></a><p>Implement
+the <code class="codeph">CMyNdefHandler::MessageDetected()</code> method to receive
+NDEF messages.</p>
+<pre class="codeblock">void CMyNdefHandler::MessageDetected( CNdefMessage* aMessage )
+    {
+    if( aMessage )
+        {
+        //
+        // NDEF handling code...
+        //
+        
+        delete aMessage;  
+        }
+    CActiveScheduler::Stop();
+    }
+</pre>
+</li>
+</ol>
+<div><h3 class="section-title">Example</h3><p>The following example illustrates  how to register for
+receiving NDEF messages and how to receive messages using a callback
+function:</p><pre class="codeblock">#include &lt;e32base.h&gt;
+#include &lt;nfcserver.h&gt;
+#include &lt;ndefmessagelistener.h&gt;
+#include &lt;ndefdiscovery.h&gt;
+#include &lt;ndefmessage.h&gt;
+
+class CMyNdefHandler : public CBase, public MNdefMessageListener
+    {
+    
+public:
+    ~CMyNdefHandler();
+    void StartNdefDiscoveryL();
+    
+public: // from MNdefMessageListener
+    void MessageDetected( CNdefMessage* aMessage );
+    
+private: // data
+    CActiveScheduler* iScheduler;
+    CNdefDiscovery* iNdefDiscovery;
+    RNfcServer iNfcServer;
+    
+    }
+// -----------------------------------------------------------------------------
+// CMyNdefHandler::~CMyNdefHandler
+// -----------------------------------------------------------------------------
+//
+CMyNdefHandler::~CMyNdefHandler()
+    {
+    delete iScheduler;
+    delete iNdefDiscovery;
+    iNfcServer.Close();
+    }
+
+// -----------------------------------------------------------------------------
+// CMyNdefHandler::StartNdefDiscovery
+// -----------------------------------------------------------------------------
+//
+void CMyNdefHandler::StartNdefDiscoveryL()
+    {
+    iScheduler = new( ELeave ) CActiveScheduler();
+    CActiveScheduler::Install( iScheduler );
+    iNfcServer.Open();
+    iNdefDiscovery = CNdefDiscovery::NewL( iNfcServer );
+    iNdefDiscovery-&gt;AddNdefMessageListener( *this );
+    CNdefRecord::TNdefRecordTnf tnf = CNdefRecord::ENfcWellKnown;
+    _LIT8( KSmartPoster, "Sp" );
+    TInt error = iNdefDiscovery-&gt;AddNdefSubscription( tnf, KSmartPoster, 100 );
+    if( KErrNone == error )
+        {
+        CActiveScheduler::Start();
+        }
+    }
+
+// -----------------------------------------------------------------------------
+// CMyNdefHandler::MessageDetected
+// From MNdefMessageListener
+// -----------------------------------------------------------------------------
+//
+void CMyNdefHandler::MessageDetected( CNdefMessage* aMessage )
+    {
+    if( aMessage )
+        {
+        //
+        // NDEF handling code here...
+        //
+        delete aMessage;  
+        }
+    
+    CActiveScheduler::Stop();
+    }
+
+void mainDoL()
+    {    
+    CMyNdefHandler* handler = new( ELeave ) CMyNdefHandler();
+    CleanupStack::PushL( handler );
+    handler-&gt;StartNdefDiscoveryL();
+    CleanupStack::PopAndDestroy( handler );
+    }
+
+TInt E32Main()
+    {
+    CTrapCleanup* cleanup = CTrapCleanup::New();
+    TRAPD( err, mainDoL() );
+    delete cleanup;
+    return err;
+    }
+</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 9th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-EF69E74F-7EDA-4E10-954A-DA9D74FB9017.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:16:22 GMT -->
+</html>

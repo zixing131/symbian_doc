@@ -1,0 +1,90 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-CBC57511-7F28-596A-9763-5674EB41BCAC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Central Repository Overview" /><meta name="abstract" content="The Central Repository stores data such as application settings, component settings, configuration parameters and data used for localisation and customisation." /><meta name="description" content="The Central Repository stores data such as application settings, component settings, configuration parameters and data used for localisation and customisation." /><meta name="DC.Relation" scheme="URI" content="GUID-1C683226-C142-5C7B-BD20-060058352B08" /><meta name="DC.Relation" scheme="URI" content="GUID-E3BE62B2-9625-5F79-84A4-0248A3F36225" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FBCBF8A0-7922-5881-A1C5-5DB41630E75A" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-50BA6AEB-E968-5CCA-8F5D-A65969263D90" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-CBC57511-7F28-596A-9763-5674EB41BCAC" /><meta name="DC.Language" content="en" /><title>Central
+Repository Overview </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-CBC57511-7F28-596A-9763-5674EB41BCAC">Central
+Repository Overview</h1><div><p>The Central Repository stores data such as application settings,
+component settings, configuration parameters and data used for localisation
+and customisation. </p>
+<div id="GUID-04EC9C9F-C4CE-434F-ACEC-E001A68240AB"><h3 class="section-title">Purpose</h3> <p>The central repository was introduced to
+avoid the use of multiple .ini files specific to each application. Typical
+uses are persisting application data such as default file names, locale settings
+and user preferences from one session to another: data of this kind can also
+be used by device creaters to customise a device. Examples include phone book
+data, bookmarks, event logging and default keyboard layout. </p> </div>
+<div id="GUID-83C9CE66-A7FE-4D66-A84B-9CDF7AAE8B7E"><h3 class="section-title">Required background</h3> <p>The central repository is used
+in the implementation of many libraries. Application developers using these
+libraries generally do not need to access the central repository API directly.
+Developers maintaining and extending such libraries need to know how to use
+the API to read and modify repository data and set up change notification.
+Developers creating new extensions to Symbian, such as device drivers need
+to know when it is appropriate to use the central repository to persist settings.
+They will also need to understand the mechanism of key spaces and initialisation
+files used to implement the central repository and how to create repository
+files, as explained in <a href="GUID-36539894-580E-5774-AA79-7F640E8C59E1.html">Central
+Repository Initialisation Files Guide</a>. Product integrators and device
+creators need to know where in ROM central repository data can reside, to
+know the installation mechanism and to understand the impact on data security. </p> </div>
+<div id="GUID-4D55838D-2400-4766-B418-F94CFAD70E37"><h3 class="section-title">Key concepts and terms</h3> <dl>
+<dt class="dlterm">Repository</dt>
+<dd><p>A data structure holding data to be persisted for a component or application,
+equivalent to a file. Also called a keyspace. </p> </dd>
+<dt class="dlterm">Setting</dt>
+<dd><p>An item of data in a repository, equivalent to a line in a file. Also
+called a key. </p> </dd>
+<dt class="dlterm">Initialisation file</dt>
+<dd><p>The text file from which a repository is created. </p> </dd>
+<dt class="dlterm">Keyspaces</dt>
+<dd><p>Another term for a repository. </p> </dd>
+<dt class="dlterm"> Access policies</dt>
+<dd><p>Read or write permissions on a setting or group of settings. </p> </dd>
+</dl> </div>
+<div id="GUID-4088D4CB-21C6-4C45-B86D-CDFC7DE3D924"><h3 class="section-title">Architecture</h3> <p>Many applications and modules come
+with a data structure called a repository or keyspace which is used to persist
+application data. The Central Repository is the component which stores and
+manages repositories. Repositories are created and initialised individually
+along with their associated application on installation, or as a group when
+a device is built by device creators. The purpose of the Central Repository
+API is to enable application developers and device creators to modify repository
+data and to provide notification of changes to a repository. </p> <p>Conceptually,
+the Central Repository is comparable to a folder, an individual repository
+to a file and a setting to a line in a file. In fact repositories are implemented
+as binary files held at various locations in memory and are accessed through
+C++ classes which encapsulate them with a single API. Repositories are created
+with the applications to which they refer at device build time or at installation
+by the Application Installer on runtime. The Central Repository API is only
+used to access repositories, not to create them. </p> </div>
+<div id="GUID-94EC00B4-9190-4A56-BCC2-CB109A17FD35"><h3 class="section-title">APIs</h3> <p>The Central Repository API provides the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html"><code class="apiname">CRepository</code></a> class
+to provide access to repositories. </p> <div class="tablenoborder"><a name="GUID-2241998F-DE1E-5098-8639-93FFA58834B5"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-2241998F-DE1E-5098-8639-93FFA58834B5" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e438833">API</th>
+<th class="cellrowborder" valign="top" id="d0e438836">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e438833 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-DEA618DF-D462-3B3E-A1E1-F21295AAFE78.html"><code class="apiname">CRepository</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e438836 "><p>Provides the functionality to access the repository created with
+an application. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e438833 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-127F54F2-99E7-3FAB-9669-90B0B1985285.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-127F54F2-99E7-3FAB-9669-90B0B1985285.html"><code class="apiname">CCenRepNotifyHandler</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e438836 "><p>Creates notification of changes to a repository. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e438833 "><p> <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-7BB13E80-C3B8-3E4F-B3ED-120258011558.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-7BB13E80-C3B8-3E4F-B3ED-120258011558.html"><code class="apiname">MCenRepNotifyHandlerCallback</code></a> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e438836 "><p>A callback interface to be implemented to respond to change notification. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-D9B11AA3-1E03-4D70-9569-C696E7FC5D3D"><h3 class="section-title">Typical uses</h3> <p>The Central Repository is typically
+used by applications such as messaging services to retrieve logins, localisation
+data and information needed for interprocess communication. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-1C683226-C142-5C7B-BD20-060058352B08.html">Central Repository
+Guide</a></li><li><a href="GUID-E3BE62B2-9625-5F79-84A4-0248A3F36225.html">Central Repository
+Access Guide</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated February 26th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-CBC57511-7F28-596A-9763-5674EB41BCAC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:01 GMT -->
+</html>

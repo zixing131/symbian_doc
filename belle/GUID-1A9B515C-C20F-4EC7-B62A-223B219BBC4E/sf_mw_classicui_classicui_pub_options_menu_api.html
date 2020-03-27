@@ -1,0 +1,649 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_options_menu_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:31 GMT -->
+<head><title>Options Menu API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i500"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Options Menu API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Specifying_menus_in_resource_files"><span class="tocnumber">2.1</span> <span class="toctext">Specifying menus in resource files</span></a></li>
+<li class="toclevel-2"><a href="#Initializing_menus"><span class="tocnumber">2.2</span> <span class="toctext">Initializing menus</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Adding_menu_items"><span class="tocnumber">2.2.1</span> <span class="toctext">Adding menu items</span></a></li>
+<li class="toclevel-3"><a href="#Removing_menu_items"><span class="tocnumber">2.2.2</span> <span class="toctext">Removing menu items</span></a></li>
+<li class="toclevel-3"><a href="#Testing_the_existence_of_menu_items"><span class="tocnumber">2.2.3</span> <span class="toctext">Testing the existence of menu items</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Handling_command_IDs"><span class="tocnumber">2.3</span> <span class="toctext">Handling command IDs</span></a></li>
+<li class="toclevel-2"><a href="#Context-sensitive_menus"><span class="tocnumber">2.4</span> <span class="toctext">Context-sensitive menus</span></a></li>
+<li class="toclevel-2"><a href="#Opening_menus"><span class="tocnumber">2.5</span> <span class="toctext">Opening menus</span></a></li>
+<li class="toclevel-2"><a href="#Closing_menus"><span class="tocnumber">2.6</span> <span class="toctext">Closing menus</span></a></li>
+<li class="toclevel-2"><a href="#Marquee"><span class="tocnumber">2.7</span> <span class="toctext">Marquee</span></a></li>
+<li class="toclevel-2"><a href="#Indicating_items"><span class="tocnumber">2.8</span> <span class="toctext">Indicating items</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Items_with_a_check_mark"><span class="tocnumber">2.8.1</span> <span class="toctext">Items with a check mark</span></a></li>
+<li class="toclevel-3"><a href="#Radio_button_groups"><span class="tocnumber">2.8.2</span> <span class="toctext">Radio button groups</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Application-level_hotkeys"><span class="tocnumber">2.9</span> <span class="toctext">Application-level hotkeys</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.10</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.11</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Limitations_of_the_API"><span class="tocnumber">2.12</span> <span class="toctext">Limitations of the API</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>Options menus provide the user with a list of options. The selection of
+an option may lead to displaying a submenu.
+</p><p>The main<b> Options</b> menu, if available, is displayed from an<b> Options</b> softkey.
+</p><p>Menus can also be displayed from:
+</p>
+<ul><li> <span class="plainlinks"><code>CAknDialog</code> </span>,
+</li><li> <span class="plainlinks"><code>CAknSettingPage</code> </span>.
+</li></ul>
+<p>Menus can be added to other UI components, too.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 0.9
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>eikcoctl.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/options_menu_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/options_menu_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Options Menu API provides support for a number of menus (called menu panes),
+each attached to a main menu bar or a menu item.
+</p><p>The menu support is implemented in two main classes: <span class="plainlinks"><code>CEikMenuBar</code> </span> and <span class="plainlinks"><code>CEikMenuPane</code> </span>.
+The menu structure is defined in the resource file as a menu bar structure
+( <span class="plainlinks"><code>MENU_BAR</code> </span>), which references one or more menu panes in a
+list of <span class="plainlinks"><code>MENU_TITLE</code> </span> structures. The menu bar itself is usually
+referenced in the application information resource structure ( <span class="plainlinks"><code>EIK_APP_INFO</code> </span>)
+or in the view resource structure ( <span class="plainlinks"><code>AVKON_VIEW</code> </span>), but can also
+be referenced in <span class="plainlinks"><code>AVKON_SETTING_PAGE</code> </span> resource structure or
+a menu bar resource structure can directly be passed to <span class="plainlinks"><code>CAknDialog</code> </span>'s <span class="plainlinks"><code><font color="darkred">ConstructL()</font></code> </span>.
+</p><p>In S60, all of the menu pane resources of a menu bar are read on construction
+and joined to form a single menu pane. This ensures that the menu panes are
+stacked on top of each other, with the first pane at the bottom of the menu
+pane, and the last at the top. The txt fields of <span class="plainlinks"><code>MENU_TITLE</code> </span> s
+are omitted. This allows S60 applications to specify menus based on a set
+of individual menu option groups.
+</p><p>When the application is started, the menu bar is constructed and the menu
+bar resource is read. Whenever the menu is displayed, or the user navigates
+between menu panes, a menu pane is constructed and the appropriate menu pane
+resource is read.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>None.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of the Options Menu API are:
+</p>
+<ul><li> Specifying menus in resource files
+</li><li> Initializing menus
+</li><li> Adding menu items
+</li><li> Removing menu items
+</li><li> Testing the existence of menu items
+</li></ul>
+<ul><li> Handling command IDs
+</li><li> Context sensitive menus
+</li><li> Opening menus
+</li><li> Closing menus
+</li><li> Marquee
+</li><li> Indicating items
+</li><li> Items with check mark
+</li><li> Radio button group
+</li></ul>
+<ul><li> Application-level hotkeys
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CEikMenuBar <td><span class="plainlinks"><code>/epoc32/include/mw/eikmenub.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>CEikMenuBar::CTitleArray</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmenub.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMenuBarTitle</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmenub.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMenuPane</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmenup.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMenuPane::CItemArray</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmenup.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMenuPaneItem</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmenup.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CEikMenuPaneTitle</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmenub.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CExtendedItemData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/eikmenup.h</code></span>
+</td></tr>
+<p>Options menu API contains little number of classes providing functionality
+of the interface. In the following class diagrams, the API classes are grouped
+together according to their roles and functionality.
+</p><p>Class diagram in Figure 1 shows that the API consists mainly from the <span class="plainlinks"><code>CEikMenuBar</code> </span> and
+the <span class="plainlinks"><code>CEikMenuPane</code> </span> classes. <span class="plainlinks"><code>CEikMenuBar</code> </span> represents
+the first level of the menu and encapsulates a number of menu panes through
+the nested class <span class="plainlinks"><code>CItemArray</code> </span>. An item in it ( <span class="plainlinks"><code>CEikMenuPaneItem</code> </span>)
+refers to the resource ID of the relevant menu pane <span class="plainlinks"><code>CEikMenuPane</code> </span>.
+</p><p>The most often used API part is <span class="plainlinks"><code>CEikMenuPane</code> </span>. Menu manipulation
+is usually done with this. In case of this class, <span class="plainlinks"><code>CItemArray</code> </span> cannot
+be got. An item or item data can be queried directly with the methods of the <span class="plainlinks"><code>CEikMenuPane</code> </span> class.
+</p><p>The Figure shows, that each menu pane item either generates a command to
+the menu observer, or opens a submenu pane (cascading).
+</p><p>Each menu bar has one observer: <span class="plainlinks"><code>MEikMenuObserver</code> </span>. Clients
+of the API cannot change or add observers after menu bar and menu pane construction. <span class="plainlinks"><code>MEikMenuObserver</code> </span> is
+implemented by the UI components that support menu. They have been listed
+already above.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_Options_API_UML.png" title="The UML diagram of the Options Menu API"><img alt="The UML diagram of the Options Menu API" border="0" height="269" src="images/SPB_10_1_Options_API_UML.png" width="559" /></a></div>
+<div style="text-align:center"><i>The UML diagram of the Options Menu API</i></div>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Specifying_menus_in_resource_files"><h3> <span class="mw-headline">2.1 Specifying menus in resource files </span></h3>
+</a><p>The first step of using menus is to specify them in resource files. The
+main descriptor of a menu is the <span class="plainlinks"><code>MENU_BAR</code> </span> resource structure.
+The desired menu panes (usually only one) must be listed in the titles field
+of it. The <span class="plainlinks"><code><font color="darkred">txt</font></code> </span> fields are ignored, however:
+</p>
+<pre>RESOURCE MENU_BAR r_myapp_menu_bar
+    {
+    titles=
+        {
+        MENU_TITLE { txt="System"; menu_pane=r_system_menu; },
+        MENU_TITLE { txt="App"; menu_pane=r_app_menu; },
+        MENU_TITLE { txt="Context"; menu_pane=r_context_menu; }
+        };
+    }
+</pre>
+<p>The menu panes are collection of menu items. The items are listed in the
+items field. An item may open a cascading submenu. Cascading submenus are
+also menu pane resources:
+</p>
+<pre>RESOURCE MENU_PANE r_system_menu
+    {
+    items=
+        {
+        MENU_ITEM { command=EMyappSystemFile; txt="File";
+                    cascade=r_system_file; },
+        MENU_ITEM { command=EAknCmdExit; txt="Exit"; }
+        };
+    }
+</pre>
+<pre>RESOURCE MENU_PANE r_system_file
+    {
+    items =
+        {
+        MENU_ITEM { command=EMyappFileOpen; txt="Open"; },
+        MENU_ITEM { command=EMyappFileSave; txt="Save"; },
+        };
+    }
+</pre>
+<p>The menu bar structure then can be linked to the <span class="plainlinks"><code>EIK_APP_INFO</code> </span> resource,
+or to an <span class="plainlinks"><code>AVKON_VIEW</code> </span> resource, if the application uses views:
+</p>
+<pre>RESOURCE EIK_APP_INFO
+    {
+    menubar=r_myapp_menu_bar;
+    cba=R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+</pre>
+<pre>RESOURCE AVKON_VIEW r_browser_content_view
+    {
+    menubar=r_myapp_menu_bar;
+    cba=R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+</pre>
+<p>A menu bar can also be referenced in <span class="plainlinks"><code>AVKON_SETTING_PAGE</code> </span> resource
+structure:
+</p>
+<pre>RESOURCE AVKON_SETTING_PAGE r_slider_setting_page
+    {
+    label = "Slider Page label";
+    hint_text = "This is a long hint text message";
+    menubar= r_slider_page_menubar;
+    softkey_resource = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    type = EAknCtSlider;
+    editor_resource_id = r_setting_app_slider;
+    }
+</pre>
+<p>A menu bar resource structure can directly be passed to <span class="plainlinks"><code>CAknDialog</code> </span>'s <span class="plainlinks"><code><font color="darkred">ConstructL()</font></code> </span>.
+In the following example <span class="plainlinks"><code>CFileOpenDialog</code> </span> is derived from <span class="plainlinks"><code>CAknDialog</code> </span>:
+</p>
+<pre>TInt CFileOpenDialog::ExecuteLD()
+{
+    CleanupStack::PushL( this );
+    ConstructL( R_FILE_OPEN_MENUBAR );
+    CleanupStack::Pop( this );
+    &#8230;
+    return CAknDialog::ExecuteLD( R_FILE_OPEN_DIALOG );
+}
+</pre>
+<a name="Initializing_menus"><h3> <span class="mw-headline">2.2 Initializing menus </span></h3>
+</a><p>In order for applications to modify the contents of the menu pane at run
+time, <span class="plainlinks"><code><font color="darkred">DynInitMenuPaneL()</font></code> </span> is called on the menu bar observer
+(typically the application UI) to change the options. This function is called
+every time just before a menu pane is launched, with the menu pane resource
+as the function parameter.
+</p>
+<a name="Adding_menu_items"><h4> <span class="mw-headline">2.2.1 Adding menu items </span></h4>
+</a><p>The following example illustrates adding one item to the menu pane:
+</p>
+<pre>void CMyappView::DynInitMenuPaneL( TInt aResourceId,
+                                   CEikMenuPane* aMenuPane )
+    {
+    if ( aResourceId == R_COMMON_MENU )
+        {
+        CEikMenuPaneItem::SData menuFindNext;
+        menuFindNext.iCommandId = EMyappFindNext;
+        menuFindNext.iCascadeId = 0;
+        menuFindNext.iFlags = 0;
+        menuFindNext.iText = KMyappFindNext;
+        aMenuPane-&gt;AddMenuItemL( menuFindNext );
+        }
+    }
+</pre>
+<p>There is the possibility to add more than one item. The resource ID parameter
+of <span class="plainlinks"><code><font color="darkred">AddMenuItemsL()</font></code> </span> must refer to a valid <span class="plainlinks"><code>MENU_PANE</code> </span> resource:
+</p>
+<pre>void CMyappAppUi::DynInitMenuPaneL(
+    TInt aResourceId,
+    CEikMenuPane* aMenuPane )
+    {
+    if ( aResourceId == R_AVKON_FORM_MENUPANE )
+        {
+        aMenuPane-&gt;AddMenuItemsL( R_GENERAL_STATUS_MENU_PANE );
+        }
+    }
+</pre>
+<p>A new menu item can be inserted to a given position. The following example
+inserts a new item at the last position:
+</p>
+<pre>void CMyappView::DynInitMenuPaneL( TInt aResourceId,
+                                   CEikMenuPane* aMenuPane )
+    {
+    if ( aResourceId == R_COMMON_MENU )
+        {
+        CEikMenuPaneItem::SData menuFindNext;
+        menuFindNext.iCommandId = EMyappFindNext;
+        menuFindNext.iCascadeId = 0;
+        menuFindNext.iFlags = 0;
+        menuFindNext.iText = KMyappFindNext;
+        aMenuPane-&gt;InsertMenuItemL( menuFindNext,
+                                    aMenuPane-&gt;NumberOfItemsInPane() );
+        }
+    }
+</pre>
+<a name="Removing_menu_items"><h4> <span class="mw-headline">2.2.2 Removing menu items </span></h4>
+</a><p>The following example illustrates deleting one item from the menu pane:
+</p>
+<pre>void CMyappAppUi::DynInitMenuPaneL( TInt aResourceId,
+                                    CEikMenuPane* aMenuPane )
+    {
+    if ( aResourceId == R_COMMON_MENU )
+        {
+        if ( IsLastOccurrence() )
+            aMenuPane-&gt; DeleteMenuItem( EMyappFindNext );
+        if ( IsFirstOccurrence() )
+            aMenuPane-&gt; DeleteMenuItem( EMyappFindPrevious );
+        }
+    }
+</pre>
+<p>There is the possibility to delete more than one item between the specified
+indexes. The example deletes all items from the menu pane:
+</p>
+<pre>aMenuPane-&gt;DeleteBetweenMenuItems( 0, aMenuPane-&gt;NumberOfItemsInPane() - 1 );
+</pre>
+<p>When a menu pane is dismissed and opened again, items not desired have
+to be deleted again!
+</p><p>In S60, dimming a menu item simply removes the item from the menu pane.
+The item will not be visible at all!
+</p>
+<pre>void CMyappView::DynInitMenuPaneL( TInt aResourceId,
+                                   CEikMenuPane* aMenuPane )
+    {
+    if ( aResourceId == R_COMMON_MENU )
+        {
+        aMenuPane-&gt;SetItemDimmed( EMyappFindNext, IsLastOccurrence() );
+        aMenuPane-&gt;SetItemDimmed( EMyappFindPrevious, IsFirstOccurrence() );
+        }
+    }
+</pre>
+<p>In S60, menu items not wanted are usually removed with <span class="plainlinks"><code><font color="darkred">SetItemDimmed()</font></code> </span>.
+</p>
+<a name="Testing_the_existence_of_menu_items"><h4> <span class="mw-headline">2.2.3 Testing the existence of menu items </span></h4>
+</a><p>The following example tests the existence of a given menu item:
+</p>
+<pre>void CMyappView::DynInitMenuPaneL( TInt aResourceId,
+                                   CEikMenuPane* aMenuPane )
+    {
+    if ( aResourceId == R_COMMON_MENU )
+        {
+        TInt pos( 0 );
+        if ( aMenuPane-&gt;MenuItemExists( EMyappFindNext, pos ) &amp;&amp;
+             IsLastOccurrence() )
+            {
+            aMenuPane-&gt;SetItemDimmed( EMyappFindNext, ETrue );
+            }
+        }
+    }
+</pre>
+<a name="Handling_command_IDs"><h3> <span class="mw-headline">2.3 Handling command IDs </span></h3>
+</a><p>When an option is activated, the observer of the menu pane is fired to
+handle the activated menu command ID. It is given to <span class="plainlinks"><code>CAknAppUi::HandleCommandL</code> </span> in
+the application UI or <span class="plainlinks"><code>CAknView::HandleCommandL</code> </span>, if the application
+view handles the commands.
+</p><p>Example:
+</p>
+<pre>void CMyAppUi::HandleCommandL( TInt aCommand )
+    {
+    switch ( aCommand )
+        {
+        case EEikCmdExit:
+            {
+            Exit();
+            break;
+            }
+        case EAknSoftkeyExit:
+        case EAknCmdExit:
+            {
+            CAknEnv::RunAppShutter();
+            break;
+            }
+        case EMyappCmdDoSomething:
+            {
+            &#8230;
+            break;
+            }
+        default:
+            {
+            CAknAppUi::HandleCommandL( aCommand );
+            break;
+            }
+        }
+    }
+</pre>
+<p>Common command IDs can be found in files:
+</p>
+<ul><li> <span class="plainlinks"><code><font color="darkred">eikon.hrh</font></code> </span>
+</li><li> <span class="plainlinks"><code><font color="darkred">uikon.hrh</font></code> </span>
+</li><li> <span class="plainlinks"><code><font color="darkred">avkon.hrh</font></code> </span>
+</li></ul>
+<p>See also [Options_Menu_API_Specification.topic3.6 Closing menus].
+</p>
+<a name="Context-sensitive_menus"><h3> <span class="mw-headline">2.4 Context-sensitive menus </span></h3>
+</a><p>Since each section of the menu pane is defined as a separate menu pane
+resource, application developers may combine menu panes to give the desired
+menu options for each application state. Each of the unique menu sections
+should be defined once as a menu pane resource, after which a menu bar resource
+may be defined for each application state that is required.
+</p><p>The current menu can be changed at any time by calling
+</p>
+<pre>iEikonEnv-&gt;AppUiFactory()-&gt;MenuBar()-&gt;SetMenuTitleResourceId();
+</pre>
+<p>with the new menu bar resource ID, or an existing menu can be altered by
+simply adding new items to it or removing existing items from it.
+</p><p>Menu and the application UI framework give some more support to implement
+context sensitive menus. The client code can specify context menu with <span class="plainlinks"><code>CEikMenuBar</code> </span>'s <span class="plainlinks"><code><font color="darkred">SetContextMenuTitleResourceId()</font></code> </span>, and then call <span class="plainlinks"><code><font color="darkred">TryDisplayContextMenuBarL()</font></code> </span> when the menu
+must be opened. The application UI base class <span class="plainlinks"><code>CAknAppUi</code> </span> supports
+opening the context menu, if the client application forwards the command <span class="plainlinks"><code>EAknSoftkeyContextOptions</code> </span> to <span class="plainlinks"><code>CAknAppUi::ProcessCommandL()</code> </span>.
+</p><p>Some S60 application opens a context-sensitive, simplified menu when the
+OK key is pressed. It can be achieved by opening the menu in <span class="plainlinks"><code><font color="darkred">OfferKeyEventL()</font></code> </span> when <span class="plainlinks"><code>EKeyOK</code> </span> is
+received.
+</p>
+<a name="Opening_menus"><h3> <span class="mw-headline">2.5 Opening menus </span></h3>
+</a><p>The menu bar is shown when the user presses the<b> Options</b> softkey.
+</p><p>When a UI component implements its own menu, the menu bar can be displayed
+(opened) with the following code:
+</p>
+<pre>iMenuBar-&gt;TryDisplayMenuBarL();
+</pre>
+<p>This method constructs the correct menu bar and displays it.
+</p><p><span class="plainlinks"><code>CAknAppUi</code> </span>-, <span class="plainlinks"><code>CAknViewAppUi</code> </span>-, <span class="plainlinks"><code>CAknView</code> </span>-
+and <span class="plainlinks"><code>CAknSettingPage</code> </span>-derived classes can open the menu by
+calling the base class' <span class="plainlinks"><code><font color="darkred">ProcessCommandL()</font></code> </span> with <span class="plainlinks"><code>EAknSoftkeyOptions</code> </span>.
+The same stands for context menus set by <span class="plainlinks"><code><font color="darkred">SetContextMenuTitleResourceId()</font></code> </span>,
+but with the exception that they must use <span class="plainlinks"><code>EAknSoftkeyContextOptions</code> </span> as
+parameter.
+</p><p><span class="plainlinks"><code>CAknDialog</code> </span>-derived classes can open the menu by calling <span class="plainlinks"><code><font color="darkred">OkToExitL()</font></code> </span> with <span class="plainlinks"><code>EAknSoftkeyOptions</code> </span>.
+</p>
+<a name="Closing_menus"><h3> <span class="mw-headline">2.6 Closing menus </span></h3>
+</a><p>The menu bar is closed when an option is selected or is canceled by the
+user pressing the<b> Cancel</b> softkey.
+</p><p>When a UI component implements its own menu, the menu bar can be hidden
+(closed) with the following code:
+</p>
+<pre>iMenuBar-&gt;StopDisplayingMenuBar();
+</pre>
+<p>Note that in non- <span class="plainlinks"><code>AppUi</code> </span> or view classes, a menu calls <span class="plainlinks"><code><font color="darkred">ProcessCommandL()</font></code> </span> of
+the menu observers that implement <span class="plainlinks"><code>MEikMenuObserver</code> </span>. In this
+case, it is the responsibility of the code handling the command to dismiss
+the menu with <span class="plainlinks"><code><font color="darkred">StopDisplayingMenuBar()</font></code> </span>.
+</p><p>The <span class="plainlinks"><code><font color="darkred">ProcessCommandL()</font></code> </span> method of <span class="plainlinks"><code>CAknDialog</code> </span> and <span class="plainlinks"><code>CAknSettingPage</code> </span> stops
+displaying the menu bar, thus <span class="plainlinks"><code>CAknDialog</code> </span>-derived classes
+are advised to call the base class' <span class="plainlinks"><code><font color="darkred">ProcessCommandL()</font></code> </span> in
+their own <span class="plainlinks"><code><font color="darkred">ProcessCommandL()</font></code> </span>.
+</p>
+<a name="Marquee"><h3> <span class="mw-headline">2.7 Marquee </span></h3>
+</a><p>It is possible to enable horizontal scrolling (the so called marquee) of
+long menu items that do not fit into the available width. By default, marquee
+is disabled. To enable marquee, <span class="plainlinks"><code><font color="darkred">EnableMarqueeL()</font></code> </span> must be
+called with parameter <span class="plainlinks"><code>ETrue</code> </span> in <span class="plainlinks"><code><font color="darkred">DynInitMenuPaneL()</font></code> </span>:
+</p>
+<pre>aMenuPane-&gt;EnableMarqueeL( ETrue );
+</pre>
+<a name="Indicating_items"><h3> <span class="mw-headline">2.8 Indicating items </span></h3>
+</a><p>There are two indication types supported:
+</p>
+<ul><li> Items with check mark
+</li><li> Radio button group containing several items
+</li></ul>
+<p>A menu can contain indicated items in it with the following constraints:
+</p>
+<ul><li> Only cascading submenus are allowed to contain indicated items in it (indication
+</li></ul>
+<p>of such items in the main menu bar is ignored).
+</p>
+<ul><li> A menu is allowed to contain only one of the two types.
+</li><li> A menu is allowed to contain at most one radio button group.
+</li></ul>
+<p>Notice that menu pane doesn't keep a track on the status of these items
+and when menu is displayed again the status will be set to the one which was
+specified in the resource structure unless <span class="plainlinks"><code><font color="darkred">SetItemButtonState()</font></code> </span> was
+called. So an application is responsible for setting the right status for
+those items in <span class="plainlinks"><code><font color="darkred">DynInitMenuPaneL()</font></code> </span> using the method:
+</p>
+<pre>void SetItemButtonState( TInt aCommandId, TInt aButtonState );
+</pre>
+<a name="Items_with_a_check_mark"><h4> <span class="mw-headline">2.8.1 Items with a check mark </span></h4>
+</a><p>An item with a check mark can be created by using <span class="plainlinks"><code>EEikMenuItemCheckBox</code> </span> flag
+for the menu item. To set the item to be marked on initialization, the <span class="plainlinks"><code>EEikMenuItemSymbolOn</code> </span> flag
+should be specified.
+</p><p>Here is an example for the resource structure:
+</p>
+<pre>&#8230;
+MENU_ITEM
+    {
+    command = ESomeCmdId;
+    txt = qtn_some_text;
+    flags = EEikMenuItemCheckBox | EEikMenuItemSymbolOn;
+    }
+&#8230;
+</pre>
+<p>Here is an example on how to set the status of an item having a check mark:
+</p>
+<pre>void CMyAppUi::DynInitMenuPaneL( TInt aResourceId, CEikMenuPane* aMenuPane )
+    {
+    if ( aResourceId == R_MYAPP_CASCADE_WEATHER )
+        {
+        aMenuPane-&gt;SetItemButtonState( EMyappCmdSunny,
+                                       iIsWeatherSunny?
+                                           EEikMenuItemSymbolOn:
+                                           EEikMenuItemSymbolIndeterminate );
+        }
+    }
+</pre>
+<a name="Radio_button_groups"><h4> <span class="mw-headline">2.8.2 Radio button groups </span></h4>
+</a><p>For the radio button group creation, the flags <span class="plainlinks"><code>EEikMenuItemRadioStart</code> </span> and <span class="plainlinks"><code>EEikMenuItemRadioEnd</code> </span> should
+be used:
+</p>
+<pre>MENU_ITEM
+    {
+    command = ESomeCmdId1;
+    txt = qtn_some_text_1;
+    flags = EEikMenuItemRadioStart;
+    },
+MENU_ITEM
+    {
+    command = ESomeCmdId2;
+    txt = qtn_some_text_2;
+    flags = EEikMenuItemSymbolOn;
+    },
+</pre>
+<pre>    &#8230;
+</pre>
+<pre>MENU_ITEM
+    {
+    command = ESomeCmdIdN;
+    txt = qtn_some_text_n;
+    flags = EEikMenuItemRadioEnd;
+    }
+</pre>
+<p>If none of the items has <span class="plainlinks"><code>EEikMenuItemSymbolOn</code> </span> flag set,
+then the first item in the radio button group will have indication on. If
+several items in the group have this flag on, then the last one will be indicated
+</p><p>Here is an example of how to set the status of items in a radio button
+group:
+</p>
+<pre>void CMyAppUi::DynInitMenuPaneL( TInt aResourceId, CEikMenuPane* aMenuPane )
+    {
+    if ( aResourceId == R_MYAPP_CASCADE_ORDER_DRINK )
+        {
+        if ( iSelectedDrink == EMyappWater )
+            aMenuPane-&gt;SetItemButtonState( EMyappCmdWater,
+                                           EEikMenuItemSymbolOn );
+        else if ( iSelectedDrink == EMyappJuice )
+            aMenuPane-&gt;SetItemButtonState( EMyappCmdJuice,
+                                           EEikMenuItemSymbolOn );
+        else if ( iSelectedDrink == EMyappBeer )
+            aMenuPane-&gt;SetItemButtonState( EMyappCmdBeer,
+                                           EEikMenuItemSymbolOn );
+        }
+    }
+</pre>
+<a name="Application-level_hotkeys"><h3> <span class="mw-headline">2.9 Application-level hotkeys </span></h3>
+</a><p>Application-level hotkeys are not strongly connected to the Options Menu
+API, but one reason for mention them here is that they omit command IDs like
+menus.
+</p><p>The application UI framework enables the definition of hotkeys. A hotkey
+generates a command that is handed over to the application UI's <span class="plainlinks"><code><font color="darkred">HandleCommandL()</font></code> </span> method.
+</p><p>First of all, a hotkey resource of the type <span class="plainlinks"><code>HOTKEYS</code> </span> must
+be defined. The following example defines two hotkeys. When the user presses
+Ctrl-e, it generates the command <span class="plainlinks"><code>EAknCmdExit</code> </span>, and when Ctrl-t,
+then it generates <span class="plainlinks"><code>EMyappCmdTest</code> </span>. Note that these keys work
+when the Ctrl is also pressed down. This is why they are listed under the
+'control' field of <span class="plainlinks"><code>HOTKEYS</code> </span>.
+</p>
+<pre>RESOURCE HOTKEYS r_myapp_hotkeys
+    {
+    control =
+        {
+        HOTKEY { command=EAknCmdExit; key='e'; },
+        HOTKEY { command=EMyappCmdTest; key='t'; }
+        };
+    }
+</pre>
+<p>Even if hotkeys are defined in <span class="plainlinks"><code>EIK_APP_INFO</code> </span> resource structure
+of the application, they are not handled. In order the hotkeys to be handled
+by the application, the derived application UI class' <span class="plainlinks"><code><font color="darkred">ConstructL()</font></code> </span> must
+call the base class' <span class="plainlinks"><code><font color="darkred">CreateHotKeyControlL()</font></code> </span> method with the
+ID of the <span class="plainlinks"><code>HOTKEYS</code> </span> resource defined in the application's resource
+file:
+</p>
+<pre>void CMyAppUi::ConstructL()
+    {
+    BaseConstructL();
+    &#8230;
+    CreateHotKeyControlL( R_MYAPP_HOTKEYS );
+    }
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.10 Error handling </span></h3>
+</a><p>Options Menu API uses standard Symbian OS error reporting mechanism. Leaves
+and system wide error codes as function return values are used if the error
+is recoverable. A client application can handle these errors similarly as
+a normal Symbian platform application.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.11 Memory and Performance Considerations </span></h3>
+</a><p>Memory consumption of the Options Menu API is directly proportional to
+the number of menus and the number of items in each menu defined by the client.
+</p>
+<a name="Limitations_of_the_API"><h3> <span class="mw-headline">2.12 Limitations of the API </span></h3>
+</a><p>Menu bar titles are not displayed - as stated before, menu pane resources
+of a menu bar are read on construction and joined to form a single menu pane.
+The title texts and icons are not displayed at all.
+</p><p>Menu pane item icons are not supported. Even if the relevant methods of <span class="plainlinks"><code>CEikMenuPaneItem</code> </span> are
+called, icons are not displayed.
+</p><p>Menu item text has no size limit, but at most only the first <span class="plainlinks"><code>ENominalTextLength</code> </span> characters
+will be displayed.
+</p><p>Separators are not supported.
+</p><p>Menu item accelerator hotkeys are not supported: <span class="plainlinks"><code>CEikMenuPaneItem</code> </span>'s <span class="plainlinks"><code><font color="darkred">iHotKeyCode</font></code> </span> is
+ignored. Note that this hotkey differs from the one that is defined on application-level
+by the resource structure <span class="plainlinks"><code>HOTKEYS</code> </span>.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><p>None.
+</p>
+<a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Options Menu API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> ID</td><td> Identifier
+</td></tr>
+<tr>
+<td> OS</td><td> Operating System
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_options_menu_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:11:31 GMT -->
+</html>

@@ -1,0 +1,48 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B9A3B17E-BDEB-5F66-968C-080335A721AC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:26 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Writing from a Data Stream" /><meta name="abstract" content="This tutorial describes how to write data from a data stream to a database." /><meta name="description" content="This tutorial describes how to write data from a data stream to a database." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-FBCBF8A0-7922-5881-A1C5-5DB41630E75A" /><meta name="DC.Relation" scheme="URI" content="GUID-F8824165-4B33-50D1-9706-BD2438B5A2EE" /><meta name="DC.Relation" scheme="URI" content="GUID-868D5B32-1CC4-506E-9C49-C86428B9A50F" /><meta name="DC.Relation" scheme="URI" content="GUID-582CAA4A-1240-5138-983D-D9C6EEAF5566" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B9A3B17E-BDEB-5F66-968C-080335A721AC" /><meta name="DC.Language" content="en" /><title>Writing
+from a Data Stream </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B9A3B17E-BDEB-5F66-968C-080335A721AC">Writing
+from a Data Stream</h1><div><p>This tutorial describes how to write data from a data stream to
+a database. </p>
+<div id="GUID-76439F61-1909-4A9A-8CC9-B47E4424025C"><h3 class="section-title">Introduction</h3> <p>This is useful when populating your
+database with the results of some other operation. </p> </div>
+<div id="GUID-91278D72-532F-4F5D-8601-7FDB848E1D27"><h3 class="section-title">Basic procedure</h3> <p>The high level steps to write from
+a data stream to a database table are shown here: </p> <ol id="GUID-FDE9AAB3-C033-5700-B173-75F229BFA230">
+<li id="GUID-117F41A0-B71D-5327-A053-F9C458636D48"><a name="GUID-117F41A0-B71D-5327-A053-F9C458636D48"><!-- --></a><p>Instantiate the necessary
+objects. </p> </li>
+<li id="GUID-6999251A-C025-5F3C-AEEF-B9FBED0C5AF5"><a name="GUID-6999251A-C025-5F3C-AEEF-B9FBED0C5AF5"><!-- --></a><p>Write data into the
+table. </p> </li>
+<li id="GUID-4E8B4501-9EAF-5B31-8C6D-6D28BAB82445"><a name="GUID-4E8B4501-9EAF-5B31-8C6D-6D28BAB82445"><!-- --></a><p>Commit the stream. </p> </li>
+</ol> </div>
+<div id="GUID-DF93842E-37AF-4A3F-A252-39E3EA905922"><h3 class="section-title">Writing from a data stream into a table</h3> <p>The process
+of writing data from a data stream into a table can be explained as follows: </p> <p><strong> Instantiate the necessary objects</strong> </p> <ol id="GUID-9EDAB491-57F6-59E9-A7FA-ADB5F1E7E8F7">
+<li id="GUID-C21DE9E5-6A8D-5B18-9D95-D978BC1ABF20"><a name="GUID-C21DE9E5-6A8D-5B18-9D95-D978BC1ABF20"><!-- --></a><p>Instantiate an object
+of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0176BF07-DF94-3259-8F90-DE030E35CE9A.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0176BF07-DF94-3259-8F90-DE030E35CE9A.html"><code class="apiname">RSqlStatement</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6313887C-8DE0-3702-BF4B-0622BAB2EE8E.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-6313887C-8DE0-3702-BF4B-0622BAB2EE8E.html"><code class="apiname">RSqlParamWriteStream</code></a> class.
+Also declare the variables as shown. </p> <pre class="codeblock">RSqlStatement myStatement;
+TInt err;
+TInt myParameterIndex;
+RSqlParamWriteStream myStream;
+RBuf buf;
+</pre> </li>
+<li id="GUID-5C911C98-E0DB-5DE8-9FDB-A154F6C4746E"><a name="GUID-5C911C98-E0DB-5DE8-9FDB-A154F6C4746E"><!-- --></a><p>Clean up the stack. </p> <pre class="codeblock">CleanupClosePushL(myStream);</pre> </li>
+</ol> <p><strong> Write
+data into the table</strong> </p> <ol id="GUID-0AA1F57B-13A2-5E13-8D42-7B0A4FE6F36B">
+<li id="GUID-38F8CC09-123A-59B5-B51B-01AD770A4F19"><a name="GUID-38F8CC09-123A-59B5-B51B-01AD770A4F19"><!-- --></a><p>Obtain access to the
+data as a stream of characters. </p> <pre class="codeblock">User::LeaveIfErrormyStream.BindTextL(myStatement,myParameterIndex));</pre> </li>
+<li id="GUID-C5D72E6D-935B-5708-B05F-24F1C3B3FFE1"><a name="GUID-C5D72E6D-935B-5708-B05F-24F1C3B3FFE1"><!-- --></a><p>Write the buffer. </p> <pre class="codeblock">myStream.WriteL(buf);</pre> </li>
+</ol> <p><strong> Commit
+the stream</strong> </p> <p>Commit the stream. This ensures that the streamed data
+is written into the table and cannot be rolled back. </p> <pre class="codeblock">myStream.CommitL();</pre> </div>
+<div id="GUID-AEF1E047-3F45-4707-9A2A-1F0F4D6EB632"><h3 class="section-title">See also</h3> <p> <a href="GUID-C60DAE3D-7FB9-5619-9E5D-476A430705AF.html">Querying
+a Database</a> </p> <p> <a href="GUID-CCB9C61B-FB28-5CD9-A366-4A9584097897.html">Inserting
+a Row into a Table</a> </p> <p><a href="GUID-B61EA8C5-0966-51DE-AC73-01DD34C7D3CC.html">Deleting
+Rows from a Table</a> </p> <p> <a href="GUID-72511204-FC90-54AA-9E2E-833318020318.html">Reading
+to a Buffer</a> </p> <p> <a href="GUID-3CCA6503-54DA-5558-85DC-93A22A81F565.html"> Reading
+to Memory </a> </p> <p> <a href="GUID-183280EE-0C57-54FE-8ABB-E1CC3BDE525B.html">Reading
+to a Data Stream</a> </p> <p>Writing from a Data Stream - This document </p> <p> <a href="GUID-C474376E-1766-5781-B5BF-3786C5B4D72E.html">Performing Scalar Queries</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-B9A3B17E-BDEB-5F66-968C-080335A721AC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:18:26 GMT -->
+</html>

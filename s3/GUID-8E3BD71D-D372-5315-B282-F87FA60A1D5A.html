@@ -1,0 +1,58 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8E3BD71D-D372-5315-B282-F87FA60A1D5A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:25 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Extracting URI Components" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-94215E49-605B-51BA-B215-10BDA1A0C013" /><meta name="DC.Relation" scheme="URI" content="GUID-A602E35E-69BE-5F8C-A7E6-4B98E67BF382" /><meta name="DC.Relation" scheme="URI" content="GUID-96837414-3041-5E1E-A2E9-C18EECCF86D9" /><meta name="DC.Relation" scheme="URI" content="GUID-5D4616AC-42AB-52C3-9092-4463C3687E58" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-8E3BD71D-D372-5315-B282-F87FA60A1D5A" /><meta name="DC.Language" content="en" /><title>Extracting
+URI Components </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-8E3BD71D-D372-5315-B282-F87FA60A1D5A">Extracting
+URI Components</h1><div>
+<p>This tutorials describe the steps to extract URI components. </p>
+<div><h3 class="section-title">Introduction</h3> <p>URI components can be extracted from
+an URI using <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-22CF97EE-5DE8-3BE0-92E5-2446B5ED7DE5"><code class="apiname">TUriC8::Extract()</code></a> and passing a TUriComponent flag.
+For example, <code class="codeph">EUriQuery</code> or <code class="codeph">EUriPath</code>. </p> </div>
+<div><h3 class="section-title">Extracting a scheme component</h3><p>The following code
+fragment illustrates how to extract a scheme component. Parse the URI before
+the component is extracted calling <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-EB2EEEF1-705B-334D-A4B0-3D0C4CBE2DA1.html#GUID-F72D57B8-DFD4-38B7-A54B-29103540E8AA"><code class="apiname">TUriParser8::Parse()</code></a>. </p> <pre class="codeblock">
+_LIT8( KUri,"http://web.intra/Dev/Sysdoc/devlib.htm" );
+TUriParser8 parser;                      // URI parser object
+TInt result = parser.Parse( KUri );      // parse the URI descriptor     
+
+//Extract the scheme component from the parsed URI
+const TDesC8&amp; des = parser.Extract( EUriScheme );
+</pre> <p>where <code class="codeph">des</code> is a descriptor that contains the
+extracted scheme component. Other components such as userinfo, host, port
+and so on defined in TUriComponent can be extracted in
+a similar way. </p></div>
+<div><h3 class="section-title">Extracting an authority component</h3> <p>To retrieve a
+specific authority component from the URI, call TAuthority8::Extract().
+The following code fragment illustrates how to extract a authority component. </p> <pre class="codeblock">
+_LIT8( KAuthorityDesc,    "http://user:pass@www.mypage.com" );
+TAuthorityParser8 authorityParser;        //Authority parser object 
+
+authorityParser.Parse( KAuthorityDesc );  //Parse the authority descriptor    
+//extract the user infomation from the authority component
+const TDesC8&amp; des = authorityParser.Extract( EAuthorityUserinfo ); 
+</pre> <p>where, <code class="codeph">des</code> contains the user info that is
+extracted from the authority component. <code class="codeph">EAuthorityUserinfo</code> is
+an enum value of TAuthorityComponent. Similarly, host and
+port can be extracted using <code class="codeph">EAuthorityHost</code> and <code class="codeph">EAuthorityPort</code> respectively,
+which are defined in TAuthorityComponent. </p></div>
+<div><h3 class="section-title">Displaying the URI</h3> <p>To create a new descriptor containing
+the desired component or the full URI, call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-EB0F7486-A4EF-380C-B442-2BB0ED44697C"><code class="apiname">TUriC8::DisplayFormL()</code></a>. </p> <p>This
+converts a component into a new descriptor. The component to be converted
+can take any value between <code class="codeph">EUriScheme</code> and <code class="codeph">EUriFragment</code> or <code class="codeph">EUriComplete</code> (for
+the full URI). This method is used to obtain a pointer to a 16 bit descriptor
+for GUI display of URI. </p> <pre class="codeblock">HBufC16* uri = parsedUri-&gt;DisplayFormL( EUriComplete );</pre> <p>where <code class="codeph">EUriComplete</code> indicates that all the components
+in the URI are displayed. </p> <p>To fetch the URI, call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-A81CD022-5AD4-3BD8-B006-B3891C4F4F74.html#GUID-5683AF66-8A78-380F-BF68-2C9E570A8D3F"><code class="apiname">TUriC8::UriDes()</code></a>.
+This returns a pointer to 8 bit descriptor(<a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html"><code class="apiname">TDesC8</code></a>) containing
+the URI, which is used for HTTP requests. </p></div>
+<div><h3 class="section-title">Displaying authority</h3> <p>To create a new descriptor
+containing a specific component or the full authority component, call TAuthority8::DisplayFormL(). </p> <p>This
+converts a component into a new descriptor. The component to be converted
+can take any value between <code class="codeph">EAuthorityUserinfo</code> and <code class="codeph">EAuthorityPort</code> or
+the full authority, <code class="codeph">EAuthorityComplete</code>. </p> <pre class="codeblock">HBufC authority = parsedUri-&gt;DisplayFormL( EAuthorityComplete );</pre> <p>where <code class="codeph">EAuthorityComplete</code> means that the complete authority
+is displayed. </p> </div>
+<div><h3 class="section-title">See also</h3> <p>For related information, see: </p> <p><a href="GUID-795B41AF-FBEA-56CE-AE20-EF17BE754723.html">HTTP Utilities Library Overview</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 27th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8E3BD71D-D372-5315-B282-F87FA60A1D5A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:02:25 GMT -->
+</html>

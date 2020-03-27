@@ -1,0 +1,669 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_uiresources_uiresources_pub_skins_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:07 GMT -->
+<head><title>Skins API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i1045 i1050"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>Skins API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Changes"><span class="tocnumber">1.2</span> <span class="toctext">Changes</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.3</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.4</span> <span class="toctext">Class Structure</span></a></li>
+<li class="toclevel-2"><a href="#Skin_drawing"><span class="tocnumber">1.5</span> <span class="toctext">Skin drawing</span></a></li>
+<li class="toclevel-2"><a href="#Skin_utility"><span class="tocnumber">1.6</span> <span class="toctext">Skin utility</span></a></li>
+<li class="toclevel-2"><a href="#Wallpaper_utility"><span class="tocnumber">1.7</span> <span class="toctext">Wallpaper utility</span></a></li>
+<li class="toclevel-2"><a href="#Control_context"><span class="tocnumber">1.8</span> <span class="toctext">Control context</span></a></li>
+<li class="toclevel-2"><a href="#Item_data"><span class="tocnumber">1.9</span> <span class="toctext">Item data</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Enabling_skin_support_in_an_application"><span class="tocnumber">2.1</span> <span class="toctext">Enabling skin support in an application</span></a></li>
+<li class="toclevel-2"><a href="#Accessing_application_skin_instance"><span class="tocnumber">2.2</span> <span class="toctext">Accessing application skin instance</span></a></li>
+<li class="toclevel-2"><a href="#Providing_control_context_and_drawing_background"><span class="tocnumber">2.3</span> <span class="toctext">Providing control context and drawing background</span></a></li>
+<li class="toclevel-2"><a href="#Accessing_item_data_objects"><span class="tocnumber">2.4</span> <span class="toctext">Accessing item data objects</span></a></li>
+<li class="toclevel-2"><a href="#Accessing_cached_item_data_objects"><span class="tocnumber">2.5</span> <span class="toctext">Accessing cached item data objects</span></a></li>
+<li class="toclevel-2"><a href="#Setting_idle_state_wallpaper"><span class="tocnumber">2.6</span> <span class="toctext">Setting idle state wallpaper</span></a></li>
+<li class="toclevel-2"><a href="#Using_other_skin_utilities"><span class="tocnumber">2.7</span> <span class="toctext">Using other skin utilities</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.8</span> <span class="toctext">Error handling</span></a></li>
+<li class="toclevel-2"><a href="#Memory_and_Performance_Considerations"><span class="tocnumber">2.9</span> <span class="toctext">Memory and Performance Considerations</span></a></li>
+<li class="toclevel-2"><a href="#Limitations_of_the_API"><span class="tocnumber">2.10</span> <span class="toctext">Limitations of the API</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Abbreviations"><span class="tocnumber">3.1</span> <span class="toctext">Abbreviations</span></a></li>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.2</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The principal use of Skins API is using of AVKON Skins in applications
+and components that need to be made skin-aware. Skins API provides functionality
+to skin support in the AVKON UI controls. Skins can be used either application-wide
+or on per-component basis.
+</p><p>The skin-aware AVKON UI controls include:
+</p>
+<ul><li> Status pane (including the signal, context, title, universal indicator
+</li></ul>
+<p>and navigation panes)
+</p>
+<ul><li> Control pane (including labels and the scroll indicator)
+</li><li> Lists and grids
+</li><li> Find pane
+</li><li> Forms
+</li><li> Setting pages
+</li><li> Pop-ups
+</li></ul>
+<p>Skins API supports common operations. It provides utility methods to initialize
+skins support, retrieve a pointer to the current skin instance or data context,
+and to perform other skin-related tasks.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>aknskins.lib, aknskinsrv.lib, aknswallpaperutils.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/uiresources/uiresources_pub/skins_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/uiresources/uiresources_pub/skins_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>Skins API provides services for UI controls and applications. These services
+consist of:
+</p>
+<ul><li> An interface for skin item data object retrieval.
+</li><li> An interface for local item definition manipulation.
+</li><li> Client-side skin framework (skin instance, control context, data context).
+</li><li> Utility functionality (common operations, drawing operations).
+</li></ul>
+<p>To make a UI control (for example, one defined by the application itself)
+skin-aware, it may be necessary to modify its drawing code. For example, if
+a control clears its background, it must be done using a method provided by
+AVKON Skins.
+</p><p>To make a UI control use resources provided by the skins (for example,
+bitmaps), the control must be modified so that it retrieves the resources
+using AVKON Skins interfaces and reacts properly to the skin change event.
+</p><p>Any container that occupies the full main pane (or pop-up window) needs
+to be modified to provide a skin control context. This is done to specify
+how layout backgrounds are used by its child controls.
+</p><p>AVKON Skins also provides means to cache skin item data objects and to
+control the lifetime of a cached item data object. It is up to the application
+(or UI control), whether it will or will not take advantage of these.
+</p><p>Each skin item represents a single resource (i.e., bitmap or application
+icon) that can be retrieved using the AVKON Skins interfaces. A skin item
+is identified by its identifier.
+</p><p>Item identifiers are common among all skin packages. They are mapped to
+concrete resources (skin item data objects) using skin item definitions. Item
+definitions for system-wide skin items are stored and managed by Skins Server.
+Most applications and components have, however, no reason to do so.
+</p><p>Typically, a UI component needs to obtain or construct an item data object
+by providing the corresponding item ID to the AVKON Skins subsystem. An item
+data object (or a resource instance extracted from it) is returned to the
+caller.
+</p><p>Skins API supports only S60 skins. If application needs skinning of its
+own bitmaps, it has to implement skinning.
+</p>
+<a name="Changes"><h3> <span class="mw-headline">1.2 Changes </span></h3>
+</a><p>Skins API is an SDK API and part of S60 release 3.x.
+</p><p>None.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.3 Use Cases </span></h3>
+</a><p>The main use cases of Skins API are:
+</p>
+<ul><li> Enabling skin support in application
+</li><li> Enabling skin support for a specific control
+</li><li> Accessing application skin instance
+</li><li> Providing data context and reserving skin item
+</li><li> Providing control context and drawing background
+</li><li> Accessing item data objects
+</li><li> Accessing cached item data objects
+</li><li> Creating an icon
+</li><li> Setting Idle state wallpaper
+</li><li> Using other skin utilities
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.4 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>AknsDrawUtils <td><span class="plainlinks"><code>/epoc32/include/mw/AknsDrawUtils.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>AknsUtils</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsUtils.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>AknsWallpaperUtils</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsWallpaperUtils.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsAnimationCommand</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsAnimationItemData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsAnimationValue</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsBasicBackgroundControlContext</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsBasicBackgroundControlContext.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsBitmapItemData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsBmpAnimItemData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsColorTableItemData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsEffectCommand</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsEffectQueueItemData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsFrameBackgroundControlContext</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsFrameBackgroundControlContext.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsImageItemData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsImageTableItemData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsItemData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsLayeredBackgroundControlContext</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsLayeredBackgroundControlContext.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsListBoxBackgroundControlContext</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsListBoxBackgroundControlContext.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsMaskedBitmapItemData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsStringItemData</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>CAknsTimingModel</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemData.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknsControlContext</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsControlContext.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknsDataContext</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsDataContext.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknsRlEffect</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsRlEffect.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknsRlEffectContext</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsRlEffectContext.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknsRlParameterIterator</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsRlParameter.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>MAknsSkinInstance</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsSkinInstance.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TAknsItemID</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsItemID.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/AknsConstants.h</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/AknsItemID.inl</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/aknsconstants.hrh</code></span>
+</td></tr>
+<p>Skins API classes with their inheritance and composition relationships.
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ClassDiagram1.png" title="The class  diagram of skin drawing, skin utility, and skin animation classes."><img alt="The class  diagram of skin drawing, skin utility, and skin animation classes." border="0" height="399" src="images/SPB_10_1_ClassDiagram1.png" width="611" /></a></div>
+<div style="text-align:center"><i>The class  diagram of skin drawing, skin utility, and skin animation classes.</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ClassDiagram2.png" title="The class diagram of skin item data classes"><img alt="The class diagram of skin item data classes" border="0" height="520" src="images/SPB_10_1_ClassDiagram2.png" width="621" /></a></div>
+<div style="text-align:center"><i>The class diagram of skin item data classes</i></div>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_ClassDiagram3.png" title="The class diagram of control context classes"><img alt="The class diagram of control context classes" border="0" height="350" src="images/SPB_10_1_ClassDiagram3.png" width="621" /></a></div>
+<div style="text-align:center"><i>The class diagram of control context classes</i></div>
+<a name="Skin_drawing"><h3> <span class="mw-headline">1.5 Skin drawing </span></h3>
+</a><p>Provides utility methods to perform skin-aware drawing operations, such
+as background drawing for a UI control. Contains the following class: <span class="plainlinks"><code>AknsDrawUtils</code> </span>.
+</p>
+<a name="Skin_utility"><h3> <span class="mw-headline">1.6 Skin utility </span></h3>
+</a><p>Supports AVKON Skins common operations. AknsUtils provides utility methods
+to initialize skins support, retrieve a pointer to the current skin instance
+or data context, and to perform other skin-related tasks. Contains the following
+class: <span class="plainlinks"><code>AknsUtils</code> </span>.
+</p>
+<a name="Wallpaper_utility"><h3> <span class="mw-headline">1.7 Wallpaper utility </span></h3>
+</a><p>A utility class for manipulating the Idle state wallpaper. Contains the
+following class: <span class="plainlinks"><code>AknsWallpaperUtils</code> </span>.
+</p>
+<a name="Control_context"><h3> <span class="mw-headline">1.8 Control context </span></h3>
+</a><p>In order to maintain binary compatibility and to avoid passing additional
+parameters to child controls, skins support relies on context information
+passed in the control hierarchy using the <span class="plainlinks"><code>MObjectProvider</code> </span> mechanism.
+An overview of the <span class="plainlinks"><code>MObjectProvider</code> </span> functionality is provided
+in Symbian Developer Library.
+</p><p>For example, when the <span class="plainlinks"><code><font color="darkred">Background()</font></code> </span> method of <span class="plainlinks"><code>AknsDrawUtils</code> </span> is
+called to draw the bitmapped layout background for the control, the object
+provider chain is searched for a control context and the nearest one (i.e.,
+the control context provided by the nearest parent) is used to specify the
+bitmap and layout for drawing. This implies two requirements for controls
+and applications:
+</p>
+<ul><li> The object provider chain must be solid for every control that needs (or
+</li></ul>
+<p>may need in the future) information from a skin control context. Drawing a
+bitmapped layout background is an operation that needs such information.
+</p>
+<ul><li> There must be an entity that provides the control context.
+</li></ul>
+<p>The entity that provides the control context is usually the one that represents
+the layout element that defines the background to be used. For the status
+pane and control pane, the control context is provided by their implementation.
+For the main pane, the control context may be provided by the system classes
+(for instance, when an AVKON control covering the entire main pane is used),
+but in other cases should be provided by the application. The proper place
+for this is usually the container that occupies the main pane.
+</p><p>If no control context is found, the drawing operations provided by AVKON
+Skins function as the corresponding methods in Symbian OS UI Graphics Utilities.
+This ensures backwards compatibility with applications that are not aware
+of the skins support even if they use controls that take advantage of AVKON
+Skins.
+</p><p>Contains the following classes:
+</p>
+<ul><li> <span class="plainlinks"><code>CAknsBasicBackgroundControlContext</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsListBoxBackgroundControlContext</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsLayeredBackgroundControlContext</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsFrameBackgroundControlContext</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsContainerDataContext</code> </span>
+</li></ul>
+<a name="Item_data"><h3> <span class="mw-headline">1.9 Item data </span></h3>
+</a><p>The skin instance takes care of updating cached item data objects when
+item definitions change and they are owned (and therefore deleted) by the
+skin instance. The caller is responsible for updating independent objects.
+</p><p>If the UI control can be drawn even when the skin instance singleton is
+not available (for example, during an AppUi destroyer), it must handle situations
+when skin support is not available and <span class="plainlinks"><code>AknsUtils::SkinInstance</code> </span> returns <span class="plainlinks"><code>NULL</code> </span>.
+Every UI control should also be prepared for error conditions caused by skin
+item retrieval and should handle leaves or <span class="plainlinks"><code>NULL</code> </span> return values
+properly.
+</p><p>Contains the following classes:
+</p>
+<ul><li> <span class="plainlinks"><code>CAknsItemData</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsImageItemData</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsImageTableItemData</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsBitmapItemData</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsColorTableItemData</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsMaskedBitmapItemData</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsBmpAnimItemData</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsAnimationItemData</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsEffectQueueItemData</code> </span>
+</li><li> <span class="plainlinks"><code>CAknsStringItemData</code> </span>
+</li></ul>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><a name="Enabling_skin_support_in_an_application"><h3> <span class="mw-headline">2.1 Enabling skin support in an application </span></h3>
+</a><p>Generally, if the entire layout area (i.e. status pane, control pane, main
+pane or pop-up window) is drawn by a single AVKON control, which already provides
+the necessary parameters, there is no need for significant application changes
+at all. Always enable skins in application level. This can be done either
+application-wide or on a component-by-component basis:
+</p>
+<pre>void CMyAppUi::ConstructL()
+    {
+    // Enables skins in all the optionally skin-providing controls in this application
+    BaseConstructL( EAknEnableSkin );
+    // &#8230;
+    }
+</pre>
+<p>It is also possible to enable skins for a skin providing control, but not
+all controls supports this method.
+</p>
+<pre>void CMyContainer::ConstructL()
+    {
+    // &#8230;
+    // Enables skin for control
+    iSomeOptSkinAwareCtrl-&gt;SetSkinEnabledL( ETrue );
+    // &#8230;
+    }
+</pre>
+<a name="Accessing_application_skin_instance"><h3> <span class="mw-headline">2.2 Accessing application skin instance </span></h3>
+</a><p>The skins enabled S60 application framework constructs a singleton object
+called a skin instance for every application. It performs several fundamental
+operations related to skin support.
+</p><p>Firstly, the skin instance performs skin item lookup and data construction.
+This involves querying the item definition from Skins Server and using the
+item data factory to construct the item data object.
+</p><p>Secondly, the skin instance maintains the item data cache. If the caller
+requests a cached item data object, it is stored in the cache and any skin
+change triggers automatic reconstruction.
+</p><p>Thirdly, local item definitions are managed by the skin instance. An application
+may set local item definitions that are visible only within its own thread.
+</p><p>In this example, application supports skins, and a pointer to the application's
+skin instance is requested.
+</p>
+<pre>void CMyControl::ConstructL()
+    {
+    // &#8230;
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    // &#8230;
+    }
+</pre>
+<a name="Providing_control_context_and_drawing_background"><h3> <span class="mw-headline">2.3 Providing control context and drawing background </span></h3>
+</a><p><span class="plainlinks"><code>AknsDrawUtils</code> </span> provides methods to draw a background bitmap
+for UI controls. If the application is non-skin-aware (or the control context
+specifies that no bitmap can be used), these methods clear the area without
+any bitmap..
+</p><p>The container may optionally provide a data context to ensure that skin
+items reserved by it and its child controls are released properly when the
+container goes out of scope.
+</p><p>To provide data context, the container must override the <span class="plainlinks"><code>MopSupplyObject</code> </span> method
+and own an object implementing the data context interface.
+</p>
+<pre>class CMyContainer : public CCoeControl
+     {
+     //&#8230;
+     /**
+     * Pass skin information if needed.
+     */
+     TTypeUid::Ptr MopSupplyObject(TTypeUid aId);
+</pre>
+<pre>public:
+     CAknsBasicBackgroundControlContext* iBackground;
+     //&#8230;
+    };
+</pre>
+<p>Creates the control context with a defined background ID.
+</p>
+<pre>void CMyContainer::ConstructL(const TRect&amp; aRect )
+    {
+    //&#8230;
+    TRect rect(0, 0, 0, 0);
+    // Temporary rect is passed. Correct rect is set in SizeChanged.
+    // Create the new context with image: KAknsIIDQsnBgAreaMain, and parent absolute layout is not used.
+    iBackground = CAknsBasicBackgroundControlContext::NewL(KAknsIIDQsnBgAreaMain, rect, EFalse );
+    //&#8230;
+    SetRect(aRect);
+    ActivateL();
+    }
+</pre>
+<p>Modifies the container's <span class="plainlinks"><code><font color="darkred">Draw()</font></code> </span> method to draw the background.
+</p>
+<pre>void CMyContainer::Draw( )
+    {
+    //&#8230;
+    // Drawing skin
+    if ( iBackground )
+        {
+        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+        if ( !AknsDrawUtils::Background( skin, iBackground, this, gc, rect) )
+             {
+             // The background was not drawn&#8230;.
+             }
+        }
+    //&#8230;
+    }
+</pre>
+<p>Updates the position in container's <span class="plainlinks"><code><font color="darkred">SizeChanged()</font></code> </span> method.
+</p>
+<pre>void CMyContainer::SizeChanged()
+    {
+    //&#8230;
+    if ( iBackground )
+        {
+        iBackground-&gt;SetRect(Rect());
+        }
+    //&#8230;
+    }
+</pre>
+<p><span class="plainlinks"><code>MopSupplyObject</code> </span> must provide a pointer to the control
+context, in this example the <span class="plainlinks"><code>CAknsBasicBackgroundControlContext</code> </span> instance.
+</p>
+<pre>TTypeUid::Ptr CMyContainer::MopSupplyObject(TTypeUid aId)
+    {
+    if (aId.iUid == MAknsControlContext::ETypeId &amp;&amp; iBackground)
+        {
+        return MAknsControlContext::SupplyMopObject(aId, iBackground);
+        }
+</pre>
+<pre>    return CCoeControl::MopSupplyObject(aId);
+    }
+</pre>
+<a name="Accessing_item_data_objects"><h3> <span class="mw-headline">2.4 Accessing item data objects </span></h3>
+</a><p>Skin item data is constructed and cached if necessary, based on the item
+definition available from the local definition list or, if not found there,
+the shared memory chunk lookup provided by AVKON Skins Server. A pointer to
+the cached item data object is returned to the caller.
+</p><p>In this example scrollbar's top background skin element is accessed. The
+returned <span class="plainlinks"><code>CAknsItemData</code> </span> pointer can be casted for example
+to pointer <span class="plainlinks"><code>CAknsMaskedBitmapItemData</code> </span> in order to get access
+to the bitmap objects themselves.
+</p>
+<pre>class CMyContainer : public CCoeControl
+    {
+    // &#8230;
+    CAknsItemData* iItemData;
+    // &#8230;
+    }
+</pre>
+<p>Accesses the bitmap in skin item data.
+</p>
+<pre>// Gets skin item
+MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+iItemData = skin-&gt;CreateUncachedItemDataL( KAknsIIDQsnCpScrollBgTop );
+</pre>
+<pre>if ( iItemData )
+     {
+     // Accesses bitmap objectin skin item
+     CAknsBitmapItemData* bitmapContex=(CAknsBitmapItemData*)iItemData;
+     CFbsBitmap* bitmap = bitmapContex-&gt;Bitmap();
+     }
+</pre>
+<p>In the case of a bitmap item, the same can be performed with much less
+code by using <span class="plainlinks"><code>AknsUtils::CreateBitmapL</code> </span>.
+</p>
+<pre>MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+if( skin )
+     {
+     iBmp = AknsUtils::CreateBitmapL( KAknsIIDQsnCpScrollBgTop );
+     }
+</pre>
+<a name="Accessing_cached_item_data_objects"><h3> <span class="mw-headline">2.5 Accessing cached item data objects </span></h3>
+</a><p>Utility methods should be used to facilitate, for example, fetching bitmap
+type skin item data.
+</p>
+<pre>void CMyControl::Draw(const TRect&amp; aRect) const
+    {
+    // &#8230;
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    CFbsBitmap* bitmap = AknsUtils::GetCachedBitmap( skin, KAknsIIDQsnBgAreaMain );
+    if( bitmap )
+        {
+        // Draw the bitmap.
+        }
+    else
+        {
+        // Not found or an error occurred. Draw without the bitmap.
+        }
+     // &#8230;
+    }
+</pre>
+<p>Skin items of the image type (such as bitmaps) can also be drawn directly
+using the <span class="plainlinks"><code>AknsDrawUtils::DrawCachedImage</code> </span> method.
+</p>
+<pre>void CMyControl::Draw(const TRect&amp; aRect) const
+    {
+    // &#8230;
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    AknsDrawUtils::DrawCachedImage( skin, gc, rect, KAknsIIDQsnBgAreaMain );
+    // &#8230;
+   }
+</pre>
+<a name="Setting_idle_state_wallpaper"><h3> <span class="mw-headline">2.6 Setting idle state wallpaper </span></h3>
+</a><p><span class="plainlinks"><code>AknsWallpaperUtils::SetIdleWallpaper()</code> </span> changes the actual
+idle state wallpaper. If <span class="plainlinks"><code>KNullDesC</code> </span> is set as a wallpaper
+file name, the method removes the current wallpaper.
+</p>
+<pre>_LIT( KWallpaperFile,"c:\\wallpaperimage.jpg" );
+User::LeaveIfError( AknsWallpaperUtils::SetIdleWallpaper( KWallpaperFilename, NULL ) );
+</pre>
+<a name="Using_other_skin_utilities"><h3> <span class="mw-headline">2.7 Using other skin utilities </span></h3>
+</a><p>Creates an independent copy by the given item ID, and creates a <span class="plainlinks"><code>CGulIcon</code> </span> object. <span class="plainlinks"><code>AknIconUtils::SetSize()</code> </span> must
+be called before drawing the bitmap.
+</p>
+<pre>CGulIcon* newIcon;
+CFbsBitmap *newIconBmp;
+CFbsBitmap *newIconMaskBmp;
+</pre>
+<pre>MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+AknsUtils::CreateIconL( skin, KMyBmpIID, newIconBmp, newIconMaskBmp, iconFile, iconIndex, iconMaskIndex );
+newIcon = CGulIcon::NewL( newIconBmp, newIconMaskBmp);
+</pre>
+<p>A faster method to create a <span class="plainlinks"><code>CGulIcon</code> </span> object.
+</p>
+<pre>CGulIcon* newIcon;
+</pre>
+<pre>MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+newIcon = AknsUtils:: CreateGulIconL( skin, KMyBmpIID, iconFile, iconIndex, iconMaskIndex );
+</pre>
+<p>Gets an application icon supporting scalable graphics. This example gets
+the icon of the calculator application.
+</p>
+<pre>CFbsBitmap* bitmap;
+CFbsBitmap* mask;
+</pre>
+<pre>AknsUtils::CreateAppIconLC(skin, TUid::Uid(0x01FEDCBA), EAknsAppIconTypeContext, bitmap, mask);
+</pre>
+<pre>// CreateAppIconLC puts both bitmap to stack
+CleanupStack::Pop(); // bitmap
+CleanupStack::Pop(); // mask
+</pre>
+<pre>// Sets the size of the bitmap before displaying
+TSize size( 100, 100 );
+AknIconUtils::SetSize( bitmap, size );
+</pre>
+<p>This utility method creates an independent (in terms of instance ownership)
+copy of a masked bitmap by the given item ID and applies color-based skinning
+to it.
+</p>
+<pre>CFbsBitmap* bitmap;
+CFbsBitmap* mask;
+</pre>
+<pre>MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+</pre>
+<pre>AknsUtils::CreateColorIconL( skin, KMyBmpID, KAknsIIDQsnComponentColors, EAknsCIQsnComponentColorsCG5, bitmap, mask, KAvkonBitmapFile, EMbmAvkonQgn_note_warning, EMbmAvkonQgn_note_warning_mask, KRgbBlack );
+</pre>
+<pre>// Set the size of the bitmap before displaying
+TSize size( 100, 100 );
+AknIconUtils::SetSize( iBitmap, size );
+</pre>
+<p>This example gets the text color of the main area in the current skin context.
+Color groups and indexes can be found in the file<i> AknsConstants.h</i>.
+</p>
+<pre>MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+TRgb color;
+</pre>
+<pre>AknsUtils::GetCachedColor( skin, color, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG6 );
+</pre>
+<a name="Error_handling"><h3> <span class="mw-headline">2.8 Error handling </span></h3>
+</a><p>Skins API uses standard Symbian OS error reporting mechanism. Possible
+panic circumstances and panic codes are indicated in class or method descriptions.
+</p><p>There are also API methods that cannot be allowed to leave, e.g. utility
+methods used during drawing operations. These methods either fail silently
+or return an error value as specified in their documentation in C++ header
+file comments.
+</p>
+<a name="Memory_and_Performance_Considerations"><h3> <span class="mw-headline">2.9 Memory and Performance Considerations </span></h3>
+</a><p>A skin instance object is allocated for every application thread. This
+causes minor heap consumption, estimated to be approximately 100 bytes per
+application thread. In addition, local item definitions and cached item data
+objects demand heap causing variable heap consumption depending on the size
+and number of objects allocated. The application should consider deleting
+bitmaps when no longer needed.
+</p>
+<a name="Limitations_of_the_API"><h3> <span class="mw-headline">2.10 Limitations of the API </span></h3>
+</a><p>Skins API supports only S60 skins. If application needs skinning of its
+own bitmaps, it has to implement skinning. Local item definitions should not
+be used. Clients should not create instances of item data classes.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Abbreviations"><h3> <span class="mw-headline">3.1 Abbreviations </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Skins API abbreviations</b>
+</caption>
+<tr>
+<td> API</td><td> Application Programming Interface
+</td></tr>
+<tr>
+<td> MOP</td><td> <span class="plainlinks"><code></code></span></td></tr></table></a>MObjectProvider 
+
+<tr>
+<td> OOM</td><td> Out Of Memory
+</td></tr>
+<tr>
+<td> UI</td><td> User Interface
+</td></tr>
+<tr>
+<td> UID</td><td> Unique Identifier
+</td></tr>
+<a name="Definitions"><h3> <span class="mw-headline">3.2 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Skins API definitions</b>
+</caption>
+<tr>
+<td> Data context</td><td> An entity that provides context sensitive control over data
+<p>allocation. E.g. a container can be a data context ensuring that skin item
+data objects used by its child controls are properly released when the container
+goes out of scope.
+</p>
+</td></tr>
+<tr>
+<td> Control context</td><td> An entity that provides context sensitive skin parameters. E.g. a container
+<p>may choose to specify different layout background bitmaps for its child controls.
+</p>
+</td></tr>
+<tr>
+<td> (Skin) item</td><td> A single resource (such as a bitmap) that can be retrieved through
+<p>AVKON Skins interfaces.
+</p>
+</td></tr>
+<tr>
+<td> (Skin) item data</td><td> An object that contains the item type as well as its resource instance,
+<p>e.g. a bitmap as a <span class="plainlinks"><code></code></span></p></td></tr></table></a>CFbsBitmap  object instance.
+
+
+<tr>
+<td> (Skin) item definition</td><td> An object that contains the item ID, type and necessary information
+<p>to construct the item data, e.g. the filename of an MBM file and the index
+of a particular bitmap inside that file.
+</p>
+</td></tr>
+<tr>
+<td> (Skin) item ID</td><td> A two-part identifier that identifies a skin item.
+</td></tr>
+<tr>
+<td> Skin instance</td><td> A singleton object (one per application thread) that is used to maintain
+<p>local skin item definitions and a cache of skin item data objects.
+</p>
+</td></tr>
+<tr>
+<td> Skin-aware</td><td> Application, UI control or other entity that is capable of taking advantage
+<p>of the skins support.
+</p>
+</td></tr>
+<div class="copy"><?php include ("copy.html"); ??></div></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_uiresources_uiresources_pub_skins_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:13:10 GMT -->
+</html>

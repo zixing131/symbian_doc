@@ -1,0 +1,170 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-77E02E43-A72A-52DC-A22B-31FABE5B658D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:31 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Examples Showing the use of the SIP Client API" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-6425B722-4095-56E3-9198-70BA3E06C617" /><meta name="DC.Relation" scheme="URI" content="GUID-057F1F82-56AF-5696-853E-79196A3D567E" /><meta name="DC.Relation" scheme="URI" content="GUID-E339A683-94E2-54E8-BB2B-286B11B0FCE3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-77E02E43-A72A-52DC-A22B-31FABE5B658D" /><meta name="DC.Language" content="en" /><title>Examples Showing the use of the SIP Client API </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-77E02E43-A72A-52DC-A22B-31FABE5B658D">Examples Showing the use of the SIP Client API</h1><div>
+<p>The following sections describe how to use the SIP Client API. </p>
+<ul>
+<li id="GUID-C9BF535A-9B75-5133-BBC5-3341A3671126"><a name="GUID-C9BF535A-9B75-5133-BBC5-3341A3671126"><!-- --></a><p> <a href="#GUID-6E3797D8-507F-5D7B-B601-DABCE95EC87C">SIP Client API dependent objects</a> </p> </li>
+<li id="GUID-22A2CB82-E384-5137-99E9-CE39FF248971"><a name="GUID-22A2CB82-E384-5137-99E9-CE39FF248971"><!-- --></a><p> <a href="#GUID-0D3FB3DF-9316-554E-AC08-62C8D33B7F5E"> Publishing the SIP contact address of a user</a> </p> </li>
+<li id="GUID-0417F827-6C56-5EE9-B1B2-FE82A757E452"><a name="GUID-0417F827-6C56-5EE9-B1B2-FE82A757E452"><!-- --></a><p> <a href="#GUID-0B246AE6-F0D1-56D4-9367-AF8678D5DB0F">Initiating a REGISTER transaction</a> </p> </li>
+<li id="GUID-A6E71991-EE51-59CD-AD38-B976F623300A"><a name="GUID-A6E71991-EE51-59CD-AD38-B976F623300A"><!-- --></a><p> <a href="#GUID-E1F1952C-F56A-53D8-BD7E-C39E3E2566FD">Creating a CSIPConnection instance for a different IAP</a> </p> </li>
+<li id="GUID-D3732A15-A3B2-530E-991F-8B3311677853"><a name="GUID-D3732A15-A3B2-530E-991F-8B3311677853"><!-- --></a><p> <a href="#GUID-4E2849A8-36BB-5986-BA33-71E39FA5FCE7">Creating a SIP dialog while responding to the INVITE request</a> </p> </li>
+<li id="GUID-F701EF01-D87C-5665-B5B2-8AAC9A8790DD"><a name="GUID-F701EF01-D87C-5665-B5B2-8AAC9A8790DD"><!-- --></a><p> <a href="#GUID-9C1A5E22-7E45-5346-B266-7767161816BA">Deleting the transaction object</a> </p> </li>
+<li id="GUID-079B944B-6026-5AAF-AAD2-390476641272"><a name="GUID-079B944B-6026-5AAF-AAD2-390476641272"><!-- --></a><p> <a href="#GUID-66B8C7BF-0157-5108-BFE9-510144C0F61C">No response is sent to a received ACK</a> </p> </li>
+<li id="GUID-3C83FD0B-8040-5E36-8844-69FF156FA3A9"><a name="GUID-3C83FD0B-8040-5E36-8844-69FF156FA3A9"><!-- --></a><p> <a href="#GUID-5A707F15-A679-5FE0-943D-FE246514F852">Getting the transaction timers values</a> </p> </li>
+<li id="GUID-BBC6F83A-760B-597C-B3AD-0DEBBC62EC3C"><a name="GUID-BBC6F83A-760B-597C-B3AD-0DEBBC62EC3C"><!-- --></a><p> <a href="#GUID-2436DD1E-A388-5D77-A745-22D264770D95"> Extension headers definition with the SIP Client API </a> </p> </li>
+</ul>
+<div id="GUID-6E3797D8-507F-5D7B-B601-DABCE95EC87C"><h3 class="section-title">SIP
+Client API dependent objects</h3> <p>Create CSIP and CSIPConnection objects to use the SIP Client
+API: </p> <pre class="codeblock">iSIP = CSIP::NewL(KAppUid, *iMySIPObserver);
+iConnection = CSIPConnection::NewL(*iSIP, KIapIdentifier,*iMyConnectionObserver);
+</pre> </div>
+<div id="GUID-0D3FB3DF-9316-554E-AC08-62C8D33B7F5E"><h3 class="section-title"> Publishing
+the SIP contact address of a user</h3> <p>Create a SIP registration
+to publish the SIP contact address of a user. The AOR and a contact
+must be registered. In this example, create CSIPRefresh to automatically refresh the SIP stack when it is registered. </p> <p>In the following code, <code class="codeph">localhost</code> indicates the
+request for the SIP stack to replace it with a local address. The <code class="codeph">sip:user@localhost</code> means that the SIP stack replaces the
+localhost with the local IP address. An application uses CSIPRegistrationBinding class to handle SIP registration.
+The application can also use the profile agent API for handling registration. </p> <pre class="codeblock">CSIPToHeader* aor = CSIPToHeader::DecodeL(_L8("sip:user@remote.registrar"));
+CleanupStack::PushL(aor);
+
+CSIPAddress* addr = CSIPAddress::DecodeL(_L8("sip:user@LOCALHOST"));
+CleanupStack::PushL(addr);
+CSIPContactHeader* contact = CSIPContactHeader::NewL(addr);
+CleanupStack::Pop(addr);
+CleanupStack::PushL(contact);
+
+CSIPRefresh* refresh = CSIPRefresh::NewLC();
+
+iRegistration = CSIPRegistrationBinding::NewL(*iConnection, aor, contact, refresh);
+
+CleanupStack::Pop(3); //refresh, contact, aor</pre> </div>
+<div id="GUID-0B246AE6-F0D1-56D4-9367-AF8678D5DB0F"><h3 class="section-title">Initiating
+a REGISTER transaction </h3> <p>Create a CSIPRegistrationBinding object to start a <code class="codeph">REGISTER</code> transaction. </p> <pre class="codeblock">iRegisterTransaction = iRegistration-&gt;RegisterL();</pre> <p>When you receive a 2xx response, the registration is active.
+Delete the transaction when the final response is received. </p> <pre class="codeblock">void CMyConnectionObserver::IncomingResponse(CSIPClientTransaction&amp; aTransaction, CSIPRegistrationBinding&amp; aRegistration)
+    {
+    if (aRegistration.IsContextActive())
+        {
+        // Registration has succeeded
+        }
+
+    if (aTransaction.ResponseElements()-&gt;StatusCode() &gt;= 200)
+        {
+        // Final response received, transaction is no longer needed
+
+        if (aTransaction == *iRegisterTransaction)
+            {
+            delete iRegisterTransaction;
+            iRegisterTransaction = NULL;
+            }
+        }
+    }</pre> </div>
+<div id="GUID-E1F1952C-F56A-53D8-BD7E-C39E3E2566FD"><h3 class="section-title"> Creating
+a CSIPConnection instance for a different IAP</h3> <p>An <code class="codeph">INVITE</code> request is received from the network. In this example
+the INVITE is received through a different IAP that does not have
+a <code class="codeph">CSIPConnection</code>. Create a <code class="codeph">CSIPConnection</code> instance for this IAP. </p> <pre class="codeblock">void CMySIPObserver::IncomingRequest(TUint32 aIapId, CSIPServerTransaction* aTransaction)
+    {
+    // Create an observer for the new CSIPConnection
+    TRAPD(err, iMyOtherConnectionObserver = CMyConnectionObserver::NewL());
+    // Handle leave condition
+
+    // Create a new connection for the IAP
+    TRAP(err, iOtherConnection = CSIPConnection::NewL(*iSIP, aIapId,
+                                   *iMyOtherConnectionObserver));
+    // Handle leave condition
+
+    // Application owns the transaction
+    iInviteServerTransaction = aTransaction;
+    }</pre> </div>
+<div id="GUID-4E2849A8-36BB-5986-BA33-71E39FA5FCE7"><h3 class="section-title">Creating
+a SIP dialog while responding to the INVITE request</h3> <p>The
+INVITE request is received and the application sends a response (101-299).
+This creates a SIP dialog. Before sending the response, create a CSIPInviteDialogAssoc. </p> <pre class="codeblock">iInviteAssoc = CSIPInviteDialogAssoc::NewL(*iInviteServerTransaction);
+
+CSIPResponseElements* response = CSIPResponseElements::NewLC(180, SIPStrings::StringF(SipStrConsts::EPhraseRinging));
+
+iInviteServerTransaction-&gt;SendResponseL(response);
+CleanupStack::Pop(response);</pre> </div>
+<div id="GUID-9C1A5E22-7E45-5346-B266-7767161816BA"><h3 class="section-title">Deleting
+the transaction object</h3> <p>When the user accepts the <code class="codeph">INVITE</code>, it sends a '200 response' using the same transaction
+object. When a 2xx response is sent to an <code class="codeph">INVITE</code> transaction
+it enters the CSIPTransactionBase::ETerminated state.
+Then the transaction is deleted. </p> <pre class="codeblock">CSIPResponseElements* response = CSIPResponseElements::NewLC(200, SIPStrings::StringF(SipStrConsts::EPhraseOk));
+            
+iInviteServerTransaction-&gt;SendResponseL(response);
+CleanupStack::Pop(response);
+
+delete iInviteServerTransaction;
+iInviteServerTransaction = NULL;</pre> </div>
+<div id="GUID-66B8C7BF-0157-5108-BFE9-510144C0F61C"><h3 class="section-title"> No
+response is sent to a received ACK</h3> <p>When the ACK request
+arrives, SIP Client API creates a CSIPServerTransaction and passes the transaction object to the application using the MSIPConnectionObserver of the IAP through which the ACK
+is received. If no response is sent to an ACK the transaction object
+is deleted. </p> <pre class="codeblock">void CMyConnectionObserver::IncomingRequest(CSIPServerTransaction* aTransaction, CSIPDialog&amp; aDialog)
+    {
+    if (aTransaction.Type() == SIPStrings::StringF(SipStrConsts::EAck))
+        {
+        // Might inspect the Content part of the ACK for SDP etc.
+       // No response will be sent to an ACK
+        delete aTransaction;
+        }
+    else
+        {
+        // Handle other requests
+        }
+    }</pre> </div>
+<div id="GUID-5A707F15-A679-5FE0-943D-FE246514F852"><h3 class="section-title">Getting
+the transaction timers values</h3> <p>The following example code
+shows how to get the transaction timers values from the Central Repository
+(CenRep). </p> <pre class="codeblock">#include &lt;centralrepository.h&gt;
+#include &lt;SIPSDKCRKeys.h&gt;
+TInt timerT1 = 0;
+TInt timerT2 = 0;
+CRepository* repository = CRepository::NewLC(KCRUidSIP);
+User::LeaveIfError(repository-&gt;Get(KSIPTransactionTimerT1,timerT1));
+User::LeaveIfError(repository-&gt;Get(KSIPTransactionTimerT2,timerT2));
+CleanupStack::PopAndDestroy(repository);</pre> </div>
+<div id="GUID-2436DD1E-A388-5D77-A745-22D264770D95"><h3 class="section-title"> Extension
+header definitions with the SIP Client API </h3> <p>The following
+is an example of the extension header definitions with the SIP Client
+API. SIP clients use Extension headers to send or receive SIP messages
+with methods that do not have default handling support implemented
+in the stack. </p> <pre class="codeblock">void CMyClass::ExtractHeadersL( CSIPMessageElements&amp; aElements )
+    {
+    const RPointerArray&lt;CSIPHeaderBase&gt;&amp; userHeaders = aElements.UserHeaders();
+    for ( TInt I = 0; I &lt; userHeaders.Count(); I++ )
+        {
+        const CSIPHeaderBase* header = userHeaders[ I ];
+        
+        // An example of a known already supported header.
+        // This can be casted to the actual class.
+        // It will be supported also in the future and does not cause SC/BC problems.
+        
+        if ( header-&gt;Name() == SIPStrings::StringF( SipStrConsts::ERAckHeader ) )
+             {
+             iRAckHeader = static_cast&lt;CSIPRAckHeader*&gt;(header-&gt;CloneL());
+             }
+         
+        // An example of a SIP header that is currently supported as an extension.
+        // The application must NOT make a static cast to CSIPExtensionHeader.
+        // Instead it must use CSIPHeaderBase::ToTextValueL and parse the result.
+        
+        RStringF extensionName = SIPStrings::Pool().OpenFStringL( L8("Extension") );
+        CleanupClosePushL( extensionName ); 
+        if ( header-&gt;Name() == extensionName )
+            {
+            HBufC8* headerValue = header-&gt;ToTextValueLC();
+            
+            // Do application specific parsing and handling for the header
+ 
+            CleanupStack::PopAndDestroy( headerValue );
+            }
+        CleanupStack::PopAndDestroy( 1 ); // extensionName
+        }
+    }
+</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 15th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-77E02E43-A72A-52DC-A22B-31FABE5B658D.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:31 GMT -->
+</html>

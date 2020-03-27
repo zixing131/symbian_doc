@@ -1,0 +1,46 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-46121F24-AB53-5B44-A082-EF13A72EB7FF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Writing a Converter" /><meta name="abstract" content="File Converter Framework specifies a plug-in interface for file format converters. Clients can convert from one data type to another using file format converters, for example, HTML files to Word documents." /><meta name="description" content="File Converter Framework specifies a plug-in interface for file format converters. Clients can convert from one data type to another using file format converters, for example, HTML files to Word documents." /><meta name="DC.Relation" scheme="URI" content="GUID-99AC84AE-C4C0-53AA-8984-51AE84EE7651" /><meta name="DC.Relation" scheme="URI" content="GUID-49C93C36-D86B-4EEE-A8AB-4279312DF4BC" /><meta name="DC.Relation" scheme="URI" content="GUID-008F9006-8548-443D-A7ED-4A8233E051C6" /><meta name="DC.Relation" scheme="URI" content="GUID-436B6DFE-D279-44BF-B099-B2547D50610A" /><meta name="DC.Relation" scheme="URI" content="GUID-22F4D9EA-9912-466E-B729-7706BC17BDA1" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-58035B49-2EAE-5144-B226-28AF2EDD62E7" /><meta name="DC.Relation" scheme="URI" content="GUID-CFFA84F1-2A5E-5E73-B168-C79C2E4DC75D" /><meta name="DC.Relation" scheme="URI" content="GUID-33BFC72A-2246-5366-81D7-72AB5B730F8F" /><meta name="DC.Relation" scheme="URI" content="GUID-99ACBD00-2F61-5984-BE77-91D5EF547289" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-46121F24-AB53-5B44-A082-EF13A72EB7FF" /><meta name="DC.Language" content="en" /><title>Writing
+a Converter </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-46121F24-AB53-5B44-A082-EF13A72EB7FF">Writing
+a Converter</h1><div><p>File Converter Framework specifies a plug-in interface for file
+format converters. Clients can convert from one data type to another using
+file format converters, for example, HTML files to Word documents. </p>
+<div><h3 class="section-title">Introduction</h3> <p>The File Converter Framework provides
+the following: </p> <ul>
+<li id="GUID-75C46CFD-2B82-5500-AADA-E9E86CE8E894"><a name="GUID-75C46CFD-2B82-5500-AADA-E9E86CE8E894"><!-- --></a><p>An abstract interface
+which all converters must implement. </p> </li>
+<li id="GUID-657490ED-CACA-5C43-BE75-5FBB954F2625"><a name="GUID-657490ED-CACA-5C43-BE75-5FBB954F2625"><!-- --></a><p>APIs to list and search
+for converters. </p> </li>
+<li id="GUID-97761F64-2821-5845-86AD-1912B6E551F8"><a name="GUID-97761F64-2821-5845-86AD-1912B6E551F8"><!-- --></a><p>APIs to determine the
+MIME types supported by the available converters. </p> </li>
+<li id="GUID-4D4812BA-9B84-5022-81B5-784F80FF5C75"><a name="GUID-4D4812BA-9B84-5022-81B5-784F80FF5C75"><!-- --></a><p>An observer interface
+through which the progress and success or failure of the conversion can be
+reported. </p> </li>
+</ul> <p>Converters are implemented as <a href="GUID-9E92EE30-F2E2-5F28-BB2A-391C09EC69D2.html">ECom
+plug-ins</a>, each of which can implement one or more converters. Like
+all binaries, the plug-ins are installed in the <code>\sys\bin\</code> directory.
+Each plug-in must provide two resource files: one contains a <code class="codeph">CONARC_RESOURCE_FILE</code> resource
+to describe the converters implemented in the DLL, and the other is a registration
+resource file required by the ECom framework. </p> <p>The following UML diagram
+shows the key elements of the converter architecture, including an example
+client and an example converter DLL that provides two converters, <code class="codeph">myConverter1</code> and <code class="codeph">myConverter2</code>. </p> <div class="figure" id="GUID-6E58825A-CBE2-52B8-B7BD-6D263A0751F4"><img src="GUID-EF7F79E4-21B1-59E3-A063-ABD2C6426E7C_d0e184707_href.png" /><p class="figure-title"><strong>Figure: </strong>              File Converter architecture            </p></div> </div>
+<div><h3 class="section-title">Procedure</h3> <ol id="GUID-1E4BFC84-4F0F-5DB1-A6D5-617E23617AB4">
+<li id="GUID-2132AE6E-DB10-53BE-B9F4-0E8F9C305BCA"><a name="GUID-2132AE6E-DB10-53BE-B9F4-0E8F9C305BCA"><!-- --></a><p><a href="GUID-49C93C36-D86B-4EEE-A8AB-4279312DF4BC.html">Write
+an interface implementation for a converter</a>. </p> </li>
+<li id="GUID-B7BABC73-46D1-58EC-9251-2C4728017FB4"><a name="GUID-B7BABC73-46D1-58EC-9251-2C4728017FB4"><!-- --></a><p><a href="GUID-008F9006-8548-443D-A7ED-4A8233E051C6.html">Implement
+the ECom framework code</a>. </p> </li>
+<li id="GUID-4A30B127-FC7A-5751-9F1A-3D8DE591B455"><a name="GUID-4A30B127-FC7A-5751-9F1A-3D8DE591B455"><!-- --></a><p><a href="GUID-436B6DFE-D279-44BF-B099-B2547D50610A.html">Write
+a resource file</a>. </p> </li>
+<li id="GUID-14F0D5B7-C909-5EF5-95DB-01E56CA5FFB0"><a name="GUID-14F0D5B7-C909-5EF5-95DB-01E56CA5FFB0"><!-- --></a><p><a href="GUID-22F4D9EA-9912-466E-B729-7706BC17BDA1.html">Write
+a converter DLL project file</a>. </p> </li>
+</ol> </div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-49C93C36-D86B-4EEE-A8AB-4279312DF4BC.html">Write
+an interface implementation for a converter</a></li><li class="ulchildlink"><a href="GUID-008F9006-8548-443D-A7ED-4A8233E051C6.html">Implement
+the ECom framework code</a></li><li class="ulchildlink"><a href="GUID-436B6DFE-D279-44BF-B099-B2547D50610A.html">Write
+a resource file</a></li><li class="ulchildlink"><a href="GUID-22F4D9EA-9912-466E-B729-7706BC17BDA1.html">Write a converter DLL project file</a></li></ul><h3>Related concepts</h3><ul><li><a href="GUID-99AC84AE-C4C0-53AA-8984-51AE84EE7651.html">File Converter
+Framework Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 15th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-46121F24-AB53-5B44-A082-EF13A72EB7FF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:41 GMT -->
+</html>

@@ -1,0 +1,176 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AA49FB68-22A1-417F-AB57-9C22CE016B21.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Parent and Child IPC Using a Single Pipe" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-D79380CF-22B5-5865-9366-44118E8ECA2E" /><meta name="DC.Relation" scheme="URI" content="GUID-C4C85189-BA6F-5F11-ABB3-727D8C1F5984" /><meta name="DC.Relation" scheme="URI" content="GUID-AF07AD54-86F1-5DB7-80FF-633A559DA4BD" /><meta name="DC.Relation" scheme="URI" content="GUID-ADB9AD91-37A2-4FE6-B378-C43CD0A7B513" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-AA49FB68-22A1-417F-AB57-9C22CE016B21" /><meta name="DC.Language" content="en" /><title>Parent
+and Child IPC Using a Single Pipe </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-AA49FB68-22A1-417F-AB57-9C22CE016B21">Parent
+and Child IPC Using a Single Pipe</h1><div>
+<div class="p">In this scenario, the parent and child processes communicate using a single
+pipe. The following pseudo code details the mechanism used by code in the
+parent process in a Unix-like system. <pre class="codeblock">//Call pipe() to create the pipe.
+//Call Fork().
+if (child process)
+{
+   //Child Process.
+   //duplicate (via a dup2() call) the read/write end of the pipe using  
+   //prior agreed file descriptor numbers which will subsequently be used by the   //child process following the exec() call.
+   //Close the original file descriptors.
+   //Call exec() to replace the code image in the child process.
+}
+else
+{
+   //Parent process
+   //Do Whatever
+}
+</pre></div>
+<p>Instead of using the <code class="codeph">fork()</code>/<code class="codeph">exec()</code> as
+described above, POSIX libraries including P.I.P.S. provide the popen() function
+as defined in <code>stdio.h</code>. Rather than using a pipe for the
+IPC mechanism the parent process communicates with the child using the stream
+returned by the popen() call, while the child process input
+or output is using the stdin()/stdout() streams. </p>
+<p>However if the parent process requires a file descriptor it can be obtained
+by using the fileno() API call. For more information about
+the popen() function, see <a href="http://www.opengroup.org/" target="_blank">http:\\www.opengroup.org</a>. </p>
+<p><strong>Parent process <code class="codeph">fork()</code> and <code class="codeph">exec()</code> functions</strong></p>
+<p>The following code shows the use of a pipe and subsequent <code class="codeph">fork()</code>/<code class="codeph">exec()</code> calls
+to create a Pipe for IPC. The example shown is the child process writing data
+to the pipe, and the parent process receiving the data.</p>
+<pre class="codeblock">//Child Process File Descriptors for the pipe. These should be defined in a common header 
+//file used to compile both the parent and child process's executable.
+//However #define is here for clarity.
+#define WRITE_FD  104
+int main(int argc, char *argv[])
+{
+  int pipeEnds[2]; //Pipe file descriptors [0] is for read [1] is for write
+  
+  //create the pipe
+  if(pipe(pipeEnds) != 0)
+  {
+     //Pipe creation error
+     return EXIT_FAILURE;
+  }
+  else
+  {
+     pid_t Childpid = fork();
+     
+     if(Childpid == 0)
+     {
+         //close the redundant read FD obtained from the parent process
+         (void)close(pipeEnds[0]);
+    
+         //duplicate the file descriptor for use following exec().
+         if(dup2(pipeEnds[1], WRITE_FD) == -1)
+         {
+            printf("dup2 error\n");
+            return EXIT_FAILURE;
+         }
+         //close the redundant write FD obtained from the parent process
+         (void)close(pipeEnds[1]);
+    
+         //exec() to replace the child process executable
+         char execFileName[] = "/root/PortDoc/Example1_c/Posix/Child/ChildProg";
+         execl(execFileName,NULL);
+      }
+      else
+      {
+         //Parent process. This reads from the pipe. Therefore close the write end of the
+         //pipe.
+         close(pipeEnds[1]);
+    
+         //declare receive buffer, and clear its contents
+         char RxBuffer[100];
+         memset(RxBuffer,0,sizeof(RxBuffer));
+    
+         //Wait for data from the child process. Child sends a string.
+         read(pipeEnds[0],RxBuffer,sizeof(RxBuffer));
+    
+         printf(RxBuffer);
+
+         //close the Read end of the pipe
+         close(pipeEnds[0]);
+    
+         //Wait for the child process to terminate
+         waitpid(Childpid,NULL,0);
+      }
+   }
+   return EXIT_SUCCESS;
+}
+</pre>
+<p><strong>Child process created using <code class="codeph">fork()</code> or <code class="codeph">exec()</code> functions</strong></p>
+<p>The following code shows an example of the child process source which will
+be executed following the <code class="codeph">exec()</code>. </p>
+<pre class="codeblock">//Child Process File Descriptors for the pipe. These should be defined in a common header 
+//file used to compile both the parent and child process's executable. Shown here for
+//clarity.
+#define WRITE_FD  104
+
+int main(void)
+{
+   char TxMsg[] = "Hello Parent\n";
+    
+   //Send the message to the parent
+   write(WRITE_FD,TxMsg,sizeof(TxMsg));
+    
+   //close the File Descriptor
+   close(WRITE_FD);
+   return EXIT_SUCCESS;
+}
+</pre>
+<p><strong>Parent process P.I.P.S. example for popen() function</strong></p>
+<p>The following code shows how the above code can be modified to use <code class="codeph">popen()</code>,
+rather than the <code class="codeph">fork()</code>/<code class="codeph">exec()</code> combination. </p>
+<pre class="codeblock">int main(int argc, char *argv[])
+{
+   //Create child process using popen(). Child process writes to the Parent therefore "r" 
+   //parameter.
+   FILE* ChildProcessStream = popen("/root/PortDoc/Example1_c/Symbian/Child/ChildProg","r");
+          
+   if(ChildProcessStream == NULL)
+   {
+      printf("\n Failure to create child process with popen()\n");
+      return EXIT_FAILURE;
+   }
+   else
+   {
+      //Use a file descriptor rather than a stream
+      int ChildProcessFD = fileno(ChildProcessStream);
+
+      //Create a receive buffer, and zero contents before receiving.
+      char RxBuffer[100];
+      memset(RxBuffer,0,sizeof(RxBuffer));
+      
+      //Wait for data from the child process. Child sends a string.
+      int nbytes = read(ChildProcessFD,RxBuffer,sizeof(RxBuffer));
+
+      //printf is slightly different from the POSIX example to verify that the data output to the 
+      //screen is done by the parent process.
+      printf("\n Message Received by Parent=%s",RxBuffer);
+      
+      //Wait for Child Process to complete
+      pclose(ChildProcessStream);
+   }
+   return EXIT_SUCCESS;
+}
+</pre>
+<p><strong>Child process P.I.P.S. example for popen() function</strong></p>
+<p>The following code shows how the child process source can be modified when
+it is executed using popen(). Note that rather
+than using a file descriptor for the communication via the pipe the stdin() or
+the <code class="codeph">stdout</code> streams are directed to the parent process, as
+defined in the usage of the popen() call. </p>
+<pre class="codeblock">int main(void)
+{
+    //Child process created by popen() so that its stdout is streamed to the parent process
+    char TxMsg[] = "Hello Parent\n";
+    
+    //Send the message to the parent
+    printf(TxMsg);
+    
+    return EXIT_SUCCESS;
+}
+</pre>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 12th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-AA49FB68-22A1-417F-AB57-9C22CE016B21.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:07 GMT -->
+</html>

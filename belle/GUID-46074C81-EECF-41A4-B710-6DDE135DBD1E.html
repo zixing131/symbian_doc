@@ -1,0 +1,169 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-46074C81-EECF-41A4-B710-6DDE135DBD1E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:40 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Active object example" /><meta name="abstract" content="A simple 'hello world' style active object." /><meta name="description" content="A simple 'hello world' style active object." /><meta name="DC.Relation" scheme="URI" content="GUID-116A02BE-F93C-4E2C-8D75-E23B6EE67D2A" /><meta name="DC.Relation" scheme="URI" content="GUID-0E3EA815-04EA-497F-9610-09F6776B5678" /><meta name="DC.Relation" scheme="URI" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Relation" scheme="URI" content="GUID-86C9DACB-DCCF-43F6-BCEE-91144F4EADC8_overview-GUID-2CA5C27E-A526-4B26-941B-85F0B32E1FFA" /><meta name="DC.Relation" scheme="URI" content="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18" /><meta name="DC.Relation" scheme="URI" content="GUID-1ED4913E-DEB4-40EE-8DD9-4F8B8E97AEFC" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-46074C81-EECF-41A4-B710-6DDE135DBD1E" /><meta name="DC.Language" content="en" /><title>Active object example </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-46074C81-EECF-41A4-B710-6DDE135DBD1E">Active object example</h1><div><p>A simple 'hello world' style active object.</p>
+<p>The example active object encapsulates an <code class="codeph">RTimer</code> and calls the asynchronous  function <code class="codeph">RTimer::After()</code>.</p>
+<div class="p">Active objects classes must derive from <code class="codeph">CActive</code>. <pre class="codeblock">class CMyTimer : public CActive
+    {
+public:
+
+  // Factory functions to instantiate the class.
+  static CMyTimer* NewLC();
+  static CMyTimer* NewL();
+
+  // Destructor.
+  ~CMyTimer();
+
+  // Inherited pure virtual functions.
+  void DoCancel();
+  void RunL();
+
+  // Error handling.
+  TInt RunError( TInt aError );
+
+  // The function that makes the asynchronous request.
+  void MakeRequest( TUint aDelay );
+protected:
+
+  // First and second phase constructors, called by
+  // the factory functions NewL() and NewLC()
+  CMyTimer();
+  void ConstructL();
+private:
+
+  // The object used to make the asynchronous request.
+  // This is often called the 'asynchronous service provider'.
+  RTimer iTimer;
+    };</pre>Here is some sample code to instantiate the active
+object and make an asynchronous request:<pre class="codeblock">// Create an active scheduler for the thread.
+// An active scheduler is needed to manage one or more active 
+// objects.
+CActiveScheduler* scheduler = new (ELeave) CActiveScheduler;
+
+// Use the cleanup stack to ensure the active scheduler
+// is deleted in the event of a leave.
+CleanupStack::PushL( scheduler );
+
+// Install the active scheduler for the current thread.
+CActiveScheduler::Install( scheduler );
+
+// Instantiate the active object.
+CMyTimer* timer =  CMyTimer::NewLC();
+
+// Make an asynchronous request.
+timer-&gt;MakeRequest( 2000000 );
+
+// Start the active scheduler's loop.
+CActiveScheduler::Start();
+
+// Clean up.
+CleanupStack::PopAndDestroy( 2, scheduler );</pre></div>
+<p><strong>Note</strong>. The Qt and AVKON application frameworks create, install,
+and start the active scheduler for the main application thread. The
+code above is for tutorial purposes only.</p>
+<div class="p">The asynchronous request is made as a result of the call to <code class="codeph">MakeRequest()</code>:<pre class="codeblock">void CMyTimer::MakeRequest(TUint aDelay)
+ {
+  // Cancel a previous request. A single active
+  // object can only have one request outstanding
+  // at once.
+  Cancel();
+
+  // Pass in the active object's TRequestStatus
+  // member iStatus when making the request.  
+  iTimer.After( iStatus, aDelay );
+
+  // Inform the active scheduler that the active
+  // object has an outstanding asynchronous request.
+  SetActive();
+ }</pre>When the request completes the active scheduler will
+call the active object's <code class="codeph">RunL()</code> method. <code class="codeph">RunL()</code> is a pure virtual method that you must override. Use this method
+to define the behaviour required as a result of request completion.</div>
+<pre class="codeblock">void CMyTimer::RunL()
+  {
+  // Take appropriate action as a result of the
+  // completion of the request. You could make another
+  // request, using this or another active object.
+  }
+</pre>
+<p><strong>Cancelling a request</strong> </p>
+<div class="p">An active object class must override the pure virtual <code class="codeph">DoCancel()</code> method of the base class to terminate a request by calling the appropriate
+cancellation method on the asynchronous service provider.<pre class="codeblock">CMyTimer::~CMyTimer()
+  {
+  // Invoke the base class Cancel(). This calls
+  // our DoCancel() override if a request is
+  // outstanding.
+  Cancel();
+
+  // Clean up RTimer.
+  iTimer.Close();
+  }
+
+void CMyTimer::DoCancel()
+  {
+  // Call cancellation function of the asynchronous
+  // service provider.
+  iTimer.Cancel();
+  }
+</pre></div>
+<p><strong>Error handling</strong></p>
+<div class="p">If the <code class="codeph">RunL()</code> callback method of an active object
+leaves, the framework invokes the virtual <code class="codeph">RunError()</code> method of the active object. If you are able to handle the error,
+return <code class="codeph">KErrNone</code> from <code class="codeph">RunError()</code>. <pre class="codeblock">// Called by the active scheduler if RunL() leaves.
+// The parameter aError contains the leave code.
+TInt CMyTimer::RunError( TInt aError )
+  {
+  // Take action to handle the error
+  ...
+  // Indicate that the error has been handled.
+  return KErrNone;
+  }</pre></div>
+<p>If you choose not to handle the leave inside <code class="codeph">RunError()</code> the framework calls <code class="codeph">CActiveScheduler::Error()</code>.
+The default implementation of this virtual method is to panic the
+thread (<code class="codeph">EUSER-CBase 47</code>).</p>
+<p><strong>Member functions to create the active object</strong></p>
+<div class="p">For completeness here are the definitions of the remaining member
+functions of the example active object. Note that the class uses the
+two-phase construction idiom. For further details see <a href="GUID-48AD5B98-DBA8-4601-A158-12559985BCEB.html">Two-phase construction</a>.<pre class="codeblock">// Factory function.
+CMyTimer* CMyTimer::NewL()
+  {
+  CMyTimer* self = NewLC();
+  CleanupStack::Pop( self );
+  return self;
+  }
+
+// Factory function that returns the address
+// of the object on the cleanup stack.
+CMyTimer* CMyTimer::NewLC()
+  {
+  CMyTimer* self = new (ELeave) CMyTimer();
+  CleanupStack::PushL( self );
+  self-&gt;ConstructL();
+  return self;
+  }
+
+// Constructor sets the priority of the 
+// active object.  The active scheduler stores the
+// active objects in a priority ordered list.
+CMyTimer::CMyTimer()
+  : CActive( CActive::EPriorityStandard ) 
+	{}
+
+// Second phase constructor.
+void CMyTimer::ConstructL()
+{
+  // Initialize the asynchronous service provider.
+  User::LeaveIfError( iTimer.CreateLocal() );
+
+  // Add the active object to the active
+  // scheduler's list.
+  CActiveScheduler::Add( this );
+}
+</pre></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-116A02BE-F93C-4E2C-8D75-E23B6EE67D2A.html">Introduction
+to active objects</a></li><li><a href="GUID-0E3EA815-04EA-497F-9610-09F6776B5678.html">Active
+object developer checklist</a></li><li><a href="GUID-C3206E31-251C-4AFC-90C2-04B38CCF8E18.html">Introduction
+to Symbian C++ development</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 17th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-46074C81-EECF-41A4-B710-6DDE135DBD1E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:40 GMT -->
+</html>

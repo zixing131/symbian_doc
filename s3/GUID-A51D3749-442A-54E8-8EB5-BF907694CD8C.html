@@ -1,0 +1,43 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-A51D3749-442A-54E8-8EB5-BF907694CD8C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:01 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Processing Window-Group Events" /><meta name="DC.Relation" scheme="URI" content="GUID-B58D3727-6E05-51C8-8EC2-52768A136BD5" /><meta name="DC.Relation" scheme="URI" content="GUID-E1E11C95-3400-548B-AEEE-577DA8FB9ECB" /><meta name="DC.Relation" scheme="URI" content="GUID-930A3ABD-84FB-5D76-938C-79383273DAE6" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-08427065-B8E5-5194-B095-3B5213836BED" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A51D3749-442A-54E8-8EB5-BF907694CD8C" /><meta name="DC.Language" content="en" /><title>Processing Window-Group Events </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A51D3749-442A-54E8-8EB5-BF907694CD8C">Processing Window-Group Events</h1><div><p>The following examples demonstrate how to get window-group related event types, which are global within the window group and include: key events, modifier changed events, window focus lost and gained events and user defined events. </p> <p> <strong>Variant</strong>: <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay</a> and <a href="GUID-F64E6551-670E-5E12-8103-DE504D3EC94F.html">non-ScreenPlay</a>. <strong>Target audience</strong>: Application developers. </p> <div><h3 class="section-title">Key events</h3> <p>To detect if a key event has occurred, use the <code class="codeph">EEventKey</code>, <code class="codeph">EEventKeyUp</code> or <code class="codeph">EEventKeyDown</code> event types. </p> <p>You can get key event information by calling the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TWsEvent'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TWsEvent']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html"><code class="apiname">TWsEvent::Key()</code></a> function. </p> <pre class="codeblock">    // Key events - get the key code
+    case EEventKey:
+    case EEventKeyUp:
+    case EEventKeyDown:
+    {
+    // Get the key event
+    TKeyEvent&amp; keyEvent=*iWsEvent.Key();
+
+    // Get the key code: values are defined in TKeyEvent
+    TUint code = keyEvent.iCode;
+    break;
+    }
+</pre> </div> <div><h3 class="section-title">Modifier changed events</h3> <p>To detect if a key modifier (the state of SHIFT, CTRL, etc. keys) changed event has occurred, use the <code class="codeph">EEventModifiersChanged</code> event type. </p> <p>You can get key event information by calling the <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TWsEvent'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TWsEvent']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html"><code class="apiname">TWsEvent::ModifiersChanged()</code></a> function. </p> <pre class="codeblock">    // A key modifier (e.g. SHIFT) changed
+    case EEventModifiersChanged:
+    {
+    // Get the state of the modifier keys
+    TKeyEvent&amp; keyEvent=*iWsEvent.ModifiersChanged();
+
+    // Get the key modifiers: values are defined in TEventModifier
+    TUint modifiers = keyEvent.iModifiers;
+    break;
+    }</pre> <p>This event type is not reported unless explicitly requested by a window. Use <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TWsEvent'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TWsEvent']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html"><code class="apiname">RWindowTreeNode::EnableModifierChangedEvents()</code></a> to request this event type. </p> </div> <div><h3 class="section-title">Window focus lost and gained events</h3> <p>To detect if the window focus has been lost or gained, use the <code class="codeph">EEventFocusLost</code> and <code class="codeph">EEventFocusGained</code> event types. </p> <p>You can get the handle to the window group whose focus has changed by calling <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TWsEvent'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TWsEvent']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html"><code class="apiname">TWsEvent::Handle()</code></a>. </p> <pre class="codeblock">    // Window focus lost and gained events
+    case EEventFocusLost:
+    case EEventFocusGained:
+    {
+    // Get handle (typically a pointer) to the window group whose focus has changed
+    TUint handle = iWsEvent.Handle();
+    break;
+    }</pre> </div> <div><h3 class="section-title">User-defined event received from another window</h3> <p>To detect if user-defined events have been received from another window, use <code class="codeph">EEventUser</code>. </p> <p>You can get information about the event by calling <strong class="conversion-error-message" title="[NOKX000E] Unable to find definition for key reference 'TWsEvent'">[[[ERROR: [NOKX000E] Unable to find definition for key reference 'TWsEvent']]]</strong><a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-5D0B1595-1AC7-3C44-AC6B-0EFB5EABCF31.html"><code class="apiname">TWsEvent::EventData()</code></a>. </p> <pre class="codeblock">
+    // User-defined event received from another window
+    case EEventUser:
+    { 
+    // Get a pointer to the event data
+    TAny* data = iWsEvent.EventData();
+    }</pre> </div> </div><h3>Related concepts</h3><ul><li><a href="GUID-B58D3727-6E05-51C8-8EC2-52768A136BD5.html">Window Server Client-Side Events
+                Overview</a></li><li><a href="GUID-E1E11C95-3400-548B-AEEE-577DA8FB9ECB.html">Processing Window Events</a></li><li><a href="GUID-930A3ABD-84FB-5D76-938C-79383273DAE6.html">Processing System Events</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 8th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-A51D3749-442A-54E8-8EB5-BF907694CD8C.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:01 GMT -->
+</html>

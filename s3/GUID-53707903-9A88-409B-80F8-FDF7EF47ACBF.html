@@ -1,0 +1,82 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-53707903-9A88-409B-80F8-FDF7EF47ACBF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:03:55 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="CoverFlow: using ScreenPlay" /><meta name="abstract" content="This example application demonstrates creating semi-transparent UI content over OpenVG content that is rendered to a composition surface. This is only possible when ScreenPlay is enabled." /><meta name="description" content="This example application demonstrates creating semi-transparent UI content over OpenVG content that is rendered to a composition surface. This is only possible when ScreenPlay is enabled." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-47851718-8DCA-57F5-8520-7044048A5852" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-53707903-9A88-409B-80F8-FDF7EF47ACBF" /><meta name="DC.Language" content="en" /><title>CoverFlow: using ScreenPlay </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-53707903-9A88-409B-80F8-FDF7EF47ACBF">CoverFlow: using ScreenPlay</h1><div><p>This example application demonstrates creating semi-transparent
+UI content over OpenVG content that is rendered to a composition surface.
+This is only possible when ScreenPlay is enabled. </p>
+<div id="GUID-A512AE19-D921-47B7-86D7-1AE293365BC9-GENID-GUID-96E04609-7990-4826-BBE7-F1A02FC4E707"><h3 class="section-title">Download</h3> <p>Click on the following link to download the example: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/zips/guid-25ca392e-ce0c-414e-99aa-3f419cfe5170.zip" target="_blank">GraphicsShell.zip</a></p><p>Click: <a href="guid-6013a680-57f9-415b-8851-c4fa63356636/guid-25ca392e-ce0c-414e-99aa-3f419cfe5170.html#guid-6013a680-57f9-415b-8851-c4fa63356636/guid-25ca392e-ce0c-414e-99aa-3f419cfe5170.html">browse</a> to view the example code. </p><p>The example
+is located in the <code>examples\Graphics\CoverFlow</code> directory.</p></div>
+<div id="GUID-12DAE9CC-9E18-40AA-A820-FBC86F179425-GENID-GUID-96E04609-7990-4826-BBE7-F1A02FC4E707"><h3 class="section-title">Description</h3> This code implements a 'coverflow' application. It uses OpenVG to
+display images while semi-transparent or transparent windows and controls
+are used to display overlaid content. The application does the following:
+  <ul>
+<li>Creates an EGL drawing surface by calling the eglCreateWindowSurface() function.</li>
+<li>Converts bitmap cover images to OpenVG images. </li>
+<li>Applies OpenVG transformations on the converted OpenVG images.</li>
+<li>Draws the transformed images on the EGL surface by calling the vgDrawImage() function.</li>
+<li>Draws the mirror image of bitmap cover images on the surface.</li>
+<li>Displays an incoming call animation and a moving ticker window
+in a separate active object. These are activated when relevant key
+press events are detected. It uses the invalidate and re-draw pattern
+of the window server to draw the contents on the window. </li>
+</ul>       The ScreenPlay graphics architecture uses a composition
+engine to display multiple overlaid windows. The composition engine
+takes multiple overlaid surfaces as input and creates a single screen
+buffer. For more information, see <a href="GUID-859CAA08-59C9-5FD3-98DE-6BDD0D6ED50B.html">Graphics Composition</a> and <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">The ScreenPlay
+Graphics Architecture</a>.  </div>
+<div id="GUID-7CC504AD-E99D-419D-9A86-E5051B80705E"><h3 class="section-title"><!--no section title--></h3><strong>Screenshots</strong><div class="figure" id="GUID-0022F196-B3BD-5438-99C8-6EF0AA0D1E43-GENID-GUID-96E04609-7990-4826-BBE7-F1A02FC4E707"><img src="GUID-61BB12AA-7467-5633-8E4C-54D82AFF0F5E_d0e231024_href.jpg" /><p class="figure-title"><strong>Figure: </strong>           Basic Screenshot      </p></div><div class="figure" id="GUID-C918E177-E2DF-4F76-A6AD-709B93959B9E"><img src="GUID-59D86225-4727-5B3F-9117-7815B4900445_d0e231031_href.jpg" /><p class="figure-title"><strong>Figure: </strong>Screenshot showing ticker and incoming call animation </p></div><div class="figure" id="GUID-0B983730-C5C8-47DF-82FB-4A02624CEECD"><img src="GUID-D84847BB-523D-5057-8F14-F6BCEECA2327_d0e231038_href.jpg" /><p class="figure-title"><strong>Figure: </strong>Screenshot showing the absence of the mirror surface </p></div></div>
+<div id="GUID-801DEEAD-37EC-4FE3-88C9-CBCFA7650E0A"><h3 class="section-title">Class
+Summary</h3><div class="p">These are the principal classes used in this example:<ul>
+<li><code class="codeph">CCoverFlowAppUi</code></li>
+<li><code class="codeph">CEGLRendering</code></li>
+<li><code class="codeph">MEngine</code></li>
+<li><code class="codeph">CDialogBox</code></li>
+<li><code class="codeph">COpenVGEngine</code></li>
+<li><code class="codeph">CTicker</code></li>
+<li><code class="codeph">CLoader</code></li>
+</ul></div></div>
+<div id="GUID-6F6FBA67-C8F1-4B55-9922-ADCF9CB0636A"><h3 class="section-title">Design
+and Implementation</h3><div class="p"><div class="figure" id="GUID-0022F196-B3BD-5438-99C8-6EF0AA0D1E43-GENID-GUID-96E04609-7990-4826-BBE7-F1A02FC4E707"><p class="figure-title"><strong>Figure: </strong>UML class diagram     </p></div><div class="figure" id="GUID-F08882AF-B171-4D56-A3E7-F510D87D9FEC"><img src="GUID-02970C7B-5B98-50C7-A324-0DDD71120DEB_d0e231088_href.png" /></div></div></div>
+<div id="GUID-11F1F1BF-F1DC-4876-B47A-275B07C645E3-GENID-GUID-96E04609-7990-4826-BBE7-F1A02FC4E707"><h3 class="section-title">Building
+and running</h3> <p>The Symbian build process describes how to
+build an application.</p></div>
+<div id="GUID-3D4FF2C6-91B8-4EFC-A008-DE4FEEF5938A"><h3 class="section-title">Configuration
+settings for running the example on an Emulator or H4 board</h3><ol>
+<li id="GUID-CC897C4A-15CF-4B05-ABF7-32A1A0C38AFA-GENID-GUID-96E04609-7990-4826-BBE7-F1A02FC4E707"><a name="GUID-CC897C4A-15CF-4B05-ABF7-32A1A0C38AFA-GENID-GUID-96E04609-7990-4826-BBE7-F1A02FC4E707"><!-- --></a><p>Change the <code class="codeph">WINDOWMODE</code> parameter  to <code class="codeph">Color16MAP </code>in <code class="codeph">epoc32\release\winscw\&lt;udeb/urel&gt;\z\system\data\wsini.ini </code>(<code class="codeph">epoc32\data\z\system\data\wsini.ini on the H4 board</code>).</p></li>
+<li id="GUID-CC897C4A-15CF-4B05-ABF7-32A1A0C38AFA-GENID-GUID-96E04609-7990-4826-BBE7-F1A02FC4E707"><a name="GUID-CC897C4A-15CF-4B05-ABF7-32A1A0C38AFA-GENID-GUID-96E04609-7990-4826-BBE7-F1A02FC4E707"><!-- --></a><p>The application
+cannot run if ScreenPlay is disabled. If it is not already enabled,
+you need to enable it. See Enabling the Graphics
+Architecture Variants for more information.</p></li>
+<li id="GUID-B6E8CCB6-B71F-45AF-9BC5-6C79E30B74F6"><a name="GUID-B6E8CCB6-B71F-45AF-9BC5-6C79E30B74F6"><!-- --></a><p>(Emulator only):
+Copy all <code>.mbm</code> (image) files from the <code>coverflow\gfx\call</code> directory to the <code>epoc32\release\winscw\&lt;udeb/urel&gt;\z\resource\apps</code> directory.</p></li>
+<li id="GUID-C8F36B2B-5B19-43A6-8F6C-75E2782C91EE"><a name="GUID-C8F36B2B-5B19-43A6-8F6C-75E2782C91EE"><!-- --></a><p>Performance
+can be boosted significantly by switching to portrait mode, which
+is the native mode for the LCD controller. To enable portrait mode,
+uncomment the following line in the <code>coverflowapp.mmp</code>:</p><pre class="codeblock">// MACRO PORTRAIT_MODE</pre></li>
+<li id="GUID-7070197E-8E9C-450E-B9AC-5CE8846CE382"><a name="GUID-7070197E-8E9C-450E-B9AC-5CE8846CE382"><!-- --></a><p>Add the following
+configuration statements to the <code>epoc32\data\epoc.ini</code> to run the example in portrait mode. </p><pre class="codeblock">screenwidth 240
+screenheight 320
+fasciabitmap null.bmp
+screenoffsetx 0
+screenoffsety 0</pre></li>
+</ol></div>
+<div id="GUID-0ECB73AE-87F0-449A-8F3E-7959794F52DC"><h3 class="section-title">Running
+and using the example</h3><div class="p"><ol>
+<li id="GUID-D819C144-751D-4FD6-8229-4EFF00F379D1"><a name="GUID-D819C144-751D-4FD6-8229-4EFF00F379D1"><!-- --></a>Run <code>coverflowapp.exe</code>.</li>
+<li id="GUID-076DD732-5AD6-471C-8E93-33992A44A92D"><a name="GUID-076DD732-5AD6-471C-8E93-33992A44A92D"><!-- --></a>Press the Left
+or the Right arrow key to navigate through the covers.</li>
+<li id="GUID-985331D6-029A-4777-B006-9A4F370827B1"><a name="GUID-985331D6-029A-4777-B006-9A4F370827B1"><!-- --></a>Press the Down
+arrow key to show or hide the Ticker at the bottom of the screen.</li>
+<li id="GUID-746C8166-2BBB-435F-A6D5-61ED86045F0C"><a name="GUID-746C8166-2BBB-435F-A6D5-61ED86045F0C"><!-- --></a>Press the Up arrow
+key to show or hide the incoming call animation.   </li>
+<li id="GUID-29369361-B50F-499D-9B50-D81E5151A3A1"><a name="GUID-29369361-B50F-499D-9B50-D81E5151A3A1"><!-- --></a>Press the Tab key
+to show or hide the semi-transparent green window around the incoming
+call animation.</li>
+<li id="GUID-0DED8319-2F36-42BB-998C-291A3E4ADA9A"><a name="GUID-0DED8319-2F36-42BB-998C-291A3E4ADA9A"><!-- --></a>Press the Backspace
+key to show or hide mirror images of the covers. </li>
+</ol> </div></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 15th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-53707903-9A88-409B-80F8-FDF7EF47ACBF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:04:01 GMT -->
+</html>

@@ -1,0 +1,101 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-8C94EE15-82EA-4A95-9044-C3404F95BD51.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Using Clipboard" /><meta name="abstract" content="Clipboard allows applications to read and write data to and from a shared clipboard." /><meta name="description" content="Clipboard allows applications to read and write data to and from a shared clipboard." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-D02B5AF1-B1C3-560D-9654-971A5CC1A904" /><meta name="DC.Relation" scheme="URI" content="GUID-C8BD333E-8384-534B-822B-F61B2F7C8B9F" /><meta name="DC.Relation" scheme="URI" content="GUID-85AA0FD4-3BD1-50A7-B241-AE3908ACCF30" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-8C94EE15-82EA-4A95-9044-C3404F95BD51" /><meta name="DC.Language" content="en" /><title>Using
+Clipboard </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-8C94EE15-82EA-4A95-9044-C3404F95BD51">Using
+Clipboard</h1><div><p>Clipboard allows applications to read and write data to and from
+a shared clipboard. </p>
+<div><h3 class="section-title">Context</h3> <p>The clipboard is implemented as a direct file store, as
+defined in the File Store API. Data placed on the clipboard is in streams.
+Every data type placed on the clipboard is identified by a UID. The store
+has a stream dictionary to allow an application to retrieve the data by specifying
+its UID. </p> <p>The clipboard class, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9C1E9536-01E8-3C0E-B1C5-F0A597ED0CA3.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-9C1E9536-01E8-3C0E-B1C5-F0A597ED0CA3.html"><code class="apiname">CClipboard</code></a>, provides
+operations to get the clipboard file store and stream dictionary. Applications
+then read or write data using the standard store and stream interfaces. It
+also provides special support for copying and pasting a <code class="codeph">TReal</code> to
+and from the clipboard. </p> <p>To place data on the clipboard, construct
+a <code class="codeph">CClipboard</code> object and prepare it for the data to be written,
+using the <code class="codeph">NewForWritingLC()</code> static member function as illustrated
+in the following code fragment: </p> <pre class="codeblock">CClipboard* cb = CClipboard::NewForWritingLC( fsSession );</pre> <p>The function requires a file server session. </p> <p>The file associated
+with the clipboard's store may or may not exist. If it already exists, any
+existing content is discarded; if the file does not exist, it is created.
+In either event, <code class="codeph">NewForWritingLC()</code> results in an empty clipboard. </p> <p>Once
+the <code class="codeph">CClipboard</code> object has been created, data is stored into
+the clipboard 's store. Both the store (<code class="codeph">CStreamStore</code>) and
+the stream dictionary (<code class="codeph">CStreamDictionary</code>), which the example
+needs to access, are encapsulated by <code class="codeph">CClipboard</code>. The class,
+therefore, provides the <code class="codeph">Store()</code> and <code class="codeph">StreamDictionary()</code> member
+functions to return suitable references. </p> </div>
+<h3>Steps</h3><ul>
+<li id="GUID-4A467DE0-7F8F-4F49-BFA6-90A6BA1DCF73"><a name="GUID-4A467DE0-7F8F-4F49-BFA6-90A6BA1DCF73"><!-- --></a><p><strong>Creating the
+data for the clipboard</strong>.</p>
+<ol type="i" id="GUID-D2D6C0A3-9B55-4CBC-8650-9CAB416C5C38"><a name="GUID-D2D6C0A3-9B55-4CBC-8650-9CAB416C5C38"><!-- --></a>
+<li id="GUID-B6BE715A-6282-4161-93AF-1E5B9CCC09E0"><a name="GUID-B6BE715A-6282-4161-93AF-1E5B9CCC09E0"><!-- --></a><p>Prepare a new
+stream for writing using the <code class="codeph">CreateLC()</code> member function of <code class="codeph">RStoreWriteStream</code>. </p>
+<p>The CClipboard's store is to contain the new stream and so <code class="codeph">cb-&gt;Store()</code> is
+passed as a parameter to <code class="codeph">CreateLC()</code>. The item object is externalised.
+The stream is committed.   The resulting <code class="codeph">streamId</code> and the <code class="codeph">UID</code>,
+which identifies the data type, i.e. stid and <code class="codeph">KExampleClipUid</code>,
+respectively, are placed in the stream dictionary using the stream dictionary's <code class="codeph">AssignL()</code> member
+function.  </p>
+</li>
+<li id="GUID-513EA674-9E19-4020-AA8F-5C7E88221400"><a name="GUID-513EA674-9E19-4020-AA8F-5C7E88221400"><!-- --></a><p>Conclude by calling <code class="codeph">CClipboard's
+CommitL()</code> member function to store the dictionary store as the root
+stream of the store and to commit all changes to the store.</p>
+<p>Deleting the <code class="codeph">CClipboard</code> object causes the file associated
+with the clipboard's store to be closed, allowing other applications to access
+it.  </p>
+</li>
+</ol>
+</li>
+<li id="GUID-2F30C4DD-1601-4D67-B18B-50F52DD211C0"><a name="GUID-2F30C4DD-1601-4D67-B18B-50F52DD211C0"><!-- --></a><p><strong>Pasting the data
+from clipboard </strong></p>
+<p>To attempt to retrieve data from the clipboard, construct a <code class="codeph">CClipboard</code> object
+and prepare it for reading using either <code class="codeph">NewForReadingL()</code> or <code class="codeph">NewForReadingLC()</code>.</p><pre class="codeblock">// Create clipboard object
+TRAPD( ret,cb=CClipboard::NewForReadingL( fsSession ) );
+CleanupStack::PushL( cb );
+_LIT( KNoPaste,"Nothing to paste" );
+if ( ret!=KErrNone )
+    {
+    doShow( KNoPaste,NULL );
+    User::Leave( ret );
+    }
+// Get stream from store
+TStreamId stid = ( cb-&gt;StreamDictionary() ).At( KExampleClipUid );
+if ( stid == KNullStreamId )
+    {
+    doShow( KNoPaste,NULL );
+    User::Leave( 0 );
+    }
+// Read stream
+RStoreReadStream stream;
+stream.OpenLC( cb-&gt;Store(),stid );
+stream &gt;&gt; *item;</pre>
+</li>
+<li id="GUID-0780BA8D-A141-4061-B5D1-BE9F73C3B349"><a name="GUID-0780BA8D-A141-4061-B5D1-BE9F73C3B349"><!-- --></a><p><strong>Copying and pasting
+real numbers</strong> </p>
+<p>Use <code class="codeph">CopyToL( TReal )</code> to place a <code class="codeph">TReal</code> on
+the clipboard and use <code class="codeph">PasteFromL( TReal&amp; )</code> to fetch a <code class="codeph">TReal</code> from
+the clipboard, if there is any data.</p><p> Applications that use these functions
+to copy and paste <code class="codeph">TReal</code> objects need not concern themselves
+with the UID used to identify the corresponding stream in the clipboard store.</p><p> It
+must be noted that applications which use <code class="codeph">CopyToL( TReal )</code>,
+must still call <code class="codeph">CClipboard's CommitL()</code> member function before
+deleting the <code class="codeph">CClipboard</code> object.  </p>
+</li>
+</ul>
+<div><h3 class="section-title">Example</h3><p>Following is an example on how to create data for clipboard. In
+this example, the data to be placed on the clipboard's store is a single object
+item:</p><pre class="codeblock">RStoreWriteStream  stream;
+TStreamId stid = stream.CreateLC( cb-&gt;Store() );
+stream &lt;&lt; *item;
+stream.CommitL();
+( cb-&gt;StreamDictionary() ).AssignL( KExampleClipUid,stid );
+CleanupStack::PopAndDestroy(); // stream
+cb-&gt;CommitL();
+CleanupStack::PopAndDestroy(); // cb</pre></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated October 26th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-8C94EE15-82EA-4A95-9044-C3404F95BD51.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:00 GMT -->
+</html>

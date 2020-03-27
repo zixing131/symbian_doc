@@ -1,0 +1,37 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E455ABFF-3EFF-5396-A52A-A33CDB2EB41A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:45 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Cleanup utilities" /><meta name="abstract" content="The Cleanup utility functions support four types of clean up operation." /><meta name="description" content="The Cleanup utility functions support four types of clean up operation." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-61DEE78D-4E78-5367-BC8A-F99D3B4E9D5A" /><meta name="DC.Relation" scheme="URI" content="GUID-7366AE99-DE25-5DE0-BF9A-58E7742DA952" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-E455ABFF-3EFF-5396-A52A-A33CDB2EB41A" /><meta name="DC.Language" content="en" /><title>Cleanup
+utilities </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-E455ABFF-3EFF-5396-A52A-A33CDB2EB41A">Cleanup
+utilities</h1><div><p>The Cleanup utility functions support four types of clean up operation.</p>
+<p>The cleanup utility functions offer easy ways of constructing a <code class="codeph">TCleanUpItem</code> and
+pushing it onto the cleanup stack. They support four types of clean up operation:</p>
+<ul>
+<li id="GUID-8E3A2FEC-B065-5059-800F-5227516A961A"><a name="GUID-8E3A2FEC-B065-5059-800F-5227516A961A"><!-- --></a><p>where the object is
+deleted: <code class="codeph">template &lt;class T&gt; void CleanupDeletePushL(T*)</code> </p> </li>
+<li id="GUID-94C6925C-E68C-5F39-9CD3-6C2D4BC6CFEE"><a name="GUID-94C6925C-E68C-5F39-9CD3-6C2D4BC6CFEE"><!-- --></a><p>where the object's <code class="codeph">Close()</code> member
+function is called: <code class="codeph">template &lt;class T&gt; void CleanupClosePushL(T&amp;)</code> </p> </li>
+<li id="GUID-7B17DA1E-9D7F-572A-9CF5-B63C8784970A"><a name="GUID-7B17DA1E-9D7F-572A-9CF5-B63C8784970A"><!-- --></a><p>where the object's <code class="codeph">Release()</code> member
+function is called: <code class="codeph">template &lt;class T&gt; void CleanupReleasePushL(T&amp;)</code> </p> </li>
+<li id="GUID-0F488FA6-FE3F-5305-8189-5206A18C53FA"><a name="GUID-0F488FA6-FE3F-5305-8189-5206A18C53FA"><!-- --></a><p>where an array of objects
+is deleted: <code class="codeph">template &lt;class T&gt; void CleanupArrayDeletePushL(T*)</code> </p> </li>
+</ul>
+<p>The functions have the supporting templated classes:</p>
+<ul>
+<li id="GUID-CBEC6897-F471-5C35-8BC6-15742C3FF7DB"><a name="GUID-CBEC6897-F471-5C35-8BC6-15742C3FF7DB"><!-- --></a><p><code class="codeph">CleanupDelete&lt;class
+T&gt;</code> </p> </li>
+<li id="GUID-00C1B92A-AB53-58E2-B89D-94292B2E00C0"><a name="GUID-00C1B92A-AB53-58E2-B89D-94292B2E00C0"><!-- --></a><p><code class="codeph">CleanupClose&lt;class
+T&gt;</code> </p> </li>
+<li id="GUID-905CC005-9A20-5276-A546-1FF0B487A819"><a name="GUID-905CC005-9A20-5276-A546-1FF0B487A819"><!-- --></a><p><code class="codeph">CleanupRelease&lt;class
+T&gt;</code> </p> </li>
+<li id="GUID-4EDD2083-BB2B-52F5-9E60-E0A608FF2885"><a name="GUID-4EDD2083-BB2B-52F5-9E60-E0A608FF2885"><!-- --></a><p><code class="codeph">CleanupArrayDelete&lt;class
+T&gt;</code> </p> </li>
+</ul>
+<p>The way in which these work is best illustrated graphically by taking <code class="codeph">CleanupClosePushL()</code> as
+an example. See the diagram below.</p>
+<div class="figure" id="GUID-8A0CEC7B-BFEB-52BF-B205-9EB0DE094C8D"><img src="GUID-018A685B-5C9D-5C7C-8615-D413ABBF7CFB_d0e312262_href.png" /><p class="figure-title"><strong>Figure: </strong>Effect of CleanupClosePushL and subsequent pop and destroy</p></div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-E455ABFF-3EFF-5396-A52A-A33CDB2EB41A.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:46 GMT -->
+</html>

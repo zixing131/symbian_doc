@@ -1,0 +1,73 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2DC80BA9-7AA2-5CD3-9105-1DE28CE196C1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Video Client Overview" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DE5CDAD-8D71-5384-9E98-5665D5A4C792" /><meta name="DC.Relation" scheme="URI" content="GUID-3E341F9F-2635-589B-A59A-B999FE7DF9BE" /><meta name="DC.Relation" scheme="URI" content="GUID-DDE1A8A9-1D67-53BF-8A65-340F139AD4AB" /><meta name="DC.Relation" scheme="URI" content="GUID-0EE3180B-4814-517E-A6DD-748136C17D55" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-2DC80BA9-7AA2-5CD3-9105-1DE28CE196C1" /><meta name="DC.Language" content="en" /><title>Video Client Overview  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-2DC80BA9-7AA2-5CD3-9105-1DE28CE196C1">Video Client Overview </h1><div>
+<p>This document provides an overview of the video client library
+in the multimedia framework component. </p>
+<div id="GUID-2ED80ACA-9A04-48EA-B44F-1C75AF40D5E7"><h3 class="section-title">Purpose</h3> <p>The Video Client provides basic video file manipulation features.
+The Video Client enables you to: </p> <ul>
+<li id="GUID-D5BBB300-FC65-57F2-8B6F-C56D978A8834"><a name="GUID-D5BBB300-FC65-57F2-8B6F-C56D978A8834"><!-- --></a><p>Record and play
+back video clips (with and without attached audio). </p> </li>
+<li id="GUID-B3B78980-7344-5DD2-ABA7-6C8D93F23DB3"><a name="GUID-B3B78980-7344-5DD2-ABA7-6C8D93F23DB3"><!-- --></a><p>Render video
+to graphics surfaces (with and without an associated target window). </p> </li>
+<li id="GUID-0BC8538E-787B-5174-871B-B113D99FD81E"><a name="GUID-0BC8538E-787B-5174-871B-B113D99FD81E"><!-- --></a><p>Manipulate video
+file metadata (if supported by the video format being used). </p> </li>
+</ul> <p><strong>Video Client Library Details</strong> </p> <p>The DLL that provides
+the functionality and the library to which your code must link is
+identified below. </p> <div class="tablenoborder"><a name="GUID-B893730B-DC80-5C94-86F5-AA1DD33B47FE"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B893730B-DC80-5C94-86F5-AA1DD33B47FE" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e404922">DLL</th>
+<th class="cellrowborder" valign="top" id="d0e404925">LIB</th>
+<th class="cellrowborder" valign="top" id="d0e404928">Short Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e404922 "><p> <strong>mediaclientvideo.dll</strong> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e404925 "><p> <strong>mediaclientvideo.lib</strong> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e404928 "><p>These files are used for implementing the Video Client. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+<div id="GUID-52FF6EBA-ED5F-4B65-B5DA-B4C7514474A0"><h3 class="section-title">Architectural
+Relationship</h3> <p>The methods for playing and recording video
+clips interact with the lower levels of MMF (known as the controller
+framework). The controller framework is in turn responsible for managing
+the interface to video and audio hardware. On some phones, this is
+implemented as a device driver; on others it may be implemented as
+a connection to lower level hardware controllers. </p> <p>Clients using the CVideoPlayerUtility or CVideoRecorderUtility classes must have an
+active scheduler running in their thread because the implementations
+use active objects and callbacks. </p> <p>The <code class="codeph">CVideoPlayerUtility</code> function uses CMediaClientVideoDisplay to support
+video display. This allows clients to use video display functionality
+separately from the client utilities. </p> </div>
+<div id="GUID-5CCD8B28-A685-4EFD-997E-B0CBEF540E88"><h3 class="section-title">Description</h3> <p>The video classes are plug-in based, leaving the list of supported
+video formats for input and output open ended. Unlike the audio classes,
+no default video formats/codecs are provided. It is the responsibility
+of the device creator to develop and implement appropriate video plug-ins. </p> </div>
+<div id="GUID-AA29C7DC-32DC-43A5-AA9E-0A538BBD1300"><h3 class="section-title">Key
+Video Client Classes</h3> <p>The video play and record functionality
+provided by the Video Client is contained within the following key
+classes: </p> <ul>
+<li id="GUID-1FC8E8FF-D578-5214-9B4E-2A85D029040D"><a name="GUID-1FC8E8FF-D578-5214-9B4E-2A85D029040D"><!-- --></a><p> CVideoPlayerUtility - the video player class. This class provides an interface to play
+sampled video data. </p> </li>
+<li id="GUID-4CCCA725-C6CD-5C38-BACA-4E5BB0E9853A"><a name="GUID-4CCCA725-C6CD-5C38-BACA-4E5BB0E9853A"><!-- --></a><p> MVideoPlayerUtilityObserver - an interface to a set of video player callback functions. </p> </li>
+<li id="GUID-2C3BFAC6-3C6F-542D-B2CA-82A226B3B281"><a name="GUID-2C3BFAC6-3C6F-542D-B2CA-82A226B3B281"><!-- --></a><p> CVideoRecorderUtility - the video recorder class. This class provides an interface to
+record sampled video data. </p> </li>
+<li id="GUID-954BB4B8-D8B3-5A66-930D-A0BFFA2B4BFD"><a name="GUID-954BB4B8-D8B3-5A66-930D-A0BFFA2B4BFD"><!-- --></a><p> MVideoRecorderUtilityObserver - an interface to a set of video recorder callback functions. </p> </li>
+</ul> </div>
+<div id="GUID-5F28C242-0E33-44E1-8E52-75F0D4993D0D"><h3 class="section-title">Using
+the Video Client</h3> <p>Clients can use the Video Client to: </p> <ul>
+<li id="GUID-34E3471F-C697-5F69-AE01-D69FB53689D3"><a name="GUID-34E3471F-C697-5F69-AE01-D69FB53689D3"><!-- --></a><p><a href="GUID-3F0856D9-7B58-5519-9B26-97F1A035E21D.html">Open and play video
+clips contained in files, descriptors or URLs</a>. </p> </li>
+<li id="GUID-CB4AF1A7-8EC1-5967-A75F-55CEB726345A"><a name="GUID-CB4AF1A7-8EC1-5967-A75F-55CEB726345A"><!-- --></a><p><a href="GUID-37934768-50D0-52A8-B594-B47D5E27722B.html">Open a recording
+device and record video clips to files, descriptors or URLs, and manipulate
+embedded metadata</a>. </p> </li>
+</ul> </div>
+<div id="GUID-A9226FF0-B9D5-4389-AED4-0FE77066A26D"><h3 class="section-title">See
+Also</h3> <p><a href="GUID-F370A917-6963-58F6-8876-160A1DC42040.html">Video Client Tutorials</a> </p> <p><a href="GUID-EB58901D-66BD-56BF-B0CD-5FC4F73F06F3.html">DevVideo Overview</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated November 1st, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2DC80BA9-7AA2-5CD3-9105-1DE28CE196C1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:05:02 GMT -->
+</html>

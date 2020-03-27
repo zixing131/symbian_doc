@@ -1,0 +1,125 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8DB1C618-597C-560C-95A2-C0AB2CEBB027.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:04:42 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Redraw Drawing" /><meta name="abstract" content="This topic provides background information about redraw drawing and tips for updating old code to comply with the recommendation that all drawing is migrated to redraw drawing." /><meta name="description" content="This topic provides background information about redraw drawing and tips for updating old code to comply with the recommendation that all drawing is migrated to redraw drawing." /><meta name="DC.Relation" scheme="URI" content="GUID-484B51EC-2209-5492-8E9C-9D792AB0DF35" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-57A777A3-5D67-5CBB-B224-B7AD422A451B" /><meta name="DC.Relation" scheme="URI" content="GUID-0C4B86B5-530A-5839-86C1-46E7ABE281E0" /><meta name="DC.Relation" scheme="URI" content="GUID-DC5E8C7D-D697-53E8-87F4-344301430E61" /><meta name="DC.Relation" scheme="URI" content="GUID-484B51EC-2209-5492-8E9C-9D792AB0DF35" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-8DB1C618-597C-560C-95A2-C0AB2CEBB027" /><meta name="DC.Language" content="en" /><title>Redraw Drawing </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-8DB1C618-597C-560C-95A2-C0AB2CEBB027">Redraw Drawing</h1><div><p>This topic provides background information about redraw
+drawing and tips for updating old code to comply with the recommendation
+that all drawing is migrated to redraw drawing. </p>
+<p> <strong>Variant</strong>: Both (ScreenPlay and non-ScreenPlay). <strong>Target
+audience</strong>: Application developers. </p>
+<div id="GUID-71199005-1F00-434D-B130-47886DD53E92"><h3 class="section-title">About
+Redraw Drawing</h3> <p>Symbian recommends that all <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AEE5955-C530-35F1-A904-69183331B294.html#GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-0AEE5955-C530-35F1-A904-69183331B294.html"><code class="apiname">CWindowGc</code></a> drawing is <strong>redraw drawing</strong>, which means that it takes place
+between <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-9337538E-7A53-3153-A330-968B5E4F2FF2"><code class="apiname">RWindow::BeginRedraw()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-3DE16607-AD3B-3946-BEB3-88512EAAB9CE"><code class="apiname">RWindow::EndRedraw()</code></a> calls. <a href="GUID-6C16417B-5B37-5310-B59A-750D971AA6D4.html">The
+UI Control Framework (CONE)</a> automatically takes care of this
+for you if you use the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C1A16D0F-662C-3484-812B-CE742C8464E7"><code class="apiname">CCoeControl::DrawNow(const TRect &amp;)const</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-33A19096-F8D1-373C-862F-EF627981C782"><code class="apiname">CCoeControl::DrawDeferred()const</code></a> methods. </p> <p>For example, suppose an application wants to write the text "Hello!"
+to a window and then add a red diagonal line below it (A in following
+diagram). When this is performed as redraw drawing, the application
+calculates the bounding rectangles of the "Hello!" text and the red
+line (B). For each one, the application passes the rectangle to <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-1C9B8E72-91DB-3C0A-9D10-DA2CCD6A2541"><code class="apiname">RWindow::BeginRedraw(const TRect &amp;)</code></a>, then calls the
+draw commands and afterwards calls <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-3DE16607-AD3B-3946-BEB3-88512EAAB9CE"><code class="apiname">RWindow::EndRedraw()</code></a>. </p> <div class="figure" id="GUID-53B962F7-D425-5D72-8148-F822A3462243"><img src="GUID-1DDFFB60-BBA8-500E-A9B1-F048EE5BFBD0_d0e236487_href.png" /></div> <p>This has the advantage that the Window Server knows that
+the area of the window that has the "Hello!" text is not affected
+by the drawing of the red line. There are also advantages when some
+or all of the window needs to be repainted. For example, suppose another
+window (such as an OK dialog box) appears above the window (as shown
+in C). When the dialog box is closed, the Window Server repaints the
+screen behind the dialog box. Because in this example the OK dialog
+box was entirely within the red line's bounding rectangle, the Window
+Server simply replays that rectangle's drawing operations (D). This
+is more efficient than repainting the whole window. </p> <p>However,
+in earlier versions of Symbian you could, for example, draw the red
+line without bracketing it within <code class="codeph">BeginRedraw()</code> and <code class="codeph">EndRedraw()</code> calls. This is called <strong>non-redraw drawing</strong>. In ScreenPlay, each non-redraw drawing operation triggers the Window
+Server to invalidate the entire window. This means that the client
+application must then perform a full window redraw, as shown in the
+next diagram. </p> <div class="figure" id="GUID-A36DF80C-6B53-5D9D-878B-0854BB36E44A"><img src="GUID-7C51BC7A-CB97-5A7E-A5EF-BB3623DFFFED_d0e236510_href.png" /><p class="figure-title"><strong>Figure: </strong>              Non-redraw drawing sequence            </p></div> <p>This is less efficient than the Window Server replaying
+the draw operations for the affected area. </p> <p>Symbian recommends
+that all drawing is now performed as redraw drawing. Typically this
+involves dividing the window up into rectangular areas that represent
+different aspects of the user interface—for example, as shown in the
+following diagram. If anything spoils the screen, the Window Server
+then only needs to redraw the corresponding portions of the user interface. </p> <div class="figure" id="GUID-BAD0C762-0EBD-51E2-BC64-DF38749CA7D8"><img src="GUID-F2E8CB4B-C1BB-577D-B018-7FF231B70D8C_d0e236521_href.png" /></div> <p>In earlier versions of Symbian, before the introduction
+of the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C1A16D0F-662C-3484-812B-CE742C8464E7"><code class="apiname">CCoeControl::DrawNow(const TRect &amp;)const</code></a> overload, developers sometimes used non-redraw drawing to update
+a small part of a control. This technique has often been used for
+virtual keyboards and calendar controls. This type of use case is
+now particularly unsuited to non-redraw drawing because in ScreenPlay
+each non-redraw drawing command triggers a server-initiated client
+redraw of the entire window. This can be very slow if the window requires
+many drawing operations to redraw the scene. </p> <p>Symbian recommends
+that all non-redraw drawing is changed to redraw drawing. Migrating
+non-redraw drawing to redraw drawing means that you must enclose all
+drawing operations between <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-9337538E-7A53-3153-A330-968B5E4F2FF2"><code class="apiname">RWindow::BeginRedraw()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-3DE16607-AD3B-3946-BEB3-88512EAAB9CE"><code class="apiname">RWindow::EndRedraw()</code></a> calls or migrate it
+to use the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-D5458F8C-E199-37DD-B821-050B749122C6"><code class="apiname">CCoeControl::DrawNow()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-9FB682AC-0209-302A-83F3-7BCB1162B998"><code class="apiname">CCoeControl::DrawDeferred()</code></a> methods. Sometimes this causes
+some subtle changes in behavior, as explained in the Notes below. </p></div>
+<div id="GUID-E88E139C-F852-4CAB-B6EB-7E5861D607D6"><h3 class="section-title">Restrictions</h3> <ol id="GUID-3BE36F7E-CFEC-5BFD-A311-E36D67D9097D">
+<li id="GUID-C6236CD8-C83E-5252-BCC6-336FE8677DCF"><a name="GUID-C6236CD8-C83E-5252-BCC6-336FE8677DCF"><!-- --></a><p>You must supply <strong>only</strong> drawing operations between the <code class="codeph">BeginRedraw()</code> and <code class="codeph">EndRedraw()</code> calls. For example, you must not
+change the window extent between a <code class="codeph">BeginRedraw()</code> and <code class="codeph">EndRedraw()</code> call. </p> </li>
+<li id="GUID-616C81BF-6296-4D10-BA9F-5A037995D773"><a name="GUID-616C81BF-6296-4D10-BA9F-5A037995D773"><!-- --></a><p>For opaque windows,
+you must define pixel content for the <strong>entire area</strong> being redrawn.
+For example, when calling <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C1A16D0F-662C-3484-812B-CE742C8464E7"><code class="apiname">CCoeControl::DrawNow(const TRect
+&amp;)const</code></a>, you must supply drawing operations for the
+entire rectangle passed to the function. Similarly when calling the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-8DE580DF-459C-3FCF-8ABA-B26741C294CC"><code class="apiname">CCoeControl::DrawNow()const</code></a> overload, you must supply drawing
+operations for the entire window. However, this is not necessary for
+transparent windows.</p></li>
+<li id="GUID-652DF093-046F-58A3-961F-2A51DEB2FD74"><a name="GUID-652DF093-046F-58A3-961F-2A51DEB2FD74"><!-- --></a><p>You must <strong>not</strong> call any functions that can leave between the <code class="codeph">BeginRedraw()</code> and <code class="codeph">EndRedraw()</code> calls. This is because drawing
+operations must never leave. </p> </li>
+</ol> <p>Note: A redrawer's <code class="codeph">RunL()</code> function must <strong>never</strong> perform any non-redraw drawing. See <a href="GUID-7C75642D-C0C9-5392-9354-711F42DC2C61.html">Server-Initiated
+vs. Application-Initiated Redrawing</a> for more information. </p> </div>
+<div id="GUID-620268C0-2F67-4D87-BF99-E1843DBE9BCA"><h3 class="section-title">Notes</h3> <p><strong>Performance </strong> </p> <p>You can improve performance by passing
+the smallest possible bounding rectangle to the <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-683603DD-F3D3-3193-BEB3-8236C7DE7F79.html#GUID-9337538E-7A53-3153-A330-968B5E4F2FF2"><code class="apiname">RWindow::BeginRedraw()</code></a> and <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-D5458F8C-E199-37DD-B821-050B749122C6"><code class="apiname">CCoeControl::DrawNow()</code></a> methods. If this still
+results in poor performance, because, for example, there is a large
+amount of incremental screen updating, the recommended solution in
+ScreenPlay is to render to a surface. </p><p><strong>High frequency rendering</strong> </p><p>It is possible for a client to provide batches of redraw
+drawing (that is, drawing bracketed in <code class="codeph">BeginRedraw()</code> and <code class="codeph">EndRedraw()</code> calls) for the same region of a
+window faster than they can be displayed on the screen. When this
+happens, the Window Server may discard the drawing commands in one
+or more of the earlier batches of redraw drawing and simply draw the
+pixels defined in a later redraw batch to the screen. This can result
+in missing frames, but is only likely to be noticeable in an application
+like a game that performs high-frequency rendering.</p><p>The solution
+is to call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html#GUID-B431DC60-D11F-3239-8F52-4257B9B0E0C9"><code class="apiname">RWsSession::Finish()</code></a> after each <code class="codeph">EndRedraw()</code> call. This slows the client so that it does
+not generate pixel content faster than the Window Server can display
+it on the screen. </p><p>To summarize: When you want to ensure that
+every single frame is shown on the screen, call <code class="codeph">Finish()</code> after each <code class="codeph">EndRedraw()</code> call.</p> <p><strong>Delay of
+execution </strong> </p> <p>After you migrate non-redraw drawing to redraw
+drawing, the execution of the drawing operations is deferred compared
+to previously. This means that if the arguments of the drawing operations
+result in a panic, the panic also appears later than before. </p> <p><strong>CRemoteGc usage </strong> </p> <p>Device creators can use CRemoteGc to create a data buffer containing a series of
+drawing operations. These can then be executed to display the drawing
+on the screen by using CCommandBuffer::Play(). </p> <p>For example, consider a weather program that has one sub-system
+responsible for deciding the drawing operations that comprise a weather
+symbol and another sub-system that places weather symbols at different
+locations on the screen. Here we potentially have a Cloud symbol buffer
+created once and played many times. </p> <p>The points to note are: </p> <ul>
+<li id="GUID-A8DCB4C4-9D80-5F0F-A894-512A432A9E11"><a name="GUID-A8DCB4C4-9D80-5F0F-A894-512A432A9E11"><!-- --></a><p>Any <code class="codeph">BeginRedraw()</code> and <code class="codeph">EndRedraw()</code> commands
+that are placed into the <code class="codeph">CRemoteGc</code> buffer are <strong>not</strong> transferred to the target window when the buffer is played </p> </li>
+<li id="GUID-4D5FB2B7-44F0-50F1-AB60-3A12B0AF287B"><a name="GUID-4D5FB2B7-44F0-50F1-AB60-3A12B0AF287B"><!-- --></a><p>You <strong>must</strong> bracket any call to CCommandBuffer::Play() within <code class="codeph">BeginRedraw()</code> and <code class="codeph">EndRedraw()</code> calls. </p> </li>
+</ul> <p>It may be puzzling to understand why any <code class="codeph">BeginRedraw()</code> and <code class="codeph">EndRedraw()</code> commands would be placed in the <code class="codeph">CRemoteGc</code> buffer at all. This facility is to allow the commands
+already in the <code class="codeph">CRemoteGc</code> buffer to be replaced with
+new drawing operations. In the weather example, it might be done to
+allow a "7<sup>o</sup> Celsius" label to partially occlude a cloud
+graphic placed earlier into the <code class="codeph">CRemoteGc</code> buffer. </p> </div>
+<div id="GUID-D263317D-ED6F-45D2-8F89-95891F6B7540"><h3 class="section-title">Configuring
+the emulator to panic clients that ignore the           convention</h3> <p>In both ScreenPlay and the non-ScreenPlay variant, you can configure
+the TechView emulator to panic clients that ignore the convention
+(described above) that all drawing operations are performed as redraw
+drawing. </p> <p>To enable this feature, add the following line to
+the <code>epoc32/data/epoc.ini</code> file: </p> <pre class="codeblock">debug_wserv_exe_EnforceRedrawCallingConvention 1</pre> <p>This feature is disabled if you do not specify this parameter
+or if you set it to zero, like this: </p> <pre class="codeblock">debug_wserv_exe_EnforceRedrawCallingConvention 0</pre> <p>The feature takes effect in debug emulator (WINSCW) builds only—it
+never affects ARM builds. </p> <p>When a Window Server panic code
+79 (<code class="codeph">EWservPanicWindowBeginRedrawNotCalled</code>) then occurs,
+it means that a non-redraw drawing operation has occurred. </p> <p>However, the Window Server buffers client requests. This means that
+the drawing that is at fault may have been issued by the client some
+time earlier. It is therefore helpful to enable <em>autoflushing</em>, because this removes the buffering between the client issuing the
+drawing operations and the Window Server processing them. This makes
+it easier to identify the drawing operation that is at fault. </p> <p>There are three ways to enable autoflushing: </p> <ol id="GUID-22E4AACD-5718-5774-B9B1-BF28D287ED76">
+<li id="GUID-EF604CC8-5138-5747-AD4F-CA8BE8DC335A"><a name="GUID-EF604CC8-5138-5747-AD4F-CA8BE8DC335A"><!-- --></a><p>To enable autoflushing
+globally across all clients, define <code class="codeph">__AUTO_FLUSH</code> in <code>client/client.h</code> and re-compile the Window Server code. </p> </li>
+<li id="GUID-ACC8C257-1530-5808-9838-B905D2483455"><a name="GUID-ACC8C257-1530-5808-9838-B905D2483455"><!-- --></a><p>To enable autoflushing
+in your client-side code only, call <a href="GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html#GUID-85232F8B-9FB8-3E19-9ECD-E64B63748A11"><code class="apiname">RWsSession::SetAutoFlush(ETrue)</code></a>. </p> </li>
+<li id="GUID-3CCA44EB-5375-59AA-B96B-E3C3E241D88B"><a name="GUID-3CCA44EB-5375-59AA-B96B-E3C3E241D88B"><!-- --></a><p>To enable autoflushing
+on an ad hoc basis in the TechView emulator, press <kbd class="userinput">Ctrl-Alt-Shift-F</kbd>. </p> </li>
+</ol> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-484B51EC-2209-5492-8E9C-9D792AB0DF35.html">Graphics
+and Drawing </a></li></ul></div></div><div class="footer"><p class="metadata">Last updated August 4th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-8DB1C618-597C-560C-95A2-C0AB2CEBB027.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:04:45 GMT -->
+</html>

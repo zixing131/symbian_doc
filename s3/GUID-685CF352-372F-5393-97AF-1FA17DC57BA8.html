@@ -1,0 +1,45 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-685CF352-372F-5393-97AF-1FA17DC57BA8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:03:11 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Constructing Descriptor Arrays" /><meta name="abstract" content="Descriptor arrays provide normal array operations for inserting, appending, deleting, and accessing elements." /><meta name="description" content="Descriptor arrays provide normal array operations for inserting, appending, deleting, and accessing elements." /><meta name="DC.Relation" scheme="URI" content="GUID-E8266924-FA52-5171-BD73-423A46227A74" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-D02B5AF1-B1C3-560D-9654-971A5CC1A904" /><meta name="DC.Relation" scheme="URI" content="GUID-C8BD333E-8384-534B-822B-F61B2F7C8B9F" /><meta name="DC.Relation" scheme="URI" content="GUID-85AA0FD4-3BD1-50A7-B241-AE3908ACCF30" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-685CF352-372F-5393-97AF-1FA17DC57BA8" /><meta name="DC.Language" content="en" /><title>Constructing Descriptor Arrays </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-685CF352-372F-5393-97AF-1FA17DC57BA8">Constructing Descriptor Arrays</h1><div><p>Descriptor arrays provide normal array operations for inserting, appending, deleting, and accessing elements. </p><div><h3 class="section-title">Procedure</h3> <p>Follow the steps listed below to construct descriptor arrays: </p> <ol id="GUID-4957F727-EC6C-5DFF-B970-44DD0AB5E69C"><li id="GUID-69B3273C-1552-5B9C-816D-1398BFF49A6B"><a name="GUID-69B3273C-1552-5B9C-816D-1398BFF49A6B"><!-- --></a><p>Construct a set of descriptors. </p> <p>The following code fragments illustrate how to construct a CDesCArrayFlat and a CPtrCArray. Both array types can accept any type of descriptor as source when adding a new array element. </p> <pre class="codeblock">_LIT( KText1,"abcdefg" );
+_LIT( KText2,"hijk" );
+_LIT( KText3,"lmnopqr" );
+_LIT( KText4,"stuvwxyz" );
+...
+TBufC&lt;8&gt; buffer1( KText1 );  // a non-modifiable buffer descriptor
+TBuf&lt;8&gt;  buffer2( Ktext2 );  // a modifiable buffer descriptor
+...
+TPtrC  ptr1( Ktext3 );       // a non-modifiable pointer descriptor
+TPtr   ptr2;                 // a modifiable pointer descriptor 
+ptr2 = buffer1.Des();        // pointing to the data in buffer1
+...
+HBufC* heapbuff = HBufC::NewL( 8 );  // a heap descriptor
+*heapbuff = KText4;</pre> <p> <strong>Note:</strong> Constructing and using a CDesCArraySeg is same as using CDesCArrayFlat. </p> </li> <li id="GUID-8A1E403F-FBA4-5A60-AAC4-7296BA7B160F"><a name="GUID-8A1E403F-FBA4-5A60-AAC4-7296BA7B160F"><!-- --></a><p>Add the five descriptors to CDesCArrayFlat as shown in the following code. </p> <pre class="codeblock">CDesCArrayFlat* descarray;
+...
+descarray = new( ELeave ) CDesCArrayFlat( 5 );
+...
+descarray-&gt;AppendL( buffer1 );
+descarray-&gt;AppendL( buffer2 );
+descarray-&gt;AppendL( ptr1 );
+descarray-&gt;AppendL( ptr2 );
+descarray-&gt;AppendL( *heapbuff );
+...
+TInt len = descarray-&gt;MdcaPoint( 2 ).Length();  // information about
+                                                // the third element
+...</pre> </li> <li id="GUID-EE266B93-2899-5D35-A0BF-569694574D5C"><a name="GUID-EE266B93-2899-5D35-A0BF-569694574D5C"><!-- --></a><p>Add the five descriptors to CPtrCArray as shown in the following code. </p> <pre class="codeblock">CPtrCArray* ptrcarray;
+...
+ptrcarray = new( ELeave ) CPtrCArray( 5 );
+...
+ptrcarray-&gt;AppendL( buffer1 );
+ptrcarray-&gt;AppendL( buffer2 );
+ptrcarray-&gt;AppendL( ptr1 );
+ptrcarray-&gt;AppendL( ptr2 );
+ptrcarray-&gt;AppendL( *heapbuff );
+...
+TInt len = ptrcarray-&gt;MdcaPoint( 2 ).Length();  // information about
+                                                // the third element
+...</pre> </li> </ol> </div> </div><h3>Related concepts</h3><ul><li><a href="GUID-E8266924-FA52-5171-BD73-423A46227A74.html">Descriptor Arrays</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 9th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-685CF352-372F-5393-97AF-1FA17DC57BA8.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:03:11 GMT -->
+</html>

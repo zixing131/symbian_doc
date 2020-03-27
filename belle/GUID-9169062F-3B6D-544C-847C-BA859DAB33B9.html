@@ -1,0 +1,86 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9169062F-3B6D-544C-847C-BA859DAB33B9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:44 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Sessions and requests" /><meta name="abstract" content="Describes communication between the client and the server in the client-server framework." /><meta name="description" content="Describes communication between the client and the server in the client-server framework." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-3786D8E6-17A9-52E4-A8DF-CFCDC3039854" /><meta name="DC.Relation" scheme="URI" content="GUID-6047DB3F-DC92-51DF-9EEB-00E79E890B54" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9169062F-3B6D-544C-847C-BA859DAB33B9" /><meta name="DC.Language" content="en" /><title>Sessions
+and requests </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-9169062F-3B6D-544C-847C-BA859DAB33B9">Sessions
+and requests</h1><div><p>Describes communication between the client and the server in the
+client-server framework.</p>
+<p>Communication between client and server is represented by a <em>session</em>;
+this is initiated by the client. A client thread may have several sessions
+with a server. A session can also be shared by all the client threads in a
+process, if supported by the server, and also by all threads across all processes,
+again if supported by the server. </p>
+<p>Sessions are maintained by the Kernel and the important points are: </p>
+<ul>
+<li id="GUID-C8D3B5F7-6BCE-5AB2-A11D-F0436F8CE20C"><a name="GUID-C8D3B5F7-6BCE-5AB2-A11D-F0436F8CE20C"><!-- --></a><p>The client has an <code class="codeph">RSessionBase</code> handle
+to the session. </p> </li>
+<li id="GUID-80F84FC0-AA11-5C5E-A067-A23D6069DE00"><a name="GUID-80F84FC0-AA11-5C5E-A067-A23D6069DE00"><!-- --></a><p>The server uses a <code class="codeph">CSession2</code> -derived
+class to represent the session. </p> </li>
+<li id="GUID-B6405FDE-1ECB-543E-BA11-6280A5CD8DF8"><a name="GUID-B6405FDE-1ECB-543E-BA11-6280A5CD8DF8"><!-- --></a><p>A session may be sharable
+between the threads in the client process, between all threads across all
+processes, or it can be restricted to the thread connecting to the server. </p> </li>
+</ul>
+<p>If a call to the client interface requires a service from the server, the
+client interface must set up and send a message. The message has a 32-bit
+operation code to identify the request, and up to four 32-bit parameters.
+The message is encapsulated within a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4AD02F14-1142-372F-9D11-224595932034.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4AD02F14-1142-372F-9D11-224595932034.html"><code class="apiname">TIpcArgs</code></a> object. The
+process can be summarised as follows: </p>
+<ul>
+<li id="GUID-2810FEA1-D51E-534E-963C-425D9A3B09C0"><a name="GUID-2810FEA1-D51E-534E-963C-425D9A3B09C0"><!-- --></a><p>The client sends the
+message to the server using <code class="codeph">RSessionBase::SendReceive()</code>.
+This call eventually returns with the completion code. </p> </li>
+<li id="GUID-785468D3-7D69-5A2C-818D-5961DCCB7FCA"><a name="GUID-785468D3-7D69-5A2C-818D-5961DCCB7FCA"><!-- --></a><p>The Kernel packages
+the operation code and parameters and delivers an <code class="codeph">RMessage2</code> to
+the server. </p> </li>
+<li id="GUID-7BF7D799-7999-51C8-BEBF-88822703F113"><a name="GUID-7BF7D799-7999-51C8-BEBF-88822703F113"><!-- --></a><p>The server delivers
+the message to the appropriate <code class="codeph">CSession2</code> object, which deals
+with the request. The request is handled by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-D5A30C75-E22C-34E8-913B-7D2CA6AD5C51.html#GUID-B37413F7-D8FD-35AD-A037-99023D7CE986"><code class="apiname">CSession2::ServiceL()</code></a>.
+This is defined as pure virtual in <code class="codeph">CSession2</code>, and is implemented
+by the class derived from <code class="codeph">CSession2</code>. When the session has
+finished dealing with the request, it calls <code class="codeph">RMessage2::Complete()</code> to
+indicate that the service has been performed and to return a 32-bit result
+to the client - this is returned from the <code class="codeph">SendReceive()</code>. </p> </li>
+</ul>
+<p>The client-server framework also supports the sending of requests asynchronously
+to the server. </p>
+<p>The following diagram illustrates this: </p>
+<div class="figure" id="GUID-97810C53-3BF6-5ECF-B413-86EEE99E68DA"><img src="GUID-08E31D57-A84D-5B6B-B16F-3F7025A763E9_d0e317058_href.png" /><p>Sending messages asynchronously to the server</p></div>
+<p>A server can support multiple connections from a client in a number of
+distinct ways: </p>
+<ul>
+<li id="GUID-DFBDEB83-48DE-5A94-A07B-B9BA1715FDE7"><a name="GUID-DFBDEB83-48DE-5A94-A07B-B9BA1715FDE7"><!-- --></a><p>The client may have
+a number of concurrent sessions with a particular server. </p> </li>
+<li id="GUID-C382BBE4-A94B-593E-9C9E-1E2E4DA60587"><a name="GUID-C382BBE4-A94B-593E-9C9E-1E2E4DA60587"><!-- --></a><p>Each session is independent
+of any other within the client thread; <code class="codeph">Connect()</code> must be
+called to initialise each new connection. </p> </li>
+<li id="GUID-343295A2-AAE6-51AA-AFCF-5CD3CD39A510"><a name="GUID-343295A2-AAE6-51AA-AFCF-5CD3CD39A510"><!-- --></a><p>The client may create
+a number of <em>subsessions</em> within a single session. </p> </li>
+<li id="GUID-7228AA13-B73F-5996-8535-0C959B7C7788"><a name="GUID-7228AA13-B73F-5996-8535-0C959B7C7788"><!-- --></a><p>Each <em>client subsession </em> corresponds
+to a <em>subsession object</em> in the server. The client subsession contains
+a handle to this subsession object. All communication is via the owning session;
+the handle is used to match up corresponding client subsessions and subsession
+objects. </p> </li>
+<li id="GUID-8D01708B-CCC3-5B6C-9C26-4A4BE26A3D0C"><a name="GUID-8D01708B-CCC3-5B6C-9C26-4A4BE26A3D0C"><!-- --></a><p>Subsessions use fewer
+Kernel resources than sessions, although they are slightly more complex to
+use. </p> </li>
+</ul>
+<p>A server can support the creation of sharable sessions allowing either
+all the threads in a client process to share a single session, or allowing
+all threads across all processes to share a single session. The important
+points are: </p>
+<ul>
+<li id="GUID-81929E38-1251-51C9-A3B0-CD82AD519D82"><a name="GUID-81929E38-1251-51C9-A3B0-CD82AD519D82"><!-- --></a><p>The server must support
+the sharing of sessions. </p> </li>
+<li id="GUID-AE8DF750-FABF-55CE-A633-41E96A50413B"><a name="GUID-AE8DF750-FABF-55CE-A633-41E96A50413B"><!-- --></a><p>The connecting thread
+can make the session sharable after creation, or it can create the session
+as sharable. </p> </li>
+<li id="GUID-E1962030-B977-5A90-AC3C-5419C2FAAF68"><a name="GUID-E1962030-B977-5A90-AC3C-5419C2FAAF68"><!-- --></a><p>Up to 255 threads can
+be concurrently attached to a session. </p> </li>
+</ul>
+<div id="GUID-8C971096-BD4A-408A-AF20-15810FAB9D4C"><h3 class="section-title">See also</h3> <p> <a href="GUID-1CC6FEF0-7D1E-5329-8276-22ACFE3DE362.html">Subsessions
+within a session</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9169062F-3B6D-544C-847C-BA859DAB33B9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:00:45 GMT -->
+</html>

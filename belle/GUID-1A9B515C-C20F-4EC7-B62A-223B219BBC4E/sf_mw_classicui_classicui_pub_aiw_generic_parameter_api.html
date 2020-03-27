@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_aiw_generic_parameter_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:33 GMT -->
+<head><title>AIW Generic Parameter API Specification</title><?php include ("define.html"); ??><?php include (ROOT."/nokiaglobal/styles.php"); ??><?php include ("archdoc_head.html"); ??><link href="css/html.css" media="screen" rel="stylesheet" title="Nokia Web Guidelines" type="text/css" /></head><body><?php include (ROOT."/nokiaglobal/header.php"); ??><div id="sdl_container"><div id="leftMenu"><div id="expandcontractdiv"><a id="index">Symbian Platform API Specifications</a></div><div id="treeDiv1">&#160;</div><script type="text/javascript">var currentIconMode = 0; window.name="i127 i368 i463 i465"; YAHOO.util.Event.onDOMReady(buildTree,this,true);</script></div><div id="sdl_content"><h1>AIW Generic Parameter API Specification</h1>
+<table class="toc" id="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Overview"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Description"><span class="tocnumber">1.1</span> <span class="toctext">Description</span></a></li>
+<li class="toclevel-2"><a href="#Use_Cases"><span class="tocnumber">1.2</span> <span class="toctext">Use Cases</span></a></li>
+<li class="toclevel-2"><a href="#Class_Structure"><span class="tocnumber">1.3</span> <span class="toctext">Class Structure</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Using_The_API"><span class="tocnumber">2</span> <span class="toctext">Using The API</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Creating_a_generic_parameter_list_with_basic_types"><span class="tocnumber">2.1</span> <span class="toctext">Creating a generic parameter list with basic types</span></a></li>
+<li class="toclevel-2"><a href="#Creating_a_generic_parameter_list_with_provider_specific_objects"><span class="tocnumber">2.2</span> <span class="toctext">Creating a generic parameter list with provider specific objects</span></a></li>
+<li class="toclevel-2"><a href="#Error_handling"><span class="tocnumber">2.3</span> <span class="toctext">Error handling</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Glossary"><span class="tocnumber">3</span> <span class="toctext">Glossary</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Definitions"><span class="tocnumber">3.1</span> <span class="toctext">Definitions</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#References"><span class="tocnumber">4</span> <span class="toctext">References</span></a></li>
+</ul>
+</td></tr></table>
+<a name="Overview"><h2> <span class="mw-headline">1 Overview </span></h2>
+</a><p>The purpose of AIW Generic Parameter API is to offer the means for handling
+AIW generic parameters to the AIW consumer applications. The generic parameters
+are used for transferring data between AIW consumers and providers.
+</p><p><br />
+</p>
+<table border="1" cellspacing="0">
+<tr>
+<td width="12%"><b>API category</b></td><td>public
+</td></tr>
+<tr>
+<td width="12%"><b>API type</b></td><td>c++
+</td></tr>
+<tr>
+<td width="12%"><b>Existed since</b></td><td>Legacy S60 3.2
+</td></tr>
+<tr>
+<td width="12%"><b>API libraries</b></td><td>servicehandler.lib
+</td></tr>
+<tr>
+<td width="12%"><b>Location</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/aiw_generic_parameter_api</code></span>
+</td></tr>
+<tr>
+<td width="12%"><b>Buildfiles</b></td><td><span class="plainlinks"><code>/sf/mw/classicui/classicui_pub/aiw_generic_parameter_api/group/bld.inf</code></span>
+</td></tr></table>
+<p><br />
+</p>
+<a name="Description"><h3> <span class="mw-headline">1.1 Description </span></h3>
+</a><p>AIW Generic Parameter API can be categorized as a library API, i.e. it
+provides standalone implementation units (classes, methods, functions) that
+are used by the client. The API is used by method calls (interface uses only
+local objects).
+</p><p>An AIW generic parameter is a pair of semantic id and variant value. Semantic
+id tells the purpose of the parameter. Variant value contains the data format
+information and the actual value. This API offers the means for creating a
+parameter object, setting its variant value and semantic id, etc.
+</p>
+<a name="Use_Cases"><h3> <span class="mw-headline">1.2 Use Cases </span></h3>
+</a><p>The main use cases of this API are the following:
+</p>
+<ul><li> Creating a generic parameter list with basic types
+</li><li> Creating a generic parameter list with provider specific objects.
+</li></ul>
+<a name="Class_Structure"><h3> <span class="mw-headline">1.3 Class Structure </span></h3>
+<table border="1" cellspacing="0">
+<caption> Summary of API classes and header files
+</caption>
+<tr bgcolor="gray">
+<th>Classes</th><th>Files
+</th></tr>
+<tr>
+<td><span class="plainlinks"><code></code></span></td></tr></table></a>CAiwGenericParamList <td><span class="plainlinks"><code>/epoc32/include/mw/AiwGenericParam.h</code></span>
+</td>
+<tr>
+<td><span class="plainlinks"><code>TAiwGenericParam</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AiwGenericParam.h</code></span>
+</td></tr>
+<tr>
+<td><span class="plainlinks"><code>TAiwVariant</code> </span></td><td><span class="plainlinks"><code>/epoc32/include/mw/AiwVariant.h</code></span>
+</td></tr>
+<tr>
+<td>No classes</td><td><span class="plainlinks"><code>/epoc32/include/mw/AiwGenericParam.hrh</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/AiwGenericParam.inl</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/AiwVariant.inl</code></span>, <span class="plainlinks"><code>/epoc32/include/mw/AiwVariantType.hrh</code></span>
+</td></tr>
+<p>The class structure of AIW Generic Parameter API classes with some of the
+most important methods is shown in Figure 1:
+</p>
+<div style="text-align:center"><a class="image" href="images/SPB_10_1_AIW_Generic_Parameter_API_Classes.png" title="Class diagram of AIW Generic Parameter API"><img alt="Class diagram of AIW Generic Parameter API" border="0" height="138" src="images/SPB_10_1_AIW_Generic_Parameter_API_Classes.png" width="685" /></a></div>
+<div style="text-align:center"><i>Class diagram of AIW Generic Parameter API</i></div>
+<p>The <span class="plainlinks"><code>TAiwGenericParam</code> </span> object contains a single AIW generic
+parameter. These objects may then be collected to a <span class="plainlinks"><code>CAiwGenericParamList</code> </span>,
+which can be passed to the AIW providers e.g. via <span class="plainlinks"><code>CAiwServiceHandler::ExecuteMenuCmdL()</code> </span> or <span class="plainlinks"><code>CAiwServiceHandler::ExecuteServiceCmdL()</code> </span>.
+</p><p>A single generic parameter object contains a semantic id and a variant
+object. A semantic id can for example be an error code or a landmark. See
+enumeration <span class="plainlinks"><code>TGenericParamId</code> </span> in<i> AiwGenericParam.hrh</i> for
+possible values.
+</p><p>The variant object is of type <span class="plainlinks"><code>TAiwVariant</code> </span>. It consists
+of a data format and the actual value. The data format can be e.g. integer,
+UID or a descriptor. See<i> AiwVariantType.hrh</i> for a complete list.
+</p><p>A "data agreement" is an important definition here. It is a contract between
+AIW provider and consumer to define the parameters required to execute a certain
+AIW service command. A data agreement describes the provider's input and output
+parameters, and also event parameters if the AIW service is asynchronous.
+Note also that these data agreements and other necessary information for executing
+individual AIW service commands are provider specific.
+</p><p>Some data agreements require that an instance of a certain custom class
+or struct is passed between the consumer and provider. For example, the Map&amp;Navigation
+provider uses that approach.
+</p>
+<a name="Using_The_API"><h2> <span class="mw-headline">2 Using The API </span></h2>
+</a><p>The most important use cases are creating generic parameter lists to be
+passed to the AIW providers. The first use case is a basic case, and the second
+is a more advanced one and specific to a certain AIW service provider.
+</p>
+<a name="Creating_a_generic_parameter_list_with_basic_types"><h3> <span class="mw-headline">2.1 Creating a generic parameter list with basic types </span></h3>
+</a><p>The example code here demonstrates how to create a generic parameter list
+and fill it with file name (descriptor) and error code (integer) items. This
+is the way how to pass the most common types of parameters to the AIW providers
+that do not need provider specific objects.
+</p>
+<pre>#include &lt;AiwGenericParam.h&gt;
+</pre>
+<pre>// Create a list and put it into the cleanup stack.
+CAiwGenericParamList* list = CAiwGenericParamList::NewLC();
+</pre>
+<pre>// Set up and append file name parameter.
+_LIT(KMyFileName, "c:\\data\\testfile.txt");
+TFileName filename(KMyFileName);
+TAiwGenericParam param(EGenericParamFile);
+param.Value().Set(filename);
+list-&gt;AppendL(param);
+</pre>
+<pre>// Set up and append error code parameter.
+param.Reset();
+param.SetSemanticId(EGenericParamError);
+param.Value().Set(KErrNotFound);
+list-&gt;AppendL(param);
+</pre>
+<pre>// The list can now be passed e.g. by calling Service Handler's ExecuteMenuCmdL() or
+// ExecuteServiceCmdL().
+</pre>
+<pre>// Pop and destroy the list when it is not needed anymore.
+CleanupStack::PopAndDestroy(list);
+</pre>
+<p>There may be as many items as required on the list with the same semantic
+id. The receiving application uses iterator methods in the <span class="plainlinks"><code>CAiwGenericParamList</code> </span> class
+for accessing data items on the list.
+</p><p>The AIW framework contains convenience methods for creating input and output
+lists. By using the lists, the consumer application does not have to take
+care of allocating the list from a heap or deleting it afterwards. The only
+limitation is that only one input and one output list can be requested simultaneously.
+If more are required, the consumer application must create and delete them
+by itself. The methods for creating input and output lists are defined as
+follows:
+</p>
+<pre>CAiwGenericParamList&amp; CAiwServiceHandler::InParamListL();
+CAiwGenericParamList&amp; CaiwServiceHandler::OutParamListL();
+</pre>
+<a name="Creating_a_generic_parameter_list_with_provider_specific_objects"><h3> <span class="mw-headline">2.2 Creating a generic parameter list with provider specific objects </span></h3>
+</a><p>If a provider specific class or struct needs to be transferred between
+a consumer and a provider, it needs to be serialized by using e.g. a <span class="plainlinks"><code>TPtrC8</code> </span> or <span class="plainlinks"><code>TPckg</code> </span> type
+before adding it to a generic parameter list. The variant type id <span class="plainlinks"><code>EVariantTypeDesC8</code> </span> should
+be used for these kind of parameters. It should also be noted that the AIW
+framework does not support passing pointers. See Map and Navigation AIW provider
+documentation for an example.
+</p>
+<a name="Error_handling"><h3> <span class="mw-headline">2.3 Error handling </span></h3>
+</a><p>Some methods may leave, for example if running out of memory. Normal Symbian
+OS error handling practises should be used, including e.g. using cleanup stack
+and <span class="plainlinks"><code>TRAP</code> </span> harness.
+</p>
+<a name="Glossary"><h2> <span class="mw-headline">3 Glossary </span></h2>
+</a><a name="Definitions"><h3> <span class="mw-headline">3.1 Definitions </span></h3>
+<table border="1" cellspacing="0">
+<caption> <b>Definitions</b>
+</caption>
+<tr>
+<td> Data agreement
+</td><td> A contract between service provider and consumer defining
+<p>what is required to execute a service command. This includes e.g. input and
+output parameters.
+</p>
+</td></tr></table>
+</a><a name="References"><h2> <span class="mw-headline">4 References </span></h2>
+<table border="1" cellspacing="0">
+<caption> <b>References</b>
+</caption>
+<tr>
+<td> 1. S60 Map and Navigation AIW API Specification Document
+</td></tr></table>
+<div class="copy"><?php include ("copy.html"); ??></div></a></div></div><?php include (ROOT."/nokiaglobal/footer.php"); ??></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-1A9B515C-C20F-4EC7-B62A-223B219BBC4E/sf_mw_classicui_classicui_pub_aiw_generic_parameter_api.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:33 GMT -->
+</html>

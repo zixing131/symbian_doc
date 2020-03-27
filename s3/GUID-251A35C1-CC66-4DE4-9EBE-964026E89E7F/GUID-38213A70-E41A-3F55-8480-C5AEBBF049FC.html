@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us" xml:lang="en-us">
+
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-38213A70-E41A-3F55-8480-C5AEBBF049FC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:47:31 GMT -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="copyright" content="(C) Copyright 2011"/>
+<meta name="DC.rights.owner" content="(C) Copyright 2011"/>
+<meta name="DC.Type" content="cxxClass"/>
+<meta name="DC.Title" content="MSenServiceConsumer"/>
+<meta name="abstract" content=""/>
+<meta name="description" content=""/>
+<meta name="DC.Format" content="XHTML"/>
+<meta name="DC.Identifier" content="GUID-38213A70-E41A-3F55-8480-C5AEBBF049FC"/>
+<link rel="stylesheet" type="text/css" href="css/commonltr.css"/>
+<title>MSenServiceConsumer</title>
+<meta name="keywords" content="api"/><link rel="stylesheet" type="text/css" href="css/nokiacxxref.css"/><link href="css/html.css" rel="stylesheet" type="text/css"/><link href="css/style.css" rel="stylesheet" type="text/css"/><link href="css/nwg.css" rel="stylesheet" type="text/css"/><link href="css/eclipse.css" rel="stylesheet" type="text/css"/></head>
+<body id="GUID-38213A70-E41A-3F55-8480-C5AEBBF049FC"><a name="GUID-38213A70-E41A-3F55-8480-C5AEBBF049FC"><!-- --></a><div class="body"><div class="contentLeft prTxt">
+
+	<h1 class="sectiontitle">MSenServiceConsumer Class Reference</h1>
+	
+	<div class="section include"><p>#include 
+            
+                    &lt;mw/MSenServiceConsumer.h&gt;
+                </p></div>
+<div class="section signature"><table class="signature"><tr><td>class MSenServiceConsumer</td></tr></table></div><div class="section member-index"><table class="member-index"><thead><tr><th colspan="2">Public Member Functions</th></tr></thead><tbody><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-7607E301-0B29-3A44-AE7B-9F2AD9497B37">HandleErrorL</a>(const <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>, const <a href="GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html">TDesC8</a> &amp;)</td></tr><tr class="bg"><td align="right" class="code">pure virtual void</td><td><a href="#GUID-D31021DB-3148-3141-A304-816DE2C25D30">HandleMessageL</a>(const <a href="GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html">TDesC8</a> &amp;)</td></tr><tr><td align="right" class="code">pure virtual void</td><td><a href="#GUID-340E9249-D26E-3B27-A6F9-ECB71D8E0940">SetStatus</a>(const <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a>)</td></tr></tbody></table></div><div class="section apidesc"><h2 class="sectiontitle">Detailed Description</h2>
+			<p>Callback interface for service consumers </p>
+
+		</div>
+<h2 class="sectiontitle">Member Function Documentation</h2><div class="nested1" id="GUID-7607E301-0B29-3A44-AE7B-9F2AD9497B37"><a name="GUID-7607E301-0B29-3A44-AE7B-9F2AD9497B37"><!-- --></a>
+		<a name="GUID-349BEB8D-BDB8-340D-B6F6-35DCE06EABD9"><!----></a><h3 class="sectiontitle">HandleErrorL ( const TInt, const TDesC8 &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>HandleErrorL</td><td>(</td><td>const <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td><span class="parameter">aErrorCode</span>,</td></tr><tr><td colspan="3"> </td><td>const <a href="GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html">TDesC8</a> &amp;</td><td><span class="parameter">aErrorMessage</span></td></tr><tr><td colspan="2"> </td><td>)</td><td colspan="2">[pure virtual]</td></tr></table></div><div class="section apidesc">
+				<p>Callback, which is invoked when an error message is received from invoked service. Inside this method, it is guarenteed, that the TxnId() getter provided by <a href="GUID-D5FC8814-C31B-32EC-B78F-2093426417F3.html#GUID-D5FC8814-C31B-32EC-B78F-2093426417F3">CSenServiceConnection</a> class will return valid transaction ID. This allows one to map the ID of sent request, returned from <a href="GUID-D5FC8814-C31B-32EC-B78F-2093426417F3.html#GUID-345470CA-5E03-3ACC-82DF-A1DBBD783F36">CSenServiceConnection::SendL</a> with the response that is provided in this callback. </p>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aErrorCode</td><td>is the error code (negative number) Error codes are some of the following: KErrSenNotInitialized Connection hasn't been initialized. KErrConnectionInitializing Connection is still initializing. KErrSubmitting Submitting a message failed, e.g. tried to send a NULL message. KErrConnectionExpired Connection has expired and needs to be renewed. KErrSenSoapFault A SOAP fault occurred, aErrorMessage should contain more detailed information. KErrSenInternal Internal error in Web Services framework KErrUnknown An unexpected major error has occurred and cause is unknown. Other possible error codes can be HTTP error codes or system-wide Symbian error codes.  </td></tr><tr class="bg"><td class="parameter">aErrorMessage</td><td>contains the error message data; with SOAP based services, possibly a SOAP fault as XML.  </td></tr></table></div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-D31021DB-3148-3141-A304-816DE2C25D30"><a name="GUID-D31021DB-3148-3141-A304-816DE2C25D30"><!-- --></a>
+		<a name="GUID-78C16049-4ABD-394C-A2FB-09ED149FB03E"><!----></a><h3 class="sectiontitle">HandleMessageL ( const TDesC8 &amp; )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>HandleMessageL</td><td>(</td><td>const <a href="GUID-FB97E0A3-352A-316F-97C6-69E4741A8120.html">TDesC8</a> &amp;</td><td><span class="parameter">aMessage</span></td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section apidesc">
+				<p>Callback, which is invoked when a message is received from invoked service. Inside this method, it is guarenteed, that the TxnId() getter provided by <a href="GUID-D5FC8814-C31B-32EC-B78F-2093426417F3.html#GUID-D5FC8814-C31B-32EC-B78F-2093426417F3">CSenServiceConnection</a> class will return valid transaction ID. This allows one to map the ID of sent request, returned from <a href="GUID-D5FC8814-C31B-32EC-B78F-2093426417F3.html#GUID-345470CA-5E03-3ACC-82DF-A1DBBD783F36">CSenServiceConnection::SendL</a> with the response that is provided in this callback. </p>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aMessage</td><td>incoming message.  </td></tr></table></div>
+</div>
+
+	</div>
+<div class="nested1" id="GUID-340E9249-D26E-3B27-A6F9-ECB71D8E0940"><a name="GUID-340E9249-D26E-3B27-A6F9-ECB71D8E0940"><!-- --></a>
+		<a name="GUID-DE544023-7710-38F1-A44A-B98D05BC6121"><!----></a><h3 class="sectiontitle">SetStatus ( const TInt )</h3>
+		
+		<div class="section functiondetail"><div class="section signature"><table class="signature"><tr><td>void</td><td>SetStatus</td><td>(</td><td>const <a href="GUID-FC2F2B93-3D18-3BCC-9FD6-6BC6B240B667.html">TInt</a></td><td><span class="parameter">aStatus</span></td><td>)</td><td>[pure virtual]</td></tr></table></div><div class="section apidesc">
+				<p>This method is called when the status of the connection to the service changes. </p>
+
+			</div>
+<div class="section parameters"><table class="parameters"><thead><th>Parameter</th><th>Description</th></thead><tr><td class="parameter">aStatus</td><td>is connection state indicator, which could be specified by the actual service invocation framework implementation. The following status codes are possible for any installed framework: KSenConnectionStatusNew Connection is being initialized, but not yet ready. KSenConnectionStatusReady Connection is ready to be used. For example, SubmitL() and SendL() methods (depending of framework) are in invocable state. KSenConnectionStatusExpired Connection is expired. Typically, a new connection needs next to be initialized in order to communicate with the underlying service behind this service connection.  </td></tr></table></div>
+</div>
+
+	</div>
+
+	
+	
+	
+</div></div><div class="footer"><hr/><div class="copy">© Nokia 2011.</div></div>
+</body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-251A35C1-CC66-4DE4-9EBE-964026E89E7F/GUID-38213A70-E41A-3F55-8480-C5AEBBF049FC.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 07:47:31 GMT -->
+</html>

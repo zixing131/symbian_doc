@@ -1,0 +1,93 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D74EFE44-A99C-5851-AE48-C1542B7F89EA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Managing RGB Color of Light Targets" /><meta name="abstract" content="The Symbian platform provides device-independent interfaces for setting RGB color values for the various light targets on the device. This means extend classCHWRMLight to set the RGB color value of the specific light target." /><meta name="description" content="The Symbian platform provides device-independent interfaces for setting RGB color values for the various light targets on the device. This means extend classCHWRMLight to set the RGB color value of the specific light target." /><meta name="DC.Relation" scheme="URI" content="GUID-1969956D-CDA0-5DA0-ACF8-69AFBBEC1408" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-F8C8CE42-E7C9-5AFC-86BC-B78F677F1B05" /><meta name="DC.Relation" scheme="URI" content="GUID-DC011D9C-6C39-5BB9-A7CC-4447AB97A2D2" /><meta name="DC.Relation" scheme="URI" content="GUID-F2289115-B1F0-595D-AA1C-3E01F08911CA" /><meta name="DC.Relation" scheme="URI" content="GUID-2E3BE23C-B9DC-5B5D-A56A-1DB819EFC9A6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D74EFE44-A99C-5851-AE48-C1542B7F89EA" /><meta name="DC.Language" content="en" /><title>Managing RGB
+Color of Light Targets </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D74EFE44-A99C-5851-AE48-C1542B7F89EA">Managing RGB
+Color of Light Targets</h1><div><p>The Symbian platform provides device-independent interfaces
+for setting RGB color values for the various light targets on the
+device. This means extend class<code class="codeph">CHWRMLight</code> to set
+the RGB color value of the specific light target. </p>
+<div id="GUID-99A76307-1BAA-4192-807B-3D36BAA5B0CA"><h3 class="section-title">Prerequisites</h3><p>Before you
+start, you must know: </p> <ul>
+<li id="GUID-7F8A3091-80FC-503B-A6CB-96F2B0EF105F"><a name="GUID-7F8A3091-80FC-503B-A6CB-96F2B0EF105F"><!-- --></a><p> <strong>UI Application
+:</strong> A software component that requires access to the LEDs of the
+device. </p> </li>
+<li id="GUID-E2F0E51D-1918-50B8-B279-B8D1FB9C6074"><a name="GUID-E2F0E51D-1918-50B8-B279-B8D1FB9C6074"><!-- --></a><p> <strong>Hardware
+Resource Manger (HWRM) :</strong> A component that provides device-independent
+interfaces for accessing and controlling various hardware resources
+on the device. </p> </li>
+<li id="GUID-5CC55A2A-DA84-57B2-B60C-329EF5781489"><a name="GUID-5CC55A2A-DA84-57B2-B60C-329EF5781489"><!-- --></a><p> <strong>Light adaptation
+plug-in :</strong> An ECOM plug-in that implements the HWRM light plug-in
+interfaces described by the HWRM server component. </p> </li>
+</ul> <p>Follow the steps given below to manage the RGB color of light
+targets:</p></div>
+<h3>Steps</h3><ol id="GUID-DF744FD7-6731-5B3D-853B-BF79A36B4283"><a name="GUID-DF744FD7-6731-5B3D-853B-BF79A36B4283"><!-- --></a>
+<li id="GUID-C33E995E-E9B6-5F61-BBAE-7DA91A790E07"><a name="GUID-C33E995E-E9B6-5F61-BBAE-7DA91A790E07"><!-- --></a><p></p>
+Instantiate the light interface object. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">CHWRMLight * p = CHWRMLight::NewL();</pre> </div>
+</li>
+<li id="GUID-70FE2DBB-F4CB-5A0F-B84D-5D4EC9772ABC"><a name="GUID-70FE2DBB-F4CB-5A0F-B84D-5D4EC9772ABC"><!-- --></a><p></p>
+2. Set the default RGB color for a selected target by using
+the following methods. 
+<div class="p"><p><strong>Example: </strong></p><div class="tablenoborder"><a name="GUID-B9BEA298-DB2E-55B2-9325-87E167CC59F7"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-B9BEA298-DB2E-55B2-9325-87E167CC59F7" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e171806">Method</th>
+<th class="cellrowborder" valign="top" id="d0e171809">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e171806 "><p><code class="codeph">SetLightColorL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e171809 "><p>Sets the specific RGB color for the target. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e171806 "><p><code class="codeph">SetLightDefaultColorL()</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e171809 "><p>Sets the default color of light target. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e171806 "><p><code class="codeph">LightOn(TargetX, 10sec, RGB(Y))</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e171809 "><p>Restores the default color after a specific duration. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e171806 "><p><code class="codeph">SetLightColorL(TargetX, RGB(X))</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e171809 "><p>Restores the specific RGB color to default state. </p> </td>
+</tr>
+</tbody>
+</table></div> </div>
+</li>
+</ol>
+<div id="GUID-E847720A-0509-466A-9569-9707FC7A944D"><h3 class="section-title">Results</h3><p>The default
+RGB color is set for a light target. </p> <p>The following code snippet
+illustartes the use of SetLightDefaultColorL() method. </p> <pre class="codeblock">
+EXPORT_C CHWRMLight * CHWRMLight::NewL ( )
+{
+    CHWRMLight * self = NewLC ( );
+    CleanupStack::Pop ( self );
+    return self ;
+}
+
+    //Used for setting default color of Light Target(s).
+    // Target Defines which light should be controlled. Multiple lights can be specified with using bitwise-or.
+    // KErrNotSupported One or more of specified targets are not supported.
+    // KErrBadHandle Light session has been invalidated.
+    // KErrTimedOut Timeout occurred in controlling light.
+    // KErrInUse One or more of specified targets are not reserved for this client but are reserved for others.
+    // KErrNoMemory There is a memory allocation failure. 
+
+void CHWRLight::SETLightDefaultColorL()
+{
+    INFO_PRINTF1 ( _L ("Start test step: SETLightDefaultColorL" ) );
+    AddLightPreparationStatesL();
+    AddTargetStateL( this, &amp;CHWRMLight::DisplayLightDefaultColorL, KTwoTimeUnits );
+    AddTargetStateL( this, &amp;CHWRMLight::DisplayAndKeyboardLightDefaultColorL, KTwoTimeUnits );
+    ExecuteSETLightDefaultColorL();
+}
+....
+</pre> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-1969956D-CDA0-5DA0-ACF8-69AFBBEC1408.html">Light
+API</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated November 16th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-D74EFE44-A99C-5851-AE48-C1542B7F89EA.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:55:15 GMT -->
+</html>

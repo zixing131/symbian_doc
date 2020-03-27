@@ -1,0 +1,26 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D51600DD-B79A-5A4D-B2D1-36C0A9F9D115.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:46 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use CleanupDeletePushL()" /><meta name="abstract" content="CleanupDeletePushL() pushes a TCleanupItem onto the cleanup stack ready for CleanupStack::PopAndDestroy() to delete." /><meta name="description" content="CleanupDeletePushL() pushes a TCleanupItem onto the cleanup stack ready for CleanupStack::PopAndDestroy() to delete." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-9636A30F-39EB-54E6-8125-4487D4002FE0" /><meta name="DC.Relation" scheme="URI" content="GUID-61DEE78D-4E78-5367-BC8A-F99D3B4E9D5A" /><meta name="DC.Relation" scheme="URI" content="GUID-7366AE99-DE25-5DE0-BF9A-58E7742DA952" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-D51600DD-B79A-5A4D-B2D1-36C0A9F9D115" /><meta name="DC.Language" content="en" /><title>How
+to use CleanupDeletePushL() </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-D51600DD-B79A-5A4D-B2D1-36C0A9F9D115">How
+to use CleanupDeletePushL()</h1><div><p><code class="codeph">CleanupDeletePushL()</code> pushes a <code class="codeph">TCleanupItem</code> onto
+the cleanup stack ready for <code class="codeph">CleanupStack::PopAndDestroy()</code> to
+delete.</p>
+<p>The <code class="codeph">CleanupDeletePushL()</code> templated function constructs
+and pushes a <code class="codeph">TCleanupItem</code> onto the cleanup stack. When <code class="codeph">CleanupStack::PopAndDestroy()</code> is
+called, the object encapsulated by the <code class="codeph">TCleanupItem</code> is deleted.</p>
+<pre class="codeblock">...
+CTestOne* one = new (ELeave) CTestOne;
+CleanupDeletePushL(one);
+one-&gt;SetTextL(KTxtHelloWorld);
+CleanupStack::PopAndDestroy();
+...</pre>
+<p>The <code class="codeph">TCleanupItem</code> object encapsulates a pointer to the <code class="codeph">CTestOne</code> object;
+the cleanup operation is the static function <code class="codeph">Delete()</code> of
+the templated class <code class="codeph">CleanupDelete&lt;class T&gt;</code>. This is implemented
+by simply deleting <code class="codeph">CTestOne</code>.</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 20th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-D51600DD-B79A-5A4D-B2D1-36C0A9F9D115.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:07:46 GMT -->
+</html>

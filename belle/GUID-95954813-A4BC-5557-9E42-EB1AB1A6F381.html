@@ -1,0 +1,44 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-95954813-A4BC-5557-9E42-EB1AB1A6F381.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:21 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Unicode support" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-E2DE2C6F-E071-5E88-96F1-D71DDED84609" /><meta name="DC.Relation" scheme="URI" content="GUID-440FDF7D-B9A0-5767-9FF8-412803C0D2A9" /><meta name="DC.Relation" scheme="URI" content="GUID-39FA0ECE-D403-5F02-AC5D-7BC8E1669E8E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-95954813-A4BC-5557-9E42-EB1AB1A6F381" /><meta name="DC.Language" content="en" /><title>Unicode
+support </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-95954813-A4BC-5557-9E42-EB1AB1A6F381">Unicode
+support</h1><div>
+<p>This section describes the Unicode support to the STDLIB. </p>
+<p>The Unicode changes for STDLIB are categorised into groups: </p>
+<ul>
+<li id="GUID-BDAD96FD-2EF9-5284-A5FA-2D867003B600"><a name="GUID-BDAD96FD-2EF9-5284-A5FA-2D867003B600"><!-- --></a><p>Impact on the existing
+"<code class="codeph">char*</code> " interfaces. </p> </li>
+<li id="GUID-F7CCA015-3B25-553C-B0CD-834AEDACF340"><a name="GUID-F7CCA015-3B25-553C-B0CD-834AEDACF340"><!-- --></a><p>Addition of new "<code class="codeph">wchar_t*</code> "
+functions which use Unicode directly. </p> </li>
+</ul>
+<div id="GUID-264BD479-58DF-44CF-8509-D2394800BFD7"><h3 class="section-title">Impact on existing interfaces</h3> <p>The Symbian platform
+is a Unicode-based operating system. Hence, all operating system services
+which use <em>text</em> require that text to be presented in the 16-bit Unicode
+character encoding known as UCS-2. For STDLIB on the Symbian
+platform, this is most significant in dealing with the names of files and
+directories, all of which are now Unicode sequences. </p> <p>To minimise the
+impact of this change on existing <em>narrow</em> C code, the STDLIB has adopted
+the policy that all such names in <em>char*</em> interfaces will be interpreted
+using the UTF-8 standard for encoding Unicode strings as 8-byte sequences.
+UTF-8 is a <em>no surprises</em> encoding and matches the 7-bit ASCII encoding
+for character codes 0 to 127. Hence, the existing string handling code will
+work without modification. </p> </div>
+<div id="GUID-C8BD70E8-A7F5-44F2-BF0E-843684FC8CE4"><h3 class="section-title">New interfaces</h3> <p>The <code class="codeph">wchar_t</code> type
+is defined and ISO-C standard wide character constants are supported. The <code class="codeph">wchar_t</code> definition
+chosen is unsigned short to match the use of UCS-2, and a range of relevant
+functions now have wide character analogues which use <code class="codeph">wchar_t*</code> in
+place of <code class="codeph">char*</code>, for example: </p> <pre class="codeblock">FILE *    fopen( const char *_name, const char *_type );</pre> <pre class="codeblock">FILE *    wfopen( const wchar_t *_name, const wchar_t *_type );</pre> <p>and </p> <pre class="codeblock">DIR * opendir( const char * );</pre> <pre class="codeblock">WDIR *    wopendir( const wchar_t * );</pre> <p>When
+such a pair of functions exist, the <code class="codeph">char*</code> interface is implemented
+by converting the UTF-8 parameters to Unicode and calling the matching <code class="codeph">wchar_t*</code> interface. </p> <p>The <code class="codeph">mbtowc</code> family
+of conversion functions is provided to convert between UTF8 and Unicode, but
+there is no additional support for locales or other forms of multibyte encoding;
+to convert from encodings such as Shift-JIS, programmers are recommended to
+use the CHARCONV conversion routines via C++ wrapper functions callable from
+C. </p> <p>There are no implementations of <code class="codeph">wchar_t*</code> versions
+of STDIO functions such as <code class="codeph">fputc</code>. </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 28th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-95954813-A4BC-5557-9E42-EB1AB1A6F381.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:56:21 GMT -->
+</html>

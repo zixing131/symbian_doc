@@ -1,0 +1,78 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9E2AEFF3-6C6E-5F09-B5C0-A70AECB421B0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:51:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Text and Zooming" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-E079315A-E5B6-4D33-B7E3-88697A3F11A4" /><meta name="DC.Relation" scheme="URI" content="GUID-6C16417B-5B37-5310-B59A-750D971AA6D4" /><meta name="DC.Relation" scheme="URI" content="GUID-1BB546C1-2795-55D9-97B6-AC3F6AB79389" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-9E2AEFF3-6C6E-5F09-B5C0-A70AECB421B0" /><meta name="DC.Language" content="en" /><title>Text
+and Zooming </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-9E2AEFF3-6C6E-5F09-B5C0-A70AECB421B0">Text
+and Zooming</h1><div>
+<div id="GUID-5E27D8F4-E5F7-4589-801A-4ADE62E9BD59"><h3 class="section-title">Text Style and Colour</h3><p>Note that the following does
+not yet apply for S60 and MOAP. </p><p>The style (plain, bold, shadowed etc.)
+and colour of text in a control typically depends upon the state or properties
+of its parent control. Prior to Symbian OS 9.1 a control was able to use the <code class="codeph">MCoeControlContext</code> interface
+to share properties. That interface is now deprecated. Text is now drawn using
+a Text Drawer. The Text Drawer takes the text itself as a parameter along
+with the font, graphics context and text location rectangle. </p><p>The text
+drawer is provided by the run-time hierarchy. Each control in the hierarchy,
+from the topmost downwards, has the option of modifying or replacing the text
+drawer. </p><p>Text drawers are derived from <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C8C7B785-B3CF-3488-AEB1-BE0A70F6C1F2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C8C7B785-B3CF-3488-AEB1-BE0A70F6C1F2.html"><code class="apiname">CCoeTextDrawerBase</code></a> (a
+default <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4941BB90-573F-3582-AD7D-0769E463ECC6.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4941BB90-573F-3582-AD7D-0769E463ECC6.html"><code class="apiname">CCoePlainTextDrawer</code></a> is provided by Cone) and require
+special use to avoid multiple allocations on the heap. Instead of being allocated
+directly text drawers must be used through the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2280260C-3A4F-3C1E-ADF2-3219ED7FE0DE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2280260C-3A4F-3C1E-ADF2-3219ED7FE0DE.html"><code class="apiname">XCoeTextDrawer</code></a> class
+which acts as a smart-pointer to a single <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C8C7B785-B3CF-3488-AEB1-BE0A70F6C1F2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C8C7B785-B3CF-3488-AEB1-BE0A70F6C1F2.html"><code class="apiname">CCoeTextDrawerBase</code></a> derived
+class on the heap. The smart-pointer deletes or resets the text drawer on
+the heap if necessary and provides fail-safe measures to ensure that a valid
+text drawer is returned. </p><p>A control that draws text calls its <code class="codeph">TextDrawer()</code> function
+to retrieve the appropriate text drawer from the run-time hierarchy </p><pre class="codeblock">XCoeTextDrawer textDrawer( TextDrawer() );
+textDrawer-&gt;SetAlignment( iAlignment ); 
+textDrawer-&gt;SetMargins( iMargin );
+textDrawer-&gt;SetLineGapInPixels( iGapBetweenLines );
+textDrawer.SetClipRect( aRect );
+
+textDrawer.DrawText( gc, *iTextToDraw, Rect(), *Font() );
+</pre><p>Note that <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2280260C-3A4F-3C1E-ADF2-3219ED7FE0DE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2280260C-3A4F-3C1E-ADF2-3219ED7FE0DE.html"><code class="apiname">XCoeTextDrawer</code></a>'s <code class="codeph">-&gt;()</code> operator
+is overriden to return a pointer to the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C8C7B785-B3CF-3488-AEB1-BE0A70F6C1F2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C8C7B785-B3CF-3488-AEB1-BE0A70F6C1F2.html"><code class="apiname">CCoeTextDrawerBase</code></a> object.
+i.e. </p><pre class="codeblock">
+    textDrawer-&gt;SetAlignment(iAlignment); 
+</pre><p>is equivalent to </p><pre class="codeblock">
+    textDrawer.(iTextDrawer*).SetAlignment(iAlignment); 
+</pre><p>Unfortunately, as <code class="codeph">SetClipRect()</code> is not a function
+of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C8C7B785-B3CF-3488-AEB1-BE0A70F6C1F2.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C8C7B785-B3CF-3488-AEB1-BE0A70F6C1F2.html"><code class="apiname">CCoeTextDrawerBase</code></a>, but of <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2280260C-3A4F-3C1E-ADF2-3219ED7FE0DE.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2280260C-3A4F-3C1E-ADF2-3219ED7FE0DE.html"><code class="apiname">XCoeTextDrawer</code></a>,
+it can only be accessed through the . [dot] operator. There are worse things
+in life. </p><p>A control that wishes to provide its own text drawer, or to
+modify its parent's text drawer, may do so by providing its own implementation
+of the virtual function <code class="codeph">GetTextDrawer()</code>. </p></div>
+<div id="GUID-BFE5E25F-A36C-4B33-A283-095F2E60FDBA"><h3 class="section-title">Fonts</h3><p>The control framework provides a mechanism
+for delivering the correct font at run-time. The mechanism consists of a Font
+Provider (<a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-372CDE49-2148-3A21-8EA3-8D4656548C23.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-372CDE49-2148-3A21-8EA3-8D4656548C23.html"><code class="apiname">CCoeFontProvider</code></a>) and a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-463C1928-878D-3B06-ABFD-178BE1BAD776.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-463C1928-878D-3B06-ABFD-178BE1BAD776.html"><code class="apiname">TCoeFont</code></a> class,
+which represents a font's size (logical or absolute in pixels) and style (plain,
+bold, italic, subscript or superscript). Along similar lines to the Text Drawer,
+the Font Provider is attached to a parent control and serves controls further
+down the run-time hierarchy. </p><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html"><code class="apiname">CCoeEnv</code></a> includes a
+default <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-372CDE49-2148-3A21-8EA3-8D4656548C23.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-372CDE49-2148-3A21-8EA3-8D4656548C23.html"><code class="apiname">CCoeFontProvider</code></a>: UI-variant specific libraries
+are expected to provide their own. </p><p>The desired font is affected by
+the control's zoom state (see below) which must be included when requesting
+a font from a font provider. </p><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a> includes
+a <code class="codeph">ScreenFont()         </code> method which encapsulates the font
+provider and zoom APIs to provide a simple means of obtaining a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2A12FE3B-47F2-3016-8161-A971CA506491.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2A12FE3B-47F2-3016-8161-A971CA506491.html"><code class="apiname">CFont</code></a> object
+for drawing text. </p><p>The final line of the code snippet above should,
+therefore, look like this: </p><pre class="codeblock">textDrawer.DrawText(gc, *iTextToDraw, Rect(), ScreenFont(TCoeFont::NormalFont());</pre><p>Controls must not keep references or pointers to <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2A12FE3B-47F2-3016-8161-A971CA506491.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-2A12FE3B-47F2-3016-8161-A971CA506491.html"><code class="apiname">CFont</code></a> objects
+in member data. Nor should they use the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-12A9389D-363B-3F54-857F-89EE0EDCDF40.html"><code class="apiname">CCoeEnv</code></a> functions <code class="codeph">NormalFont()</code>, <code class="codeph">LegendFont()</code>, <code class="codeph">TitleFont()</code>, <code class="codeph">AnnotationFont()</code> and <code class="codeph">DenseFont()</code>.
+Moreover, instances of these calls should be removed from old code and replaced
+with code like that above. This is so that run-time font changes can be propagated
+and is essential for zoom support. </p></div>
+<div id="GUID-881F77D3-383F-4D48-B56C-35A68B51A57B"><h3 class="section-title">Zooming</h3><p>Each control may have a <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DDE4C9C0-7218-385E-B239-0DEFDE19FCCC.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-DDE4C9C0-7218-385E-B239-0DEFDE19FCCC.html"><code class="apiname">TZoomFactor</code></a> attached.
+It applies to the control itself and all of its component controls. The factor
+can be absolute or relative to a control's parent and influences the size
+of the font in the control and all of its children. </p><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-B06F99BD-F032-3B87-AB26-5DD6EBE8C160.html"><code class="apiname">CCoeControl</code></a> has
+an <code class="codeph">AccumulatedZoom()</code> function which aggregates its own zoom
+factor with those of its parents. </p></div>
+<div id="GUID-45183B25-33F2-4EB7-A3CB-8A6922B097F1"><h3 class="section-title">See also</h3> <ul>
+<li><p><a href="GUID-E244744F-4837-5B46-8E37-4666A28BF0B7.html">Run-time control
+hierarchy</a></p></li>
+<li><p><a href="GUID-B84FA223-3DFD-58C5-8CEF-C5AA73AA6290.html">How to write
+controls</a></p></li>
+</ul> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 13th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-9E2AEFF3-6C6E-5F09-B5C0-A70AECB421B0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:51:02 GMT -->
+</html>

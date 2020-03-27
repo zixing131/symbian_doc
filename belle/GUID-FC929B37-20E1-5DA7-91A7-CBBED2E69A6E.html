@@ -1,0 +1,47 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FC929B37-20E1-5DA7-91A7-CBBED2E69A6E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:00 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Getting Equivalent and Nearest Equivalent Languages" /><meta name="abstract" content="This section describes how to call functions of BaflUtils to get an equivalent language list and a nearest equivalent language." /><meta name="description" content="This section describes how to call functions of BaflUtils to get an equivalent language list and a nearest equivalent language." /><meta name="DC.Relation" scheme="URI" content="GUID-A6A6BC5B-4988-45B4-863D-0E3733B77EA2" /><meta name="DC.Relation" scheme="URI" content="GUID-DDA0ECF7-BC92-4AFB-998F-5FDD300655FB" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-5072BE46-B1B4-5C3A-BF55-BEA7443E7657" /><meta name="DC.Relation" scheme="URI" content="GUID-324107D1-6E0B-56DD-BDC0-7296F688A9CF" /><meta name="DC.Relation" scheme="URI" content="GUID-D02B5AF1-B1C3-560D-9654-971A5CC1A904" /><meta name="DC.Relation" scheme="URI" content="GUID-C8BD333E-8384-534B-822B-F61B2F7C8B9F" /><meta name="DC.Relation" scheme="URI" content="GUID-85AA0FD4-3BD1-50A7-B241-AE3908ACCF30" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FC929B37-20E1-5DA7-91A7-CBBED2E69A6E" /><meta name="DC.Language" content="en" /><title>Getting Equivalent and Nearest Equivalent Languages  </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FC929B37-20E1-5DA7-91A7-CBBED2E69A6E">Getting Equivalent and Nearest Equivalent Languages </h1><div><p>This section describes how to call functions of <code class="codeph">BaflUtils</code> to get an equivalent language list and a nearest
+equivalent language. </p>
+<div id="GUID-11BBC0DD-7E59-423E-81C3-39FA5E5943C4"><h3 class="section-title">Context</h3><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5F9CAA3E-D8BF-3488-9797-3B9FB4452930.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-5F9CAA3E-D8BF-3488-9797-3B9FB4452930.html"><code class="apiname">BaflUtils</code></a> provides the following two static functions to
+get the equivalent language list and a nearest equivalent language: </p> <ul>
+<li id="GUID-42B035C0-34C1-585E-8195-B317C694018C"><a name="GUID-42B035C0-34C1-585E-8195-B317C694018C"><!-- --></a><pre class="codeblock">GetEquivalentLanguageList(TLanguage aLang, TLanguagePath&amp; aEquivalents)</pre> <p>For a given language (TLanguage), it returns
+an array (TLanguagePath) which contains the equivalent
+languages. If no equivalent language is found, <code class="codeph">ELangNone</code> is returned. </p> </li>
+<li id="GUID-B2CBF4AA-9F96-59E7-BBD1-C069FEF0EACD"><a name="GUID-B2CBF4AA-9F96-59E7-BBD1-C069FEF0EACD"><!-- --></a><pre class="codeblock">NearestLanguageFileV2(const RFs&amp; aFs,TFileName&amp; aName, TLanguage&amp; aLanguage)</pre> <p>A TLanguage value is used at the end of a
+resource file name to identify a resource file for a language. For
+example, <code>filename.r01</code> and <code>filename.r02</code> are the English and French versions of the <code>filename.rsc</code> resource file. </p> <p>An application calls <code class="codeph">BaflUtils::NearestLanguageFileV2()</code> to determine which localized resource file is the closest to the
+current system language. The function searches the following drives
+in the given sequence for the available resource files, which have
+the same file name (without extension) as <code class="codeph">aName</code>.
+Once the resource files are searched on a drive, the function stops
+searching on the next drive. </p> <ul>
+<li id="GUID-8BD6E006-7369-559A-AD7E-7192E7F2C400"><a name="GUID-8BD6E006-7369-559A-AD7E-7192E7F2C400"><!-- --></a><p>The custom resource
+drive if it is set using the <code class="codeph">HAL::ECustomResourceDrive</code> attribute or the legacy <code class="codeph">HAL::ESystemDrive</code> attribute. </p> </li>
+<li id="GUID-E361606A-6E26-5E25-9C0E-429047947BB4"><a name="GUID-E361606A-6E26-5E25-9C0E-429047947BB4"><!-- --></a><p>The optional
+drive if it is specified in the <code class="codeph">aName</code> parameter. </p> </li>
+<li id="GUID-D905BA6F-72BE-535E-8225-0018F08E4EAB"><a name="GUID-D905BA6F-72BE-535E-8225-0018F08E4EAB"><!-- --></a><p> <code>Z:</code> drive if the optional drive is not set in the <code class="codeph">aName</code> parameter. </p> </li>
+</ul> <p>The current system language is then taken as a given language.
+All the available resource file names are prioritized according to
+the <a href="GUID-10A50B7C-63DB-599B-86C1-17989595CBD2.html">equivalent
+language list</a>. The resource file name with the highest priority
+is returned. </p> </li>
+</ul> </div><div id="GUID-03EE02F1-492A-463A-A64B-9BA086897FAE"><h3 class="section-title">Prerequisites</h3><p>This tutorial
+assumes that you have an understanding of <a href="GUID-10A50B7C-63DB-599B-86C1-17989595CBD2.html">Equivalent Language
+Reference</a> which explains the equivalent language table, including
+the equivalent language list and its priority.</p> </div>
+<h3>Steps</h3><ul>
+<li id="GUID-66A7C747-5484-4BAE-9FCD-A6ECF136DF0F"><a name="GUID-66A7C747-5484-4BAE-9FCD-A6ECF136DF0F"><!-- --></a><p><a href="GUID-A6A6BC5B-4988-45B4-863D-0E3733B77EA2.html">Getting an Equivalent
+Language List</a></p>
+</li>
+<li id="GUID-A1A4F1ED-DD97-4386-81EB-D41033DA1725"><a name="GUID-A1A4F1ED-DD97-4386-81EB-D41033DA1725"><!-- --></a><p><a href="GUID-DDA0ECF7-BC92-4AFB-998F-5FDD300655FB.html">Getting a Nearest
+Equivalent Language</a></p>
+</li>
+</ul>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-A6A6BC5B-4988-45B4-863D-0E3733B77EA2.html">Getting
+an Equivalent Language List</a></li><li class="ulchildlink"><a href="GUID-DDA0ECF7-BC92-4AFB-998F-5FDD300655FB.html">Getting
+a Nearest Equivalent Language</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated July 8th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FC929B37-20E1-5DA7-91A7-CBBED2E69A6E.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:57:00 GMT -->
+</html>

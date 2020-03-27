@@ -1,0 +1,142 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0E12D791-D9AC-5F7E-9AB7-363D706BC516.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:25:09 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Category: W32" /><meta name="DC.Relation" scheme="URI" content="GUID-C0498002-7CD9-4B2D-B1F9-FB0908C4C1A5" /><meta name="DC.Relation" scheme="URI" content="GUID-A294084E-B5BB-54C6-A622-49F20E8C927B" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-0E12D791-D9AC-5F7E-9AB7-363D706BC516" /><meta name="DC.Language" content="en" /><title>Category: W32 </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-0E12D791-D9AC-5F7E-9AB7-363D706BC516">Category: W32</h1><div>
+<p>W32 is a synchronous interface onto the window server that user
+code can include, link to and invoke instead of sending low level
+client-server requests to the window server. Some errors can be detected
+before they are sent to the server and are raised as panics from W32.
+Code in the W32 synchronous interface runs in the client’s thread,
+so it raises panics in situations it can understand on the current
+thread via <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-C197C9A7-EA05-3F24-9854-542E984C612D.html#GUID-D64BDAEB-AB87-37ED-9F4C-99516B40FFB8"><code class="apiname">User::Panic()</code></a>. These panics have a category
+of W32. </p>
+<p>To minimise strain on the system, W32 can cache several requests
+in order in a buffer and send them as a group to the server. This
+means that a panic might not be caused by a bug in the last client-side
+code to run, but by an earlier line that does not get its request
+serviced until later. To debug such a panic it is often useful to
+turn on auto flushing. </p>
+<p>Window server synchronous interface (W32) panics are raised by
+the synchronous interface onto the window server when it realises
+a client has attempted an action the interface can’t legally pass
+on to the window server thread. Because the interface is synchronous,
+the current thread is panicked, and the request is never sent to the
+window server. </p>
+<p>These panics are defined in the enumeration <code class="codeph">TW32Panic</code> in the <code>w32cmd.h</code> file. </p>
+<p>Note that some panics are raised in debug builds only. </p>
+<div class="tablenoborder"><a name="GUID-A07B38D4-A8C0-5300-8B6A-CC293B4B8561"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-A07B38D4-A8C0-5300-8B6A-CC293B4B8561" frame="border" border="1" rules="all">
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>0</p> </td>
+<td class="cellrowborder" valign="top"><p>An attempt was made to reconnect to the window server using <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-643DDA78-C7A7-386D-AB3F-8710141DDDA9.html#GUID-6CA684BC-746E-3357-90A0-E5105DDC4E01"><code class="apiname">RWsSession::Connect()</code></a>. It is only possible to reconnect
+if the current session has been closed. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>1</p> </td>
+<td class="cellrowborder" valign="top"><p>Not used. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>2</p> </td>
+<td class="cellrowborder" valign="top"><p>Not used. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>3</p> </td>
+<td class="cellrowborder" valign="top"><p>Not used. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>4</p> </td>
+<td class="cellrowborder" valign="top"><p>Raised by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AEE5955-C530-35F1-A904-69183331B294.html#GUID-16D0746A-B05E-3BB6-AD6F-45D22F3CE0CE"><code class="apiname">CWindowGc::MapColors()</code></a> when
+its <code class="codeph">aNumPairs</code> argument has a value greater than 16. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>5</p> </td>
+<td class="cellrowborder" valign="top"><p>Data is too long to fit into the window server's client
+side buffer, see <a href="GUID-E5CDDA05-CD86-5C44-B9DA-3249D9C14396.html">Client-side buffer</a>. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>6</p> </td>
+<td class="cellrowborder" valign="top"><p> <code class="codeph">CWsScreenDevice::SetCustomPalette()</code> was
+called with a NULL pointer. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>7</p> </td>
+<td class="cellrowborder" valign="top"><p> <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-30479BE3-296E-3B4D-914D-B080ABD733E4.html#GUID-A61D694F-FDC7-369A-947C-7AD8A340768A"><code class="apiname">CWsScreenDevice::SetPalette()</code></a> failed,
+but no error code could be returned. Debug builds for the emulator
+only.</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>8</p> </td>
+<td class="cellrowborder" valign="top"><p>A direct screen access function was called out of turn. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>9</p> </td>
+<td class="cellrowborder" valign="top"><p>An attempt was made to pass an invalid region to the window
+server. Debug builds only. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>10 </p> </td>
+<td class="cellrowborder" valign="top"><p>Raised when the client is trying to use a wrong IpcSlot.
+The first slot if raised by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4180CDBA-E9A5-3A4B-9778-26D172FAFD10.html#GUID-682EB86C-BD43-3CAD-8A29-1F1DBBFC0C8D"><code class="apiname">RAnim::CommandReply()</code></a> or <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-800B3667-F45F-391F-A8A9-F876FB4ABC34.html#GUID-6B0A3E62-E1F8-35D8-8C44-7EA01AE9FEDD"><code class="apiname">RAnimDll::Construct()</code></a>. Either the first or
+the second if raised by <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4180CDBA-E9A5-3A4B-9778-26D172FAFD10.html#GUID-601E27D2-88BC-361F-9308-A5F85842B6CB"><code class="apiname">RAnim::AsyncCommandReply()</code></a>. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>11 </p> </td>
+<td class="cellrowborder" valign="top"><p>A function has been called with a <code class="codeph">NULL</code> array
+pointer when it should not be. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>12 </p> </td>
+<td class="cellrowborder" valign="top"><p>Not used. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>13 </p> </td>
+<td class="cellrowborder" valign="top"><p>The <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-924312A8-C5C6-3A0A-8DB4-0381693AE3FD.html#GUID-421EAB75-3457-3F49-9D82-472CE0B4C2CB"><code class="apiname">CWsGraphic::CManager</code></a>'s <code class="codeph">RPointerArray&lt;CWsGraphic&gt;</code> still has pointers to <code class="codeph">CWsGraphic</code> left inside when
+it should be empty. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>14 </p> </td>
+<td class="cellrowborder" valign="top"><p>Raised when one of the <code class="codeph">CWsGraphic::CManager()</code>'s members has an inconsistent value (i.e. <code class="codeph">NULL</code> when
+it should not be and vice-versa). </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>15 </p> </td>
+<td class="cellrowborder" valign="top"><p>Raised if <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-35FABDFE-4C10-3BBF-B6C5-660082840620.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-35FABDFE-4C10-3BBF-B6C5-660082840620.html"><code class="apiname">RWsGraphicMsgBuf</code></a> has been passed
+an out of bounds index or an incorrect type message. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>16 </p> </td>
+<td class="cellrowborder" valign="top"><p>Raised when trying to send an empty <code class="codeph">TWsClCmdGdSendMessage</code>. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>17 </p> </td>
+<td class="cellrowborder" valign="top"><p>Not used. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>18 </p> </td>
+<td class="cellrowborder" valign="top"><p>Raised when an invalid parameter is passed to a function. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>19 </p> </td>
+<td class="cellrowborder" valign="top"><p>Raised when <code class="codeph">Construct()</code> is called on an
+already constructed client-side object. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>20 </p> </td>
+<td class="cellrowborder" valign="top"><p>Debug: Raised when trying to use an interface that is not
+initialized. </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top"><p>21 </p> </td>
+<td class="cellrowborder" valign="top"><p>Debug: Raised when returned data does not match expected
+sizes or granularity. </p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top"><p>22</p></td>
+<td class="cellrowborder" valign="top"><p>A string is longer than it is allowed to be.</p></td>
+</tr>
+</tbody>
+</table></div></div></div></div><div class="footer"><p class="metadata">Last updated March 28th, 2011</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-0E12D791-D9AC-5F7E-9AB7-363D706BC516.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:25:09 GMT -->
+</html>

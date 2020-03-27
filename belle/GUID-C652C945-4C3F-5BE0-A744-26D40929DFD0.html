@@ -1,0 +1,43 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C652C945-4C3F-5BE0-A744-26D40929DFD0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:56 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Reading and writing data" /><meta name="abstract" content="Once a device has been discovered and a socket connection established, data transfer may begin." /><meta name="description" content="Once a device has been discovered and a socket connection established, data transfer may begin." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-227B6970-A536-470F-B5A1-A1871F65D7F3" /><meta name="DC.Relation" scheme="URI" content="GUID-7883F1FE-C12F-5E65-A1AD-AA3DCDC29868" /><meta name="DC.Relation" scheme="URI" content="GUID-D9BB06D6-8192-5559-A93B-7F50DF88A840" /><meta name="DC.Relation" scheme="URI" content="GUID-A9253CCA-8380-5147-B573-1D0FCDD15579" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-C652C945-4C3F-5BE0-A744-26D40929DFD0" /><meta name="DC.Language" content="en" /><title>Reading
+and writing data </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-C652C945-4C3F-5BE0-A744-26D40929DFD0">Reading
+and writing data</h1><div><p>Once a device has been discovered and a socket connection established,
+data transfer may begin.</p>
+<p>Data may be transferred as either a non-urgent (unexpedited) transmission
+or as an urgent (expedited) transmission.</p>
+<p>The former is the default (i.e. <code class="codeph">RSocket::Read()</code> and <code class="codeph">RSocket::Write()</code>)
+and should be used for beaming purposes. If an expedited packet send is required,
+then an <code class="codeph">RSocket::Send()</code> with the <code class="codeph">KExpeditedData</code> flag
+set must be queued. An urgent send is placed at the head of the send queue
+and is processed first from the receive queue of the remote machine. </p>
+<p>The two Symbian platform IrDA protocol sets: "IrMUX" and "IrTinyTP", treat
+data transmission differently.</p>
+<p>The "IrMUX" protocol set sends data as raw LM-MUX packets which does not
+provide any guarantee of the data being correctly received by the remote client
+application. By waiting for successful completion on each data write, however,
+the application programmer can take advantage of the socket server's flow
+control mechanism which blocks off completion of the write until the IrDA
+protocol stack can accept further send data. In this way, the Symbian platform
+IrMUX implementation at least ensures that data gets sent out at a smooth
+rate even if there is no guarantee of it being remotely consumed.</p>
+<p>In order to provide a reliable transport layer for IrDA data transmissions,
+it is necessary to load the "IrTinyTP" protocol set. This enables the programmer
+to send IrMUX data over IrTinyTP which flow controls off the sender if the
+remote side does not consume data rapidly enough. Once the relevant protocol
+set is loaded, however, the <code class="codeph">RSocket</code> functions for reading
+and writing data:</p>
+<ul>
+<li id="GUID-9B9F825C-1B8F-58D8-BD52-BBA6DCF19896"><a name="GUID-9B9F825C-1B8F-58D8-BD52-BBA6DCF19896"><!-- --></a><p><code class="codeph">RSocket::Write()</code> </p> </li>
+<li id="GUID-D47A5A3B-C0D1-5E16-BC1A-586A17A4B3A5"><a name="GUID-D47A5A3B-C0D1-5E16-BC1A-586A17A4B3A5"><!-- --></a><p><code class="codeph">RSocket::Send()</code> </p> </li>
+<li id="GUID-ED345E20-5835-5B8B-99FE-BF7B7907E8E2"><a name="GUID-ED345E20-5835-5B8B-99FE-BF7B7907E8E2"><!-- --></a><p><code class="codeph">RSocket::Recv()</code> </p> </li>
+<li id="GUID-6639904A-01FA-57F9-8D3D-602F5DDA1A18"><a name="GUID-6639904A-01FA-57F9-8D3D-602F5DDA1A18"><!-- --></a><p><code class="codeph">RSocket::RecvOneOrMore()</code> </p> </li>
+<li id="GUID-0CE247BF-E8C0-5654-99B9-E7ED1834E7D8"><a name="GUID-0CE247BF-E8C0-5654-99B9-E7ED1834E7D8"><!-- --></a><p><code class="codeph">RSocket::Read()</code>.</p> </li>
+</ul>
+<p>are identical for both raw "IrMUX" and reliable "IrTinyTP".</p>
+</div></div></div><div class="footer"><p class="metadata">Last updated February 5th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-C652C945-4C3F-5BE0-A744-26D40929DFD0.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:49:56 GMT -->
+</html>

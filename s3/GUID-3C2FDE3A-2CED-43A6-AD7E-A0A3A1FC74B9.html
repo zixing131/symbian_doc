@@ -1,0 +1,34 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3C2FDE3A-2CED-43A6-AD7E-A0A3A1FC74B9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:16:41 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content='Transferring and Receiving the "Hello World!" ASCII Text Using the LLCP Stack (Connection-Oriented)' /><meta name="abstract" content='This section describes how to utilize the LLCP stack to perform a connection-oriented transfer and receipt of the "Hello World!" ASCII text, to and from a remote device.' /><meta name="description" content='This section describes how to utilize the LLCP stack to perform a connection-oriented transfer and receipt of the "Hello World!" ASCII text, to and from a remote device.' /><meta name="DC.Relation" scheme="URI" content="GUID-86CC5E66-1219-4161-9204-C19A28550FE3" /><meta name="DC.Relation" scheme="URI" content="GUID-85659B8A-5F68-4F70-9CA8-DC851C4C8DB7" /><meta name="DC.Relation" scheme="URI" content="GUID-740799EA-68F8-4E41-BE6A-F9B880068A65" /><meta name="DC.Relation" scheme="URI" content="GUID-19015716-74E5-45F2-AF36-8A45A66786AF" /><meta name="DC.Relation" scheme="URI" content="GUID-9EE55637-A7B3-4DB8-8B52-4C1CA06B788A" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-3C2FDE3A-2CED-43A6-AD7E-A0A3A1FC74B9" /><meta name="DC.Language" content="en" /><title>Transferring and Receiving the "Hello World!" ASCII Text Using
+the LLCP Stack (Connection-Oriented) </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-3C2FDE3A-2CED-43A6-AD7E-A0A3A1FC74B9">Transferring and Receiving the "Hello World!" ASCII Text Using
+the LLCP Stack (Connection-Oriented)</h1><div><p>This section describes how to utilize the LLCP stack to
+perform a connection-oriented transfer and receipt of the "Hello World!"
+ASCII text, to and from a remote device.</p>
+<div id="GUID-DC0950BC-01F9-488D-8742-B0A1AC9D51E6-GENID-GUID-1DB06E28-B7E4-4212-8679-08D3FE13CCA4"><h3 class="section-title">Context</h3><p><code class="codeph">COwnLlcpConnection</code> is a wrapper for the <code class="codeph">MLlcpConnOrientedTransporter</code> interface, which is used to transfer and receive data to and from
+a remote device. </p><p> <strong>Note</strong>: In this "Hello World!" example,
+one <code class="codeph">COwnLlcpConnection</code> object is restricted to either
+transferring data or receiving data. To transfer data and receive
+data simultaneously, two <code class="codeph">COwnLlcpConnection</code> objects
+are required.</p><p><code class="codeph">CMyOwnLlcpApplication</code> is an example
+class, which can send and receive the "Hello World!" ASCII text to
+and from a remote device. <code class="codeph">CMyOwnLlcpApplication</code> uses
+two <code class="codeph">COwnLlcpConnection</code> objects to transfer and receive
+data. <code class="codeph">iLocalConnection</code> and <code class="codeph">iRemoteConnection</code> member variables are used to transfer and receive data, respectively. <code class="codeph">MLlcpReceiveCb</code> is an internal interface for <code class="codeph">COwnLlcpConnection</code>.</p><p><code class="codeph">MLlcpEventUpdater</code> provides an interface
+for the application framework to get notifications from <code class="codeph">CMyOwnLlcpApplication</code>.</p><p>Refer to the <code class="codeph">connorientedtransporterexample.h</code> header file for more information. The following class diagram illustrates
+the relationship between the interfaces:</p><div class="figure" id="GUID-5B69359C-547A-4A60-A07D-B2CEF90AD42F"><img src="GUID-89C40FEF-35D6-43C2-BF92-21FBDAD8C23C_d0e418060_href.png" /><p class="figure-title"><strong>Figure: </strong>Class diagram of LLCP connection-oriented transport example</p></div></div><div id="GUID-D4C9D5B8-2BFC-48C8-BBFA-637B14211954-GENID-GUID-1DB06E28-B7E4-4212-8679-08D3FE13CCA4"><h3 class="section-title">Prerequisites</h3><p>Before you
+begin, refer to the following header files and NFC libraries:</p><ul>
+<li><code class="codeph">llcpprovider.h</code></li>
+<li><code class="codeph">llcpconnorientedtransporter.h</code></li>
+<li><code class="codeph">llcpconnorientedlistener.h</code></li>
+<li><code class="codeph">llcplinklistener.h</code></li>
+<li><code class="codeph">nfc.lib</code></li>
+<li><code class="codeph">llcp.lib</code></li>
+</ul><p></p><p></p></div>
+</div><ul class="ullinks"><li class="ulchildlink"><a href="GUID-85659B8A-5F68-4F70-9CA8-DC851C4C8DB7.html">Preparing to Use the LLCP Stack</a></li><li class="ulchildlink"><a href="GUID-740799EA-68F8-4E41-BE6A-F9B880068A65.html">Handling Callback Methods</a></li><li class="ulchildlink"><a href="GUID-19015716-74E5-45F2-AF36-8A45A66786AF.html">Transferring Data to the Remote Device</a></li><li class="ulchildlink"><a href="GUID-9EE55637-A7B3-4DB8-8B52-4C1CA06B788A.html">Receiving Data from the Remote Device</a></li></ul><h3>Related information</h3><ul><li><a href="GUID-7A72B008-901E-454D-AD93-F99555CA904A.html">NFC
+Services Overview</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated September 29th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-3C2FDE3A-2CED-43A6-AD7E-A0A3A1FC74B9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:16:42 GMT -->
+</html>

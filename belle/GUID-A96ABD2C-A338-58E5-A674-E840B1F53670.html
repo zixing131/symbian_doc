@@ -1,0 +1,105 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A96ABD2C-A338-58E5-A674-E840B1F53670.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:36 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Creating a User Defined Table: Tutorial" /><meta name="abstract" content="This tutorial shows you how to create a user defined table. The tutorial, then shows you how to store a new record." /><meta name="description" content="This tutorial shows you how to create a user defined table. The tutorial, then shows you how to store a new record." /><meta name="DC.Relation" scheme="URI" content="GUID-1AFDDD6F-CB99-587D-A0B5-D3F5B27F7135" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-8F2D6AC8-8357-55C7-970B-CD2684BA9B04" /><meta name="DC.Relation" scheme="URI" content="GUID-C3018CEE-865B-595A-A735-40E11665E50A" /><meta name="DC.Relation" scheme="URI" content="GUID-BD971173-E009-58DA-AF9C-F4AAFF77B138" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-A96ABD2C-A338-58E5-A674-E840B1F53670" /><meta name="DC.Language" content="en" /><title>Creating
+a User Defined Table: Tutorial </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-A96ABD2C-A338-58E5-A674-E840B1F53670">Creating
+a User Defined Table: Tutorial</h1><div><p>This tutorial shows you how to create a user defined table. The
+tutorial, then shows you how to store a new record. </p>
+<div id="GUID-24246F22-49AD-5AC3-A0BF-7C1C625035C7"><h3 class="section-title">Context</h3><p>This tutorial shows
+you: </p> <ul>
+<li id="GUID-06AFEA66-4293-5D92-AD13-11B84A4DBCBF"><a name="GUID-06AFEA66-4293-5D92-AD13-11B84A4DBCBF"><!-- --></a><p>how to create a user
+defined table </p> </li>
+<li id="GUID-D304F5AA-29E6-510A-9B14-E0746C71D111"><a name="GUID-D304F5AA-29E6-510A-9B14-E0746C71D111"><!-- --></a><p>how to create a user
+defined record and store that record in the table </p> </li>
+</ul> </div><div id="GUID-AE5DC98C-AF4A-5727-8090-42FF74E80BF4"><h3 class="section-title">Prerequisites</h3><p>Before you start,
+you must understand: </p> <ul>
+<li id="GUID-FA757DB7-B25F-5ECA-9030-6D7B9EC4D7E4"><a name="GUID-FA757DB7-B25F-5ECA-9030-6D7B9EC4D7E4"><!-- --></a><p>the general concept
+of the Comms Database </p> </li>
+<li id="GUID-54CB318E-7A04-5D63-8AEB-C2D75F428B38"><a name="GUID-54CB318E-7A04-5D63-8AEB-C2D75F428B38"><!-- --></a><p>the specific concepts
+of fields, records, links and tables </p> </li>
+<li id="GUID-C95C350C-9DC8-5445-A58B-333CEFA97AA8"><a name="GUID-C95C350C-9DC8-5445-A58B-333CEFA97AA8"><!-- --></a><p>how to write and build
+application code to run on Symbian platform </p> </li>
+</ul> </div>
+<h3>Steps</h3><ol id="GUID-79745846-CD3D-5CEB-8F3C-CB090D60FF03"><a name="GUID-79745846-CD3D-5CEB-8F3C-CB090D60FF03"><!-- --></a>
+<li id="GUID-10AB178C-0854-5947-ADB8-A81379C0A464"><a name="GUID-10AB178C-0854-5947-ADB8-A81379C0A464"><!-- --></a><p>Make sure that you
+have created a session. </p>
+</li>
+<li id="GUID-D5F5C68A-9391-51AA-91F3-6F874BAEF8DF"><a name="GUID-D5F5C68A-9391-51AA-91F3-6F874BAEF8DF"><!-- --></a><p>Define a schema
+for the new table. </p>
+
+Create an array of SGenericRecordTypeInfo items.
+Each <code class="codeph">SGenericRecordTypeInfo</code> item defines a field in the record. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">const SGenericRecordTypeInfo recordInfo[] =
+        {
+        SGenericRecordTypeInfo(KCDTIdRecordName,EText,ENotNull,KCDTypeNameRecordName),
+        SGenericRecordTypeInfo(KCDTIdRecordTag,EUint32,ENoAttrs,KCDTypeNameRecordTag),
+        SGenericRecordTypeInfo(KCDTIdWLANServiceId,EUint32,ENoAttrs,KNameWLANServiceId),
+        SGenericRecordTypeInfo(KCDTIdWLANType,EUint32,ENoAttrs,KNameWLANType),
+        SGenericRecordTypeInfo(KCDTIdWLANEnabled,EBool,ENoAttrs,KNameWLANEnabled),
+        SGenericRecordTypeInfo(KCDTIdWLANPriority,EUint32,ENoAttrs,KNameWLANPriority),
+        SGenericRecordTypeInfo(0,0,ENoAttrs,KCDNull)
+        };</pre> </div>
+</li>
+<li id="GUID-7C23139E-C4EC-585E-B333-862C0C9D2B5F"><a name="GUID-7C23139E-C4EC-585E-B333-862C0C9D2B5F"><!-- --></a><p>Define a name for
+the table. </p>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">_LIT(KGenericTable,"MyGenericTable");</pre> </div>
+</li>
+<li id="GUID-9BCE5E36-7BF8-545F-8D9E-859A6CC2BECA"><a name="GUID-9BCE5E36-7BF8-545F-8D9E-859A6CC2BECA"><!-- --></a><p>Create a CMDBGenericRecord object. </p>
+
+A CMDBGenericRecord object represents
+a record and a set of records 
+
+Give the object the name of the table and the name of the schema. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">...
+// Record factory creates the CMDBGenericRecord object. The KCDNewTableRequest value 
+// passed to the record factory allocates a new table Id.
+CMDBGenericRecord* ptrNewTable = 
+      static_cast&lt;CMDBGenericRecord*&gt;(CCDRecordBase::RecordFactoryL(KCDNewTableRequest));
+
+// Initialise with the name of the table and the name of the schema.
+ptrNewTable-&gt;InitialiseL(KGenericTable(),recordInfo);
+...</pre> </div>
+</li>
+<li id="GUID-DA35A3FB-E7C5-5284-A681-FD6658FB123D"><a name="GUID-DA35A3FB-E7C5-5284-A681-FD6658FB123D"><!-- --></a><p>Access fields in
+the record. </p>
+
+The code uses <code class="codeph">GetFieldByNameL()</code> and <code class="codeph">GetFieldByIdL()</code>. 
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">...
+TInt valueType;
+
+CMDBElement* LanType = ptrNewTable-&gt; GetFieldByNameL(KNameWLANType, valueType);
+CMDBElement* RecordName = ptrNewTable-&gt;GetFieldByIdL(KCDTIdRecordName);
+...</pre> </div>
+</li>
+<li id="GUID-4C0E0735-0D3C-55B0-9415-015572D40915"><a name="GUID-4C0E0735-0D3C-55B0-9415-015572D40915"><!-- --></a><p>Change the valuie
+of the fields and create a new record. </p>
+<div class="p"><p><strong>Example: </strong></p><pre class="codeblock">...
+// Cast the field objects to the appropriate type
+CMDBField&lt;TUint32&gt;* LanTypefield = static_cast&lt;CMDBField&lt;TUint32&gt;*&gt;(LanType);
+CMDBField&lt;TDesC&gt;* RecordNamefield = static_cast&lt;CMDBField&lt;TDesC&gt;*&gt;(RecordName);
+
+// Change the field value
+*LanTypefield = 100;
+
+// Change the field value
+_LIT(KNewName, " NewName ");
+RecordNamefield-&gt;SetMaxLengthL(KNewName().Length());
+*RecordNamefield = KNewName();
+
+// Can also use this format: RecordNamefield-&gt;SetL(KNewName());
+
+
+// Asks for a new record
+ptrNewTable-&gt;SetRecordId(KCDNewRecordRequest);
+
+// Stores the new record
+ptrNewTable-&gt;StoreL(*iDb);
+...</pre> </div>
+</li>
+</ol>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-1AFDDD6F-CB99-587D-A0B5-D3F5B27F7135.html">Comms Database
+                concepts</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated February 4th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-A96ABD2C-A338-58E5-A674-E840B1F53670.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:54:36 GMT -->
+</html>

@@ -1,0 +1,94 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-88917386-AD48-4C76-A1C7-46F0B1E85A18.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:57 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Implementing UI text localization" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-94005A46-B4C6-4A30-A8E8-1B9C2D583D50" /><meta name="DC.Relation" scheme="URI" content="GUID-29486886-CB54-4A83-AD6D-70F971A86DFC" /><meta name="DC.Relation" scheme="URI" content="GUID-E111C4E8-1342-4E87-ACB4-5B630AF1501C" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-88917386-AD48-4C76-A1C7-46F0B1E85A18" /><title>Implementing UI text localization </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-88917386-AD48-4C76-A1C7-46F0B1E85A18">Implementing UI text localization</h1><div>
+<p>To allow your application to support different languages:</p>
+<ol>
+<li id="GUID-4C53C331-EDCB-49A6-A2AE-1946E0CBA85E"><a name="GUID-4C53C331-EDCB-49A6-A2AE-1946E0CBA85E"><!-- --></a><p>In
+the resource file for your application, use unique symbolic IDs, also
+known as a logical name, for all UI texts that need to appear on the
+screen.</p>
+<div class="note"><p><strong class="note_title">Note: </strong>The Symbian platform provides some unique symbolic IDs that
+you can use in your code, which means that the UI texts used for these
+IDs match those used elsewhere in the device. Do not define any values
+for these symbolic IDs.</p>
+</div>
+</li>
+<li id="GUID-F64825B7-7A7F-4F07-ADFF-21C794534B39"><a name="GUID-F64825B7-7A7F-4F07-ADFF-21C794534B39"><!-- --></a><p>For
+each language your application supports, create a resource file as
+follows:</p>
+<ol type="a">
+<li id="GUID-509946C5-B45A-4481-8D71-F74DF32EF18A"><a name="GUID-509946C5-B45A-4481-8D71-F74DF32EF18A"><!-- --></a><p>Create
+a text file with the extension <code class="parname">lNN</code>, where NN
+is a two digit number that matches the Symbian platform language code
+for your target language.</p>
+<p>The file naming suggestion reflects the Symbian platform convention,
+Symbian platform uses <code class="parname">&lt;application_name&gt;_NN.rls</code>.</p>
+</li>
+<li id="GUID-256733D4-214F-40E9-9DF1-E60469A8E8BD"><a name="GUID-256733D4-214F-40E9-9DF1-E60469A8E8BD"><!-- --></a><p>Define
+all the symbolic IDs using the following syntax:</p>
+<pre class="codeblock">#define symbolicID "value in target language"</pre>
+<p>Each symbolic ID must be on its own line.</p></li>
+<li id="GUID-AB1ADD82-91F4-4FEF-97C3-D077E73F8A4B"><a name="GUID-AB1ADD82-91F4-4FEF-97C3-D077E73F8A4B"><!-- --></a><p>Repeat
+for each supported language.</p></li>
+</ol>
+</li>
+<li id="GUID-089BCEFD-8E83-4CAE-80C8-14461BC333DC"><a name="GUID-089BCEFD-8E83-4CAE-80C8-14461BC333DC"><!-- --></a><p>Create
+a file to include the compiled localization files in your resource
+file, as follows:</p>
+<ol type="a">
+<li id="GUID-44F02DD4-1502-4BAB-B128-5FC570CB6ABC"><a name="GUID-44F02DD4-1502-4BAB-B128-5FC570CB6ABC"><!-- --></a><p>Create
+a text file with the extension <code class="parname">loc</code>.</p><p>The file naming suggestion reflects the Symbian platform naming convention,
+Symbian platform uses <code class="parname">&lt;application_name&gt;.rls</code>.</p></li>
+<li id="GUID-D40E9CEB-031F-405A-B031-3B5DDB84C1B2"><a name="GUID-D40E9CEB-031F-405A-B031-3B5DDB84C1B2"><!-- --></a><p>Add <code class="parname">#ifdef</code>, <code class="parname">#elif</code>, and <code class="parname">#include</code> statements for including the appropriate languages in your application
+resource files. An example syntax is as follows:</p>
+<pre class="codeblock">#ifndef __LOCALIZATION_LOC__
+#define __LOCALIZATION_LOC__
+                            
+#ifdef LANGUAGE_SC			// language code for default
+#include "..\data\localization.l01"
+
+#elif LANGUAGE_01			// language code for UK
+#include "..\data\localization.l01"
+
+#endif 
+#endif</pre>
+</li>
+</ol>
+</li>
+<li id="GUID-3B918E68-258B-4724-9C15-58BC60713E75"><a name="GUID-3B918E68-258B-4724-9C15-58BC60713E75"><!-- --></a><p>Include
+your <code class="parname">loc</code> file in your resource file.</p>
+</li>
+<li id="GUID-E15A7374-0C92-48E8-8D47-955C974BFBB6"><a name="GUID-E15A7374-0C92-48E8-8D47-955C974BFBB6"><!-- --></a><p>Add
+your supported language codes to the <code class="parname">LANG</code> statement
+in your project <code class="parname">mmp</code> file.</p></li>
+<li id="GUID-F185FF9B-A926-44E5-9FAD-AD9ABFC8C215"><a name="GUID-F185FF9B-A926-44E5-9FAD-AD9ABFC8C215"><!-- --></a><p>Build
+your resource files</p>
+<div class="note"><p><strong class="note_title">Note: </strong>Some IDEs do not fully support building resource files for different
+languages, so you may need to use the command line interface of the
+Symbian build chain.</p>
+</div>
+</li>
+<li id="GUID-88D12169-4847-426C-A0AE-8107DE18183F"><a name="GUID-88D12169-4847-426C-A0AE-8107DE18183F"><!-- --></a><p>Include
+the appropriate compiled resource files in your deployment package.</p>
+</li>
+</ol>
+<p> The following localization strategies are available:</p>
+<ul>
+<li><p>Create an installation package for each language
+your application supports and add only the appropriate compiled resource
+file to the package.</p></li>
+<li><p>Create an installation package that includes support
+for more than one language, which means there is more than one compiled
+resource file in the package. The mobile device user selects the desired
+language upon installation, and only the compiled resource file is
+installed.</p></li>
+<li><p>Create an installation package that includes support
+for more than one language, which means there is more than one compiled
+resource file in the package.</p></li>
+</ul>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 31st, 2012</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-88917386-AD48-4C76-A1C7-46F0B1E85A18.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:50:57 GMT -->
+</html>

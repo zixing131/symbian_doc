@@ -1,0 +1,35 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FD5C6057-C6D3-5C1A-888C-7B7A3C89CD67.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:45 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to use the range checking wrapper" /><meta name="abstract" content="Symbian platform provides range checking for arrays." /><meta name="description" content="Symbian platform provides range checking for arrays." /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-2E085BAD-AAD7-5D1A-89A7-287EE42D1069" /><meta name="DC.Relation" scheme="URI" content="GUID-E41C4E77-C48B-548E-A2F5-14FA5CC68982" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FD5C6057-C6D3-5C1A-888C-7B7A3C89CD67" /><meta name="DC.Language" content="en" /><title>How to
+use the range checking wrapper </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FD5C6057-C6D3-5C1A-888C-7B7A3C89CD67">How to
+use the range checking wrapper</h1><div><p>Symbian platform provides range checking for arrays.</p>
+<p>Instead of declaring a C++ array directly:</p>
+<pre class="codeblock">TTest array[4];</pre>
+<p>use:</p>
+<pre class="codeblock">TFixedArray&lt;TTest,4&gt; array;</pre>
+<div id="GUID-FC3EF1EB-1889-462F-B284-14B1D1C878B0"><h3 class="section-title">Initialise array</h3> <p>The array can be initialised either
+at construction time or by using the <code class="codeph">Copy()</code> member function
+after construction.</p> <pre class="codeblock">...
+const TTest data[] = {TTest(1),TTest(2),TTest(3),TTest(4)};
+...
+ // initialise at construction time
+TFixedArray&lt;TTest,4&gt; array(&amp;data[0],4);
+...
+ // or later using Copy()
+TFixedArray&lt;TTest,4&gt; array;
+array.Copy(&amp;data[0],4);
+...</pre> </div>
+<div id="GUID-159797CF-ED84-4402-B635-F5CD82B8A0D3"><h3 class="section-title">Check accesses for legality</h3> <p>Accesses can be checked
+for legality using the <code class="codeph">At()</code> function or the <code class="codeph">operator[]</code>.</p> <p>The <code class="codeph">At()</code> function
+checks for a legal access in both a release build and a debug build while
+the <code class="codeph">operator[]</code> only checks for a legal access in a debug
+build.</p> <p>Assuming that the <code class="codeph">TTest</code> class has a public
+member function called <code class="codeph">SetValue()</code>, then a call to this function
+on the second element of the array is legal:</p> <pre class="codeblock">array.At(1).SetValue(100);</pre> <p>but an attempt to call this function on the fifth element raises a panic;
+in this example, there are only four elements:</p> <pre class="codeblock">array.At(5).SetValue(100); // panics</pre> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 19th, 2010</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-FD5C6057-C6D3-5C1A-888C-7B7A3C89CD67.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:06:45 GMT -->
+</html>

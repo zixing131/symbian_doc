@@ -1,0 +1,175 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FE94596E-B5BB-51FE-BE38-069840323915.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:10 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Encoding Types" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-1DCA2F4D-ABE6-52A0-AC4E-5AAC1AB5909D" /><meta name="DC.Relation" scheme="URI" content="GUID-F3406651-0B57-50FD-81CA-A3D4000D5625" /><meta name="DC.Relation" scheme="URI" content="GUID-E7ACEC20-27C9-5124-A46E-2812A64E3E4B" /><meta name="DC.Relation" scheme="URI" content="GUID-93491DAE-4D2D-5F5F-97E7-91B265E9951E" /><meta name="DC.Relation" scheme="URI" content="GUID-F5F981E4-6910-5440-AE8E-2EFAB2D01EE9" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-FE94596E-B5BB-51FE-BE38-069840323915" /><meta name="DC.Language" content="en" /><title>Encoding
+Types </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-FE94596E-B5BB-51FE-BE38-069840323915">Encoding
+Types</h1><div>
+<p>This topic describes the types of SMS encoding. </p>
+<div id="GUID-F7D1E6C8-9605-57FA-9788-AF7FC72BD94C"><h3 class="section-title">7-bit GSM encoding</h3> <p>7-bit
+GSM encoding supports the GSM 7-bit default alphabet and GSM 7-bit default
+alphabet extension table through an escape mechanism. </p> <p>Figure 1 </p> <div class="figure" id="GUID-CDEE59FC-F035-5B75-8838-96E94A6714E8"><img src="GUID-08A6B93F-92CD-5182-B142-D353E78016F3_d0e481528_href.png" /><p class="figure-title"><strong>Figure: </strong>              Escape mechanism            </p></div> <p>The GSM 7-bit default alphabet consists of 128 characters. Each
+character is represented by 7 bits. 10 extra characters are defined in the
+GSM 7-bit default extension table. These characters are represented by an
+escape mechanism using the escape character (0x1B). For example, 0x1B65 maps
+to the Euro sign € (U+20AC). If an escape character byte is followed by a
+character that is not included in the 10 characters, the escape character
+is just ignored. This means 0x1B41 maps to Latin capital letter A (U+0041). </p> <p>For
+more information about the GSM 7-bit default table, extension table and escape
+mechanism, see 3GPP TS 23.038 V8.1.0. </p> </div>
+<div id="GUID-918FF2E3-B9F4-5C61-8DBA-F9143DB16460"><h3 class="section-title">Lossy 7-bit
+encoding</h3> <p>Lossy 7-bit encoding enlarges the character set supported
+by 7-bit GSM encoding. Some Unicode Characters do not exist in the target
+7-bit set. These characters are converted to ones that do exist in the target
+7-bit set and closely resemble the original, intended character. A lossy encoding
+using a 7-bit encoding is more cost effective than a UCS-2 encoding. </p> <p> <strong>Example
+of 7-bit encoding</strong> </p> <p>Accented Latin characters are not supported
+by 7-bit GSM encoding. Figure 2 describes how an accented Latin characters
+Á, is sent by SMS. Á has a Unicode value of 0x00C1. When it is processed by
+the Lossy converter the character is converted from the Unicode to 7-bit code
+letter A. A has a 7-bit code of 0x41. The SMS receiver reads A instead of
+Á. By substituting the character that is similar enough to the original, the
+reader can understand the word. The process of converting Á to A is called
+a lossy conversion. </p> <p> <strong>Note</strong>: The 7-bit code of A (0x41) can only
+be decoded back to the same Unicode letter A instead of Á. </p> <p>Figure
+2 </p> <div class="figure" id="GUID-ACFF9511-D5E0-5558-8008-4CD48EE0B7A1"><img src="GUID-8862E271-ABA4-5A25-8990-C0B3931E370D_d0e481568_href.png" /><p class="figure-title"><strong>Figure: </strong>              Lossy conversion            </p></div> </div>
+<div id="GUID-D2F0E6BE-932E-545D-A0C8-39017E3D67B4"><h3 class="section-title">16-bit Unicode
+encoding</h3> <p>Unicode is an international standard character set. It
+includes the characters of every language. In Unicode, each character is usually
+encoded in two 8-bit bytes, and takes up more space than 7-bit encoding. </p> </div>
+<div id="GUID-93B3DDF2-8EB1-5853-9DFD-3ABF42ADCB40"><h3 class="section-title">National language
+encoding</h3> <p>According to 3GPP TS 23.038 V8.1.0, National Language
+Encoding supports additional characters for certain languages which cannot
+be represented in the GSM default 7-bit alphabet. It defines two mechanisms
+for doing this: </p> <ul>
+<li id="GUID-9ECCA8BD-0BA0-5AE2-B2D6-4677D2CD1BD7"><a name="GUID-9ECCA8BD-0BA0-5AE2-B2D6-4677D2CD1BD7"><!-- --></a><p>Locking shift mechanism–the
+default GSM table is replaced with a table containing the character set needed
+for a language. The table is referred to as locking shift table. </p> </li>
+<li id="GUID-3900D849-350A-5722-9759-D1D768FE6A84"><a name="GUID-3900D849-350A-5722-9759-D1D768FE6A84"><!-- --></a><p>Single shift mechanism–the
+GSM extension table is replaced with a table containing the character set
+needed for a language. The table is referred to as single shift table. </p> </li>
+</ul> <p>When the locking shift mechanism is used, the escape table can be
+the existing GSM extension table or it can be the escape table used by the
+single shift mechanism. This supports three possible mappings as shown in
+Figure 3: </p> <ul>
+<li id="GUID-34ECF450-6265-58E2-9CB6-00E0C5DDA6F8"><a name="GUID-34ECF450-6265-58E2-9CB6-00E0C5DDA6F8"><!-- --></a><p>The GSM 7-bit default
+escapes to language-specific escape table. It is referred to as GSM-single. </p> </li>
+<li id="GUID-6E8A53BF-0572-5DE2-8D41-FB588B6FB812"><a name="GUID-6E8A53BF-0572-5DE2-8D41-FB588B6FB812"><!-- --></a><p>The Language-specific
+basic table escapes to GSM 7-bit default extension table. It is referred to
+as locking-GSM ext. </p> </li>
+<li id="GUID-830569B1-8ACD-5924-AF7F-15705FEF76B0"><a name="GUID-830569B1-8ACD-5924-AF7F-15705FEF76B0"><!-- --></a><p>The Language-specific
+basic table escapes to language-specific extension table. It is referred to
+as locking-single. </p> </li>
+</ul> <p>Figure 3 </p> <div class="figure" id="GUID-541CED9A-2450-5C9D-AADF-93EE59E4D77E"><img src="GUID-44347376-702D-5648-8938-EB55AFA329EC_d0e481630_href.png" /><p class="figure-title"><strong>Figure: </strong>              National language encoding            </p></div><p>The single shift mechanism is useful when a message contains only
+a few characters outside the default GSM table. It is however inefficient
+when a message contains many unsupported characters, because each escaped
+character must occupy 2 bytes. GSM-single supports more characters than locking-GSM
+ext, but these characters are in the single table, which takes 2 bytes. Locking-single
+is used more for the decoding purpose in case the extra characters can come
+from the locking or single table. </p><p>The locking or single table is not
+a complete replacement. For example, the locking table for Turkish redefines
+only 8-character codes from the default GSM table, as shown in table 1. The
+escape table for Turkish adds 7 characters to the GSM extension, as shown
+in table 2. </p><div class="tablenoborder"><a name="GUID-4AE6F58D-A5DA-4AD9-B39E-A61AA378F3F6"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-4AE6F58D-A5DA-4AD9-B39E-A61AA378F3F6" frame="border" border="1" rules="all"><caption><strong>Table: </strong>Table 1</caption>
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e481649"><p>GSM 7-Bit Code</p></th>
+<th class="cellrowborder" valign="top" id="d0e481653"><p>Turkish Locking Shift Table</p></th>
+<th class="cellrowborder" valign="top" id="d0e481657"><p>GSM 7-Bit Default Table</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e481649 "><p><code class="codeph">0x40</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481653 "><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481657 "><p>¡ INVERTED EXCLAMATION MARK </p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e481649 "><p><code class="codeph">0x60</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481653 "><p>ç LATIN SMALL LETTER C WITH CEDILLA</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481657 "><p>¿ INVERTED QUESTION MARK</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e481649 "><p><code class="codeph">0x04</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481653 "><p>€ EURO SIGN</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481657 "><p>è LATIN SMALL LETTER E WITH GRAVE</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e481649 "><p><code class="codeph">0x07</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481653 "><p>i LATIN SMALL LETTER DOTLESS</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481657 "><p>ì LATIN SMALL LETTER I WITH GRAVE</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e481649 "><p><code class="codeph">0x0B</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481653 "><p>G LATIN CAPITAL LETTER G WITH BREVE</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481657 "><p>Ø LATIN CAPITAL LETTER O WITH STROKE</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e481649 "><p><code class="codeph">0x0C</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481653 "><p>g LATIN SMALL LETTER G WITH BREVE</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481657 "><p>ø LATIN SMALL LETTER O WITH STROKE</p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e481649 "><p><code class="codeph">0x1C</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481653 "><p>S LATIN CAPITAL LETTER S WITH CEDILLA *</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481657 "><p>Æ LATIN CAPITAL LETTER AE</p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e481649 "><p><code class="codeph">0x1D</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481653 "><p>s LATIN SMALL LETTER S WITH CEDILLA *</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481657 "><p>æ LATIN SMALL LETTER AE</p></td>
+</tr>
+</tbody>
+</table></div> <div class="tablenoborder"><a name="GUID-EC345039-0CB5-4F51-8CFA-83286790AC75"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-EC345039-0CB5-4F51-8CFA-83286790AC75" frame="border" border="1" rules="all"><caption><strong>Table: </strong>Table 2</caption>
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e481809"><p>GSM 7-Bit Code</p></th>
+<th class="cellrowborder" valign="top" id="d0e481813"><p>Turkish Single Shift Table</p></th>
+<th class="cellrowborder" valign="top" id="d0e481817"><p>GSM 7-Bit Extension Table</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e481809 "><p><code class="codeph">0x1B49</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481813 "><p>I LATIN CAPITAL LETTER I WITH DOT ABOVE</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481817 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e481809 "><p><code class="codeph">0x1B63</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481813 "><p>ç LATIN SMALL LETTER C WITH CEDILLA</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481817 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e481809 "><p><code class="codeph">0x1B69</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481813 "><p>i LATIN SMALL LETTER DOTLESS</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481817 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e481809 "><p><code class="codeph">0x1B47</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481813 "><p>G LATIN CAPITAL LETTER G WITH BREVE</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481817 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e481809 "><p><code class="codeph">0x1B67</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481813 "><p>g LATIN SMALL LETTER G WITH BREVE</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481817 "><p></p></td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e481809 "><p><code class="codeph">0x1B53</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481813 "><p>S LATIN CAPITAL LETTER S WITH CEDILLA *</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481817 "><p></p></td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e481809 "><p><code class="codeph">0x1B73</code></p></td>
+<td class="cellrowborder" valign="top" headers="d0e481813 "><p>s LATIN SMALL LETTER S WITH CEDILLA *</p></td>
+<td class="cellrowborder" valign="top" headers="d0e481817 "><p></p></td>
+</tr>
+</tbody>
+</table></div><p>For more information about the National Language Identifier, Single
+or Locking mechanism, see 3GPP TS 23.038 V8.1.0: National Language Identifier.</p></div>
+<div><h3 class="section-title">See also</h3> <p> <a href="GUID-0BC9A9A1-DB99-5095-8390-E1C1B04D0080.html">SMS
+Encodings and Converters Overview</a> </p> </div>
+</div></div></div><div class="footer"><p class="metadata">Last updated January 21st, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-FE94596E-B5BB-51FE-BE38-069840323915.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:09:12 GMT -->
+</html>

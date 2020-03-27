@@ -1,0 +1,31 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-294E84BB-65D0-5275-848E-1960B201A371.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:57 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2011" /><meta name="DC.rights.owner" content="(C) Copyright 2011" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Creating and Drawing to an Off-Screen Bitmap" /><meta name="DC.Relation" scheme="URI" content="GUID-AFE8A9CC-E026-5396-8E0C-616338B5F5C3" /><meta name="DC.Relation" scheme="URI" content="GUID-EAAD1719-C02C-5705-A5C3-993E36441BE6" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-E89F034F-C807-5FF9-B06B-F7CCD2441041" /><meta name="DC.Relation" scheme="URI" content="GUID-EAAD1719-C02C-5705-A5C3-993E36441BE6" /><meta name="DC.Relation" scheme="URI" content="GUID-AFE8A9CC-E026-5396-8E0C-616338B5F5C3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-294E84BB-65D0-5275-848E-1960B201A371" /><meta name="DC.Language" content="en" /><title>Creating and Drawing to an Off-Screen Bitmap </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_design.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-294E84BB-65D0-5275-848E-1960B201A371">Creating and Drawing to an Off-Screen Bitmap</h1><div><p>This topic provides an example that shows the creation of a bitmap, the creation of an off-screen graphics device and graphics context for it, and the use of that graphics context to draw to the bitmap. Once a graphics context has been established for the bitmap, any of the GDI drawing functions can be used on the bitmap, as if it were the more common graphics context—the screen. </p> <pre class="codeblock">// Create a bitmap to be used off-screen.
+CFbsBitmap* offScreenBitmap = new (ELeave) CFbsBitmap();
+CleanupStack::PushL(offScreenBitmap);
+User::LeaveIfError(offScreenBitmap-&gt;Create(TSize(100,100),EColor256));
+     
+// Create an off-screen device and context.
+CGraphicsContext* bitmapContext=NULL;
+CFbsBitmapDevice* bitmapDevice = CFbsBitmapDevice::NewL(offScreenBitmap);
+CleanupStack::PushL(bitmapDevice);
+User::LeaveIfError(bitmapDevice-&gt;CreateContext(bitmapContext));
+CleanupStack::PushL(bitmapContext);
+     
+// Draw something on the bitmap.
+TRect rect(0,0,100,100);
+bitmapContext-&gt;SetBrushColor(KRgbRed);
+bitmapContext-&gt;SetBrushStyle(CGraphicsContext::ESolidBrush);
+bitmapContext-&gt;DrawRect(rect); // a filled red rectangle
+     
+// Now do what you want with it, such as blitting to the screen.
+gc.BitBlt(TPoint(20,20),offScreenBitmap);
+    
+// Cleanup.
+CleanupStack::PopAndDestroy(3);
+...</pre> </div><h3>Related concepts</h3><ul><li><a href="GUID-AFE8A9CC-E026-5396-8E0C-616338B5F5C3.html">BitGDI Tutorials</a></li><li><a href="GUID-EAAD1719-C02C-5705-A5C3-993E36441BE6.html">BitGDI Component</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated October 8th, 2009</p><hr /><div class="copy">© Nokia 2011.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/s3/GUID-294E84BB-65D0-5275-848E-1960B201A371.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 06:05:57 GMT -->
+</html>

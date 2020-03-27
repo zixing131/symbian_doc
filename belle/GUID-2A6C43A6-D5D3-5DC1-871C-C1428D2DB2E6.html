@@ -1,0 +1,46 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2A6C43A6-D5D3-5DC1-871C-C1428D2DB2E6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:01:02 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="How to access reference counting objects in object containers" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-E3D2A6ED-8192-563D-8966-DD96B3AF1783" /><meta name="DC.Relation" scheme="URI" content="GUID-0DF9E318-BE97-531E-AB39-A7B5E8787C87" /><meta name="DC.Relation" scheme="URI" content="GUID-A63025D1-7FD4-5120-8A1F-537D6B70103D" /><meta name="DC.Relation" scheme="URI" content="GUID-A52E8853-9A8A-5B66-A2B0-F943B32AA5C6" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-2A6C43A6-D5D3-5DC1-871C-C1428D2DB2E6" /><meta name="DC.Language" content="en" /><title>How to access reference counting objects in object containers </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-2A6C43A6-D5D3-5DC1-871C-C1428D2DB2E6">How to access reference counting objects in object containers</h1><div><p>The following code fragment retrieves a pointer to the reference counting object with the name "Monday". It assumes that such a reference counting object does exist.</p> <pre class="codeblock">...
+class CMyobject : public CObject
+    {
+       ...
+       };
+
+_LIT(KMatcher,"Monday");
+...
+CMyobject*  theobject;
+CObjectCon* thecontainer;
+TInt        thefindhandle;
+TName       objname;
+...
+thecontainer-&gt;FindByName(thefindhandle,KMatcher,objname);
+theobject = (CMyObject*)thecontainer-&gt;AtL(thefindhandle);
+...</pre> <p>The following code fragment retrieves pointers to all of the reference counting objects whose names end with "day":</p> <pre class="codeblock">...
+class CMyobject : public CObject
+    {
+       ...
+       };
+
+_LIT(KMatcher,"*day");
+...
+CMyobject*  theobject;
+CObjectCon* thecontainer;
+TInt        thefindhandle;
+TName       objname;
+...
+thefindhandle = 0;
+while (thecontainer-&gt;FindByName(thefindhandle,KMatcher,objname)==KerrNone)
+    {
+    // objname contains the reference counting object's
+    // name, e.g. "Monday" or "Tuesday"
+    ...
+    theobject = (CMyobject*)thecontainer-&gt;AtL(thefindhandle);
+    ...
+    }
+// Now found all matching reference counting objects
+...</pre> </div></div></div><div class="footer"><p class="metadata">Last updated October 10th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-2A6C43A6-D5D3-5DC1-871C-C1428D2DB2E6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:01:02 GMT -->
+</html>

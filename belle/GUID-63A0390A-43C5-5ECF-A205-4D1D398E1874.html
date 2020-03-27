@@ -1,0 +1,67 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-63A0390A-43C5-5ECF-A205-4D1D398E1874.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:21 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="concept" /><meta name="DC.Title" content="Nokia EGL Implementation Component" /><meta name="abstract" content="The Nokia EGL Implementation component consists of a reference implementation of the EGL Interface. Device creators may replace the Symbian platform implementation with their own." /><meta name="description" content="The Nokia EGL Implementation component consists of a reference implementation of the EGL Interface. Device creators may replace the Symbian platform implementation with their own." /><meta name="DC.Relation" scheme="URI" content="GUID-A5914CFF-6F86-53E8-9928-36D3379835B1" /><meta name="DC.Relation" scheme="URI" content="GUID-894AB487-C127-532D-852B-37CB0DEA1440" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-975CBC70-81E6-5FA2-80CE-88DD2ABE9595" /><meta name="DC.Relation" scheme="URI" content="GUID-8C6D4350-A38D-57A1-8C8D-C777EA7E8A3E" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-63A0390A-43C5-5ECF-A205-4D1D398E1874" /><meta name="DC.Language" content="en" /><title>Nokia
+EGL Implementation Component </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-63A0390A-43C5-5ECF-A205-4D1D398E1874">Nokia
+EGL Implementation Component</h1><div><p>The Nokia EGL Implementation component consists of a reference
+implementation of the EGL Interface. Device creators may replace the Symbian
+platform implementation with their own. </p>
+<p><strong>Target audience</strong>: Device creators. </p>
+<p>The Symbian implementation of EGL depends on which variant of the graphics
+architecture is in use: </p>
+<ul>
+<li id="GUID-80B6FE5D-7947-5DB4-A39D-86CEC18C0F59"><a name="GUID-80B6FE5D-7947-5DB4-A39D-86CEC18C0F59"><!-- --></a><p>In <a href="GUID-D93978BE-11A3-5CE3-B110-1DEAA5AD566C.html">ScreenPlay</a>,
+the implementation is based on surfaces that are created by Surface Manager
+and can be used by the composition engine. For application developers this
+offers the ability to have a semi-transparent UI on top of the EGL content.</p>
+<p>The implementation now supports EGL 1.4. However, the only new feature
+that has been implemented is the preserve buffer option. The implementation
+of the preserve buffer option conforms to the expected behavior described
+in the EGL Interface section.</p></li>
+<li id="GUID-53F90A77-EE72-5657-AF23-67B0600AAF49"><a name="GUID-53F90A77-EE72-5657-AF23-67B0600AAF49"><!-- --></a><p>In the <a href="GUID-F64E6551-670E-5E12-8103-DE504D3EC94F.html">non-ScreenPlay</a> variant,
+the implementation is based on <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AEE5955-C530-35F1-A904-69183331B294.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-0AEE5955-C530-35F1-A904-69183331B294.html"><code class="apiname">CWindowGc</code></a> or Direct Screen
+Access (DSA) if graphics hardware acceleration is available. In this variant,
+there is no guarantee that applications can create a semi-transparent UI on
+top of the EGL content. </p> </li>
+</ul>
+<p>The EGL client can query whether the ScreenPlay features are supported
+on the particular device. </p>
+<div id="GUID-A8D69830-2AF5-495E-BE4D-9F514245590A"><h3 class="section-title">DLL summary</h3> <p>Symbian provides two EGL implementations—one
+for use in ScreenPlay and one for the non-ScreenPlay variant. A comprehensive
+list of the EGL APIs can be found at <a href="http://www.khronos.org/egl/" target="_blank">http://www.khronos.org/egl/</a>. A list of the Symbian
+extensions and modifications is provided in <a href="GUID-A5914CFF-6F86-53E8-9928-36D3379835B1.html">EGL
+Interface Overview</a>. </p> <div class="tablenoborder"><a name="GUID-80E05C78-5FD4-5489-A1DA-A759EB7F9530-GENID-GUID-B0ABC023-EBCF-4407-9E9A-2CA61E14885E"><!-- --></a><table cellpadding="4" cellspacing="0" summary="" id="GUID-80E05C78-5FD4-5489-A1DA-A759EB7F9530-GENID-GUID-B0ABC023-EBCF-4407-9E9A-2CA61E14885E" frame="border" border="1" rules="all">
+<thead align="left">
+<tr class="title ">
+<th class="cellrowborder" valign="top" id="d0e273731">DLL</th>
+<th class="cellrowborder" valign="top" id="d0e273734">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e273731 "><p> <code>libegl_gce.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e273734 "><p>The ScreenPlay implementation. </p> </td>
+</tr>
+<tr class="bg ">
+<td class="cellrowborder" valign="top" headers="d0e273731 "><p> <code> libegl_nongce.dll </code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e273734 "><p>The non-ScreenPlay implementation. </p> </td>
+</tr>
+<tr class="">
+<td class="cellrowborder" valign="top" headers="d0e273731 "><p> <code> libEGL.dll</code> </p> </td>
+<td class="cellrowborder" valign="top" headers="d0e273734 "><p>In the emulator, this provides a mechanism that switches between
+the two DLLs mentioned above depending on whether the ScreenPlay variant is
+in use. For ARM builds, one of the two files above is renamed to this during
+the ROM build process. This is controlled by IBY files. </p> </td>
+</tr>
+</tbody>
+</table></div> <p>The emulator switching mechanism switches to the ScreenPlay implementation
+if the following line is present in the <code>Epoc.ini</code> file: </p> <pre class="codeblock">SYMBIAN_GRAPHICS_USE_GCE ON</pre> <p>When
+this line is not present in the <code>Epoc.ini</code> file, the non-ScreenPlay
+implementation is used. </p> </div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-A5914CFF-6F86-53E8-9928-36D3379835B1.html">EGL Interface
+Overview</a></li><li><a href="GUID-894AB487-C127-532D-852B-37CB0DEA1440.html">Symbian-Specific
+Behavior</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 7th, 2009</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-63A0390A-43C5-5ECF-A205-4D1D398E1874.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 03:59:21 GMT -->
+</html>

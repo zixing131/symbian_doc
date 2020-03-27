@@ -1,0 +1,213 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B961F4BB-ABF3-442E-A6E9-7AB103E9CAA6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:15 GMT -->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="copyright" content="(C) Copyright 2012" /><meta name="DC.rights.owner" content="(C) Copyright 2012" /><meta name="DC.Type" content="task" /><meta name="DC.Title" content="Discovering NFC Tags" /><meta name="abstract" content="This tutorial describes how to detect specific NFC Forum tags using NFC Discovery API." /><meta name="description" content="This tutorial describes how to detect specific NFC Forum tags using NFC Discovery API." /><meta name="DC.Relation" scheme="URI" content="GUID-0039F43D-82BF-438D-A394-1DEC44797D95" /><meta name="DC.Relation" scheme="URI" content="GUID-F5F59B7B-591A-4294-84ED-359CB2AD52EA" /><meta name="DC.Relation" scheme="URI" content="GUID-3DC13AA4-6CC8-45CA-8FF8-8B222DFFC00B" /><meta name="DC.Relation" scheme="URI" content="GUID-B6BDE53C-A583-4CC1-B8B9-5A1BBA59C8B1" /><meta name="DC.Relation" scheme="URI" content="GUID-32E29020-1956-461A-B79A-1492E06049E7" /><meta name="DC.Relation" scheme="URI" content="GUID-76C9285D-5C89-4CBC-AB05-F14D6A95BC90" /><meta name="DC.Relation" scheme="URI" content="GUID-7A72B008-901E-454D-AD93-F99555CA904A" /><meta name="DC.Relation" scheme="URI" content="GUID-D2E1F93F-5320-4CDA-A760-86B9146620A3" /><meta name="DC.Format" content="XHTML" /><meta name="DC.Identifier" content="GUID-B961F4BB-ABF3-442E-A6E9-7AB103E9CAA6" /><meta name="DC.Language" content="en" /><title>Discovering NFC Tags </title><link href="css/s60/style.css" rel="stylesheet" type="text/css" /><link href="PLUGINS_ROOT/com.nokia.forum.library/css/category_cpp5.html" rel="stylesheet" type="text/css" /></head><body><div class="body"><div class="contentLeft prTxt"><h1 class="pageHeading" id="GUID-B961F4BB-ABF3-442E-A6E9-7AB103E9CAA6">Discovering NFC Tags</h1><div><p>This tutorial describes how to detect specific NFC Forum
+tags using NFC Discovery API.</p>
+<div id="GUID-B67F6BB4-6031-45D6-9170-B04D0E44A081"><h3 class="section-title">Context</h3><p>The NFC
+Discovery API provides a mechanism to discover NFC tags at the device's
+near field using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5A8F386-C357-3B05-8EF8-618EFB999D46.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5A8F386-C357-3B05-8EF8-618EFB999D46.html"><code class="apiname">CNfcTagDiscovery</code></a> class.</p></div><div id="GUID-D5125C88-0C97-4590-B755-7D0014C3FA8C"><h3 class="section-title">Prerequisites</h3><p>Before you
+begin, refer to the following:</p><ul>
+<li><p><a href="GUID-B6BDE53C-A583-4CC1-B8B9-5A1BBA59C8B1.html#GUID-CC637278-AD88-40BD-A99D-A65E1875B3BF">NFC Forum Tags</a></p></li>
+<li><p>nfcserver.h, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-19C8DD18-0229-373D-A4F8-CBB9EBEE8507.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-19C8DD18-0229-373D-A4F8-CBB9EBEE8507.html"><code class="apiname">RNfcServer</code></a></p></li>
+<li><p>nfctagdiscovery.h, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5A8F386-C357-3B05-8EF8-618EFB999D46.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5A8F386-C357-3B05-8EF8-618EFB999D46.html"><code class="apiname">CNfcTagDiscovery</code></a></p></li>
+<li><p>nfcconnection.h, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-58818925-6366-30DB-8DEE-68AD60A34FE0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-58818925-6366-30DB-8DEE-68AD60A34FE0.html"><code class="apiname">MNfcConnection</code></a></p></li>
+<li><p>nfctagconnectionlistener.h, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-96F4B66D-CA74-316C-A5FE-A004026E00DF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-96F4B66D-CA74-316C-A5FE-A004026E00DF.html"><code class="apiname">MNfcTagConnectionListener</code></a></p></li>
+<li><p>nfctagsubscription.h, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-48A29CE2-ED2F-3282-9FE8-8076FA5881D0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-48A29CE2-ED2F-3282-9FE8-8076FA5881D0.html"><code class="apiname">CNfcTagSubscription</code></a></p></li>
+<li><p>nfcconnection.h, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-58818925-6366-30DB-8DEE-68AD60A34FE0.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-58818925-6366-30DB-8DEE-68AD60A34FE0.html"><code class="apiname">MNfcConnection</code></a></p></li>
+<li><p>nfctag.h, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4278615F-1C20-31D7-87D4-996F988B732B.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-4278615F-1C20-31D7-87D4-996F988B732B.html"><code class="apiname">MNfcTag</code></a></p></li>
+</ul></div>
+<h3>Steps</h3><ol id="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-56887FE8-6455-4D69-8BE3-BC683D026647"><a name="GUID-4DD07DEC-6017-4237-BE46-1D69E5FBD744-GENID-GUID-56887FE8-6455-4D69-8BE3-BC683D026647"><!-- --></a>
+<li id="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-56887FE8-6455-4D69-8BE3-BC683D026647"><a name="GUID-9A69E5AD-E938-4092-A8C2-CB65C37C8962-GENID-GUID-56887FE8-6455-4D69-8BE3-BC683D026647"><!-- --></a><p>Create a
+class that inherits from the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-96F4B66D-CA74-316C-A5FE-A004026E00DF.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-96F4B66D-CA74-316C-A5FE-A004026E00DF.html"><code class="apiname">MNfcTagConnectionListener</code></a> and <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html#GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-8F6FE089-E2A8-30F4-B67E-10F286347681.html"><code class="apiname">CBase</code></a> classes. For example,</p>
+<pre class="codeblock">class CMyTagInitializer : public CBase, public MNfcTagConnectionListener                  </pre>
+</li>
+<li id="GUID-B00DA59D-F55A-40DF-8921-4C71E40A7302"><a name="GUID-B00DA59D-F55A-40DF-8921-4C71E40A7302"><!-- --></a><p> Register
+for receiving notifications when the specified tag is detected in
+the proximity of the device using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5A8F386-C357-3B05-8EF8-618EFB999D46.html#GUID-6186D0C5-208A-3518-973C-603325AD9B6C"><code class="apiname">CNfcTagDiscovery::AddTagConnectionListener()</code></a> method.</p>
+<div class="note"><p><strong class="note_title">Note: </strong>Only one listener can be added at a time.</p> </div>
+<pre class="codeblock">CNfcTagDiscovery* iNfcTagDiscovery;
+iNfcTagDiscovery = CNfcTagDiscovery::NewL( aServer );
+iNfcTagDiscovery-&gt;AddTagConnectionListener( MNfcTagConnectionListener&amp;  aListener);
+</pre>
+</li>
+<li id="GUID-DD2339AB-4624-43DF-AE89-104A15E9C3A1"><a name="GUID-DD2339AB-4624-43DF-AE89-104A15E9C3A1"><!-- --></a><p>Subscribe
+to the NFC server using the <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-E5A8F386-C357-3B05-8EF8-618EFB999D46.html#GUID-5F43A172-71BD-36E4-BD8A-42314FD97B9A"><code class="apiname">CNfcTagDiscovery::AddTagSubscriptionL()</code></a>  method by specifying the interested tag type.</p>
+<pre class="codeblock">iSubscription = CNfcTagSubscription::NewL(); 
+iSubscription-&gt;AddConnectionModeL(TNfcConnectionInfo::ENfcType1);
+iNfcTagDiscovery-&gt;AddTagSubscriptionL( *iSubscription );
+</pre><p>When the tag of the interested type is detected, <a href="GUID-C6E5F800-0637-419E-8FE5-1EBB40E725AA/GUID-96F4B66D-CA74-316C-A5FE-A004026E00DF.html#GUID-C1B07760-BE51-3725-8129-669998C5284C"><code class="apiname">MNfcTagConnectionListener::TagDetected()</code></a> is called back.
+The returned tag is used to open the connection.</p>
+<p>The sequence diagram below illustrates how the tag discovery
+works:</p><div class="figure" id="GUID-BDA2DEAF-AC47-4A95-A789-B03CAEA14723"><img src="GUID-79503712-1FF5-4FD2-A85E-C03F1726ABC7_d0e429592_href.png" /></div>
+</li>
+</ol>
+<div><h3 class="section-title">Example</h3><p>The following example illustrates how to detect and open
+a connection to the NFC Forum Type 2 tag. </p><pre class="codeblock">#include &lt;nfctag.h&gt;
+#include &lt;nfctagsubscription.h&gt;
+#include &lt;nfctagconnectionlistener.h&gt;
+#include &lt;nfcconnectioninfo.h&gt;
+
+// FORWARD DECLARATIONS
+class CNfcTagDiscovery;
+class MNfcConnection;
+class RNfcServer;
+class CMyTagInitializer;
+class CNfcType2Connection;
+
+
+// CLASS DECLARATION
+// A Class that waits for a tag and then opens a connection to it.
+class CMyTagInitializer : public CBase, public MNfcTagConnectionListener
+  {
+public:
+    
+    static CMyTagInitializer* NewL( RNfcServer&amp; aServer );
+    static CMyTagInitializer* NewLC( RNfcServer&amp; aServer );
+    virtual ~CMyTagInitializer();
+    
+    /*
+     * @param aConnection Connection variable that is initialized and opened.
+     * @param aMode Type of connection mode that is to be initialized.
+     */
+    TInt InitConnectionL( MNfcConnection* aConnection, 
+                         TNfcConnectionInfo::TNfcConnectionMode aMode );
+    
+public:
+		// From MNfcTagConnectionListener
+    
+    void TagDetected( MNfcTag* aNfcTag );  
+    void TagLost();
+    
+private:
+    
+    CMyTagInitializer( RNfcServer&amp; aServer );
+    void ConstructL( RNfcServer&amp; aServer );
+    
+    CActiveScheduler* iScheduler;
+    CNfcTagDiscovery* iNfcTagDiscovery;    
+    MNfcConnection* iTagConnection;
+    CNfcTagSubscription* iSubscription;
+    RNfcServer&amp; iServer;
+    TNfcConnectionInfo::TNfcConnectionMode iMode;
+    MNfcTag* iNfcTag;
+   
+    };
+
+void CMyTagInitializer::ConstructL( RNfcServer&amp; aServer )
+    {
+    iScheduler = new (ELeave) CActiveScheduler();
+    CActiveScheduler::Install( iScheduler );
+    
+    iNfcTagDiscovery = CNfcTagDiscovery::NewL( aServer );
+    // Add tag connection listener.
+    iNfcTagDiscovery-&gt;AddTagConnectionListener( *this );
+    
+    iSubscription = CNfcTagSubscription::NewL();    
+    }
+
+TInt CMyTagInitializer::InitConnectionL( MNfcConnection* aConnection,
+    TNfcConnectionInfo::TNfcConnectionMode aMode )
+    {    
+    iTagConnection = aConnection;
+    iSubscription-&gt;AddConnectionModeL( aMode, 100 );
+    // Add tag subscription.
+    iNfcTagDiscovery-&gt;AddTagSubscriptionL( *iSubscription );
+
+    CActiveScheduler::Start();
+    
+    return KErrNone; 
+    }
+
+void CMyTagInitializer::TagDetected( MNfcTag* aNfcTag )
+    {
+    iNfcTag = aNfcTag;
+    // Open connection to the tag.
+    iNfcTag-&gt;OpenConnection( *iTagConnection );
+    
+    CActiveScheduler::Stop();
+    }
+
+void CMyTagInitializer::TagLost()
+    {
+    // No step required here, next attempt to use the connection will fail with an error
+    }
+
+CMyTagInitializer::CMyTagInitializer( RNfcServer&amp; aServer ) : 
+        iScheduler( NULL ),
+        iNfcTagDiscovery( NULL),        
+        iTagConnection( NULL ),
+        iSubscription( NULL ),
+        iServer( aServer ),
+        iNfcTag( NULL )
+    {    
+    }
+
+CMyTagInitializer* CMyTagInitializer::NewL( RNfcServer&amp; aServer )
+    {
+    CMyTagInitializer* self = NewLC( aServer );
+    CleanupStack::Pop( self );  
+    return self;
+    }
+CMyTagInitializer* CMyTagInitializer::NewLC( RNfcServer&amp; aServer )
+    {
+    CMyTagInitializer* self = new (ELeave) CMyTagInitializer( aServer );
+    CleanupStack::PushL( self );
+    self-&gt;ConstructL( aServer );
+    return self;
+    }
+
+CMyTagInitializer::~CMyTagInitializer()
+    {
+    if ( iNfcTagDiscovery )
+        {
+        iNfcTagDiscovery-&gt;RemoveTagConnectionListener();
+        iNfcTagDiscovery-&gt;RemoveTagSubscription();
+        }
+
+    delete iNfcTag;
+    delete iSubscription;
+    delete iNfcTagDiscovery;
+    delete iScheduler;
+    }
+
+
+void mainDoL()
+    {
+    // Open handle to NFC server
+    RNfcServer server;
+    server.Open();
+    CleanupClosePushL( server );
+    
+    // Create and start TagConnectionInitializer. Implementation below.
+    CMyTagInitializer* initializer = CMyTagInitializer::NewLC( server );
+    CNfcType2Connection* connection = CNfcType2Connection::NewLC( server );
+	 
+    initializer-&gt;InitConnectionL( connection, TNfcConnectionInfo::ENfcType2);
+    
+    //
+    // In this point of execution the connection is open and can be used.
+    //
+    
+    CleanupStack::PopAndDestroy( connection );
+    CleanupStack::PopAndDestroy( initializer );
+    CleanupStack::PopAndDestroy(); // server
+    }
+
+TInt E32Main()
+    {
+    CTrapCleanup* cleanup = CTrapCleanup::New();
+    TRAPD( err, mainDoL() );
+    delete cleanup;
+    
+    return err;
+    }
+</pre></div>
+</div><h3>Related concepts</h3><ul><li><a href="GUID-B6BDE53C-A583-4CC1-B8B9-5A1BBA59C8B1.html">NFC
+Services Concepts</a></li></ul><h3>Related tasks</h3><ul><li><a href="GUID-0039F43D-82BF-438D-A394-1DEC44797D95.html">Reading
+NFC Forum Type 1, 2, 3 Tags</a></li><li><a href="GUID-F5F59B7B-591A-4294-84ED-359CB2AD52EA.html">Writing
+to NFC Forum Type 1, 2, 3 Tags</a></li><li><a href="GUID-3DC13AA4-6CC8-45CA-8FF8-8B222DFFC00B.html">Exchanging
+Data with NFC Forum Type 4 Tag</a></li></ul></div></div><div class="footer"><p class="metadata">Last updated December 14th, 2010</p><hr /><div class="copy">© Nokia 2012.</div></div></body>
+<!-- Mirrored from devlib.symbian.slions.net/belle/GUID-B961F4BB-ABF3-442E-A6E9-7AB103E9CAA6.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 27 Mar 2020 04:06:18 GMT -->
+</html>
